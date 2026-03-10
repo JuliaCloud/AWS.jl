@@ -21,14 +21,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"memoryId"`: The unique identifier of the memory.
 """
-delete_agent_memory(
+function delete_agent_memory(
     agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
-) = bedrock_agent_runtime(
-    "DELETE",
-    "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_agent_runtime(
+        "DELETE",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_agent_memory(
     agentAliasId,
     agentId,
@@ -68,19 +70,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the request, enter the token returned in the `nextToken` field in the response in this
   field to return the next batch of results.
 """
-get_agent_memory(
+function get_agent_memory(
     agentAliasId,
     agentId,
     memoryId,
     memoryType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = bedrock_agent_runtime(
-    "GET",
-    "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
-    Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_agent_runtime(
+        "GET",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/memories",
+        Dict{String,Any}("memoryId" => memoryId, "memoryType" => memoryType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_agent_memory(
     agentAliasId,
     agentId,
@@ -157,14 +161,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       If you include `returnControlInvocationResults` in the `sessionState` field, the
   `inputText` field will be ignored.
 """
-invoke_agent(
+function invoke_agent(
     agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = bedrock_agent_runtime(
-    "POST",
-    "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_agent_runtime(
+        "POST",
+        "/agents/$(agentId)/agentAliases/$(agentAliasId)/sessions/$(sessionId)/text";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function invoke_agent(
     agentAliasId,
     agentId,
@@ -198,18 +204,20 @@ in the Amazon Bedrock User Guide.
 - `flow_identifier`: The unique identifier of the flow.
 - `inputs`: A list of objects, each containing information about an input into the flow.
 """
-invoke_flow(
+function invoke_flow(
     flowAliasIdentifier,
     flowIdentifier,
     inputs;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = bedrock_agent_runtime(
-    "POST",
-    "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
-    Dict{String,Any}("inputs" => inputs);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_agent_runtime(
+        "POST",
+        "/flows/$(flowIdentifier)/aliases/$(flowAliasIdentifier)",
+        Dict{String,Any}("inputs" => inputs);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function invoke_flow(
     flowAliasIdentifier,
     flowIdentifier,
@@ -247,15 +255,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrievalConfiguration"`: Contains configurations for the knowledge base query and
   retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
 """
-retrieve(
+function retrieve(
     knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=current_aws_config()
-) = bedrock_agent_runtime(
-    "POST",
-    "/knowledgebases/$(knowledgeBaseId)/retrieve",
-    Dict{String,Any}("retrievalQuery" => retrievalQuery);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_agent_runtime(
+        "POST",
+        "/knowledgebases/$(knowledgeBaseId)/retrieve",
+        Dict{String,Any}("retrievalQuery" => retrievalQuery);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function retrieve(
     knowledgeBaseId,
     retrievalQuery,
@@ -297,14 +307,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This value allows Amazon Bedrock to maintain context and knowledge from previous
   interactions. You can't explicitly set the `sessionId` yourself.
 """
-retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_config()) =
-    bedrock_agent_runtime(
+function retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_agent_runtime(
         "POST",
         "/retrieveAndGenerate",
         Dict{String,Any}("input" => input);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function retrieve_and_generate(
     input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

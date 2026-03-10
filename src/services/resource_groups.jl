@@ -50,13 +50,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   both.
 - `"Tags"`: The tags to add to the group. A tag is key-value pair string.
 """
-create_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST",
-    "/groups",
-    Dict{String,Any}("Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST",
+        "/groups",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -88,9 +90,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group to delete.
 - `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
-delete_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -109,13 +113,14 @@ end
 
 Retrieves the current status of optional features in Resource Groups.
 """
-get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/get-account-settings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,9 +150,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group to retrieve.
 - `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
-get_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -175,13 +182,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group for which you want to retrive the
   service configuration.
 """
-get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/get-group-configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -213,9 +221,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group to query.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-get_group_query(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_group_query(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_group_query(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -242,12 +252,14 @@ To run this command, you must have the following permissions: - `resource-groups
 
 - `arn`: The ARN of the resource group whose tags you want to retrieve.
 """
-get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "GET",
-    "/resources/$(Arn)/tags";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "GET",
+        "/resources/$(Arn)/tags";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tags(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -281,14 +293,17 @@ groups:GroupResources`
 - `group`: The name or the ARN of the resource group to add resources to.
 - `resource_arns`: The list of ARNs of the resources to be added to the group.
 """
-group_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function group_resources(
+    Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
         "POST",
         "/group-resources",
         Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function group_resources(
     Group,
     ResourceArns,
@@ -366,13 +381,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value provided by a previous call's
   `NextToken` response to indicate where the output should continue from.
 """
-list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/list-group-resources";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_group_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,9 +443,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value provided by a previous call's
   `NextToken` response to indicate where the output should continue from.
 """
-list_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -472,13 +490,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or ARN of the resource group with the configuration that you want to
   update.
 """
-put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/put-group-configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_group_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -529,14 +548,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   output is available. Set this parameter to the value provided by a previous call's
   `NextToken` response to indicate where the output should continue from.
 """
-search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/resources/search",
         Dict{String,Any}("ResourceQuery" => ResourceQuery);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function search_resources(
     ResourceQuery,
     params::AbstractDict{String};
@@ -574,13 +594,15 @@ permissions**
 - `tags`: The tags to add to the specified resource group. A tag is a string-to-string map
   of key-value pairs.
 """
-tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "PUT",
-    "/resources/$(Arn)/tags",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "PUT",
+        "/resources/$(Arn)/tags",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag(
     Arn,
     Tags,
@@ -615,14 +637,17 @@ groups:UngroupResources`
 - `group`: The name or the ARN of the resource group from which to remove the resources.
 - `resource_arns`: The ARNs of the resources to be removed from the group.
 """
-ungroup_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function ungroup_resources(
+    Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
         "POST",
         "/ungroup-resources",
         Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function ungroup_resources(
     Group,
     ResourceArns,
@@ -660,13 +685,15 @@ To run this command, you must have the following permissions: - `resource-groups
   the specified keys and any values associated with those keys.
 - `keys`: The keys of the tags to be removed.
 """
-untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "PATCH",
-    "/resources/$(Arn)/tags",
-    Dict{String,Any}("Keys" => Keys);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "PATCH",
+        "/resources/$(Arn)/tags",
+        Dict{String,Any}("Keys" => Keys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function untag(
     Arn,
     Keys,
@@ -699,13 +726,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupLifecycleEventsDesiredStatus"`: Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html)
   on or off.
 """
-update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
         "POST",
         "/update-account-settings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,9 +767,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group to modify.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-update_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups(
-    "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return resource_groups(
+        "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,14 +811,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Group"`: The name or the ARN of the resource group to query.
 - `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-update_group_query(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()) =
-    resource_groups(
+function update_group_query(
+    ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return resource_groups(
         "POST",
         "/update-group-query",
         Dict{String,Any}("ResourceQuery" => ResourceQuery);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_group_query(
     ResourceQuery,
     params::AbstractDict{String};

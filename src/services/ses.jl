@@ -25,16 +25,18 @@ You can execute this operation no more than once per second.
  - Start and end with a letter or number.
  - Contain 64 characters or fewer.
 """
-clone_receipt_rule_set(
+function clone_receipt_rule_set(
     OriginalRuleSetName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "CloneReceiptRuleSet",
-    Dict{String,Any}(
-        "OriginalRuleSetName" => OriginalRuleSetName, "RuleSetName" => RuleSetName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "CloneReceiptRuleSet",
+        Dict{String,Any}(
+            "OriginalRuleSetName" => OriginalRuleSetName, "RuleSetName" => RuleSetName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function clone_receipt_rule_set(
     OriginalRuleSetName,
     RuleSetName,
@@ -73,14 +75,16 @@ You can execute this operation no more than once per second.
 
 - `configuration_set`: A data structure that contains the name of the configuration set.
 """
-create_configuration_set(
+function create_configuration_set(
     ConfigurationSet; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "CreateConfigurationSet",
-    Dict{String,Any}("ConfigurationSet" => ConfigurationSet);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "CreateConfigurationSet",
+        Dict{String,Any}("ConfigurationSet" => ConfigurationSet);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_configuration_set(
     ConfigurationSet,
     params::AbstractDict{String};
@@ -120,19 +124,21 @@ For information about using configuration sets, see the [Amazon SES Developer Gu
 - `event_destination`: An object that describes the Amazon Web Services service that email
   sending event where information is published.
 """
-create_configuration_set_event_destination(
+function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "CreateConfigurationSetEventDestination",
-    Dict{String,Any}(
-        "ConfigurationSetName" => ConfigurationSetName,
-        "EventDestination" => EventDestination,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "CreateConfigurationSetEventDestination",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName,
+            "EventDestination" => EventDestination,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -173,19 +179,21 @@ For information about using custom domains, see the [Amazon SES Developer Guide]
   should be associated with.
 - `tracking_options`:
 """
-create_configuration_set_tracking_options(
+function create_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "CreateConfigurationSetTrackingOptions",
-    Dict{String,Any}(
-        "ConfigurationSetName" => ConfigurationSetName,
-        "TrackingOptions" => TrackingOptions,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "CreateConfigurationSetTrackingOptions",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName,
+            "TrackingOptions" => TrackingOptions,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions,
@@ -234,7 +242,7 @@ You can execute this operation no more than once per second.
 - `template_name`: The name of the custom verification email template.
 - `template_subject`: The subject line of the custom verification email.
 """
-create_custom_verification_email_template(
+function create_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
     SuccessRedirectionURL,
@@ -242,19 +250,21 @@ create_custom_verification_email_template(
     TemplateName,
     TemplateSubject;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "CreateCustomVerificationEmailTemplate",
-    Dict{String,Any}(
-        "FailureRedirectionURL" => FailureRedirectionURL,
-        "FromEmailAddress" => FromEmailAddress,
-        "SuccessRedirectionURL" => SuccessRedirectionURL,
-        "TemplateContent" => TemplateContent,
-        "TemplateName" => TemplateName,
-        "TemplateSubject" => TemplateSubject,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "CreateCustomVerificationEmailTemplate",
+        Dict{String,Any}(
+            "FailureRedirectionURL" => FailureRedirectionURL,
+            "FromEmailAddress" => FromEmailAddress,
+            "SuccessRedirectionURL" => SuccessRedirectionURL,
+            "TemplateContent" => TemplateContent,
+            "TemplateName" => TemplateName,
+            "TemplateSubject" => TemplateSubject,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_verification_email_template(
     FailureRedirectionURL,
     FromEmailAddress,
@@ -301,12 +311,14 @@ You can execute this operation no more than once per second.
 - `filter`: A data structure that describes the IP address filter to create, which consists
   of a name, an IP address range, and whether to allow or block mail from it.
 """
-create_receipt_filter(Filter; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "CreateReceiptFilter",
-    Dict{String,Any}("Filter" => Filter);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_receipt_filter(Filter; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "CreateReceiptFilter",
+        Dict{String,Any}("Filter" => Filter);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_receipt_filter(
     Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -341,13 +353,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"After"`: The name of an existing rule after which the new rule is placed. If this
   parameter is null, the new rule is inserted at the beginning of the rule list.
 """
-create_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function create_receipt_rule(
+    Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "CreateReceiptRule",
         Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_receipt_rule(
     Rule,
     RuleSetName,
@@ -386,13 +401,16 @@ You can execute this operation no more than once per second.
  - Start and end with a letter or number.
  - Contain 64 characters or fewer.
 """
-create_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function create_receipt_rule_set(
+    RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "CreateReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_receipt_rule_set(
     RuleSetName,
     params::AbstractDict{String};
@@ -422,12 +440,14 @@ You can execute this operation no more than once per second.
 - `template`: The content of the email, composed of a subject line and either an HTML part
   or a text-only part.
 """
-create_template(Template; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "CreateTemplate",
-    Dict{String,Any}("Template" => Template);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_template(Template; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "CreateTemplate",
+        Dict{String,Any}("Template" => Template);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_template(
     Template,
     params::AbstractDict{String};
@@ -456,14 +476,16 @@ You can execute this operation no more than once per second.
 
 - `configuration_set_name`: The name of the configuration set to delete.
 """
-delete_configuration_set(
+function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteConfigurationSet",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteConfigurationSet",
+        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -499,19 +521,21 @@ You can execute this operation no more than once per second.
   event destination.
 - `event_destination_name`: The name of the event destination to delete.
 """
-delete_configuration_set_event_destination(
+function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "DeleteConfigurationSetEventDestination",
-    Dict{String,Any}(
-        "ConfigurationSetName" => ConfigurationSetName,
-        "EventDestinationName" => EventDestinationName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteConfigurationSetEventDestination",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName,
+            "EventDestinationName" => EventDestinationName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -555,14 +579,16 @@ domains.
 
 - `configuration_set_name`: The name of the configuration set.
 """
-delete_configuration_set_tracking_options(
+function delete_configuration_set_tracking_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteConfigurationSetTrackingOptions",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteConfigurationSetTrackingOptions",
+        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_configuration_set_tracking_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -597,14 +623,16 @@ You can execute this operation no more than once per second.
 
 - `template_name`: The name of the custom verification email template to delete.
 """
-delete_custom_verification_email_template(
+function delete_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteCustomVerificationEmailTemplate",
-    Dict{String,Any}("TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteCustomVerificationEmailTemplate",
+        Dict{String,Any}("TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_verification_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -634,12 +662,14 @@ You can execute this operation no more than once per second.
 - `identity`: The identity to be removed from the list of identities for the Amazon Web
   Services account.
 """
-delete_identity(Identity; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "DeleteIdentity",
-    Dict{String,Any}("Identity" => Identity);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_identity(Identity; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "DeleteIdentity",
+        Dict{String,Any}("Identity" => Identity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_identity(
     Identity,
     params::AbstractDict{String};
@@ -681,14 +711,16 @@ authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/
 To successfully call this operation, you must own the identity.
 - `policy_name`: The name of the policy to be deleted.
 """
-delete_identity_policy(
+function delete_identity_policy(
     Identity, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteIdentityPolicy",
-    Dict{String,Any}("Identity" => Identity, "PolicyName" => PolicyName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteIdentityPolicy",
+        Dict{String,Any}("Identity" => Identity, "PolicyName" => PolicyName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_identity_policy(
     Identity,
     PolicyName,
@@ -723,12 +755,16 @@ You can execute this operation no more than once per second.
 
 - `filter_name`: The name of the IP address filter to delete.
 """
-delete_receipt_filter(FilterName; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "DeleteReceiptFilter",
-    Dict{String,Any}("FilterName" => FilterName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_receipt_filter(
+    FilterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return ses(
+        "DeleteReceiptFilter",
+        Dict{String,Any}("FilterName" => FilterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_receipt_filter(
     FilterName,
     params::AbstractDict{String};
@@ -760,14 +796,16 @@ You can execute this operation no more than once per second.
 - `rule_set_name`: The name of the receipt rule set that contains the receipt rule to
   delete.
 """
-delete_receipt_rule(
+function delete_receipt_rule(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteReceiptRule",
-    Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteReceiptRule",
+        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_receipt_rule(
     RuleName,
     RuleSetName,
@@ -804,13 +842,16 @@ rule sets, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/
 
 - `rule_set_name`: The name of the receipt rule set to delete.
 """
-delete_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function delete_receipt_rule_set(
+    RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "DeleteReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_receipt_rule_set(
     RuleSetName,
     params::AbstractDict{String};
@@ -838,12 +879,14 @@ You can execute this operation no more than once per second.
 
 - `template_name`: The name of the template to be deleted.
 """
-delete_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "DeleteTemplate",
-    Dict{String,Any}("TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "DeleteTemplate",
+        Dict{String,Any}("TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_template(
     TemplateName,
     params::AbstractDict{String};
@@ -869,14 +912,16 @@ Deprecated. Use the `DeleteIdentity` operation to delete email addresses and dom
 
 - `email_address`: An email address to be removed from the list of verified addresses.
 """
-delete_verified_email_address(
+function delete_verified_email_address(
     EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DeleteVerifiedEmailAddress",
-    Dict{String,Any}("EmailAddress" => EmailAddress);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DeleteVerifiedEmailAddress",
+        Dict{String,Any}("EmailAddress" => EmailAddress);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_verified_email_address(
     EmailAddress,
     params::AbstractDict{String};
@@ -902,12 +947,15 @@ For information about setting up receipt rule sets, see the [Amazon SES Develope
 
 You can execute this operation no more than once per second.
 """
-describe_active_receipt_rule_set(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function describe_active_receipt_rule_set(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "DescribeActiveReceiptRuleSet";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_active_receipt_rule_set(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,14 +986,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConfigurationSetAttributeNames"`: A list of configuration set attributes to return.
 """
-describe_configuration_set(
+function describe_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DescribeConfigurationSet",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DescribeConfigurationSet",
+        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -980,14 +1030,16 @@ You can execute this operation no more than once per second.
 - `rule_name`: The name of the receipt rule.
 - `rule_set_name`: The name of the receipt rule set that the receipt rule belongs to.
 """
-describe_receipt_rule(
+function describe_receipt_rule(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "DescribeReceiptRule",
-    Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "DescribeReceiptRule",
+        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_receipt_rule(
     RuleName,
     RuleSetName,
@@ -1022,13 +1074,16 @@ You can execute this operation no more than once per second.
 
 - `rule_set_name`: The name of the receipt rule set to describe.
 """
-describe_receipt_rule_set(RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function describe_receipt_rule_set(
+    RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "DescribeReceiptRuleSet",
         Dict{String,Any}("RuleSetName" => RuleSetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_receipt_rule_set(
     RuleSetName,
     params::AbstractDict{String};
@@ -1052,8 +1107,11 @@ Returns the email sending status of the Amazon SES account for the current Regio
 
 You can execute this operation no more than once per second.
 """
-get_account_sending_enabled(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_account_sending_enabled(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_account_sending_enabled(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1080,14 +1138,16 @@ You can execute this operation no more than once per second.
 
 - `template_name`: The name of the custom verification email template to retrieve.
 """
-get_custom_verification_email_template(
+function get_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetCustomVerificationEmailTemplate",
-    Dict{String,Any}("TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetCustomVerificationEmailTemplate",
+        Dict{String,Any}("TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_custom_verification_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -1127,14 +1187,16 @@ up to 100 identities at a time.
 - `identities`: A list of one or more verified identities - email addresses, domains, or
   both.
 """
-get_identity_dkim_attributes(
+function get_identity_dkim_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetIdentityDkimAttributes",
-    Dict{String,Any}("Identities" => Identities);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetIdentityDkimAttributes",
+        Dict{String,Any}("Identities" => Identities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_dkim_attributes(
     Identities,
     params::AbstractDict{String};
@@ -1164,14 +1226,16 @@ attributes for up to 100 identities at a time.
 
 - `identities`: A list of one or more identities.
 """
-get_identity_mail_from_domain_attributes(
+function get_identity_mail_from_domain_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetIdentityMailFromDomainAttributes",
-    Dict{String,Any}("Identities" => Identities);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetIdentityMailFromDomainAttributes",
+        Dict{String,Any}("Identities" => Identities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_mail_from_domain_attributes(
     Identities,
     params::AbstractDict{String};
@@ -1205,14 +1269,16 @@ For more information about using notifications with Amazon SES, see the [Amazon 
   name or by using its Amazon Resource Name (ARN). Examples: `user@example.com`,
   `example.com`, `arn:aws:ses:us-east-1:123456789012:identity/example.com`.
 """
-get_identity_notification_attributes(
+function get_identity_notification_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetIdentityNotificationAttributes",
-    Dict{String,Any}("Identities" => Identities);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetIdentityNotificationAttributes",
+        Dict{String,Any}("Identities" => Identities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_notification_attributes(
     Identities,
     params::AbstractDict{String};
@@ -1256,14 +1322,16 @@ To successfully call this operation, you must own the identity.
   maximum of 20 policies at a time. If you do not know the names of the policies that are
   attached to the identity, you can use `ListIdentityPolicies`.
 """
-get_identity_policies(
+function get_identity_policies(
     Identity, PolicyNames; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetIdentityPolicies",
-    Dict{String,Any}("Identity" => Identity, "PolicyNames" => PolicyNames);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetIdentityPolicies",
+        Dict{String,Any}("Identity" => Identity, "PolicyNames" => PolicyNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_policies(
     Identity,
     PolicyNames,
@@ -1312,14 +1380,16 @@ attributes for up to 100 identities at a time.
 
 - `identities`: A list of identities.
 """
-get_identity_verification_attributes(
+function get_identity_verification_attributes(
     Identities; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "GetIdentityVerificationAttributes",
-    Dict{String,Any}("Identities" => Identities);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "GetIdentityVerificationAttributes",
+        Dict{String,Any}("Identities" => Identities);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_verification_attributes(
     Identities,
     params::AbstractDict{String};
@@ -1343,8 +1413,9 @@ Provides the sending limits for the Amazon SES account.
 
 You can execute this operation no more than once per second.
 """
-get_send_quota(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_send_quota(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_send_quota(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1363,8 +1434,9 @@ in the list contains statistics for a 15-minute period of time.
 
 You can execute this operation no more than once per second.
 """
-get_send_statistics(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_send_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses("GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_send_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1386,12 +1458,14 @@ You can execute this operation no more than once per second.
 
 - `template_name`: The name of the template to retrieve.
 """
-get_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "GetTemplate",
-    Dict{String,Any}("TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_template(TemplateName; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "GetTemplate",
+        Dict{String,Any}("TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_template(
     TemplateName,
     params::AbstractDict{String};
@@ -1429,8 +1503,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListConfigurationSets` to
   indicate the position of the configuration set in the configuration set list.
 """
-list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1465,13 +1542,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An array the contains the name and creation time stamp for each template
   in your Amazon SES account.
 """
-list_custom_verification_email_templates(;
+function list_custom_verification_email_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "ListCustomVerificationEmailTemplates";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "ListCustomVerificationEmailTemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_verification_email_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1512,8 +1591,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inclusive.
 - `"NextToken"`: The token to use for pagination.
 """
-list_identities(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_identities(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_identities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1547,12 +1627,16 @@ authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/
 
 To successfully call this operation, you must own the identity.
 """
-list_identity_policies(Identity; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "ListIdentityPolicies",
-    Dict{String,Any}("Identity" => Identity);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function list_identity_policies(
+    Identity; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return ses(
+        "ListIdentityPolicies",
+        Dict{String,Any}("Identity" => Identity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_identity_policies(
     Identity,
     params::AbstractDict{String};
@@ -1579,8 +1663,9 @@ For information about managing IP address filters, see the [Amazon SES Developer
 
 You can execute this operation no more than once per second.
 """
-list_receipt_filters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_receipt_filters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses("ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_receipt_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1609,8 +1694,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListReceiptRuleSets` to indicate
   the position in the receipt rule set list.
 """
-list_receipt_rule_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_receipt_rule_sets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_receipt_rule_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1641,8 +1729,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token returned from a previous call to `ListTemplates` to indicate the
   position in the list of email templates.
 """
-list_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1658,9 +1747,11 @@ end
 Deprecated. Use the `ListIdentities` operation to list the email addresses and domains
 associated with your account.
 """
-list_verified_email_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "ListVerifiedEmailAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_verified_email_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "ListVerifiedEmailAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_verified_email_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1689,14 +1780,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeliveryOptions"`: Specifies whether messages that use the configuration set are
   required to use Transport Layer Security (TLS).
 """
-put_configuration_set_delivery_options(
+function put_configuration_set_delivery_options(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "PutConfigurationSetDeliveryOptions",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "PutConfigurationSetDeliveryOptions",
+        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_configuration_set_delivery_options(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -1746,16 +1839,18 @@ To successfully call this operation, you must own the identity.
   The policy name cannot exceed 64 characters and can only include alphanumeric characters,
   dashes, and underscores.
 """
-put_identity_policy(
+function put_identity_policy(
     Identity, Policy, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "PutIdentityPolicy",
-    Dict{String,Any}(
-        "Identity" => Identity, "Policy" => Policy, "PolicyName" => PolicyName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "PutIdentityPolicy",
+        Dict{String,Any}(
+            "Identity" => Identity, "Policy" => Policy, "PolicyName" => PolicyName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_identity_policy(
     Identity,
     Policy,
@@ -1797,14 +1892,16 @@ about managing receipt rule sets, see the [Amazon SES Developer Guide](https://d
 - `rule_names`: The specified receipt rule set's receipt rules, in order.
 - `rule_set_name`: The name of the receipt rule set to reorder.
 """
-reorder_receipt_rule_set(
+function reorder_receipt_rule_set(
     RuleNames, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "ReorderReceiptRuleSet",
-    Dict{String,Any}("RuleNames" => RuleNames, "RuleSetName" => RuleSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "ReorderReceiptRuleSet",
+        Dict{String,Any}("RuleNames" => RuleNames, "RuleSetName" => RuleSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reorder_receipt_rule_set(
     RuleNames,
     RuleSetName,
@@ -1860,21 +1957,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MessageDsn"`: Message-related DSN fields. If not specified, Amazon SES chooses the
   values.
 """
-send_bounce(
+function send_bounce(
     BounceSender,
     BouncedRecipientInfoList,
     OriginalMessageId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "SendBounce",
-    Dict{String,Any}(
-        "BounceSender" => BounceSender,
-        "BouncedRecipientInfoList" => BouncedRecipientInfoList,
-        "OriginalMessageId" => OriginalMessageId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SendBounce",
+        Dict{String,Any}(
+            "BounceSender" => BounceSender,
+            "BouncedRecipientInfoList" => BouncedRecipientInfoList,
+            "OriginalMessageId" => OriginalMessageId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_bounce(
     BounceSender,
     BouncedRecipientInfoList,
@@ -1991,23 +2090,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information about sending authorization, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/dg/sending-authorization.html).
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
-send_bulk_templated_email(
+function send_bulk_templated_email(
     DefaultTemplateData,
     Destinations,
     Source,
     Template;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "SendBulkTemplatedEmail",
-    Dict{String,Any}(
-        "DefaultTemplateData" => DefaultTemplateData,
-        "Destinations" => Destinations,
-        "Source" => Source,
-        "Template" => Template,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SendBulkTemplatedEmail",
+        Dict{String,Any}(
+            "DefaultTemplateData" => DefaultTemplateData,
+            "Destinations" => Destinations,
+            "Source" => Source,
+            "Template" => Template,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_bulk_templated_email(
     DefaultTemplateData,
     Destinations,
@@ -2062,14 +2163,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: Name of a configuration set to use when sending the
   verification email.
 """
-send_custom_verification_email(
+function send_custom_verification_email(
     EmailAddress, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SendCustomVerificationEmail",
-    Dict{String,Any}("EmailAddress" => EmailAddress, "TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SendCustomVerificationEmail",
+        Dict{String,Any}("EmailAddress" => EmailAddress, "TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_custom_verification_email(
     EmailAddress,
     TemplateName,
@@ -2178,16 +2281,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   send using `SendEmail`. Tags correspond to characteristics of the email that you define,
   so that you can publish email sending events.
 """
-send_email(
+function send_email(
     Destination, Message, Source; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SendEmail",
-    Dict{String,Any}(
-        "Destination" => Destination, "Message" => Message, "Source" => Source
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SendEmail",
+        Dict{String,Any}(
+            "Destination" => Destination, "Message" => Message, "Source" => Source
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_email(
     Destination,
     Message,
@@ -2356,12 +2461,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   send using `SendRawEmail`. Tags correspond to characteristics of the email that you
   define, so that you can publish email sending events.
 """
-send_raw_email(RawMessage; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "SendRawEmail",
-    Dict{String,Any}("RawMessage" => RawMessage);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function send_raw_email(RawMessage; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "SendRawEmail",
+        Dict{String,Any}("RawMessage" => RawMessage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_raw_email(
     RawMessage,
     params::AbstractDict{String};
@@ -2472,23 +2579,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   define, so that you can publish email sending events.
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
-send_templated_email(
+function send_templated_email(
     Destination,
     Source,
     Template,
     TemplateData;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "SendTemplatedEmail",
-    Dict{String,Any}(
-        "Destination" => Destination,
-        "Source" => Source,
-        "Template" => Template,
-        "TemplateData" => TemplateData,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SendTemplatedEmail",
+        Dict{String,Any}(
+            "Destination" => Destination,
+            "Source" => Source,
+            "Template" => Template,
+            "TemplateData" => TemplateData,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_templated_email(
     Destination,
     Source,
@@ -2536,8 +2645,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleSetName"`: The name of the receipt rule set to make active. Setting this value to
   null disables all email receiving.
 """
-set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses("SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function set_active_receipt_rule_set(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2574,14 +2686,16 @@ You can execute this operation no more than once per second.
   enable DKIM signing for this identity; `false` to disable it.
 - `identity`: The identity for which DKIM signing should be enabled or disabled.
 """
-set_identity_dkim_enabled(
+function set_identity_dkim_enabled(
     DkimEnabled, Identity; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetIdentityDkimEnabled",
-    Dict{String,Any}("DkimEnabled" => DkimEnabled, "Identity" => Identity);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetIdentityDkimEnabled",
+        Dict{String,Any}("DkimEnabled" => DkimEnabled, "Identity" => Identity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_identity_dkim_enabled(
     DkimEnabled,
     Identity,
@@ -2629,14 +2743,16 @@ second.
 - `identity`: The identity for which to set bounce and complaint notification forwarding.
   Examples: `user@example.com`, `example.com`.
 """
-set_identity_feedback_forwarding_enabled(
+function set_identity_feedback_forwarding_enabled(
     ForwardingEnabled, Identity; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetIdentityFeedbackForwardingEnabled",
-    Dict{String,Any}("ForwardingEnabled" => ForwardingEnabled, "Identity" => Identity);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetIdentityFeedbackForwardingEnabled",
+        Dict{String,Any}("ForwardingEnabled" => ForwardingEnabled, "Identity" => Identity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_identity_feedback_forwarding_enabled(
     ForwardingEnabled,
     Identity,
@@ -2685,18 +2801,20 @@ For more information about using notifications with Amazon SES, see the [Amazon 
 - `notification_type`: The notification type for which to enable or disable headers in
   notifications.
 """
-set_identity_headers_in_notifications_enabled(
+function set_identity_headers_in_notifications_enabled(
     Enabled, Identity, NotificationType; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetIdentityHeadersInNotificationsEnabled",
-    Dict{String,Any}(
-        "Enabled" => Enabled,
-        "Identity" => Identity,
-        "NotificationType" => NotificationType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetIdentityHeadersInNotificationsEnabled",
+        Dict{String,Any}(
+            "Enabled" => Enabled,
+            "Identity" => Identity,
+            "NotificationType" => NotificationType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_identity_headers_in_notifications_enabled(
     Enabled,
     Identity,
@@ -2758,14 +2876,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 3) not be used to receive emails. A value of `null` disables the custom MAIL FROM
   setting for the identity.
 """
-set_identity_mail_from_domain(
+function set_identity_mail_from_domain(
     Identity; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetIdentityMailFromDomain",
-    Dict{String,Any}("Identity" => Identity);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetIdentityMailFromDomain",
+        Dict{String,Any}("Identity" => Identity);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_identity_mail_from_domain(
     Identity,
     params::AbstractDict{String};
@@ -2816,14 +2936,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   omitted from the request or a null value is passed, `SnsTopic` is cleared and publishing
   is disabled.
 """
-set_identity_notification_topic(
+function set_identity_notification_topic(
     Identity, NotificationType; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetIdentityNotificationTopic",
-    Dict{String,Any}("Identity" => Identity, "NotificationType" => NotificationType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetIdentityNotificationTopic",
+        Dict{String,Any}("Identity" => Identity, "NotificationType" => NotificationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_identity_notification_topic(
     Identity,
     NotificationType,
@@ -2868,14 +2990,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"After"`: The name of the receipt rule after which to place the specified receipt rule.
 """
-set_receipt_rule_position(
+function set_receipt_rule_position(
     RuleName, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "SetReceiptRulePosition",
-    Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "SetReceiptRulePosition",
+        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_receipt_rule_position(
     RuleName,
     RuleSetName,
@@ -2912,14 +3036,16 @@ You can execute this operation no more than once per second.
   replacement tags in the email template.
 - `template_name`: The name of the template to render.
 """
-test_render_template(
+function test_render_template(
     TemplateData, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "TestRenderTemplate",
-    Dict{String,Any}("TemplateData" => TemplateData, "TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "TestRenderTemplate",
+        Dict{String,Any}("TemplateData" => TemplateData, "TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_render_template(
     TemplateData,
     TemplateName,
@@ -2961,11 +3087,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Enabled"`: Describes whether email sending is enabled or disabled for your Amazon SES
   account in the current Amazon Web Services Region.
 """
-update_account_sending_enabled(; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "UpdateAccountSendingEnabled";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function update_account_sending_enabled(;
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return ses(
+        "UpdateAccountSendingEnabled";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_account_sending_enabled(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2999,19 +3129,21 @@ per second.
   destination.
 - `event_destination`: The event destination object.
 """
-update_configuration_set_event_destination(
+function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "UpdateConfigurationSetEventDestination",
-    Dict{String,Any}(
-        "ConfigurationSetName" => ConfigurationSetName,
-        "EventDestination" => EventDestination,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "UpdateConfigurationSetEventDestination",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName,
+            "EventDestination" => EventDestination,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination,
@@ -3052,14 +3184,18 @@ You can execute this operation no more than once per second.
 - `enabled`: Describes whether or not Amazon SES publishes reputation metrics for the
   configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
 """
-update_configuration_set_reputation_metrics_enabled(
+function update_configuration_set_reputation_metrics_enabled(
     ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "UpdateConfigurationSetReputationMetricsEnabled",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "UpdateConfigurationSetReputationMetricsEnabled",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_configuration_set_reputation_metrics_enabled(
     ConfigurationSetName,
     Enabled,
@@ -3100,14 +3236,18 @@ You can execute this operation no more than once per second.
 - `enabled`: Describes whether email sending is enabled or disabled for the configuration
   set.
 """
-update_configuration_set_sending_enabled(
+function update_configuration_set_sending_enabled(
     ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "UpdateConfigurationSetSendingEnabled",
-    Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "UpdateConfigurationSetSendingEnabled",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_configuration_set_sending_enabled(
     ConfigurationSetName,
     Enabled,
@@ -3146,19 +3286,21 @@ For information about using custom domains, see the [Amazon SES Developer Guide]
 - `configuration_set_name`: The name of the configuration set.
 - `tracking_options`:
 """
-update_configuration_set_tracking_options(
+function update_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = ses(
-    "UpdateConfigurationSetTrackingOptions",
-    Dict{String,Any}(
-        "ConfigurationSetName" => ConfigurationSetName,
-        "TrackingOptions" => TrackingOptions,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "UpdateConfigurationSetTrackingOptions",
+        Dict{String,Any}(
+            "ConfigurationSetName" => ConfigurationSetName,
+            "TrackingOptions" => TrackingOptions,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_configuration_set_tracking_options(
     ConfigurationSetName,
     TrackingOptions,
@@ -3212,14 +3354,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the *Amazon SES Developer Guide*.
 - `"TemplateSubject"`: The subject line of the custom verification email.
 """
-update_custom_verification_email_template(
+function update_custom_verification_email_template(
     TemplateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = ses(
-    "UpdateCustomVerificationEmailTemplate",
-    Dict{String,Any}("TemplateName" => TemplateName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ses(
+        "UpdateCustomVerificationEmailTemplate",
+        Dict{String,Any}("TemplateName" => TemplateName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_custom_verification_email_template(
     TemplateName,
     params::AbstractDict{String};
@@ -3250,13 +3394,16 @@ You can execute this operation no more than once per second.
 - `rule`: A data structure that contains the updated receipt rule information.
 - `rule_set_name`: The name of the receipt rule set that the receipt rule belongs to.
 """
-update_receipt_rule(Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function update_receipt_rule(
+    Rule, RuleSetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "UpdateReceiptRule",
         Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_receipt_rule(
     Rule,
     RuleSetName,
@@ -3290,12 +3437,14 @@ You can execute this operation no more than once per second.
 
 - `template`:
 """
-update_template(Template; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "UpdateTemplate",
-    Dict{String,Any}("Template" => Template);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_template(Template; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "UpdateTemplate",
+        Dict{String,Any}("Template" => Template);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_template(
     Template,
     params::AbstractDict{String};
@@ -3343,12 +3492,14 @@ each token that's generated by this operation.
 
 - `domain`: The name of the domain to be verified for Easy DKIM signing.
 """
-verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "VerifyDomainDkim",
-    Dict{String,Any}("Domain" => Domain);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "VerifyDomainDkim",
+        Dict{String,Any}("Domain" => Domain);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function verify_domain_dkim(
     Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3375,12 +3526,14 @@ You can execute this operation no more than once per second.
 
 - `domain`: The domain to be verified.
 """
-verify_domain_identity(Domain; aws_config::AbstractAWSConfig=current_aws_config()) = ses(
-    "VerifyDomainIdentity",
-    Dict{String,Any}("Domain" => Domain);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function verify_domain_identity(Domain; aws_config::AbstractAWSConfig=current_aws_config())
+    return ses(
+        "VerifyDomainIdentity",
+        Dict{String,Any}("Domain" => Domain);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function verify_domain_identity(
     Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3402,13 +3555,16 @@ Deprecated. Use the `VerifyEmailIdentity` operation to verify a new email addres
 
 - `email_address`: The email address to be verified.
 """
-verify_email_address(EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function verify_email_address(
+    EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "VerifyEmailAddress",
         Dict{String,Any}("EmailAddress" => EmailAddress);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function verify_email_address(
     EmailAddress,
     params::AbstractDict{String};
@@ -3438,13 +3594,16 @@ You can execute this operation no more than once per second.
 
 - `email_address`: The email address to be verified.
 """
-verify_email_identity(EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ses(
+function verify_email_identity(
+    EmailAddress; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ses(
         "VerifyEmailIdentity",
         Dict{String,Any}("EmailAddress" => EmailAddress);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function verify_email_identity(
     EmailAddress,
     params::AbstractDict{String};

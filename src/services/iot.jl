@@ -27,14 +27,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"setAsActive"`: Specifies whether the certificate is active.
 """
-accept_certificate_transfer(
+function accept_certificate_transfer(
     certificateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/accept-certificate-transfer/$(certificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/accept-certificate-transfer/$(certificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function accept_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -71,12 +73,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingArn"`: The ARN of the thing to be added to the billing group.
 - `"thingName"`: The name of the thing to be added to the billing group.
 """
-add_thing_to_billing_group(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/billing-groups/addThingToBillingGroup";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function add_thing_to_billing_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/billing-groups/addThingToBillingGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_thing_to_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,12 +115,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingGroupName"`: The name of the group to which you are adding a thing.
 - `"thingName"`: The name of the thing to add to a group.
 """
-add_thing_to_thing_group(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/thing-groups/addThingToThingGroup";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function add_thing_to_thing_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/thing-groups/addThingToThingGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_thing_to_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,15 +168,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
   information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
-associate_targets_with_job(
+function associate_targets_with_job(
     jobId, targets; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/jobs/$(jobId)/targets",
-    Dict{String,Any}("targets" => targets);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/jobs/$(jobId)/targets",
+        Dict{String,Any}("targets" => targets);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_targets_with_job(
     jobId,
     targets,
@@ -201,13 +209,17 @@ action.
 - `target`: The [identity](https://docs.aws.amazon.com/iot/latest/developerguide/security-iam.html)
   to which the policy is attached. For example, a thing group or a certificate.
 """
-attach_policy(policyName, target; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/target-policies/$(policyName)",
-    Dict{String,Any}("target" => target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function attach_policy(
+    policyName, target; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "PUT",
+        "/target-policies/$(policyName)",
+        Dict{String,Any}("target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_policy(
     policyName,
     target,
@@ -241,17 +253,19 @@ action.
 - `x-amzn-iot-principal`: The principal, which can be a certificate ARN (as returned from
   the CreateCertificate operation) or an Amazon Cognito ID.
 """
-attach_principal_policy(
+function attach_principal_policy(
     policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/principal-policies/$(policyName)",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/principal-policies/$(policyName)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -292,17 +306,19 @@ action.
 - `security_profile_target_arn`: The ARN of the target (thing group) to which the security
   profile is attached.
 """
-attach_security_profile(
+function attach_security_profile(
     securityProfileName,
     securityProfileTargetArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "PUT",
-    "/security-profiles/$(securityProfileName)/targets",
-    Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/security-profiles/$(securityProfileName)/targets",
+        Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -340,15 +356,19 @@ action.
 - `x-amzn-principal`: The principal, which can be a certificate ARN (as returned from the
   CreateCertificate operation) or an Amazon Cognito ID.
 """
-attach_thing_principal(
+function attach_thing_principal(
     thingName, x_amzn_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/things/$(thingName)/principals",
-    Dict{String,Any}("headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/things/$(thingName)/principals",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -386,14 +406,16 @@ action.
 
 - `task_id`: The unique identifier for the task that you want to cancel.
 """
-cancel_audit_mitigation_actions_task(
+function cancel_audit_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/audit/mitigationactions/tasks/$(taskId)/cancel";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/audit/mitigationactions/tasks/$(taskId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -421,12 +443,14 @@ action.
 - `task_id`: The ID of the audit you want to cancel. You can only cancel an audit that is
   "IN_PROGRESS".
 """
-cancel_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/audit/tasks/$(taskId)/cancel";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function cancel_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/audit/tasks/$(taskId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -461,14 +485,16 @@ action.
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 """
-cancel_certificate_transfer(
+function cancel_certificate_transfer(
     certificateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/cancel-certificate-transfer/$(certificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/cancel-certificate-transfer/$(certificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -496,14 +522,16 @@ action.
 
 - `task_id`:  The unique identifier of the task.
 """
-cancel_detect_mitigation_actions_task(
+function cancel_detect_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/detect/mitigationactions/tasks/$(taskId)/cancel";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/detect/mitigationactions/tasks/$(taskId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,12 +571,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   executing a job which is canceled is able to recover to a valid state.
 - `"reasonCode"`: (Optional)A reason code string that explains why the job was canceled.
 """
-cancel_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/jobs/$(jobId)/cancel";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function cancel_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/jobs/$(jobId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -598,13 +628,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution. If not specified, the statusDetails are unchanged. You can specify at most 10
   name/value pairs.
 """
-cancel_job_execution(jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function cancel_job_execution(
+    jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PUT",
         "/things/$(thingName)/jobs/$(jobId)/cancel";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function cancel_job_execution(
     jobId,
     thingName,
@@ -629,12 +662,14 @@ Clears the default authorizer.
 Requires permission to access the [ClearDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-clear_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/default-authorizer";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function clear_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/default-authorizer";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function clear_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,14 +699,16 @@ action.
 - `confirmation_token`: The token used to confirm ownership or access to the topic rule
   confirmation URL.
 """
-confirm_topic_rule_destination(
+function confirm_topic_rule_destination(
     confirmationToken; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/confirmdestination/$(confirmationToken)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/confirmdestination/$(confirmationToken)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function confirm_topic_rule_destination(
     confirmationToken,
     params::AbstractDict{String};
@@ -713,22 +750,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suppressIndefinitely"`:  Indicates whether a suppression should exist indefinitely or
   not.
 """
-create_audit_suppression(
+function create_audit_suppression(
     checkName,
     clientRequestToken,
     resourceIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/audit/suppressions/create",
-    Dict{String,Any}(
-        "checkName" => checkName,
-        "clientRequestToken" => clientRequestToken,
-        "resourceIdentifier" => resourceIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/suppressions/create",
+        Dict{String,Any}(
+            "checkName" => checkName,
+            "clientRequestToken" => clientRequestToken,
+            "resourceIdentifier" => resourceIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_audit_suppression(
     checkName,
     clientRequestToken,
@@ -796,17 +835,19 @@ The default value is `false`.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the digital signature returned
   by your custom authentication service.
 """
-create_authorizer(
+function create_authorizer(
     authorizerFunctionArn,
     authorizerName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/authorizer/$(authorizerName)",
-    Dict{String,Any}("authorizerFunctionArn" => authorizerFunctionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/authorizer/$(authorizerName)",
+        Dict{String,Any}("authorizerFunctionArn" => authorizerFunctionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_authorizer(
     authorizerFunctionArn,
     authorizerName,
@@ -848,13 +889,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"billingGroupProperties"`: The properties of the billing group.
 - `"tags"`: Metadata which can be used to manage the billing group.
 """
-create_billing_group(billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function create_billing_group(
+    billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/billing-groups/$(billingGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -928,15 +972,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"setAsActive"`: Specifies whether the certificate is active.
 """
-create_certificate_from_csr(
+function create_certificate_from_csr(
     certificateSigningRequest; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/certificates",
-    Dict{String,Any}("certificateSigningRequest" => certificateSigningRequest);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/certificates",
+        Dict{String,Any}("certificateSigningRequest" => certificateSigningRequest);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_certificate_from_csr(
     certificateSigningRequest,
     params::AbstractDict{String};
@@ -991,22 +1037,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request to make sure the request is idempotent.
 - `"tags"`: Metadata which can be used to manage the certificate provider.
 """
-create_certificate_provider(
+function create_certificate_provider(
     accountDefaultForOperations,
     certificateProviderName,
     lambdaFunctionArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/certificate-providers/$(certificateProviderName)",
-    Dict{String,Any}(
-        "accountDefaultForOperations" => accountDefaultForOperations,
-        "lambdaFunctionArn" => lambdaFunctionArn,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/certificate-providers/$(certificateProviderName)",
+        Dict{String,Any}(
+            "accountDefaultForOperations" => accountDefaultForOperations,
+            "lambdaFunctionArn" => lambdaFunctionArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_certificate_provider(
     accountDefaultForOperations,
     certificateProviderName,
@@ -1067,20 +1115,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metric report. You can update the friendly name after you define it.
 - `"tags"`:  Metadata that can be used to manage the custom metric.
 """
-create_custom_metric(
+function create_custom_metric(
     clientRequestToken,
     metricName,
     metricType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/custom-metric/$(metricName)",
-    Dict{String,Any}(
-        "clientRequestToken" => clientRequestToken, "metricType" => metricType
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/custom-metric/$(metricName)",
+        Dict{String,Any}(
+            "clientRequestToken" => clientRequestToken, "metricType" => metricType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_metric(
     clientRequestToken,
     metricName,
@@ -1136,23 +1186,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: Metadata that can be used to manage the dimension.
 """
-create_dimension(
+function create_dimension(
     clientRequestToken,
     name,
     stringValues,
     type;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/dimensions/$(name)",
-    Dict{String,Any}(
-        "clientRequestToken" => clientRequestToken,
-        "stringValues" => stringValues,
-        "type" => type,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/dimensions/$(name)",
+        Dict{String,Any}(
+            "clientRequestToken" => clientRequestToken,
+            "stringValues" => stringValues,
+            "type" => type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dimension(
     clientRequestToken,
     name,
@@ -1222,14 +1274,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prove domain name ownership. This certificate must be signed by a public certificate
   authority. This value is not required for Amazon Web Services-managed domains.
 """
-create_domain_configuration(
+function create_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/domainConfigurations/$(domainConfigurationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/domainConfigurations/$(domainConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -1277,15 +1331,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the dynamic thing group.
 - `"thingGroupProperties"`: The dynamic thing group properties.
 """
-create_dynamic_thing_group(
+function create_dynamic_thing_group(
     queryString, thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/dynamic-thing-groups/$(thingGroupName)",
-    Dict{String,Any}("queryString" => queryString);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/dynamic-thing-groups/$(thingGroupName)",
+        Dict{String,Any}("queryString" => queryString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dynamic_thing_group(
     queryString,
     thingGroupName,
@@ -1332,25 +1388,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be supported by [CW metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html).
   Default to null.
 """
-create_fleet_metric(
+function create_fleet_metric(
     aggregationField,
     aggregationType,
     metricName,
     period,
     queryString;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "PUT",
-    "/fleet-metric/$(metricName)",
-    Dict{String,Any}(
-        "aggregationField" => aggregationField,
-        "aggregationType" => aggregationType,
-        "period" => period,
-        "queryString" => queryString,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}(
+            "aggregationField" => aggregationField,
+            "aggregationType" => aggregationType,
+            "period" => period,
+            "queryString" => queryString,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_fleet_metric(
     aggregationField,
     aggregationType,
@@ -1457,13 +1515,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the job execution status is not set to another terminal state before the time expires,
   it will be automatically set to `TIMED_OUT`.
 """
-create_job(jobId, targets; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/jobs/$(jobId)",
-    Dict{String,Any}("targets" => targets);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_job(jobId, targets; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/jobs/$(jobId)",
+        Dict{String,Any}("targets" => targets);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_job(
     jobId,
     targets,
@@ -1524,15 +1584,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that can be used to manage the job template.
 - `"timeoutConfig"`:
 """
-create_job_template(
+function create_job_template(
     description, jobTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/job-templates/$(jobTemplateId)",
-    Dict{String,Any}("description" => description);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/job-templates/$(jobTemplateId)",
+        Dict{String,Any}("description" => description);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_job_template(
     description,
     jobTemplateId,
@@ -1570,12 +1632,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"setAsActive"`: Specifies whether the certificate is active.
 """
-create_keys_and_certificate(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/keys-and-certificate";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_keys_and_certificate(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/keys-and-certificate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_keys_and_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1613,15 +1677,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: Metadata that can be used to manage the mitigation action.
 """
-create_mitigation_action(
+function create_mitigation_action(
     actionName, actionParams, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/mitigationactions/actions/$(actionName)",
-    Dict{String,Any}("actionParams" => actionParams, "roleArn" => roleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/mitigationactions/actions/$(actionName)",
+        Dict{String,Any}("actionParams" => actionParams, "roleArn" => roleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_mitigation_action(
     actionName,
     actionParams,
@@ -1684,15 +1750,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to a target group, even after the update was completed by all things originally in the
   group. Valid values: CONTINUOUS | SNAPSHOT.
 """
-create_otaupdate(
+function create_otaupdate(
     files, otaUpdateId, roleArn, targets; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/otaUpdates/$(otaUpdateId)",
-    Dict{String,Any}("files" => files, "roleArn" => roleArn, "targets" => targets);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/otaUpdates/$(otaUpdateId)",
+        Dict{String,Any}("files" => files, "roleArn" => roleArn, "targets" => targets);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_otaupdate(
     files,
     otaUpdateId,
@@ -1743,13 +1811,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   package's contents or purpose.
 - `"tags"`: Metadata that can be used to manage the package.
 """
-create_package(packageName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/packages/$(packageName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_package(
     packageName,
     params::AbstractDict{String};
@@ -1797,15 +1867,17 @@ The combined size of all the attributes on a package version is limited to 3KB.
   outline the package's contents or purpose.
 - `"tags"`: Metadata that can be used to manage the package version.
 """
-create_package_version(
+function create_package_version(
     packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/packages/$(packageName)/versions/$(versionName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_package_version(
     packageName,
     versionName,
@@ -1855,15 +1927,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
 """
-create_policy(
+function create_policy(
     policyDocument, policyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/policies/$(policyName)",
-    Dict{String,Any}("policyDocument" => policyDocument);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/policies/$(policyName)",
+        Dict{String,Any}("policyDocument" => policyDocument);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_policy(
     policyDocument,
     policyName,
@@ -1911,15 +1985,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is true, the new policy version becomes the operative version (that is, the
   version that is in effect for the certificates to which the policy is attached).
 """
-create_policy_version(
+function create_policy_version(
     policyDocument, policyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/policies/$(policyName)/version",
-    Dict{String,Any}("policyDocument" => policyDocument);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/policies/$(policyName)/version",
+        Dict{String,Any}("policyDocument" => policyDocument);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_policy_version(
     policyDocument,
     policyName,
@@ -1950,14 +2026,16 @@ action.
 
 - `template_name`: The name of the provisioning template to use.
 """
-create_provisioning_claim(
+function create_provisioning_claim(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/provisioning-templates/$(templateName)/provisioning-claim";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/provisioning-templates/$(templateName)/provisioning-claim";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_provisioning_claim(
     templateName,
     params::AbstractDict{String};
@@ -2010,22 +2088,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only one type. You can't change the template type after its creation. The default value
   is `FLEET_PROVISIONING`. For more information about provisioning template, see: [Provisioning template](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html).
 """
-create_provisioning_template(
+function create_provisioning_template(
     provisioningRoleArn,
     templateBody,
     templateName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/provisioning-templates",
-    Dict{String,Any}(
-        "provisioningRoleArn" => provisioningRoleArn,
-        "templateBody" => templateBody,
-        "templateName" => templateName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/provisioning-templates",
+        Dict{String,Any}(
+            "provisioningRoleArn" => provisioningRoleArn,
+            "templateBody" => templateBody,
+            "templateName" => templateName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_provisioning_template(
     provisioningRoleArn,
     templateBody,
@@ -2072,15 +2152,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"setAsDefault"`: Sets a fleet provision template version as the default version.
 """
-create_provisioning_template_version(
+function create_provisioning_template_version(
     templateBody, templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/provisioning-templates/$(templateName)/versions",
-    Dict{String,Any}("templateBody" => templateBody);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/provisioning-templates/$(templateName)/versions",
+        Dict{String,Any}("templateBody" => templateBody);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_provisioning_template_version(
     templateBody,
     templateName,
@@ -2132,14 +2214,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
 """
-create_role_alias(roleAlias, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function create_role_alias(
+    roleAlias, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/role-aliases/$(roleAlias)",
         Dict{String,Any}("roleArn" => roleArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_role_alias(
     roleAlias,
     roleArn,
@@ -2187,18 +2272,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `frequency` parameter is set to `WEEKLY` or `BIWEEKLY`.
 - `"tags"`: Metadata that can be used to manage the scheduled audit.
 """
-create_scheduled_audit(
+function create_scheduled_audit(
     frequency,
     scheduledAuditName,
     targetCheckNames;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/audit/scheduledaudits/$(scheduledAuditName)",
-    Dict{String,Any}("frequency" => frequency, "targetCheckNames" => targetCheckNames);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/scheduledaudits/$(scheduledAuditName)",
+        Dict{String,Any}("frequency" => frequency, "targetCheckNames" => targetCheckNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_scheduled_audit(
     frequency,
     scheduledAuditName,
@@ -2258,14 +2345,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityProfileDescription"`: A description of the security profile.
 - `"tags"`: Metadata that can be used to manage the security profile.
 """
-create_security_profile(
+function create_security_profile(
     securityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/security-profiles/$(securityProfileName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/security-profiles/$(securityProfileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -2304,15 +2393,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the stream.
 - `"tags"`: Metadata which can be used to manage streams.
 """
-create_stream(
+function create_stream(
     files, roleArn, streamId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/streams/$(streamId)",
-    Dict{String,Any}("files" => files, "roleArn" => roleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/streams/$(streamId)",
+        Dict{String,Any}("files" => files, "roleArn" => roleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_stream(
     files,
     roleArn,
@@ -2360,16 +2451,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributePayload"`: The attribute payload, which consists of up to three name/value
   pairs in a JSON document. For example:
 
- `{\"attributes\":{\"string1\":\"string2\"}}`
+ `{\\"attributes\\":{\\"string1\\":\\"string2\\"}}`
 - `"billingGroupName"`: The name of the billing group the thing will be added to.
 - `"thingTypeName"`: The name of the thing type associated with the new thing.
 """
-create_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/things/$(thingName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/things/$(thingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_thing(
     thingName,
     params::AbstractDict{String};
@@ -2410,13 +2503,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata which can be used to manage the thing group.
 - `"thingGroupProperties"`: The thing group properties.
 """
-create_thing_group(thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function create_thing_group(
+    thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/thing-groups/$(thingGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -2453,12 +2549,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains information about the new thing type including a description, and a list of
   searchable thing attribute names.
 """
-create_thing_type(thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/thing-types/$(thingTypeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function create_thing_type(
+    thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "POST",
+        "/thing-types/$(thingTypeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -2501,15 +2601,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  <p>For the cli-input-json file use format: "tags": "key1=value1&amp;key2=value2..."
 """
-create_topic_rule(
+function create_topic_rule(
     ruleName, topicRulePayload; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/rules/$(ruleName)",
-    Dict{String,Any}("topicRulePayload" => topicRulePayload);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/rules/$(ruleName)",
+        Dict{String,Any}("topicRulePayload" => topicRulePayload);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_topic_rule(
     ruleName,
     topicRulePayload,
@@ -2542,15 +2644,17 @@ action.
 
 - `destination_configuration`: The topic rule destination configuration.
 """
-create_topic_rule_destination(
+function create_topic_rule_destination(
     destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/destinations",
-    Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/destinations",
+        Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_topic_rule_destination(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -2587,13 +2691,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"deleteScheduledAudits"`: If true, all scheduled audits are deleted.
 """
-delete_account_audit_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_account_audit_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/audit/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2620,15 +2727,19 @@ action.
 - `check_name`:
 - `resource_identifier`:
 """
-delete_audit_suppression(
+function delete_audit_suppression(
     checkName, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/audit/suppressions/delete",
-    Dict{String,Any}("checkName" => checkName, "resourceIdentifier" => resourceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/suppressions/delete",
+        Dict{String,Any}(
+            "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -2665,12 +2776,16 @@ action.
 
 - `authorizer_name`: The name of the authorizer to delete.
 """
-delete_authorizer(authorizerName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/authorizer/$(authorizerName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_authorizer(
+    authorizerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "DELETE",
+        "/authorizer/$(authorizerName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -2706,13 +2821,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   billing group does not match the expected version specified in the request, the
   `DeleteBillingGroup` request is rejected with a `VersionConflictException`.
 """
-delete_billing_group(billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_billing_group(
+    billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/billing-groups/$(billingGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -2741,13 +2859,16 @@ action.
 - `ca_certificate_id`: The ID of the certificate to delete. (The last part of the
   certificate ARN contains the certificate ID.)
 """
-delete_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_cacertificate(
+    caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/cacertificate/$(caCertificateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -2788,12 +2909,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDelete"`: Forces the deletion of a certificate if it is inactive and is not
   attached to an IoT thing.
 """
-delete_certificate(certificateId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/certificates/$(certificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_certificate(
+    certificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "DELETE",
+        "/certificates/$(certificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -2825,14 +2950,16 @@ request (CSR).
 
 - `certificate_provider_name`: The name of the certificate provider.
 """
-delete_certificate_provider(
+function delete_certificate_provider(
     certificateProviderName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/certificate-providers/$(certificateProviderName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -2866,12 +2993,16 @@ API with `metricName` set to your custom metric name.
 
 - `metric_name`:  The name of the custom metric.
 """
-delete_custom_metric(metricName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/custom-metric/$(metricName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_custom_metric(
+    metricName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "DELETE",
+        "/custom-metric/$(metricName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -2899,12 +3030,14 @@ action.
 
 - `name`: The unique identifier for the dimension that you want to delete.
 """
-delete_dimension(name; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/dimensions/$(name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_dimension(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/dimensions/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2930,14 +3063,16 @@ action.
 
 - `domain_configuration_name`: The name of the domain configuration to be deleted.
 """
-delete_domain_configuration(
+function delete_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/domainConfigurations/$(domainConfigurationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/domainConfigurations/$(domainConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -2971,14 +3106,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"expectedVersion"`: The expected version of the dynamic thing group to delete.
 """
-delete_dynamic_thing_group(
+function delete_dynamic_thing_group(
     thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/dynamic-thing-groups/$(thingGroupName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/dynamic-thing-groups/$(thingGroupName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dynamic_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -3013,12 +3150,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"expectedVersion"`: The expected version of the fleet metric to delete.
 """
-delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/fleet-metric/$(metricName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_fleet_metric(metricName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/fleet-metric/$(metricName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -3082,8 +3221,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
   information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
-delete_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("DELETE", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3139,14 +3281,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The `namespaceId` feature is only supported by IoT Greengrass at this time. For more
   information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
 """
-delete_job_execution(
+function delete_job_execution(
     executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_job_execution(
     executionNumber,
     jobId,
@@ -3173,13 +3317,16 @@ Deletes the specified job template.
 
 - `job_template_id`: The unique identifier of the job template to delete.
 """
-delete_job_template(jobTemplateId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_job_template(
+    jobTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/job-templates/$(jobTemplateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -3207,13 +3354,16 @@ action.
 
 - `action_name`: The name of the mitigation action that you want to delete.
 """
-delete_mitigation_action(actionName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_mitigation_action(
+    actionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/mitigationactions/actions/$(actionName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -3252,12 +3402,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state
   ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
 """
-delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/otaUpdates/$(otaUpdateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/otaUpdates/$(otaUpdateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -3295,13 +3447,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-delete_package(packageName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/packages/$(packageName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_package(
     packageName,
     params::AbstractDict{String};
@@ -3340,15 +3494,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
-delete_package_version(
+function delete_package_version(
     packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/packages/$(packageName)/versions/$(versionName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_package_version(
     packageName,
     versionName,
@@ -3391,12 +3547,14 @@ action.
 
 - `policy_name`: The name of the policy to delete.
 """
-delete_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/policies/$(policyName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/policies/$(policyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_policy(
     policyName,
     params::AbstractDict{String};
@@ -3428,14 +3586,16 @@ action.
 - `policy_name`: The name of the policy.
 - `policy_version_id`: The policy version ID.
 """
-delete_policy_version(
+function delete_policy_version(
     policyName, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/policies/$(policyName)/version/$(policyVersionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/policies/$(policyName)/version/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_policy_version(
     policyName,
     policyVersionId,
@@ -3464,14 +3624,16 @@ action.
 
 - `template_name`: The name of the fleet provision template to delete.
 """
-delete_provisioning_template(
+function delete_provisioning_template(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/provisioning-templates/$(templateName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/provisioning-templates/$(templateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -3500,14 +3662,16 @@ action.
 - `template_name`: The name of the provisioning template version to delete.
 - `version_id`: The provisioning template version ID to delete.
 """
-delete_provisioning_template_version(
+function delete_provisioning_template_version(
     templateName, versionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/provisioning-templates/$(templateName)/versions/$(versionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/provisioning-templates/$(templateName)/versions/$(versionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_provisioning_template_version(
     templateName,
     versionId,
@@ -3532,12 +3696,14 @@ Deletes a CA certificate registration code.
 Requires permission to access the [DeleteRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-delete_registration_code(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/registrationcode";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_registration_code(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/registrationcode";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3563,12 +3729,14 @@ action.
 
 - `role_alias`: The role alias to delete.
 """
-delete_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/role-aliases/$(roleAlias)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/role-aliases/$(roleAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -3596,14 +3764,16 @@ action.
 
 - `scheduled_audit_name`: The name of the scheduled audit you want to delete.
 """
-delete_scheduled_audit(
+function delete_scheduled_audit(
     scheduledAuditName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/audit/scheduledaudits/$(scheduledAuditName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/audit/scheduledaudits/$(scheduledAuditName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -3639,14 +3809,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated whenever the security profile is updated. If you specify a value that is
   different from the actual version, a `VersionConflictException` is thrown.
 """
-delete_security_profile(
+function delete_security_profile(
     securityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/security-profiles/$(securityProfileName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/security-profiles/$(securityProfileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -3674,12 +3846,14 @@ action.
 
 - `stream_id`: The stream ID.
 """
-delete_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/streams/$(streamId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/streams/$(streamId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_stream(
     streamId,
     params::AbstractDict{String};
@@ -3716,12 +3890,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version of the record in the registry does not match the expected version specified in
   the request, the `DeleteThing` request is rejected with a `VersionConflictException`.
 """
-delete_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/things/$(thingName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/things/$(thingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_thing(
     thingName,
     params::AbstractDict{String};
@@ -3755,13 +3931,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"expectedVersion"`: The expected version of the thing group to delete.
 """
-delete_thing_group(thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_thing_group(
+    thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/thing-groups/$(thingGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -3793,12 +3972,16 @@ action.
 
 - `thing_type_name`: The name of the thing type.
 """
-delete_thing_type(thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/thing-types/$(thingTypeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_thing_type(
+    thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "DELETE",
+        "/thing-types/$(thingTypeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -3826,12 +4009,14 @@ action.
 
 - `rule_name`: The name of the rule.
 """
-delete_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "DELETE",
-    "/rules/$(ruleName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "DELETE",
+        "/rules/$(ruleName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -3859,13 +4044,16 @@ action.
 
 - `arn`: The ARN of the topic rule destination to delete.
 """
-delete_topic_rule_destination(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function delete_topic_rule_destination(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "DELETE",
         "/destinations/$(arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3893,15 +4081,17 @@ action.
 - `target_type`: The type of resource for which you are configuring logging. Must be
   `THING_Group`.
 """
-delete_v2_logging_level(
+function delete_v2_logging_level(
     targetName, targetType; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/v2LoggingLevel",
-    Dict{String,Any}("targetName" => targetName, "targetType" => targetType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/v2LoggingLevel",
+        Dict{String,Any}("targetName" => targetName, "targetType" => targetType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_v2_logging_level(
     targetName,
     targetType,
@@ -3943,13 +4133,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"undoDeprecate"`: Whether to undeprecate a deprecated thing type. If **true**, the thing
   type will not be deprecated anymore and you can associate it with things.
 """
-deprecate_thing_type(thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function deprecate_thing_type(
+    thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/thing-types/$(thingTypeName)/deprecate";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function deprecate_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -3974,13 +4167,16 @@ include how audit notifications are sent and which audit checks are enabled or d
 Requires permission to access the [DescribeAccountAuditConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-describe_account_audit_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_account_audit_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/audit/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4009,12 +4205,16 @@ action.
 - `finding_id`: A unique identifier for a single audit finding. You can use this identifier
   to apply mitigation actions to the finding.
 """
-describe_audit_finding(findingId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/audit/findings/$(findingId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function describe_audit_finding(
+    findingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "GET",
+        "/audit/findings/$(findingId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -4041,14 +4241,16 @@ which they're being applied, the task status, and aggregated task statistics.
 
 - `task_id`: The unique identifier for the audit mitigation task.
 """
-describe_audit_mitigation_actions_task(
+function describe_audit_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/audit/mitigationactions/tasks/$(taskId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/audit/mitigationactions/tasks/$(taskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_audit_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4072,15 +4274,19 @@ end
 - `check_name`:
 - `resource_identifier`:
 """
-describe_audit_suppression(
+function describe_audit_suppression(
     checkName, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/audit/suppressions/describe",
-    Dict{String,Any}("checkName" => checkName, "resourceIdentifier" => resourceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/suppressions/describe",
+        Dict{String,Any}(
+            "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -4117,12 +4323,14 @@ action.
 
 - `task_id`: The ID of the audit whose information you want to get.
 """
-describe_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/audit/tasks/$(taskId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_audit_task(taskId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/audit/tasks/$(taskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_audit_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4148,13 +4356,16 @@ action.
 
 - `authorizer_name`: The name of the authorizer to describe.
 """
-describe_authorizer(authorizerName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_authorizer(
+    authorizerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/authorizer/$(authorizerName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -4182,14 +4393,16 @@ action.
 
 - `billing_group_name`: The name of the billing group.
 """
-describe_billing_group(
+function describe_billing_group(
     billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/billing-groups/$(billingGroupName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/billing-groups/$(billingGroupName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -4217,14 +4430,16 @@ action.
 
 - `ca_certificate_id`: The CA certificate identifier.
 """
-describe_cacertificate(
+function describe_cacertificate(
     caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/cacertificate/$(caCertificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/cacertificate/$(caCertificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -4253,13 +4468,16 @@ action.
 - `certificate_id`: The ID of the certificate. (The last part of the certificate ARN
   contains the certificate ID.)
 """
-describe_certificate(certificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_certificate(
+    certificateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/certificates/$(certificateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_certificate(
     certificateId,
     params::AbstractDict{String};
@@ -4287,14 +4505,16 @@ action.
 
 - `certificate_provider_name`: The name of the certificate provider.
 """
-describe_certificate_provider(
+function describe_certificate_provider(
     certificateProviderName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/certificate-providers/$(certificateProviderName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -4322,13 +4542,16 @@ action.
 
 - `metric_name`:  The name of the custom metric.
 """
-describe_custom_metric(metricName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_custom_metric(
+    metricName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/custom-metric/$(metricName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_custom_metric(
     metricName,
     params::AbstractDict{String};
@@ -4352,9 +4575,11 @@ Describes the default authorizer.
 Requires permission to access the [DescribeDefaultAuthorizer](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-describe_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET", "/default-authorizer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_default_authorizer(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/default-authorizer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_default_authorizer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4380,14 +4605,16 @@ action.
 
 - `task_id`:  The unique identifier of the task.
 """
-describe_detect_mitigation_actions_task(
+function describe_detect_mitigation_actions_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/detect/mitigationactions/tasks/$(taskId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/detect/mitigationactions/tasks/$(taskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_detect_mitigation_actions_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4413,9 +4640,11 @@ action.
 
 - `name`: The unique identifier for the dimension.
 """
-describe_dimension(name; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET", "/dimensions/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_dimension(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/dimensions/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dimension(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4441,14 +4670,16 @@ action.
 
 - `domain_configuration_name`: The name of the domain configuration.
 """
-describe_domain_configuration(
+function describe_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/domainConfigurations/$(domainConfigurationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/domainConfigurations/$(domainConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -4488,8 +4719,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   issues related to the widespread distrust of Symantec certificate authorities. ATS Signed
   Certificates are more secure and are trusted by most popular browsers.
 """
-describe_endpoint(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_endpoint(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function describe_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4507,12 +4739,14 @@ Describes event configurations.
 Requires permission to access the [DescribeEventConfigurations](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-describe_event_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/event-configurations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_event_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/event-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4538,12 +4772,16 @@ action.
 
 - `metric_name`: The name of the fleet metric to describe.
 """
-describe_fleet_metric(metricName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/fleet-metric/$(metricName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function describe_fleet_metric(
+    metricName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "GET",
+        "/fleet-metric/$(metricName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_fleet_metric(
     metricName,
     params::AbstractDict{String};
@@ -4571,12 +4809,14 @@ action.
 
 - `index_name`: The index name.
 """
-describe_index(indexName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/indices/$(indexName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_index(indexName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/indices/$(indexName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_index(
     indexName,
     params::AbstractDict{String};
@@ -4604,8 +4844,11 @@ action.
 
 - `job_id`: The unique identifier you assigned to this job when it was created.
 """
-describe_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4639,14 +4882,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"executionNumber"`: A string (consisting of the digits "0" through "9" which is used to
   specify a particular job execution on a particular device.
 """
-describe_job_execution(
+function describe_job_execution(
     jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/things/$(thingName)/jobs/$(jobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/things/$(thingName)/jobs/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_job_execution(
     jobId,
     thingName,
@@ -4672,13 +4917,16 @@ Returns information about a job template.
 
 - `job_template_id`: The unique identifier of the job template.
 """
-describe_job_template(jobTemplateId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_job_template(
+    jobTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/job-templates/$(jobTemplateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_job_template(
     jobTemplateId,
     params::AbstractDict{String};
@@ -4710,14 +4958,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateVersion"`: An optional parameter to specify version of a managed template. If
   not specified, the pre-defined default version is returned.
 """
-describe_managed_job_template(
+function describe_managed_job_template(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/managed-job-templates/$(templateName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/managed-job-templates/$(templateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_managed_job_template(
     templateName,
     params::AbstractDict{String};
@@ -4745,13 +4995,16 @@ action.
 
 - `action_name`: The friendly name that uniquely identifies the mitigation action.
 """
-describe_mitigation_action(actionName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_mitigation_action(
+    actionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/mitigationactions/actions/$(actionName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -4779,14 +5032,16 @@ action.
 
 - `template_name`: The name of the provisioning template.
 """
-describe_provisioning_template(
+function describe_provisioning_template(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/provisioning-templates/$(templateName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/provisioning-templates/$(templateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -4815,14 +5070,16 @@ action.
 - `template_name`: The template name.
 - `version_id`: The provisioning template version ID.
 """
-describe_provisioning_template_version(
+function describe_provisioning_template_version(
     templateName, versionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/provisioning-templates/$(templateName)/versions/$(versionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/provisioning-templates/$(templateName)/versions/$(versionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_provisioning_template_version(
     templateName,
     versionId,
@@ -4851,12 +5108,14 @@ action.
 
 - `role_alias`: The role alias to describe.
 """
-describe_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/role-aliases/$(roleAlias)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/role-aliases/$(roleAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -4884,14 +5143,16 @@ action.
 
 - `scheduled_audit_name`: The name of the scheduled audit whose information you want to get.
 """
-describe_scheduled_audit(
+function describe_scheduled_audit(
     scheduledAuditName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/audit/scheduledaudits/$(scheduledAuditName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/audit/scheduledaudits/$(scheduledAuditName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -4920,14 +5181,16 @@ action.
 - `security_profile_name`: The name of the security profile whose information you want to
   get.
 """
-describe_security_profile(
+function describe_security_profile(
     securityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/security-profiles/$(securityProfileName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/security-profiles/$(securityProfileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -4955,12 +5218,14 @@ action.
 
 - `stream_id`: The stream ID.
 """
-describe_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/streams/$(streamId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/streams/$(streamId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_stream(
     streamId,
     params::AbstractDict{String};
@@ -4988,12 +5253,14 @@ action.
 
 - `thing_name`: The name of the thing.
 """
-describe_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/things/$(thingName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/things/$(thingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_thing(
     thingName,
     params::AbstractDict{String};
@@ -5021,13 +5288,16 @@ action.
 
 - `thing_group_name`: The name of the thing group.
 """
-describe_thing_group(thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_thing_group(
+    thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/thing-groups/$(thingGroupName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -5055,14 +5325,16 @@ action.
 
 - `task_id`: The task ID.
 """
-describe_thing_registration_task(
+function describe_thing_registration_task(
     taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/thing-registration-tasks/$(taskId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/thing-registration-tasks/$(taskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5088,13 +5360,16 @@ action.
 
 - `thing_type_name`: The name of the thing type.
 """
-describe_thing_type(thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function describe_thing_type(
+    thingTypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/thing-types/$(thingTypeName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_thing_type(
     thingTypeName,
     params::AbstractDict{String};
@@ -5126,13 +5401,17 @@ action.
 - `policy_name`: The policy to detach.
 - `target`: The target from which the policy will be detached.
 """
-detach_policy(policyName, target; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/target-policies/$(policyName)",
-    Dict{String,Any}("target" => target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function detach_policy(
+    policyName, target; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "POST",
+        "/target-policies/$(policyName)",
+        Dict{String,Any}("target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_policy(
     policyName,
     target,
@@ -5169,17 +5448,19 @@ action.
   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
 """
-detach_principal_policy(
+function detach_principal_policy(
     policyName, x_amzn_iot_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/principal-policies/$(policyName)",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/principal-policies/$(policyName)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_principal_policy(
     policyName,
     x_amzn_iot_principal,
@@ -5219,17 +5500,19 @@ action.
 - `security_profile_target_arn`: The ARN of the thing group from which the security profile
   is detached.
 """
-detach_security_profile(
+function detach_security_profile(
     securityProfileName,
     securityProfileTargetArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "DELETE",
-    "/security-profiles/$(securityProfileName)/targets",
-    Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/security-profiles/$(securityProfileName)/targets",
+        Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_security_profile(
     securityProfileName,
     securityProfileTargetArn,
@@ -5271,15 +5554,19 @@ action.
   certificate. If the principal is an Amazon Cognito identity, this value must be the ID of
   the Amazon Cognito identity.
 """
-detach_thing_principal(
+function detach_thing_principal(
     thingName, x_amzn_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "DELETE",
-    "/things/$(thingName)/principals",
-    Dict{String,Any}("headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "DELETE",
+        "/things/$(thingName)/principals",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_thing_principal(
     thingName,
     x_amzn_principal,
@@ -5316,12 +5603,14 @@ action.
 
 - `rule_name`: The name of the rule to disable.
 """
-disable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/rules/$(ruleName)/disable";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function disable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/rules/$(ruleName)/disable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5349,12 +5638,14 @@ action.
 
 - `rule_name`: The name of the topic rule to enable.
 """
-enable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/rules/$(ruleName)/enable";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function enable_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/rules/$(ruleName)/enable";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -5386,14 +5677,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The token for the next set of results.
 - `"securityProfileName"`:  The name of the security profile.
 """
-get_behavior_model_training_summaries(;
+function get_behavior_model_training_summaries(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/behavior-model-training/summaries";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/behavior-model-training/summaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_behavior_model_training_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5429,22 +5722,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"indexName"`: The name of the index to search.
 - `"queryVersion"`: The version of the query.
 """
-get_buckets_aggregation(
+function get_buckets_aggregation(
     aggregationField,
     bucketsAggregationType,
     queryString;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/indices/buckets",
-    Dict{String,Any}(
-        "aggregationField" => aggregationField,
-        "bucketsAggregationType" => bucketsAggregationType,
-        "queryString" => queryString,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/indices/buckets",
+        Dict{String,Any}(
+            "aggregationField" => aggregationField,
+            "bucketsAggregationType" => bucketsAggregationType,
+            "queryString" => queryString,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_buckets_aggregation(
     aggregationField,
     bucketsAggregationType,
@@ -5492,13 +5787,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"indexName"`: The name of the index to search.
 - `"queryVersion"`: The query version.
 """
-get_cardinality(queryString; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/indices/cardinality",
-    Dict{String,Any}("queryString" => queryString);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_cardinality(queryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/indices/cardinality",
+        Dict{String,Any}("queryString" => queryString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_cardinality(
     queryString,
     params::AbstractDict{String};
@@ -5535,12 +5832,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
 - `"thingName"`: The thing name.
 """
-get_effective_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/effective-policies";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_effective_policies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/effective-policies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_effective_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5562,8 +5861,11 @@ Gets the indexing configuration.
 Requires permission to access the [GetIndexingConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-get_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5589,12 +5891,14 @@ action.
 
 - `job_id`: The unique identifier you assigned to this job when it was created.
 """
-get_job_document(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/jobs/$(jobId)/job-document";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_job_document(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/jobs/$(jobId)/job-document";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_job_document(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5618,8 +5922,11 @@ NOTE: use of this command is not recommended. Use `GetV2LoggingOptions` instead.
 Requires permission to access the [GetLoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/loggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/loggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5645,12 +5952,14 @@ action.
 
 - `ota_update_id`: The OTA update ID.
 """
-get_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/otaUpdates/$(otaUpdateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_otaupdate(otaUpdateId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/otaUpdates/$(otaUpdateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_otaupdate(
     otaUpdateId,
     params::AbstractDict{String};
@@ -5678,12 +5987,14 @@ action.
 
 - `package_name`: The name of the target software package.
 """
-get_package(packageName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/packages/$(packageName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/packages/$(packageName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_package(
     packageName,
     params::AbstractDict{String};
@@ -5707,12 +6018,14 @@ Gets information about the specified software package's configuration.
 Requires permission to access the [GetPackageConfiguration](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-get_package_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/package-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_package_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/package-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5739,14 +6052,16 @@ action.
 - `package_name`: The name of the associated package.
 - `version_name`: The name of the target package version.
 """
-get_package_version(
+function get_package_version(
     packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/packages/$(packageName)/versions/$(versionName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions/$(versionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_package_version(
     packageName,
     versionName,
@@ -5791,13 +6106,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"percents"`: The percentile groups returned.
 - `"queryVersion"`: The query version.
 """
-get_percentiles(queryString; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/indices/percentiles",
-    Dict{String,Any}("queryString" => queryString);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_percentiles(queryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/indices/percentiles",
+        Dict{String,Any}("queryString" => queryString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_percentiles(
     queryString,
     params::AbstractDict{String};
@@ -5828,12 +6145,14 @@ action.
 
 - `policy_name`: The name of the policy.
 """
-get_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/policies/$(policyName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/policies/$(policyName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_policy(
     policyName,
     params::AbstractDict{String};
@@ -5862,14 +6181,16 @@ action.
 - `policy_name`: The name of the policy.
 - `policy_version_id`: The policy version ID.
 """
-get_policy_version(
+function get_policy_version(
     policyName, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/policies/$(policyName)/version/$(policyVersionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/policies/$(policyName)/version/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_policy_version(
     policyName,
     policyVersionId,
@@ -5898,8 +6219,11 @@ will return the same registration code.
 Requires permission to access the [GetRegistrationCode](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-get_registration_code(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/registrationcode"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_registration_code(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/registrationcode"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_registration_code(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5936,13 +6260,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"indexName"`: The name of the index to search. The default value is `AWS_Things`.
 - `"queryVersion"`: The version of the query used to search.
 """
-get_statistics(queryString; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/indices/statistics",
-    Dict{String,Any}("queryString" => queryString);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_statistics(queryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/indices/statistics",
+        Dict{String,Any}("queryString" => queryString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_statistics(
     queryString,
     params::AbstractDict{String};
@@ -5972,8 +6298,11 @@ action.
 
 - `rule_name`: The name of the rule.
 """
-get_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/rules/$(ruleName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_topic_rule(ruleName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/rules/$(ruleName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_topic_rule(
     ruleName,
     params::AbstractDict{String};
@@ -6001,12 +6330,14 @@ action.
 
 - `arn`: The ARN of the topic rule destination.
 """
-get_topic_rule_destination(arn; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/destinations/$(arn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_topic_rule_destination(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/destinations/$(arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_topic_rule_destination(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6028,8 +6359,11 @@ Gets the fine grained logging options.
 Requires permission to access the [GetV2LoggingOptions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 """
-get_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6064,8 +6398,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: The name of the thing whose active violations are listed.
 - `"verificationState"`: The verification state of the violation (detect alarm).
 """
-list_active_violations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/active-violations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_active_violations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/active-violations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_active_violations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6101,12 +6438,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The maximum number of results to be returned per request.
 - `"recursive"`: When true, recursively list attached policies.
 """
-list_attached_policies(target; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/attached-policies/$(target)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_attached_policies(target; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/attached-policies/$(target)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_attached_policies(
     target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6147,8 +6486,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskId"`: A filter to limit results to the audit with the specified ID. You must
   specify either the taskId or the startTime and endTime, but not both.
 """
-list_audit_findings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("POST", "/audit/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_audit_findings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST", "/audit/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_audit_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6185,15 +6527,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The token for the next set of results.
 """
-list_audit_mitigation_actions_executions(
+function list_audit_mitigation_actions_executions(
     findingId, taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/audit/mitigationactions/executions",
-    Dict{String,Any}("findingId" => findingId, "taskId" => taskId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/audit/mitigationactions/executions",
+        Dict{String,Any}("findingId" => findingId, "taskId" => taskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_audit_mitigation_actions_executions(
     findingId,
     taskId,
@@ -6244,15 +6588,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskStatus"`: Specify this filter to limit results to tasks that are in a specific
   state.
 """
-list_audit_mitigation_actions_tasks(
+function list_audit_mitigation_actions_tasks(
     endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/audit/mitigationactions/tasks",
-    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/audit/mitigationactions/tasks",
+        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_audit_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -6294,12 +6640,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The token for the next set of results.
 - `"resourceIdentifier"`:
 """
-list_audit_suppressions(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/audit/suppressions/list";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_audit_suppressions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/audit/suppressions/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_audit_suppressions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6339,14 +6687,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskType"`: A filter to limit the output to the specified type of audit: can be one of
   "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
 """
-list_audit_tasks(endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_audit_tasks(
+    endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/audit/tasks",
         Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_audit_tasks(
     endTime,
     startTime,
@@ -6386,8 +6737,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The maximum number of results to return at one time.
 - `"status"`: The status of the list authorizers request.
 """
-list_authorizers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/authorizers/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_authorizers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/authorizers/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_authorizers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6419,8 +6773,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/billing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_billing_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/billing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_billing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6454,8 +6811,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 - `"templateName"`: The name of the provisioning template.
 """
-list_cacertificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/cacertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_cacertificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/cacertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_cacertificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6486,12 +6846,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results, or `null` if there are no more
   results.
 """
-list_certificate_providers(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/certificate-providers/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_certificate_providers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/certificate-providers/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_certificate_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6525,8 +6887,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/certificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/certificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6562,14 +6927,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_certificates_by_ca(
+function list_certificates_by_ca(
     caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/certificates-by-ca/$(caCertificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/certificates-by-ca/$(caCertificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_certificates_by_ca(
     caCertificateId,
     params::AbstractDict{String};
@@ -6600,8 +6967,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:  The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`:  The token for the next set of results.
 """
-list_custom_metrics(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/custom-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_custom_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/custom-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_custom_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6637,14 +7007,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`:  The name of the thing whose mitigation actions are listed.
 - `"violationId"`:  The unique identifier of the violation.
 """
-list_detect_mitigation_actions_executions(;
+function list_detect_mitigation_actions_executions(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/detect/mitigationactions/executions";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/detect/mitigationactions/executions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_detect_mitigation_actions_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6680,15 +7052,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`:  The token for the next set of results.
 """
-list_detect_mitigation_actions_tasks(
+function list_detect_mitigation_actions_tasks(
     endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/detect/mitigationactions/tasks",
-    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/detect/mitigationactions/tasks",
+        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_detect_mitigation_actions_tasks(
     endTime,
     startTime,
@@ -6726,8 +7100,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to retrieve at one time.
 - `"nextToken"`: The token for the next set of results.
 """
-list_dimensions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/dimensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_dimensions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/dimensions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_dimensions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6754,12 +7129,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pageSize"`: The result page size.
 - `"serviceType"`: The type of service delivered by the endpoint.
 """
-list_domain_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/domainConfigurations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_domain_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/domainConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_domain_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6789,8 +7166,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise `null` to receive the first set of results.
 """
-list_fleet_metrics(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/fleet-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_fleet_metrics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/fleet-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_fleet_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6820,8 +7200,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token used to get the next set of results, or `null` if there are no
   additional results.
 """
-list_indices(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/indices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_indices(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/indices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_indices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6851,13 +7232,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"status"`: The status of the job.
 """
-list_job_executions_for_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_job_executions_for_job(
+    jobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/jobs/$(jobId)/things";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_job_executions_for_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6903,14 +7287,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
 """
-list_job_executions_for_thing(
+function list_job_executions_for_thing(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/things/$(thingName)/jobs";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/things/$(thingName)/jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_job_executions_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -6941,8 +7327,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in the list.
 - `"nextToken"`: The token to use to return the next set of results in the list.
 """
-list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/job-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_job_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/job-templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6996,8 +7385,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingGroupName"`: A filter that limits the returned jobs to those for the specified
   group.
 """
-list_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7022,12 +7412,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions of the managed job templates that have the specified template name will be
   returned.
 """
-list_managed_job_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/managed-job-templates";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_managed_job_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/managed-job-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_managed_job_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7063,24 +7455,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: The token for the next set of results.
 """
-list_metric_values(
+function list_metric_values(
     endTime,
     metricName,
     startTime,
     thingName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "GET",
-    "/metric-values",
-    Dict{String,Any}(
-        "endTime" => endTime,
-        "metricName" => metricName,
-        "startTime" => startTime,
-        "thingName" => thingName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/metric-values",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "startTime" => startTime,
+            "thingName" => thingName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_metric_values(
     endTime,
     metricName,
@@ -7127,12 +7521,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The token for the next set of results.
 """
-list_mitigation_actions(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/mitigationactions/actions";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_mitigation_actions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/mitigationactions/actions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_mitigation_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7162,8 +7558,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token used to retrieve the next set of results.
 - `"otaUpdateStatus"`: The OTA update job status.
 """
-list_otaupdates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/otaUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_otaupdates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/otaUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_otaupdates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7190,12 +7587,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_outgoing_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/certificates-out-going";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_outgoing_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/certificates-out-going";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_outgoing_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7229,13 +7628,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 - `"status"`: The status of the package version. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
 """
-list_package_versions(packageName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_package_versions(
+    packageName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/packages/$(packageName)/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_package_versions(
     packageName,
     params::AbstractDict{String};
@@ -7266,8 +7668,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results returned at one time.
 - `"nextToken"`: The token for the next set of results.
 """
-list_packages(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_packages(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7294,8 +7697,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_policies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7329,17 +7733,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_policy_principals(
+function list_policy_principals(
     x_amzn_iot_policy; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/policy-principals",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amzn-iot-policy" => x_amzn_iot_policy)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/policy-principals",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-iot-policy" => x_amzn_iot_policy)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_policy_principals(
     x_amzn_iot_policy,
     params::AbstractDict{String};
@@ -7375,12 +7781,16 @@ action.
 
 - `policy_name`: The policy name.
 """
-list_policy_versions(policyName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/policies/$(policyName)/version";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function list_policy_versions(
+    policyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "GET",
+        "/policies/$(policyName)/version";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_policy_versions(
     policyName,
     params::AbstractDict{String};
@@ -7423,17 +7833,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: The marker for the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_principal_policies(
+function list_principal_policies(
     x_amzn_iot_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/principal-policies",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/principal-policies",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-iot-principal" => x_amzn_iot_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_principal_policies(
     x_amzn_iot_principal,
     params::AbstractDict{String};
@@ -7480,15 +7892,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_principal_things(
+function list_principal_things(
     x_amzn_principal; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/principals/things",
-    Dict{String,Any}("headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/principals/things",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amzn-principal" => x_amzn_principal)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_principal_things(
     x_amzn_principal,
     params::AbstractDict{String};
@@ -7531,14 +7947,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: A token to retrieve the next set of results.
 """
-list_provisioning_template_versions(
+function list_provisioning_template_versions(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/provisioning-templates/$(templateName)/versions";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/provisioning-templates/$(templateName)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_provisioning_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -7569,12 +7987,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: A token to retrieve the next set of results.
 """
-list_provisioning_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/provisioning-templates";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_provisioning_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/provisioning-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_provisioning_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7622,15 +8042,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that can be used to retrieve the next set of results, or `null` if
   there are no additional results.
 """
-list_related_resources_for_audit_finding(
+function list_related_resources_for_audit_finding(
     findingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/audit/relatedResources",
-    Dict{String,Any}("findingId" => findingId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/audit/relatedResources",
+        Dict{String,Any}("findingId" => findingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_related_resources_for_audit_finding(
     findingId,
     params::AbstractDict{String};
@@ -7664,8 +8086,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: A marker used to get the next set of results.
 - `"pageSize"`: The maximum number of results to return at one time.
 """
-list_role_aliases(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/role-aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_role_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/role-aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_role_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7694,12 +8119,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
 - `"nextToken"`: The token for the next set of results.
 """
-list_scheduled_audits(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/audit/scheduledaudits";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_scheduled_audits(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/audit/scheduledaudits";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_scheduled_audits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7735,8 +8162,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"metricName"`:  The name of the custom metric. Cannot be used with `dimensionName`.
 - `"nextToken"`: The token for the next set of results.
 """
-list_security_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/security-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_security_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/security-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_security_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7771,15 +8201,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results.
 - `"recursive"`: If true, return child groups too.
 """
-list_security_profiles_for_target(
+function list_security_profiles_for_target(
     securityProfileTargetArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/security-profiles-for-target",
-    Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/security-profiles-for-target",
+        Dict{String,Any}("securityProfileTargetArn" => securityProfileTargetArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_security_profiles_for_target(
     securityProfileTargetArn,
     params::AbstractDict{String};
@@ -7817,8 +8249,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at a time.
 - `"nextToken"`: A token used to get the next set of results.
 """
-list_streams(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/streams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_streams(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/streams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7847,14 +8280,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -7891,13 +8327,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"marker"`: A marker used to get the next set of results.
 - `"pageSize"`: The maximum number of results to return at one time.
 """
-list_targets_for_policy(policyName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_targets_for_policy(
+    policyName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/policy-targets/$(policyName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_targets_for_policy(
     policyName,
     params::AbstractDict{String};
@@ -7932,14 +8371,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: The token for the next set of results.
 """
-list_targets_for_security_profile(
+function list_targets_for_security_profile(
     securityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/security-profiles/$(securityProfileName)/targets";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/security-profiles/$(securityProfileName)/targets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_targets_for_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -7976,8 +8417,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 - `"recursive"`: If true, return child groups as well.
 """
-list_thing_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/thing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_thing_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/thing-groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_thing_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8011,13 +8455,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_thing_groups_for_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function list_thing_groups_for_thing(
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "GET",
         "/things/$(thingName)/thing-groups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_thing_groups_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -8055,12 +8502,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_thing_principals(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/things/$(thingName)/principals";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function list_thing_principals(
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "GET",
+        "/things/$(thingName)/principals";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_thing_principals(
     thingName,
     params::AbstractDict{String};
@@ -8094,15 +8545,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_thing_registration_task_reports(
+function list_thing_registration_task_reports(
     reportType, taskId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/thing-registration-tasks/$(taskId)/reports",
-    Dict{String,Any}("reportType" => reportType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/thing-registration-tasks/$(taskId)/reports",
+        Dict{String,Any}("reportType" => reportType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_thing_registration_task_reports(
     reportType,
     taskId,
@@ -8138,12 +8591,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise **null** to receive the first set of results.
 - `"status"`: The status of the bulk thing provisioning task.
 """
-list_thing_registration_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "GET",
-    "/thing-registration-tasks";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_thing_registration_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET",
+        "/thing-registration-tasks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_thing_registration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8174,8 +8629,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise **null** to receive the first set of results.
 - `"thingTypeName"`: The name of the thing type.
 """
-list_thing_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/thing-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_thing_types(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/thing-types"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_thing_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8222,8 +8680,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When `false`, or not present, the action returns only the thing resources with attribute
   values that match the entire `attributeValue` provided.
 """
-list_things(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/things"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_things(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/things"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_things(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8253,14 +8712,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_things_in_billing_group(
+function list_things_in_billing_group(
     billingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/billing-groups/$(billingGroupName)/things";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/billing-groups/$(billingGroupName)/things";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_things_in_billing_group(
     billingGroupName,
     params::AbstractDict{String};
@@ -8297,14 +8758,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise **null** to receive the first set of results.
 - `"recursive"`: When true, list things in this thing group and in all child groups as well.
 """
-list_things_in_thing_group(
+function list_things_in_thing_group(
     thingGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/thing-groups/$(thingGroupName)/things";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/thing-groups/$(thingGroupName)/things";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_things_in_thing_group(
     thingGroupName,
     params::AbstractDict{String};
@@ -8336,8 +8799,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_topic_rule_destinations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_topic_rule_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/destinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_topic_rule_destinations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8369,8 +8835,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ruleDisabled"`: Specifies whether the rule is disabled.
 - `"topic"`: The topic.
 """
-list_topic_rules(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_topic_rules(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot("GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_topic_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8398,8 +8865,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetType"`: The type of resource for which you are configuring logging. Must be
   `THING_Group`.
 """
-list_v2_logging_levels(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("GET", "/v2LoggingLevel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_v2_logging_levels(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "GET", "/v2LoggingLevel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_v2_logging_levels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8441,15 +8911,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingName"`: A filter to limit results to those alerts caused by the specified thing.
 - `"verificationState"`: The verification state of the violation (detect alarm).
 """
-list_violation_events(
+function list_violation_events(
     endTime, startTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "GET",
-    "/violation-events",
-    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "GET",
+        "/violation-events",
+        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_violation_events(
     endTime,
     startTime,
@@ -8490,15 +8962,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"verificationStateDescription"`: The description of the verification state of the
   violation (detect alarm).
 """
-put_verification_state_on_violation(
+function put_verification_state_on_violation(
     verificationState, violationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/violations/verification-state/$(violationId)",
-    Dict{String,Any}("verificationState" => verificationState);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/violations/verification-state/$(violationId)",
+        Dict{String,Any}("verificationState" => verificationState);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_verification_state_on_violation(
     verificationState,
     violationId,
@@ -8565,14 +9039,17 @@ Valid values: `ACTIVE | INACTIVE`
   `certificateMode` is `DEFAULT` or not provided, the `verificationCertificate` field must
   not be empty.
 """
-register_cacertificate(caCertificate; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function register_cacertificate(
+    caCertificate; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/cacertificate",
         Dict{String,Any}("caCertificate" => caCertificate);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function register_cacertificate(
     caCertificate,
     params::AbstractDict{String};
@@ -8617,14 +9094,17 @@ Valid values: `ACTIVE | INACTIVE`
 - `"status"`: The status of the register certificate request. Valid values that you can use
   include `ACTIVE`, `INACTIVE`, and `REVOKED`.
 """
-register_certificate(certificatePem; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function register_certificate(
+    certificatePem; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/certificate/register",
         Dict{String,Any}("certificatePem" => certificatePem);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function register_certificate(
     certificatePem,
     params::AbstractDict{String};
@@ -8658,15 +9138,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"status"`: The status of the register certificate request.
 """
-register_certificate_without_ca(
+function register_certificate_without_ca(
     certificatePem; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/certificate/register-no-ca",
-    Dict{String,Any}("certificatePem" => certificatePem);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/certificate/register-no-ca",
+        Dict{String,Any}("certificatePem" => certificatePem);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_certificate_without_ca(
     certificatePem,
     params::AbstractDict{String};
@@ -8707,13 +9189,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: The parameters for provisioning a thing. See [Provisioning Templates](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html)
   for more information.
 """
-register_thing(templateBody; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/things",
-    Dict{String,Any}("templateBody" => templateBody);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function register_thing(templateBody; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/things",
+        Dict{String,Any}("templateBody" => templateBody);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_thing(
     templateBody,
     params::AbstractDict{String};
@@ -8757,14 +9241,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"rejectReason"`: The reason the certificate transfer was rejected.
 """
-reject_certificate_transfer(
+function reject_certificate_transfer(
     certificateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/reject-certificate-transfer/$(certificateId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/reject-certificate-transfer/$(certificateId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reject_certificate_transfer(
     certificateId,
     params::AbstractDict{String};
@@ -8801,12 +9287,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingArn"`: The ARN of the thing to be removed from the billing group.
 - `"thingName"`: The name of the thing to be removed from the billing group.
 """
-remove_thing_from_billing_group(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/billing-groups/removeThingFromBillingGroup";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function remove_thing_from_billing_group(;
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "PUT",
+        "/billing-groups/removeThingFromBillingGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_thing_from_billing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8841,12 +9331,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingGroupName"`: The group name.
 - `"thingName"`: The name of the thing to remove from the group.
 """
-remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/thing-groups/removeThingFromThingGroup";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function remove_thing_from_thing_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/thing-groups/removeThingFromThingGroup";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_thing_from_thing_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8875,15 +9367,17 @@ action.
 - `rule_name`: The name of the rule.
 - `topic_rule_payload`: The rule payload.
 """
-replace_topic_rule(
+function replace_topic_rule(
     ruleName, topicRulePayload; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/rules/$(ruleName)",
-    Dict{String,Any}("topicRulePayload" => topicRulePayload);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/rules/$(ruleName)",
+        Dict{String,Any}("topicRulePayload" => topicRulePayload);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function replace_topic_rule(
     ruleName,
     topicRulePayload,
@@ -8930,13 +9424,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results.
 - `"queryVersion"`: The query version.
 """
-search_index(queryString; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/indices/search",
-    Dict{String,Any}("queryString" => queryString);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function search_index(queryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/indices/search",
+        Dict{String,Any}("queryString" => queryString);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_index(
     queryString,
     params::AbstractDict{String};
@@ -8967,14 +9463,17 @@ action.
 
 - `authorizer_name`: The authorizer name.
 """
-set_default_authorizer(authorizerName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function set_default_authorizer(
+    authorizerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/default-authorizer",
         Dict{String,Any}("authorizerName" => authorizerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function set_default_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9007,14 +9506,16 @@ action.
 - `policy_name`: The policy name.
 - `policy_version_id`: The policy version ID.
 """
-set_default_policy_version(
+function set_default_policy_version(
     policyName, policyVersionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/policies/$(policyName)/version/$(policyVersionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/policies/$(policyName)/version/$(policyVersionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_default_policy_version(
     policyName,
     policyVersionId,
@@ -9045,15 +9546,17 @@ action.
 
 - `logging_options_payload`: The logging options payload.
 """
-set_logging_options(
+function set_logging_options(
     loggingOptionsPayload; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/loggingOptions",
-    Dict{String,Any}("loggingOptionsPayload" => loggingOptionsPayload);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/loggingOptions",
+        Dict{String,Any}("loggingOptionsPayload" => loggingOptionsPayload);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_logging_options(
     loggingOptionsPayload,
     params::AbstractDict{String};
@@ -9088,15 +9591,17 @@ action.
 - `log_level`: The log level.
 - `log_target`: The log target.
 """
-set_v2_logging_level(
+function set_v2_logging_level(
     logLevel, logTarget; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/v2LoggingLevel",
-    Dict{String,Any}("logLevel" => logLevel, "logTarget" => logTarget);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/v2LoggingLevel",
+        Dict{String,Any}("logLevel" => logLevel, "logTarget" => logTarget);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_v2_logging_level(
     logLevel,
     logTarget,
@@ -9135,8 +9640,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"disableAllLogs"`: If true all logs are disabled. The default is false.
 - `"roleArn"`: The ARN of the role that allows IoT to write to Cloudwatch logs.
 """
-set_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("POST", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function set_v2_logging_options(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST", "/v2LoggingOptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function set_v2_logging_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9172,23 +9680,25 @@ action.
 - `task_id`: A unique identifier for the task. You can use this identifier to check the
   status of the task or to cancel it.
 """
-start_audit_mitigation_actions_task(
+function start_audit_mitigation_actions_task(
     auditCheckToActionsMapping,
     clientRequestToken,
     target,
     taskId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/audit/mitigationactions/tasks/$(taskId)",
-    Dict{String,Any}(
-        "auditCheckToActionsMapping" => auditCheckToActionsMapping,
-        "clientRequestToken" => clientRequestToken,
-        "target" => target,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/mitigationactions/tasks/$(taskId)",
+        Dict{String,Any}(
+            "auditCheckToActionsMapping" => auditCheckToActionsMapping,
+            "clientRequestToken" => clientRequestToken,
+            "target" => target,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_audit_mitigation_actions_task(
     auditCheckToActionsMapping,
     clientRequestToken,
@@ -9244,23 +9754,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"violationEventOccurrenceRange"`:  Specifies the time period of which violation events
   occurred between.
 """
-start_detect_mitigation_actions_task(
+function start_detect_mitigation_actions_task(
     actions,
     clientRequestToken,
     target,
     taskId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "PUT",
-    "/detect/mitigationactions/tasks/$(taskId)",
-    Dict{String,Any}(
-        "actions" => actions,
-        "clientRequestToken" => clientRequestToken,
-        "target" => target,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/detect/mitigationactions/tasks/$(taskId)",
+        Dict{String,Any}(
+            "actions" => actions,
+            "clientRequestToken" => clientRequestToken,
+            "target" => target,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_detect_mitigation_actions_task(
     actions,
     clientRequestToken,
@@ -9304,15 +9816,17 @@ action.
   `DescribeAccountAuditConfiguration` to see the list of all checks, including those that
   are enabled or `UpdateAccountAuditConfiguration` to select which checks are enabled.
 """
-start_on_demand_audit_task(
+function start_on_demand_audit_task(
     targetCheckNames; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/audit/tasks",
-    Dict{String,Any}("targetCheckNames" => targetCheckNames);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/audit/tasks",
+        Dict{String,Any}("targetCheckNames" => targetCheckNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_on_demand_audit_task(
     targetCheckNames,
     params::AbstractDict{String};
@@ -9349,24 +9863,26 @@ action.
 - `role_arn`: The IAM role ARN that grants permission the input file.
 - `template_body`: The provisioning template.
 """
-start_thing_registration_task(
+function start_thing_registration_task(
     inputFileBucket,
     inputFileKey,
     roleArn,
     templateBody;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "POST",
-    "/thing-registration-tasks",
-    Dict{String,Any}(
-        "inputFileBucket" => inputFileBucket,
-        "inputFileKey" => inputFileKey,
-        "roleArn" => roleArn,
-        "templateBody" => templateBody,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/thing-registration-tasks",
+        Dict{String,Any}(
+            "inputFileBucket" => inputFileBucket,
+            "inputFileKey" => inputFileKey,
+            "roleArn" => roleArn,
+            "templateBody" => templateBody,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_thing_registration_task(
     inputFileBucket,
     inputFileKey,
@@ -9408,13 +9924,16 @@ action.
 
 - `task_id`: The bulk thing provisioning task ID.
 """
-stop_thing_registration_task(taskId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function stop_thing_registration_task(
+    taskId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PUT",
         "/thing-registration-tasks/$(taskId)/cancel";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_thing_registration_task(
     taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9442,13 +9961,15 @@ action.
 - `resource_arn`: The ARN of the resource.
 - `tags`: The new or modified tags for the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/tags",
-    Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/tags",
+        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -9500,13 +10021,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and CognitoId (*region*:*id*).
 """
-test_authorization(authInfos; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "POST",
-    "/test-authorization",
-    Dict{String,Any}("authInfos" => authInfos);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function test_authorization(authInfos; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST",
+        "/test-authorization",
+        Dict{String,Any}("authInfos" => authInfos);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_authorization(
     authInfos,
     params::AbstractDict{String};
@@ -9549,13 +10072,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tokenSignature"`: The signature made with the token and your custom authentication
   service's private key. This value must be Base-64-encoded.
 """
-test_invoke_authorizer(authorizerName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function test_invoke_authorizer(
+    authorizerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/authorizer/$(authorizerName)/test";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function test_invoke_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9602,15 +10128,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"transferMessage"`: The transfer message.
 """
-transfer_certificate(
+function transfer_certificate(
     certificateId, targetAwsAccount; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/transfer-certificate/$(certificateId)",
-    Dict{String,Any}("targetAwsAccount" => targetAwsAccount);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/transfer-certificate/$(certificateId)",
+        Dict{String,Any}("targetAwsAccount" => targetAwsAccount);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function transfer_certificate(
     certificateId,
     targetAwsAccount,
@@ -9644,14 +10172,17 @@ action.
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "POST",
         "/untag",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -9705,13 +10236,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access information about your devices, policies, certificates, and other items as
   required when performing an audit.
 """
-update_account_audit_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function update_account_audit_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PATCH",
         "/audit/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_account_audit_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -9745,15 +10279,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suppressIndefinitely"`:  Indicates whether a suppression should exist indefinitely or
   not.
 """
-update_audit_suppression(
+function update_audit_suppression(
     checkName, resourceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/audit/suppressions/update",
-    Dict{String,Any}("checkName" => checkName, "resourceIdentifier" => resourceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/audit/suppressions/update",
+        Dict{String,Any}(
+            "checkName" => checkName, "resourceIdentifier" => resourceIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_audit_suppression(
     checkName,
     resourceIdentifier,
@@ -9802,12 +10340,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tokenKeyName"`: The key used to extract the token from the HTTP headers.
 - `"tokenSigningPublicKeys"`: The public keys used to verify the token signature.
 """
-update_authorizer(authorizerName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/authorizer/$(authorizerName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function update_authorizer(
+    authorizerName; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return iot(
+        "PUT",
+        "/authorizer/$(authorizerName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_authorizer(
     authorizerName,
     params::AbstractDict{String};
@@ -9844,17 +10386,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   billing group does not match the expected version specified in the request, the
   `UpdateBillingGroup` request is rejected with a `VersionConflictException`.
 """
-update_billing_group(
+function update_billing_group(
     billingGroupName,
     billingGroupProperties;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot(
-    "PATCH",
-    "/billing-groups/$(billingGroupName)",
-    Dict{String,Any}("billingGroupProperties" => billingGroupProperties);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/billing-groups/$(billingGroupName)",
+        Dict{String,Any}("billingGroupProperties" => billingGroupProperties);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_billing_group(
     billingGroupName,
     billingGroupProperties,
@@ -9901,13 +10445,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registrationConfig"`: Information about the registration configuration.
 - `"removeAutoRegistration"`: If true, removes auto registration.
 """
-update_cacertificate(caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function update_cacertificate(
+    caCertificateId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PUT",
         "/cacertificate/$(caCertificateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_cacertificate(
     caCertificateId,
     params::AbstractDict{String};
@@ -9950,15 +10497,17 @@ certificate that is not in the ACTIVE state to reconnect.
 
  **Note:** The status value REGISTER_INACTIVE is deprecated and should not be used.
 """
-update_certificate(
+function update_certificate(
     certificateId, newStatus; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/certificates/$(certificateId)",
-    Dict{String,Any}("newStatus" => newStatus);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/certificates/$(certificateId)",
+        Dict{String,Any}("newStatus" => newStatus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_certificate(
     certificateId,
     newStatus,
@@ -9998,14 +10547,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"lambdaFunctionArn"`: The Lambda function ARN that's associated with the certificate
   provider.
 """
-update_certificate_provider(
+function update_certificate_provider(
     certificateProviderName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/certificate-providers/$(certificateProviderName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_certificate_provider(
     certificateProviderName,
     params::AbstractDict{String};
@@ -10036,15 +10587,17 @@ action.
   metric report. Can be updated.
 - `metric_name`:  The name of the custom metric. Cannot be updated.
 """
-update_custom_metric(
+function update_custom_metric(
     displayName, metricName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/custom-metric/$(metricName)",
-    Dict{String,Any}("displayName" => displayName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/custom-metric/$(metricName)",
+        Dict{String,Any}("displayName" => displayName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_custom_metric(
     displayName,
     metricName,
@@ -10080,14 +10633,17 @@ action.
   `TOPIC_FILTER` dimensions, this is a pattern used to match the MQTT topic (for example,
   "admin/#").
 """
-update_dimension(name, stringValues; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function update_dimension(
+    name, stringValues; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PATCH",
         "/dimensions/$(name)",
         Dict{String,Any}("stringValues" => stringValues);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_dimension(
     name,
     stringValues,
@@ -10130,14 +10686,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverCertificateConfig"`: The server certificate configuration.
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 """
-update_domain_configuration(
+function update_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PUT",
-    "/domainConfigurations/$(domainConfigurationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PUT",
+        "/domainConfigurations/$(domainConfigurationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_domain_configuration(
     domainConfigurationName,
     params::AbstractDict{String};
@@ -10182,15 +10740,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Currently one query version is supported: "2017-09-30". If not specified, the query
   version defaults to this value.
 """
-update_dynamic_thing_group(
+function update_dynamic_thing_group(
     thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/dynamic-thing-groups/$(thingGroupName)",
-    Dict{String,Any}("thingGroupProperties" => thingGroupProperties);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/dynamic-thing-groups/$(thingGroupName)",
+        Dict{String,Any}("thingGroupProperties" => thingGroupProperties);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_dynamic_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -10227,12 +10787,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"eventConfigurations"`: The new event configuration values.
 """
-update_event_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PATCH",
-    "/event-configurations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_event_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH",
+        "/event-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_event_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10273,15 +10835,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"unit"`: Used to support unit transformation such as milliseconds to seconds. The unit
   must be supported by [CW metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html).
 """
-update_fleet_metric(
+function update_fleet_metric(
     indexName, metricName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/fleet-metric/$(metricName)",
-    Dict{String,Any}("indexName" => indexName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/fleet-metric/$(metricName)",
+        Dict{String,Any}("indexName" => indexName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_fleet_metric(
     indexName,
     metricName,
@@ -10315,8 +10879,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingGroupIndexingConfiguration"`: Thing group indexing configuration.
 - `"thingIndexingConfiguration"`: Thing indexing configuration.
 """
-update_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("POST", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_indexing_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "POST", "/indexing/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_indexing_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10366,8 +10933,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the job execution status is not set to another terminal state before the time expires,
   it will be automatically set to `TIMED_OUT`.
 """
-update_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot("PATCH", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10402,13 +10972,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actionParams"`: Defines the type of action and the parameters for that action.
 - `"roleArn"`: The ARN of the IAM role that is used to apply the mitigation action.
 """
-update_mitigation_action(actionName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot(
+function update_mitigation_action(
+    actionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot(
         "PATCH",
         "/mitigationactions/actions/$(actionName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_mitigation_action(
     actionName,
     params::AbstractDict{String};
@@ -10455,13 +11028,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    **Note:** You cannot name a `defaultVersion` and set `unsetDefaultVersion` equal to
   `true` at the same time.
 """
-update_package(packageName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PATCH",
-    "/packages/$(packageName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_package(packageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_package(
     packageName,
     params::AbstractDict{String};
@@ -10498,13 +11073,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionUpdateByJobsConfig"`: Configuration to manage job's package version reporting.
   This updates the thing's reserved named shadow that the job targets.
 """
-update_package_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PATCH",
-    "/package-configuration",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_package_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH",
+        "/package-configuration",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_package_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -10552,15 +11129,17 @@ The combined size of all the attributes on a package version is limited to 3KB.
   required.
 - `"description"`: The package version description.
 """
-update_package_version(
+function update_package_version(
     packageName, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/packages/$(packageName)/versions/$(versionName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_package_version(
     packageName,
     versionName,
@@ -10605,14 +11184,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This IoT role grants permission to provision a device.
 - `"removePreProvisioningHook"`: Removes pre-provisioning hook template.
 """
-update_provisioning_template(
+function update_provisioning_template(
     templateName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/provisioning-templates/$(templateName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/provisioning-templates/$(templateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_provisioning_template(
     templateName,
     params::AbstractDict{String};
@@ -10650,12 +11231,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the role alias references.
 - `"roleArn"`: The role ARN.
 """
-update_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/role-aliases/$(roleAlias)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_role_alias(roleAlias; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/role-aliases/$(roleAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_role_alias(
     roleAlias,
     params::AbstractDict{String};
@@ -10702,14 +11285,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all checks, including those that are enabled or use `UpdateAccountAuditConfiguration` to
   select which checks are enabled.)
 """
-update_scheduled_audit(
+function update_scheduled_audit(
     scheduledAuditName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/audit/scheduledaudits/$(scheduledAuditName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/audit/scheduledaudits/$(scheduledAuditName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_scheduled_audit(
     scheduledAuditName,
     params::AbstractDict{String};
@@ -10769,14 +11354,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"metricsExportConfig"`: Specifies the MQTT topic and role ARN required for metric export.
 - `"securityProfileDescription"`: A description of the security profile.
 """
-update_security_profile(
+function update_security_profile(
     securityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/security-profiles/$(securityProfileName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/security-profiles/$(securityProfileName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_security_profile(
     securityProfileName,
     params::AbstractDict{String};
@@ -10813,12 +11400,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: An IAM role that allows the IoT service principal assumes to access your S3
   files.
 """
-update_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/streams/$(streamId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_stream(streamId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/streams/$(streamId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_stream(
     streamId,
     params::AbstractDict{String};
@@ -10856,7 +11445,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributePayload"`: A list of thing attributes, a JSON string containing name-value
   pairs. For example:
 
-   `{\"attributes\":{\"name1\":\"value2\"}}`
+   `{\\"attributes\\":{\\"name1\\":\\"value2\\"}}`
 
 This data is used to add new attributes or update existing attributes.
 - `"expectedVersion"`: The expected version of the thing record in the registry. If the
@@ -10866,12 +11455,14 @@ This data is used to add new attributes or update existing attributes.
   removed.
 - `"thingTypeName"`: The name of the thing type.
 """
-update_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PATCH",
-    "/things/$(thingName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_thing(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PATCH",
+        "/things/$(thingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_thing(
     thingName,
     params::AbstractDict{String};
@@ -10907,15 +11498,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expectedVersion"`: The expected version of the thing group. If this does not match the
   version of the thing group being updated, the update will fail.
 """
-update_thing_group(
+function update_thing_group(
     thingGroupName, thingGroupProperties; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/thing-groups/$(thingGroupName)",
-    Dict{String,Any}("thingGroupProperties" => thingGroupProperties);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/thing-groups/$(thingGroupName)",
+        Dict{String,Any}("thingGroupProperties" => thingGroupProperties);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_thing_group(
     thingGroupName,
     thingGroupProperties,
@@ -10958,12 +11551,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"thingGroupsToRemove"`: The groups from which the thing will be removed.
 - `"thingName"`: The thing whose group memberships will be updated.
 """
-update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=current_aws_config()) = iot(
-    "PUT",
-    "/thing-groups/updateThingGroupsForThing";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_thing_groups_for_thing(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot(
+        "PUT",
+        "/thing-groups/updateThingGroupsForThing";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_thing_groups_for_thing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -11004,15 +11599,17 @@ action.
   `UpdateTopicRuleDestination` causes a new confirmation challenge to be sent to your
   confirmation endpoint. </dd> </dl>
 """
-update_topic_rule_destination(
+function update_topic_rule_destination(
     arn, status; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "PATCH",
-    "/destinations",
-    Dict{String,Any}("arn" => arn, "status" => status);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "PATCH",
+        "/destinations",
+        Dict{String,Any}("arn" => arn, "status" => status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_topic_rule_destination(
     arn,
     status,
@@ -11044,15 +11641,17 @@ action.
 - `behaviors`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
 """
-validate_security_profile_behaviors(
+function validate_security_profile_behaviors(
     behaviors; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot(
-    "POST",
-    "/security-profile-behaviors/validate",
-    Dict{String,Any}("behaviors" => behaviors);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot(
+        "POST",
+        "/security-profile-behaviors/validate",
+        Dict{String,Any}("behaviors" => behaviors);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function validate_security_profile_behaviors(
     behaviors,
     params::AbstractDict{String};

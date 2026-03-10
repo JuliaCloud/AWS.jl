@@ -54,14 +54,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HTTP_PROXY or AWS_PROXY, respectively. Supported only for HTTP APIs.
 - `"version"`: A version identifier for the API.
 """
-create_api(name, protocolType; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_api(name, protocolType; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "POST",
         "/v2/apis",
         Dict{String,Any}("name" => name, "protocolType" => protocolType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_api(
     name,
     protocolType,
@@ -101,15 +102,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"apiMappingKey"`: The API mapping key.
 """
-create_api_mapping(
+function create_api_mapping(
     apiId, domainName, stage; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "POST",
-    "/v2/domainnames/$(domainName)/apimappings",
-    Dict{String,Any}("apiId" => apiId, "stage" => stage);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "POST",
+        "/v2/domainnames/$(domainName)/apimappings",
+        Dict{String,Any}("apiId" => apiId, "stage" => stage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_api_mapping(
     apiId,
     domainName,
@@ -178,9 +181,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizerUri"`: The authorizer's Uniform Resource Identifier (URI). For REQUEST
   authorizers, this must be a well-formed Lambda function URI, for example,
   arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-
-  2:\$(account_id):function:\$(lambda_function_name)/invocations. In general, the URI has
-  this form: arn:aws:apigateway:\$(region):lambda:path/\$(service_api)
-                 , where \$(region) is the same as the region hosting the Lambda function,
+  2:\\$(account_id):function:\\$(lambda_function_name)/invocations. In general, the URI has
+  this form: arn:aws:apigateway:\\$(region):lambda:path/\\$(service_api)
+                 , where \\$(region) is the same as the region hosting the Lambda function,
   path indicates that the remaining substring in the URI should be treated as the path to
   the resource, including the initial /. For Lambda functions, this is usually of the form
   /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
@@ -192,23 +195,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jwtConfiguration"`: Represents the configuration of a JWT authorizer. Required for the
   JWT authorizer type. Supported only for HTTP APIs.
 """
-create_authorizer(
+function create_authorizer(
     apiId,
     authorizerType,
     identitySource,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = apigatewayv2(
-    "POST",
-    "/v2/apis/$(apiId)/authorizers",
-    Dict{String,Any}(
-        "authorizerType" => authorizerType,
-        "identitySource" => identitySource,
-        "name" => name,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "POST",
+        "/v2/apis/$(apiId)/authorizers",
+        Dict{String,Any}(
+            "authorizerType" => authorizerType,
+            "identitySource" => identitySource,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_authorizer(
     apiId,
     authorizerType,
@@ -253,12 +258,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description for the deployment resource.
 - `"stageName"`: The name of the Stage resource for the Deployment resource to create.
 """
-create_deployment(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "POST",
-    "/v2/apis/$(apiId)/deployments";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_deployment(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "POST",
+        "/v2/apis/$(apiId)/deployments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_deployment(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -290,14 +297,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain name.
 - `"tags"`: The collection of tags associated with a domain name.
 """
-create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "POST",
         "/v2/domainnames",
         Dict{String,Any}("domainName" => domainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -403,11 +411,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter name and the associated value is a method request parameter value or static
   value that must be enclosed within single quotes and pre-encoded as required by the
   backend. The method request parameter value must match the pattern of
-  method.request.\$(location).\$(name)
+  method.request.\\$(location).\\$(name)
                  , where
-                    \$(location)
+                    \\$(location)
                   is querystring, path, or header; and
-                    \$(name)
+                    \\$(name)
                   must be a valid and unique method request parameter name.
 
   For HTTP API integrations with a specified integrationSubtype, request parameters are a
@@ -442,15 +450,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration, private integration traffic uses the HTTPS protocol. Supported only for
   HTTP APIs.
 """
-create_integration(
+function create_integration(
     apiId, integrationType; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "POST",
-    "/v2/apis/$(apiId)/integrations",
-    Dict{String,Any}("integrationType" => integrationType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "POST",
+        "/v2/apis/$(apiId)/integrations",
+        Dict{String,Any}("integrationType" => integrationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_integration(
     apiId,
     integrationType,
@@ -513,18 +523,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateSelectionExpression"`: The template selection expression for the integration
   response. Supported only for WebSocket APIs.
 """
-create_integration_response(
+function create_integration_response(
     apiId,
     integrationId,
     integrationResponseKey;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = apigatewayv2(
-    "POST",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses",
-    Dict{String,Any}("integrationResponseKey" => integrationResponseKey);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "POST",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses",
+        Dict{String,Any}("integrationResponseKey" => integrationResponseKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_integration_response(
     apiId,
     integrationId,
@@ -567,14 +579,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"contentType"`: The content-type for the model, for example, "application/json".
 - `"description"`: The description of the model.
 """
-create_model(apiId, name, schema; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_model(
+    apiId, name, schema; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "POST",
         "/v2/apis/$(apiId)/models",
         Dict{String,Any}("name" => name, "schema" => schema);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_model(
     apiId,
     name,
@@ -629,14 +644,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   route. Supported only for WebSocket APIs.
 - `"target"`: The target for the route.
 """
-create_route(apiId, routeKey; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_route(apiId, routeKey; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "POST",
         "/v2/apis/$(apiId)/routes",
         Dict{String,Any}("routeKey" => routeKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_route(
     apiId,
     routeKey,
@@ -675,15 +691,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseModels"`: The response models for the route response.
 - `"responseParameters"`: The route response parameters.
 """
-create_route_response(
+function create_route_response(
     apiId, routeId, routeResponseKey; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "POST",
-    "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses",
-    Dict{String,Any}("routeResponseKey" => routeResponseKey);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "POST",
+        "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses",
+        Dict{String,Any}("routeResponseKey" => routeResponseKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_route_response(
     apiId,
     routeId,
@@ -732,14 +750,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 - `"tags"`: The collection of tags. Each tag element is associated with a given resource.
 """
-create_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "POST",
         "/v2/apis/$(apiId)/stages",
         Dict{String,Any}("stageName" => stageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_stage(
     apiId,
     stageName,
@@ -775,14 +794,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityGroupIds"`: A list of security group IDs for the VPC link.
 - `"tags"`: A list of tags.
 """
-create_vpc_link(name, subnetIds; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function create_vpc_link(
+    name, subnetIds; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "POST",
         "/v2/vpclinks",
         Dict{String,Any}("name" => name, "subnetIds" => subnetIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_vpc_link(
     name,
     subnetIds,
@@ -815,14 +837,16 @@ its AccessLogSettings.
 - `stage_name`: The stage name. Stage names can only contain alphanumeric characters,
   hyphens, and underscores. Maximum length is 128 characters.
 """
-delete_access_log_settings(
+function delete_access_log_settings(
     apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_access_log_settings(
     apiId,
     stageName,
@@ -848,12 +872,14 @@ Deletes an Api resource.
 
 - `api_id`: The API identifier.
 """
-delete_api(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_api(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -877,14 +903,16 @@ Deletes an API mapping.
 - `api_mapping_id`: The API mapping identifier.
 - `domain_name`: The domain name.
 """
-delete_api_mapping(
+function delete_api_mapping(
     apiMappingId, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_api_mapping(
     apiMappingId,
     domainName,
@@ -911,13 +939,16 @@ Deletes an Authorizer.
 - `api_id`: The API identifier.
 - `authorizer_id`: The authorizer identifier.
 """
-delete_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_authorizer(
+    apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_authorizer(
     apiId,
     authorizerId,
@@ -943,13 +974,16 @@ Deletes a CORS configuration.
 
 - `api_id`: The API identifier.
 """
-delete_cors_configuration(apiId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_cors_configuration(
+    apiId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/cors";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cors_configuration(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -973,13 +1007,16 @@ Deletes a Deployment.
 - `api_id`: The API identifier.
 - `deployment_id`: The deployment ID.
 """
-delete_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_deployment(
+    apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_deployment(
     apiId,
     deploymentId,
@@ -1005,13 +1042,14 @@ Deletes a domain name.
 
 - `domain_name`: The domain name.
 """
-delete_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "DELETE",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -1037,14 +1075,16 @@ Deletes an Integration.
 - `api_id`: The API identifier.
 - `integration_id`: The integration ID.
 """
-delete_integration(
+function delete_integration(
     apiId, integrationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_integration(
     apiId,
     integrationId,
@@ -1072,17 +1112,19 @@ Deletes an IntegrationResponses.
 - `integration_id`: The integration ID.
 - `integration_response_id`: The integration response ID.
 """
-delete_integration_response(
+function delete_integration_response(
     apiId,
     integrationId,
     integrationResponseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_integration_response(
     apiId,
     integrationId,
@@ -1110,13 +1152,14 @@ Deletes a Model.
 - `api_id`: The API identifier.
 - `model_id`: The model ID.
 """
-delete_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_model(
     apiId,
     modelId,
@@ -1143,13 +1186,14 @@ Deletes a Route.
 - `api_id`: The API identifier.
 - `route_id`: The route ID.
 """
-delete_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_route(
     apiId,
     routeId,
@@ -1177,14 +1221,16 @@ Deletes a route request parameter. Supported only for WebSocket APIs.
 - `request_parameter_key`: The route request parameter key.
 - `route_id`: The route ID.
 """
-delete_route_request_parameter(
+function delete_route_request_parameter(
     apiId, requestParameterKey, routeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_route_request_parameter(
     apiId,
     requestParameterKey,
@@ -1213,14 +1259,16 @@ Deletes a RouteResponse.
 - `route_id`: The route ID.
 - `route_response_id`: The route response ID.
 """
-delete_route_response(
+function delete_route_response(
     apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_route_response(
     apiId,
     routeId,
@@ -1250,14 +1298,16 @@ Deletes the RouteSettings for a stage.
 - `stage_name`: The stage name. Stage names can only contain alphanumeric characters,
   hyphens, and underscores. Maximum length is 128 characters.
 """
-delete_route_settings(
+function delete_route_settings(
     apiId, routeKey, stageName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_route_settings(
     apiId,
     routeKey,
@@ -1286,13 +1336,14 @@ Deletes a Stage.
 - `stage_name`: The stage name. Stage names can only contain alphanumeric characters,
   hyphens, and underscores. Maximum length is 128 characters.
 """
-delete_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "DELETE",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_stage(
     apiId,
     stageName,
@@ -1318,13 +1369,14 @@ Deletes a VPC link.
 
 - `vpc_link_id`: The ID of the VPC link.
 """
-delete_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function delete_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "DELETE",
         "/v2/vpclinks/$(vpcLinkId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_vpc_link(
     vpcLinkId,
     params::AbstractDict{String};
@@ -1364,15 +1416,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stageName"`: The name of the API stage to export. If you don't specify this property, a
   representation of the latest API configuration is exported.
 """
-export_api(
+function export_api(
     apiId, outputType, specification; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/exports/$(specification)",
-    Dict{String,Any}("outputType" => outputType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/exports/$(specification)",
+        Dict{String,Any}("outputType" => outputType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function export_api(
     apiId,
     outputType,
@@ -1401,9 +1455,11 @@ Gets an Api resource.
 
 - `api_id`: The API identifier.
 """
-get_api(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_api(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1427,14 +1483,16 @@ Gets an API mapping.
 - `api_mapping_id`: The API mapping identifier.
 - `domain_name`: The domain name.
 """
-get_api_mapping(
+function get_api_mapping(
     apiMappingId, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "GET",
-    "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "GET",
+        "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_api_mapping(
     apiMappingId,
     domainName,
@@ -1468,13 +1526,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_api_mappings(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_api_mappings(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "GET",
         "/v2/domainnames/$(domainName)/apimappings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_api_mappings(
     domainName,
     params::AbstractDict{String};
@@ -1503,8 +1562,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_apis(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2("GET", "/v2/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_apis(; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/apis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1524,13 +1586,16 @@ Gets an Authorizer.
 - `api_id`: The API identifier.
 - `authorizer_id`: The authorizer identifier.
 """
-get_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_authorizer(
+    apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_authorizer(
     apiId,
     authorizerId,
@@ -1564,12 +1629,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_authorizers(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/authorizers";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_authorizers(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/authorizers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_authorizers(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1593,13 +1660,16 @@ Gets a Deployment.
 - `api_id`: The API identifier.
 - `deployment_id`: The deployment ID.
 """
-get_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_deployment(
+    apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_deployment(
     apiId,
     deploymentId,
@@ -1633,12 +1703,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_deployments(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/deployments";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_deployments(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/deployments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_deployments(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1661,13 +1733,14 @@ Gets a domain name.
 
 - `domain_name`: The domain name.
 """
-get_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "GET",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -1696,9 +1769,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET", "/v2/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1722,13 +1797,16 @@ Gets an Integration.
 - `api_id`: The API identifier.
 - `integration_id`: The integration ID.
 """
-get_integration(apiId, integrationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_integration(
+    apiId, integrationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/integrations/$(integrationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_integration(
     apiId,
     integrationId,
@@ -1756,17 +1834,19 @@ Gets an IntegrationResponses.
 - `integration_id`: The integration ID.
 - `integration_response_id`: The integration response ID.
 """
-get_integration_response(
+function get_integration_response(
     apiId,
     integrationId,
     integrationResponseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_integration_response(
     apiId,
     integrationId,
@@ -1802,14 +1882,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_integration_responses(
+function get_integration_responses(
     apiId, integrationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_integration_responses(
     apiId,
     integrationId,
@@ -1843,12 +1925,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_integrations(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/integrations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_integrations(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/integrations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_integrations(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1872,13 +1956,14 @@ Gets a Model.
 - `api_id`: The API identifier.
 - `model_id`: The model ID.
 """
-get_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_model(
     apiId,
     modelId,
@@ -1905,13 +1990,16 @@ Gets a model template.
 - `api_id`: The API identifier.
 - `model_id`: The model ID.
 """
-get_model_template(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_model_template(
+    apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/models/$(modelId)/template";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_model_template(
     apiId,
     modelId,
@@ -1945,12 +2033,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_models(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/models";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_models(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/models";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_models(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1974,13 +2064,14 @@ Gets a Route.
 - `api_id`: The API identifier.
 - `route_id`: The route ID.
 """
-get_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_route(
     apiId,
     routeId,
@@ -2008,14 +2099,16 @@ Gets a RouteResponse.
 - `route_id`: The route ID.
 - `route_response_id`: The route response ID.
 """
-get_route_response(
+function get_route_response(
     apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_route_response(
     apiId,
     routeId,
@@ -2051,13 +2144,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_route_responses(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_route_responses(
+    apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_route_responses(
     apiId,
     routeId,
@@ -2091,12 +2187,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_routes(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/routes";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_routes(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/routes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_routes(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2121,13 +2219,14 @@ Gets a Stage.
 - `stage_name`: The stage name. Stage names can only contain alphanumeric characters,
   hyphens, and underscores. Maximum length is 128 characters.
 """
-get_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function get_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "GET",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_stage(
     apiId,
     stageName,
@@ -2161,12 +2260,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_stages(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/apis/$(apiId)/stages";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_stages(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/apis/$(apiId)/stages";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_stages(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2189,12 +2290,14 @@ Gets a collection of Tag resources.
 
 - `resource-arn`: The resource ARN for the tag.
 """
-get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/tags/$(resource-arn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/tags/$(resource-arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -2219,12 +2322,14 @@ Gets a VPC link.
 
 - `vpc_link_id`: The ID of the VPC link.
 """
-get_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET",
-    "/v2/vpclinks/$(vpcLinkId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET",
+        "/v2/vpclinks/$(vpcLinkId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_vpc_link(
     vpcLinkId,
     params::AbstractDict{String};
@@ -2253,9 +2358,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next page of elements from this collection. Not valid for the last
   element of the collection.
 """
-get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "GET", "/v2/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "GET", "/v2/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_vpc_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2288,13 +2395,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"failOnWarnings"`: Specifies whether to rollback the API creation when a warning is
   encountered. By default, API creation continues if a warning is encountered.
 """
-import_api(body; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "PUT",
-    "/v2/apis",
-    Dict{String,Any}("body" => body);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function import_api(body; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "PUT",
+        "/v2/apis",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_api(
     body, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2328,14 +2437,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"failOnWarnings"`: Specifies whether to rollback the API creation when a warning is
   encountered. By default, API creation continues if a warning is encountered.
 """
-reimport_api(apiId, body; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function reimport_api(apiId, body; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PUT",
         "/v2/apis/$(apiId)",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function reimport_api(
     apiId,
     body,
@@ -2363,14 +2473,16 @@ Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
 - `stage_name`: The stage name. Stage names can contain only alphanumeric characters,
   hyphens, and underscores, or be \$default. Maximum length is 128 characters.
 """
-reset_authorizers_cache(
+function reset_authorizers_cache(
     apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "DELETE",
-    "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "DELETE",
+        "/v2/apis/$(apiId)/stages/$(stageName)/cache/authorizers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_authorizers_cache(
     apiId,
     stageName,
@@ -2402,13 +2514,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The collection of tags. Each tag element is associated with a given resource.
 """
-tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function tag_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "POST",
         "/v2/tags/$(resource-arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resource_arn,
     params::AbstractDict{String};
@@ -2434,14 +2547,17 @@ Deletes a Tag.
 - `resource-arn`: The resource ARN for the tag.
 - `tag_keys`: The Tag keys to delete
 """
-untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function untag_resource(
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "DELETE",
         "/v2/tags/$(resource-arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -2505,9 +2621,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can't remove it from an API. Supported only for HTTP APIs.
 - `"version"`: A version identifier for the API.
 """
-update_api(apiId; aws_config::AbstractAWSConfig=current_aws_config()) = apigatewayv2(
-    "PATCH", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function update_api(apiId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
+        "PATCH", "/v2/apis/$(apiId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_api(
     apiId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2539,15 +2657,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"apiMappingKey"`: The API mapping key.
 - `"stage"`: The API stage.
 """
-update_api_mapping(
+function update_api_mapping(
     apiId, apiMappingId, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "PATCH",
-    "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
-    Dict{String,Any}("apiId" => apiId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "PATCH",
+        "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)",
+        Dict{String,Any}("apiId" => apiId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_api_mapping(
     apiId,
     apiMappingId,
@@ -2596,9 +2716,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"authorizerUri"`: The authorizer's Uniform Resource Identifier (URI). For REQUEST
   authorizers, this must be a well-formed Lambda function URI, for example,
   arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-
-  2:\$(account_id):function:\$(lambda_function_name)/invocations. In general, the URI has
-  this form: arn:aws:apigateway:\$(region):lambda:path/\$(service_api)
-                 , where \$(region) is the same as the region hosting the Lambda function,
+  2:\\$(account_id):function:\\$(lambda_function_name)/invocations. In general, the URI has
+  this form: arn:aws:apigateway:\\$(region):lambda:path/\\$(service_api)
+                 , where \\$(region) is the same as the region hosting the Lambda function,
   path indicates that the remaining substring in the URI should be treated as the path to
   the resource, including the initial /. For Lambda functions, this is usually of the form
   /2015-03-31/functions/[FunctionARN]/invocations. Supported only for REQUEST authorizers.
@@ -2629,13 +2749,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   JWT authorizer type. Supported only for HTTP APIs.
 - `"name"`: The name of the authorizer.
 """
-update_authorizer(apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_authorizer(
+    apiId, authorizerId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "PATCH",
         "/v2/apis/$(apiId)/authorizers/$(authorizerId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_authorizer(
     apiId,
     authorizerId,
@@ -2668,13 +2791,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The description for the deployment resource.
 """
-update_deployment(apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_deployment(
+    apiId, deploymentId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return apigatewayv2(
         "PATCH",
         "/v2/apis/$(apiId)/deployments/$(deploymentId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_deployment(
     apiId,
     deploymentId,
@@ -2708,13 +2834,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"mutualTlsAuthentication"`: The mutual TLS authentication configuration for a custom
   domain name.
 """
-update_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PATCH",
         "/v2/domainnames/$(domainName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -2819,11 +2946,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter name and the associated value is a method request parameter value or static
   value that must be enclosed within single quotes and pre-encoded as required by the
   backend. The method request parameter value must match the pattern of
-  method.request.\$(location).\$(name)
+  method.request.\\$(location).\\$(name)
             , where
-              \$(location)
+              \\$(location)
              is querystring, path, or header; and
-              \$(name)
+              \\$(name)
              must be a valid and unique method request parameter name.
 
   For HTTP API integrations with a specified integrationSubtype, request parameters are a
@@ -2858,14 +2985,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration, private integration traffic uses the HTTPS protocol. Supported only for
   HTTP APIs.
 """
-update_integration(
+function update_integration(
     apiId, integrationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "PATCH",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "PATCH",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_integration(
     apiId,
     integrationId,
@@ -2914,14 +3043,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the method response from the backend. The key is a method response header parameter name
   and the mapped value is an integration response header value, a static value enclosed
   within a pair of single quotes, or a JSON expression from the integration response body.
-  The mapping key must match the pattern of method.response.header.\$(name)
+  The mapping key must match the pattern of method.response.header.\\$(name)
                  , where name is a valid and unique header name. The mapped non-static
-  value must match the pattern of integration.response.header.\$(name)
-                  or integration.response.body.\$(JSON-expression)
+  value must match the pattern of integration.response.header.\\$(name)
+                  or integration.response.body.\\$(JSON-expression)
                  , where
-                    \$(name)
+                    \\$(name)
                   is a valid and unique response header name and
-                    \$(JSON-expression)
+                    \\$(JSON-expression)
                   is a valid JSON expression without the \$ prefix.
 - `"responseTemplates"`: The collection of response templates for the integration response
   as a string-to-string map of key-value pairs. Response templates are represented as a
@@ -2929,17 +3058,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateSelectionExpression"`: The template selection expression for the integration
   response. Supported only for WebSocket APIs.
 """
-update_integration_response(
+function update_integration_response(
     apiId,
     integrationId,
     integrationResponseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = apigatewayv2(
-    "PATCH",
-    "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "PATCH",
+        "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_integration_response(
     apiId,
     integrationId,
@@ -2977,13 +3108,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The schema for the model. For application/json models, this should be JSON
   schema draft 4 model.
 """
-update_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_model(apiId, modelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PATCH",
         "/v2/apis/$(apiId)/models/$(modelId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_model(
     apiId,
     modelId,
@@ -3036,13 +3168,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   route. Supported only for WebSocket APIs.
 - `"target"`: The target for the route.
 """
-update_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_route(apiId, routeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PATCH",
         "/v2/apis/$(apiId)/routes/$(routeId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_route(
     apiId,
     routeId,
@@ -3080,14 +3213,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseParameters"`: The route response parameters.
 - `"routeResponseKey"`: The route response key.
 """
-update_route_response(
+function update_route_response(
     apiId, routeId, routeResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = apigatewayv2(
-    "PATCH",
-    "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return apigatewayv2(
+        "PATCH",
+        "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_route_response(
     apiId,
     routeId,
@@ -3132,13 +3267,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stageVariables"`: A map that defines the stage variables for a Stage. Variable names
   can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+.
 """
-update_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_stage(apiId, stageName; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PATCH",
         "/v2/apis/$(apiId)/stages/$(stageName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_stage(
     apiId,
     stageName,
@@ -3170,13 +3306,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"name"`: The name of the VPC link.
 """
-update_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    apigatewayv2(
+function update_vpc_link(vpcLinkId; aws_config::AbstractAWSConfig=current_aws_config())
+    return apigatewayv2(
         "PATCH",
         "/v2/vpclinks/$(vpcLinkId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_vpc_link(
     vpcLinkId,
     params::AbstractDict{String};

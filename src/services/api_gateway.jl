@@ -26,8 +26,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 - `"value"`: Specifies a value of the API key.
 """
-create_api_key(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("POST", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_api_key(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "POST", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_api_key(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,15 +104,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idp:{region}:{account_id}:userpool/{user_pool_id}`. For a `TOKEN` or `REQUEST`
   authorizer, this is not defined.
 """
-create_authorizer(
+function create_authorizer(
     name, restapi_id, type; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/authorizers",
-    Dict{String,Any}("name" => name, "type" => type);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/authorizers",
+        Dict{String,Any}("name" => name, "type" => type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_authorizer(
     name,
     restapi_id,
@@ -151,15 +156,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   '(none)' if you want callers to explicitly specify the stage name after any base path
   name.
 """
-create_base_path_mapping(
+function create_base_path_mapping(
     domain_name, restApiId; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/domainnames/$(domain_name)/basepathmappings",
-    Dict{String,Any}("restApiId" => restApiId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/domainnames/$(domain_name)/basepathmappings",
+        Dict{String,Any}("restApiId" => restApiId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_base_path_mapping(
     domain_name,
     restApiId,
@@ -206,13 +213,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with the new deployment. Variable names can have alphanumeric and underscore
   characters, and the values must match `[A-Za-z0-9-._~:/?#&amp;=,]+`.
 """
-create_deployment(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function create_deployment(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "POST",
         "/restapis/$(restapi_id)/deployments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_deployment(
     restapi_id,
     params::AbstractDict{String};
@@ -242,15 +250,17 @@ Creates a documentation part.
   and, hence, published.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-create_documentation_part(
+function create_documentation_part(
     location, properties, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/documentation/parts",
-    Dict{String,Any}("location" => location, "properties" => properties);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/documentation/parts",
+        Dict{String,Any}("location" => location, "properties" => properties);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_documentation_part(
     location,
     properties,
@@ -291,15 +301,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description about the new documentation snapshot.
 - `"stageName"`: The stage name to be associated with the new documentation snapshot.
 """
-create_documentation_version(
+function create_documentation_version(
     documentationVersion, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/documentation/versions",
-    Dict{String,Any}("documentationVersion" => documentationVersion);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/documentation/versions",
+        Dict{String,Any}("documentationVersion" => documentationVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_documentation_version(
     documentationVersion,
     restapi_id,
@@ -358,14 +370,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DomainName. The valid values are `TLS_1_0` and `TLS_1_2`.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
-create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function create_domain_name(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "POST",
         "/domainnames",
         Dict{String,Any}("domainName" => domainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_domain_name(
     domainName,
     params::AbstractDict{String};
@@ -402,15 +415,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schema"`: The schema for the model. For `application/json` models, this should be JSON
   schema draft 4 model. The maximum size of the model is 400 KB.
 """
-create_model(
+function create_model(
     contentType, name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/models",
-    Dict{String,Any}("contentType" => contentType, "name" => name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/models",
+        Dict{String,Any}("contentType" => contentType, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_model(
     contentType,
     name,
@@ -453,13 +468,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"validateRequestParameters"`: A Boolean flag to indicate whether to validate request
   parameters, `true`, or not `false`.
 """
-create_request_validator(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function create_request_validator(
+    restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "POST",
         "/restapis/$(restapi_id)/requestvalidators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_request_validator(
     restapi_id,
     params::AbstractDict{String};
@@ -486,15 +504,17 @@ Creates a Resource resource.
 - `path_part`: The last path segment for this resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-create_resource(
+function create_resource(
     parent_id, pathPart, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/resources/$(parent_id)",
-    Dict{String,Any}("pathPart" => pathPart);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/resources/$(parent_id)",
+        Dict{String,Any}("pathPart" => pathPart);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_resource(
     parent_id,
     pathPart,
@@ -551,13 +571,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 - `"version"`: A version identifier for the API.
 """
-create_rest_api(name; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "POST",
-    "/restapis",
-    Dict{String,Any}("name" => name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_rest_api(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "POST",
+        "/restapis",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_rest_api(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -599,15 +621,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Variable names can have alphanumeric and underscore characters, and the values must match
   `[A-Za-z0-9-._~:/?#&amp;=,]+`.
 """
-create_stage(
+function create_stage(
     deploymentId, restapi_id, stageName; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/stages",
-    Dict{String,Any}("deploymentId" => deploymentId, "stageName" => stageName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/stages",
+        Dict{String,Any}("deploymentId" => deploymentId, "stageName" => stageName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_stage(
     deploymentId,
     restapi_id,
@@ -651,13 +675,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 - `"throttle"`: The throttling limits of the usage plan.
 """
-create_usage_plan(name; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "POST",
-    "/usageplans",
-    Dict{String,Any}("name" => name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_usage_plan(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "POST",
+        "/usageplans",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_usage_plan(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -683,15 +709,17 @@ Creates a usage plan key for adding an existing API key to a usage plan.
 - `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
   the to-be-created UsagePlanKey resource representing a plan customer.
 """
-create_usage_plan_key(
+function create_usage_plan_key(
     keyId, keyType, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/usageplans/$(usageplanId)/keys",
-    Dict{String,Any}("keyId" => keyId, "keyType" => keyType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/usageplans/$(usageplanId)/keys",
+        Dict{String,Any}("keyId" => keyId, "keyType" => keyType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_usage_plan_key(
     keyId,
     keyType,
@@ -734,14 +762,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the VPC link.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
-create_vpc_link(name, targetArns; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function create_vpc_link(
+    name, targetArns; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "POST",
         "/vpclinks",
         Dict{String,Any}("name" => name, "targetArns" => targetArns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_vpc_link(
     name,
     targetArns,
@@ -771,12 +802,14 @@ Deletes the ApiKey resource.
 
 - `api__key`: The identifier of the ApiKey resource to be deleted.
 """
-delete_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "DELETE",
-    "/apikeys/$(api_Key)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "DELETE",
+        "/apikeys/$(api_Key)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -802,14 +835,16 @@ Deletes an existing Authorizer resource.
 - `authorizer_id`: The identifier of the Authorizer resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_authorizer(
+function delete_authorizer(
     authorizer_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_authorizer(
     authorizer_id,
     restapi_id,
@@ -838,14 +873,16 @@ Deletes the BasePathMapping resource.
 To specify an empty base path, set this parameter to `'(none)'`.
 - `domain_name`: The domain name of the BasePathMapping resource to delete.
 """
-delete_base_path_mapping(
+function delete_base_path_mapping(
     base_path, domain_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_base_path_mapping(
     base_path,
     domain_name,
@@ -871,14 +908,16 @@ Deletes the ClientCertificate resource.
 
 - `clientcertificate_id`: The identifier of the ClientCertificate resource to be deleted.
 """
-delete_client_certificate(
+function delete_client_certificate(
     clientcertificate_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/clientcertificates/$(clientcertificate_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/clientcertificates/$(clientcertificate_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -905,14 +944,16 @@ Stage resources associated with it.
 - `deployment_id`: The identifier of the Deployment resource to delete.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_deployment(
+function delete_deployment(
     deployment_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/deployments/$(deployment_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/deployments/$(deployment_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_deployment(
     deployment_id,
     restapi_id,
@@ -939,14 +980,16 @@ Deletes a documentation part
 - `part_id`: The identifier of the to-be-deleted documentation part.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_documentation_part(
+function delete_documentation_part(
     part_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_documentation_part(
     part_id,
     restapi_id,
@@ -973,14 +1016,16 @@ Deletes a documentation version.
 - `doc_version`: The version identifier of a to-be-deleted documentation snapshot.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_documentation_version(
+function delete_documentation_version(
     doc_version, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_documentation_version(
     doc_version,
     restapi_id,
@@ -1006,13 +1051,14 @@ Deletes the DomainName resource.
 
 - `domain_name`: The name of the DomainName resource to be deleted.
 """
-delete_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "DELETE",
         "/domainnames/$(domain_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -1039,14 +1085,16 @@ RestApi and resets it with the default settings.
 - `response_type`: The response type of the associated GatewayResponse.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_gateway_response(
+function delete_gateway_response(
     response_type, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_gateway_response(
     response_type,
     restapi_id,
@@ -1074,14 +1122,16 @@ Represents a delete integration.
 - `resource_id`: Specifies a delete integration request's resource identifier.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_integration(
+function delete_integration(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_integration(
     http_method,
     resource_id,
@@ -1111,18 +1161,20 @@ Represents a delete integration response.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `status_code`: Specifies a delete integration response request's status code.
 """
-delete_integration_response(
+function delete_integration_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_integration_response(
     http_method,
     resource_id,
@@ -1152,14 +1204,16 @@ Deletes an existing Method resource.
 - `resource_id`: The Resource identifier for the Method resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_method(
+function delete_method(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_method(
     http_method,
     resource_id,
@@ -1189,18 +1243,20 @@ Deletes an existing MethodResponse resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `status_code`: The status code identifier for the MethodResponse resource.
 """
-delete_method_response(
+function delete_method_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_method_response(
     http_method,
     resource_id,
@@ -1229,13 +1285,16 @@ Deletes a model.
 - `model_name`: The name of the model to delete.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_model(model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_model(
+    model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "DELETE",
         "/restapis/$(restapi_id)/models/$(model_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_model(
     model_name,
     restapi_id,
@@ -1262,14 +1321,16 @@ Deletes a RequestValidator of a given RestApi.
 - `requestvalidator_id`: The identifier of the RequestValidator to be deleted.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_request_validator(
+function delete_request_validator(
     requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -1296,14 +1357,16 @@ Deletes a Resource resource.
 - `resource_id`: The identifier of the Resource resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_resource(
+function delete_resource(
     resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/resources/$(resource_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/resources/$(resource_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_resource(
     resource_id,
     restapi_id,
@@ -1329,13 +1392,14 @@ Deletes the specified API.
 
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "DELETE",
         "/restapis/$(restapi_id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -1361,13 +1425,16 @@ Deletes a Stage resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `stage_name`: The name of the Stage resource to delete.
 """
-delete_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_stage(
+    restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "DELETE",
         "/restapis/$(restapi_id)/stages/$(stage_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_stage(
     restapi_id,
     stage_name,
@@ -1393,13 +1460,14 @@ Deletes a usage plan of a given plan Id.
 
 - `usageplan_id`: The Id of the to-be-deleted usage plan.
 """
-delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "DELETE",
         "/usageplans/$(usageplanId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -1426,14 +1494,16 @@ Deletes a usage plan key and remove the underlying API key from the associated u
 - `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
   the to-be-deleted UsagePlanKey resource representing a plan customer.
 """
-delete_usage_plan_key(
+function delete_usage_plan_key(
     keyId, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/usageplans/$(usageplanId)/keys/$(keyId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/usageplans/$(usageplanId)/keys/$(keyId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_usage_plan_key(
     keyId,
     usageplanId,
@@ -1460,13 +1530,14 @@ Deletes an existing VpcLink of a specified identifier.
 - `vpclink_id`: The identifier of the VpcLink. It is used in an Integration to reference
   this VpcLink.
 """
-delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function delete_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "DELETE",
         "/vpclinks/$(vpclink_id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -1492,14 +1563,16 @@ Flushes all authorizer cache entries on a stage.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `stage_name`: The name of the stage to flush.
 """
-flush_stage_authorizers_cache(
+function flush_stage_authorizers_cache(
     restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function flush_stage_authorizers_cache(
     restapi_id,
     stage_name,
@@ -1526,14 +1599,16 @@ Flushes a stage's cache.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `stage_name`: The name of the stage to flush its cache.
 """
-flush_stage_cache(
+function flush_stage_cache(
     restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "DELETE",
-    "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "DELETE",
+        "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function flush_stage_cache(
     restapi_id,
     stage_name,
@@ -1562,13 +1637,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the ClientCertificate.
 - `"tags"`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
-generate_client_certificate(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function generate_client_certificate(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "POST",
         "/clientcertificates";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function generate_client_certificate(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1587,8 +1663,11 @@ end
 
 Gets information about the current Account resource.
 """
-get_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("GET", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_account(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1614,9 +1693,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeValue"`: A boolean flag to specify whether (`true`) or not (`false`) the result
   contains the key value.
 """
-get_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET", "/apikeys/$(api_Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/apikeys/$(api_Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -1650,8 +1731,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of queried API keys.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_api_keys(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("GET", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_api_keys(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/apikeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_api_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1671,14 +1755,16 @@ Describe an existing Authorizer resource.
 - `authorizer_id`: The identifier of the Authorizer resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_authorizer(
+function get_authorizer(
     authorizer_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_authorizer(
     authorizer_id,
     restapi_id,
@@ -1712,13 +1798,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_authorizers(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_authorizers(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/authorizers";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_authorizers(
     restapi_id,
     params::AbstractDict{String};
@@ -1747,14 +1834,16 @@ Describe a BasePathMapping resource.
   domain name.
 - `domain_name`: The domain name of the BasePathMapping resource to be described.
 """
-get_base_path_mapping(
+function get_base_path_mapping(
     base_path, domain_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_base_path_mapping(
     base_path,
     domain_name,
@@ -1788,13 +1877,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_base_path_mappings(domain_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_base_path_mappings(
+    domain_name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/domainnames/$(domain_name)/basepathmappings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_base_path_mappings(
     domain_name,
     params::AbstractDict{String};
@@ -1819,14 +1911,16 @@ Gets information about the current ClientCertificate resource.
 
 - `clientcertificate_id`: The identifier of the ClientCertificate resource to be described.
 """
-get_client_certificate(
+function get_client_certificate(
     clientcertificate_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/clientcertificates/$(clientcertificate_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/clientcertificates/$(clientcertificate_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -1855,9 +1949,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_client_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET", "/clientcertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_client_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/clientcertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_client_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1894,14 +1990,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter value must be a single-valued list containing only the `"apisummary"` string.
   For example, `GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
 """
-get_deployment(
+function get_deployment(
     deployment_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/deployments/$(deployment_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/deployments/$(deployment_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_deployment(
     deployment_id,
     restapi_id,
@@ -1935,13 +2033,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_deployments(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_deployments(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/deployments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_deployments(
     restapi_id,
     params::AbstractDict{String};
@@ -1967,14 +2066,16 @@ Gets a documentation part.
 - `part_id`: The string identifier of the associated RestApi.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_documentation_part(
+function get_documentation_part(
     part_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_documentation_part(
     part_id,
     restapi_id,
@@ -2014,13 +2115,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: The current pagination position in the paged result set.
 - `"type"`: The type of API entities of the to-be-retrieved documentation parts.
 """
-get_documentation_parts(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_documentation_parts(
+    restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/documentation/parts";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_documentation_parts(
     restapi_id,
     params::AbstractDict{String};
@@ -2046,14 +2150,16 @@ Gets a documentation version.
 - `doc_version`: The version identifier of the to-be-retrieved documentation snapshot.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_documentation_version(
+function get_documentation_version(
     doc_version, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_documentation_version(
     doc_version,
     restapi_id,
@@ -2087,13 +2193,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_documentation_versions(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_documentation_versions(
+    restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/documentation/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_documentation_versions(
     restapi_id,
     params::AbstractDict{String};
@@ -2119,13 +2228,14 @@ called.
 
 - `domain_name`: The name of the DomainName resource.
 """
-get_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "GET",
         "/domainnames/$(domain_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -2154,9 +2264,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET", "/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/domainnames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2197,14 +2309,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   authorizer extensions. `postman` will export the API with Postman extensions, allowing
   for import to the Postman tool
 """
-get_export(
+function get_export(
     export_type, restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_export(
     export_type,
     restapi_id,
@@ -2232,14 +2346,16 @@ Gets a GatewayResponse of a specified response type on the given RestApi.
 - `response_type`: The response type of the associated GatewayResponse.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_gateway_response(
+function get_gateway_response(
     response_type, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_gateway_response(
     response_type,
     restapi_id,
@@ -2278,13 +2394,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   GatewayResponse collection does not support pagination and the position does not apply
   here.
 """
-get_gateway_responses(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_gateway_responses(
+    restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/gatewayresponses";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_gateway_responses(
     restapi_id,
     params::AbstractDict{String};
@@ -2311,14 +2430,16 @@ Get the integration settings.
 - `resource_id`: Specifies a get integration request's resource identifier
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_integration(
+function get_integration(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_integration(
     http_method,
     resource_id,
@@ -2348,18 +2469,20 @@ Represents a get integration response.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `status_code`: Specifies a get integration response request's status code.
 """
-get_integration_response(
+function get_integration_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_integration_response(
     http_method,
     resource_id,
@@ -2389,14 +2512,16 @@ Describe an existing Method resource.
 - `resource_id`: The Resource identifier for the Method resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_method(
+function get_method(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_method(
     http_method,
     resource_id,
@@ -2426,18 +2551,20 @@ Describes a MethodResponse resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `status_code`: The status code for the MethodResponse resource.
 """
-get_method_response(
+function get_method_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_method_response(
     http_method,
     resource_id,
@@ -2473,13 +2600,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"flatten"`: A query parameter of a Boolean value to resolve (`true`) all external model
   references and returns a flattened model schema or not (`false`) The default is `false`.
 """
-get_model(model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_model(
+    model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/models/$(model_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_model(
     model_name,
     restapi_id,
@@ -2507,14 +2637,16 @@ structure of a model.
 - `model_name`: The name of the model for which to generate a template.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_model_template(
+function get_model_template(
     model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/models/$(model_name)/default_template";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/models/$(model_name)/default_template";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_model_template(
     model_name,
     restapi_id,
@@ -2548,12 +2680,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_models(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/models";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_models(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/models";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_models(
     restapi_id,
     params::AbstractDict{String};
@@ -2579,14 +2713,16 @@ Gets a RequestValidator of a given RestApi.
 - `requestvalidator_id`: The identifier of the RequestValidator to be retrieved.
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_request_validator(
+function get_request_validator(
     requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -2620,13 +2756,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_request_validators(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_request_validators(
+    restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/requestvalidators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_request_validators(
     restapi_id,
     params::AbstractDict{String};
@@ -2663,13 +2802,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `"methods"` string. For example, `GET
   /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
 """
-get_resource(resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_resource(
+    resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/resources/$(resource_id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource(
     resource_id,
     restapi_id,
@@ -2709,12 +2851,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_resources(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/resources";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_resources(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_resources(
     restapi_id,
     params::AbstractDict{String};
@@ -2739,12 +2883,14 @@ Lists the RestApi resource in the collection.
 
 - `restapi_id`: The string identifier of the associated RestApi.
 """
-get_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -2773,8 +2919,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_rest_apis(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("GET", "/restapis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_rest_apis(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/restapis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_rest_apis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2806,14 +2955,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `artifactId`, `artifactVersion`, and `invokerPackage` are required. For `sdkType` of
   `java`, parameters named `serviceName` and `javaPackageName` are required.
 """
-get_sdk(
+function get_sdk(
     restapi_id, sdk_type, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sdk(
     restapi_id,
     sdk_type,
@@ -2840,12 +2991,14 @@ Gets an SDK type.
 
 - `sdktype_id`: The identifier of the queried SdkType instance.
 """
-get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/sdktypes/$(sdktype_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_sdk_type(sdktype_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/sdktypes/$(sdktype_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sdk_type(
     sdktype_id,
     params::AbstractDict{String};
@@ -2874,8 +3027,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_sdk_types(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("GET", "/sdktypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_sdk_types(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/sdktypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_sdk_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2895,13 +3051,16 @@ Gets information about a Stage resource.
 - `restapi_id`: The string identifier of the associated RestApi.
 - `stage_name`: The name of the Stage resource to get information about.
 """
-get_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_stage(
+    restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/restapis/$(restapi_id)/stages/$(stage_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_stage(
     restapi_id,
     stage_name,
@@ -2933,12 +3092,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"deploymentId"`: The stages' deployment identifiers.
 """
-get_stages(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/restapis/$(restapi_id)/stages";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_stages(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/restapis/$(restapi_id)/stages";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_stages(
     restapi_id,
     params::AbstractDict{String};
@@ -2972,12 +3133,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"position"`: (Not currently supported) The current pagination position in the paged
   result set.
 """
-get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/tags/$(resource_arn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_tags(resource_arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/tags/$(resource_arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tags(
     resource_arn,
     params::AbstractDict{String};
@@ -3013,15 +3176,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_usage(
+function get_usage(
     endDate, startDate, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "GET",
-    "/usageplans/$(usageplanId)/usage",
-    Dict{String,Any}("endDate" => endDate, "startDate" => startDate);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "GET",
+        "/usageplans/$(usageplanId)/usage",
+        Dict{String,Any}("endDate" => endDate, "startDate" => startDate);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_usage(
     endDate,
     startDate,
@@ -3054,13 +3219,14 @@ Gets a usage plan of a given plan identifier.
 
 - `usageplan_id`: The identifier of the UsagePlan resource to be retrieved.
 """
-get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "GET",
         "/usageplans/$(usageplanId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -3088,13 +3254,16 @@ Gets a usage plan key of a given key identifier.
 - `usageplan_id`: The Id of the UsagePlan resource representing the usage plan containing
   the to-be-retrieved UsagePlanKey resource representing a plan customer.
 """
-get_usage_plan_key(keyId, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_usage_plan_key(
+    keyId, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/usageplans/$(usageplanId)/keys/$(keyId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_usage_plan_key(
     keyId,
     usageplanId,
@@ -3130,13 +3299,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: A query parameter specifying the name of the to-be-returned usage plan keys.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_usage_plan_keys(usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function get_usage_plan_keys(
+    usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "GET",
         "/usageplans/$(usageplanId)/keys";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_usage_plan_keys(
     usageplanId,
     params::AbstractDict{String};
@@ -3166,9 +3338,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_usage_plans(; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET", "/usageplans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_usage_plans(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/usageplans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_usage_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3188,12 +3362,14 @@ Gets a specified VPC link under the caller's account in a region.
 - `vpclink_id`: The identifier of the VpcLink. It is used in an Integration to reference
   this VpcLink.
 """
-get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "GET",
-    "/vpclinks/$(vpclink_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET",
+        "/vpclinks/$(vpclink_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_vpc_link(
     vpclink_id,
     params::AbstractDict{String};
@@ -3222,8 +3398,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the maximum value is 500.
 - `"position"`: The current pagination position in the paged result set.
 """
-get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("GET", "/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_vpc_links(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "GET", "/vpclinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_vpc_links(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3252,14 +3431,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"failonwarnings"`: A query parameter to indicate whether to rollback ApiKey importation
   (`true`) or not (`false`) when error is encountered.
 """
-import_api_keys(body, format; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function import_api_keys(body, format; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "POST",
         "/apikeys?mode=import",
         Dict{String,Any}("body" => body, "format" => format);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function import_api_keys(
     body,
     format,
@@ -3300,15 +3480,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DocumentationParts definition or to merge (`merge`) the new definition into the existing
   one. The default value is `merge`.
 """
-import_documentation_parts(
+function import_documentation_parts(
     body, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/documentation/parts",
-    Dict{String,Any}("body" => body);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/documentation/parts",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_documentation_parts(
     body,
     restapi_id,
@@ -3357,13 +3539,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    To handle imported `basepath`, set `parameters` as `basepath=ignore`, `basepath=prepend`
   or `basepath=split`.
 """
-import_rest_api(body; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "POST",
-    "/restapis?mode=import",
-    Dict{String,Any}("body" => body);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function import_rest_api(body; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "POST",
+        "/restapis?mode=import",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_rest_api(
     body, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3398,14 +3582,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   map of key-value pairs.
 - `"statusCode"`: The HTTP status code of the GatewayResponse.
 """
-put_gateway_response(
+function put_gateway_response(
     response_type, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_gateway_response(
     response_type,
     restapi_id,
@@ -3497,19 +3683,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key}` or `arn:aws:apigateway:us-west-
   2:s3:path/{bucket}/{key}`.
 """
-put_integration(
+function put_integration(
     http_method,
     resource_id,
     restapi_id,
     type;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration",
-    Dict{String,Any}("type" => type);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration",
+        Dict{String,Any}("type" => type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_integration(
     http_method,
     resource_id,
@@ -3563,18 +3751,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"responseTemplates"`: Specifies a put integration response's templates.
 - `"selectionPattern"`: Specifies the selection pattern of a put integration response.
 """
-put_integration_response(
+function put_integration_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_integration_response(
     http_method,
     resource_id,
@@ -3639,19 +3829,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"requestValidatorId"`: The identifier of a RequestValidator for validating the method
   request.
 """
-put_method(
+function put_method(
     authorizationType,
     http_method,
     resource_id,
     restapi_id;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)",
-    Dict{String,Any}("authorizationType" => authorizationType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)",
+        Dict{String,Any}("authorizationType" => authorizationType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_method(
     authorizationType,
     http_method,
@@ -3705,18 +3897,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   payload in the form of `integration.response.body.{JSON-expression}`, where `JSON-
   expression` is a valid JSON expression without the `\$` prefix.)
 """
-put_method_response(
+function put_method_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PUT",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PUT",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_method_response(
     http_method,
     resource_id,
@@ -3762,14 +3956,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value, as in the AWS CLI command of `aws apigateway import-rest-api --parameters
   ignore=documentation --body 'file:///path/to/imported-api-body.json'`.
 """
-put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function put_rest_api(body, restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "PUT",
         "/restapis/$(restapi_id)",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_rest_api(
     body,
     restapi_id,
@@ -3796,14 +3991,17 @@ Adds or updates a tag on a given resource.
 - `resource_arn`: The ARN of a resource that can be tagged.
 - `tags`: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with `aws:`. The tag value can be up to 256 characters.
 """
-tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function tag_resource(
+    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "PUT",
         "/tags/$(resource_arn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resource_arn,
     tags,
@@ -3847,14 +4045,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
-test_invoke_authorizer(
+function test_invoke_authorizer(
     authorizer_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_invoke_authorizer(
     authorizer_id,
     restapi_id,
@@ -3899,14 +4099,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stageVariables"`: A key-value map of stage variables to simulate an invocation on a
   deployed Stage.
 """
-test_invoke_method(
+function test_invoke_method(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "POST",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "POST",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_invoke_method(
     http_method,
     resource_id,
@@ -3934,14 +4136,17 @@ Removes a tag from a given resource.
 - `resource_arn`: The ARN of a resource that can be tagged.
 - `tag_keys`: The Tag keys to delete.
 """
-untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function untag_resource(
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "DELETE",
         "/tags/$(resource_arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resource_arn,
     tagKeys,
@@ -3969,8 +4174,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway("PATCH", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_account(; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "PATCH", "/account"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3995,12 +4203,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config()) = api_gateway(
-    "PATCH",
-    "/apikeys/$(api_Key)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_api_key(api_Key; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
+        "PATCH",
+        "/apikeys/$(api_Key)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_api_key(
     api_Key,
     params::AbstractDict{String};
@@ -4032,14 +4242,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_authorizer(
+function update_authorizer(
     authorizer_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/authorizers/$(authorizer_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_authorizer(
     authorizer_id,
     restapi_id,
@@ -4074,14 +4286,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_base_path_mapping(
+function update_base_path_mapping(
     base_path, domain_name; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/domainnames/$(domain_name)/basepathmappings/$(base_path)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_base_path_mapping(
     base_path,
     domain_name,
@@ -4113,14 +4327,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_client_certificate(
+function update_client_certificate(
     clientcertificate_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/clientcertificates/$(clientcertificate_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/clientcertificates/$(clientcertificate_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_client_certificate(
     clientcertificate_id,
     params::AbstractDict{String};
@@ -4153,14 +4369,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_deployment(
+function update_deployment(
     deployment_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/deployments/$(deployment_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/deployments/$(deployment_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_deployment(
     deployment_id,
     restapi_id,
@@ -4193,14 +4411,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_documentation_part(
+function update_documentation_part(
     part_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/documentation/parts/$(part_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_documentation_part(
     part_id,
     restapi_id,
@@ -4233,14 +4453,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_documentation_version(
+function update_documentation_version(
     doc_version, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/documentation/versions/$(doc_version)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_documentation_version(
     doc_version,
     restapi_id,
@@ -4272,13 +4494,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_domain_name(domain_name; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "PATCH",
         "/domainnames/$(domain_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_domain_name(
     domain_name,
     params::AbstractDict{String};
@@ -4310,14 +4533,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_gateway_response(
+function update_gateway_response(
     response_type, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/gatewayresponses/$(response_type)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_gateway_response(
     response_type,
     restapi_id,
@@ -4351,14 +4576,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_integration(
+function update_integration(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_integration(
     http_method,
     resource_id,
@@ -4394,18 +4621,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_integration_response(
+function update_integration_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_integration_response(
     http_method,
     resource_id,
@@ -4441,14 +4670,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_method(
+function update_method(
     http_method, resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_method(
     http_method,
     resource_id,
@@ -4484,18 +4715,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_method_response(
+function update_method_response(
     http_method,
     resource_id,
     restapi_id,
     status_code;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_method_response(
     http_method,
     resource_id,
@@ -4530,13 +4763,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_model(model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_model(
+    model_name, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "PATCH",
         "/restapis/$(restapi_id)/models/$(model_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_model(
     model_name,
     restapi_id,
@@ -4569,14 +4805,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_request_validator(
+function update_request_validator(
     requestvalidator_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_request_validator(
     requestvalidator_id,
     restapi_id,
@@ -4609,14 +4847,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_resource(
+function update_resource(
     resource_id, restapi_id; aws_config::AbstractAWSConfig=current_aws_config()
-) = api_gateway(
-    "PATCH",
-    "/restapis/$(restapi_id)/resources/$(resource_id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return api_gateway(
+        "PATCH",
+        "/restapis/$(restapi_id)/resources/$(resource_id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_resource(
     resource_id,
     restapi_id,
@@ -4648,13 +4888,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_rest_api(restapi_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "PATCH",
         "/restapis/$(restapi_id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_rest_api(
     restapi_id,
     params::AbstractDict{String};
@@ -4686,13 +4927,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_stage(restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_stage(
+    restapi_id, stage_name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "PATCH",
         "/restapis/$(restapi_id)/stages/$(stage_name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_stage(
     restapi_id,
     stage_name,
@@ -4727,13 +4971,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_usage(keyId, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_usage(
+    keyId, usageplanId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return api_gateway(
         "PATCH",
         "/usageplans/$(usageplanId)/keys/$(keyId)/usage";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_usage(
     keyId,
     usageplanId,
@@ -4765,13 +5012,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_usage_plan(usageplanId; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "PATCH",
         "/usageplans/$(usageplanId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_usage_plan(
     usageplanId,
     params::AbstractDict{String};
@@ -4803,13 +5051,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"patchOperations"`: For more information about supported patch operations, see [Patch Operations](https://docs.aws.amazon.com/apigateway/latest/api/patch-operations.html).
 """
-update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    api_gateway(
+function update_vpc_link(vpclink_id; aws_config::AbstractAWSConfig=current_aws_config())
+    return api_gateway(
         "PATCH",
         "/vpclinks/$(vpclink_id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_vpc_link(
     vpclink_id,
     params::AbstractDict{String};

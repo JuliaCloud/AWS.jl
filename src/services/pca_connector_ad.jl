@@ -25,23 +25,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a connector consisting of a key-value pair.
 """
-create_connector(
+function create_connector(
     CertificateAuthorityArn,
     DirectoryId,
     VpcInformation;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pca_connector_ad(
-    "POST",
-    "/connectors",
-    Dict{String,Any}(
-        "CertificateAuthorityArn" => CertificateAuthorityArn,
-        "DirectoryId" => DirectoryId,
-        "VpcInformation" => VpcInformation,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "POST",
+        "/connectors",
+        Dict{String,Any}(
+            "CertificateAuthorityArn" => CertificateAuthorityArn,
+            "DirectoryId" => DirectoryId,
+            "VpcInformation" => VpcInformation,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_connector(
     CertificateAuthorityArn,
     DirectoryId,
@@ -87,15 +89,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a directory registration consisting of a key-value pair.
 """
-create_directory_registration(
+function create_directory_registration(
     DirectoryId; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "POST",
-    "/directoryRegistrations",
-    Dict{String,Any}("DirectoryId" => DirectoryId, "ClientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "POST",
+        "/directoryRegistrations",
+        Dict{String,Any}("DirectoryId" => DirectoryId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_directory_registration(
     DirectoryId,
     params::AbstractDict{String};
@@ -138,17 +142,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Idempotency token.
 """
-create_service_principal_name(
+function create_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pca_connector_ad(
-    "POST",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)",
-    Dict{String,Any}("ClientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "POST",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)",
+        Dict{String,Any}("ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -189,20 +195,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a template consisting of a key-value pair.
 """
-create_template(
+function create_template(
     ConnectorArn, Definition, Name; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "POST",
-    "/templates",
-    Dict{String,Any}(
-        "ConnectorArn" => ConnectorArn,
-        "Definition" => Definition,
-        "Name" => Name,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "POST",
+        "/templates",
+        Dict{String,Any}(
+            "ConnectorArn" => ConnectorArn,
+            "Definition" => Definition,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_template(
     ConnectorArn,
     Definition,
@@ -253,24 +261,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Idempotency token.
 """
-create_template_group_access_control_entry(
+function create_template_group_access_control_entry(
     AccessRights,
     GroupDisplayName,
     GroupSecurityIdentifier,
     TemplateArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pca_connector_ad(
-    "POST",
-    "/templates/$(TemplateArn)/accessControlEntries",
-    Dict{String,Any}(
-        "AccessRights" => AccessRights,
-        "GroupDisplayName" => GroupDisplayName,
-        "GroupSecurityIdentifier" => GroupSecurityIdentifier,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "POST",
+        "/templates/$(TemplateArn)/accessControlEntries",
+        Dict{String,Any}(
+            "AccessRights" => AccessRights,
+            "GroupDisplayName" => GroupDisplayName,
+            "GroupSecurityIdentifier" => GroupSecurityIdentifier,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_template_group_access_control_entry(
     AccessRights,
     GroupDisplayName,
@@ -313,13 +323,14 @@ action.
 
 - `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
-delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "DELETE",
         "/connectors/$(ConnectorArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -346,14 +357,16 @@ Services Private CA with the directory.
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
-delete_directory_registration(
+function delete_directory_registration(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "DELETE",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "DELETE",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_directory_registration(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -381,16 +394,18 @@ Active Directory.
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
-delete_service_principal_name(
+function delete_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pca_connector_ad(
-    "DELETE",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "DELETE",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -417,13 +432,14 @@ revoked or expired.
 
 - `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
-delete_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function delete_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "DELETE",
         "/templates/$(TemplateArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -450,14 +466,16 @@ Deletes a group access control entry.
   Directory. The SID starts with "S-".
 - `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
-delete_template_group_access_control_entry(
+function delete_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "DELETE",
-    "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "DELETE",
+        "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,
@@ -484,13 +502,14 @@ Lists information about your connector. You specify the connector on input by it
 
 - `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
-get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "GET",
         "/connectors/$(ConnectorArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -516,14 +535,16 @@ A structure that contains information about your directory registration.
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
-get_directory_registration(
+function get_directory_registration(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "GET",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "GET",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_directory_registration(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -551,16 +572,18 @@ Directory.
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
   called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
-get_service_principal_name(
+function get_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pca_connector_ad(
-    "GET",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "GET",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames/$(ConnectorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_service_principal_name(
     ConnectorArn,
     DirectoryRegistrationArn,
@@ -587,13 +610,14 @@ private CA.
 
 - `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
-get_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function get_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "GET",
         "/templates/$(TemplateArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -620,14 +644,16 @@ Retrieves the group access control entries for a template.
   Directory. The SID starts with "S-".
 - `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
-get_template_group_access_control_entry(
+function get_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "GET",
-    "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "GET",
+        "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,
@@ -662,9 +688,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
-list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = pca_connector_ad(
-    "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
+        "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,13 +720,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
-list_directory_registrations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function list_directory_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "GET",
         "/directoryRegistrations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_directory_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -735,14 +764,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
-list_service_principal_names(
+function list_service_principal_names(
     DirectoryRegistrationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "GET",
-    "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "GET",
+        "/directoryRegistrations/$(DirectoryRegistrationArn)/servicePrincipalNames";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_service_principal_names(
     DirectoryRegistrationArn,
     params::AbstractDict{String};
@@ -768,13 +799,16 @@ Lists the tags, if any, that are associated with your resource.
 - `resource_arn`: The Amazon Resource Name (ARN) that was returned when you created the
   resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_ad(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -811,14 +845,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
-list_template_group_access_control_entries(
+function list_template_group_access_control_entries(
     TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "GET",
-    "/templates/$(TemplateArn)/accessControlEntries";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "GET",
+        "/templates/$(TemplateArn)/accessControlEntries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_template_group_access_control_entries(
     TemplateArn,
     params::AbstractDict{String};
@@ -855,14 +891,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
-list_templates(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function list_templates(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "GET",
         "/templates",
         Dict{String,Any}("ConnectorArn" => ConnectorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_templates(
     ConnectorArn,
     params::AbstractDict{String};
@@ -891,14 +928,15 @@ Adds one or more tags to your resource.
   resource.
 - `tags`: Metadata assigned to a directory registration consisting of a key-value pair.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -927,14 +965,17 @@ Removes one or more tags from your resource.
 - `tag_keys`: Specifies a list of tag keys that you want to remove from the specified
   resources.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_ad(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -972,13 +1013,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be increased automatically. All members of Active Directory groups that are allowed to
   enroll with a template will receive a new certificate issued using that template.
 """
-update_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_ad(
+function update_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_ad(
         "PATCH",
         "/templates/$(TemplateArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_template(
     TemplateArn,
     params::AbstractDict{String};
@@ -1014,14 +1056,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupDisplayName"`: Name of the Active Directory group. This name does not need to
   match the group name in Active Directory.
 """
-update_template_group_access_control_entry(
+function update_template_group_access_control_entry(
     GroupSecurityIdentifier, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_ad(
-    "PATCH",
-    "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_ad(
+        "PATCH",
+        "/templates/$(TemplateArn)/accessControlEntries/$(GroupSecurityIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_template_group_access_control_entry(
     GroupSecurityIdentifier,
     TemplateArn,

@@ -23,14 +23,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: Tags to be applied to the landing zone.
 """
-create_landing_zone(manifest, version; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function create_landing_zone(
+    manifest, version; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controltower(
         "POST",
         "/create-landingzone",
         Dict{String,Any}("manifest" => manifest, "version" => version);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_landing_zone(
     manifest,
     version,
@@ -64,15 +67,17 @@ Services Control Tower.
 
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-delete_landing_zone(
+function delete_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/delete-landingzone",
-    Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/delete-landingzone",
+        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -106,15 +111,17 @@ The resource will vary depending on the enabled baseline. For usage examples, se
 - `enabled_baseline_identifier`: Identifier of the `EnabledBaseline` resource to be
   deactivated, in ARN format.
 """
-disable_baseline(
+function disable_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/disable-baseline",
-    Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/disable-baseline",
+        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -152,17 +159,19 @@ the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/late
 - `target_identifier`: The ARN of the organizational unit. For information on how to find
   the `targetIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 """
-disable_control(
+function disable_control(
     controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/disable-control",
-    Dict{String,Any}(
-        "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/disable-control",
+        Dict{String,Any}(
+            "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_control(
     controlIdentifier,
     targetIdentifier,
@@ -210,22 +219,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `key` is a string and `value` is a document of any type.
 - `"tags"`: Tags associated with input to `EnableBaseline`.
 """
-enable_baseline(
+function enable_baseline(
     baselineIdentifier,
     baselineVersion,
     targetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = controltower(
-    "POST",
-    "/enable-baseline",
-    Dict{String,Any}(
-        "baselineIdentifier" => baselineIdentifier,
-        "baselineVersion" => baselineVersion,
-        "targetIdentifier" => targetIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/enable-baseline",
+        Dict{String,Any}(
+            "baselineIdentifier" => baselineIdentifier,
+            "baselineVersion" => baselineVersion,
+            "targetIdentifier" => targetIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_baseline(
     baselineIdentifier,
     baselineVersion,
@@ -277,17 +288,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control when you enable it.
 - `"tags"`: Tags to be applied to the `EnabledControl` resource.
 """
-enable_control(
+function enable_control(
     controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/enable-control",
-    Dict{String,Any}(
-        "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/enable-control",
+        Dict{String,Any}(
+            "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_control(
     controlIdentifier,
     targetIdentifier,
@@ -323,14 +336,17 @@ usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https
 
 - `baseline_identifier`: The ARN of the `Baseline` resource to be retrieved.
 """
-get_baseline(baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function get_baseline(
+    baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controltower(
         "POST",
         "/get-baseline",
         Dict{String,Any}("baselineIdentifier" => baselineIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_baseline(
     baselineIdentifier,
     params::AbstractDict{String};
@@ -362,15 +378,17 @@ A status message is displayed in case of operation failure. For usage examples, 
 - `operation_identifier`: The operation ID returned from mutating asynchronous APIs
   (Enable, Disable, Update, Reset).
 """
-get_baseline_operation(
+function get_baseline_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-baseline-operation",
-    Dict{String,Any}("operationIdentifier" => operationIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-baseline-operation",
+        Dict{String,Any}("operationIdentifier" => operationIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_baseline_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -404,15 +422,17 @@ examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/con
 - `operation_identifier`: The ID of the asynchronous operation, which is used to track
   status. The operation is available for 90 days.
 """
-get_control_operation(
+function get_control_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-control-operation",
-    Dict{String,Any}("operationIdentifier" => operationIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-control-operation",
+        Dict{String,Any}("operationIdentifier" => operationIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_control_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -444,15 +464,17 @@ Retrieve details of an `EnabledBaseline` resource by specifying its identifier.
 - `enabled_baseline_identifier`: Identifier of the `EnabledBaseline` resource to be
   retrieved, in ARN format.
 """
-get_enabled_baseline(
+function get_enabled_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-enabled-baseline",
-    Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-enabled-baseline",
+        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -483,15 +505,17 @@ Retrieves details about an enabled control. For usage examples, see the [ *Contr
 
 - `enabled_control_identifier`: The `controlIdentifier` of the enabled control.
 """
-get_enabled_control(
+function get_enabled_control(
     enabledControlIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-enabled-control",
-    Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-enabled-control",
+        Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_enabled_control(
     enabledControlIdentifier,
     params::AbstractDict{String};
@@ -522,15 +546,17 @@ Returns details about the landing zone. Displays a message in case of error.
 
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-get_landing_zone(
+function get_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-landingzone",
-    Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-landingzone",
+        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -562,15 +588,17 @@ available for 90 days.
 
 - `operation_identifier`: A unique identifier assigned to a landing zone operation.
 """
-get_landing_zone_operation(
+function get_landing_zone_operation(
     operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/get-landingzone-operation",
-    Dict{String,Any}("operationIdentifier" => operationIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/get-landingzone-operation",
+        Dict{String,Any}("operationIdentifier" => operationIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_landing_zone_operation(
     operationIdentifier,
     params::AbstractDict{String};
@@ -604,9 +632,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-list_baselines(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower(
-    "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
+        "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -634,13 +664,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
         "POST",
         "/list-control-operations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_control_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -671,12 +702,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower(
-    "POST",
-    "/list-enabled-baselines";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
+        "POST",
+        "/list-enabled-baselines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_enabled_baselines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -708,12 +741,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetIdentifier"`: The ARN of the organizational unit. For information on how to find
   the `targetIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 """
-list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower(
-    "POST",
-    "/list-enabled-controls";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
+        "POST",
+        "/list-enabled-controls";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_enabled_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,13 +778,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
-list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
         "POST",
         "/list-landingzone-operations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_landing_zone_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,9 +815,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
-list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower(
-    "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
+        "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_landing_zones(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -804,13 +842,16 @@ Returns a list of tags associated with the resource. For usage examples, see the
 
 - `resource_arn`:  The ARN of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controltower(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -837,15 +878,17 @@ Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the
 - `enabled_baseline_identifier`: Specifies the ID of the `EnabledBaseline` resource to be
   re-enabled, in ARN format.
 """
-reset_enabled_baseline(
+function reset_enabled_baseline(
     enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/reset-enabled-baseline",
-    Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/reset-enabled-baseline",
+        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_enabled_baseline(
     enabledBaselineIdentifier,
     params::AbstractDict{String};
@@ -880,15 +923,17 @@ landing zone version, which is not a supported operation.
 
 - `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-reset_landing_zone(
+function reset_landing_zone(
     landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/reset-landingzone",
-    Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/reset-landingzone",
+        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_landing_zone(
     landingZoneIdentifier,
     params::AbstractDict{String};
@@ -920,14 +965,15 @@ Applies tags to a resource. For usage examples, see the [ *Controls Reference Gu
 - `resource_arn`: The ARN of the resource to be tagged.
 - `tags`: Tags to be applied to the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return controltower(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -954,14 +1000,17 @@ Removes tags from a resource. For usage examples, see the [ *Controls Reference 
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: Tag keys to be removed from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controltower(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return controltower(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -996,20 +1045,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"parameters"`: Parameters to apply when making an update.
 """
-update_enabled_baseline(
+function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = controltower(
-    "POST",
-    "/update-enabled-baseline",
-    Dict{String,Any}(
-        "baselineVersion" => baselineVersion,
-        "enabledBaselineIdentifier" => enabledBaselineIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/update-enabled-baseline",
+        Dict{String,Any}(
+            "baselineVersion" => baselineVersion,
+            "enabledBaselineIdentifier" => enabledBaselineIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_enabled_baseline(
     baselineVersion,
     enabledBaselineIdentifier,
@@ -1058,18 +1109,20 @@ the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/late
 - `parameters`: A key/value pair, where `Key` is of type `String` and `Value` is of type
   `Document`.
 """
-update_enabled_control(
+function update_enabled_control(
     enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
-) = controltower(
-    "POST",
-    "/update-enabled-control",
-    Dict{String,Any}(
-        "enabledControlIdentifier" => enabledControlIdentifier,
-        "parameters" => parameters,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/update-enabled-control",
+        Dict{String,Any}(
+            "enabledControlIdentifier" => enabledControlIdentifier,
+            "parameters" => parameters,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_enabled_control(
     enabledControlIdentifier,
     parameters,
@@ -1111,22 +1164,24 @@ specified in the updated manifest file.
   landing zone's JSON manifest file is not published, by design.
 - `version`: The landing zone version, for example, 3.2.
 """
-update_landing_zone(
+function update_landing_zone(
     landingZoneIdentifier,
     manifest,
     version;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = controltower(
-    "POST",
-    "/update-landingzone",
-    Dict{String,Any}(
-        "landingZoneIdentifier" => landingZoneIdentifier,
-        "manifest" => manifest,
-        "version" => version,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return controltower(
+        "POST",
+        "/update-landingzone",
+        Dict{String,Any}(
+            "landingZoneIdentifier" => landingZoneIdentifier,
+            "manifest" => manifest,
+            "version" => version,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_landing_zone(
     landingZoneIdentifier,
     manifest,

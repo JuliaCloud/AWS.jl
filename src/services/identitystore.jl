@@ -23,13 +23,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   displayed when the group is referenced. `Administrator` and `AWSAdministrators` are
   reserved names and can't be used for users or groups.
 """
-create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return identitystore(
         "CreateGroup",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_group(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -62,18 +63,20 @@ specified: `GroupId`, `IdentityStoreId`, and `MemberId`.
   `UserID` field to the specific identifier for a user indicates that the user is a member
   of the group.
 """
-create_group_membership(
+function create_group_membership(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "CreateGroupMembership",
-    Dict{String,Any}(
-        "GroupId" => GroupId,
-        "IdentityStoreId" => IdentityStoreId,
-        "MemberId" => MemberId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "CreateGroupMembership",
+        Dict{String,Any}(
+            "GroupId" => GroupId,
+            "IdentityStoreId" => IdentityStoreId,
+            "MemberId" => MemberId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_group_membership(
     GroupId,
     IdentityStoreId,
@@ -136,13 +139,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
 """
-create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return identitystore(
         "CreateUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_user(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -171,13 +175,16 @@ Delete a group within an identity store given `GroupId`.
 - `group_id`: The identifier for a group in the identity store.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
-delete_group(GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function delete_group(
+    GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return identitystore(
         "DeleteGroup",
         Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_group(
     GroupId,
     IdentityStoreId,
@@ -211,14 +218,18 @@ Delete a membership within a group given `MembershipId`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `membership_id`: The identifier for a `GroupMembership` in an identity store.
 """
-delete_group_membership(
+function delete_group_membership(
     IdentityStoreId, MembershipId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "DeleteGroupMembership",
-    Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "DeleteGroupMembership",
+        Dict{String,Any}(
+            "IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -252,13 +263,16 @@ Deletes a user within an identity store given `UserId`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `user_id`: The identifier for a user in the identity store.
 """
-delete_user(IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function delete_user(
+    IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return identitystore(
         "DeleteUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_user(
     IdentityStoreId,
     UserId,
@@ -298,14 +312,16 @@ in the *Organizations User Guide*.
   generated string that contains numbers and lower case letters. This value is generated at
   the time that a new identity store is created.
 """
-describe_group(
+function describe_group(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "DescribeGroup",
-    Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "DescribeGroup",
+        Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_group(
     GroupId,
     IdentityStoreId,
@@ -344,14 +360,18 @@ in the *Organizations User Guide*.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `membership_id`: The identifier for a `GroupMembership` in an identity store.
 """
-describe_group_membership(
+function describe_group_membership(
     IdentityStoreId, MembershipId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "DescribeGroupMembership",
-    Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "DescribeGroupMembership",
+        Dict{String,Any}(
+            "IdentityStoreId" => IdentityStoreId, "MembershipId" => MembershipId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_group_membership(
     IdentityStoreId,
     MembershipId,
@@ -393,13 +413,16 @@ in the *Organizations User Guide*.
   the time that a new identity store is created.
 - `user_id`: The identifier for a user in the identity store.
 """
-describe_user(IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function describe_user(
+    IdentityStoreId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return identitystore(
         "DescribeUser",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "UserId" => UserId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_user(
     IdentityStoreId,
     UserId,
@@ -439,17 +462,19 @@ in the *Organizations User Guide*.
   the only valid path is `displayName`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
-get_group_id(
+function get_group_id(
     AlternateIdentifier, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "GetGroupId",
-    Dict{String,Any}(
-        "AlternateIdentifier" => AlternateIdentifier,
-        "IdentityStoreId" => IdentityStoreId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "GetGroupId",
+        Dict{String,Any}(
+            "AlternateIdentifier" => AlternateIdentifier,
+            "IdentityStoreId" => IdentityStoreId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_group_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -492,18 +517,20 @@ in the *Organizations User Guide*.
   `UserID` field to the specific identifier for a user indicates that the user is a member
   of the group.
 """
-get_group_membership_id(
+function get_group_membership_id(
     GroupId, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "GetGroupMembershipId",
-    Dict{String,Any}(
-        "GroupId" => GroupId,
-        "IdentityStoreId" => IdentityStoreId,
-        "MemberId" => MemberId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "GetGroupMembershipId",
+        Dict{String,Any}(
+            "GroupId" => GroupId,
+            "IdentityStoreId" => IdentityStoreId,
+            "MemberId" => MemberId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_group_membership_id(
     GroupId,
     IdentityStoreId,
@@ -548,17 +575,19 @@ in the *Organizations User Guide*.
   the only valid paths are `userName` and `emails.value`.
 - `identity_store_id`: The globally unique identifier for the identity store.
 """
-get_user_id(
+function get_user_id(
     AlternateIdentifier, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "GetUserId",
-    Dict{String,Any}(
-        "AlternateIdentifier" => AlternateIdentifier,
-        "IdentityStoreId" => IdentityStoreId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "GetUserId",
+        Dict{String,Any}(
+            "AlternateIdentifier" => AlternateIdentifier,
+            "IdentityStoreId" => IdentityStoreId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_user_id(
     AlternateIdentifier,
     IdentityStoreId,
@@ -600,18 +629,20 @@ in the *Organizations User Guide*.
 - `identity_store_id`: The globally unique identifier for the identity store.
 - `member_id`: An object containing the identifier of a group member.
 """
-is_member_in_groups(
+function is_member_in_groups(
     GroupIds, IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "IsMemberInGroups",
-    Dict{String,Any}(
-        "GroupIds" => GroupIds,
-        "IdentityStoreId" => IdentityStoreId,
-        "MemberId" => MemberId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "IsMemberInGroups",
+        Dict{String,Any}(
+            "GroupIds" => GroupIds,
+            "IdentityStoreId" => IdentityStoreId,
+            "MemberId" => MemberId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function is_member_in_groups(
     GroupIds,
     IdentityStoreId,
@@ -666,14 +697,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of one page. This token is also returned when it is used in the API request to search for
   the next page.
 """
-list_group_memberships(
+function list_group_memberships(
     GroupId, IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "ListGroupMemberships",
-    Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "ListGroupMemberships",
+        Dict{String,Any}("GroupId" => GroupId, "IdentityStoreId" => IdentityStoreId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_group_memberships(
     GroupId,
     IdentityStoreId,
@@ -728,14 +761,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of one page. This token is also returned when it is used in the API request to search for
   the next page.
 """
-list_group_memberships_for_member(
+function list_group_memberships_for_member(
     IdentityStoreId, MemberId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "ListGroupMembershipsForMember",
-    Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "MemberId" => MemberId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "ListGroupMembershipsForMember",
+        Dict{String,Any}("IdentityStoreId" => IdentityStoreId, "MemberId" => MemberId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_group_memberships_for_member(
     IdentityStoreId,
     MemberId,
@@ -792,13 +827,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API response if the total results are more than the size of one page. This token is also
   returned when it is used in the API request to search for the next page.
 """
-list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function list_groups(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return identitystore(
         "ListGroups",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_groups(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -850,13 +886,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API response if the total results are more than the size of one page. This token is also
   returned when it is used in the API request to search for the next page.
 """
-list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    identitystore(
+function list_users(IdentityStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return identitystore(
         "ListUsers",
         Dict{String,Any}("IdentityStoreId" => IdentityStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_users(
     IdentityStoreId,
     params::AbstractDict{String};
@@ -888,18 +925,20 @@ attributes.
 - `operations`: A list of `AttributeOperation` objects to apply to the requested group.
   These operations might add, replace, or remove an attribute.
 """
-update_group(
+function update_group(
     GroupId, IdentityStoreId, Operations; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "UpdateGroup",
-    Dict{String,Any}(
-        "GroupId" => GroupId,
-        "IdentityStoreId" => IdentityStoreId,
-        "Operations" => Operations,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "UpdateGroup",
+        Dict{String,Any}(
+            "GroupId" => GroupId,
+            "IdentityStoreId" => IdentityStoreId,
+            "Operations" => Operations,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_group(
     GroupId,
     IdentityStoreId,
@@ -939,18 +978,20 @@ attributes.
   These operations might add, replace, or remove an attribute.
 - `user_id`: The identifier for a user in the identity store.
 """
-update_user(
+function update_user(
     IdentityStoreId, Operations, UserId; aws_config::AbstractAWSConfig=current_aws_config()
-) = identitystore(
-    "UpdateUser",
-    Dict{String,Any}(
-        "IdentityStoreId" => IdentityStoreId,
-        "Operations" => Operations,
-        "UserId" => UserId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return identitystore(
+        "UpdateUser",
+        Dict{String,Any}(
+            "IdentityStoreId" => IdentityStoreId,
+            "Operations" => Operations,
+            "UserId" => UserId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_user(
     IdentityStoreId,
     Operations,

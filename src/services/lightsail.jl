@@ -14,13 +14,16 @@ Allocates a static IP address.
 
 - `static_ip_name`: The name of the static IP address.
 """
-allocate_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function allocate_static_ip(
+    staticIpName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "AllocateStaticIp",
         Dict{String,Any}("staticIpName" => staticIpName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function allocate_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -74,16 +77,18 @@ all distributions are located in the `us-east-1` Region.
   Use the `GetDistributions` action to get a list of distribution names that you can
   specify.
 """
-attach_certificate_to_distribution(
+function attach_certificate_to_distribution(
     certificateName, distributionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "AttachCertificateToDistribution",
-    Dict{String,Any}(
-        "certificateName" => certificateName, "distributionName" => distributionName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "AttachCertificateToDistribution",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "distributionName" => distributionName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_certificate_to_distribution(
     certificateName,
     distributionName,
@@ -134,16 +139,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! important
     This value only applies to Lightsail for Research resources.
 """
-attach_disk(
+function attach_disk(
     diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "AttachDisk",
-    Dict{String,Any}(
-        "diskName" => diskName, "diskPath" => diskPath, "instanceName" => instanceName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "AttachDisk",
+        Dict{String,Any}(
+            "diskName" => diskName, "diskPath" => diskPath, "instanceName" => instanceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_disk(
     diskName,
     diskPath,
@@ -193,16 +200,18 @@ information, see the [Lightsail Developer Guide](https://lightsail.aws.amazon.co
   balancer, aside from the limit of Lightsail instances you can create in your account (20).
 - `load_balancer_name`: The name of the load balancer.
 """
-attach_instances_to_load_balancer(
+function attach_instances_to_load_balancer(
     instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "AttachInstancesToLoadBalancer",
-    Dict{String,Any}(
-        "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "AttachInstancesToLoadBalancer",
+        Dict{String,Any}(
+            "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_instances_to_load_balancer(
     instanceNames,
     loadBalancerName,
@@ -247,16 +256,18 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
 - `load_balancer_name`: The name of the load balancer to which you want to associate the
   SSL/TLS certificate.
 """
-attach_load_balancer_tls_certificate(
+function attach_load_balancer_tls_certificate(
     certificateName, loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "AttachLoadBalancerTlsCertificate",
-    Dict{String,Any}(
-        "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "AttachLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_load_balancer_tls_certificate(
     certificateName,
     loadBalancerName,
@@ -291,14 +302,16 @@ Attaches a static IP address to a specific Amazon Lightsail instance.
 - `instance_name`: The instance name to which you want to attach the static IP address.
 - `static_ip_name`: The name of the static IP.
 """
-attach_static_ip(
+function attach_static_ip(
     instanceName, staticIpName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "AttachStaticIp",
-    Dict{String,Any}("instanceName" => instanceName, "staticIpName" => staticIpName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "AttachStaticIp",
+        Dict{String,Any}("instanceName" => instanceName, "staticIpName" => staticIpName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_static_ip(
     instanceName,
     staticIpName,
@@ -335,14 +348,16 @@ applied to the resource identified by `instanceName`. For more information, see 
 - `instance_name`: The name of the instance for which to close ports.
 - `port_info`: An object to describe the ports to close for the specified instance.
 """
-close_instance_public_ports(
+function close_instance_public_ports(
     instanceName, portInfo; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CloseInstancePublicPorts",
-    Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CloseInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function close_instance_public_ports(
     instanceName,
     portInfo,
@@ -416,16 +431,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - Define this parameter only when copying an automatic snapshot as a manual snapshot.
   For more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-keeping-automatic-snapshots).
 """
-copy_snapshot(
+function copy_snapshot(
     sourceRegion, targetSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CopySnapshot",
-    Dict{String,Any}(
-        "sourceRegion" => sourceRegion, "targetSnapshotName" => targetSnapshotName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CopySnapshot",
+        Dict{String,Any}(
+            "sourceRegion" => sourceRegion, "targetSnapshotName" => targetSnapshotName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_snapshot(
     sourceRegion,
     targetSnapshotName,
@@ -491,13 +508,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the [TagResource](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_TagResource.html)
   action to tag the bucket after it's created.
 """
-create_bucket(bucketName, bundleId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function create_bucket(
+    bucketName, bundleId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "CreateBucket",
         Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_bucket(
     bucketName,
     bundleId,
@@ -542,13 +562,16 @@ a new access key.
 - `bucket_name`: The name of the bucket that the new access key will belong to, and grant
   access to.
 """
-create_bucket_access_key(bucketName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function create_bucket_access_key(
+    bucketName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "CreateBucketAccessKey",
         Dict{String,Any}("bucketName" => bucketName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_bucket_access_key(
     bucketName,
     params::AbstractDict{String};
@@ -601,14 +624,16 @@ Wildcard domain entries (`*.example.com`) are not supported.
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_certificate(
+function create_certificate(
     certificateName, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateCertificate",
-    Dict{String,Any}("certificateName" => certificateName, "domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateCertificate",
+        Dict{String,Any}("certificateName" => certificateName, "domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_certificate(
     certificateName,
     domainName,
@@ -650,14 +675,16 @@ cloud formation stack` operation again with the same export snapshot record.
   instance. You can only pass one instance entry at a time in this array. You will get an
   invalid parameter error if you pass more than one instance entry in this array.
 """
-create_cloud_formation_stack(
+function create_cloud_formation_stack(
     instances; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateCloudFormationStack",
-    Dict{String,Any}("instances" => instances);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateCloudFormationStack",
+        Dict{String,Any}("instances" => instances);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cloud_formation_stack(
     instances,
     params::AbstractDict{String};
@@ -712,14 +739,16 @@ information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazo
 
    <p>For more information about notifications in Amazon Lightsail, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-notifications).
 """
-create_contact_method(
+function create_contact_method(
     contactEndpoint, protocol; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateContactMethod",
-    Dict{String,Any}("contactEndpoint" => contactEndpoint, "protocol" => protocol);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateContactMethod",
+        Dict{String,Any}("contactEndpoint" => contactEndpoint, "protocol" => protocol);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_contact_method(
     contactEndpoint,
     protocol,
@@ -824,14 +853,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
 """
-create_container_service(
+function create_container_service(
     power, scale, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateContainerService",
-    Dict{String,Any}("power" => power, "scale" => scale, "serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateContainerService",
+        Dict{String,Any}("power" => power, "scale" => scale, "serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_container_service(
     power,
     scale,
@@ -884,14 +915,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"publicEndpoint"`: An object that describes the settings of the public endpoint for the
   container service.
 """
-create_container_service_deployment(
+function create_container_service_deployment(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateContainerServiceDeployment",
-    Dict{String,Any}("serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateContainerServiceDeployment",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_container_service_deployment(
     serviceName,
     params::AbstractDict{String};
@@ -931,13 +964,15 @@ plugin to push container images to your Lightsail container service. For more in
 see [Pushing and managing container images on your Amazon Lightsail container services](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-pushing-container-images)
 in the *Amazon Lightsail Developer Guide*.
 """
-create_container_service_registry_login(;
+function create_container_service_registry_login(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateContainerServiceRegistryLogin";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateContainerServiceRegistryLogin";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_container_service_registry_login(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -979,18 +1014,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_disk(
+function create_disk(
     availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateDisk",
-    Dict{String,Any}(
-        "availabilityZone" => availabilityZone,
-        "diskName" => diskName,
-        "sizeInGb" => sizeInGb,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateDisk",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "diskName" => diskName,
+            "sizeInGb" => sizeInGb,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_disk(
     availabilityZone,
     diskName,
@@ -1079,18 +1116,20 @@ Use the `TagResource` action to tag a resource after it's created.
    - Define this parameter only when creating a new disk from an automatic snapshot. For
   more information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configuring-automatic-snapshots).
 """
-create_disk_from_snapshot(
+function create_disk_from_snapshot(
     availabilityZone, diskName, sizeInGb; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateDiskFromSnapshot",
-    Dict{String,Any}(
-        "availabilityZone" => availabilityZone,
-        "diskName" => diskName,
-        "sizeInGb" => sizeInGb,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateDiskFromSnapshot",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "diskName" => diskName,
+            "sizeInGb" => sizeInGb,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_disk_from_snapshot(
     availabilityZone,
     diskName,
@@ -1167,13 +1206,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function create_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "CreateDiskSnapshot",
         Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -1242,23 +1284,25 @@ Use the `TagResource` action to tag a resource after it's created.
 - `"viewerMinimumTlsProtocolVersion"`: The minimum TLS protocol version for the SSL/TLS
   certificate.
 """
-create_distribution(
+function create_distribution(
     bundleId,
     defaultCacheBehavior,
     distributionName,
     origin;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateDistribution",
-    Dict{String,Any}(
-        "bundleId" => bundleId,
-        "defaultCacheBehavior" => defaultCacheBehavior,
-        "distributionName" => distributionName,
-        "origin" => origin,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateDistribution",
+        Dict{String,Any}(
+            "bundleId" => bundleId,
+            "defaultCacheBehavior" => defaultCacheBehavior,
+            "distributionName" => distributionName,
+            "origin" => origin,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_distribution(
     bundleId,
     defaultCacheBehavior,
@@ -1307,12 +1351,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "CreateDomain",
-    Dict{String,Any}("domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "CreateDomain",
+        Dict{String,Any}("domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_domain(
     domainName,
     params::AbstractDict{String};
@@ -1346,14 +1392,16 @@ applied to the resource identified by `domain name`. For more information, see t
 - `domain_name`: The domain name (`example.com`) for which you want to create the domain
   entry.
 """
-create_domain_entry(
+function create_domain_entry(
     domainEntry, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateDomainEntry",
-    Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_domain_entry(
     domainEntry,
     domainName,
@@ -1389,14 +1437,16 @@ Use `StartGUISession` to open the session.
 
 - `resource_name`: The resource name.
 """
-create_guisession_access_details(
+function create_guisession_access_details(
     resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateGUISessionAccessDetails",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateGUISessionAccessDetails",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_guisession_access_details(
     resourceName,
     params::AbstractDict{String};
@@ -1435,16 +1485,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_instance_snapshot(
+function create_instance_snapshot(
     instanceName, instanceSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateInstanceSnapshot",
-    Dict{String,Any}(
-        "instanceName" => instanceName, "instanceSnapshotName" => instanceSnapshotName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateInstanceSnapshot",
+        Dict{String,Any}(
+            "instanceName" => instanceName, "instanceSnapshotName" => instanceSnapshotName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_instance_snapshot(
     instanceName,
     instanceSnapshotName,
@@ -1525,23 +1577,25 @@ Use the `TagResource` action to tag a resource after it's created.
   instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`, and
   FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
 """
-create_instances(
+function create_instances(
     availabilityZone,
     blueprintId,
     bundleId,
     instanceNames;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateInstances",
-    Dict{String,Any}(
-        "availabilityZone" => availabilityZone,
-        "blueprintId" => blueprintId,
-        "bundleId" => bundleId,
-        "instanceNames" => instanceNames,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateInstances",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "blueprintId" => blueprintId,
+            "bundleId" => bundleId,
+            "instanceNames" => instanceNames,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_instances(
     availabilityZone,
     blueprintId,
@@ -1646,21 +1700,23 @@ Use the `TagResource` action to tag a resource after it's created.
   instance varies. Amazon Linux and CentOS use `yum`, Debian and Ubuntu use `apt-get`, and
   FreeBSD uses `pkg`. For a complete list, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/compare-options-choose-lightsail-instance-image).
 """
-create_instances_from_snapshot(
+function create_instances_from_snapshot(
     availabilityZone,
     bundleId,
     instanceNames;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateInstancesFromSnapshot",
-    Dict{String,Any}(
-        "availabilityZone" => availabilityZone,
-        "bundleId" => bundleId,
-        "instanceNames" => instanceNames,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateInstancesFromSnapshot",
+        Dict{String,Any}(
+            "availabilityZone" => availabilityZone,
+            "bundleId" => bundleId,
+            "instanceNames" => instanceNames,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_instances_from_snapshot(
     availabilityZone,
     bundleId,
@@ -1710,13 +1766,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function create_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "CreateKeyPair",
         Dict{String,Any}("keyPairName" => keyPairName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -1790,16 +1847,18 @@ Use the `TagResource` action to tag a resource after it's created.
   For more information about load balancer TLS policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-configure-load-balancer-tls-security-policy)
   in the *Amazon Lightsail Developer Guide*.
 """
-create_load_balancer(
+function create_load_balancer(
     instancePort, loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateLoadBalancer",
-    Dict{String,Any}(
-        "instancePort" => instancePort, "loadBalancerName" => loadBalancerName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateLoadBalancer",
+        Dict{String,Any}(
+            "instancePort" => instancePort, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_load_balancer(
     instancePort,
     loadBalancerName,
@@ -1858,21 +1917,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_load_balancer_tls_certificate(
+function create_load_balancer_tls_certificate(
     certificateDomainName,
     certificateName,
     loadBalancerName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateLoadBalancerTlsCertificate",
-    Dict{String,Any}(
-        "certificateDomainName" => certificateDomainName,
-        "certificateName" => certificateName,
-        "loadBalancerName" => loadBalancerName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateDomainName" => certificateDomainName,
+            "certificateName" => certificateName,
+            "loadBalancerName" => loadBalancerName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_load_balancer_tls_certificate(
     certificateDomainName,
     certificateName,
@@ -2030,25 +2091,27 @@ Constraints: Must contain from 8 to 128 characters.
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_relational_database(
+function create_relational_database(
     masterDatabaseName,
     masterUsername,
     relationalDatabaseBlueprintId,
     relationalDatabaseBundleId,
     relationalDatabaseName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateRelationalDatabase",
-    Dict{String,Any}(
-        "masterDatabaseName" => masterDatabaseName,
-        "masterUsername" => masterUsername,
-        "relationalDatabaseBlueprintId" => relationalDatabaseBlueprintId,
-        "relationalDatabaseBundleId" => relationalDatabaseBundleId,
-        "relationalDatabaseName" => relationalDatabaseName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateRelationalDatabase",
+        Dict{String,Any}(
+            "masterDatabaseName" => masterDatabaseName,
+            "masterUsername" => masterUsername,
+            "relationalDatabaseBlueprintId" => relationalDatabaseBlueprintId,
+            "relationalDatabaseBundleId" => relationalDatabaseBundleId,
+            "relationalDatabaseName" => relationalDatabaseName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_relational_database(
     masterDatabaseName,
     masterUsername,
@@ -2142,14 +2205,16 @@ Use the `TagResource` action to tag a resource after it's created.
 
 Constraints: Cannot be specified if the `restore time` parameter is provided.
 """
-create_relational_database_from_snapshot(
+function create_relational_database_from_snapshot(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "CreateRelationalDatabaseFromSnapshot",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateRelationalDatabaseFromSnapshot",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_relational_database_from_snapshot(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -2195,19 +2260,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Use the `TagResource` action to tag a resource after it's created.
 """
-create_relational_database_snapshot(
+function create_relational_database_snapshot(
     relationalDatabaseName,
     relationalDatabaseSnapshotName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "CreateRelationalDatabaseSnapshot",
-    Dict{String,Any}(
-        "relationalDatabaseName" => relationalDatabaseName,
-        "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "CreateRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseName" => relationalDatabaseName,
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_relational_database_snapshot(
     relationalDatabaseName,
     relationalDatabaseSnapshotName,
@@ -2245,12 +2312,14 @@ displayed on the Amazon Lightsail console. For more information, see [Alarms in 
 
 - `alarm_name`: The name of the alarm to delete.
 """
-delete_alarm(alarmName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DeleteAlarm",
-    Dict{String,Any}("alarmName" => alarmName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_alarm(alarmName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DeleteAlarm",
+        Dict{String,Any}("alarmName" => alarmName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_alarm(
     alarmName,
     params::AbstractDict{String};
@@ -2279,14 +2348,16 @@ Deletes an automatic snapshot of an instance or disk. For more information, see 
 - `resource_name`: The name of the source instance or disk from which to delete the
   automatic snapshot.
 """
-delete_auto_snapshot(
+function delete_auto_snapshot(
     date, resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteAutoSnapshot",
-    Dict{String,Any}("date" => date, "resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteAutoSnapshot",
+        Dict{String,Any}("date" => date, "resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_auto_snapshot(
     date,
     resourceName,
@@ -2342,12 +2413,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Force deleting a bucket might impact other resources that rely on the bucket, such as
   instances, distributions, or software that use the issued access keys.
 """
-delete_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DeleteBucket",
-    Dict{String,Any}("bucketName" => bucketName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DeleteBucket",
+        Dict{String,Any}("bucketName" => bucketName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_bucket(
     bucketName,
     params::AbstractDict{String};
@@ -2382,14 +2455,16 @@ in the *Amazon Lightsail Developer Guide*.
   action to get a list of access key IDs that you can specify.
 - `bucket_name`: The name of the bucket that the access key belongs to.
 """
-delete_bucket_access_key(
+function delete_bucket_access_key(
     accessKeyId, bucketName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteBucketAccessKey",
-    Dict{String,Any}("accessKeyId" => accessKeyId, "bucketName" => bucketName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteBucketAccessKey",
+        Dict{String,Any}("accessKeyId" => accessKeyId, "bucketName" => bucketName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_bucket_access_key(
     accessKeyId,
     bucketName,
@@ -2426,13 +2501,16 @@ Certificates that are currently attached to a distribution cannot be deleted. Us
 
 Use the `GetCertificates` action to get a list of certificate names that you can specify.
 """
-delete_certificate(certificateName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_certificate(
+    certificateName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "DeleteCertificate",
         Dict{String,Any}("certificateName" => certificateName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_certificate(
     certificateName,
     params::AbstractDict{String};
@@ -2470,13 +2548,14 @@ information, see [Notifications in Amazon Lightsail](https://lightsail.aws.amazo
       To delete an `Email` and an `SMS` contact method if you added both, you must run
   separate `DeleteContactMethod` actions to delete each protocol.
 """
-delete_contact_method(protocol; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_contact_method(protocol; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "DeleteContactMethod",
         Dict{String,Any}("protocol" => protocol);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_contact_method(
     protocol,
     params::AbstractDict{String};
@@ -2513,14 +2592,16 @@ Deletes a container image that is registered to your Amazon Lightsail container 
 - `service_name`: The name of the container service for which to delete a registered
   container image.
 """
-delete_container_image(
+function delete_container_image(
     image, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteContainerImage",
-    Dict{String,Any}("image" => image, "serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteContainerImage",
+        Dict{String,Any}("image" => image, "serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_container_image(
     image,
     serviceName,
@@ -2551,13 +2632,16 @@ Deletes your Amazon Lightsail container service.
 
 - `service_name`: The name of the container service to delete.
 """
-delete_container_service(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_container_service(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "DeleteContainerService",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_container_service(
     serviceName,
     params::AbstractDict{String};
@@ -2596,12 +2680,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
   disk.
 """
-delete_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DeleteDisk",
-    Dict{String,Any}("diskName" => diskName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DeleteDisk",
+        Dict{String,Any}("diskName" => diskName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_disk(
     diskName,
     params::AbstractDict{String};
@@ -2637,13 +2723,16 @@ applied to the resource identified by `disk snapshot name`. For more information
 - `disk_snapshot_name`: The name of the disk snapshot you want to delete (`my-disk-
   snapshot`).
 """
-delete_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "DeleteDiskSnapshot",
         Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -2676,8 +2765,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the `GetDistributions` action to get a list of distribution names that you can
   specify.
 """
-delete_distribution(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("DeleteDistribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_distribution(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DeleteDistribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_distribution(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2699,12 +2791,14 @@ to the resource identified by `domain name`. For more information, see the [Amaz
 
 - `domain_name`: The specific domain name to delete.
 """
-delete_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DeleteDomain",
-    Dict{String,Any}("domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DeleteDomain",
+        Dict{String,Any}("domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_domain(
     domainName,
     params::AbstractDict{String};
@@ -2735,14 +2829,16 @@ applied to the resource identified by `domain name`. For more information, see t
   entries.
 - `domain_name`: The name of the domain entry to delete.
 """
-delete_domain_entry(
+function delete_domain_entry(
     domainEntry, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteDomainEntry",
-    Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_domain_entry(
     domainEntry,
     domainName,
@@ -2783,13 +2879,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
   instance.
 """
-delete_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "DeleteInstance",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_instance(
     instanceName,
     params::AbstractDict{String};
@@ -2819,14 +2916,16 @@ see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/d
 
 - `instance_snapshot_name`: The name of the snapshot to delete.
 """
-delete_instance_snapshot(
+function delete_instance_snapshot(
     instanceSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteInstanceSnapshot",
-    Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteInstanceSnapshot",
+        Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_instance_snapshot(
     instanceSnapshotName,
     params::AbstractDict{String};
@@ -2876,13 +2975,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The `expectedFingerprint` parameter is required only when specifying to delete a
   Lightsail default key pair.
 """
-delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "DeleteKeyPair",
         Dict{String,Any}("keyPairName" => keyPairName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -2916,13 +3016,16 @@ information, see [Troubleshooting connection issues when using the Amazon Lights
 - `instance_name`: The name of the instance for which you want to reset the host key or
   certificate.
 """
-delete_known_host_keys(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_known_host_keys(
+    instanceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "DeleteKnownHostKeys",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_known_host_keys(
     instanceName,
     params::AbstractDict{String};
@@ -2953,13 +3056,16 @@ applied to the resource identified by `load balancer name`. For more information
 
 - `load_balancer_name`: The name of the load balancer you want to delete.
 """
-delete_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function delete_load_balancer(
+    loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "DeleteLoadBalancer",
         Dict{String,Any}("loadBalancerName" => loadBalancerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_load_balancer(
     loadBalancerName,
     params::AbstractDict{String};
@@ -3002,16 +3108,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the backup. The `force` parameter is required when the primary SSL/TLS certificate is in
   use by an instance attached to the load balancer.
 """
-delete_load_balancer_tls_certificate(
+function delete_load_balancer_tls_certificate(
     certificateName, loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteLoadBalancerTlsCertificate",
-    Dict{String,Any}(
-        "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteLoadBalancerTlsCertificate",
+        Dict{String,Any}(
+            "certificateName" => certificateName, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_load_balancer_tls_certificate(
     certificateName,
     loadBalancerName,
@@ -3070,14 +3178,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `false`
 """
-delete_relational_database(
+function delete_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -3112,14 +3222,18 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
 - `relational_database_snapshot_name`: The name of the database snapshot that you are
   deleting.
 """
-delete_relational_database_snapshot(
+function delete_relational_database_snapshot(
     relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DeleteRelationalDatabaseSnapshot",
-    Dict{String,Any}("relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DeleteRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_relational_database_snapshot(
     relationalDatabaseSnapshotName,
     params::AbstractDict{String};
@@ -3158,14 +3272,16 @@ domains that are associated with the certificate.
   Use the `GetDistributions` action to get a list of distribution names that you can
   specify.
 """
-detach_certificate_from_distribution(
+function detach_certificate_from_distribution(
     distributionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DetachCertificateFromDistribution",
-    Dict{String,Any}("distributionName" => distributionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DetachCertificateFromDistribution",
+        Dict{String,Any}("distributionName" => distributionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_certificate_from_distribution(
     distributionName,
     params::AbstractDict{String};
@@ -3199,12 +3315,14 @@ the resource identified by `disk name`. For more information, see the [Amazon Li
 - `disk_name`: The unique name of the disk you want to detach from your instance (`my-
   disk`).
 """
-detach_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DetachDisk",
-    Dict{String,Any}("diskName" => diskName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function detach_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DetachDisk",
+        Dict{String,Any}("diskName" => diskName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_disk(
     diskName,
     params::AbstractDict{String};
@@ -3239,16 +3357,18 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
   detach from the load balancer.
 - `load_balancer_name`: The name of the Lightsail load balancer.
 """
-detach_instances_from_load_balancer(
+function detach_instances_from_load_balancer(
     instanceNames, loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DetachInstancesFromLoadBalancer",
-    Dict{String,Any}(
-        "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DetachInstancesFromLoadBalancer",
+        Dict{String,Any}(
+            "instanceNames" => instanceNames, "loadBalancerName" => loadBalancerName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_instances_from_load_balancer(
     instanceNames,
     loadBalancerName,
@@ -3281,13 +3401,14 @@ Detaches a static IP from the Amazon Lightsail instance to which it is attached.
 
 - `static_ip_name`: The name of the static IP to detach from the instance.
 """
-detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function detach_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "DetachStaticIp",
         Dict{String,Any}("staticIpName" => staticIpName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function detach_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -3314,14 +3435,16 @@ Disables an add-on for an Amazon Lightsail resource. For more information, see t
 - `add_on_type`: The add-on type to disable.
 - `resource_name`: The name of the source resource for which to disable the add-on.
 """
-disable_add_on(
+function disable_add_on(
     addOnType, resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "DisableAddOn",
-    Dict{String,Any}("addOnType" => addOnType, "resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "DisableAddOn",
+        Dict{String,Any}("addOnType" => addOnType, "resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_add_on(
     addOnType,
     resourceName,
@@ -3351,9 +3474,11 @@ Downloads the regional Amazon Lightsail default key pair.
 This action also creates a Lightsail default key pair if a default key pair does not
 currently exist in the Amazon Web Services Region.
 """
-download_default_key_pair(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "DownloadDefaultKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function download_default_key_pair(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "DownloadDefaultKeyPair"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function download_default_key_pair(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3377,14 +3502,16 @@ the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/
 - `add_on_request`: An array of strings representing the add-on to enable or modify.
 - `resource_name`: The name of the source resource for which to enable or modify the add-on.
 """
-enable_add_on(
+function enable_add_on(
     addOnRequest, resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "EnableAddOn",
-    Dict{String,Any}("addOnRequest" => addOnRequest, "resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "EnableAddOn",
+        Dict{String,Any}("addOnRequest" => addOnRequest, "resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_add_on(
     addOnRequest,
     resourceName,
@@ -3431,13 +3558,16 @@ snapshots that you can export to Amazon EC2.
 - `source_snapshot_name`: The name of the instance or disk snapshot to be exported to
   Amazon EC2.
 """
-export_snapshot(sourceSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function export_snapshot(
+    sourceSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "ExportSnapshot",
         Dict{String,Any}("sourceSnapshotName" => sourceSnapshotName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function export_snapshot(
     sourceSnapshotName,
     params::AbstractDict{String};
@@ -3471,8 +3601,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_active_names(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetActiveNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_active_names(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetActiveNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_active_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3511,8 +3644,9 @@ Specify an alarm name to return information about a specific alarm.
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_alarms(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_alarms(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetAlarms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_alarms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3533,13 +3667,16 @@ see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/d
 - `resource_name`: The name of the source instance or disk from which to get automatic
   snapshot information.
 """
-get_auto_snapshots(resourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_auto_snapshots(
+    resourceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetAutoSnapshots",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_auto_snapshots(
     resourceName,
     params::AbstractDict{String};
@@ -3587,8 +3724,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_blueprints(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_blueprints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3612,13 +3752,16 @@ action. If you lose the secret access key, you must create a new access key.
 
 - `bucket_name`: The name of the bucket for which to return access keys.
 """
-get_bucket_access_keys(bucketName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_bucket_access_keys(
+    bucketName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetBucketAccessKeys",
         Dict{String,Any}("bucketName" => bucketName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_bucket_access_keys(
     bucketName,
     params::AbstractDict{String};
@@ -3653,8 +3796,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) bundles in the response of your request.
 """
-get_bucket_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetBucketBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_bucket_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetBucketBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_bucket_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3724,7 +3870,7 @@ storage space used by those objects.
   Valid units depend on the metric data being requested. For the valid units with each
   available metric, see the `metricName` parameter.
 """
-get_bucket_metric_data(
+function get_bucket_metric_data(
     bucketName,
     endTime,
     metricName,
@@ -3733,20 +3879,22 @@ get_bucket_metric_data(
     statistics,
     unit;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetBucketMetricData",
-    Dict{String,Any}(
-        "bucketName" => bucketName,
-        "endTime" => endTime,
-        "metricName" => metricName,
-        "period" => period,
-        "startTime" => startTime,
-        "statistics" => statistics,
-        "unit" => unit,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetBucketMetricData",
+        Dict{String,Any}(
+            "bucketName" => bucketName,
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_bucket_metric_data(
     bucketName,
     endTime,
@@ -3808,8 +3956,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_buckets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetBuckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetBuckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3847,8 +3996,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3893,8 +4043,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3923,12 +4076,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_cloud_formation_stack_records(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_cloud_formation_stack_records(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetCloudFormationStackRecords";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_cloud_formation_stack_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3963,8 +4119,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify a protocol in your request to return information about a specific contact method
   protocol.
 """
-get_contact_methods(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetContactMethods"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_contact_methods(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetContactMethods"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_contact_methods(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3980,9 +4139,11 @@ end
 Returns information about Amazon Lightsail containers, such as the current version of the
 Lightsail Control (lightsailctl) plugin.
 """
-get_container_apimetadata(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetContainerAPIMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_container_apimetadata(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetContainerAPIMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_container_apimetadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4011,13 +4172,16 @@ this action. Those images are not registered to your Lightsail container service
 - `service_name`: The name of the container service for which to return registered
   container images.
 """
-get_container_images(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_container_images(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetContainerImages",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_container_images(
     serviceName,
     params::AbstractDict{String};
@@ -4092,14 +4256,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `1538424000` as the start time.
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 """
-get_container_log(
+function get_container_log(
     containerName, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetContainerLog",
-    Dict{String,Any}("containerName" => containerName, "serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetContainerLog",
+        Dict{String,Any}("containerName" => containerName, "serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_container_log(
     containerName,
     serviceName,
@@ -4143,14 +4309,16 @@ in the *Amazon Web Services General Reference*.
 
 - `service_name`: The name of the container service for which to return deployments.
 """
-get_container_service_deployments(
+function get_container_service_deployments(
     serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetContainerServiceDeployments",
-    Dict{String,Any}("serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetContainerServiceDeployments",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_container_service_deployments(
     serviceName,
     params::AbstractDict{String};
@@ -4217,7 +4385,7 @@ All container service metric data is available in 5-minute (300 seconds) granula
    - `SampleCount` - The count, or number, of data points used for the statistical
   calculation.
 """
-get_container_service_metric_data(
+function get_container_service_metric_data(
     endTime,
     metricName,
     period,
@@ -4225,19 +4393,21 @@ get_container_service_metric_data(
     startTime,
     statistics;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetContainerServiceMetricData",
-    Dict{String,Any}(
-        "endTime" => endTime,
-        "metricName" => metricName,
-        "period" => period,
-        "serviceName" => serviceName,
-        "startTime" => startTime,
-        "statistics" => statistics,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetContainerServiceMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "serviceName" => serviceName,
+            "startTime" => startTime,
+            "statistics" => statistics,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_container_service_metric_data(
     endTime,
     metricName,
@@ -4279,10 +4449,11 @@ services.
 The power specifies the amount of memory, the number of vCPUs, and the base price of the
 container service.
 """
-get_container_service_powers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_container_service_powers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "GetContainerServicePowers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_container_service_powers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4309,9 +4480,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When omitted, the response includes all of your container services in the Amazon Web
   Services Region where the request is made.
 """
-get_container_services(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetContainerServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_container_services(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetContainerServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_container_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4350,16 +4523,18 @@ will not generate for a resource that has been deleted.
   `1538424000` as the start time.
   You can convert a human-friendly time to Unix time format using a converter like [Epoch converter](https://www.epochconverter.com/).
 """
-get_cost_estimate(
+function get_cost_estimate(
     endTime, resourceName, startTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetCostEstimate",
-    Dict{String,Any}(
-        "endTime" => endTime, "resourceName" => resourceName, "startTime" => startTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetCostEstimate",
+        Dict{String,Any}(
+            "endTime" => endTime, "resourceName" => resourceName, "startTime" => startTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_cost_estimate(
     endTime,
     resourceName,
@@ -4395,12 +4570,14 @@ Returns information about a specific block storage disk.
 
 - `disk_name`: The name of the disk (`my-disk`).
 """
-get_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetDisk",
-    Dict{String,Any}("diskName" => diskName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_disk(diskName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetDisk",
+        Dict{String,Any}("diskName" => diskName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_disk(
     diskName,
     params::AbstractDict{String};
@@ -4426,13 +4603,16 @@ Returns information about a specific block storage disk snapshot.
 
 - `disk_snapshot_name`: The name of the disk snapshot (`my-disk-snapshot`).
 """
-get_disk_snapshot(diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_disk_snapshot(
+    diskSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetDiskSnapshot",
         Dict{String,Any}("diskSnapshotName" => diskSnapshotName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_disk_snapshot(
     diskSnapshotName,
     params::AbstractDict{String};
@@ -4466,8 +4646,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_disk_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetDiskSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_disk_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetDiskSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_disk_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4492,8 +4675,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_disks(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetDisks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_disks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetDisks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_disks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4512,9 +4696,11 @@ Returns the bundles that can be applied to your Amazon Lightsail content deliver
 A distribution bundle specifies the monthly network transfer quota and monthly cost of your
 distribution.
 """
-get_distribution_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetDistributionBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_distribution_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetDistributionBundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_distribution_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4546,12 +4732,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When omitted, the response includes the latest cache reset timestamp of all your
   distributions.
 """
-get_distribution_latest_cache_reset(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_distribution_latest_cache_reset(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetDistributionLatestCacheReset";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_distribution_latest_cache_reset(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4661,7 +4850,7 @@ performance of your resources.
   Valid units depend on the metric data being requested. For the valid units with each
   available metric, see the `metricName` parameter.
 """
-get_distribution_metric_data(
+function get_distribution_metric_data(
     distributionName,
     endTime,
     metricName,
@@ -4670,20 +4859,22 @@ get_distribution_metric_data(
     statistics,
     unit;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetDistributionMetricData",
-    Dict{String,Any}(
-        "distributionName" => distributionName,
-        "endTime" => endTime,
-        "metricName" => metricName,
-        "period" => period,
-        "startTime" => startTime,
-        "statistics" => statistics,
-        "unit" => unit,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetDistributionMetricData",
+        Dict{String,Any}(
+            "distributionName" => distributionName,
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_distribution_metric_data(
     distributionName,
     endTime,
@@ -4738,8 +4929,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_distributions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetDistributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_distributions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetDistributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_distributions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4758,12 +4952,14 @@ Returns information about a specific domain recordset.
 
 - `domain_name`: The domain name for which your want to return information about.
 """
-get_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetDomain",
-    Dict{String,Any}("domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_domain(domainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetDomain",
+        Dict{String,Any}("domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_domain(
     domainName,
     params::AbstractDict{String};
@@ -4795,8 +4991,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_domains(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_domains(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4825,10 +5022,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_export_snapshot_records(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_export_snapshot_records(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "GetExportSnapshotRecords"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_export_snapshot_records(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4851,12 +5049,14 @@ server.
 
 - `instance_name`: The name of the instance.
 """
-get_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetInstance",
-    Dict{String,Any}("instanceName" => instanceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_instance(
     instanceName,
     params::AbstractDict{String};
@@ -4892,14 +5092,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"protocol"`: The protocol to use to connect to your instance. Defaults to `ssh`.
 """
-get_instance_access_details(
+function get_instance_access_details(
     instanceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetInstanceAccessDetails",
-    Dict{String,Any}("instanceName" => instanceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetInstanceAccessDetails",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_instance_access_details(
     instanceName,
     params::AbstractDict{String};
@@ -5037,7 +5239,7 @@ performance of your resources.
   requested. For the valid units to specify with each available metric, see the
   `metricName` parameter.
 """
-get_instance_metric_data(
+function get_instance_metric_data(
     endTime,
     instanceName,
     metricName,
@@ -5046,20 +5248,22 @@ get_instance_metric_data(
     statistics,
     unit;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetInstanceMetricData",
-    Dict{String,Any}(
-        "endTime" => endTime,
-        "instanceName" => instanceName,
-        "metricName" => metricName,
-        "period" => period,
-        "startTime" => startTime,
-        "statistics" => statistics,
-        "unit" => unit,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetInstanceMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "instanceName" => instanceName,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_instance_metric_data(
     endTime,
     instanceName,
@@ -5104,13 +5308,16 @@ allowed to connect to the instance through the ports, and the protocol.
 
 - `instance_name`: The name of the instance for which to return firewall port states.
 """
-get_instance_port_states(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_instance_port_states(
+    instanceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetInstancePortStates",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_instance_port_states(
     instanceName,
     params::AbstractDict{String};
@@ -5137,14 +5344,16 @@ Returns information about a specific instance snapshot.
 - `instance_snapshot_name`: The name of the snapshot for which you are requesting
   information.
 """
-get_instance_snapshot(
+function get_instance_snapshot(
     instanceSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetInstanceSnapshot",
-    Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetInstanceSnapshot",
+        Dict{String,Any}("instanceSnapshotName" => instanceSnapshotName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_instance_snapshot(
     instanceSnapshotName,
     params::AbstractDict{String};
@@ -5180,9 +5389,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are paginated, the response will return a next page token that you can specify as the
   page token in a subsequent request.
 """
-get_instance_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetInstanceSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_instance_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetInstanceSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_instance_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5204,13 +5415,16 @@ Returns the state of a specific instance. Works on one instance at a time.
 
 - `instance_name`: The name of the instance to get state information about.
 """
-get_instance_state(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_instance_state(
+    instanceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetInstanceState",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_instance_state(
     instanceName,
     params::AbstractDict{String};
@@ -5242,8 +5456,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_instances(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5262,12 +5477,14 @@ Returns information about a specific key pair.
 
 - `key_pair_name`: The name of the key pair for which you are requesting information.
 """
-get_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetKeyPair",
-    Dict{String,Any}("keyPairName" => keyPairName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_key_pair(keyPairName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetKeyPair",
+        Dict{String,Any}("keyPairName" => keyPairName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_key_pair(
     keyPairName,
     params::AbstractDict{String};
@@ -5301,8 +5518,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_key_pairs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetKeyPairs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_key_pairs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5321,13 +5539,16 @@ Returns information about the specified Lightsail load balancer.
 
 - `load_balancer_name`: The name of the load balancer.
 """
-get_load_balancer(loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_load_balancer(
+    loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetLoadBalancer",
         Dict{String,Any}("loadBalancerName" => loadBalancerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_load_balancer(
     loadBalancerName,
     params::AbstractDict{String};
@@ -5472,7 +5693,7 @@ performance of your resources.
 - `unit`: The unit for the metric data request. Valid units depend on the metric data being
   requested. For the valid units with each available metric, see the `metricName` parameter.
 """
-get_load_balancer_metric_data(
+function get_load_balancer_metric_data(
     endTime,
     loadBalancerName,
     metricName,
@@ -5481,20 +5702,22 @@ get_load_balancer_metric_data(
     statistics,
     unit;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetLoadBalancerMetricData",
-    Dict{String,Any}(
-        "endTime" => endTime,
-        "loadBalancerName" => loadBalancerName,
-        "metricName" => metricName,
-        "period" => period,
-        "startTime" => startTime,
-        "statistics" => statistics,
-        "unit" => unit,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetLoadBalancerMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "loadBalancerName" => loadBalancerName,
+            "metricName" => metricName,
+            "period" => period,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_load_balancer_metric_data(
     endTime,
     loadBalancerName,
@@ -5545,14 +5768,16 @@ active and the other is inactive.
 - `load_balancer_name`: The name of the load balancer you associated with your SSL/TLS
   certificate.
 """
-get_load_balancer_tls_certificates(
+function get_load_balancer_tls_certificates(
     loadBalancerName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetLoadBalancerTlsCertificates",
-    Dict{String,Any}("loadBalancerName" => loadBalancerName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetLoadBalancerTlsCertificates",
+        Dict{String,Any}("loadBalancerName" => loadBalancerName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_load_balancer_tls_certificates(
     loadBalancerName,
     params::AbstractDict{String};
@@ -5589,10 +5814,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_load_balancer_tls_policies(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_load_balancer_tls_policies(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetLoadBalancerTlsPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_load_balancer_tls_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5620,8 +5848,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_load_balancers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetLoadBalancers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_load_balancers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5641,12 +5872,14 @@ create an instance, allocate a static IP, attach a static IP, and so on.
 
 - `operation_id`: A GUID used to identify the operation.
 """
-get_operation(operationId; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetOperation",
-    Dict{String,Any}("operationId" => operationId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_operation(operationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetOperation",
+        Dict{String,Any}("operationId" => operationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_operation(
     operationId,
     params::AbstractDict{String};
@@ -5682,8 +5915,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_operations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_operations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5712,14 +5948,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_operations_for_resource(
+function get_operations_for_resource(
     resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetOperationsForResource",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetOperationsForResource",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_operations_for_resource(
     resourceName,
     params::AbstractDict{String};
@@ -5753,8 +5991,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   also include Availability Zones for databases in your get regions request. Availability
   Zones are indicated with a letter (`us-east-2a`).
 """
-get_regions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_regions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5773,14 +6012,16 @@ Returns information about a specific database in Amazon Lightsail.
 
 - `relational_database_name`: The name of the database that you are looking up.
 """
-get_relational_database(
+function get_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5819,12 +6060,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your results are paginated, the response will return a next page token that you can
   specify as the page token in a subsequent request.
 """
-get_relational_database_blueprints(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_relational_database_blueprints(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetRelationalDatabaseBlueprints";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_relational_database_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5857,12 +6101,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_relational_database_bundles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_relational_database_bundles(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetRelationalDatabaseBundles";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_relational_database_bundles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5900,14 +6147,16 @@ The minimum is 1 and the maximum is 14 days (20160 minutes).
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_relational_database_events(
+function get_relational_database_events(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabaseEvents",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseEvents",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_events(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -5972,19 +6221,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    <p>For example, if you wish to use a start time of October 1, 2018, at 8 PM UTC, then
   you input `1538424000` as the start time.
 """
-get_relational_database_log_events(
+function get_relational_database_log_events(
     logStreamName,
     relationalDatabaseName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetRelationalDatabaseLogEvents",
-    Dict{String,Any}(
-        "logStreamName" => logStreamName,
-        "relationalDatabaseName" => relationalDatabaseName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseLogEvents",
+        Dict{String,Any}(
+            "logStreamName" => logStreamName,
+            "relationalDatabaseName" => relationalDatabaseName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_log_events(
     logStreamName,
     relationalDatabaseName,
@@ -6018,14 +6269,16 @@ Returns a list of available log streams for a specific database in Amazon Lights
 
 - `relational_database_name`: The name of your database for which to get log streams.
 """
-get_relational_database_log_streams(
+function get_relational_database_log_streams(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabaseLogStreams",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseLogStreams",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_log_streams(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6073,14 +6326,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `CURRENT`
 """
-get_relational_database_master_user_password(
+function get_relational_database_master_user_password(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabaseMasterUserPassword",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseMasterUserPassword",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_master_user_password(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6188,7 +6443,7 @@ All relational database metric data is available in 1-minute (60 seconds) granul
 - `unit`: The unit for the metric data request. Valid units depend on the metric data being
   requested. For the valid units with each available metric, see the `metricName` parameter.
 """
-get_relational_database_metric_data(
+function get_relational_database_metric_data(
     endTime,
     metricName,
     period,
@@ -6197,20 +6452,22 @@ get_relational_database_metric_data(
     statistics,
     unit;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "GetRelationalDatabaseMetricData",
-    Dict{String,Any}(
-        "endTime" => endTime,
-        "metricName" => metricName,
-        "period" => period,
-        "relationalDatabaseName" => relationalDatabaseName,
-        "startTime" => startTime,
-        "statistics" => statistics,
-        "unit" => unit,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseMetricData",
+        Dict{String,Any}(
+            "endTime" => endTime,
+            "metricName" => metricName,
+            "period" => period,
+            "relationalDatabaseName" => relationalDatabaseName,
+            "startTime" => startTime,
+            "statistics" => statistics,
+            "unit" => unit,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_metric_data(
     endTime,
     metricName,
@@ -6269,14 +6526,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your results are paginated, the response will return a next page token that you can
   specify as the page token in a subsequent request.
 """
-get_relational_database_parameters(
+function get_relational_database_parameters(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabaseParameters",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseParameters",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_parameters(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6307,14 +6566,18 @@ Returns information about a specific database snapshot in Amazon Lightsail.
 - `relational_database_snapshot_name`: The name of the database snapshot for which to get
   information.
 """
-get_relational_database_snapshot(
+function get_relational_database_snapshot(
     relationalDatabaseSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "GetRelationalDatabaseSnapshot",
-    Dict{String,Any}("relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "GetRelationalDatabaseSnapshot",
+        Dict{String,Any}(
+            "relationalDatabaseSnapshotName" => relationalDatabaseSnapshotName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_relational_database_snapshot(
     relationalDatabaseSnapshotName,
     params::AbstractDict{String};
@@ -6352,12 +6615,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results are paginated, the response will return a next page token that you can specify as
   the page token in a subsequent request.
 """
-get_relational_database_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_relational_database_snapshots(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "GetRelationalDatabaseSnapshots";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_relational_database_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6385,9 +6651,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are paginated, the response will return a next page token that you can specify as the
   page token in a subsequent request.
 """
-get_relational_databases(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetRelationalDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_relational_databases(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetRelationalDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_relational_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6420,13 +6688,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_setup_history(resourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function get_setup_history(resourceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "GetSetupHistory",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_setup_history(
     resourceName,
     params::AbstractDict{String};
@@ -6452,12 +6721,14 @@ Returns information about an Amazon Lightsail static IP.
 
 - `static_ip_name`: The name of the static IP in Lightsail.
 """
-get_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "GetStaticIp",
-    Dict{String,Any}("staticIpName" => staticIpName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "GetStaticIp",
+        Dict{String,Any}("staticIpName" => staticIpName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -6489,8 +6760,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated, the response will return a next page token that you can specify as the page
   token in a subsequent request.
 """
-get_static_ips(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("GetStaticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_static_ips(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("GetStaticIps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_static_ips(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6510,14 +6782,18 @@ Imports a public SSH key from a specific key pair.
 - `key_pair_name`: The name of the key pair for which you want to import the public key.
 - `public_key_base64`: A base64-encoded public key of the `ssh-rsa` type.
 """
-import_key_pair(
+function import_key_pair(
     keyPairName, publicKeyBase64; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "ImportKeyPair",
-    Dict{String,Any}("keyPairName" => keyPairName, "publicKeyBase64" => publicKeyBase64);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "ImportKeyPair",
+        Dict{String,Any}(
+            "keyPairName" => keyPairName, "publicKeyBase64" => publicKeyBase64
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_key_pair(
     keyPairName,
     publicKeyBase64,
@@ -6546,8 +6822,9 @@ end
 
 Returns a Boolean value indicating whether your Lightsail VPC is peered.
 """
-is_vpc_peered(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("IsVpcPeered"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function is_vpc_peered(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("IsVpcPeered"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function is_vpc_peered(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6571,14 +6848,16 @@ applied to the resource identified by `instanceName`. For more information, see 
 - `instance_name`: The name of the instance for which to open ports.
 - `port_info`: An object to describe the ports to open for the specified instance.
 """
-open_instance_public_ports(
+function open_instance_public_ports(
     instanceName, portInfo; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "OpenInstancePublicPorts",
-    Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "OpenInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfo" => portInfo);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function open_instance_public_ports(
     instanceName,
     portInfo,
@@ -6605,8 +6884,9 @@ end
 
 Peers the Lightsail VPC with the user's default VPC.
 """
-peer_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("PeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function peer_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("PeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function peer_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -6722,7 +7002,7 @@ Notifications are enabled by default if you don't specify this parameter.
    - `missing` - Missing data is treated as missing.
   If `treatMissingData` is not specified, the default behavior of `missing` is used.
 """
-put_alarm(
+function put_alarm(
     alarmName,
     comparisonOperator,
     evaluationPeriods,
@@ -6730,19 +7010,21 @@ put_alarm(
     monitoredResourceName,
     threshold;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "PutAlarm",
-    Dict{String,Any}(
-        "alarmName" => alarmName,
-        "comparisonOperator" => comparisonOperator,
-        "evaluationPeriods" => evaluationPeriods,
-        "metricName" => metricName,
-        "monitoredResourceName" => monitoredResourceName,
-        "threshold" => threshold,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "PutAlarm",
+        Dict{String,Any}(
+            "alarmName" => alarmName,
+            "comparisonOperator" => comparisonOperator,
+            "evaluationPeriods" => evaluationPeriods,
+            "metricName" => metricName,
+            "monitoredResourceName" => monitoredResourceName,
+            "threshold" => threshold,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_alarm(
     alarmName,
     comparisonOperator,
@@ -6793,14 +7075,16 @@ applied to the resource identified by `instanceName`. For more information, see 
 - `port_infos`: An array of objects to describe the ports to open for the specified
   instance.
 """
-put_instance_public_ports(
+function put_instance_public_ports(
     instanceName, portInfos; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "PutInstancePublicPorts",
-    Dict{String,Any}("instanceName" => instanceName, "portInfos" => portInfos);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "PutInstancePublicPorts",
+        Dict{String,Any}("instanceName" => instanceName, "portInfos" => portInfos);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_instance_public_ports(
     instanceName,
     portInfos,
@@ -6834,13 +7118,14 @@ to the resource identified by `instance name`. For more information, see the [Am
 
 - `instance_name`: The name of the instance to reboot.
 """
-reboot_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function reboot_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "RebootInstance",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function reboot_instance(
     instanceName,
     params::AbstractDict{String};
@@ -6870,14 +7155,16 @@ see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/d
 
 - `relational_database_name`: The name of your database to reboot.
 """
-reboot_relational_database(
+function reboot_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "RebootRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "RebootRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reboot_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -6931,14 +7218,18 @@ in the *Amazon Lightsail Developer Guide*.
   the version number will be `3`, and so on.
 - `service_name`: The name of the container service for which to register a container image.
 """
-register_container_image(
+function register_container_image(
     digest, label, serviceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "RegisterContainerImage",
-    Dict{String,Any}("digest" => digest, "label" => label, "serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "RegisterContainerImage",
+        Dict{String,Any}(
+            "digest" => digest, "label" => label, "serviceName" => serviceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_container_image(
     digest,
     label,
@@ -6972,13 +7263,14 @@ Deletes a specific static IP from your account.
 
 - `static_ip_name`: The name of the static IP to delete.
 """
-release_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function release_static_ip(staticIpName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "ReleaseStaticIp",
         Dict{String,Any}("staticIpName" => staticIpName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function release_static_ip(
     staticIpName,
     params::AbstractDict{String};
@@ -7013,9 +7305,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the `GetDistributions` action to get a list of distribution names that you can
   specify.
 """
-reset_distribution_cache(; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "ResetDistributionCache"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function reset_distribution_cache(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "ResetDistributionCache"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function reset_distribution_cache(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7052,14 +7346,16 @@ confirmed as valid.
 
 - `protocol`: The protocol to verify, such as `Email` or `SMS` (text messaging).
 """
-send_contact_method_verification(
+function send_contact_method_verification(
     protocol; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "SendContactMethodVerification",
-    Dict{String,Any}("protocol" => protocol);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "SendContactMethodVerification",
+        Dict{String,Any}("protocol" => protocol);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function send_contact_method_verification(
     protocol,
     params::AbstractDict{String};
@@ -7116,21 +7412,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you switch from `dual-stack` to `ipv6`, the bundle will be updated, and billing for the
   IPv6-only instance bundle begins immediately.
 """
-set_ip_address_type(
+function set_ip_address_type(
     ipAddressType,
     resourceName,
     resourceType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "SetIpAddressType",
-    Dict{String,Any}(
-        "ipAddressType" => ipAddressType,
-        "resourceName" => resourceName,
-        "resourceType" => resourceType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "SetIpAddressType",
+        Dict{String,Any}(
+            "ipAddressType" => ipAddressType,
+            "resourceName" => resourceName,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_ip_address_type(
     ipAddressType,
     resourceName,
@@ -7178,16 +7476,18 @@ Amazon Web Services Region.
 - `resource_name`: The name of the Lightsail instance for which to set bucket access. The
   instance must be in a running or stopped state.
 """
-set_resource_access_for_bucket(
+function set_resource_access_for_bucket(
     access, bucketName, resourceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "SetResourceAccessForBucket",
-    Dict{String,Any}(
-        "access" => access, "bucketName" => bucketName, "resourceName" => resourceName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "SetResourceAccessForBucket",
+        Dict{String,Any}(
+            "access" => access, "bucketName" => bucketName, "resourceName" => resourceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function set_resource_access_for_bucket(
     access,
     bucketName,
@@ -7232,23 +7532,25 @@ than or equal to 63 characters in length.
   one email address.
 - `instance_name`: The name of the Lightsail instance.
 """
-setup_instance_https(
+function setup_instance_https(
     certificateProvider,
     domainNames,
     emailAddress,
     instanceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "SetupInstanceHttps",
-    Dict{String,Any}(
-        "certificateProvider" => certificateProvider,
-        "domainNames" => domainNames,
-        "emailAddress" => emailAddress,
-        "instanceName" => instanceName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "SetupInstanceHttps",
+        Dict{String,Any}(
+            "certificateProvider" => certificateProvider,
+            "domainNames" => domainNames,
+            "emailAddress" => emailAddress,
+            "instanceName" => instanceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function setup_instance_https(
     certificateProvider,
     domainNames,
@@ -7288,13 +7590,14 @@ this action to resume the session after it expires.
 
 - `resource_name`: The resource name.
 """
-start_guisession(resourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function start_guisession(resourceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "StartGUISession",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_guisession(
     resourceName,
     params::AbstractDict{String};
@@ -7328,13 +7631,14 @@ the resource identified by `instance name`. For more information, see the [Amazo
 
 - `instance_name`: The name of the instance (a virtual private server) to start.
 """
-start_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function start_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "StartInstance",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_instance(
     instanceName,
     params::AbstractDict{String};
@@ -7365,14 +7669,16 @@ see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/d
 
 - `relational_database_name`: The name of your database to start.
 """
-start_relational_database(
+function start_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "StartRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "StartRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -7403,13 +7709,14 @@ operating system or application. The session will close and any unsaved data wil
 
 - `resource_name`: The resource name.
 """
-stop_guisession(resourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function stop_guisession(resourceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "StopGUISession",
         Dict{String,Any}("resourceName" => resourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_guisession(
     resourceName,
     params::AbstractDict{String};
@@ -7454,12 +7761,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any other state, your instance should stop normally without adding this parameter to your
   API request.
 """
-stop_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "StopInstance",
-    Dict{String,Any}("instanceName" => instanceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function stop_instance(instanceName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "StopInstance",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_instance(
     instanceName,
     params::AbstractDict{String};
@@ -7496,14 +7805,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"relationalDatabaseSnapshotName"`: The name of your new database snapshot to be created
   before stopping your database.
 """
-stop_relational_database(
+function stop_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "StopRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "StopRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -7547,13 +7858,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The Amazon Resource Name (ARN) of the resource to which you want to add
   a tag.
 """
-tag_resource(resourceName, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function tag_resource(
+    resourceName, tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "TagResource",
         Dict{String,Any}("resourceName" => resourceName, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceName,
     tags,
@@ -7597,13 +7911,14 @@ displayed on the Amazon Lightsail console. For more information, see [Alarms in 
   enough data is available for the metric to determine the alarm state.
    - `OK` - The metric is within the defined threshold.
 """
-test_alarm(alarmName, state; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function test_alarm(alarmName, state; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "TestAlarm",
         Dict{String,Any}("alarmName" => alarmName, "state" => state);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function test_alarm(
     alarmName,
     state,
@@ -7628,8 +7943,9 @@ end
 
 Unpeers the Lightsail VPC from the user's default VPC.
 """
-unpeer_vpc(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail("UnpeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function unpeer_vpc(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail("UnpeerVpc"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function unpeer_vpc(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7661,13 +7977,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The Amazon Resource Name (ARN) of the resource from which you want to
   remove a tag.
 """
-untag_resource(resourceName, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function untag_resource(
+    resourceName, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "UntagResource",
         Dict{String,Any}("resourceName" => resourceName, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceName,
     tagKeys,
@@ -7720,12 +8039,14 @@ You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
    - `Suspended` - Suspends versioning of objects in the specified bucket. Existing object
   versions are retained.
 """
-update_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_config()) = lightsail(
-    "UpdateBucket",
-    Dict{String,Any}("bucketName" => bucketName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_bucket(bucketName; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
+        "UpdateBucket",
+        Dict{String,Any}("bucketName" => bucketName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bucket(
     bucketName,
     params::AbstractDict{String};
@@ -7769,14 +8090,16 @@ come.
   Use the [GetBucketBundles](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketBundles.html)
   action to get a list of bundle IDs that you can specify.
 """
-update_bucket_bundle(
+function update_bucket_bundle(
     bucketName, bundleId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "UpdateBucketBundle",
-    Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateBucketBundle",
+        Dict{String,Any}("bucketName" => bucketName, "bundleId" => bundleId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bucket_bundle(
     bucketName,
     bundleId,
@@ -7851,13 +8174,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   price of your container service, multiply the base price of the `power` with the `scale`
   (the number of nodes) of the service.
 """
-update_container_service(serviceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function update_container_service(
+    serviceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "UpdateContainerService",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_container_service(
     serviceName,
     params::AbstractDict{String};
@@ -7922,13 +8248,16 @@ The distribution pulls, caches, and serves content from the origin.
 - `"viewerMinimumTlsProtocolVersion"`: Use this parameter to update the minimum TLS
   protocol version for the SSL/TLS certificate that's attached to the distribution.
 """
-update_distribution(distributionName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function update_distribution(
+    distributionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lightsail(
         "UpdateDistribution",
         Dict{String,Any}("distributionName" => distributionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_distribution(
     distributionName,
     params::AbstractDict{String};
@@ -7976,10 +8305,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use the `GetDistributions` action to get a list of distribution names that you can
   specify.
 """
-update_distribution_bundle(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lightsail(
+function update_distribution_bundle(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lightsail(
         "UpdateDistributionBundle"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function update_distribution_bundle(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -8005,14 +8335,16 @@ applied to the resource identified by `domain name`. For more information, see t
 - `domain_entry`: An array of key-value pairs containing information about the domain entry.
 - `domain_name`: The name of the domain recordset to update.
 """
-update_domain_entry(
+function update_domain_entry(
     domainEntry, domainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "UpdateDomainEntry",
-    Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateDomainEntry",
+        Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_domain_entry(
     domainEntry,
     domainName,
@@ -8077,14 +8409,16 @@ If you specify a value of `disabled`, you cannot access your instance metadata.
   metadata retrieval requests. In this state, retrieving the IAM role credential always
   returns the version 2.0 credentials. The version 1.0 credentials are not available.
 """
-update_instance_metadata_options(
+function update_instance_metadata_options(
     instanceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "UpdateInstanceMetadataOptions",
-    Dict{String,Any}("instanceName" => instanceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateInstanceMetadataOptions",
+        Dict{String,Any}("instanceName" => instanceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_instance_metadata_options(
     instanceName,
     params::AbstractDict{String};
@@ -8137,21 +8471,23 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
 - `load_balancer_name`: The name of the load balancer that you want to modify (`my-load-
   balancer`.
 """
-update_load_balancer_attribute(
+function update_load_balancer_attribute(
     attributeName,
     attributeValue,
     loadBalancerName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lightsail(
-    "UpdateLoadBalancerAttribute",
-    Dict{String,Any}(
-        "attributeName" => attributeName,
-        "attributeValue" => attributeValue,
-        "loadBalancerName" => loadBalancerName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateLoadBalancerAttribute",
+        Dict{String,Any}(
+            "attributeName" => attributeName,
+            "attributeValue" => attributeValue,
+            "loadBalancerName" => loadBalancerName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_load_balancer_attribute(
     attributeName,
     attributeValue,
@@ -8262,14 +8598,16 @@ Constraints: Must contain from 8 to 128 characters.
 
 Use the `get relational database master user password` operation to get the new password.
 """
-update_relational_database(
+function update_relational_database(
     relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "UpdateRelationalDatabase",
-    Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateRelationalDatabase",
+        Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_relational_database(
     relationalDatabaseName,
     params::AbstractDict{String};
@@ -8310,16 +8648,18 @@ information, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.am
 - `parameters`: The database parameters to update.
 - `relational_database_name`: The name of your database for which to update parameters.
 """
-update_relational_database_parameters(
+function update_relational_database_parameters(
     parameters, relationalDatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lightsail(
-    "UpdateRelationalDatabaseParameters",
-    Dict{String,Any}(
-        "parameters" => parameters, "relationalDatabaseName" => relationalDatabaseName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lightsail(
+        "UpdateRelationalDatabaseParameters",
+        Dict{String,Any}(
+            "parameters" => parameters, "relationalDatabaseName" => relationalDatabaseName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_relational_database_parameters(
     parameters,
     relationalDatabaseName,

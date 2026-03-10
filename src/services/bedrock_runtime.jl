@@ -18,19 +18,21 @@ The action to apply a guardrail.
 - `guardrail_version`: The guardrail version used in the request to apply the guardrail.
 - `source`: The source of data used in the request to apply the guardrail.
 """
-apply_guardrail(
+function apply_guardrail(
     content,
     guardrailIdentifier,
     guardrailVersion,
     source;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = bedrock_runtime(
-    "POST",
-    "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
-    Dict{String,Any}("content" => content, "source" => source);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_runtime(
+        "POST",
+        "/guardrail/$(guardrailIdentifier)/version/$(guardrailVersion)/apply",
+        Dict{String,Any}("content" => content, "source" => source);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function apply_guardrail(
     content,
     guardrailIdentifier,
@@ -123,14 +125,15 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
       This field is only supported by Anthropic Claude 3, Cohere Command R, Cohere Command
   R+, and Mistral Large models.
 """
-converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    bedrock_runtime(
+function converse(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_runtime(
         "POST",
         "/model/$(modelId)/converse",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function converse(
     messages,
     modelId,
@@ -225,14 +228,17 @@ For information about the JSON Pointer syntax, see the [Internet Engineering Tas
 !!! note
     This field is only supported by Anthropic Claude 3 models.
 """
-converse_stream(messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    bedrock_runtime(
+function converse_stream(
+    messages, modelId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return bedrock_runtime(
         "POST",
         "/model/$(modelId)/converse-stream",
         Dict{String,Any}("messages" => messages);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function converse_stream(
     messages,
     modelId,
@@ -306,14 +312,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    bedrock_runtime(
+function invoke_model(body, modelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return bedrock_runtime(
         "POST",
         "/model/$(modelId)/invoke",
         Dict{String,Any}("body" => body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function invoke_model(
     body,
     modelId,
@@ -391,15 +398,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-Bedrock-Trace"`: Specifies whether to enable or disable the Bedrock trace. If
   enabled, you can see the full Bedrock trace.
 """
-invoke_model_with_response_stream(
+function invoke_model_with_response_stream(
     body, modelId; aws_config::AbstractAWSConfig=current_aws_config()
-) = bedrock_runtime(
-    "POST",
-    "/model/$(modelId)/invoke-with-response-stream",
-    Dict{String,Any}("body" => body);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return bedrock_runtime(
+        "POST",
+        "/model/$(modelId)/invoke-with-response-stream",
+        Dict{String,Any}("body" => body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function invoke_model_with_response_stream(
     body,
     modelId,

@@ -23,14 +23,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional Boolean flag to indicate whether any effect should take place. It
   tests whether the caller has permission to make the call.
 """
-create_home_region_control(
+function create_home_region_control(
     HomeRegion, Target; aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhub_config(
-    "CreateHomeRegionControl",
-    Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhub_config(
+        "CreateHomeRegionControl",
+        Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_home_region_control(
     HomeRegion,
     Target,
@@ -63,13 +65,16 @@ does not delete discovery or migration tracking data in the home region.
 - `control_id`: A unique identifier that's generated for each home region control. It's
   always a string that begins with "hrc-" followed by 12 lowercase letters and numbers.
 """
-delete_home_region_control(ControlId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhub_config(
+function delete_home_region_control(
+    ControlId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhub_config(
         "DeleteHomeRegionControl",
         Dict{String,Any}("ControlId" => ControlId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_home_region_control(
     ControlId,
     params::AbstractDict{String};
@@ -106,10 +111,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   applied, which is always of type `ACCOUNT`. It applies the home region to the current
   `ACCOUNT`.
 """
-describe_home_region_controls(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhub_config(
+function describe_home_region_controls(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhub_config(
         "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_home_region_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -131,9 +137,11 @@ and Migration Hub. You must call `GetHomeRegion` at least once before you call a
 AWS Application Discovery Service and AWS Migration Hub APIs, to obtain the account's
 Migration Hub home region.
 """
-get_home_region(; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhub_config(
-    "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_home_region(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhub_config(
+        "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_home_region(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

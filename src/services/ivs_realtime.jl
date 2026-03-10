@@ -22,13 +22,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"video"`: Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30
   fps.
 """
-create_encoder_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function create_encoder_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/CreateEncoderConfiguration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_encoder_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -70,14 +71,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encoded text. *This field is exposed to all stage participants and should not be used for
   personally identifying, confidential, or sensitive information.*
 """
-create_participant_token(stageArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function create_participant_token(
+    stageArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/CreateParticipantToken",
         Dict{String,Any}("stageArn" => stageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_participant_token(
     stageArn,
     params::AbstractDict{String};
@@ -114,9 +118,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
-create_stage(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST", "/CreateStage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_stage(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/CreateStage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_stage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -153,14 +159,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
-create_storage_configuration(s3; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function create_storage_configuration(
+    s3; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/CreateStorageConfiguration",
         Dict{String,Any}("s3" => s3);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_storage_configuration(
     s3, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -184,14 +193,17 @@ template; otherwise, returns an error.
 
 - `arn`: ARN of the EncoderConfiguration.
 """
-delete_encoder_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function delete_encoder_configuration(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/DeleteEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_encoder_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -215,13 +227,15 @@ future participant tokens generated using the key pair’s private key.
 
 - `arn`: ARN of the public key to be deleted.
 """
-delete_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/DeletePublicKey",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/DeletePublicKey",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_public_key(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -244,13 +258,15 @@ Shuts down and deletes the specified stage (disconnecting all participants).
 
 - `arn`: ARN of the stage to be deleted.
 """
-delete_stage(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/DeleteStage",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/DeleteStage",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_stage(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -278,14 +294,17 @@ use DeleteStorageConfiguration.
 
 - `arn`: ARN of the storage configuration to be deleted.
 """
-delete_storage_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function delete_storage_configuration(
+    arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/DeleteStorageConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_storage_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,15 +336,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reason"`: Description of why this participant is being disconnected.
 """
-disconnect_participant(
+function disconnect_participant(
     participantId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivs_realtime(
-    "POST",
-    "/DisconnectParticipant",
-    Dict{String,Any}("participantId" => participantId, "stageArn" => stageArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivs_realtime(
+        "POST",
+        "/DisconnectParticipant",
+        Dict{String,Any}("participantId" => participantId, "stageArn" => stageArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disconnect_participant(
     participantId,
     stageArn,
@@ -357,13 +378,15 @@ Get information about the specified Composition resource.
 
 - `arn`: ARN of the Composition resource.
 """
-get_composition(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/GetComposition",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_composition(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/GetComposition",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_composition(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -386,14 +409,15 @@ Gets information about the specified EncoderConfiguration resource.
 
 - `arn`: ARN of the EncoderConfiguration resource.
 """
-get_encoder_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function get_encoder_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/GetEncoderConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_encoder_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -419,19 +443,21 @@ Gets information about the specified participant token.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 """
-get_participant(
+function get_participant(
     participantId, sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivs_realtime(
-    "POST",
-    "/GetParticipant",
-    Dict{String,Any}(
-        "participantId" => participantId,
-        "sessionId" => sessionId,
-        "stageArn" => stageArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivs_realtime(
+        "POST",
+        "/GetParticipant",
+        Dict{String,Any}(
+            "participantId" => participantId,
+            "sessionId" => sessionId,
+            "stageArn" => stageArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_participant(
     participantId,
     sessionId,
@@ -468,13 +494,15 @@ Gets information for the specified public key.
 
 - `arn`: ARN of the public key for which the information is to be retrieved.
 """
-get_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/GetPublicKey",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_public_key(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/GetPublicKey",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_public_key(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -497,13 +525,15 @@ Gets information for the specified stage.
 
 - `arn`: ARN of the stage for which the information is to be retrieved.
 """
-get_stage(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/GetStage",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/GetStage",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_stage(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -527,14 +557,17 @@ Gets information for the specified stage session.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: ARN of the stage for which the information is to be retrieved.
 """
-get_stage_session(sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function get_stage_session(
+    sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/GetStageSession",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_stage_session(
     sessionId,
     stageArn,
@@ -566,14 +599,15 @@ Gets the storage configuration for the specified ARN.
 
 - `arn`: ARN of the storage configuration to be retrieved.
 """
-get_storage_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function get_storage_configuration(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/GetStorageConfiguration",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_storage_configuration(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,14 +640,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
-import_public_key(publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function import_public_key(
+    publicKeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/ImportPublicKey",
         Dict{String,Any}("publicKeyMaterial" => publicKeyMaterial);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function import_public_key(
     publicKeyMaterial,
     params::AbstractDict{String};
@@ -650,9 +687,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first Composition to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_compositions(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST", "/ListCompositions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_compositions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/ListCompositions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_compositions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -680,13 +719,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first encoder configuration to retrieve. This is used for pagination;
   see the `nextToken` response field.
 """
-list_encoder_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function list_encoder_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/ListEncoderConfigurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_encoder_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -720,19 +760,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first participant event to retrieve. This is used for pagination; see
   the `nextToken` response field.
 """
-list_participant_events(
+function list_participant_events(
     participantId, sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivs_realtime(
-    "POST",
-    "/ListParticipantEvents",
-    Dict{String,Any}(
-        "participantId" => participantId,
-        "sessionId" => sessionId,
-        "stageArn" => stageArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivs_realtime(
+        "POST",
+        "/ListParticipantEvents",
+        Dict{String,Any}(
+            "participantId" => participantId,
+            "sessionId" => sessionId,
+            "stageArn" => stageArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_participant_events(
     participantId,
     sessionId,
@@ -791,14 +833,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_participants(sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function list_participants(
+    sessionId, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "POST",
         "/ListParticipants",
         Dict{String,Any}("sessionId" => sessionId, "stageArn" => stageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_participants(
     sessionId,
     stageArn,
@@ -835,9 +880,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first public key to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST", "/ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_public_keys(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_public_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -868,14 +915,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stage session to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_stage_sessions(stageArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function list_stage_sessions(stageArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/ListStageSessions",
         Dict{String,Any}("stageArn" => stageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_stage_sessions(
     stageArn,
     params::AbstractDict{String};
@@ -907,9 +955,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first stage to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_stages(; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST", "/ListStages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_stages(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST", "/ListStages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_stages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -938,13 +988,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first storage configuration to retrieve. This is used for pagination;
   see the `nextToken` response field.
 """
-list_storage_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function list_storage_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/ListStorageConfigurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_storage_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -967,13 +1018,16 @@ Gets information about AWS tags for the specified ARN.
 
 - `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1019,19 +1073,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
-start_composition(
+function start_composition(
     destinations, stageArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivs_realtime(
-    "POST",
-    "/StartComposition",
-    Dict{String,Any}(
-        "destinations" => destinations,
-        "stageArn" => stageArn,
-        "idempotencyToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivs_realtime(
+        "POST",
+        "/StartComposition",
+        Dict{String,Any}(
+            "destinations" => destinations,
+            "stageArn" => stageArn,
+            "idempotencyToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_composition(
     destinations,
     stageArn,
@@ -1068,13 +1124,15 @@ stopped.
 
 - `arn`: ARN of the Composition.
 """
-stop_composition(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/StopComposition",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function stop_composition(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/StopComposition",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_composition(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1101,14 +1159,15 @@ Adds or updates tags for the AWS resource with the specified ARN.
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints beyond what is documented there.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -1138,14 +1197,17 @@ Removes tags from the resource with the specified ARN.
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS has no constraints beyond what is documented there.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivs_realtime(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivs_realtime(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1180,13 +1242,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording is active.
 - `"name"`: Name of the stage to be updated.
 """
-update_stage(arn; aws_config::AbstractAWSConfig=current_aws_config()) = ivs_realtime(
-    "POST",
-    "/UpdateStage",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_stage(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivs_realtime(
+        "POST",
+        "/UpdateStage",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_stage(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

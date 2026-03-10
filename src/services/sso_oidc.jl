@@ -54,17 +54,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Center authorizes all scopes that are configured for the client during the call
   to <a>RegisterClient</a>.
 """
-create_token(
+function create_token(
     clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=current_aws_config()
-) = sso_oidc(
-    "POST",
-    "/token",
-    Dict{String,Any}(
-        "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sso_oidc(
+        "POST",
+        "/token",
+        Dict{String,Any}(
+            "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_token(
     clientId,
     clientSecret,
@@ -160,15 +162,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 * Access Token - `urn:ietf:params:oauth:token-type:access_token`
 """
-create_token_with_iam(
+function create_token_with_iam(
     clientId, grantType; aws_config::AbstractAWSConfig=current_aws_config()
-) = sso_oidc(
-    "POST",
-    "/token?aws_iam=t",
-    Dict{String,Any}("clientId" => clientId, "grantType" => grantType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sso_oidc(
+        "POST",
+        "/token?aws_iam=t",
+        Dict{String,Any}("clientId" => clientId, "grantType" => grantType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_token_with_iam(
     clientId,
     grantType,
@@ -222,15 +226,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scopes"`: The list of scopes that are defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
-register_client(
+function register_client(
     clientName, clientType; aws_config::AbstractAWSConfig=current_aws_config()
-) = sso_oidc(
-    "POST",
-    "/client/register",
-    Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sso_oidc(
+        "POST",
+        "/client/register",
+        Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_client(
     clientName,
     clientType,
@@ -270,17 +276,19 @@ authorization service.
   [Using the Amazon Web Services access portal](https://docs.aws.amazon.com/singlesignon/latest/userguide/using-the-portal.html)
   in the *IAM Identity Center User Guide*.
 """
-start_device_authorization(
+function start_device_authorization(
     clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=current_aws_config()
-) = sso_oidc(
-    "POST",
-    "/device_authorization",
-    Dict{String,Any}(
-        "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sso_oidc(
+        "POST",
+        "/device_authorization",
+        Dict{String,Any}(
+            "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_device_authorization(
     clientId,
     clientSecret,

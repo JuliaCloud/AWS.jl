@@ -24,14 +24,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sent the invitation. This property has been replaced by the administratorAccountId
   property and is retained only for backward compatibility.
 """
-accept_invitation(invitationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function accept_invitation(invitationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "POST",
         "/invitations/accept",
         Dict{String,Any}("invitationId" => invitationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function accept_invitation(
     invitationId,
     params::AbstractDict{String};
@@ -61,13 +62,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ids"`: An array of custom data identifier IDs, one for each custom data identifier to
   retrieve information about.
 """
-batch_get_custom_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function batch_get_custom_data_identifiers(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "POST",
         "/custom-data-identifiers/get";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function batch_get_custom_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -94,14 +98,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sensitive data discovery for. Each object specifies the Amazon Web Services account ID
   for an account and a new status for that account.
 """
-batch_update_automated_discovery_accounts(;
+function batch_update_automated_discovery_accounts(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PATCH",
-    "/automated-discovery/accounts";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PATCH",
+        "/automated-discovery/accounts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_update_automated_discovery_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -142,15 +148,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated tag value. The maximum length of a tag key is 128 characters. The maximum
   length of a tag value is 256 characters.
 """
-create_allow_list(
+function create_allow_list(
     clientToken, criteria, name; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/allow-lists",
-    Dict{String,Any}("clientToken" => clientToken, "criteria" => criteria, "name" => name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/allow-lists",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "criteria" => criteria, "name" => name
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_allow_list(
     clientToken,
     criteria,
@@ -258,24 +268,26 @@ If you configure the job to run only once, don't specify a value for this proper
   value. The maximum length of a tag key is 128 characters. The maximum length of a tag
   value is 256 characters.
 """
-create_classification_job(
+function create_classification_job(
     clientToken,
     jobType,
     name,
     s3JobDefinition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = macie2(
-    "POST",
-    "/jobs",
-    Dict{String,Any}(
-        "clientToken" => clientToken,
-        "jobType" => jobType,
-        "name" => name,
-        "s3JobDefinition" => s3JobDefinition,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/jobs",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "jobType" => jobType,
+            "name" => name,
+            "s3JobDefinition" => s3JobDefinition,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_classification_job(
     clientToken,
     jobType,
@@ -366,15 +378,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and an associated tag value. The maximum length of a tag key is 128 characters. The
   maximum length of a tag value is 256 characters.
 """
-create_custom_data_identifier(
+function create_custom_data_identifier(
     name, regex; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/custom-data-identifiers",
-    Dict{String,Any}("name" => name, "regex" => regex, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/custom-data-identifiers",
+        Dict{String,Any}(
+            "name" => name, "regex" => regex, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_data_identifier(
     name,
     regex,
@@ -438,20 +454,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated tag value. The maximum length of a tag key is 128 characters. The maximum
   length of a tag value is 256 characters.
 """
-create_findings_filter(
+function create_findings_filter(
     action, findingCriteria, name; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/findingsfilters",
-    Dict{String,Any}(
-        "action" => action,
-        "findingCriteria" => findingCriteria,
-        "name" => name,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/findingsfilters",
+        Dict{String,Any}(
+            "action" => action,
+            "findingCriteria" => findingCriteria,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_findings_filter(
     action,
     findingCriteria,
@@ -501,13 +519,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"message"`: Custom text to include in the email message that contains the invitation.
   The text can contain as many as 80 alphanumeric characters.
 """
-create_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/invitations",
-    Dict{String,Any}("accountIds" => accountIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/invitations",
+        Dict{String,Any}("accountIds" => accountIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -545,13 +565,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated tag value. The maximum length of a tag key is 128 characters. The maximum
   length of a tag value is 256 characters.
 """
-create_member(account; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/members",
-    Dict{String,Any}("account" => account);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_member(account; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/members",
+        Dict{String,Any}("account" => account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_member(
     account,
     params::AbstractDict{String};
@@ -580,9 +602,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create. To create a sample of every type of finding that Amazon Macie supports, don't
   include this array in your request.
 """
-create_sample_findings(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST", "/findings/sample"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_sample_findings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST", "/findings/sample"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_sample_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,14 +630,15 @@ Declines Amazon Macie membership invitations that were received from specific ac
 - `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
   that sent an invitation to decline.
 """
-decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "POST",
         "/invitations/decline",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function decline_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -653,12 +678,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list, set this value to true. To delete the list only if no active jobs are configured to
   use it, set this value to false.
 """
-delete_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "DELETE",
-    "/allow-lists/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "DELETE",
+        "/allow-lists/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -681,13 +708,16 @@ Soft deletes a custom data identifier.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-delete_custom_data_identifier(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function delete_custom_data_identifier(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "DELETE",
         "/custom-data-identifiers/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_custom_data_identifier(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -710,12 +740,14 @@ Deletes a findings filter.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-delete_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "DELETE",
-    "/findingsfilters/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "DELETE",
+        "/findingsfilters/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -739,13 +771,15 @@ Deletes Amazon Macie membership invitations that were received from specific acc
 - `account_ids`: An array that lists Amazon Web Services account IDs, one for each account
   that sent an invitation to delete.
 """
-delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/invitations/delete",
-    Dict{String,Any}("accountIds" => accountIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/invitations/delete",
+        Dict{String,Any}("accountIds" => accountIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_invitations(
     accountIds,
     params::AbstractDict{String};
@@ -772,9 +806,11 @@ Deletes the association between an Amazon Macie administrator account and an acc
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-delete_member(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "DELETE", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function delete_member(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "DELETE", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -805,9 +841,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 - `"sortCriteria"`: The criteria to use to sort the query results.
 """
-describe_buckets(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST", "/datasources/s3"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST", "/datasources/s3"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -830,8 +868,13 @@ Retrieves the status and settings for a classification job.
 
 - `job_id`: The unique identifier for the classification job.
 """
-describe_classification_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_classification_job(
+    jobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
+        "GET", "/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_classification_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -850,13 +893,16 @@ end
 
 Retrieves the Amazon Macie configuration settings for an organization in Organizations.
 """
-describe_organization_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function describe_organization_configuration(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "GET",
         "/admin/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -875,8 +921,11 @@ end
 
 Disables Amazon Macie and deletes all settings and resources for a Macie account.
 """
-disable_macie(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("DELETE", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function disable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "DELETE", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function disable_macie(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -897,15 +946,17 @@ in Organizations.
 - `admin_account_id`: The Amazon Web Services account ID of the delegated Amazon Macie
   administrator account.
 """
-disable_organization_admin_account(
+function disable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "DELETE",
-    "/admin",
-    Dict{String,Any}("adminAccountId" => adminAccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "DELETE",
+        "/admin",
+        Dict{String,Any}("adminAccountId" => adminAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -928,14 +979,16 @@ end
 
 Disassociates a member account from its Amazon Macie administrator account.
 """
-disassociate_from_administrator_account(;
+function disassociate_from_administrator_account(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/administrator/disassociate";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/administrator/disassociate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_from_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -957,13 +1010,16 @@ This operation has been replaced by the <link
 linkend="DisassociateFromAdministratorAccount">DisassociateFromAdministratorAccount</link>
 operation.
 """
-disassociate_from_master_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function disassociate_from_master_account(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "POST",
         "/master/disassociate";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function disassociate_from_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -986,12 +1042,14 @@ Disassociates an Amazon Macie administrator account from a member account.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-disassociate_member(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/members/disassociate/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function disassociate_member(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/members/disassociate/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1022,13 +1080,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Specifies the new status for the account. To enable Amazon Macie and start
   all Macie activities for the account, set this value to ENABLED.
 """
-enable_macie(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/macie",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function enable_macie(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/macie",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_macie(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1062,15 +1122,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive token that you provide to ensure the
   idempotency of the request.
 """
-enable_organization_admin_account(
+function enable_organization_admin_account(
     adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/admin",
-    Dict{String,Any}("adminAccountId" => adminAccountId, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/admin",
+        Dict{String,Any}(
+            "adminAccountId" => adminAccountId, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
@@ -1099,8 +1163,11 @@ end
 
 Retrieves information about the Amazon Macie administrator account for an account.
 """
-get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_administrator_account(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/administrator"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_administrator_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1123,9 +1190,11 @@ Retrieves the settings and status of an allow list.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET", "/allow-lists/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_allow_list(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/allow-lists/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_allow_list(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1145,14 +1214,16 @@ end
 Retrieves the configuration settings and status of automated sensitive data discovery for
 an organization or standalone account.
 """
-get_automated_discovery_configuration(;
+function get_automated_discovery_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/automated-discovery/configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/automated-discovery/configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_automated_discovery_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1178,12 +1249,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountId"`: The unique identifier for the Amazon Web Services account.
 """
-get_bucket_statistics(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/datasources/s3/statistics";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_bucket_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/datasources/s3/statistics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_bucket_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1202,14 +1275,16 @@ end
 
 Retrieves the configuration settings for storing data classification results.
 """
-get_classification_export_configuration(;
+function get_classification_export_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/classification-export-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/classification-export-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_classification_export_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1232,12 +1307,14 @@ Retrieves the classification scope settings for an account.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET",
-    "/classification-scopes/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET",
+        "/classification-scopes/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_classification_scope(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1260,12 +1337,14 @@ Retrieves the criteria and other settings for a custom data identifier.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_custom_data_identifier(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET",
-    "/custom-data-identifiers/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_custom_data_identifier(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET",
+        "/custom-data-identifiers/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_custom_data_identifier(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1303,14 +1382,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"size"`: The maximum number of items to include in each page of the response.
 - `"sortCriteria"`: The criteria to use to sort the query results.
 """
-get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function get_finding_statistics(groupBy; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "POST",
         "/findings/statistics",
         Dict{String,Any}("groupBy" => groupBy);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_finding_statistics(
     groupBy,
     params::AbstractDict{String};
@@ -1342,13 +1422,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"sortCriteria"`: The criteria for sorting the results of the request.
 """
-get_findings(findingIds; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/findings/describe",
-    Dict{String,Any}("findingIds" => findingIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_findings(findingIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/findings/describe",
+        Dict{String,Any}("findingIds" => findingIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_findings(
     findingIds,
     params::AbstractDict{String};
@@ -1375,12 +1457,14 @@ Retrieves the criteria and other settings for a findings filter.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET",
-    "/findingsfilters/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET",
+        "/findingsfilters/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1399,14 +1483,16 @@ end
 
 Retrieves the configuration settings for publishing findings to Security Hub.
 """
-get_findings_publication_configuration(;
+function get_findings_publication_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/findings-publication-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/findings-publication-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_findings_publication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1425,9 +1511,11 @@ end
 
 Retrieves the count of Amazon Macie membership invitations that were received by an account.
 """
-get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/invitations/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_invitations_count(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1446,8 +1534,9 @@ end
 
 Retrieves the status and configuration settings for an Amazon Macie account.
 """
-get_macie_session(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2("GET", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1464,8 +1553,9 @@ end
 account. This operation has been replaced by the <link
 linkend="GetAdministratorAccount">GetAdministratorAccount</link> operation.
 """
-get_master_account(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_master_account(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2("GET", "/master"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_master_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1485,8 +1575,11 @@ account.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_member(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_member(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/members/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_member(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1511,14 +1604,17 @@ bucket.
 - `resource_arn`: The Amazon Resource Name (ARN) of the S3 bucket that the request applies
   to.
 """
-get_resource_profile(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function get_resource_profile(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "GET",
         "/resource-profiles",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource_profile(
     resourceArn,
     params::AbstractDict{String};
@@ -1542,12 +1638,14 @@ end
 Retrieves the status and configuration settings for retrieving occurrences of sensitive
 data reported by findings.
 """
-get_reveal_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET",
-    "/reveal-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_reveal_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET",
+        "/reveal-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_reveal_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1570,14 +1668,16 @@ Retrieves occurrences of sensitive data reported by a finding.
 
 - `finding_id`: The unique identifier for the finding.
 """
-get_sensitive_data_occurrences(
+function get_sensitive_data_occurrences(
     findingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/findings/$(findingId)/reveal";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/findings/$(findingId)/reveal";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sensitive_data_occurrences(
     findingId,
     params::AbstractDict{String};
@@ -1602,14 +1702,16 @@ Checks whether occurrences of sensitive data can be retrieved for a finding.
 
 - `finding_id`: The unique identifier for the finding.
 """
-get_sensitive_data_occurrences_availability(
+function get_sensitive_data_occurrences_availability(
     findingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/findings/$(findingId)/reveal/availability";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/findings/$(findingId)/reveal/availability";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sensitive_data_occurrences_availability(
     findingId,
     params::AbstractDict{String};
@@ -1634,14 +1736,16 @@ Retrieves the settings for the sensitivity inspection template for an account.
 
 - `id`: The unique identifier for the Amazon Macie resource that the request applies to.
 """
-get_sensitivity_inspection_template(
+function get_sensitivity_inspection_template(
     id; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/templates/sensitivity-inspections/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sensitivity_inspection_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1676,9 +1780,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preceding 30 days. If you don't specify a value, Amazon Macie provides usage data for the
   preceding 30 days.
 """
-get_usage_statistics(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST", "/usage/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_usage_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST", "/usage/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_usage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1706,8 +1812,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides
   aggregated usage data for the preceding 30 days.
 """
-get_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/usage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_usage_totals(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2("GET", "/usage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1731,8 +1838,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_allow_lists(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/allow-lists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_allow_lists(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/allow-lists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_allow_lists(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1764,13 +1874,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_automated_discovery_accounts(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function list_automated_discovery_accounts(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "GET",
         "/automated-discovery/accounts";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_automated_discovery_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1799,8 +1912,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 - `"sortCriteria"`: The criteria to use to sort the results.
 """
-list_classification_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("POST", "/jobs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_classification_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST", "/jobs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_classification_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1823,12 +1939,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_classification_scopes(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET",
-    "/classification-scopes";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_classification_scopes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET",
+        "/classification-scopes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_classification_scopes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1855,12 +1973,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_custom_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/custom-data-identifiers/list";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_custom_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/custom-data-identifiers/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1889,8 +2009,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 - `"sortCriteria"`: The criteria to use to sort the results.
 """
-list_findings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_findings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST", "/findings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1914,9 +2037,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_findings_filters(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "GET", "/findingsfilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_findings_filters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/findingsfilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_findings_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1945,8 +2070,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_invitations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1973,13 +2101,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_managed_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function list_managed_data_identifiers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "POST",
         "/managed-data-identifiers/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_managed_data_identifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2012,8 +2141,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response includes only current member accounts. To include all accounts, set this value
   to false.
 """
-list_members(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_members(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2("GET", "/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2038,8 +2168,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_organization_admin_accounts(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_organization_admin_accounts(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2("GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2067,15 +2200,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_resource_profile_artifacts(
+function list_resource_profile_artifacts(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/resource-profiles/artifacts",
-    Dict{String,Any}("resourceArn" => resourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/resource-profiles/artifacts",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_resource_profile_artifacts(
     resourceArn,
     params::AbstractDict{String};
@@ -2113,15 +2248,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_resource_profile_detections(
+function list_resource_profile_detections(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/resource-profiles/detections",
-    Dict{String,Any}("resourceArn" => resourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/resource-profiles/detections",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_resource_profile_detections(
     resourceArn,
     params::AbstractDict{String};
@@ -2153,14 +2290,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The nextToken string that specifies which page of results to return in a
   paginated response.
 """
-list_sensitivity_inspection_templates(;
+function list_sensitivity_inspection_templates(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "GET",
-    "/templates/sensitivity-inspections";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "GET",
+        "/templates/sensitivity-inspections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_sensitivity_inspection_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2183,13 +2322,16 @@ Retrieves the tags (keys and values) that are associated with an Amazon Macie re
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2215,15 +2357,17 @@ Adds or updates the configuration settings for storing data classification resul
 - `configuration`: The location to store data classification results in, and the encryption
   settings to use when storing results in that location.
 """
-put_classification_export_configuration(
+function put_classification_export_configuration(
     configuration; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PUT",
-    "/classification-export-configuration",
-    Dict{String,Any}("configuration" => configuration);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PUT",
+        "/classification-export-configuration",
+        Dict{String,Any}("configuration" => configuration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_classification_export_configuration(
     configuration,
     params::AbstractDict{String};
@@ -2255,15 +2399,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"securityHubConfiguration"`: The configuration settings that determine which findings to
   publish to Security Hub.
 """
-put_findings_publication_configuration(;
+function put_findings_publication_configuration(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PUT",
-    "/findings-publication-configuration",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PUT",
+        "/findings-publication-configuration",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_findings_publication_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2297,12 +2443,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 - `"sortCriteria"`: The criteria to use to sort the results.
 """
-search_resources(; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "POST",
-    "/datasources/search-resources";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function search_resources(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "POST",
+        "/datasources/search-resources";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_resources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2331,14 +2479,15 @@ resource.
   associated tag value. The maximum length of a tag key is 128 characters. The maximum
   length of a tag value is 256 characters.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -2386,15 +2535,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that matches the pattern and the keyword is within the specified distance, Amazon Macie
   includes the result. The distance can be 1-300 characters. The default value is 50.
 """
-test_custom_data_identifier(
+function test_custom_data_identifier(
     regex, sampleText; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "POST",
-    "/custom-data-identifiers/test",
-    Dict{String,Any}("regex" => regex, "sampleText" => sampleText);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "POST",
+        "/custom-data-identifiers/test",
+        Dict{String,Any}("regex" => regex, "sampleText" => sampleText);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_custom_data_identifier(
     regex,
     sampleText,
@@ -2429,14 +2580,17 @@ Removes one or more tags (keys and values) from an Amazon Macie resource.
   remove multiple tags, append the tagKeys parameter and argument for each tag to remove,
   separated by an ampersand (&amp;).
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2477,14 +2631,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A custom description of the allow list. The description can contain as
   many as 512 characters.
 """
-update_allow_list(criteria, id, name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function update_allow_list(
+    criteria, id, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "PUT",
         "/allow-lists/$(id)",
         Dict{String,Any}("criteria" => criteria, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_allow_list(
     criteria,
     id,
@@ -2536,15 +2693,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   individual member accounts, specify NEW or NONE, and then enable or disable it for each
   account by using the BatchUpdateAutomatedDiscoveryAccounts operation.
 """
-update_automated_discovery_configuration(
+function update_automated_discovery_configuration(
     status; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PUT",
-    "/automated-discovery/configuration",
-    Dict{String,Any}("status" => status);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PUT",
+        "/automated-discovery/configuration",
+        Dict{String,Any}("status" => status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_automated_discovery_configuration(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2590,15 +2749,17 @@ Changes the status of a classification job.
   you don't resume it within 30 days, the job run expires and Macie cancels the run. To
   check the expiration date, refer to the UserPausedDetails.jobExpiresAt property.
 """
-update_classification_job(
+function update_classification_job(
     jobId, jobStatus; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PATCH",
-    "/jobs/$(jobId)",
-    Dict{String,Any}("jobStatus" => jobStatus);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PATCH",
+        "/jobs/$(jobId)",
+        Dict{String,Any}("jobStatus" => jobStatus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_classification_job(
     jobId,
     jobStatus,
@@ -2633,13 +2794,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3"`: The S3 buckets to add or remove from the exclusion list defined by the
   classification scope.
 """
-update_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function update_classification_scope(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
         "PATCH",
         "/classification-scopes/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_classification_scope(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2688,13 +2850,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console. This value also determines the order in which the filter is applied to findings,
   relative to other filters that are also applied to the findings.
 """
-update_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config()) = macie2(
-    "PATCH",
-    "/findingsfilters/$(id)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_findings_filter(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2(
+        "PATCH",
+        "/findingsfilters/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_findings_filter(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2727,8 +2891,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for
   the account.
 """
-update_macie_session(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2("PATCH", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_macie_session(; aws_config::AbstractAWSConfig=current_aws_config())
+    return macie2("PATCH", "/macie"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function update_macie_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2750,14 +2915,17 @@ Enables an Amazon Macie administrator to suspend or re-enable Macie for a member
   Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for
   the account.
 """
-update_member_session(id, status; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function update_member_session(
+    id, status; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "PATCH",
         "/macie/members/$(id)",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_member_session(
     id,
     status,
@@ -2784,15 +2952,17 @@ Updates the Amazon Macie configuration settings for an organization in Organizat
 - `auto_enable`: Specifies whether to enable Amazon Macie automatically for accounts that
   are added to the organization in Organizations.
 """
-update_organization_configuration(
+function update_organization_configuration(
     autoEnable; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PATCH",
-    "/admin/configuration",
-    Dict{String,Any}("autoEnable" => autoEnable);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PATCH",
+        "/admin/configuration",
+        Dict{String,Any}("autoEnable" => autoEnable);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};
@@ -2829,14 +2999,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (empty), assign a score that Amazon Macie calculates automatically after you submit the
   request.
 """
-update_resource_profile(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    macie2(
+function update_resource_profile(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return macie2(
         "PATCH",
         "/resource-profiles",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_resource_profile(
     resourceArn,
     params::AbstractDict{String};
@@ -2873,15 +3046,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   including in the bucket's score. To start including all sensitive data types in the
   score, don't specify any values for this array.
 """
-update_resource_profile_detections(
+function update_resource_profile_detections(
     resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PATCH",
-    "/resource-profiles/detections",
-    Dict{String,Any}("resourceArn" => resourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PATCH",
+        "/resource-profiles/detections",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_resource_profile_detections(
     resourceArn,
     params::AbstractDict{String};
@@ -2917,15 +3092,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retrievalConfiguration"`: The access method and settings to use when retrieving the
   sensitive data.
 """
-update_reveal_configuration(
+function update_reveal_configuration(
     configuration; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PUT",
-    "/reveal-configuration",
-    Dict{String,Any}("configuration" => configuration);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PUT",
+        "/reveal-configuration",
+        Dict{String,Any}("configuration" => configuration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_reveal_configuration(
     configuration,
     params::AbstractDict{String};
@@ -2968,14 +3145,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includes"`: The allow lists, custom data identifiers, and managed data identifiers to
   explicitly include (use) when performing automated sensitive data discovery.
 """
-update_sensitivity_inspection_template(
+function update_sensitivity_inspection_template(
     id; aws_config::AbstractAWSConfig=current_aws_config()
-) = macie2(
-    "PUT",
-    "/templates/sensitivity-inspections/$(id)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return macie2(
+        "PUT",
+        "/templates/sensitivity-inspections/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_sensitivity_inspection_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

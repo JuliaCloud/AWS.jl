@@ -41,15 +41,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionDurationInMinutes"`: Session duration (in minutes), after which the session
   expires. Default: 60 (1 hour).
 """
-create_chat_token(
+function create_chat_token(
     roomIdentifier, userId; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivschat(
-    "POST",
-    "/CreateChatToken",
-    Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivschat(
+        "POST",
+        "/CreateChatToken",
+        Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_chat_token(
     roomIdentifier,
     userId,
@@ -93,15 +95,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints on tags beyond what is documented there.
 """
-create_logging_configuration(
+function create_logging_configuration(
     destinationConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivschat(
-    "POST",
-    "/CreateLoggingConfiguration",
-    Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivschat(
+        "POST",
+        "/CreateLoggingConfiguration",
+        Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_logging_configuration(
     destinationConfiguration,
     params::AbstractDict{String};
@@ -146,8 +150,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
-create_room(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat("POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_room(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST", "/CreateRoom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_room(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -170,15 +177,17 @@ Deletes the specified logging configuration.
 
 - `identifier`: Identifier of the logging configuration to be deleted.
 """
-delete_logging_configuration(
+function delete_logging_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivschat(
-    "POST",
-    "/DeleteLoggingConfiguration",
-    Dict{String,Any}("identifier" => identifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivschat(
+        "POST",
+        "/DeleteLoggingConfiguration",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -218,14 +227,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reason"`: Reason for deleting the message.
 """
-delete_message(id, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function delete_message(
+    id, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivschat(
         "POST",
         "/DeleteMessage",
         Dict{String,Any}("id" => id, "roomIdentifier" => roomIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_message(
     id,
     roomIdentifier,
@@ -257,13 +269,15 @@ Deletes the specified room.
 
 - `identifier`: Identifier of the room to be deleted. Currently this must be an ARN.
 """
-delete_room(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = ivschat(
-    "POST",
-    "/DeleteRoom",
-    Dict{String,Any}("identifier" => identifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST",
+        "/DeleteRoom",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_room(
     identifier,
     params::AbstractDict{String};
@@ -299,15 +313,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"reason"`: Reason for disconnecting the user.
 """
-disconnect_user(
+function disconnect_user(
     roomIdentifier, userId; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivschat(
-    "POST",
-    "/DisconnectUser",
-    Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivschat(
+        "POST",
+        "/DisconnectUser",
+        Dict{String,Any}("roomIdentifier" => roomIdentifier, "userId" => userId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disconnect_user(
     roomIdentifier,
     userId,
@@ -339,14 +355,17 @@ Gets the specified logging configuration.
 
 - `identifier`: Identifier of the logging configuration to be retrieved.
 """
-get_logging_configuration(identifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function get_logging_configuration(
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivschat(
         "POST",
         "/GetLoggingConfiguration",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -374,13 +393,15 @@ Gets the specified room.
 - `identifier`: Identifier of the room for which the configuration is to be retrieved.
   Currently this must be an ARN.
 """
-get_room(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = ivschat(
-    "POST",
-    "/GetRoom",
-    Dict{String,Any}("identifier" => identifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST",
+        "/GetRoom",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_room(
     identifier,
     params::AbstractDict{String};
@@ -412,12 +433,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first logging configurations to retrieve. This is used for pagination;
   see the `nextToken` response field.
 """
-list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = ivschat(
-    "POST",
-    "/ListLoggingConfigurations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_logging_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST",
+        "/ListLoggingConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_logging_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -449,8 +472,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The first room to retrieve. This is used for pagination; see the
   `nextToken` response field.
 """
-list_rooms(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat("POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_rooms(; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST", "/ListRooms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_rooms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -469,13 +495,16 @@ Gets information about AWS tags for the specified ARN.
 
 - `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivschat(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -510,14 +539,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: Application-defined metadata to attach to the event sent to clients. The
   maximum length of the metadata is 1 KB total.
 """
-send_event(eventName, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function send_event(
+    eventName, roomIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivschat(
         "POST",
         "/SendEvent",
         Dict{String,Any}("eventName" => eventName, "roomIdentifier" => roomIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function send_event(
     eventName,
     roomIdentifier,
@@ -555,14 +587,15 @@ Adds or updates tags for the AWS resource with the specified ARN.
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -592,14 +625,17 @@ Removes tags from the resource with the specified ARN.
   for details, including restrictions that apply to tags and "Tag naming limits and
   requirements"; Amazon IVS Chat has no constraints beyond what is documented there.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    ivschat(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return ivschat(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -634,15 +670,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (`cloudWatchLogs`, `firehose`, or `s3`) in a `destinationConfiguration`.
 - `"name"`: Logging-configuration name. The value does not need to be unique.
 """
-update_logging_configuration(
+function update_logging_configuration(
     identifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = ivschat(
-    "POST",
-    "/UpdateLoggingConfiguration",
-    Dict{String,Any}("identifier" => identifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return ivschat(
+        "POST",
+        "/UpdateLoggingConfiguration",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_logging_configuration(
     identifier,
     params::AbstractDict{String};
@@ -685,13 +723,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   room.
 - `"name"`: Room name. The value does not need to be unique.
 """
-update_room(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = ivschat(
-    "POST",
-    "/UpdateRoom",
-    Dict{String,Any}("identifier" => identifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_room(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return ivschat(
+        "POST",
+        "/UpdateRoom",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_room(
     identifier,
     params::AbstractDict{String};

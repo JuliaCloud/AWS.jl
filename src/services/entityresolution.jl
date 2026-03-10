@@ -36,20 +36,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"condition"`: A set of condition keys that you can use in key policies.
 """
-add_policy_statement(
+function add_policy_statement(
     action,
     arn,
     effect,
     principal,
     statementId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = entityresolution(
-    "POST",
-    "/policies/$(arn)/$(statementId)",
-    Dict{String,Any}("action" => action, "effect" => effect, "principal" => principal);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "POST",
+        "/policies/$(arn)/$(statementId)",
+        Dict{String,Any}("action" => action, "effect" => effect, "principal" => principal);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_policy_statement(
     action,
     arn,
@@ -93,15 +95,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"inputSource"`: The input source for the batch delete unique ID operation.
 """
-batch_delete_unique_id(
+function batch_delete_unique_id(
     uniqueIds, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "DELETE",
-    "/matchingworkflows/$(workflowName)/uniqueids",
-    Dict{String,Any}("headers" => Dict{String,Any}("uniqueIds" => uniqueIds));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "DELETE",
+        "/matchingworkflows/$(workflowName)/uniqueids",
+        Dict{String,Any}("headers" => Dict{String,Any}("uniqueIds" => uniqueIds));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_delete_unique_id(
     uniqueIds,
     workflowName,
@@ -151,22 +155,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this role to create resources on your behalf as part of workflow execution.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_id_mapping_workflow(
+function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = entityresolution(
-    "POST",
-    "/idmappingworkflows",
-    Dict{String,Any}(
-        "idMappingTechniques" => idMappingTechniques,
-        "inputSourceConfig" => inputSourceConfig,
-        "workflowName" => workflowName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "POST",
+        "/idmappingworkflows",
+        Dict{String,Any}(
+            "idMappingTechniques" => idMappingTechniques,
+            "inputSourceConfig" => inputSourceConfig,
+            "workflowName" => workflowName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -226,15 +232,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the workflow run.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_id_namespace(
+function create_id_namespace(
     idNamespaceName, type; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "POST",
-    "/idnamespaces",
-    Dict{String,Any}("idNamespaceName" => idNamespaceName, "type" => type);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "POST",
+        "/idnamespaces",
+        Dict{String,Any}("idNamespaceName" => idNamespaceName, "type" => type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_id_namespace(
     idNamespaceName,
     type,
@@ -287,26 +295,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `incrementalRunType` as a field.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_matching_workflow(
+function create_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
     resolutionTechniques,
     roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = entityresolution(
-    "POST",
-    "/matchingworkflows",
-    Dict{String,Any}(
-        "inputSourceConfig" => inputSourceConfig,
-        "outputSourceConfig" => outputSourceConfig,
-        "resolutionTechniques" => resolutionTechniques,
-        "roleArn" => roleArn,
-        "workflowName" => workflowName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "POST",
+        "/matchingworkflows",
+        Dict{String,Any}(
+            "inputSourceConfig" => inputSourceConfig,
+            "outputSourceConfig" => outputSourceConfig,
+            "resolutionTechniques" => resolutionTechniques,
+            "roleArn" => roleArn,
+            "workflowName" => workflowName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -360,15 +370,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the schema.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_schema_mapping(
+function create_schema_mapping(
     mappedInputFields, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "POST",
-    "/schemas",
-    Dict{String,Any}("mappedInputFields" => mappedInputFields, "schemaName" => schemaName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "POST",
+        "/schemas",
+        Dict{String,Any}(
+            "mappedInputFields" => mappedInputFields, "schemaName" => schemaName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_schema_mapping(
     mappedInputFields,
     schemaName,
@@ -403,14 +417,16 @@ workflow with the given name does not exist.
 
 - `workflow_name`: The name of the workflow to be deleted.
 """
-delete_id_mapping_workflow(
+function delete_id_mapping_workflow(
     workflowName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "DELETE",
-    "/idmappingworkflows/$(workflowName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "DELETE",
+        "/idmappingworkflows/$(workflowName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -435,13 +451,16 @@ Deletes the `IdNamespace` with a given name.
 
 - `id_namespace_name`: The name of the ID namespace.
 """
-delete_id_namespace(idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function delete_id_namespace(
+    idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "DELETE",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -467,13 +486,16 @@ workflow with the given name does not exist.
 
 - `workflow_name`: The name of the workflow to be retrieved.
 """
-delete_matching_workflow(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function delete_matching_workflow(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "DELETE",
         "/matchingworkflows/$(workflowName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -500,14 +522,16 @@ Deletes the policy statement.
 - `statement_id`: A statement identifier that differentiates the statement from others in
   the same policy.
 """
-delete_policy_statement(
+function delete_policy_statement(
     arn, statementId; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "DELETE",
-    "/policies/$(arn)/$(statementId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "DELETE",
+        "/policies/$(arn)/$(statementId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_policy_statement(
     arn,
     statementId,
@@ -536,13 +560,16 @@ with the given name does not exist. This operation will fail if there is a
 
 - `schema_name`: The name of the schema to delete.
 """
-delete_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function delete_schema_mapping(
+    schemaName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "DELETE",
         "/schemas/$(schemaName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -568,14 +595,16 @@ Gets the status, metrics, and errors (if there are any) that are associated with
 - `job_id`: The ID of the job.
 - `workflow_name`: The name of the workflow.
 """
-get_id_mapping_job(
+function get_id_mapping_job(
     jobId, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "GET",
-    "/idmappingworkflows/$(workflowName)/jobs/$(jobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "GET",
+        "/idmappingworkflows/$(workflowName)/jobs/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_id_mapping_job(
     jobId,
     workflowName,
@@ -601,13 +630,16 @@ Returns the `IdMappingWorkflow` with a given name, if it exists.
 
 - `workflow_name`: The name of the workflow.
 """
-get_id_mapping_workflow(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_id_mapping_workflow(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/idmappingworkflows/$(workflowName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_id_mapping_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -632,13 +664,16 @@ Returns the `IdNamespace` with a given name, if it exists.
 
 - `id_namespace_name`: The name of the ID namespace.
 """
-get_id_namespace(idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_id_namespace(
+    idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -673,14 +708,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the input table is in a format of 1234567890, Entity Resolution will normalize this
   field in the output to (123)-456-7890.
 """
-get_match_id(record, workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_match_id(
+    record, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "POST",
         "/matchingworkflows/$(workflowName)/matches",
         Dict{String,Any}("record" => record);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_match_id(
     record,
     workflowName,
@@ -707,13 +745,16 @@ Gets the status, metrics, and errors (if there are any) that are associated with
 - `job_id`: The ID of the job.
 - `workflow_name`: The name of the workflow.
 """
-get_matching_job(jobId, workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_matching_job(
+    jobId, workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/matchingworkflows/$(workflowName)/jobs/$(jobId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_matching_job(
     jobId,
     workflowName,
@@ -739,13 +780,16 @@ Returns the `MatchingWorkflow` with a given name, if it exists.
 
 - `workflow_name`: The name of the workflow.
 """
-get_matching_workflow(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_matching_workflow(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/matchingworkflows/$(workflowName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_matching_workflow(
     workflowName,
     params::AbstractDict{String};
@@ -771,9 +815,11 @@ Returns the resource-based policy.
 - `arn`: The Amazon Resource Name (ARN) of the resource for which the policy need to be
   returned.
 """
-get_policy(arn; aws_config::AbstractAWSConfig=current_aws_config()) = entityresolution(
-    "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_policy(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
+        "GET", "/policies/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -798,14 +844,16 @@ Returns the `ProviderService` of a given name.
 - `provider_service_name`: The ARN (Amazon Resource Name) of the product that the provider
   service provides.
 """
-get_provider_service(
+function get_provider_service(
     providerName, providerServiceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "GET",
-    "/providerservices/$(providerName)/$(providerServiceName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "GET",
+        "/providerservices/$(providerName)/$(providerServiceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_provider_service(
     providerName,
     providerServiceName,
@@ -831,13 +879,14 @@ Returns the SchemaMapping of a given name.
 
 - `schema_name`: The name of the schema to be retrieved.
 """
-get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function get_schema_mapping(schemaName; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "GET",
         "/schemas/$(schemaName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_schema_mapping(
     schemaName,
     params::AbstractDict{String};
@@ -869,13 +918,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_id_mapping_jobs(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_id_mapping_jobs(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/idmappingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_id_mapping_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -904,10 +956,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_id_mapping_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_id_mapping_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "GET", "/idmappingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_id_mapping_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -933,9 +986,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of `IdNamespace` objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_id_namespaces(; aws_config::AbstractAWSConfig=current_aws_config()) = entityresolution(
-    "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_id_namespaces(; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
+        "GET", "/idnamespaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_id_namespaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -965,13 +1020,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_matching_jobs(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_matching_jobs(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/matchingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_matching_jobs(
     workflowName,
     params::AbstractDict{String};
@@ -1000,10 +1058,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_matching_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_matching_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "GET", "/matchingworkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_matching_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1031,10 +1090,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token from the previous API call.
 - `"providerName"`: The name of the provider. This name is typically the company name.
 """
-list_provider_services(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_provider_services(; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "GET", "/providerservices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_provider_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1061,10 +1121,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of objects returned per page.
 - `"nextToken"`: The pagination token from the previous API call.
 """
-list_schema_mappings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_schema_mappings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "GET", "/schemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_schema_mappings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1084,13 +1145,16 @@ Displays the tags associated with an Entity Resolution resource. In Entity Resol
 
 - `resource_arn`: The ARN of the resource for which you want to view tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1128,14 +1192,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"token"`: A unique identifier for the current revision of the policy.
 """
-put_policy(arn, policy; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function put_policy(arn, policy; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "PUT",
         "/policies/$(arn)",
         Dict{String,Any}("policy" => policy);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_policy(
     arn,
     policy,
@@ -1168,13 +1233,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"outputSourceConfig"`: A list of `OutputSource` objects.
 """
-start_id_mapping_job(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function start_id_mapping_job(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "POST",
         "/idmappingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_id_mapping_job(
     workflowName,
     params::AbstractDict{String};
@@ -1200,13 +1268,16 @@ using the `CreateMatchingWorkflow` endpoint.
 
 - `workflow_name`: The name of the matching job to be retrieved.
 """
-start_matching_job(workflowName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function start_matching_job(
+    workflowName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "POST",
         "/matchingworkflows/$(workflowName)/jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_matching_job(
     workflowName,
     params::AbstractDict{String};
@@ -1240,14 +1311,15 @@ the resource, the new tag value that you specify replaces the previous value for
 - `resource_arn`: The ARN of the resource for which you want to view tags.
 - `tags`: The tags used to organize, track, or control access for this resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return entityresolution(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -1275,14 +1347,17 @@ Resolution, `SchemaMapping`, and `MatchingWorkflow` can be tagged.
 - `resource_arn`: The ARN of the resource for which you want to untag.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1324,21 +1399,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes
   this role to access Amazon Web Services resources on your behalf.
 """
-update_id_mapping_workflow(
+function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = entityresolution(
-    "PUT",
-    "/idmappingworkflows/$(workflowName)",
-    Dict{String,Any}(
-        "idMappingTechniques" => idMappingTechniques,
-        "inputSourceConfig" => inputSourceConfig,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "PUT",
+        "/idmappingworkflows/$(workflowName)",
+        Dict{String,Any}(
+            "idMappingTechniques" => idMappingTechniques,
+            "inputSourceConfig" => inputSourceConfig,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_id_mapping_workflow(
     idMappingTechniques,
     inputSourceConfig,
@@ -1387,13 +1464,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this role to access the resources defined in this `IdNamespace` on your behalf as part of
   a workflow run.
 """
-update_id_namespace(idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    entityresolution(
+function update_id_namespace(
+    idNamespaceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return entityresolution(
         "PUT",
         "/idnamespaces/$(idNamespaceName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_id_namespace(
     idNamespaceName,
     params::AbstractDict{String};
@@ -1436,25 +1516,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"incrementalRunConfig"`: An object which defines an incremental run type and has only
   `incrementalRunType` as a field.
 """
-update_matching_workflow(
+function update_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
     resolutionTechniques,
     roleArn,
     workflowName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = entityresolution(
-    "PUT",
-    "/matchingworkflows/$(workflowName)",
-    Dict{String,Any}(
-        "inputSourceConfig" => inputSourceConfig,
-        "outputSourceConfig" => outputSourceConfig,
-        "resolutionTechniques" => resolutionTechniques,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "PUT",
+        "/matchingworkflows/$(workflowName)",
+        Dict{String,Any}(
+            "inputSourceConfig" => inputSourceConfig,
+            "outputSourceConfig" => outputSourceConfig,
+            "resolutionTechniques" => resolutionTechniques,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_matching_workflow(
     inputSourceConfig,
     outputSourceConfig,
@@ -1508,15 +1590,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: A description of the schema.
 """
-update_schema_mapping(
+function update_schema_mapping(
     mappedInputFields, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
-) = entityresolution(
-    "PUT",
-    "/schemas/$(schemaName)",
-    Dict{String,Any}("mappedInputFields" => mappedInputFields);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return entityresolution(
+        "PUT",
+        "/schemas/$(schemaName)",
+        Dict{String,Any}("mappedInputFields" => mappedInputFields);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_schema_mapping(
     mappedInputFields,
     schemaName,

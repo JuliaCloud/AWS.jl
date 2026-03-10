@@ -19,15 +19,17 @@ page in the Billing and Cost Management console instead.
 
 - `account_ids`: List of unique account identifiers.
 """
-batch_delete_tax_registration(
+function batch_delete_tax_registration(
     accountIds; aws_config::AbstractAWSConfig=current_aws_config()
-) = taxsettings(
-    "POST",
-    "/BatchDeleteTaxRegistration",
-    Dict{String,Any}("accountIds" => accountIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return taxsettings(
+        "POST",
+        "/BatchDeleteTaxRegistration",
+        Dict{String,Any}("accountIds" => accountIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_delete_tax_registration(
     accountIds,
     params::AbstractDict{String};
@@ -126,17 +128,19 @@ your industry in the `industries` field. </li> <li>For `address`, you must speci
 - `tax_registration_entry`: Your TRN information that will be stored to the accounts
   mentioned in `putEntries`.
 """
-batch_put_tax_registration(
+function batch_put_tax_registration(
     accountIds, taxRegistrationEntry; aws_config::AbstractAWSConfig=current_aws_config()
-) = taxsettings(
-    "POST",
-    "/BatchPutTaxRegistration",
-    Dict{String,Any}(
-        "accountIds" => accountIds, "taxRegistrationEntry" => taxRegistrationEntry
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return taxsettings(
+        "POST",
+        "/BatchPutTaxRegistration",
+        Dict{String,Any}(
+            "accountIds" => accountIds, "taxRegistrationEntry" => taxRegistrationEntry
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_put_tax_registration(
     accountIds,
     taxRegistrationEntry,
@@ -179,12 +183,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deleted. If this isn't passed, the account ID corresponding to the credentials of the API
   caller will be used for this parameter.
 """
-delete_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config()) = taxsettings(
-    "POST",
-    "/DeleteTaxRegistration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST",
+        "/DeleteTaxRegistration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_tax_registration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -209,12 +215,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountId"`: Your unique account identifier.
 """
-get_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config()) = taxsettings(
-    "POST",
-    "/GetTaxRegistration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_tax_registration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST",
+        "/GetTaxRegistration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tax_registration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,20 +247,22 @@ Downloads your tax documents to the Amazon S3 bucket that you specify in your re
   documents to.
 - `tax_document_metadata`: The metadata for your tax document.
 """
-get_tax_registration_document(
+function get_tax_registration_document(
     destinationS3Location,
     taxDocumentMetadata;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = taxsettings(
-    "POST",
-    "/GetTaxRegistrationDocument",
-    Dict{String,Any}(
-        "destinationS3Location" => destinationS3Location,
-        "taxDocumentMetadata" => taxDocumentMetadata,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return taxsettings(
+        "POST",
+        "/GetTaxRegistrationDocument",
+        Dict{String,Any}(
+            "destinationS3Location" => destinationS3Location,
+            "taxDocumentMetadata" => taxDocumentMetadata,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tax_registration_document(
     destinationS3Location,
     taxDocumentMetadata,
@@ -291,12 +301,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Number of `accountDetails` results you want in one response.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
-list_tax_registrations(; aws_config::AbstractAWSConfig=current_aws_config()) = taxsettings(
-    "POST",
-    "/ListTaxRegistrations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_tax_registrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return taxsettings(
+        "POST",
+        "/ListTaxRegistrations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_tax_registrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -395,15 +407,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"accountId"`: Your unique account identifier.
 """
-put_tax_registration(
+function put_tax_registration(
     taxRegistrationEntry; aws_config::AbstractAWSConfig=current_aws_config()
-) = taxsettings(
-    "POST",
-    "/PutTaxRegistration",
-    Dict{String,Any}("taxRegistrationEntry" => taxRegistrationEntry);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return taxsettings(
+        "POST",
+        "/PutTaxRegistration",
+        Dict{String,Any}("taxRegistrationEntry" => taxRegistrationEntry);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_tax_registration(
     taxRegistrationEntry,
     params::AbstractDict{String};

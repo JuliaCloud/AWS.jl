@@ -47,13 +47,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"KeyArn"`: The `KeyARN` of the key to associate with the alias.
 """
-create_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function create_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "CreateAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_alias(
     AliasName,
     params::AbstractDict{String};
@@ -139,13 +140,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
   deny permission to the key.
 """
-create_key(Exportable, KeyAttributes; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function create_key(
+    Exportable, KeyAttributes; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
         "CreateKey",
         Dict{String,Any}("Exportable" => Exportable, "KeyAttributes" => KeyAttributes);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_key(
     Exportable,
     KeyAttributes,
@@ -193,13 +197,14 @@ accounts.
   Cryptography key. This value must begin with `alias/` followed by a name, such as
   `alias/ExampleAlias`.
 """
-delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function delete_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "DeleteAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_alias(
     AliasName,
     params::AbstractDict{String};
@@ -253,13 +258,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"DeleteKeyInDays"`: The waiting period for key deletion. The default value is seven days.
 """
-delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function delete_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "DeleteKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -421,16 +427,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ExportAttributes"`: The attributes for IPEK generation during export.
 """
-export_key(
+function export_key(
     ExportKeyIdentifier, KeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()
-) = payment_cryptography(
-    "ExportKey",
-    Dict{String,Any}(
-        "ExportKeyIdentifier" => ExportKeyIdentifier, "KeyMaterial" => KeyMaterial
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return payment_cryptography(
+        "ExportKey",
+        Dict{String,Any}(
+            "ExportKeyIdentifier" => ExportKeyIdentifier, "KeyMaterial" => KeyMaterial
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function export_key(
     ExportKeyIdentifier,
     KeyMaterial,
@@ -472,13 +480,14 @@ accounts.
 
 - `alias_name`: The alias of the Amazon Web Services Payment Cryptography key.
 """
-get_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function get_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "GetAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_alias(
     AliasName,
     params::AbstractDict{String};
@@ -512,13 +521,14 @@ accounts.
 
 - `key_identifier`: The `KeyARN` of the Amazon Web Services Payment Cryptography key.
 """
-get_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function get_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "GetKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -562,17 +572,19 @@ accounts.
   This certificate signs the wrapped key under export within the TR-34 key block.
   `RSA_2048` is the only signing key algorithm allowed.
 """
-get_parameters_for_export(
+function get_parameters_for_export(
     KeyMaterialType, SigningKeyAlgorithm; aws_config::AbstractAWSConfig=current_aws_config()
-) = payment_cryptography(
-    "GetParametersForExport",
-    Dict{String,Any}(
-        "KeyMaterialType" => KeyMaterialType,
-        "SigningKeyAlgorithm" => SigningKeyAlgorithm,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return payment_cryptography(
+        "GetParametersForExport",
+        Dict{String,Any}(
+            "KeyMaterialType" => KeyMaterialType,
+            "SigningKeyAlgorithm" => SigningKeyAlgorithm,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_parameters_for_export(
     KeyMaterialType,
     SigningKeyAlgorithm,
@@ -630,19 +642,21 @@ accounts.
   Additionally, `RSA_2048`, `RSA_3072`, `RSA_4096` are the allowed algorithms for RSA
   WrappedKeyCryptogram import.
 """
-get_parameters_for_import(
+function get_parameters_for_import(
     KeyMaterialType,
     WrappingKeyAlgorithm;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = payment_cryptography(
-    "GetParametersForImport",
-    Dict{String,Any}(
-        "KeyMaterialType" => KeyMaterialType,
-        "WrappingKeyAlgorithm" => WrappingKeyAlgorithm,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return payment_cryptography(
+        "GetParametersForImport",
+        Dict{String,Any}(
+            "KeyMaterialType" => KeyMaterialType,
+            "WrappingKeyAlgorithm" => WrappingKeyAlgorithm,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_parameters_for_import(
     KeyMaterialType,
     WrappingKeyAlgorithm,
@@ -686,14 +700,16 @@ accounts.
 
 - `key_identifier`: The `KeyARN` of the asymmetric key pair.
 """
-get_public_key_certificate(
+function get_public_key_certificate(
     KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = payment_cryptography(
-    "GetPublicKeyCertificate",
-    Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return payment_cryptography(
+        "GetPublicKeyCertificate",
+        Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_public_key_certificate(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -870,13 +886,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or
   deny permission to the key.
 """
-import_key(KeyMaterial; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function import_key(KeyMaterial; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "ImportKey",
         Dict{String,Any}("KeyMaterial" => KeyMaterial);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function import_key(
     KeyMaterial,
     params::AbstractDict{String};
@@ -928,9 +945,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
 """
-list_aliases(; aws_config::AbstractAWSConfig=current_aws_config()) = payment_cryptography(
-    "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_aliases(; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
+        "ListAliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_aliases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -974,8 +993,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
 """
-list_keys(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography("ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_keys(; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
+        "ListKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_keys(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1020,13 +1042,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with truncated results. Set it to the value of `NextToken` from the truncated response
   you just received.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1065,13 +1090,14 @@ accounts.
 - `key_identifier`: The `KeyARN` of the key to be restored within Amazon Web Services
   Payment Cryptography.
 """
-restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function restore_key(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "RestoreKey",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function restore_key(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -1103,13 +1129,14 @@ accounts.
 
 - `key_identifier`: The `KeyArn` of the key.
 """
-start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function start_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "StartKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_key_usage(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -1145,13 +1172,14 @@ accounts.
 
 - `key_identifier`: The `KeyArn` of the key.
 """
-stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function stop_key_usage(KeyIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "StopKeyUsage",
         Dict{String,Any}("KeyIdentifier" => KeyIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_key_usage(
     KeyIdentifier,
     params::AbstractDict{String};
@@ -1206,13 +1234,14 @@ accounts.
       Don't include personal, confidential or sensitive information in this field. This
   field may be displayed in plaintext in CloudTrail logs and other output.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1257,13 +1286,16 @@ Amazon Web Services accounts.
   To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html)
   operation.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return payment_cryptography(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1312,13 +1344,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"KeyArn"`: The `KeyARN` for the key that you are updating or removing from the alias.
 """
-update_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    payment_cryptography(
+function update_alias(AliasName; aws_config::AbstractAWSConfig=current_aws_config())
+    return payment_cryptography(
         "UpdateAlias",
         Dict{String,Any}("AliasName" => AliasName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_alias(
     AliasName,
     params::AbstractDict{String};

@@ -14,13 +14,16 @@ Use this operation to delete an Earth Observation job.
 
 - `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being deleted.
 """
-delete_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function delete_earth_observation_job(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_geospatial(
         "DELETE",
         "/earth-observation-jobs/$(Arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -43,13 +46,16 @@ Use this operation to delete a Vector Enrichment job.
 
 - `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job being deleted.
 """
-delete_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function delete_vector_enrichment_job(
+    Arn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_geospatial(
         "DELETE",
         "/vector-enrichment-jobs/$(Arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -84,20 +90,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExportSourceImages"`: The source images provided to the Earth Observation job being
   exported.
 """
-export_earth_observation_job(
+function export_earth_observation_job(
     Arn, ExecutionRoleArn, OutputConfig; aws_config::AbstractAWSConfig=current_aws_config()
-) = sagemaker_geospatial(
-    "POST",
-    "/export-earth-observation-job",
-    Dict{String,Any}(
-        "Arn" => Arn,
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "OutputConfig" => OutputConfig,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "POST",
+        "/export-earth-observation-job",
+        Dict{String,Any}(
+            "Arn" => Arn,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "OutputConfig" => OutputConfig,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function export_earth_observation_job(
     Arn,
     ExecutionRoleArn,
@@ -144,20 +152,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 """
-export_vector_enrichment_job(
+function export_vector_enrichment_job(
     Arn, ExecutionRoleArn, OutputConfig; aws_config::AbstractAWSConfig=current_aws_config()
-) = sagemaker_geospatial(
-    "POST",
-    "/export-vector-enrichment-jobs",
-    Dict{String,Any}(
-        "Arn" => Arn,
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "OutputConfig" => OutputConfig,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "POST",
+        "/export-vector-enrichment-jobs",
+        Dict{String,Any}(
+            "Arn" => Arn,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "OutputConfig" => OutputConfig,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function export_vector_enrichment_job(
     Arn,
     ExecutionRoleArn,
@@ -195,13 +205,14 @@ Get the details for a previously initiated Earth Observation job.
 
 - `arn`: The Amazon Resource Name (ARN) of the Earth Observation job.
 """
-get_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function get_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "GET",
         "/earth-observation-jobs/$(Arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,13 +235,14 @@ Use this operation to get details of a specific raster data collection.
 
 - `arn`: The Amazon Resource Name (ARN) of the raster data collection.
 """
-get_raster_data_collection(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function get_raster_data_collection(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "GET",
         "/raster-data-collection/$(Arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_raster_data_collection(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -271,15 +283,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PropertyFilters"`: Property filters for the imagery to tile.
 - `"TimeRangeFilter"`: Time range filter applied to imagery to find the images to tile.
 """
-get_tile(
+function get_tile(
     Arn, ImageAssets, Target, x, y, z; aws_config::AbstractAWSConfig=current_aws_config()
-) = sagemaker_geospatial(
-    "GET",
-    "/tile/$(z)/$(x)/$(y)",
-    Dict{String,Any}("Arn" => Arn, "ImageAssets" => ImageAssets, "Target" => Target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "GET",
+        "/tile/$(z)/$(x)/$(y)",
+        Dict{String,Any}("Arn" => Arn, "ImageAssets" => ImageAssets, "Target" => Target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_tile(
     Arn,
     ImageAssets,
@@ -317,13 +331,14 @@ Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Nam
 
 - `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 """
-get_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function get_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "GET",
         "/vector-enrichment-jobs/$(Arn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -355,13 +370,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Ascending` or `Descending` order.
 - `"StatusEquals"`: A filter that retrieves only jobs with a specific status.
 """
-list_earth_observation_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function list_earth_observation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "POST",
         "/list-earth-observation-jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_earth_observation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -388,13 +404,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 """
-list_raster_data_collections(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function list_raster_data_collections(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "GET",
         "/raster-data-collections";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_raster_data_collections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -417,13 +434,16 @@ Lists the tags attached to the resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_geospatial(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -456,13 +476,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Ascending` or `Descending` order.
 - `"StatusEquals"`: A filter that retrieves only jobs with a specific status.
 """
-list_vector_enrichment_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function list_vector_enrichment_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "POST",
         "/list-vector-enrichment-jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_vector_enrichment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -497,17 +518,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 """
-search_raster_data_collection(
+function search_raster_data_collection(
     Arn, RasterDataCollectionQuery; aws_config::AbstractAWSConfig=current_aws_config()
-) = sagemaker_geospatial(
-    "POST",
-    "/search-raster-data-collection",
-    Dict{String,Any}(
-        "Arn" => Arn, "RasterDataCollectionQuery" => RasterDataCollectionQuery
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "POST",
+        "/search-raster-data-collection",
+        Dict{String,Any}(
+            "Arn" => Arn, "RasterDataCollectionQuery" => RasterDataCollectionQuery
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_raster_data_collection(
     Arn,
     RasterDataCollectionQuery,
@@ -553,25 +576,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
 """
-start_earth_observation_job(
+function start_earth_observation_job(
     ExecutionRoleArn,
     InputConfig,
     JobConfig,
     Name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = sagemaker_geospatial(
-    "POST",
-    "/earth-observation-jobs",
-    Dict{String,Any}(
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "InputConfig" => InputConfig,
-        "JobConfig" => JobConfig,
-        "Name" => Name,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "POST",
+        "/earth-observation-jobs",
+        Dict{String,Any}(
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "InputConfig" => InputConfig,
+            "JobConfig" => JobConfig,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_earth_observation_job(
     ExecutionRoleArn,
     InputConfig,
@@ -624,25 +649,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
 """
-start_vector_enrichment_job(
+function start_vector_enrichment_job(
     ExecutionRoleArn,
     InputConfig,
     JobConfig,
     Name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = sagemaker_geospatial(
-    "POST",
-    "/vector-enrichment-jobs",
-    Dict{String,Any}(
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "InputConfig" => InputConfig,
-        "JobConfig" => JobConfig,
-        "Name" => Name,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_geospatial(
+        "POST",
+        "/vector-enrichment-jobs",
+        Dict{String,Any}(
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "InputConfig" => InputConfig,
+            "JobConfig" => JobConfig,
+            "Name" => Name,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_vector_enrichment_job(
     ExecutionRoleArn,
     InputConfig,
@@ -682,14 +709,15 @@ Use this operation to stop an existing earth observation job.
 
 - `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being stopped.
 """
-stop_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function stop_earth_observation_job(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "POST",
         "/earth-observation-jobs/stop",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_earth_observation_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -712,14 +740,15 @@ Stops the Vector Enrichment job for a given job ARN.
 
 - `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 """
-stop_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function stop_vector_enrichment_job(Arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "POST",
         "/vector-enrichment-jobs/stop",
         Dict{String,Any}("Arn" => Arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_vector_enrichment_job(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -743,14 +772,15 @@ The resource you want to tag.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag.
 - `tags`: Each tag consists of a key and a value.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return sagemaker_geospatial(
         "PUT",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -777,14 +807,17 @@ The resource you want to untag.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to untag.
 - `tag_keys`: Keys of the tags you want to remove.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_geospatial(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_geospatial(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,

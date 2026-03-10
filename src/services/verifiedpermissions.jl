@@ -46,14 +46,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       You can include only principal and resource entities in this parameter; you can't
   include actions. You must specify actions in the schema.
 """
-batch_is_authorized(
+function batch_is_authorized(
     policyStoreId, requests; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "BatchIsAuthorized",
-    Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "BatchIsAuthorized",
+        Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_is_authorized(
     policyStoreId,
     requests,
@@ -133,14 +135,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Must be an ID token. Verified Permissions returns an error if the `token_use` claim in
   the submitted token isn't `id`.
 """
-batch_is_authorized_with_token(
+function batch_is_authorized_with_token(
     policyStoreId, requests; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "BatchIsAuthorizedWithToken",
-    Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "BatchIsAuthorizedWithToken",
+        Dict{String,Any}("policyStoreId" => policyStoreId, "requests" => requests);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_is_authorized_with_token(
     policyStoreId,
     requests,
@@ -220,18 +224,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalEntityType"`: Specifies the namespace and data type of the principals
   generated for identities authenticated by the new identity source.
 """
-create_identity_source(
+function create_identity_source(
     configuration, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "CreateIdentitySource",
-    Dict{String,Any}(
-        "configuration" => configuration,
-        "policyStoreId" => policyStoreId,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "CreateIdentitySource",
+        Dict{String,Any}(
+            "configuration" => configuration,
+            "policyStoreId" => policyStoreId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_identity_source(
     configuration,
     policyStoreId,
@@ -305,18 +311,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next request with the same parameters performs the operation again regardless of the
   value of `ClientToken`.
 """
-create_policy(
+function create_policy(
     definition, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "CreatePolicy",
-    Dict{String,Any}(
-        "definition" => definition,
-        "policyStoreId" => policyStoreId,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "CreatePolicy",
+        Dict{String,Any}(
+            "definition" => definition,
+            "policyStoreId" => policyStoreId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_policy(
     definition,
     policyStoreId,
@@ -390,16 +398,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
 """
-create_policy_store(
+function create_policy_store(
     validationSettings; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "CreatePolicyStore",
-    Dict{String,Any}(
-        "validationSettings" => validationSettings, "clientToken" => string(uuid4())
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "CreatePolicyStore",
+        Dict{String,Any}(
+            "validationSettings" => validationSettings, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_policy_store(
     validationSettings,
     params::AbstractDict{String};
@@ -464,18 +474,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of `ClientToken`.
 - `"description"`: Specifies a description for the policy template.
 """
-create_policy_template(
+function create_policy_template(
     policyStoreId, statement; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "CreatePolicyTemplate",
-    Dict{String,Any}(
-        "policyStoreId" => policyStoreId,
-        "statement" => statement,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "CreatePolicyTemplate",
+        Dict{String,Any}(
+            "policyStoreId" => policyStoreId,
+            "statement" => statement,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_policy_template(
     policyStoreId,
     statement,
@@ -515,16 +527,18 @@ operations.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   that you want to delete.
 """
-delete_identity_source(
+function delete_identity_source(
     identitySourceId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "DeleteIdentitySource",
-    Dict{String,Any}(
-        "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "DeleteIdentitySource",
+        Dict{String,Any}(
+            "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_identity_source(
     identitySourceId,
     policyStoreId,
@@ -562,13 +576,16 @@ response returns a successful `HTTP 200` status code.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want to delete.
 """
-delete_policy(policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function delete_policy(
+    policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "DeletePolicy",
         Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_policy(
     policyId,
     policyStoreId,
@@ -602,13 +619,16 @@ request response will still return a successful HTTP 200 status code.
 
 - `policy_store_id`: Specifies the ID of the policy store that you want to delete.
 """
-delete_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function delete_policy_store(
+    policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "DeletePolicyStore",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -641,16 +661,18 @@ asynchronously deleted from the policy store.
   that you want to delete.
 - `policy_template_id`: Specifies the ID of the policy template that you want to delete.
 """
-delete_policy_template(
+function delete_policy_template(
     policyStoreId, policyTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "DeletePolicyTemplate",
-    Dict{String,Any}(
-        "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "DeletePolicyTemplate",
+        Dict{String,Any}(
+            "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -685,16 +707,18 @@ Retrieves the details about the specified identity source.
 - `policy_store_id`: Specifies the ID of the policy store that contains the identity source
   you want information about.
 """
-get_identity_source(
+function get_identity_source(
     identitySourceId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "GetIdentitySource",
-    Dict{String,Any}(
-        "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "GetIdentitySource",
+        Dict{String,Any}(
+            "identitySourceId" => identitySourceId, "policyStoreId" => policyStoreId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_identity_source(
     identitySourceId,
     policyStoreId,
@@ -729,13 +753,16 @@ Retrieves information about the specified policy.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want information about.
 """
-get_policy(policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function get_policy(
+    policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "GetPolicy",
         Dict{String,Any}("policyId" => policyId, "policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_policy(
     policyId,
     policyStoreId,
@@ -766,13 +793,14 @@ Retrieves details about a policy store.
 
 - `policy_store_id`: Specifies the ID of the policy store that you want information about.
 """
-get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function get_policy_store(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
         "GetPolicyStore",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_policy_store(
     policyStoreId,
     params::AbstractDict{String};
@@ -801,16 +829,18 @@ Retrieve the details for the specified policy template in the specified policy s
 - `policy_template_id`: Specifies the ID of the policy template that you want information
   about.
 """
-get_policy_template(
+function get_policy_template(
     policyStoreId, policyTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "GetPolicyTemplate",
-    Dict{String,Any}(
-        "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "GetPolicyTemplate",
+        Dict{String,Any}(
+            "policyStoreId" => policyStoreId, "policyTemplateId" => policyTemplateId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_policy_template(
     policyStoreId,
     policyTemplateId,
@@ -843,13 +873,14 @@ Retrieve the details for the specified schema in the specified policy store.
 
 - `policy_store_id`: Specifies the ID of the policy store that contains the schema.
 """
-get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function get_schema(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
         "GetSchema",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_schema(
     policyStoreId,
     params::AbstractDict{String};
@@ -897,13 +928,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principal"`: Specifies the principal for which the authorization decision is to be made.
 - `"resource"`: Specifies the resource for which the authorization decision is to be made.
 """
-is_authorized(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function is_authorized(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
         "IsAuthorized",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function is_authorized(
     policyStoreId,
     params::AbstractDict{String};
@@ -979,14 +1011,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resource"`: Specifies the resource for which the authorization decision is made. For
   example, is the principal allowed to perform the action on the resource?
 """
-is_authorized_with_token(
+function is_authorized_with_token(
     policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "IsAuthorizedWithToken",
-    Dict{String,Any}("policyStoreId" => policyStoreId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "IsAuthorizedWithToken",
+        Dict{String,Any}("policyStoreId" => policyStoreId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function is_authorized_with_token(
     policyStoreId,
     params::AbstractDict{String};
@@ -1035,13 +1069,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_identity_sources(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function list_identity_sources(
+    policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "ListIdentitySources",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_identity_sources(
     policyStoreId,
     params::AbstractDict{String};
@@ -1089,13 +1126,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function list_policies(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
         "ListPolicies",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_policies(
     policyStoreId,
     params::AbstractDict{String};
@@ -1136,10 +1174,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_policy_stores(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function list_policy_stores(; aws_config::AbstractAWSConfig=current_aws_config())
+    return verifiedpermissions(
         "ListPolicyStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_policy_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1178,13 +1217,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that more output is available. Set this parameter to the value provided by the previous
   call's `NextToken` response to request the next page of results.
 """
-list_policy_templates(policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function list_policy_templates(
+    policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "ListPolicyTemplates",
         Dict{String,Any}("policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_policy_templates(
     policyStoreId,
     params::AbstractDict{String};
@@ -1221,13 +1263,16 @@ and be visible in the results of other Verified Permissions operations.
   must be written in Cedar schema JSON.
 - `policy_store_id`: Specifies the ID of the policy store in which to place the schema.
 """
-put_schema(definition, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    verifiedpermissions(
+function put_schema(
+    definition, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return verifiedpermissions(
         "PutSchema",
         Dict{String,Any}("definition" => definition, "policyStoreId" => policyStoreId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_schema(
     definition,
     policyStoreId,
@@ -1283,21 +1328,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"principalEntityType"`: Specifies the data type of principals generated for identities
   authenticated by the identity source.
 """
-update_identity_source(
+function update_identity_source(
     identitySourceId,
     policyStoreId,
     updateConfiguration;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = verifiedpermissions(
-    "UpdateIdentitySource",
-    Dict{String,Any}(
-        "identitySourceId" => identitySourceId,
-        "policyStoreId" => policyStoreId,
-        "updateConfiguration" => updateConfiguration,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "UpdateIdentitySource",
+        Dict{String,Any}(
+            "identitySourceId" => identitySourceId,
+            "policyStoreId" => policyStoreId,
+            "updateConfiguration" => updateConfiguration,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_identity_source(
     identitySourceId,
     policyStoreId,
@@ -1371,18 +1418,20 @@ and be visible in the results of other Verified Permissions operations.
 - `policy_store_id`: Specifies the ID of the policy store that contains the policy that you
   want to update.
 """
-update_policy(
+function update_policy(
     definition, policyId, policyStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "UpdatePolicy",
-    Dict{String,Any}(
-        "definition" => definition,
-        "policyId" => policyId,
-        "policyStoreId" => policyStoreId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "UpdatePolicy",
+        Dict{String,Any}(
+            "definition" => definition,
+            "policyId" => policyId,
+            "policyStoreId" => policyStoreId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_policy(
     definition,
     policyId,
@@ -1432,16 +1481,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Descriptive text that you can provide to help with identification of the
   current policy store.
 """
-update_policy_store(
+function update_policy_store(
     policyStoreId, validationSettings; aws_config::AbstractAWSConfig=current_aws_config()
-) = verifiedpermissions(
-    "UpdatePolicyStore",
-    Dict{String,Any}(
-        "policyStoreId" => policyStoreId, "validationSettings" => validationSettings
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "UpdatePolicyStore",
+        Dict{String,Any}(
+            "policyStoreId" => policyStoreId, "validationSettings" => validationSettings
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_policy_store(
     policyStoreId,
     validationSettings,
@@ -1504,21 +1555,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: Specifies a new description to apply to the policy template.
 """
-update_policy_template(
+function update_policy_template(
     policyStoreId,
     policyTemplateId,
     statement;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = verifiedpermissions(
-    "UpdatePolicyTemplate",
-    Dict{String,Any}(
-        "policyStoreId" => policyStoreId,
-        "policyTemplateId" => policyTemplateId,
-        "statement" => statement,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return verifiedpermissions(
+        "UpdatePolicyTemplate",
+        Dict{String,Any}(
+            "policyStoreId" => policyStoreId,
+            "policyTemplateId" => policyTemplateId,
+            "statement" => statement,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_policy_template(
     policyStoreId,
     policyTemplateId,

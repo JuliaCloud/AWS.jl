@@ -22,13 +22,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"outputFormat"`: The output format for the vulnerability report.
 """
-scan_sbom(sbom; aws_config::AbstractAWSConfig=current_aws_config()) = inspector_scan(
-    "POST",
-    "/scan/sbom",
-    Dict{String,Any}("sbom" => sbom);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function scan_sbom(sbom; aws_config::AbstractAWSConfig=current_aws_config())
+    return inspector_scan(
+        "POST",
+        "/scan/sbom",
+        Dict{String,Any}("sbom" => sbom);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function scan_sbom(
     sbom, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

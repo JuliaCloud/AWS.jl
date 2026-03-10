@@ -22,17 +22,19 @@ For more information about actions in an Actions dataset, see [Actions dataset](
   interactions dataset, Amazon Personalize creates an action interaction event tracker for
   you. For more information, see [Action interaction event tracker ID](https://docs.aws.amazon.com/personalize/latest/dg/action-interaction-tracker-id.html).
 """
-put_action_interactions(
+function put_action_interactions(
     actionInteractions, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize_events(
-    "POST",
-    "/action-interactions",
-    Dict{String,Any}(
-        "actionInteractions" => actionInteractions, "trackingId" => trackingId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize_events(
+        "POST",
+        "/action-interactions",
+        Dict{String,Any}(
+            "actionInteractions" => actionInteractions, "trackingId" => trackingId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_action_interactions(
     actionInteractions,
     trackingId,
@@ -68,14 +70,17 @@ Adds one or more actions to an Actions dataset. For more information see [Import
 - `dataset_arn`: The Amazon Resource Name (ARN) of the Actions dataset you are adding the
   action or actions to.
 """
-put_actions(actions, datasetArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize_events(
+function put_actions(
+    actions, datasetArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize_events(
         "POST",
         "/actions",
         Dict{String,Any}("actions" => actions, "datasetArn" => datasetArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_actions(
     actions,
     datasetArn,
@@ -119,17 +124,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"userId"`: The user associated with the event.
 """
-put_events(
+function put_events(
     eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize_events(
-    "POST",
-    "/events",
-    Dict{String,Any}(
-        "eventList" => eventList, "sessionId" => sessionId, "trackingId" => trackingId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize_events(
+        "POST",
+        "/events",
+        Dict{String,Any}(
+            "eventList" => eventList, "sessionId" => sessionId, "trackingId" => trackingId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_events(
     eventList,
     sessionId,
@@ -168,14 +175,15 @@ Adds one or more items to an Items dataset. For more information see [Importing 
   item or items to.
 - `items`: A list of item data.
 """
-put_items(datasetArn, items; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize_events(
+function put_items(datasetArn, items; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize_events(
         "POST",
         "/items",
         Dict{String,Any}("datasetArn" => datasetArn, "items" => items);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_items(
     datasetArn,
     items,
@@ -209,14 +217,15 @@ Adds one or more users to a Users dataset. For more information see [Importing u
   user or users to.
 - `users`: A list of user data.
 """
-put_users(datasetArn, users; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize_events(
+function put_users(datasetArn, users; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize_events(
         "POST",
         "/users",
         Dict{String,Any}("datasetArn" => datasetArn, "users" => users);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_users(
     datasetArn,
     users,

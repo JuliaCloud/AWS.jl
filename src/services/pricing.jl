@@ -29,8 +29,11 @@ Valid values are: `aws_v1`
   `AmazonEC2`. You can use the `ServiceCode` to filter the results in a `GetProducts` call.
   To retrieve a list of all services, leave this blank.
 """
-describe_services(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pricing("DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_services(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pricing(
+        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -62,14 +65,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-get_attribute_values(
+function get_attribute_values(
     AttributeName, ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()
-) = pricing(
-    "GetAttributeValues",
-    Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pricing(
+        "GetAttributeValues",
+        Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_attribute_values(
     AttributeName,
     ServiceCode,
@@ -113,14 +118,16 @@ response.
   located. `PriceListArn` can be obtained from the [ListPriceLists](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_ListPriceLists.html)
   response.
 """
-get_price_list_file_url(
+function get_price_list_file_url(
     FileFormat, PriceListArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pricing(
-    "GetPriceListFileUrl",
-    Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pricing(
+        "GetPriceListFileUrl",
+        Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_price_list_file_url(
     FileFormat,
     PriceListArn,
@@ -166,12 +173,14 @@ Valid values are: `aws_v1`
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-get_products(ServiceCode; aws_config::AbstractAWSConfig=current_aws_config()) = pricing(
-    "GetProducts",
-    Dict{String,Any}("ServiceCode" => ServiceCode);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_products(ServiceCode; aws_config::AbstractAWSConfig=current_aws_config())
+    return pricing(
+        "GetProducts",
+        Dict{String,Any}("ServiceCode" => ServiceCode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_products(
     ServiceCode,
     params::AbstractDict{String};
@@ -233,21 +242,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available `RegionCode` list can be retrieved from [GetAttributeValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_pricing_GetAttributeValues.html)
   API.
 """
-list_price_lists(
+function list_price_lists(
     CurrencyCode,
     EffectiveDate,
     ServiceCode;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pricing(
-    "ListPriceLists",
-    Dict{String,Any}(
-        "CurrencyCode" => CurrencyCode,
-        "EffectiveDate" => EffectiveDate,
-        "ServiceCode" => ServiceCode,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pricing(
+        "ListPriceLists",
+        Dict{String,Any}(
+            "CurrencyCode" => CurrencyCode,
+            "EffectiveDate" => EffectiveDate,
+            "ServiceCode" => ServiceCode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_price_lists(
     CurrencyCode,
     EffectiveDate,

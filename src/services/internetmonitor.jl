@@ -74,14 +74,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html)
   in the Amazon CloudWatch Internet Monitor section of the *CloudWatch User Guide*.
 """
-create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "POST",
         "/v20210603/Monitors",
         Dict{String,Any}("MonitorName" => MonitorName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -114,13 +115,14 @@ Deletes a monitor in Amazon CloudWatch Internet Monitor.
 
 - `monitor_name`: The name of the monitor to delete.
 """
-delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -165,13 +167,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
   in the Amazon CloudWatch Internet Monitor User Guide.
 """
-get_health_event(EventId, MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function get_health_event(
+    EventId, MonitorName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/HealthEvents/$(EventId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_health_event(
     EventId,
     MonitorName,
@@ -204,13 +209,14 @@ status (`ACTIVE` or `RESOLVED`).
 
 - `event_id`: The `EventId` of the internet event to return information for.
 """
-get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "GET",
         "/v20210603/InternetEvents/$(EventId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_internet_event(
     EventId,
     params::AbstractDict{String};
@@ -246,13 +252,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
   in the Amazon CloudWatch Internet Monitor User Guide.
 """
-get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_monitor(
     MonitorName,
     params::AbstractDict{String};
@@ -292,14 +299,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-get_query_results(
+function get_query_results(
     MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
-) = internetmonitor(
-    "GET",
-    "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Results";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return internetmonitor(
+        "GET",
+        "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Results";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_query_results(
     MonitorName,
     QueryId,
@@ -334,13 +343,16 @@ query is scheduled to run.
 - `query_id`: The ID of the query that you want to return the status for. A `QueryId` is an
   internally-generated dentifier for a specific query.
 """
-get_query_status(MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function get_query_status(
+    MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)/Status";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_query_status(
     MonitorName,
     QueryId,
@@ -388,13 +400,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 - `"StartTime"`: The time when a health event started.
 """
-list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/HealthEvents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_health_events(
     MonitorName,
     params::AbstractDict{String};
@@ -441,13 +454,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The start time of the time window that you want to get a list of internet
   events for.
 """
-list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "GET",
         "/v20210603/InternetEvents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_internet_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -484,9 +498,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_monitors(; aws_config::AbstractAWSConfig=current_aws_config()) = internetmonitor(
-    "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
+        "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -510,13 +526,16 @@ Internet Monitor.
 
 - `resource_arn`: The Amazon Resource Name (ARN) for a resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return internetmonitor(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -584,21 +603,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html)
   in the Amazon CloudWatch Internet Monitor User Guide.
 """
-start_query(
+function start_query(
     EndTime,
     MonitorName,
     QueryType,
     StartTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = internetmonitor(
-    "POST",
-    "/v20210603/Monitors/$(MonitorName)/Queries",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "QueryType" => QueryType, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return internetmonitor(
+        "POST",
+        "/v20210603/Monitors/$(MonitorName)/Queries",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "QueryType" => QueryType, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_query(
     EndTime,
     MonitorName,
@@ -636,13 +657,16 @@ Stop a query that is progress for a specific monitor.
 - `query_id`: The ID of the query that you want to stop. A `QueryId` is an internally-
   generated identifier for a specific query.
 """
-stop_query(MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function stop_query(
+    MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return internetmonitor(
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_query(
     MonitorName,
     QueryId,
@@ -675,14 +699,15 @@ A minimum of one tag is required for this call. It returns an error if you use t
 - `tags`: Tags that you add to a resource. You can add a maximum of 50 tags in Internet
   Monitor.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -709,14 +734,17 @@ Removes a tag from a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) for a tag you remove a resource from.
 - `tag_keys`: Tag keys that you remove from a resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return internetmonitor(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -793,14 +821,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To learn more, see [Choosing an application traffic percentage to monitor ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMTrafficPercentage.html)
   in the Amazon CloudWatch Internet Monitor section of the *CloudWatch User Guide*.
 """
-update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    internetmonitor(
+function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
+    return internetmonitor(
         "PATCH",
         "/v20210603/Monitors/$(MonitorName)",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_monitor(
     MonitorName,
     params::AbstractDict{String};

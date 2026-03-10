@@ -54,14 +54,17 @@ call.
 
 - `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
 """
-join_storage_session(channelArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_video_webrtc_storage(
+function join_storage_session(
+    channelArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_video_webrtc_storage(
         "POST",
         "/joinStorageSession",
         Dict{String,Any}("channelArn" => channelArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function join_storage_session(
     channelArn,
     params::AbstractDict{String};
@@ -104,15 +107,17 @@ takes precedence.
 - `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
 - `client_id`:  The unique identifier for the sender client.
 """
-join_storage_session_as_viewer(
+function join_storage_session_as_viewer(
     channelArn, clientId; aws_config::AbstractAWSConfig=current_aws_config()
-) = kinesis_video_webrtc_storage(
-    "POST",
-    "/joinStorageSessionAsViewer",
-    Dict{String,Any}("channelArn" => channelArn, "clientId" => clientId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_video_webrtc_storage(
+        "POST",
+        "/joinStorageSessionAsViewer",
+        Dict{String,Any}("channelArn" => channelArn, "clientId" => clientId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function join_storage_session_as_viewer(
     channelArn,
     clientId,

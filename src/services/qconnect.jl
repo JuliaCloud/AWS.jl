@@ -36,13 +36,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config()) = qconnect(
-    "POST",
-    "/assistants",
-    Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "POST",
+        "/assistants",
+        Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_assistant(
     name,
     type,
@@ -90,22 +92,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_assistant_association(
+function create_assistant_association(
     assistantId,
     association,
     associationType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "POST",
-    "/assistants/$(assistantId)/associations",
-    Dict{String,Any}(
-        "association" => association,
-        "associationType" => associationType,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/associations",
+        Dict{String,Any}(
+            "association" => association,
+            "associationType" => associationType,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_assistant_association(
     assistantId,
     association,
@@ -166,17 +170,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 - `"title"`: The title of the content. If not set, the title is equal to the name.
 """
-create_content(
+function create_content(
     knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/contents",
-    Dict{String,Any}(
-        "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/contents",
+        Dict{String,Any}(
+            "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_content(
     knowledgeBaseId,
     name,
@@ -235,23 +241,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_content_association(
+function create_content_association(
     association,
     associationType,
     contentId,
     knowledgeBaseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
-    Dict{String,Any}(
-        "association" => association,
-        "associationType" => associationType,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations",
+        Dict{String,Any}(
+            "association" => association,
+            "associationType" => associationType,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_content_association(
     association,
     associationType,
@@ -327,19 +335,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for EXTERNAL knowledge bases.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_knowledge_base(
+function create_knowledge_base(
     knowledgeBaseType, name; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases",
-    Dict{String,Any}(
-        "knowledgeBaseType" => knowledgeBaseType,
-        "name" => name,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases",
+        Dict{String,Any}(
+            "knowledgeBaseType" => knowledgeBaseType,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_knowledge_base(
     knowledgeBaseType,
     name,
@@ -401,17 +411,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across the knowledge base.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_quick_response(
+function create_quick_response(
     content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
-    Dict{String,Any}(
-        "content" => content, "name" => name, "clientToken" => string(uuid4())
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
+        Dict{String,Any}(
+            "content" => content, "name" => name, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_quick_response(
     content,
     knowledgeBaseId,
@@ -461,14 +473,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagFilter"`: An object that can be used to specify Tag conditions.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-create_session(assistantId, name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function create_session(
+    assistantId, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "POST",
         "/assistants/$(assistantId)/sessions",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_session(
     assistantId,
     name,
@@ -501,13 +516,14 @@ Deletes an assistant.
 - `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
   or the ARN. URLs cannot contain the ARN.
 """
-delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
         "DELETE",
         "/assistants/$(assistantId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -535,14 +551,16 @@ Deletes an assistant association.
 - `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
   or the ARN. URLs cannot contain the ARN.
 """
-delete_assistant_association(
+function delete_assistant_association(
     assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "DELETE",
-    "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -571,14 +589,16 @@ Deletes the content.
 - `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
   ARN. URLs cannot contain the ARN.
 """
-delete_content(
+function delete_content(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "DELETE",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_content(
     contentId,
     knowledgeBaseId,
@@ -610,17 +630,19 @@ in the *Amazon Connect Administrator Guide*.
 - `content_id`: The identifier of the content.
 - `knowledge_base_id`: The identifier of the knowledge base.
 """
-delete_content_association(
+function delete_content_association(
     contentAssociationId,
     contentId,
     knowledgeBaseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "DELETE",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_content_association(
     contentAssociationId,
     contentId,
@@ -648,14 +670,16 @@ Deletes the quick response import job.
 - `import_job_id`: The identifier of the import job to be deleted.
 - `knowledge_base_id`: The identifier of the knowledge base.
 """
-delete_import_job(
+function delete_import_job(
     importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "DELETE",
-    "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_import_job(
     importJobId,
     knowledgeBaseId,
@@ -690,13 +714,16 @@ in the *Amazon AppIntegrations API Reference*.
 - `knowledge_base_id`: The knowledge base to delete content from. Can be either the ID or
   the ARN. URLs cannot contain the ARN.
 """
-delete_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function delete_knowledge_base(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -723,14 +750,16 @@ Deletes a quick response.
   identifier of the knowledge base.
 - `quick_response_id`: The identifier of the quick response to delete.
 """
-delete_quick_response(
+function delete_quick_response(
     knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "DELETE",
-    "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -757,12 +786,14 @@ Retrieves information about an assistant.
 - `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
   or the ARN. URLs cannot contain the ARN.
 """
-get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = qconnect(
-    "GET",
-    "/assistants/$(assistantId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_assistant(
     assistantId,
     params::AbstractDict{String};
@@ -790,14 +821,16 @@ Retrieves information about an assistant association.
 - `assistant_id`: The identifier of the Amazon Q in Connect assistant. Can be either the ID
   or the ARN. URLs cannot contain the ARN.
 """
-get_assistant_association(
+function get_assistant_association(
     assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_assistant_association(
     assistantAssociationId,
     assistantId,
@@ -827,14 +860,16 @@ Retrieves content, including a pre-signed URL to download the content.
   QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
   the ARN.
 """
-get_content(
+function get_content(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_content(
     contentId,
     knowledgeBaseId,
@@ -866,17 +901,19 @@ in the *Amazon Connect Administrator Guide*.
 - `content_id`: The identifier of the content.
 - `knowledge_base_id`: The identifier of the knowledge base.
 """
-get_content_association(
+function get_content_association(
     contentAssociationId,
     contentId,
     knowledgeBaseId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations/$(contentAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_content_association(
     contentAssociationId,
     contentId,
@@ -906,14 +943,16 @@ Retrieves summary information about the content.
 - `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
   ARN. URLs cannot contain the ARN.
 """
-get_content_summary(
+function get_content_summary(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_content_summary(
     contentId,
     knowledgeBaseId,
@@ -940,14 +979,16 @@ Retrieves the started import job.
 - `import_job_id`: The identifier of the import job to retrieve.
 - `knowledge_base_id`: The identifier of the knowledge base that the import job belongs to.
 """
-get_import_job(
+function get_import_job(
     importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_import_job(
     importJobId,
     knowledgeBaseId,
@@ -974,13 +1015,16 @@ Retrieves information about the knowledge base.
 - `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
   ARN. URLs cannot contain the ARN.
 """
-get_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function get_knowledge_base(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_knowledge_base(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1007,14 +1051,16 @@ Retrieves the quick response.
   QUICK_RESPONSES type knowledge base.
 - `quick_response_id`: The identifier of the quick response.
 """
-get_quick_response(
+function get_quick_response(
     knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -1063,14 +1109,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the call returns sooner than `WaitTimeSeconds`. If no messages are available and the wait
   time expires, the call returns successfully with an empty list.
 """
-get_recommendations(
+function get_recommendations(
     assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_recommendations(
     assistantId,
     sessionId,
@@ -1099,13 +1147,16 @@ Retrieves information for a specified session.
 - `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 """
-get_session(assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function get_session(
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_session(
     assistantId,
     sessionId,
@@ -1140,14 +1191,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_assistant_associations(
+function list_assistant_associations(
     assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/assistants/$(assistantId)/associations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/assistants/$(assistantId)/associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_assistant_associations(
     assistantId,
     params::AbstractDict{String};
@@ -1176,8 +1229,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_assistants(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect("GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_assistants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1208,14 +1264,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_content_associations(
+function list_content_associations(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "GET",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_content_associations(
     contentId,
     knowledgeBaseId,
@@ -1251,13 +1309,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_contents(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1291,13 +1350,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_import_jobs(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function list_import_jobs(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/importJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_import_jobs(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1326,9 +1388,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config()) = qconnect(
-    "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
+        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_knowledge_bases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1360,13 +1424,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-list_quick_responses(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function list_quick_responses(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/quickResponses";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_quick_responses(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1391,13 +1458,16 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1429,18 +1499,20 @@ recommendations.
 - `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 """
-notify_recommendations_received(
+function notify_recommendations_received(
     assistantId,
     recommendationIds,
     sessionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "POST",
-    "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
-    Dict{String,Any}("recommendationIds" => recommendationIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
+        Dict{String,Any}("recommendationIds" => recommendationIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function notify_recommendations_received(
     assistantId,
     recommendationIds,
@@ -1475,23 +1547,25 @@ supports generative targets.
 - `target_id`: The identifier of the feedback target.
 - `target_type`: The type of the feedback target.
 """
-put_feedback(
+function put_feedback(
     assistantId,
     contentFeedback,
     targetId,
     targetType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "PUT",
-    "/assistants/$(assistantId)/feedback",
-    Dict{String,Any}(
-        "contentFeedback" => contentFeedback,
-        "targetId" => targetId,
-        "targetType" => targetType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "PUT",
+        "/assistants/$(assistantId)/feedback",
+        Dict{String,Any}(
+            "contentFeedback" => contentFeedback,
+            "targetId" => targetId,
+            "targetType" => targetType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_feedback(
     assistantId,
     contentFeedback,
@@ -1549,15 +1623,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionId"`: The identifier of the Amazon Q in Connect session. Can be either the ID or
   the ARN. URLs cannot contain the ARN.
 """
-query_assistant(
+function query_assistant(
     assistantId, queryText; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/assistants/$(assistantId)/query",
-    Dict{String,Any}("queryText" => queryText);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/query",
+        Dict{String,Any}("queryText" => queryText);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function query_assistant(
     assistantId,
     queryText,
@@ -1586,14 +1662,16 @@ Removes a URI template from a knowledge base.
 - `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
   ARN. URLs cannot contain the ARN.
 """
-remove_knowledge_base_template_uri(
+function remove_knowledge_base_template_uri(
     knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "DELETE",
-    "/knowledgeBases/$(knowledgeBaseId)/templateUri";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/templateUri";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_knowledge_base_template_uri(
     knowledgeBaseId,
     params::AbstractDict{String};
@@ -1630,15 +1708,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-search_content(
+function search_content(
     knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/search",
-    Dict{String,Any}("searchExpression" => searchExpression);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search",
+        Dict{String,Any}("searchExpression" => searchExpression);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_content(
     knowledgeBaseId,
     searchExpression,
@@ -1682,15 +1762,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-search_quick_responses(
+function search_quick_responses(
     knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
-    Dict{String,Any}("searchExpression" => searchExpression);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
+        Dict{String,Any}("searchExpression" => searchExpression);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_quick_responses(
     knowledgeBaseId,
     searchExpression,
@@ -1730,15 +1812,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-search_sessions(
+function search_sessions(
     assistantId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/assistants/$(assistantId)/searchSessions",
-    Dict{String,Any}("searchExpression" => searchExpression);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/assistants/$(assistantId)/searchSessions",
+        Dict{String,Any}("searchExpression" => searchExpression);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_sessions(
     assistantId,
     searchExpression,
@@ -1782,15 +1866,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"presignedUrlTimeToLive"`: The expected expiration time of the generated presigned URL,
   specified in minutes.
 """
-start_content_upload(
+function start_content_upload(
     contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/upload",
-    Dict{String,Any}("contentType" => contentType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/upload",
+        Dict{String,Any}("contentType" => contentType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_content_upload(
     contentType,
     knowledgeBaseId,
@@ -1836,22 +1922,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that the resource data are imported from.
 - `"metadata"`: The metadata fields of the imported Amazon Q in Connect resources.
 """
-start_import_job(
+function start_import_job(
     importJobType,
     knowledgeBaseId,
     uploadId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/importJobs",
-    Dict{String,Any}(
-        "importJobType" => importJobType,
-        "uploadId" => uploadId,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
+        Dict{String,Any}(
+            "importJobType" => importJobType,
+            "uploadId" => uploadId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_import_job(
     importJobType,
     knowledgeBaseId,
@@ -1889,14 +1977,15 @@ Adds the specified tags to the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return qconnect(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -1923,14 +2012,17 @@ Removes the specified tags from the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1979,14 +2071,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"title"`: The title of the content.
 - `"uploadId"`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html).
 """
-update_content(
+function update_content(
     contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_content(
     contentId,
     knowledgeBaseId,
@@ -2019,15 +2113,17 @@ article, it has an `Id` value, and you can set the template URI to
   the ARN.
 - `template_uri`: The template URI to update.
 """
-update_knowledge_base_template_uri(
+function update_knowledge_base_template_uri(
     knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/templateUri",
-    Dict{String,Any}("templateUri" => templateUri);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/templateUri",
+        Dict{String,Any}("templateUri" => templateUri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_knowledge_base_template_uri(
     knowledgeBaseId,
     templateUri,
@@ -2082,14 +2178,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
   across the knowledge base.
 """
-update_quick_response(
+function update_quick_response(
     knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-) = qconnect(
-    "POST",
-    "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return qconnect(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_quick_response(
     knowledgeBaseId,
     quickResponseId,
@@ -2127,13 +2225,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description.
 - `"tagFilter"`: An object that can be used to specify Tag conditions.
 """
-update_session(assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    qconnect(
+function update_session(
+    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return qconnect(
         "POST",
         "/assistants/$(assistantId)/sessions/$(sessionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_session(
     assistantId,
     sessionId,

@@ -19,19 +19,21 @@ Exchanges a DC1 Reserved Node for a DC2 Reserved Node with no changes to the con
   offering to be used for the exchange. You can obtain the value for the parameter by
   calling <a>GetReservedNodeExchangeOfferings</a>
 """
-accept_reserved_node_exchange(
+function accept_reserved_node_exchange(
     ReservedNodeId,
     TargetReservedNodeOfferingId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "AcceptReservedNodeExchange",
-    Dict{String,Any}(
-        "ReservedNodeId" => ReservedNodeId,
-        "TargetReservedNodeOfferingId" => TargetReservedNodeOfferingId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AcceptReservedNodeExchange",
+        Dict{String,Any}(
+            "ReservedNodeId" => ReservedNodeId,
+            "TargetReservedNodeOfferingId" => TargetReservedNodeOfferingId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function accept_reserved_node_exchange(
     ReservedNodeId,
     TargetReservedNodeOfferingId,
@@ -71,23 +73,25 @@ integration on the partner website.
 - `database_name`: The name of the database that receives data from the partner.
 - `partner_name`: The name of the partner that is authorized to send data.
 """
-add_partner(
+function add_partner(
     AccountId,
     ClusterIdentifier,
     DatabaseName,
     PartnerName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "AddPartner",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "ClusterIdentifier" => ClusterIdentifier,
-        "DatabaseName" => DatabaseName,
-        "PartnerName" => PartnerName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AddPartner",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_partner(
     AccountId,
     ClusterIdentifier,
@@ -140,14 +144,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConsumerRegion"`: From a datashare consumer account, associates a datashare with all
   existing and future namespaces in the specified Amazon Web Services Region.
 """
-associate_data_share_consumer(
+function associate_data_share_consumer(
     DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "AssociateDataShareConsumer",
-    Dict{String,Any}("DataShareArn" => DataShareArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AssociateDataShareConsumer",
+        Dict{String,Any}("DataShareArn" => DataShareArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_data_share_consumer(
     DataShareArn,
     params::AbstractDict{String};
@@ -204,14 +210,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Example: `111122223333`
 """
-authorize_cluster_security_group_ingress(
+function authorize_cluster_security_group_ingress(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "AuthorizeClusterSecurityGroupIngress",
-    Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AuthorizeClusterSecurityGroupIngress",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function authorize_cluster_security_group_ingress(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -253,16 +261,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AllowWrites"`: If set to true, allows write operations for a datashare.
 """
-authorize_data_share(
+function authorize_data_share(
     ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "AuthorizeDataShare",
-    Dict{String,Any}(
-        "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AuthorizeDataShare",
+        Dict{String,Any}(
+            "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function authorize_data_share(
     ConsumerIdentifier,
     DataShareArn,
@@ -303,13 +313,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterIdentifier"`: The cluster identifier of the cluster to grant access to.
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers to grant access to.
 """
-authorize_endpoint_access(Account; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function authorize_endpoint_access(
+    Account; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "AuthorizeEndpointAccess",
         Dict{String,Any}("Account" => Account);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function authorize_endpoint_access(
     Account,
     params::AbstractDict{String};
@@ -353,14 +366,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIdentifier"`: The identifier of the snapshot the account is authorized to
   restore.
 """
-authorize_snapshot_access(
+function authorize_snapshot_access(
     AccountWithRestoreAccess; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "AuthorizeSnapshotAccess",
-    Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "AuthorizeSnapshotAccess",
+        Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function authorize_snapshot_access(
     AccountWithRestoreAccess,
     params::AbstractDict{String};
@@ -397,14 +412,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Identifiers"`: A list of identifiers for the snapshots that you want to delete.
 """
-batch_delete_cluster_snapshots(
+function batch_delete_cluster_snapshots(
     DeleteClusterSnapshotMessage; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "BatchDeleteClusterSnapshots",
-    Dict{String,Any}("DeleteClusterSnapshotMessage" => DeleteClusterSnapshotMessage);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "BatchDeleteClusterSnapshots",
+        Dict{String,Any}("DeleteClusterSnapshotMessage" => DeleteClusterSnapshotMessage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_delete_cluster_snapshots(
     DeleteClusterSnapshotMessage,
     params::AbstractDict{String};
@@ -452,13 +469,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you want to suppress the errors and delete the snapshots, use the force option.
 - `"SnapshotIdentifierList"`: A list of snapshot identifiers you want to modify.
 """
-batch_modify_cluster_snapshots(String; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function batch_modify_cluster_snapshots(
+    String; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "BatchModifyClusterSnapshots",
         Dict{String,Any}("String" => String);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function batch_modify_cluster_snapshots(
     String, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -481,13 +501,16 @@ Cancels a resize operation for a cluster.
 - `cluster_identifier`: The unique identifier for the cluster that you want to cancel a
   resize operation for.
 """
-cancel_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function cancel_resize(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "CancelResize",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function cancel_resize(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -550,19 +573,21 @@ The default value is -1.
 
 Constraints: - Must be the identifier for a valid cluster.
 """
-copy_cluster_snapshot(
+function copy_cluster_snapshot(
     SourceSnapshotIdentifier,
     TargetSnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CopyClusterSnapshot",
-    Dict{String,Any}(
-        "SourceSnapshotIdentifier" => SourceSnapshotIdentifier,
-        "TargetSnapshotIdentifier" => TargetSnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CopyClusterSnapshot",
+        Dict{String,Any}(
+            "SourceSnapshotIdentifier" => SourceSnapshotIdentifier,
+            "TargetSnapshotIdentifier" => TargetSnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_cluster_snapshot(
     SourceSnapshotIdentifier,
     TargetSnapshotIdentifier,
@@ -598,19 +623,21 @@ Creates an authentication profile with the specified parameters.
   format. The maximum length of the JSON string is determined by a quota for your account.
 - `authentication_profile_name`: The name of the authentication profile to be created.
 """
-create_authentication_profile(
+function create_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateAuthenticationProfile",
-    Dict{String,Any}(
-        "AuthenticationProfileContent" => AuthenticationProfileContent,
-        "AuthenticationProfileName" => AuthenticationProfileName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateAuthenticationProfile",
+        Dict{String,Any}(
+            "AuthenticationProfileContent" => AuthenticationProfileContent,
+            "AuthenticationProfileName" => AuthenticationProfileName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName,
@@ -822,7 +849,7 @@ The value must be either -1 or an integer between 1 and 3,653.
    - Must contain at least one lowercase letter.
    - Must contain one number.
    - Can be any printable ASCII character (ASCII code 33-126) except `'` (single quote),
-  `"` (double quote), `\`, `/`, or `@`.
+  `"` (double quote), `\\`, `/`, or `@`.
 - `"MultiAZ"`: If true, Amazon Redshift will deploy the cluster in two Availability Zones
   (AZ).
 - `"NumberOfNodes"`: The number of compute nodes in the cluster. This parameter is required
@@ -872,21 +899,23 @@ Constraints: Minimum 30-minute window.
 
 Default: The default VPC security group is associated with the cluster.
 """
-create_cluster(
+function create_cluster(
     ClusterIdentifier,
     MasterUsername,
     NodeType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateCluster",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "MasterUsername" => MasterUsername,
-        "NodeType" => NodeType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateCluster",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "MasterUsername" => MasterUsername,
+            "NodeType" => NodeType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster(
     ClusterIdentifier,
     MasterUsername,
@@ -956,21 +985,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_parameter_group(
+function create_cluster_parameter_group(
     Description,
     ParameterGroupFamily,
     ParameterGroupName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateClusterParameterGroup",
-    Dict{String,Any}(
-        "Description" => Description,
-        "ParameterGroupFamily" => ParameterGroupFamily,
-        "ParameterGroupName" => ParameterGroupName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateClusterParameterGroup",
+        Dict{String,Any}(
+            "Description" => Description,
+            "ParameterGroupFamily" => ParameterGroupFamily,
+            "ParameterGroupName" => ParameterGroupName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster_parameter_group(
     Description,
     ParameterGroupFamily,
@@ -1024,19 +1055,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_security_group(
+function create_cluster_security_group(
     ClusterSecurityGroupName,
     Description;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateClusterSecurityGroup",
-    Dict{String,Any}(
-        "ClusterSecurityGroupName" => ClusterSecurityGroupName,
-        "Description" => Description,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateClusterSecurityGroup",
+        Dict{String,Any}(
+            "ClusterSecurityGroupName" => ClusterSecurityGroupName,
+            "Description" => Description,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster_security_group(
     ClusterSecurityGroupName,
     Description,
@@ -1094,19 +1127,21 @@ The value must be either -1 or an integer between 1 and 3,653.
 The default value is -1.
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_snapshot(
+function create_cluster_snapshot(
     ClusterIdentifier,
     SnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateClusterSnapshot",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "SnapshotIdentifier" => SnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateClusterSnapshot",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster_snapshot(
     ClusterIdentifier,
     SnapshotIdentifier,
@@ -1163,21 +1198,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   single request.
 - `"Tags"`: A list of tag instances.
 """
-create_cluster_subnet_group(
+function create_cluster_subnet_group(
     ClusterSubnetGroupName,
     Description,
     SubnetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateClusterSubnetGroup",
-    Dict{String,Any}(
-        "ClusterSubnetGroupName" => ClusterSubnetGroupName,
-        "Description" => Description,
-        "SubnetIdentifier" => SubnetIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateClusterSubnetGroup",
+        Dict{String,Any}(
+            "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+            "Description" => Description,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster_subnet_group(
     ClusterSubnetGroupName,
     Description,
@@ -1218,21 +1255,23 @@ Name (ARN).
   custom domain name association.
 - `custom_domain_name`: The custom domain name for a custom domain association.
 """
-create_custom_domain_association(
+function create_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
     CustomDomainName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateCustomDomainAssociation",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "CustomDomainCertificateArn" => CustomDomainCertificateArn,
-        "CustomDomainName" => CustomDomainName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+            "CustomDomainName" => CustomDomainName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -1284,14 +1323,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: The security group that defines the ports, protocols, and
   sources for inbound traffic that you are authorizing into your endpoint.
 """
-create_endpoint_access(
+function create_endpoint_access(
     EndpointName, SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "CreateEndpointAccess",
-    Dict{String,Any}("EndpointName" => EndpointName, "SubnetGroupName" => SubnetGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateEndpointAccess",
+        Dict{String,Any}(
+            "EndpointName" => EndpointName, "SubnetGroupName" => SubnetGroupName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_endpoint_access(
     EndpointName,
     SubnetGroupName,
@@ -1383,14 +1426,18 @@ Example: my-snapshot-20131010
   and scheduled-action.
 - `"Tags"`: A list of tag instances.
 """
-create_event_subscription(
+function create_event_subscription(
     SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "CreateEventSubscription",
-    Dict{String,Any}("SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateEventSubscription",
+        Dict{String,Any}(
+            "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_event_subscription(
     SnsTopicArn,
     SubscriptionName,
@@ -1439,14 +1486,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of tag instances.
 """
-create_hsm_client_certificate(
+function create_hsm_client_certificate(
     HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "CreateHsmClientCertificate",
-    Dict{String,Any}("HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateHsmClientCertificate",
+        Dict{String,Any}(
+            "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_hsm_client_certificate(
     HsmClientCertificateIdentifier,
     params::AbstractDict{String};
@@ -1500,7 +1551,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: A list of tag instances.
 """
-create_hsm_configuration(
+function create_hsm_configuration(
     Description,
     HsmConfigurationIdentifier,
     HsmIpAddress,
@@ -1508,19 +1559,21 @@ create_hsm_configuration(
     HsmPartitionPassword,
     HsmServerPublicCertificate;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateHsmConfiguration",
-    Dict{String,Any}(
-        "Description" => Description,
-        "HsmConfigurationIdentifier" => HsmConfigurationIdentifier,
-        "HsmIpAddress" => HsmIpAddress,
-        "HsmPartitionName" => HsmPartitionName,
-        "HsmPartitionPassword" => HsmPartitionPassword,
-        "HsmServerPublicCertificate" => HsmServerPublicCertificate,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateHsmConfiguration",
+        Dict{String,Any}(
+            "Description" => Description,
+            "HsmConfigurationIdentifier" => HsmConfigurationIdentifier,
+            "HsmIpAddress" => HsmIpAddress,
+            "HsmPartitionName" => HsmPartitionName,
+            "HsmPartitionPassword" => HsmPartitionPassword,
+            "HsmServerPublicCertificate" => HsmServerPublicCertificate,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_hsm_configuration(
     Description,
     HsmConfigurationIdentifier,
@@ -1582,23 +1635,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceIntegrations"`: A collection of service integrations for the Redshift IAM
   Identity Center application.
 """
-create_redshift_idc_application(
+function create_redshift_idc_application(
     IamRoleArn,
     IdcDisplayName,
     IdcInstanceArn,
     RedshiftIdcApplicationName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateRedshiftIdcApplication",
-    Dict{String,Any}(
-        "IamRoleArn" => IamRoleArn,
-        "IdcDisplayName" => IdcDisplayName,
-        "IdcInstanceArn" => IdcInstanceArn,
-        "RedshiftIdcApplicationName" => RedshiftIdcApplicationName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateRedshiftIdcApplication",
+        Dict{String,Any}(
+            "IamRoleArn" => IamRoleArn,
+            "IdcDisplayName" => IdcDisplayName,
+            "IdcInstanceArn" => IdcInstanceArn,
+            "RedshiftIdcApplicationName" => RedshiftIdcApplicationName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_redshift_idc_application(
     IamRoleArn,
     IdcDisplayName,
@@ -1660,23 +1715,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled action does not trigger. For more information about this parameter, see
   <a>ScheduledAction</a>.
 """
-create_scheduled_action(
+function create_scheduled_action(
     IamRole,
     Schedule,
     ScheduledActionName,
     TargetAction;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateScheduledAction",
-    Dict{String,Any}(
-        "IamRole" => IamRole,
-        "Schedule" => Schedule,
-        "ScheduledActionName" => ScheduledActionName,
-        "TargetAction" => TargetAction,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateScheduledAction",
+        Dict{String,Any}(
+            "IamRole" => IamRole,
+            "Schedule" => Schedule,
+            "ScheduledActionName" => ScheduledActionName,
+            "TargetAction" => TargetAction,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_scheduled_action(
     IamRole,
     Schedule,
@@ -1733,14 +1790,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift permission. If no key is specified, the default key is used.
 - `"Tags"`: A list of tag instances.
 """
-create_snapshot_copy_grant(
+function create_snapshot_copy_grant(
     SnapshotCopyGrantName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "CreateSnapshotCopyGrant",
-    Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateSnapshotCopyGrant",
+        Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_snapshot_copy_grant(
     SnapshotCopyGrantName,
     params::AbstractDict{String};
@@ -1780,9 +1839,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters are allowed for the identifier.
 - `"Tags"`: An optional set of tags you can use to search for the schedule.
 """
-create_snapshot_schedule(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_snapshot_schedule(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "CreateSnapshotSchedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_snapshot_schedule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1826,13 +1887,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Separate multiple tags with a space. For example, `--tags "Key"="owner","Value"="admin"
   "Key"="environment","Value"="test" "Key"="version","Value"="1.0"`.
 """
-create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function create_tags(ResourceName, Tag; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "CreateTags",
         Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_tags(
     ResourceName,
     Tag,
@@ -1882,23 +1944,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Sunday. The default is `monthly`.
 - `"Tags"`: A list of tag instances.
 """
-create_usage_limit(
+function create_usage_limit(
     Amount,
     ClusterIdentifier,
     FeatureType,
     LimitType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "CreateUsageLimit",
-    Dict{String,Any}(
-        "Amount" => Amount,
-        "ClusterIdentifier" => ClusterIdentifier,
-        "FeatureType" => FeatureType,
-        "LimitType" => LimitType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "CreateUsageLimit",
+        Dict{String,Any}(
+            "Amount" => Amount,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "FeatureType" => FeatureType,
+            "LimitType" => LimitType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_usage_limit(
     Amount,
     ClusterIdentifier,
@@ -1940,16 +2004,18 @@ From a datashare producer account, removes authorization from the specified data
 - `data_share_arn`: The namespace Amazon Resource Name (ARN) of the datashare to remove
   authorization from.
 """
-deauthorize_data_share(
+function deauthorize_data_share(
     ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeauthorizeDataShare",
-    Dict{String,Any}(
-        "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeauthorizeDataShare",
+        Dict{String,Any}(
+            "ConsumerIdentifier" => ConsumerIdentifier, "DataShareArn" => DataShareArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function deauthorize_data_share(
     ConsumerIdentifier,
     DataShareArn,
@@ -1983,14 +2049,16 @@ Deletes an authentication profile.
 
 - `authentication_profile_name`: The name of the authentication profile to delete.
 """
-delete_authentication_profile(
+function delete_authentication_profile(
     AuthenticationProfileName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteAuthenticationProfile",
-    Dict{String,Any}("AuthenticationProfileName" => AuthenticationProfileName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteAuthenticationProfile",
+        Dict{String,Any}("AuthenticationProfileName" => AuthenticationProfileName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_authentication_profile(
     AuthenticationProfileName,
     params::AbstractDict{String};
@@ -2066,13 +2134,16 @@ The default value is -1.
       The *FinalClusterSnapshotIdentifier* parameter must be specified if
   *SkipFinalClusterSnapshot* is `false`.Default: `false`
 """
-delete_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function delete_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DeleteCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -2106,14 +2177,16 @@ Deletes a specified Amazon Redshift parameter group.
   Constraints: - Must be the name of an existing cluster parameter group.
    - Cannot delete a default cluster parameter group.
 """
-delete_cluster_parameter_group(
+function delete_cluster_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteClusterParameterGroup",
-    Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteClusterParameterGroup",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_cluster_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -2146,14 +2219,16 @@ in the *Amazon Redshift Cluster Management Guide*.
 
 - `cluster_security_group_name`: The name of the cluster security group to be deleted.
 """
-delete_cluster_security_group(
+function delete_cluster_security_group(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteClusterSecurityGroup",
-    Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteClusterSecurityGroup",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_cluster_security_group(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -2202,14 +2277,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Constraints: Must be the name of valid cluster.
 """
-delete_cluster_snapshot(
+function delete_cluster_snapshot(
     SnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteClusterSnapshot",
-    Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteClusterSnapshot",
+        Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_cluster_snapshot(
     SnapshotIdentifier,
     params::AbstractDict{String};
@@ -2237,14 +2314,16 @@ Deletes the specified cluster subnet group.
 
 - `cluster_subnet_group_name`: The name of the cluster subnet group name to be deleted.
 """
-delete_cluster_subnet_group(
+function delete_cluster_subnet_group(
     ClusterSubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteClusterSubnetGroup",
-    Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteClusterSubnetGroup",
+        Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_cluster_subnet_group(
     ClusterSubnetGroupName,
     params::AbstractDict{String};
@@ -2276,16 +2355,18 @@ Contains information about deleting a custom domain association for a cluster.
   for.
 - `custom_domain_name`: The custom domain name for the custom domain association.
 """
-delete_custom_domain_association(
+function delete_custom_domain_association(
     ClusterIdentifier, CustomDomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteCustomDomainAssociation",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier, "CustomDomainName" => CustomDomainName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "CustomDomainName" => CustomDomainName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_domain_association(
     ClusterIdentifier,
     CustomDomainName,
@@ -2319,13 +2400,16 @@ Deletes a Redshift-managed VPC endpoint.
 
 - `endpoint_name`: The Redshift-managed VPC endpoint to delete.
 """
-delete_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function delete_endpoint_access(
+    EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DeleteEndpointAccess",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_endpoint_access(
     EndpointName,
     params::AbstractDict{String};
@@ -2352,14 +2436,16 @@ Deletes an Amazon Redshift event notification subscription.
 - `subscription_name`: The name of the Amazon Redshift event notification subscription to
   be deleted.
 """
-delete_event_subscription(
+function delete_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteEventSubscription",
-    Dict{String,Any}("SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -2388,14 +2474,18 @@ Deletes the specified HSM client certificate.
 - `hsm_client_certificate_identifier`: The identifier of the HSM client certificate to be
   deleted.
 """
-delete_hsm_client_certificate(
+function delete_hsm_client_certificate(
     HsmClientCertificateIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteHsmClientCertificate",
-    Dict{String,Any}("HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteHsmClientCertificate",
+        Dict{String,Any}(
+            "HsmClientCertificateIdentifier" => HsmClientCertificateIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_hsm_client_certificate(
     HsmClientCertificateIdentifier,
     params::AbstractDict{String};
@@ -2428,14 +2518,16 @@ Deletes the specified Amazon Redshift HSM configuration.
 - `hsm_configuration_identifier`: The identifier of the Amazon Redshift HSM configuration
   to be deleted.
 """
-delete_hsm_configuration(
+function delete_hsm_configuration(
     HsmConfigurationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteHsmConfiguration",
-    Dict{String,Any}("HsmConfigurationIdentifier" => HsmConfigurationIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteHsmConfiguration",
+        Dict{String,Any}("HsmConfigurationIdentifier" => HsmConfigurationIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_hsm_configuration(
     HsmConfigurationIdentifier,
     params::AbstractDict{String};
@@ -2472,23 +2564,25 @@ integration is deleted at the partner's website.
 - `database_name`: The name of the database that receives data from the partner.
 - `partner_name`: The name of the partner that is authorized to send data.
 """
-delete_partner(
+function delete_partner(
     AccountId,
     ClusterIdentifier,
     DatabaseName,
     PartnerName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "DeletePartner",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "ClusterIdentifier" => ClusterIdentifier,
-        "DatabaseName" => DatabaseName,
-        "PartnerName" => PartnerName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeletePartner",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_partner(
     AccountId,
     ClusterIdentifier,
@@ -2527,14 +2621,16 @@ Deletes an Amazon Redshift IAM Identity Center application.
 - `redshift_idc_application_arn`: The ARN for a deleted Amazon Redshift IAM Identity Center
   application.
 """
-delete_redshift_idc_application(
+function delete_redshift_idc_application(
     RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteRedshiftIdcApplication",
-    Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteRedshiftIdcApplication",
+        Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_redshift_idc_application(
     RedshiftIdcApplicationArn,
     params::AbstractDict{String};
@@ -2565,13 +2661,16 @@ Deletes the resource policy for a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
   policy is deleted.
 """
-delete_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DeleteResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -2597,14 +2696,16 @@ Deletes a scheduled action.
 
 - `scheduled_action_name`: The name of the scheduled action to delete.
 """
-delete_scheduled_action(
+function delete_scheduled_action(
     ScheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteScheduledAction",
-    Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteScheduledAction",
+        Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_scheduled_action(
     ScheduledActionName,
     params::AbstractDict{String};
@@ -2634,14 +2735,16 @@ Deletes the specified snapshot copy grant.
 
 - `snapshot_copy_grant_name`: The name of the snapshot copy grant to delete.
 """
-delete_snapshot_copy_grant(
+function delete_snapshot_copy_grant(
     SnapshotCopyGrantName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteSnapshotCopyGrant",
-    Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteSnapshotCopyGrant",
+        Dict{String,Any}("SnapshotCopyGrantName" => SnapshotCopyGrantName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_snapshot_copy_grant(
     SnapshotCopyGrantName,
     params::AbstractDict{String};
@@ -2671,14 +2774,16 @@ Deletes a snapshot schedule.
 
 - `schedule_identifier`: A unique identifier of the snapshot schedule to delete.
 """
-delete_snapshot_schedule(
+function delete_snapshot_schedule(
     ScheduleIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DeleteSnapshotSchedule",
-    Dict{String,Any}("ScheduleIdentifier" => ScheduleIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DeleteSnapshotSchedule",
+        Dict{String,Any}("ScheduleIdentifier" => ScheduleIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_snapshot_schedule(
     ScheduleIdentifier,
     params::AbstractDict{String};
@@ -2715,13 +2820,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"TagKeys"`: The tag key that you want to delete.
 """
-delete_tags(ResourceName, TagKey; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function delete_tags(
+    ResourceName, TagKey; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DeleteTags",
         Dict{String,Any}("ResourceName" => ResourceName, "TagKey" => TagKey);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_tags(
     ResourceName,
     TagKey,
@@ -2752,13 +2860,16 @@ Deletes a usage limit from a cluster.
 
 - `usage_limit_id`: The identifier of the usage limit to delete.
 """
-delete_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function delete_usage_limit(
+    UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DeleteUsageLimit",
         Dict{String,Any}("UsageLimitId" => UsageLimitId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_usage_limit(
     UsageLimitId,
     params::AbstractDict{String};
@@ -2786,10 +2897,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"AttributeNames"`: A list of attribute names.
 """
-describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_account_attributes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeAccountAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_account_attributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2814,12 +2926,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthenticationProfileName"`: The name of the authentication profile to describe. If not
   specified then all authentication profiles owned by the account are listed.
 """
-describe_authentication_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_authentication_profiles(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeAuthenticationProfiles";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_authentication_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2862,10 +2977,11 @@ Default: 100
 
 Constraints: minimum 20, maximum 100.
 """
-describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_cluster_db_revisions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeClusterDbRevisions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_cluster_db_revisions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2930,12 +3046,15 @@ Constraints: minimum 20, maximum 100.
   response with the parameter groups that have either or both of these tag values
   associated with them.
 """
-describe_cluster_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_cluster_parameter_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeClusterParameterGroups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_cluster_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2991,14 +3110,16 @@ Default: All parameter types returned.
 
 Valid Values: `user` | `engine-default`
 """
-describe_cluster_parameters(
+function describe_cluster_parameters(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribeClusterParameters",
-    Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribeClusterParameters",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_cluster_parameters(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -3071,12 +3192,15 @@ Constraints: minimum 20, maximum 100.
   response with the security groups that have either or both of these tag values associated
   with them.
 """
-describe_cluster_security_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_cluster_security_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeClusterSecurityGroups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_cluster_security_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3170,9 +3294,11 @@ Example: `2012-07-16T18:00:00Z`
   you specify both of these tag values in the request, Amazon Redshift returns a response
   with the snapshots that have either or both of these tag values associated with them.
 """
-describe_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3231,12 +3357,15 @@ Constraints: minimum 20, maximum 100.
   response with the subnet groups that have either or both of these tag values associated
   with them.
 """
-describe_cluster_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_cluster_subnet_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeClusterSubnetGroups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_cluster_subnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3266,9 +3395,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   marker value in the `Marker` parameter and retrying the request.
 - `"MaxRecords"`: An integer value for the maximum number of maintenance tracks to return.
 """
-describe_cluster_tracks(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_cluster_tracks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeClusterTracks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_cluster_tracks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3316,9 +3447,11 @@ Default: `100`
 
 Constraints: minimum 20, maximum 100.
 """
-describe_cluster_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_cluster_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeClusterVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_cluster_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3382,8 +3515,11 @@ Constraints: minimum 20, maximum 100.
   of these tag values in the request, Amazon Redshift returns a response with the clusters
   that have either or both of these tag values associated with them.
 """
-describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3408,12 +3544,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`: The marker for the custom domain association.
 - `"MaxRecords"`: The maximum records setting for the associated custom domain.
 """
-describe_custom_domain_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_custom_domain_associations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeCustomDomainAssociations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_custom_domain_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3446,8 +3585,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in a `marker` field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.
 """
-describe_data_shares(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_data_shares(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeDataShares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_data_shares(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3482,12 +3624,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this field is specified, Amazon Redshift returns the list of datashares that have the
   specified status.
 """
-describe_data_shares_for_consumer(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_data_shares_for_consumer(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeDataSharesForConsumer";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_data_shares_for_consumer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3525,12 +3670,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is specified, Amazon Redshift returns the list of datashares that have the specified
   status.
 """
-describe_data_shares_for_producer(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_data_shares_for_producer(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeDataSharesForProducer";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_data_shares_for_producer(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3573,14 +3721,16 @@ Default: `100`
 
 Constraints: minimum 20, maximum 100.
 """
-describe_default_cluster_parameters(
+function describe_default_cluster_parameters(
     ParameterGroupFamily; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribeDefaultClusterParameters",
-    Dict{String,Any}("ParameterGroupFamily" => ParameterGroupFamily);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribeDefaultClusterParameters",
+        Dict{String,Any}("ParameterGroupFamily" => ParameterGroupFamily);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_default_cluster_parameters(
     ParameterGroupFamily,
     params::AbstractDict{String};
@@ -3621,9 +3771,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceOwner"`: The Amazon Web Services account ID of the owner of the cluster.
 - `"VpcId"`: The virtual private cloud (VPC) identifier with access to the cluster.
 """
-describe_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3659,12 +3811,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified `MaxRecords` value, a pagination token called a `Marker` is
   included in the response so that the remaining results can be retrieved.
 """
-describe_endpoint_authorization(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_endpoint_authorization(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeEndpointAuthorization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_endpoint_authorization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3693,9 +3848,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Valid values: cluster, cluster-snapshot, cluster-parameter-group, cluster-security-group,
   and scheduled-action.
 """
-describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3756,10 +3913,11 @@ Constraints: minimum 20, maximum 100.
   Redshift returns a response with the subscriptions that have either or both of these tag
   values associated with them.
 """
-describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3836,8 +3994,11 @@ Constraints: minimum 20, maximum 100.
 
 Example: `2009-07-08T18:00Z`
 """
-describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3896,12 +4057,15 @@ Constraints: minimum 20, maximum 100.
   returns a response with the HSM client certificates that have either or both of these tag
   values associated with them.
 """
-describe_hsm_client_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_hsm_client_certificates(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeHsmClientCertificates";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_hsm_client_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3962,10 +4126,11 @@ Constraints: minimum 20, maximum 100.
   response with the HSM configurations that have either or both of these tag values
   associated with them.
 """
-describe_hsm_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_hsm_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeHsmConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_hsm_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4003,12 +4168,13 @@ Default: `100`
 Constraints: minimum 20, maximum 100.
 - `"TargetArn"`: The Amazon Resource Name (ARN) of the target of an inbound integration.
 """
-describe_inbound_integrations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_inbound_integrations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeInboundIntegrations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_inbound_integrations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4033,14 +4199,16 @@ the specified Amazon Redshift cluster.
 
 Example: `examplecluster`
 """
-describe_logging_status(
+function describe_logging_status(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribeLoggingStatus",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribeLoggingStatus",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_logging_status(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4100,14 +4268,16 @@ Constraints: minimum 100, maximum 500.
 - `"SnapshotIdentifier"`: The identifier of the snapshot to evaluate for possible node
   configurations.
 """
-describe_node_configuration_options(
+function describe_node_configuration_options(
     ActionType; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribeNodeConfigurationOptions",
-    Dict{String,Any}("ActionType" => ActionType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribeNodeConfigurationOptions",
+        Dict{String,Any}("ActionType" => ActionType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_node_configuration_options(
     ActionType,
     params::AbstractDict{String};
@@ -4162,12 +4332,15 @@ Constraints: minimum 20, maximum 100.
 - `"NodeType"`: The node type filter value. Specify this parameter to show only the
   available offerings matching the specified node type.
 """
-describe_orderable_cluster_options(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_orderable_cluster_options(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeOrderableClusterOptions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_orderable_cluster_options(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4200,14 +4373,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PartnerName"`: The name of the partner that is being described. If partner name is not
   specified, then all partner integrations are described.
 """
-describe_partners(
+function describe_partners(
     AccountId, ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribePartners",
-    Dict{String,Any}("AccountId" => AccountId, "ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribePartners",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ClusterIdentifier" => ClusterIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_partners(
     AccountId,
     ClusterIdentifier,
@@ -4252,12 +4429,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RedshiftIdcApplicationArn"`: The ARN for the Redshift application that integrates with
   IAM Identity Center.
 """
-describe_redshift_idc_applications(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_redshift_idc_applications(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeRedshiftIdcApplications";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_redshift_idc_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4293,13 +4473,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodeId"`: The identifier of the source reserved node in a reserved-node
   exchange request.
 """
-describe_reserved_node_exchange_status(;
+function describe_reserved_node_exchange_status(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DescribeReservedNodeExchangeStatus";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DescribeReservedNodeExchangeStatus";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_reserved_node_exchange_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4344,12 +4526,15 @@ Default: `100`
 Constraints: minimum 20, maximum 100.
 - `"ReservedNodeOfferingId"`: The unique identifier for the offering.
 """
-describe_reserved_node_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_reserved_node_offerings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeReservedNodeOfferings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_reserved_node_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4386,9 +4571,11 @@ Default: `100`
 Constraints: minimum 20, maximum 100.
 - `"ReservedNodeId"`: Identifier for the node reservation.
 """
-describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_reserved_nodes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4420,13 +4607,16 @@ number or type of nodes for the cluster.
   By default, resize operations for all clusters defined for an Amazon Web Services account
   are returned.
 """
-describe_resize(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_resize(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DescribeResize",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_resize(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4477,9 +4667,11 @@ Constraints: minimum 20, maximum 100.
   scheduled actions that have invocations after this time are retrieved.
 - `"TargetActionType"`: The type of the scheduled actions to retrieve.
 """
-describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift(
-    "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_scheduled_actions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_scheduled_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4533,10 +4725,11 @@ Constraints: minimum 20, maximum 100.
   tag values in the request, Amazon Redshift returns a response with all resources that
   have either or both of these tag values associated with them.
 """
-describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_snapshot_copy_grants(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeSnapshotCopyGrants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_snapshot_copy_grants(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4573,10 +4766,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagKeys"`: The key value for a snapshot schedule tag.
 - `"TagValues"`: The value corresponding to the key of the snapshot schedule tag.
 """
-describe_snapshot_schedules(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_snapshot_schedules(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeSnapshotSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_snapshot_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4594,8 +4788,11 @@ end
 
 Returns account level backups storage size and provisional storage.
 """
-describe_storage(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_storage(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeStorage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_storage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4631,10 +4828,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. If you don't specify a `TableRestoreRequestId` value, then
   `DescribeTableRestoreStatus` returns the status of all in-progress table restore requests.
 """
-describe_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function describe_table_restore_status(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "DescribeTableRestoreStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_table_restore_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4705,8 +4903,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag values in the request, Amazon Redshift returns a response with all resources that
   have either or both of these tag values associated with them.
 """
-describe_tags(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_tags(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift("DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function describe_tags(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4763,8 +4962,11 @@ Constraints: minimum 20, maximum 100.
   associated with them.
 - `"UsageLimitId"`: The identifier of the usage limit to describe.
 """
-describe_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_usage_limits(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "DescribeUsageLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_usage_limits(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -4789,13 +4991,16 @@ Amazon Redshift cluster.
 
 Example: `examplecluster`
 """
-disable_logging(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function disable_logging(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "DisableLogging",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function disable_logging(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4832,14 +5037,16 @@ Amazon Redshift permission to the key in the destination region.
   Constraints: Must be the valid name of an existing cluster that has cross-region snapshot
   copy enabled.
 """
-disable_snapshot_copy(
+function disable_snapshot_copy(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DisableSnapshotCopy",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DisableSnapshotCopy",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_snapshot_copy(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -4879,14 +5086,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisassociateEntireAccount"`: A value that specifies whether association for the
   datashare is removed from the entire account.
 """
-disassociate_data_share_consumer(
+function disassociate_data_share_consumer(
     DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "DisassociateDataShareConsumer",
-    Dict{String,Any}("DataShareArn" => DataShareArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "DisassociateDataShareConsumer",
+        Dict{String,Any}("DataShareArn" => DataShareArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_data_share_consumer(
     DataShareArn,
     params::AbstractDict{String};
@@ -4930,7 +5139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3KeyPrefix"`: The prefix applied to the log file names.
 
   Constraints: - Cannot exceed 512 characters
-   - Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\), or
+   - Cannot contain spaces( ), double quotes ("), single quotes ('), a backslash (\\), or
   control characters. The hexadecimal codes for invalid characters are:  <ul> <li>x00 to
   x20
  - x22
@@ -4939,13 +5148,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
  - x7f or larger
  </li> </ul>
 """
-enable_logging(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function enable_logging(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "EnableLogging",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function enable_logging(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5001,17 +5213,19 @@ Constraints: Must be at least 1 and no more than 35.
 - `"SnapshotCopyGrantName"`: The name of the snapshot copy grant to use when snapshots of
   an Amazon Web Services KMS-encrypted cluster are copied to the destination region.
 """
-enable_snapshot_copy(
+function enable_snapshot_copy(
     ClusterIdentifier, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "EnableSnapshotCopy",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "DestinationRegion" => DestinationRegion,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "EnableSnapshotCopy",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DestinationRegion" => DestinationRegion,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_snapshot_copy(
     ClusterIdentifier,
     DestinationRegion,
@@ -5047,14 +5261,16 @@ Availability Zone.
 - `cluster_identifier`: The unique identifier of the cluster for which the primary compute
   unit will be failed over to another Availability Zone.
 """
-failover_primary_compute(
+function failover_primary_compute(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "FailoverPrimaryCompute",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "FailoverPrimaryCompute",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function failover_primary_compute(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5156,13 +5372,14 @@ Constraint: minimum 900, maximum 3600.
 
 Default: 900
 """
-get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "GetClusterCredentials",
         Dict{String,Any}("DbUser" => DbUser);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_cluster_credentials(
     DbUser, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5203,12 +5420,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Range: 900-3600. Default: 900.
 """
-get_cluster_credentials_with_iam(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function get_cluster_credentials_with_iam(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "GetClusterCredentialsWithIAM";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_cluster_credentials_with_iam(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5251,14 +5471,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIdentifier"`: The identifier for the snapshot that is the source for the
   reserved-node exchange.
 """
-get_reserved_node_exchange_configuration_options(
+function get_reserved_node_exchange_configuration_options(
     ActionType; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "GetReservedNodeExchangeConfigurationOptions",
-    Dict{String,Any}("ActionType" => ActionType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "GetReservedNodeExchangeConfigurationOptions",
+        Dict{String,Any}("ActionType" => ActionType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_reserved_node_exchange_configuration_options(
     ActionType,
     params::AbstractDict{String};
@@ -5295,14 +5517,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxRecords"`: An integer setting the maximum number of ReservedNodeOfferings to
   retrieve.
 """
-get_reserved_node_exchange_offerings(
+function get_reserved_node_exchange_offerings(
     ReservedNodeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "GetReservedNodeExchangeOfferings",
-    Dict{String,Any}("ReservedNodeId" => ReservedNodeId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "GetReservedNodeExchangeOfferings",
+        Dict{String,Any}("ReservedNodeId" => ReservedNodeId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_reserved_node_exchange_offerings(
     ReservedNodeId,
     params::AbstractDict{String};
@@ -5329,13 +5553,16 @@ Get the resource policy for a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
   policy is fetched.
 """
-get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function get_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "GetResourcePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -5380,8 +5607,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier and the cluster namespace ARN parameters are specified, then recommendations
   for all clusters in the account are returned.
 """
-list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -5411,14 +5641,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AquaConfigurationStatus"`: This parameter is retired. Amazon Redshift automatically
   determines whether to use AQUA (Advanced Query Accelerator).
 """
-modify_aqua_configuration(
+function modify_aqua_configuration(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyAquaConfiguration",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyAquaConfiguration",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_aqua_configuration(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5448,19 +5680,21 @@ Modifies an authentication profile.
   format. The maximum length of the JSON string is determined by a quota for your account.
 - `authentication_profile_name`: The name of the authentication profile to replace.
 """
-modify_authentication_profile(
+function modify_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "ModifyAuthenticationProfile",
-    Dict{String,Any}(
-        "AuthenticationProfileContent" => AuthenticationProfileContent,
-        "AuthenticationProfileName" => AuthenticationProfileName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyAuthenticationProfile",
+        Dict{String,Any}(
+            "AuthenticationProfileContent" => AuthenticationProfileContent,
+            "AuthenticationProfileName" => AuthenticationProfileName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_authentication_profile(
     AuthenticationProfileContent,
     AuthenticationProfileName,
@@ -5633,7 +5867,7 @@ The default value is -1.
    - Must contain at least one lowercase letter.
    - Must contain one number.
    - Can be any printable ASCII character (ASCII code 33-126) except `'` (single quote),
-  `"` (double quote), `\`, `/`, or `@`.
+  `"` (double quote), `\\`, `/`, or `@`.
 - `"MultiAZ"`: If true and the cluster is currently only deployed in a single Availability
   Zone, the cluster will be modified to be deployed in two Availability Zones.
 - `"NewClusterIdentifier"`: The new identifier for the cluster.
@@ -5684,13 +5918,16 @@ Constraints: Must be at least 30 minutes.
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups to be
   associated with the cluster. This change is asynchronously applied as soon as possible.
 """
-modify_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function modify_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "ModifyCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function modify_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5724,16 +5961,18 @@ Example: `examplecluster`
 - `revision_target`: The identifier of the database revision. You can retrieve this value
   from the response to the <a>DescribeClusterDbRevisions</a> request.
 """
-modify_cluster_db_revision(
+function modify_cluster_db_revision(
     ClusterIdentifier, RevisionTarget; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterDbRevision",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier, "RevisionTarget" => RevisionTarget
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterDbRevision",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "RevisionTarget" => RevisionTarget
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_db_revision(
     ClusterIdentifier,
     RevisionTarget,
@@ -5784,14 +6023,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RemoveIamRoles"`: Zero or more IAM roles in ARN format to disassociate from the
   cluster.
 """
-modify_cluster_iam_roles(
+function modify_cluster_iam_roles(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterIamRoles",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterIamRoles",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_iam_roles(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5834,14 +6075,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeferMaintenanceStartTime"`: A timestamp indicating the start time for the deferred
   maintenance window.
 """
-modify_cluster_maintenance(
+function modify_cluster_maintenance(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterMaintenance",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterMaintenance",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_maintenance(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -5894,14 +6137,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For the workload management (WLM) configuration, you must supply all the name-value pairs
   in the wlm_json_configuration parameter.
 """
-modify_cluster_parameter_group(
+function modify_cluster_parameter_group(
     Parameter, ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterParameterGroup",
-    Dict{String,Any}("Parameter" => Parameter, "ParameterGroupName" => ParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterParameterGroup",
+        Dict{String,Any}(
+            "Parameter" => Parameter, "ParameterGroupName" => ParameterGroupName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_parameter_group(
     Parameter,
     ParameterGroupName,
@@ -5950,14 +6197,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The value must be either -1 or an integer between 1 and 3,653.
 """
-modify_cluster_snapshot(
+function modify_cluster_snapshot(
     SnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterSnapshot",
-    Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterSnapshot",
+        Dict{String,Any}("SnapshotIdentifier" => SnapshotIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_snapshot(
     SnapshotIdentifier,
     params::AbstractDict{String};
@@ -5995,14 +6244,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduleIdentifier"`: A unique alphanumeric identifier for the schedule that you want
   to associate with the cluster.
 """
-modify_cluster_snapshot_schedule(
+function modify_cluster_snapshot_schedule(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyClusterSnapshotSchedule",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterSnapshotSchedule",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_snapshot_schedule(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6041,19 +6292,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: An array of VPC subnet IDs. A maximum of 20 subnets can be modified in a
   single request.
 """
-modify_cluster_subnet_group(
+function modify_cluster_subnet_group(
     ClusterSubnetGroupName,
     SubnetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "ModifyClusterSubnetGroup",
-    Dict{String,Any}(
-        "ClusterSubnetGroupName" => ClusterSubnetGroupName,
-        "SubnetIdentifier" => SubnetIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyClusterSubnetGroup",
+        Dict{String,Any}(
+            "ClusterSubnetGroupName" => ClusterSubnetGroupName,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_cluster_subnet_group(
     ClusterSubnetGroupName,
     SubnetIdentifier,
@@ -6091,21 +6344,23 @@ Contains information for changing a custom domain association.
   changed custom domain association.
 - `custom_domain_name`: The custom domain name for a changed custom domain association.
 """
-modify_custom_domain_association(
+function modify_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
     CustomDomainName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "ModifyCustomDomainAssociation",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "CustomDomainCertificateArn" => CustomDomainCertificateArn,
-        "CustomDomainName" => CustomDomainName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+            "CustomDomainName" => CustomDomainName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_custom_domain_association(
     ClusterIdentifier,
     CustomDomainCertificateArn,
@@ -6148,13 +6403,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcSecurityGroupIds"`: The complete list of VPC security groups associated with the
   endpoint after the endpoint is modified.
 """
-modify_endpoint_access(EndpointName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function modify_endpoint_access(
+    EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "ModifyEndpointAccess",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function modify_endpoint_access(
     EndpointName,
     params::AbstractDict{String};
@@ -6214,14 +6472,16 @@ Example: my-snapshot-20131010
   Valid values: cluster, cluster-parameter-group, cluster-security-group, cluster-snapshot,
   and scheduled-action.
 """
-modify_event_subscription(
+function modify_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyEventSubscription",
-    Dict{String,Any}("SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -6267,14 +6527,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceIntegrations"`: A collection of service integrations associated with the
   application.
 """
-modify_redshift_idc_application(
+function modify_redshift_idc_application(
     RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyRedshiftIdcApplication",
-    Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyRedshiftIdcApplication",
+        Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_redshift_idc_application(
     RedshiftIdcApplicationArn,
     params::AbstractDict{String};
@@ -6322,14 +6584,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetAction"`: A modified JSON format of the scheduled action. For more information
   about this parameter, see <a>ScheduledAction</a>.
 """
-modify_scheduled_action(
+function modify_scheduled_action(
     ScheduledActionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifyScheduledAction",
-    Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifyScheduledAction",
+        Dict{String,Any}("ScheduledActionName" => ScheduledActionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_scheduled_action(
     ScheduledActionName,
     params::AbstractDict{String};
@@ -6397,16 +6661,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Manual"`: Indicates whether to apply the snapshot retention period to newly copied
   manual snapshots instead of automated snapshots.
 """
-modify_snapshot_copy_retention_period(
+function modify_snapshot_copy_retention_period(
     ClusterIdentifier, RetentionPeriod; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ModifySnapshotCopyRetentionPeriod",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier, "RetentionPeriod" => RetentionPeriod
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifySnapshotCopyRetentionPeriod",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "RetentionPeriod" => RetentionPeriod
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_snapshot_copy_retention_period(
     ClusterIdentifier,
     RetentionPeriod,
@@ -6450,19 +6716,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduleDefinitions"`: An updated list of schedule definitions. A schedule definition
   is made up of schedule expressions, for example, "cron(30 12 *)" or "rate(12 hours)".
 """
-modify_snapshot_schedule(
+function modify_snapshot_schedule(
     ScheduleDefinition,
     ScheduleIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "ModifySnapshotSchedule",
-    Dict{String,Any}(
-        "ScheduleDefinition" => ScheduleDefinition,
-        "ScheduleIdentifier" => ScheduleIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ModifySnapshotSchedule",
+        Dict{String,Any}(
+            "ScheduleDefinition" => ScheduleDefinition,
+            "ScheduleIdentifier" => ScheduleIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_snapshot_schedule(
     ScheduleDefinition,
     ScheduleIdentifier,
@@ -6506,13 +6774,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BreachAction"`: The new action that Amazon Redshift takes when the limit is reached.
   For more information about this parameter, see <a>UsageLimit</a>.
 """
-modify_usage_limit(UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function modify_usage_limit(
+    UsageLimitId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "ModifyUsageLimit",
         Dict{String,Any}("UsageLimitId" => UsageLimitId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function modify_usage_limit(
     UsageLimitId,
     params::AbstractDict{String};
@@ -6538,13 +6809,16 @@ Pauses a cluster.
 
 - `cluster_identifier`: The identifier of the cluster to be paused.
 """
-pause_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function pause_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "PauseCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function pause_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6588,14 +6862,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default: `1`
 """
-purchase_reserved_node_offering(
+function purchase_reserved_node_offering(
     ReservedNodeOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "PurchaseReservedNodeOffering",
-    Dict{String,Any}("ReservedNodeOfferingId" => ReservedNodeOfferingId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "PurchaseReservedNodeOffering",
+        Dict{String,Any}("ReservedNodeOfferingId" => ReservedNodeOfferingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function purchase_reserved_node_offering(
     ReservedNodeOfferingId,
     params::AbstractDict{String};
@@ -6627,14 +6903,16 @@ Updates the resource policy for a specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
   policy is updated.
 """
-put_resource_policy(
+function put_resource_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "PutResourcePolicy",
-    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_resource_policy(
     Policy,
     ResourceArn,
@@ -6670,13 +6948,16 @@ in the *Amazon Redshift Cluster Management Guide*.
 
 - `cluster_identifier`: The cluster identifier.
 """
-reboot_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function reboot_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "RebootCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function reboot_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -6704,13 +6985,14 @@ From a datashare consumer account, rejects the specified datashare.
 
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to reject.
 """
-reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function reject_data_share(DataShareArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
         "RejectDataShare",
         Dict{String,Any}("DataShareArn" => DataShareArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function reject_data_share(
     DataShareArn,
     params::AbstractDict{String};
@@ -6752,14 +7034,16 @@ Constraints: A maximum of 20 parameters can be reset in a single request.
 
 Default: `true`
 """
-reset_cluster_parameter_group(
+function reset_cluster_parameter_group(
     ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "ResetClusterParameterGroup",
-    Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "ResetClusterParameterGroup",
+        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_cluster_parameter_group(
     ParameterGroupName,
     params::AbstractDict{String};
@@ -6814,13 +7098,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReservedNodeId"`: The identifier of the reserved node.
 - `"TargetReservedNodeOfferingId"`: The identifier of the target reserved node offering.
 """
-resize_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function resize_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "ResizeCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function resize_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -7019,14 +7306,16 @@ Example: `my-snapshot-id`
 
 VPC security groups only apply to clusters in VPCs.
 """
-restore_from_cluster_snapshot(
+function restore_from_cluster_snapshot(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "RestoreFromClusterSnapshot",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "RestoreFromClusterSnapshot",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function restore_from_cluster_snapshot(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -7086,25 +7375,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TargetDatabaseName"`: The name of the database to restore the table to.
 - `"TargetSchemaName"`: The name of the schema to restore the table to.
 """
-restore_table_from_cluster_snapshot(
+function restore_table_from_cluster_snapshot(
     ClusterIdentifier,
     NewTableName,
     SnapshotIdentifier,
     SourceDatabaseName,
     SourceTableName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "RestoreTableFromClusterSnapshot",
-    Dict{String,Any}(
-        "ClusterIdentifier" => ClusterIdentifier,
-        "NewTableName" => NewTableName,
-        "SnapshotIdentifier" => SnapshotIdentifier,
-        "SourceDatabaseName" => SourceDatabaseName,
-        "SourceTableName" => SourceTableName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "RestoreTableFromClusterSnapshot",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "NewTableName" => NewTableName,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+            "SourceDatabaseName" => SourceDatabaseName,
+            "SourceTableName" => SourceTableName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function restore_table_from_cluster_snapshot(
     ClusterIdentifier,
     NewTableName,
@@ -7144,13 +7435,16 @@ Resumes a paused cluster.
 
 - `cluster_identifier`: The identifier of the cluster to be resumed.
 """
-resume_cluster(ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift(
+function resume_cluster(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return redshift(
         "ResumeCluster",
         Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function resume_cluster(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -7200,14 +7494,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Example: `111122223333`
 """
-revoke_cluster_security_group_ingress(
+function revoke_cluster_security_group_ingress(
     ClusterSecurityGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "RevokeClusterSecurityGroupIngress",
-    Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "RevokeClusterSecurityGroupIngress",
+        Dict{String,Any}("ClusterSecurityGroupName" => ClusterSecurityGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function revoke_cluster_security_group_ingress(
     ClusterSecurityGroupName,
     params::AbstractDict{String};
@@ -7243,8 +7539,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC endpoints associated with the endpoint authorization are also deleted.
 - `"VpcIds"`: The virtual private cloud (VPC) identifiers for which access is to be revoked.
 """
-revoke_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    redshift("RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function revoke_endpoint_access(; aws_config::AbstractAWSConfig=current_aws_config())
+    return redshift(
+        "RevokeEndpointAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function revoke_endpoint_access(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -7284,14 +7583,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotIdentifier"`: The identifier of the snapshot that the account can no longer
   access.
 """
-revoke_snapshot_access(
+function revoke_snapshot_access(
     AccountWithRestoreAccess; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "RevokeSnapshotAccess",
-    Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "RevokeSnapshotAccess",
+        Dict{String,Any}("AccountWithRestoreAccess" => AccountWithRestoreAccess);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function revoke_snapshot_access(
     AccountWithRestoreAccess,
     params::AbstractDict{String};
@@ -7324,14 +7625,16 @@ Rotates the encryption keys for a cluster.
 
 Constraints: Must be the name of valid cluster that has encryption enabled.
 """
-rotate_encryption_key(
+function rotate_encryption_key(
     ClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = redshift(
-    "RotateEncryptionKey",
-    Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "RotateEncryptionKey",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function rotate_encryption_key(
     ClusterIdentifier,
     params::AbstractDict{String};
@@ -7371,25 +7674,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"StatusMessage"`: The status message provided by the partner.
 """
-update_partner_status(
+function update_partner_status(
     AccountId,
     ClusterIdentifier,
     DatabaseName,
     PartnerName,
     Status;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = redshift(
-    "UpdatePartnerStatus",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "ClusterIdentifier" => ClusterIdentifier,
-        "DatabaseName" => DatabaseName,
-        "PartnerName" => PartnerName,
-        "Status" => Status,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return redshift(
+        "UpdatePartnerStatus",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ClusterIdentifier" => ClusterIdentifier,
+            "DatabaseName" => DatabaseName,
+            "PartnerName" => PartnerName,
+            "Status" => Status,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_partner_status(
     AccountId,
     ClusterIdentifier,

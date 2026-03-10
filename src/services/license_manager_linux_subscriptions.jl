@@ -16,15 +16,17 @@ subscriptions registered to your account.
 - `subscription_provider_arn`: The Amazon Resource Name (ARN) of the subscription provider
   resource to deregister.
 """
-deregister_subscription_provider(
+function deregister_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_linux_subscriptions(
-    "POST",
-    "/subscription/DeregisterSubscriptionProvider",
-    Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_linux_subscriptions(
+        "POST",
+        "/subscription/DeregisterSubscriptionProvider",
+        Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function deregister_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -57,15 +59,17 @@ account.
 - `subscription_provider_arn`: The Amazon Resource Name (ARN) of the BYOL registration
   resource to get details for.
 """
-get_registered_subscription_provider(
+function get_registered_subscription_provider(
     SubscriptionProviderArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_linux_subscriptions(
-    "POST",
-    "/subscription/GetRegisteredSubscriptionProvider",
-    Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_linux_subscriptions(
+        "POST",
+        "/subscription/GetRegisteredSubscriptionProvider",
+        Dict{String,Any}("SubscriptionProviderArn" => SubscriptionProviderArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_registered_subscription_provider(
     SubscriptionProviderArn,
     params::AbstractDict{String};
@@ -92,13 +96,14 @@ end
 
 Lists the Linux subscriptions service settings for your account.
 """
-get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_linux_subscriptions(
         "POST",
         "/subscription/GetServiceSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,13 +150,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-list_linux_subscription_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function list_linux_subscription_instances(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptionInstances";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_linux_subscription_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -189,13 +197,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
-list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_linux_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -224,14 +233,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubscriptionProviderSources"`: To filter your results, specify which subscription
   providers to return in the list.
 """
-list_registered_subscription_providers(;
+function list_registered_subscription_providers(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_linux_subscriptions(
-    "POST",
-    "/subscription/ListRegisteredSubscriptionProviders";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_linux_subscriptions(
+        "POST",
+        "/subscription/ListRegisteredSubscriptionProviders";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_registered_subscription_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -255,13 +266,16 @@ List the metadata tags that are assigned to the specified Amazon Web Services re
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list metadata
   tags.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_linux_subscriptions(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -297,20 +311,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The metadata tags to assign to your registered Linux subscription provider
   resource.
 """
-register_subscription_provider(
+function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = license_manager_linux_subscriptions(
-    "POST",
-    "/subscription/RegisterSubscriptionProvider",
-    Dict{String,Any}(
-        "SecretArn" => SecretArn,
-        "SubscriptionProviderSource" => SubscriptionProviderSource,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_linux_subscriptions(
+        "POST",
+        "/subscription/RegisterSubscriptionProvider",
+        Dict{String,Any}(
+            "SecretArn" => SecretArn,
+            "SubscriptionProviderSource" => SubscriptionProviderSource,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_subscription_provider(
     SecretArn,
     SubscriptionProviderSource,
@@ -348,14 +364,15 @@ Add metadata tags to the specified Amazon Web Services resource.
 - `tags`: The metadata tags to assign to the Amazon Web Services resource. Tags are
   formatted as key value pairs.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_linux_subscriptions(
         "PUT",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -383,14 +400,17 @@ Remove one or more metadata tag from the specified Amazon Web Services resource.
   remove the metadata tags from.
 - `tag_keys`: A list of metadata tag keys to remove from the requested resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_linux_subscriptions(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return license_manager_linux_subscriptions(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -428,20 +448,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriptions. If you allow updates, you can aggregate Linux subscription data in more
   than one home Region.
 """
-update_service_settings(
+function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = license_manager_linux_subscriptions(
-    "POST",
-    "/subscription/UpdateServiceSettings",
-    Dict{String,Any}(
-        "LinuxSubscriptionsDiscovery" => LinuxSubscriptionsDiscovery,
-        "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_linux_subscriptions(
+        "POST",
+        "/subscription/UpdateServiceSettings",
+        Dict{String,Any}(
+            "LinuxSubscriptionsDiscovery" => LinuxSubscriptionsDiscovery,
+            "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,

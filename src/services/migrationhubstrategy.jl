@@ -15,14 +15,16 @@ using AWS.UUIDs
 - `application_component_id`:  The ID of the application component. The ID is unique within
   an AWS account.
 """
-get_application_component_details(
+function get_application_component_details(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhubstrategy(
-    "GET",
-    "/get-applicationcomponent-details/$(applicationComponentId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhubstrategy(
+        "GET",
+        "/get-applicationcomponent-details/$(applicationComponentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_application_component_details(
     applicationComponentId,
     params::AbstractDict{String};
@@ -49,14 +51,16 @@ running on a server.
 - `application_component_id`:  The ID of the application component. The ID is unique within
   an AWS account.
 """
-get_application_component_strategies(
+function get_application_component_strategies(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhubstrategy(
-    "GET",
-    "/get-applicationcomponent-strategies/$(applicationComponentId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhubstrategy(
+        "GET",
+        "/get-applicationcomponent-strategies/$(applicationComponentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_application_component_strategies(
     applicationComponentId,
     params::AbstractDict{String};
@@ -81,13 +85,14 @@ end
 
 - `id`:  The `assessmentid` returned by <a>StartAssessment</a>.
 """
-get_assessment(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_assessment(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-assessment/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_assessment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -111,13 +116,14 @@ end
 - `id`:  The ID of the import file task. This ID is returned in the response of
   <a>StartImportFileTask</a>.
 """
-get_import_file_task(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_import_file_task(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-import-file-task/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_import_file_task(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -136,13 +142,14 @@ end
 
 Retrieve the latest ID of a specific assessment task.
 """
-get_latest_assessment_id(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_latest_assessment_id(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-latest-assessment-id";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_latest_assessment_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -161,13 +168,14 @@ end
 
  Retrieves your migration and modernization preferences.
 """
-get_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-portfolio-preferences";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_portfolio_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -187,13 +195,14 @@ end
  Retrieves overall summary including the number of servers to rehost and the overall number
 of anti-patterns.
 """
-get_portfolio_summary(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_portfolio_summary(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-portfolio-summary";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_portfolio_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -217,13 +226,16 @@ end
 - `id`:  The recommendation report generation task `id` returned by
   <a>StartRecommendationReportGeneration</a>.
 """
-get_recommendation_report_details(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_recommendation_report_details(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return migrationhubstrategy(
         "GET",
         "/get-recommendation-report-details/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_recommendation_report_details(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -257,13 +269,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `maxResults` to 10. You'll receive a set of 10 results along with a token. You then use
   the returned token to retrieve the next set of 10.
 """
-get_server_details(serverId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_server_details(serverId; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-server-details/$(serverId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_server_details(
     serverId,
     params::AbstractDict{String};
@@ -288,13 +301,14 @@ end
 
 - `server_id`:  The ID of the server.
 """
-get_server_strategies(serverId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function get_server_strategies(serverId; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/get-server-strategies/$(serverId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_server_strategies(
     serverId,
     params::AbstractDict{String};
@@ -328,13 +342,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned token to retrieve the next set of 10.
 - `"sort"`: Specifies whether to sort by ascending (ASC) or descending (DESC) order.
 """
-list_analyzable_servers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function list_analyzable_servers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST",
         "/list-analyzable-servers";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_analyzable_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -372,13 +387,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the returned token to retrieve the next set of 10.
 - `"sort"`:  Specifies whether to sort by ascending (`ASC`) or descending (`DESC`) order.
 """
-list_application_components(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function list_application_components(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST",
         "/list-applicationcomponents";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_application_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -408,10 +424,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `maxResults` to 10. You'll receive a set of 10 results along with a token. You then use
   the returned token to retrieve the next set of 10.
 """
-list_collectors(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function list_collectors(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET", "/list-collectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_collectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -440,13 +457,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `maxResults` to 10. You'll receive a set of 10 results along with a token. You then use
   the returned token to retrieve the next set of 10.
 """
-list_import_file_task(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function list_import_file_task(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "GET",
         "/list-import-file-task";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_import_file_task(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -483,9 +501,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverCriteria"`:  Criteria for filtering servers.
 - `"sort"`:  Specifies whether to sort by ascending (`ASC`) or descending (`DESC`) order.
 """
-list_servers(; aws_config::AbstractAWSConfig=current_aws_config()) = migrationhubstrategy(
-    "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
+        "POST", "/list-servers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -514,13 +534,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"databasePreferences"`:  The transformation preferences for database applications.
 - `"prioritizeBusinessGoals"`:  The rank of the business goals based on priority.
 """
-put_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function put_portfolio_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST",
         "/put-portfolio-preferences";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_portfolio_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -550,10 +571,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3bucketForReportData"`:  The S3 bucket where all the reports generated by the service
   are stored. The bucket name must begin with `migrationhub-strategy-`.
 """
-start_assessment(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function start_assessment(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST", "/start-assessment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function start_assessment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -591,15 +613,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"s3bucketForReportData"`:  The S3 bucket where Strategy Recommendations uploads import
   results. The bucket name is required to begin with migrationhub-strategy-.
 """
-start_import_file_task(
+function start_import_file_task(
     S3Bucket, name, s3key; aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhubstrategy(
-    "POST",
-    "/start-import-file-task",
-    Dict{String,Any}("S3Bucket" => S3Bucket, "name" => name, "s3key" => s3key);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhubstrategy(
+        "POST",
+        "/start-import-file-task",
+        Dict{String,Any}("S3Bucket" => S3Bucket, "name" => name, "s3key" => s3key);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_import_file_task(
     S3Bucket,
     name,
@@ -636,14 +660,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outputFormat"`:  The output format for the recommendation report file. The default
   format is Microsoft Excel.
 """
-start_recommendation_report_generation(;
+function start_recommendation_report_generation(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhubstrategy(
-    "POST",
-    "/start-recommendation-report-generation";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhubstrategy(
+        "POST",
+        "/start-recommendation-report-generation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_recommendation_report_generation(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -666,14 +692,15 @@ end
 
 - `assessment_id`:  The `assessmentId` returned by <a>StartAssessment</a>.
 """
-stop_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function stop_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST",
         "/stop-assessment",
         Dict{String,Any}("assessmentId" => assessmentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_assessment(
     assessmentId,
     params::AbstractDict{String};
@@ -718,15 +745,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"strategyOption"`:  The preferred strategy options for the application component. Use
   values from the <a>GetApplicationComponentStrategies</a> response.
 """
-update_application_component_config(
+function update_application_component_config(
     applicationComponentId; aws_config::AbstractAWSConfig=current_aws_config()
-) = migrationhubstrategy(
-    "POST",
-    "/update-applicationcomponent-config/",
-    Dict{String,Any}("applicationComponentId" => applicationComponentId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migrationhubstrategy(
+        "POST",
+        "/update-applicationcomponent-config/",
+        Dict{String,Any}("applicationComponentId" => applicationComponentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_application_component_config(
     applicationComponentId,
     params::AbstractDict{String};
@@ -764,14 +793,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"strategyOption"`:  The preferred strategy options for the application component. See
   the response from <a>GetServerStrategies</a>.
 """
-update_server_config(serverId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migrationhubstrategy(
+function update_server_config(serverId; aws_config::AbstractAWSConfig=current_aws_config())
+    return migrationhubstrategy(
         "POST",
         "/update-server-config/",
         Dict{String,Any}("serverId" => serverId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_server_config(
     serverId,
     params::AbstractDict{String};

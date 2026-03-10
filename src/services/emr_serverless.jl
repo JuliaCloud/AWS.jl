@@ -15,14 +15,16 @@ Cancels a job run.
 - `application_id`: The ID of the application on which the job run will be canceled.
 - `job_run_id`: The ID of the job run to cancel.
 """
-cancel_job_run(
+function cancel_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
-) = emr_serverless(
-    "DELETE",
-    "/applications/$(applicationId)/jobruns/$(jobRunId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "DELETE",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_job_run(
     applicationId,
     jobRunId,
@@ -84,17 +86,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   image details in this parameter for each worker type, or in `imageConfiguration` for all
   worker types.
 """
-create_application(
+function create_application(
     clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=current_aws_config()
-) = emr_serverless(
-    "POST",
-    "/applications",
-    Dict{String,Any}(
-        "clientToken" => clientToken, "releaseLabel" => releaseLabel, "type" => type
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "POST",
+        "/applications",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "releaseLabel" => releaseLabel, "type" => type
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_application(
     clientToken,
     releaseLabel,
@@ -132,13 +136,16 @@ be deleted.
 
 - `application_id`: The ID of the application that will be deleted.
 """
-delete_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function delete_application(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr_serverless(
         "DELETE",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -163,13 +170,14 @@ Displays detailed information about a specified application.
 
 - `application_id`: The ID of the application that will be described.
 """
-get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function get_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return emr_serverless(
         "GET",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -210,14 +218,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attempt"`: An optimal parameter that indicates the amount of attempts for the job. If
   not specified, this value defaults to the attempt of the latest job.
 """
-get_dashboard_for_job_run(
+function get_dashboard_for_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
-) = emr_serverless(
-    "GET",
-    "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_dashboard_for_job_run(
     applicationId,
     jobRunId,
@@ -251,13 +261,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attempt"`: An optimal parameter that indicates the amount of attempts for the job. If
   not specified, this value defaults to the attempt of the latest job.
 """
-get_job_run(applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function get_job_run(
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_job_run(
     applicationId,
     jobRunId,
@@ -288,9 +301,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for application states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = emr_serverless(
-    "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
+    return emr_serverless(
+        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -321,14 +336,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of job run attempts to list.
 - `"nextToken"`: The token for the next set of job run attempt results.
 """
-list_job_run_attempts(
+function list_job_run_attempts(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=current_aws_config()
-) = emr_serverless(
-    "GET",
-    "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_job_run_attempts(
     applicationId,
     jobRunId,
@@ -366,13 +383,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for job run states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function list_job_runs(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_job_runs(
     applicationId,
     params::AbstractDict{String};
@@ -399,13 +417,16 @@ Lists the tags assigned to the resources.
   tags for. Currently, the supported resources are Amazon EMR Serverless applications and
   job runs.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr_serverless(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -430,13 +451,16 @@ Starts a specified application and initializes initial capacity if configured.
 
 - `application_id`: The ID of the application to start.
 """
-start_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function start_application(
+    applicationId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr_serverless(
         "POST",
         "/applications/$(applicationId)/start";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -477,18 +501,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"retryPolicy"`: The retry policy when job run starts.
 - `"tags"`: The tags assigned to the job run.
 """
-start_job_run(
+function start_job_run(
     applicationId,
     clientToken,
     executionRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = emr_serverless(
-    "POST",
-    "/applications/$(applicationId)/jobruns",
-    Dict{String,Any}("clientToken" => clientToken, "executionRoleArn" => executionRoleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "POST",
+        "/applications/$(applicationId)/jobruns",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "executionRoleArn" => executionRoleArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_job_run(
     applicationId,
     clientToken,
@@ -524,13 +552,14 @@ and running jobs must be completed or cancelled before stopping an application.
 
 - `application_id`: The ID of the application to stop.
 """
-stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function stop_application(applicationId; aws_config::AbstractAWSConfig=current_aws_config())
+    return emr_serverless(
         "POST",
         "/applications/$(applicationId)/stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -562,14 +591,15 @@ identify a specific resource based on the tags you've assigned to it.
   job runs.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return emr_serverless(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -598,14 +628,17 @@ Removes tags from resources.
   job runs.
 - `tag_keys`: The keys of the tags to be removed.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    emr_serverless(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return emr_serverless(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -668,15 +701,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   image details in this parameter for each worker type, or in `imageConfiguration` for all
   worker types.
 """
-update_application(
+function update_application(
     applicationId, clientToken; aws_config::AbstractAWSConfig=current_aws_config()
-) = emr_serverless(
-    "PATCH",
-    "/applications/$(applicationId)",
-    Dict{String,Any}("clientToken" => clientToken);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return emr_serverless(
+        "PATCH",
+        "/applications/$(applicationId)",
+        Dict{String,Any}("clientToken" => clientToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_application(
     applicationId,
     clientToken,

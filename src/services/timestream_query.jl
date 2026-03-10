@@ -19,13 +19,14 @@ for details.
 - `query_id`:  The ID of the query that needs to be cancelled. `QueryID` is returned as
   part of the query result.
 """
-cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function cancel_query(QueryId; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "CancelQuery",
         Dict{String,Any}("QueryId" => QueryId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function cancel_query(
     QueryId,
     params::AbstractDict{String};
@@ -91,7 +92,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of key-value pairs to label the scheduled query.
 - `"TargetConfiguration"`: Configuration used for writing the result of a query.
 """
-create_scheduled_query(
+function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
     NotificationConfiguration,
@@ -99,20 +100,22 @@ create_scheduled_query(
     ScheduleConfiguration,
     ScheduledQueryExecutionRoleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = timestream_query(
-    "CreateScheduledQuery",
-    Dict{String,Any}(
-        "ErrorReportConfiguration" => ErrorReportConfiguration,
-        "Name" => Name,
-        "NotificationConfiguration" => NotificationConfiguration,
-        "QueryString" => QueryString,
-        "ScheduleConfiguration" => ScheduleConfiguration,
-        "ScheduledQueryExecutionRoleArn" => ScheduledQueryExecutionRoleArn,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return timestream_query(
+        "CreateScheduledQuery",
+        Dict{String,Any}(
+            "ErrorReportConfiguration" => ErrorReportConfiguration,
+            "Name" => Name,
+            "NotificationConfiguration" => NotificationConfiguration,
+            "QueryString" => QueryString,
+            "ScheduleConfiguration" => ScheduleConfiguration,
+            "ScheduledQueryExecutionRoleArn" => ScheduledQueryExecutionRoleArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_scheduled_query(
     ErrorReportConfiguration,
     Name,
@@ -155,14 +158,16 @@ Deletes a given scheduled query. This is an irreversible operation.
 
 - `scheduled_query_arn`: The ARN of the scheduled query.
 """
-delete_scheduled_query(
+function delete_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = timestream_query(
-    "DeleteScheduledQuery",
-    Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return timestream_query(
+        "DeleteScheduledQuery",
+        Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -189,10 +194,11 @@ configured maximum TCUs the service can use for your query workload.
 
 You're charged only for the duration of compute units used for your workloads.
 """
-describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function describe_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -218,9 +224,11 @@ recommended that you use this API unless*: - You are using [VPC endpoints (Amazo
  - You require better control over the client-side implementation
 For detailed information on how and when to use and implement DescribeEndpoints, see [The Endpoint Discovery Pattern](https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery).
 """
-describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_query(
-    "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
+        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -239,14 +247,16 @@ Provides detailed information about a scheduled query.
 
 - `scheduled_query_arn`: The ARN of the scheduled query.
 """
-describe_scheduled_query(
+function describe_scheduled_query(
     ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = timestream_query(
-    "DescribeScheduledQuery",
-    Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return timestream_query(
+        "DescribeScheduledQuery",
+        Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scheduled_query(
     ScheduledQueryArn,
     params::AbstractDict{String};
@@ -282,18 +292,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Not used.
 """
-execute_scheduled_query(
+function execute_scheduled_query(
     InvocationTime, ScheduledQueryArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = timestream_query(
-    "ExecuteScheduledQuery",
-    Dict{String,Any}(
-        "InvocationTime" => InvocationTime,
-        "ScheduledQueryArn" => ScheduledQueryArn,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return timestream_query(
+        "ExecuteScheduledQuery",
+        Dict{String,Any}(
+            "InvocationTime" => InvocationTime,
+            "ScheduledQueryArn" => ScheduledQueryArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function execute_scheduled_query(
     InvocationTime,
     ScheduledQueryArn,
@@ -335,10 +347,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent call to `ListScheduledQueriesRequest`.
 - `"NextToken"`:  A pagination token to resume pagination.
 """
-list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function list_scheduled_queries(; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "ListScheduledQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_scheduled_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -368,13 +381,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of tags to return.
 - `"NextToken"`: A pagination token to resume pagination.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_query(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -411,13 +427,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidateOnly"`: By setting this value to `true`, Timestream will only validate that the
   query string is a valid Timestream query, and not store the prepared query for later use.
 """
-prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function prepare_query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "PrepareQuery",
         Dict{String,Any}("QueryString" => QueryString);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function prepare_query(
     QueryString,
     params::AbstractDict{String};
@@ -507,12 +524,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and/or the query initiator and the result reader do not have the same query string in the
   query requests, the query will fail with an `Invalid pagination token` error.
 """
-query(QueryString; aws_config::AbstractAWSConfig=current_aws_config()) = timestream_query(
-    "Query",
-    Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function query(QueryString; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
+        "Query",
+        Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function query(
     QueryString,
     params::AbstractDict{String};
@@ -548,13 +567,14 @@ allocation tracking.
   value is an Amazon Resource Name (ARN).
 - `tags`: The tags to be assigned to the Timestream resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -588,13 +608,16 @@ Removes the association of tags from a Timestream query resource.
 - `tag_keys`: A list of tags keys. Existing tags of the resource whose keys are members of
   this list will be removed from the Timestream resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return timestream_query(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -646,10 +669,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `UpdateAccountSettings` API operation doesn't recognize any values other than
   `COMPUTE_UNITS`.
 """
-update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    timestream_query(
+function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
+    return timestream_query(
         "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -672,14 +696,16 @@ Update a scheduled query.
 - `scheduled_query_arn`: ARN of the scheuled query.
 - `state`: State of the scheduled query.
 """
-update_scheduled_query(
+function update_scheduled_query(
     ScheduledQueryArn, State; aws_config::AbstractAWSConfig=current_aws_config()
-) = timestream_query(
-    "UpdateScheduledQuery",
-    Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn, "State" => State);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return timestream_query(
+        "UpdateScheduledQuery",
+        Dict{String,Any}("ScheduledQueryArn" => ScheduledQueryArn, "State" => State);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_scheduled_query(
     ScheduledQueryArn,
     State,

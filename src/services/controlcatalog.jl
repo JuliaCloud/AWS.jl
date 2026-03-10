@@ -34,16 +34,17 @@ in the example.
   Here is a more general pattern that covers Amazon Web Services Control Tower and Control
   Catalog ARNs:
 
-   `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\-]+\$`
+   `^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_\\\\-]+\$`
 """
-get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    controlcatalog(
+function get_control(ControlArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
         "POST",
         "/get-control",
         Dict{String,Any}("ControlArn" => ControlArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_control(
     ControlArn,
     params::AbstractDict{String};
@@ -81,9 +82,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config()) = controlcatalog(
-    "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_common_controls(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/common-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_common_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -112,9 +115,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-list_controls(; aws_config::AbstractAWSConfig=current_aws_config()) = controlcatalog(
-    "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_controls(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_controls(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -140,9 +145,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = controlcatalog(
-    "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,9 +178,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-list_objectives(; aws_config::AbstractAWSConfig=current_aws_config()) = controlcatalog(
-    "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
+    return controlcatalog(
+        "POST", "/objectives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

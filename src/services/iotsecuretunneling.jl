@@ -25,13 +25,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"delete"`: When set to true, IoT Secure Tunneling deletes the tunnel data immediately.
 """
-close_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling(
+function close_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotsecuretunneling(
         "CloseTunnel",
         Dict{String,Any}("tunnelId" => tunnelId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function close_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -60,13 +61,14 @@ action.
 
 - `tunnel_id`: The tunnel to describe.
 """
-describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling(
+function describe_tunnel(tunnelId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotsecuretunneling(
         "DescribeTunnel",
         Dict{String,Any}("tunnelId" => tunnelId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_tunnel(
     tunnelId,
     params::AbstractDict{String};
@@ -92,13 +94,16 @@ Lists the tags for the specified resource.
 
 - `resource_arn`: The resource ARN.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotsecuretunneling(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -133,9 +138,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response; otherwise null to receive the first set of results.
 - `"thingName"`: The name of the IoT thing associated with the destination device.
 """
-list_tunnels(; aws_config::AbstractAWSConfig=current_aws_config()) = iotsecuretunneling(
-    "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_tunnels(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotsecuretunneling(
+        "ListTunnels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_tunnels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -163,8 +170,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of tag metadata.
 - `"timeoutConfig"`: Timeout configuration for a tunnel.
 """
-open_tunnel(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling("OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function open_tunnel(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotsecuretunneling(
+        "OpenTunnel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function open_tunnel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -200,14 +210,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"destinationConfig"`:
 """
-rotate_tunnel_access_token(
+function rotate_tunnel_access_token(
     clientMode, tunnelId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotsecuretunneling(
-    "RotateTunnelAccessToken",
-    Dict{String,Any}("clientMode" => clientMode, "tunnelId" => tunnelId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotsecuretunneling(
+        "RotateTunnelAccessToken",
+        Dict{String,Any}("clientMode" => clientMode, "tunnelId" => tunnelId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function rotate_tunnel_access_token(
     clientMode,
     tunnelId,
@@ -239,13 +251,14 @@ A resource tag.
 - `resource_arn`: The ARN of the resource.
 - `tags`: The tags for the resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotsecuretunneling(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -277,13 +290,16 @@ Removes a tag from a resource.
 - `resource_arn`: The resource ARN.
 - `tag_keys`: The keys of the tags to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotsecuretunneling(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotsecuretunneling(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,

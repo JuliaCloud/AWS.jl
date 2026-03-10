@@ -26,13 +26,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"name"`: The name of the shadow.
 """
-delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_data_plane(
+function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
         "DELETE",
         "/things/$(thingName)/shadow";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -65,13 +66,14 @@ For more information about messaging costs, see [Amazon Web Services IoT Core pr
 
 - `topic`: The topic name of the retained message to retrieve.
 """
-get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_data_plane(
+function get_retained_message(topic; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
         "GET",
         "/retainedMessage/$(topic)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_retained_message(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -106,13 +108,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"name"`: The name of the shadow.
 """
-get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_data_plane(
+function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
         "GET",
         "/things/$(thingName)/shadow";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_thing_shadow(
     thingName,
     params::AbstractDict{String};
@@ -147,14 +150,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"pageSize"`: The result page size.
 """
-list_named_shadows_for_thing(
+function list_named_shadows_for_thing(
     thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_data_plane(
-    "GET",
-    "/api/things/shadow/ListNamedShadowsForThing/$(thingName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_data_plane(
+        "GET",
+        "/api/things/shadow/ListNamedShadowsForThing/$(thingName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_named_shadows_for_thing(
     thingName,
     params::AbstractDict{String};
@@ -195,10 +200,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
   response; otherwise **null** to receive the first set of results.
 """
-list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_data_plane(
+function list_retained_messages(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
         "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_retained_messages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -274,9 +280,11 @@ Default value: `false`
 
  `[{"deviceName": "alpha"}, {"deviceCnt": "45"}]`
 """
-publish(topic; aws_config::AbstractAWSConfig=current_aws_config()) = iot_data_plane(
-    "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function publish(topic; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_data_plane(
+        "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function publish(
     topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -312,15 +320,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"name"`: The name of the shadow.
 """
-update_thing_shadow(
+function update_thing_shadow(
     payload, thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_data_plane(
-    "POST",
-    "/things/$(thingName)/shadow",
-    Dict{String,Any}("payload" => payload);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_data_plane(
+        "POST",
+        "/things/$(thingName)/shadow",
+        Dict{String,Any}("payload" => payload);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_thing_shadow(
     payload,
     thingName,

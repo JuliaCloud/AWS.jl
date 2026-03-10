@@ -32,17 +32,19 @@ primary email address (also known as the root user email address) for the specif
 - `primary_email`: The new primary email address for use with the specified account. This
   must match the `PrimaryEmail` from the `StartPrimaryEmailUpdate` API call.
 """
-accept_primary_email_update(
+function accept_primary_email_update(
     AccountId, Otp, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
-) = account(
-    "POST",
-    "/acceptPrimaryEmailUpdate",
-    Dict{String,Any}(
-        "AccountId" => AccountId, "Otp" => Otp, "PrimaryEmail" => PrimaryEmail
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/acceptPrimaryEmailUpdate",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "Otp" => Otp, "PrimaryEmail" => PrimaryEmail
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function accept_primary_email_update(
     AccountId,
     Otp,
@@ -108,15 +110,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and call the operation using an identity belonging to the account whose contacts you wish
   to retrieve or modify.
 """
-delete_alternate_contact(
+function delete_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
-) = account(
-    "POST",
-    "/deleteAlternateContact",
-    Dict{String,Any}("AlternateContactType" => AlternateContactType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/deleteAlternateContact",
+        Dict{String,Any}("AlternateContactType" => AlternateContactType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -176,13 +180,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, call the operation using an identity belonging to the account whose contacts you
   wish to retrieve or modify.
 """
-disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config()) = account(
-    "POST",
-    "/disableRegion",
-    Dict{String,Any}("RegionName" => RegionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function disable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST",
+        "/disableRegion",
+        Dict{String,Any}("RegionName" => RegionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_region(
     RegionName,
     params::AbstractDict{String};
@@ -235,13 +241,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, call the operation using an identity belonging to the account whose contacts you
   wish to retrieve or modify.
 """
-enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config()) = account(
-    "POST",
-    "/enableRegion",
-    Dict{String,Any}("RegionName" => RegionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function enable_region(RegionName; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST",
+        "/enableRegion",
+        Dict{String,Any}("RegionName" => RegionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_region(
     RegionName,
     params::AbstractDict{String};
@@ -299,15 +307,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and call the operation using an identity belonging to the account whose contacts you wish
   to retrieve or modify.
 """
-get_alternate_contact(
+function get_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=current_aws_config()
-) = account(
-    "POST",
-    "/getAlternateContact",
-    Dict{String,Any}("AlternateContactType" => AlternateContactType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/getAlternateContact",
+        Dict{String,Any}("AlternateContactType" => AlternateContactType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -357,12 +367,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, call the operation using an identity belonging to the account whose contacts you
   wish to retrieve or modify.
 """
-get_contact_information(; aws_config::AbstractAWSConfig=current_aws_config()) = account(
-    "POST",
-    "/getContactInformation";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_contact_information(; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST",
+        "/getContactInformation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_contact_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -398,13 +410,15 @@ Retrieves the primary email address for the specified account.
 !!! note
     The management account can't specify its own `AccountId`.
 """
-get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_config()) = account(
-    "POST",
-    "/getPrimaryEmail",
-    Dict{String,Any}("AccountId" => AccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_primary_email(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST",
+        "/getPrimaryEmail",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_primary_email(
     AccountId,
     params::AbstractDict{String};
@@ -454,14 +468,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, call the operation using an identity belonging to the account whose contacts you
   wish to retrieve or modify.
 """
-get_region_opt_status(RegionName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    account(
+function get_region_opt_status(
+    RegionName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return account(
         "POST",
         "/getRegionOptStatus",
         Dict{String,Any}("RegionName" => RegionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_region_opt_status(
     RegionName,
     params::AbstractDict{String};
@@ -519,8 +536,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, passing in a value of ENABLING will only return a list of Regions with a
   Region status of ENABLING.
 """
-list_regions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    account("POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_regions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return account(
+        "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -578,26 +598,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and call the operation using an identity belonging to the account whose contacts you wish
   to retrieve or modify.
 """
-put_alternate_contact(
+function put_alternate_contact(
     AlternateContactType,
     EmailAddress,
     Name,
     PhoneNumber,
     Title;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = account(
-    "POST",
-    "/putAlternateContact",
-    Dict{String,Any}(
-        "AlternateContactType" => AlternateContactType,
-        "EmailAddress" => EmailAddress,
-        "Name" => Name,
-        "PhoneNumber" => PhoneNumber,
-        "Title" => Title,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/putAlternateContact",
+        Dict{String,Any}(
+            "AlternateContactType" => AlternateContactType,
+            "EmailAddress" => EmailAddress,
+            "Name" => Name,
+            "PhoneNumber" => PhoneNumber,
+            "Title" => Title,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_alternate_contact(
     AlternateContactType,
     EmailAddress,
@@ -662,15 +684,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Instead, call the operation using an identity belonging to the account whose contacts you
   wish to retrieve or modify.
 """
-put_contact_information(
+function put_contact_information(
     ContactInformation; aws_config::AbstractAWSConfig=current_aws_config()
-) = account(
-    "POST",
-    "/putContactInformation",
-    Dict{String,Any}("ContactInformation" => ContactInformation);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/putContactInformation",
+        Dict{String,Any}("ContactInformation" => ContactInformation);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_contact_information(
     ContactInformation,
     params::AbstractDict{String};
@@ -714,15 +738,17 @@ Starts the process to update the primary email address for the specified account
 - `primary_email`: The new primary email address (also known as the root user email
   address) to use in the specified account.
 """
-start_primary_email_update(
+function start_primary_email_update(
     AccountId, PrimaryEmail; aws_config::AbstractAWSConfig=current_aws_config()
-) = account(
-    "POST",
-    "/startPrimaryEmailUpdate",
-    Dict{String,Any}("AccountId" => AccountId, "PrimaryEmail" => PrimaryEmail);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return account(
+        "POST",
+        "/startPrimaryEmailUpdate",
+        Dict{String,Any}("AccountId" => AccountId, "PrimaryEmail" => PrimaryEmail);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_primary_email_update(
     AccountId,
     PrimaryEmail,

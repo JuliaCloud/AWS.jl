@@ -49,15 +49,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `KmsKeyId` parameter, an error is returned.
 - `"tags"`: The tags to be assigned to the elastic cluster snapshot.
 """
-copy_cluster_snapshot(
+function copy_cluster_snapshot(
     snapshotArn, targetSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = docdb_elastic(
-    "POST",
-    "/cluster-snapshot/$(snapshotArn)/copy",
-    Dict{String,Any}("targetSnapshotName" => targetSnapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return docdb_elastic(
+        "POST",
+        "/cluster-snapshot/$(snapshotArn)/copy",
+        Dict{String,Any}("targetSnapshotName" => targetSnapshotName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_cluster_snapshot(
     snapshotArn,
     targetSnapshotName,
@@ -145,7 +147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the new
   elastic cluster.
 """
-create_cluster(
+function create_cluster(
     adminUserName,
     adminUserPassword,
     authType,
@@ -153,21 +155,23 @@ create_cluster(
     shardCapacity,
     shardCount;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = docdb_elastic(
-    "POST",
-    "/cluster",
-    Dict{String,Any}(
-        "adminUserName" => adminUserName,
-        "adminUserPassword" => adminUserPassword,
-        "authType" => authType,
-        "clusterName" => clusterName,
-        "shardCapacity" => shardCapacity,
-        "shardCount" => shardCount,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return docdb_elastic(
+        "POST",
+        "/cluster",
+        Dict{String,Any}(
+            "adminUserName" => adminUserName,
+            "adminUserPassword" => adminUserPassword,
+            "authType" => authType,
+            "clusterName" => clusterName,
+            "shardCapacity" => shardCapacity,
+            "shardCount" => shardCount,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster(
     adminUserName,
     adminUserPassword,
@@ -219,15 +223,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"tags"`: The tags to be assigned to the new elastic cluster snapshot.
 """
-create_cluster_snapshot(
+function create_cluster_snapshot(
     clusterArn, snapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-) = docdb_elastic(
-    "POST",
-    "/cluster-snapshot",
-    Dict{String,Any}("clusterArn" => clusterArn, "snapshotName" => snapshotName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return docdb_elastic(
+        "POST",
+        "/cluster-snapshot",
+        Dict{String,Any}("clusterArn" => clusterArn, "snapshotName" => snapshotName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster_snapshot(
     clusterArn,
     snapshotName,
@@ -261,13 +267,14 @@ Delete an elastic cluster.
 
 - `cluster_arn`: The ARN identifier of the elastic cluster that is to be deleted.
 """
-delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "DELETE",
         "/cluster/$(clusterArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -292,13 +299,16 @@ Delete an elastic cluster snapshot.
 
 - `snapshot_arn`: The ARN identifier of the elastic cluster snapshot that is to be deleted.
 """
-delete_cluster_snapshot(snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function delete_cluster_snapshot(
+    snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
         "DELETE",
         "/cluster-snapshot/$(snapshotArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -323,12 +333,14 @@ Returns information about a specific elastic cluster.
 
 - `cluster_arn`: The ARN identifier of the elastic cluster.
 """
-get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config()) = docdb_elastic(
-    "GET",
-    "/cluster/$(clusterArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
+        "GET",
+        "/cluster/$(clusterArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -353,13 +365,16 @@ Returns information about a specific elastic cluster snapshot
 
 - `snapshot_arn`: The ARN identifier of the elastic cluster snapshot.
 """
-get_cluster_snapshot(snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function get_cluster_snapshot(
+    snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
         "GET",
         "/cluster-snapshot/$(snapshotArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_cluster_snapshot(
     snapshotArn,
     params::AbstractDict{String};
@@ -398,10 +413,11 @@ If there is no more data in the responce, the `nextToken` will not be returned.
    - `manual` - Return all cluster snapshots that you have manually created for your Amazon
   Web Services account.
 """
-list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function list_cluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "GET", "/cluster-snapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_cluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -432,9 +448,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If there is no more data in the responce, the `nextToken` will not be returned.
 """
-list_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = docdb_elastic(
-    "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
+        "GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -453,13 +471,16 @@ Lists all tags on a elastic cluster resource
 
 - `resource_arn`: The ARN identifier of the elastic cluster resource.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -511,15 +532,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the elastic
   cluster.
 """
-restore_cluster_from_snapshot(
+function restore_cluster_from_snapshot(
     clusterName, snapshotArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = docdb_elastic(
-    "POST",
-    "/cluster-snapshot/$(snapshotArn)/restore",
-    Dict{String,Any}("clusterName" => clusterName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return docdb_elastic(
+        "POST",
+        "/cluster-snapshot/$(snapshotArn)/restore",
+        Dict{String,Any}("clusterName" => clusterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function restore_cluster_from_snapshot(
     clusterName,
     snapshotArn,
@@ -547,13 +570,14 @@ Restarts the stopped elastic cluster that is specified by `clusterARN`.
 
 - `cluster_arn`: The ARN identifier of the elastic cluster.
 """
-start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function start_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "POST",
         "/cluster/$(clusterArn)/start";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -579,13 +603,14 @@ must be in the *available* state.
 
 - `cluster_arn`: The ARN identifier of the elastic cluster.
 """
-stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "POST",
         "/cluster/$(clusterArn)/stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_cluster(
     clusterArn,
     params::AbstractDict{String};
@@ -611,14 +636,15 @@ Adds metadata tags to an elastic cluster resource
 - `resource_arn`: The ARN identifier of the elastic cluster resource.
 - `tags`: The tags that are assigned to the elastic cluster resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -645,14 +671,17 @@ Removes metadata tags from an elastic cluster resource
 - `resource_arn`: The ARN identifier of the elastic cluster resource.
 - `tag_keys`: The tag keys to be removed from the elastic cluster resource.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return docdb_elastic(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -716,14 +745,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the elastic
   cluster.
 """
-update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    docdb_elastic(
+function update_cluster(clusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return docdb_elastic(
         "PUT",
         "/cluster/$(clusterArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_cluster(
     clusterArn,
     params::AbstractDict{String};

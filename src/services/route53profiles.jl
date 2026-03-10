@@ -25,15 +25,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A list of the tag keys and values that you want to identify the Profile
   association.
 """
-associate_profile(
+function associate_profile(
     Name, ProfileId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "POST",
-    "/profileassociation",
-    Dict{String,Any}("Name" => Name, "ProfileId" => ProfileId, "ResourceId" => ResourceId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "POST",
+        "/profileassociation",
+        Dict{String,Any}(
+            "Name" => Name, "ProfileId" => ProfileId, "ResourceId" => ResourceId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_profile(
     Name,
     ProfileId,
@@ -80,17 +84,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The allowed values for priority are between 100 and 9900.
 """
-associate_resource_to_profile(
+function associate_resource_to_profile(
     Name, ProfileId, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "POST",
-    "/profileresourceassociation",
-    Dict{String,Any}(
-        "Name" => Name, "ProfileId" => ProfileId, "ResourceArn" => ResourceArn
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "POST",
+        "/profileresourceassociation",
+        Dict{String,Any}(
+            "Name" => Name, "ProfileId" => ProfileId, "ResourceArn" => ResourceArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_resource_to_profile(
     Name,
     ProfileId,
@@ -136,14 +142,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A list of the tag keys and values that you want to associate with the Route 53
   Profile.
 """
-create_profile(ClientToken, Name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function create_profile(
+    ClientToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53profiles(
         "POST",
         "/profile",
         Dict{String,Any}("ClientToken" => ClientToken, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_profile(
     ClientToken,
     Name,
@@ -176,13 +185,14 @@ disassociate it from all VPCs.
 
 - `profile_id`:  The ID of the Profile that you want to delete.
 """
-delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53profiles(
         "DELETE",
         "/profile/$(ProfileId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -208,14 +218,16 @@ end
 - `profile_id`:  ID of the Profile.
 - `resource_id`:  The ID of the VPC.
 """
-disassociate_profile(
+function disassociate_profile(
     ProfileId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "DELETE",
-    "/profileassociation/Profileid/$(ProfileId)/resourceid/$(ResourceId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "DELETE",
+        "/profileassociation/Profileid/$(ProfileId)/resourceid/$(ResourceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_profile(
     ProfileId,
     ResourceId,
@@ -242,14 +254,16 @@ end
 - `profile_id`:  The ID of the Profile.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-disassociate_resource_from_profile(
+function disassociate_resource_from_profile(
     ProfileId, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "DELETE",
-    "/profileresourceassociation/profileid/$(ProfileId)/resourcearn/$(ResourceArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "DELETE",
+        "/profileresourceassociation/profileid/$(ProfileId)/resourcearn/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_resource_from_profile(
     ProfileId,
     ResourceArn,
@@ -276,13 +290,14 @@ Profile is shared, and the current status of the Profile.
 
 - `profile_id`:  ID of the Profile.
 """
-get_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function get_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53profiles(
         "GET",
         "/profile/$(ProfileId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -309,14 +324,16 @@ association, but a Profile can be associated with up to 5000 VPCs.
 - `profile_association_id`:  The identifier of the association you want to get information
   about.
 """
-get_profile_association(
+function get_profile_association(
     ProfileAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "GET",
-    "/profileassociation/$(ProfileAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "GET",
+        "/profileassociation/$(ProfileAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_profile_association(
     ProfileAssociationId,
     params::AbstractDict{String};
@@ -342,14 +359,16 @@ end
 - `profile_resource_association_id`:  <p>The ID of the profile resource association that
   you want to get information about. </p>
 """
-get_profile_resource_association(
+function get_profile_resource_association(
     ProfileResourceAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "GET",
-    "/profileresourceassociation/$(ProfileResourceAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "GET",
+        "/profileresourceassociation/$(ProfileResourceAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};
@@ -388,13 +407,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileId"`:  ID of the Profile.
 - `"resourceId"`:  ID of the VPC.
 """
-list_profile_associations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function list_profile_associations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53profiles(
         "GET",
         "/profileassociations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_profile_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -434,14 +454,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned for the prior request in your next request.
 - `"resourceType"`:  ID of a resource if you want information on only one type.
 """
-list_profile_resource_associations(
+function list_profile_resource_associations(
     ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "GET",
-    "/profileresourceassociations/profileid/$(ProfileId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "GET",
+        "/profileresourceassociations/profileid/$(ProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_profile_resource_associations(
     ProfileId,
     params::AbstractDict{String};
@@ -478,9 +500,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is returned in the response. To retrieve the next batch of objects, use the token
   that was returned for the prior request in your next request.
 """
-list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = route53profiles(
-    "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53profiles(
+        "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -500,13 +524,16 @@ end
 - `resource_arn`:  The Amazon Resource Name (ARN) for the resource that you want to list
   the tags for.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53profiles(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -533,14 +560,15 @@ end
   tags to.
 - `tags`:  The tags that you want to add to the specified resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53profiles(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -568,14 +596,17 @@ end
   tags from.
 - `tag_keys`:  The tags that you want to remove to the specified resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53profiles(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53profiles(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -612,14 +643,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The allowed values for priority are between 100 and 9900.
 """
-update_profile_resource_association(
+function update_profile_resource_association(
     ProfileResourceAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53profiles(
-    "PATCH",
-    "/profileresourceassociation/$(ProfileResourceAssociationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53profiles(
+        "PATCH",
+        "/profileresourceassociation/$(ProfileResourceAssociationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};

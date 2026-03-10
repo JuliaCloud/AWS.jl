@@ -41,23 +41,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_gateway_route(
+function create_gateway_route(
     gatewayRouteName,
     meshName,
     spec,
     virtualGatewayName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes",
-    Dict{String,Any}(
-        "gatewayRouteName" => gatewayRouteName,
-        "spec" => spec,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes",
+        Dict{String,Any}(
+            "gatewayRouteName" => gatewayRouteName,
+            "spec" => spec,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_gateway_route(
     gatewayRouteName,
     meshName,
@@ -115,13 +117,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "PUT",
-    "/v20190125/meshes",
-    Dict{String,Any}("meshName" => meshName, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes",
+        Dict{String,Any}("meshName" => meshName, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_mesh(
     meshName,
     params::AbstractDict{String};
@@ -178,21 +182,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   define. Tag keys can have a maximum character length of 128 characters, and tag values
   can have a maximum length of 256 characters.
 """
-create_route(
+function create_route(
     meshName,
     routeName,
     spec,
     virtualRouterName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes",
-    Dict{String,Any}(
-        "routeName" => routeName, "spec" => spec, "clientToken" => string(uuid4())
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes",
+        Dict{String,Any}(
+            "routeName" => routeName, "spec" => spec, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_route(
     meshName,
     routeName,
@@ -256,19 +262,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_virtual_gateway(
+function create_virtual_gateway(
     meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualGateways",
-    Dict{String,Any}(
-        "spec" => spec,
-        "virtualGatewayName" => virtualGatewayName,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualGateways",
+        Dict{String,Any}(
+            "spec" => spec,
+            "virtualGatewayName" => virtualGatewayName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_virtual_gateway(
     meshName,
     spec,
@@ -346,19 +354,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_virtual_node(
+function create_virtual_node(
     meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualNodes",
-    Dict{String,Any}(
-        "spec" => spec,
-        "virtualNodeName" => virtualNodeName,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualNodes",
+        Dict{String,Any}(
+            "spec" => spec,
+            "virtualNodeName" => virtualNodeName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_virtual_node(
     meshName,
     spec,
@@ -421,19 +431,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_virtual_router(
+function create_virtual_router(
     meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualRouters",
-    Dict{String,Any}(
-        "spec" => spec,
-        "virtualRouterName" => virtualRouterName,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualRouters",
+        Dict{String,Any}(
+            "spec" => spec,
+            "virtualRouterName" => virtualRouterName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_virtual_router(
     meshName,
     spec,
@@ -495,19 +507,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of which you define. Tag keys can have a maximum character length of 128 characters, and
   tag values can have a maximum length of 256 characters.
 """
-create_virtual_service(
+function create_virtual_service(
     meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualServices",
-    Dict{String,Any}(
-        "spec" => spec,
-        "virtualServiceName" => virtualServiceName,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualServices",
+        Dict{String,Any}(
+            "spec" => spec,
+            "virtualServiceName" => virtualServiceName,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_virtual_service(
     meshName,
     spec,
@@ -554,17 +568,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_gateway_route(
+function delete_gateway_route(
     gatewayRouteName,
     meshName,
     virtualGatewayName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_gateway_route(
     gatewayRouteName,
     meshName,
@@ -594,12 +610,14 @@ nodes) in the service mesh before you can delete the mesh itself.
 
 - `mesh_name`: The name of the service mesh to delete.
 """
-delete_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_mesh(
     meshName,
     params::AbstractDict{String};
@@ -634,17 +652,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_route(
+function delete_route(
     meshName,
     routeName,
     virtualRouterName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_route(
     meshName,
     routeName,
@@ -681,14 +701,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_virtual_gateway(
+function delete_virtual_gateway(
     meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_virtual_gateway(
     meshName,
     virtualGatewayName,
@@ -726,14 +748,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_virtual_node(
+function delete_virtual_node(
     meshName, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_virtual_node(
     meshName,
     virtualNodeName,
@@ -771,14 +795,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_virtual_router(
+function delete_virtual_router(
     meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_virtual_router(
     meshName,
     virtualRouterName,
@@ -813,14 +839,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-delete_virtual_service(
+function delete_virtual_service(
     meshName, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "DELETE",
-    "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "DELETE",
+        "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_virtual_service(
     meshName,
     virtualServiceName,
@@ -857,17 +885,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_gateway_route(
+function describe_gateway_route(
     gatewayRouteName,
     meshName,
     virtualGatewayName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_gateway_route(
     gatewayRouteName,
     meshName,
@@ -902,12 +932,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_mesh(
     meshName,
     params::AbstractDict{String};
@@ -942,17 +974,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_route(
+function describe_route(
     meshName,
     routeName,
     virtualRouterName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_route(
     meshName,
     routeName,
@@ -988,14 +1022,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_virtual_gateway(
+function describe_virtual_gateway(
     meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_virtual_gateway(
     meshName,
     virtualGatewayName,
@@ -1030,14 +1066,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_virtual_node(
+function describe_virtual_node(
     meshName, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_virtual_node(
     meshName,
     virtualNodeName,
@@ -1072,14 +1110,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_virtual_router(
+function describe_virtual_router(
     meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_virtual_router(
     meshName,
     virtualRouterName,
@@ -1114,14 +1154,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-describe_virtual_service(
+function describe_virtual_service(
     meshName, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_virtual_service(
     meshName,
     virtualServiceName,
@@ -1167,14 +1209,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that parameter. Pagination continues from the end of the previous results that returned
   the `nextToken` value.
 """
-list_gateway_routes(
+function list_gateway_routes(
     meshName, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_gateway_routes(
     meshName,
     virtualGatewayName,
@@ -1215,9 +1259,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       This token should be treated as an opaque identifier that is used only to retrieve
   the next items in a list and not for other programmatic purposes.
 """
-list_meshes(; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "GET", "/v20190125/meshes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_meshes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "GET", "/v20190125/meshes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_meshes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1259,14 +1305,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pagination continues from the end of the previous results that returned the `nextToken`
   value.
 """
-list_routes(
+function list_routes(
     meshName, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_routes(
     meshName,
     virtualRouterName,
@@ -1309,14 +1357,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return app_mesh(
         "GET",
         "/v20190125/tags",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1362,13 +1413,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value.
 """
-list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function list_virtual_gateways(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualGateways";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_virtual_gateways(
     meshName,
     params::AbstractDict{String};
@@ -1411,12 +1463,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that parameter. Pagination continues from the end of the previous results that returned
   the `nextToken` value.
 """
-list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "GET",
-    "/v20190125/meshes/$(meshName)/virtualNodes";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_virtual_nodes(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "GET",
+        "/v20190125/meshes/$(meshName)/virtualNodes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_virtual_nodes(
     meshName,
     params::AbstractDict{String};
@@ -1460,13 +1514,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that parameter. Pagination continues from the end of the previous results that returned
   the `nextToken` value.
 """
-list_virtual_routers(meshName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function list_virtual_routers(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualRouters";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_virtual_routers(
     meshName,
     params::AbstractDict{String};
@@ -1510,13 +1565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of that parameter. Pagination continues from the end of the previous results that
   returned the `nextToken` value.
 """
-list_virtual_services(meshName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function list_virtual_services(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
         "GET",
         "/v20190125/meshes/$(meshName)/virtualServices";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_virtual_services(
     meshName,
     params::AbstractDict{String};
@@ -1546,14 +1602,15 @@ resource is deleted, the tags associated with that resource are also deleted.
   can have a maximum character length of 128 characters, and tag values can have a maximum
   length of 256 characters.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
         "PUT",
         "/v20190125/tag",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -1586,14 +1643,17 @@ Deletes specified tags from a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to delete tags from.
 - `tag_keys`: The keys of the tags to be removed.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    app_mesh(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return app_mesh(
         "PUT",
         "/v20190125/untag",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1641,19 +1701,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_gateway_route(
+function update_gateway_route(
     gatewayRouteName,
     meshName,
     spec,
     virtualGatewayName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_gateway_route(
     gatewayRouteName,
     meshName,
@@ -1696,13 +1758,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed.
 - `"spec"`: The service mesh specification to apply.
 """
-update_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config()) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)",
-    Dict{String,Any}("clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_mesh(meshName; aws_config::AbstractAWSConfig=current_aws_config())
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_mesh(
     meshName,
     params::AbstractDict{String};
@@ -1743,19 +1807,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_route(
+function update_route(
     meshName,
     routeName,
     spec,
     virtualRouterName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_route(
     meshName,
     routeName,
@@ -1802,15 +1868,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_virtual_gateway(
+function update_virtual_gateway(
     meshName, spec, virtualGatewayName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_virtual_gateway(
     meshName,
     spec,
@@ -1856,15 +1924,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_virtual_node(
+function update_virtual_node(
     meshName, spec, virtualNodeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_virtual_node(
     meshName,
     spec,
@@ -1910,15 +1980,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_virtual_router(
+function update_virtual_router(
     meshName, spec, virtualRouterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_virtual_router(
     meshName,
     spec,
@@ -1964,15 +2036,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID is not your own, then it's the ID of the account that shared the mesh with
   your account. For more information about mesh sharing, see [Working with shared meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html).
 """
-update_virtual_service(
+function update_virtual_service(
     meshName, spec, virtualServiceName; aws_config::AbstractAWSConfig=current_aws_config()
-) = app_mesh(
-    "PUT",
-    "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)",
-    Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return app_mesh(
+        "PUT",
+        "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)",
+        Dict{String,Any}("spec" => spec, "clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_virtual_service(
     meshName,
     spec,

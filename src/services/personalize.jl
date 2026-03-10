@@ -58,25 +58,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"themeGenerationConfig"`: For theme generation jobs, specify the name of the column in
   your Items dataset that contains each item's name.
 """
-create_batch_inference_job(
+function create_batch_inference_job(
     jobInput,
     jobName,
     jobOutput,
     roleArn,
     solutionVersionArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateBatchInferenceJob",
-    Dict{String,Any}(
-        "jobInput" => jobInput,
-        "jobName" => jobName,
-        "jobOutput" => jobOutput,
-        "roleArn" => roleArn,
-        "solutionVersionArn" => solutionVersionArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateBatchInferenceJob",
+        Dict{String,Any}(
+            "jobInput" => jobInput,
+            "jobName" => jobName,
+            "jobOutput" => jobOutput,
+            "roleArn" => roleArn,
+            "solutionVersionArn" => solutionVersionArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_batch_inference_job(
     jobInput,
     jobName,
@@ -134,25 +136,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the batch segment job.
 """
-create_batch_segment_job(
+function create_batch_segment_job(
     jobInput,
     jobName,
     jobOutput,
     roleArn,
     solutionVersionArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateBatchSegmentJob",
-    Dict{String,Any}(
-        "jobInput" => jobInput,
-        "jobName" => jobName,
-        "jobOutput" => jobOutput,
-        "roleArn" => roleArn,
-        "solutionVersionArn" => solutionVersionArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateBatchSegmentJob",
+        Dict{String,Any}(
+            "jobInput" => jobInput,
+            "jobName" => jobName,
+            "jobOutput" => jobOutput,
+            "roleArn" => roleArn,
+            "solutionVersionArn" => solutionVersionArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_batch_segment_job(
     jobInput,
     jobName,
@@ -264,14 +268,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the campaign.
 """
-create_campaign(
+function create_campaign(
     name, solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "CreateCampaign",
-    Dict{String,Any}("name" => name, "solutionVersionArn" => solutionVersionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateCampaign",
+        Dict{String,Any}("name" => name, "solutionVersionArn" => solutionVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_campaign(
     name,
     solutionVersionArn,
@@ -345,23 +351,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the data deletion job.
 """
-create_data_deletion_job(
+function create_data_deletion_job(
     dataSource,
     datasetGroupArn,
     jobName,
     roleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateDataDeletionJob",
-    Dict{String,Any}(
-        "dataSource" => dataSource,
-        "datasetGroupArn" => datasetGroupArn,
-        "jobName" => jobName,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateDataDeletionJob",
+        Dict{String,Any}(
+            "dataSource" => dataSource,
+            "datasetGroupArn" => datasetGroupArn,
+            "jobName" => jobName,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_data_deletion_job(
     dataSource,
     datasetGroupArn,
@@ -439,23 +447,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the dataset.
 """
-create_dataset(
+function create_dataset(
     datasetGroupArn,
     datasetType,
     name,
     schemaArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateDataset",
-    Dict{String,Any}(
-        "datasetGroupArn" => datasetGroupArn,
-        "datasetType" => datasetType,
-        "name" => name,
-        "schemaArn" => schemaArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateDataset",
+        Dict{String,Any}(
+            "datasetGroupArn" => datasetGroupArn,
+            "datasetType" => datasetType,
+            "name" => name,
+            "schemaArn" => schemaArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dataset(
     datasetGroupArn,
     datasetType,
@@ -522,23 +532,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the dataset export job.
 """
-create_dataset_export_job(
+function create_dataset_export_job(
     datasetArn,
     jobName,
     jobOutput,
     roleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateDatasetExportJob",
-    Dict{String,Any}(
-        "datasetArn" => datasetArn,
-        "jobName" => jobName,
-        "jobOutput" => jobOutput,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateDatasetExportJob",
+        Dict{String,Any}(
+            "datasetArn" => datasetArn,
+            "jobName" => jobName,
+            "jobOutput" => jobOutput,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dataset_export_job(
     datasetArn,
     jobName,
@@ -629,13 +641,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the dataset group.
 """
-create_dataset_group(name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function create_dataset_group(name; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "CreateDatasetGroup",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_dataset_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -706,23 +719,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the dataset import job.
 """
-create_dataset_import_job(
+function create_dataset_import_job(
     dataSource,
     datasetArn,
     jobName,
     roleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateDatasetImportJob",
-    Dict{String,Any}(
-        "dataSource" => dataSource,
-        "datasetArn" => datasetArn,
-        "jobName" => jobName,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateDatasetImportJob",
+        Dict{String,Any}(
+            "dataSource" => dataSource,
+            "datasetArn" => datasetArn,
+            "jobName" => jobName,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dataset_import_job(
     dataSource,
     datasetArn,
@@ -793,14 +808,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the event tracker.
 """
-create_event_tracker(
+function create_event_tracker(
     datasetGroupArn, name; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "CreateEventTracker",
-    Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateEventTracker",
+        Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_event_tracker(
     datasetGroupArn,
     name,
@@ -842,21 +859,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the filter.
 """
-create_filter(
+function create_filter(
     datasetGroupArn,
     filterExpression,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateFilter",
-    Dict{String,Any}(
-        "datasetGroupArn" => datasetGroupArn,
-        "filterExpression" => filterExpression,
-        "name" => name,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateFilter",
+        Dict{String,Any}(
+            "datasetGroupArn" => datasetGroupArn,
+            "filterExpression" => filterExpression,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_filter(
     datasetGroupArn,
     filterExpression,
@@ -901,23 +920,25 @@ reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring 
 - `metrics_output_config`: The output configuration details for the metric attribution.
 - `name`: A name for the metric attribution.
 """
-create_metric_attribution(
+function create_metric_attribution(
     datasetGroupArn,
     metrics,
     metricsOutputConfig,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = personalize(
-    "CreateMetricAttribution",
-    Dict{String,Any}(
-        "datasetGroupArn" => datasetGroupArn,
-        "metrics" => metrics,
-        "metricsOutputConfig" => metricsOutputConfig,
-        "name" => name,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateMetricAttribution",
+        Dict{String,Any}(
+            "datasetGroupArn" => datasetGroupArn,
+            "metrics" => metrics,
+            "metricsOutputConfig" => metricsOutputConfig,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_metric_attribution(
     datasetGroupArn,
     metrics,
@@ -1018,16 +1039,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the recommender.
 """
-create_recommender(
+function create_recommender(
     datasetGroupArn, name, recipeArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "CreateRecommender",
-    Dict{String,Any}(
-        "datasetGroupArn" => datasetGroupArn, "name" => name, "recipeArn" => recipeArn
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "CreateRecommender",
+        Dict{String,Any}(
+            "datasetGroupArn" => datasetGroupArn, "name" => name, "recipeArn" => recipeArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_recommender(
     datasetGroupArn,
     name,
@@ -1084,13 +1107,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Domain dataset group, specify the domain you chose when you created the Domain dataset
   group.
 """
-create_schema(name, schema; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function create_schema(name, schema; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "CreateSchema",
         Dict{String,Any}("name" => name, "schema" => schema);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_schema(
     name,
     schema,
@@ -1223,13 +1247,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html)
   to apply to the solution.
 """
-create_solution(datasetGroupArn, name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function create_solution(
+    datasetGroupArn, name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "CreateSolution",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_solution(
     datasetGroupArn,
     name,
@@ -1313,13 +1340,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recipe or the legacy [HRNN-Coldstart](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html)
   recipe.
 """
-create_solution_version(solutionArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function create_solution_version(
+    solutionArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "CreateSolutionVersion",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_solution_version(
     solutionArn,
     params::AbstractDict{String};
@@ -1348,13 +1378,14 @@ request. For information on creating campaigns, see [CreateCampaign](https://doc
 
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign to delete.
 """
-delete_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DeleteCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -1382,13 +1413,14 @@ datasets, see [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/
 
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to delete.
 """
-delete_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DeleteDataset",
         Dict{String,Any}("datasetArn" => datasetArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_dataset(
     datasetArn,
     params::AbstractDict{String};
@@ -1417,13 +1449,16 @@ Deletes a dataset group. Before you delete a dataset group, you must delete the 
 
 - `dataset_group_arn`: The ARN of the dataset group to delete.
 """
-delete_dataset_group(datasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_dataset_group(
+    datasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "DeleteDatasetGroup",
         Dict{String,Any}("datasetGroupArn" => datasetGroupArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_dataset_group(
     datasetGroupArn,
     params::AbstractDict{String};
@@ -1452,13 +1487,16 @@ information on event trackers, see [CreateEventTracker](https://docs.aws.amazon.
 
 - `event_tracker_arn`: The Amazon Resource Name (ARN) of the event tracker to delete.
 """
-delete_event_tracker(eventTrackerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_event_tracker(
+    eventTrackerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "DeleteEventTracker",
         Dict{String,Any}("eventTrackerArn" => eventTrackerArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_event_tracker(
     eventTrackerArn,
     params::AbstractDict{String};
@@ -1486,12 +1524,14 @@ Deletes a filter.
 
 - `filter_arn`: The ARN of the filter to delete.
 """
-delete_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config()) = personalize(
-    "DeleteFilter",
-    Dict{String,Any}("filterArn" => filterArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "DeleteFilter",
+        Dict{String,Any}("filterArn" => filterArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_filter(
     filterArn,
     params::AbstractDict{String};
@@ -1517,14 +1557,16 @@ Deletes a metric attribution.
 
 - `metric_attribution_arn`: The metric attribution's Amazon Resource Name (ARN).
 """
-delete_metric_attribution(
+function delete_metric_attribution(
     metricAttributionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DeleteMetricAttribution",
-    Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DeleteMetricAttribution",
+        Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_metric_attribution(
     metricAttributionArn,
     params::AbstractDict{String};
@@ -1556,13 +1598,16 @@ request.
 
 - `recommender_arn`: The Amazon Resource Name (ARN) of the recommender to delete.
 """
-delete_recommender(recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_recommender(
+    recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "DeleteRecommender",
         Dict{String,Any}("recommenderArn" => recommenderArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -1589,12 +1634,14 @@ schema. For more information on schemas, see [CreateSchema](https://docs.aws.ama
 
 - `schema_arn`: The Amazon Resource Name (ARN) of the schema to delete.
 """
-delete_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config()) = personalize(
-    "DeleteSchema",
-    Dict{String,Any}("schemaArn" => schemaArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "DeleteSchema",
+        Dict{String,Any}("schemaArn" => schemaArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_schema(
     schemaArn,
     params::AbstractDict{String};
@@ -1625,13 +1672,14 @@ information on solutions, see [CreateSolution](https://docs.aws.amazon.com/perso
 
 - `solution_arn`: The ARN of the solution to delete.
 """
-delete_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function delete_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DeleteSolution",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_solution(
     solutionArn,
     params::AbstractDict{String};
@@ -1657,13 +1705,16 @@ Describes the given algorithm.
 
 - `algorithm_arn`: The Amazon Resource Name (ARN) of the algorithm to describe.
 """
-describe_algorithm(algorithmArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_algorithm(
+    algorithmArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "DescribeAlgorithm",
         Dict{String,Any}("algorithmArn" => algorithmArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_algorithm(
     algorithmArn,
     params::AbstractDict{String};
@@ -1691,14 +1742,16 @@ generate the recommendations.
 
 - `batch_inference_job_arn`: The ARN of the batch inference job to describe.
 """
-describe_batch_inference_job(
+function describe_batch_inference_job(
     batchInferenceJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeBatchInferenceJob",
-    Dict{String,Any}("batchInferenceJobArn" => batchInferenceJobArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeBatchInferenceJob",
+        Dict{String,Any}("batchInferenceJobArn" => batchInferenceJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_batch_inference_job(
     batchInferenceJobArn,
     params::AbstractDict{String};
@@ -1730,14 +1783,16 @@ generate segments.
 
 - `batch_segment_job_arn`: The ARN of the batch segment job to describe.
 """
-describe_batch_segment_job(
+function describe_batch_segment_job(
     batchSegmentJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeBatchSegmentJob",
-    Dict{String,Any}("batchSegmentJobArn" => batchSegmentJobArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeBatchSegmentJob",
+        Dict{String,Any}("batchSegmentJobArn" => batchSegmentJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_batch_segment_job(
     batchSegmentJobArn,
     params::AbstractDict{String};
@@ -1773,13 +1828,14 @@ describes why.
 
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign.
 """
-describe_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -1806,14 +1862,16 @@ including the job status.
 
 - `data_deletion_job_arn`: The Amazon Resource Name (ARN) of the data deletion job.
 """
-describe_data_deletion_job(
+function describe_data_deletion_job(
     dataDeletionJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeDataDeletionJob",
-    Dict{String,Any}("dataDeletionJobArn" => dataDeletionJobArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeDataDeletionJob",
+        Dict{String,Any}("dataDeletionJobArn" => dataDeletionJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_data_deletion_job(
     dataDeletionJobArn,
     params::AbstractDict{String};
@@ -1841,13 +1899,14 @@ Describes the given dataset. For more information on datasets, see [CreateDatase
 
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to describe.
 """
-describe_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_dataset(datasetArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeDataset",
         Dict{String,Any}("datasetArn" => datasetArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_dataset(
     datasetArn,
     params::AbstractDict{String};
@@ -1875,14 +1934,16 @@ including the export job status.
 - `dataset_export_job_arn`: The Amazon Resource Name (ARN) of the dataset export job to
   describe.
 """
-describe_dataset_export_job(
+function describe_dataset_export_job(
     datasetExportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeDatasetExportJob",
-    Dict{String,Any}("datasetExportJobArn" => datasetExportJobArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeDatasetExportJob",
+        Dict{String,Any}("datasetExportJobArn" => datasetExportJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dataset_export_job(
     datasetExportJobArn,
     params::AbstractDict{String};
@@ -1912,14 +1973,16 @@ Describes the given dataset group. For more information on dataset groups, see [
 
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group to describe.
 """
-describe_dataset_group(
+function describe_dataset_group(
     datasetGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeDatasetGroup",
-    Dict{String,Any}("datasetGroupArn" => datasetGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeDatasetGroup",
+        Dict{String,Any}("datasetGroupArn" => datasetGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dataset_group(
     datasetGroupArn,
     params::AbstractDict{String};
@@ -1949,14 +2012,16 @@ including the import job status.
 - `dataset_import_job_arn`: The Amazon Resource Name (ARN) of the dataset import job to
   describe.
 """
-describe_dataset_import_job(
+function describe_dataset_import_job(
     datasetImportJobArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeDatasetImportJob",
-    Dict{String,Any}("datasetImportJobArn" => datasetImportJobArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeDatasetImportJob",
+        Dict{String,Any}("datasetImportJobArn" => datasetImportJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dataset_import_job(
     datasetImportJobArn,
     params::AbstractDict{String};
@@ -1987,14 +2052,16 @@ event tracker. For more information on event trackers, see [CreateEventTracker](
 
 - `event_tracker_arn`: The Amazon Resource Name (ARN) of the event tracker to describe.
 """
-describe_event_tracker(
+function describe_event_tracker(
     eventTrackerArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeEventTracker",
-    Dict{String,Any}("eventTrackerArn" => eventTrackerArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeEventTracker",
+        Dict{String,Any}("eventTrackerArn" => eventTrackerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_event_tracker(
     eventTrackerArn,
     params::AbstractDict{String};
@@ -2023,14 +2090,16 @@ Describes the given feature transformation.
 - `feature_transformation_arn`: The Amazon Resource Name (ARN) of the feature
   transformation to describe.
 """
-describe_feature_transformation(
+function describe_feature_transformation(
     featureTransformationArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeFeatureTransformation",
-    Dict{String,Any}("featureTransformationArn" => featureTransformationArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeFeatureTransformation",
+        Dict{String,Any}("featureTransformationArn" => featureTransformationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_feature_transformation(
     featureTransformationArn,
     params::AbstractDict{String};
@@ -2060,13 +2129,14 @@ Describes a filter's properties.
 
 - `filter_arn`: The ARN of the filter to describe.
 """
-describe_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_filter(filterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeFilter",
         Dict{String,Any}("filterArn" => filterArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_filter(
     filterArn,
     params::AbstractDict{String};
@@ -2092,14 +2162,16 @@ Describes a metric attribution.
 
 - `metric_attribution_arn`: The metric attribution's Amazon Resource Name (ARN).
 """
-describe_metric_attribution(
+function describe_metric_attribution(
     metricAttributionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeMetricAttribution",
-    Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeMetricAttribution",
+        Dict{String,Any}("metricAttributionArn" => metricAttributionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_metric_attribution(
     metricAttributionArn,
     params::AbstractDict{String};
@@ -2139,13 +2211,14 @@ API.
 
 - `recipe_arn`: The Amazon Resource Name (ARN) of the recipe to describe.
 """
-describe_recipe(recipeArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_recipe(recipeArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeRecipe",
         Dict{String,Any}("recipeArn" => recipeArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_recipe(
     recipeArn,
     params::AbstractDict{String};
@@ -2183,13 +2256,16 @@ The `modelMetrics` key is null when the recommender is being created or deleted.
 
 - `recommender_arn`: The Amazon Resource Name (ARN) of the recommender to describe.
 """
-describe_recommender(recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_recommender(
+    recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "DescribeRecommender",
         Dict{String,Any}("recommenderArn" => recommenderArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2215,13 +2291,14 @@ Describes a schema. For more information on schemas, see [CreateSchema](https://
 
 - `schema_arn`: The Amazon Resource Name (ARN) of the schema to retrieve.
 """
-describe_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_schema(schemaArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeSchema",
         Dict{String,Any}("schemaArn" => schemaArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_schema(
     schemaArn,
     params::AbstractDict{String};
@@ -2247,13 +2324,14 @@ Describes a solution. For more information on solutions, see [CreateSolution](ht
 
 - `solution_arn`: The Amazon Resource Name (ARN) of the solution to describe.
 """
-describe_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function describe_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "DescribeSolution",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_solution(
     solutionArn,
     params::AbstractDict{String};
@@ -2279,14 +2357,16 @@ Describes a specific version of a solution. For more information on solutions, s
 
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version.
 """
-describe_solution_version(
+function describe_solution_version(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "DescribeSolutionVersion",
-    Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "DescribeSolutionVersion",
+        Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_solution_version(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -2315,14 +2395,16 @@ Gets the metrics for the specified solution version.
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version for which
   to get metrics.
 """
-get_solution_metrics(
+function get_solution_metrics(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "GetSolutionMetrics",
-    Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "GetSolutionMetrics",
+        Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_solution_metrics(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -2356,10 +2438,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionVersionArn"`: The Amazon Resource Name (ARN) of the solution version from which
   the batch inference jobs were created.
 """
-list_batch_inference_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_batch_inference_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "ListBatchInferenceJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_batch_inference_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2388,9 +2471,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"solutionVersionArn"`: The Amazon Resource Name (ARN) of the solution version that the
   batch segment jobs used to generate batch segments.
 """
-list_batch_segment_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = personalize(
-    "ListBatchSegmentJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_batch_segment_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListBatchSegmentJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_batch_segment_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2422,8 +2507,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for. When a solution is not specified, all the campaigns associated with the account are
   listed.
 """
-list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListCampaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_campaigns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2451,9 +2539,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListDataDeletionJobs` for
   getting the next set of jobs (if they exist).
 """
-list_data_deletion_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = personalize(
-    "ListDataDeletionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_data_deletion_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListDataDeletionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_data_deletion_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2485,10 +2575,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListDatasetExportJobs` for
   getting the next set of dataset export jobs (if they exist).
 """
-list_dataset_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_dataset_export_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "ListDatasetExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_dataset_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2516,8 +2607,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListDatasetGroups` for getting
   the next set of dataset groups (if they exist).
 """
-list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_dataset_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_dataset_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2546,10 +2640,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListDatasetImportJobs` for
   getting the next set of dataset import jobs (if they exist).
 """
-list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_dataset_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2579,8 +2674,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListDatasets` for getting the
   next set of dataset import jobs (if they exist).
 """
-list_datasets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_datasets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_datasets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2606,8 +2704,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListEventTrackers` for getting
   the next set of event trackers (if they exist).
 """
-list_event_trackers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListEventTrackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_event_trackers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListEventTrackers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_event_trackers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2631,8 +2732,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListFilters` for getting the
   next set of filters (if they exist).
 """
-list_filters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_filters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2657,12 +2761,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_metric_attribution_metrics(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_metric_attribution_metrics(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "ListMetricAttributionMetrics";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_metric_attribution_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2690,10 +2797,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-list_metric_attributions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_metric_attributions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "ListMetricAttributions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_metric_attributions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2724,8 +2832,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next set of recipes (if they exist).
 - `"recipeProvider"`: The default is `SERVICE`.
 """
-list_recipes(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_recipes(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_recipes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2754,8 +2865,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListRecommenders` for getting
   the next set of recommenders (if they exist).
 """
-list_recommenders(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListRecommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_recommenders(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListRecommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_recommenders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2780,8 +2894,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListSchemas` for getting the
   next set of schemas (if they exist).
 """
-list_schemas(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_schemas(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2807,9 +2924,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   getting the next set of solution versions (if they exist).
 - `"solutionArn"`: The Amazon Resource Name (ARN) of the solution.
 """
-list_solution_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = personalize(
-    "ListSolutionVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_solution_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListSolutionVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_solution_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2839,8 +2958,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from the previous call to `ListSolutions` for getting the
   next set of solutions (if they exist).
 """
-list_solutions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize("ListSolutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_solutions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
+        "ListSolutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_solutions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2860,13 +2982,16 @@ attached to a resource.
 
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -2893,13 +3018,16 @@ models, but resumes billing and automatic retraining for the recommender.
 
 - `recommender_arn`: The Amazon Resource Name (ARN) of the recommender to start.
 """
-start_recommender(recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function start_recommender(
+    recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "StartRecommender",
         Dict{String,Any}("recommenderArn" => recommenderArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2926,13 +3054,16 @@ retraining for the recommender.
 
 - `recommender_arn`: The Amazon Resource Name (ARN) of the recommender to stop.
 """
-stop_recommender(recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function stop_recommender(
+    recommenderArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "StopRecommender",
         Dict{String,Any}("recommenderArn" => recommenderArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_recommender(
     recommenderArn,
     params::AbstractDict{String};
@@ -2968,14 +3099,16 @@ creation. You cannot resume creating a solution version once it has been stopped
 - `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version you want
   to stop creating.
 """
-stop_solution_version_creation(
+function stop_solution_version_creation(
     solutionVersionArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "StopSolutionVersionCreation",
-    Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "StopSolutionVersionCreation",
+        Dict{String,Any}("solutionVersionArn" => solutionVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_solution_version_creation(
     solutionVersionArn,
     params::AbstractDict{String};
@@ -3004,13 +3137,14 @@ Add a list of tags to a resource.
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 - `tags`: Tags to apply to the resource. For more information see [Tagging Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -3042,13 +3176,16 @@ Removes the specified tags that are attached to a resource. For more information
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 - `tag_keys`: The keys of the tags to be removed.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3117,13 +3254,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
    For more information about automatic campaign updates, see [Enabling automatic campaign updates](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
 """
-update_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function update_campaign(campaignArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "UpdateCampaign",
         Dict{String,Any}("campaignArn" => campaignArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_campaign(
     campaignArn,
     params::AbstractDict{String};
@@ -3151,13 +3289,16 @@ see [Replacing a dataset's schema](https://docs.aws.amazon.com/personalize/lates
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset that you want to update.
 - `schema_arn`: The Amazon Resource Name (ARN) of the new schema you want use.
 """
-update_dataset(datasetArn, schemaArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function update_dataset(
+    datasetArn, schemaArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return personalize(
         "UpdateDataset",
         Dict{String,Any}("datasetArn" => datasetArn, "schemaArn" => schemaArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_dataset(
     datasetArn,
     schemaArn,
@@ -3194,10 +3335,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"metricsOutputConfig"`: An output config for the metric attribution.
 - `"removeMetrics"`: Remove metric attributes from the metric attribution.
 """
-update_metric_attribution(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function update_metric_attribution(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "UpdateMetricAttribution"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function update_metric_attribution(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3226,16 +3368,18 @@ operation.
 - `recommender_arn`: The Amazon Resource Name (ARN) of the recommender to modify.
 - `recommender_config`: The configuration details of the recommender.
 """
-update_recommender(
+function update_recommender(
     recommenderArn, recommenderConfig; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize(
-    "UpdateRecommender",
-    Dict{String,Any}(
-        "recommenderArn" => recommenderArn, "recommenderConfig" => recommenderConfig
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize(
+        "UpdateRecommender",
+        Dict{String,Any}(
+            "recommenderArn" => recommenderArn, "recommenderConfig" => recommenderConfig
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_recommender(
     recommenderArn,
     recommenderConfig,
@@ -3298,13 +3442,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
 - `"solutionUpdateConfig"`: The new configuration details of the solution.
 """
-update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize(
+function update_solution(solutionArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize(
         "UpdateSolution",
         Dict{String,Any}("solutionArn" => solutionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_solution(
     solutionArn,
     params::AbstractDict{String};

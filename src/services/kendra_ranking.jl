@@ -37,13 +37,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys and values can consist of Unicode letters, digits, white space, and any of the
   following symbols: _ . : / = + - @.
 """
-create_rescore_execution_plan(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function create_rescore_execution_plan(
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "CreateRescoreExecutionPlan",
         Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_rescore_execution_plan(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -72,13 +75,16 @@ Ranking resource used for provisioning the `Rescore` API.
 
 - `id`: The identifier of the rescore execution plan that you want to delete.
 """
-delete_rescore_execution_plan(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function delete_rescore_execution_plan(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "DeleteRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -101,13 +107,16 @@ Kendra Intelligent Ranking resource used for provisioning the `Rescore` API.
 
 - `id`: The identifier of the rescore execution plan that you want to get information on.
 """
-describe_rescore_execution_plan(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function describe_rescore_execution_plan(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "DescribeRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -135,10 +144,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token in the response. You can use this pagination token to retrieve the next
   set of rescore execution plans.
 """
-list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function list_rescore_execution_plans(; aws_config::AbstractAWSConfig=current_aws_config())
+    return kendra_ranking(
         "ListRescoreExecutionPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_rescore_execution_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -162,13 +172,16 @@ example of a resource that can have tags associated with it.
 - `resource_arn`: The Amazon Resource Name (ARN) of the rescore execution plan to get a
   list of tags for.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -201,21 +214,23 @@ improve the search service's results.
   `Rescore` API.
 - `search_query`: The input query from the search service.
 """
-rescore(
+function rescore(
     Documents,
     RescoreExecutionPlanId,
     SearchQuery;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kendra_ranking(
-    "Rescore",
-    Dict{String,Any}(
-        "Documents" => Documents,
-        "RescoreExecutionPlanId" => RescoreExecutionPlanId,
-        "SearchQuery" => SearchQuery,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kendra_ranking(
+        "Rescore",
+        Dict{String,Any}(
+            "Documents" => Documents,
+            "RescoreExecutionPlanId" => RescoreExecutionPlanId,
+            "SearchQuery" => SearchQuery,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function rescore(
     Documents,
     RescoreExecutionPlanId,
@@ -255,13 +270,14 @@ tag already exists, the existing value is replaced with the new value.
 - `tags`: A list of tag keys to add to a rescore execution plan. If a tag already exists,
   the existing value is replaced with the new value.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return kendra_ranking(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -296,13 +312,16 @@ Intelligent Ranking resource used for provisioning the `Rescore` operation.
 - `tag_keys`: A list of tag keys to remove from the rescore execution plan. If a tag key
   does not exist on the resource, it is ignored.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -347,13 +366,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A new description for the rescore execution plan.
 - `"Name"`: A new name for the rescore execution plan.
 """
-update_rescore_execution_plan(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kendra_ranking(
+function update_rescore_execution_plan(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kendra_ranking(
         "UpdateRescoreExecutionPlan",
         Dict{String,Any}("Id" => Id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_rescore_execution_plan(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

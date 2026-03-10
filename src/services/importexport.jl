@@ -21,12 +21,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"APIVersion"`:
 """
-cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = importexport(
-    "CancelJob",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return importexport(
+        "CancelJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -61,16 +63,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"APIVersion"`:
 - `"ManifestAddendum"`:
 """
-create_job(
+function create_job(
     JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=current_aws_config()
-) = importexport(
-    "CreateJob",
-    Dict{String,Any}(
-        "JobType" => JobType, "Manifest" => Manifest, "ValidateOnly" => ValidateOnly
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return importexport(
+        "CreateJob",
+        Dict{String,Any}(
+            "JobType" => JobType, "Manifest" => Manifest, "ValidateOnly" => ValidateOnly
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_job(
     JobType,
     Manifest,
@@ -123,13 +127,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"street2"`:
 - `"street3"`:
 """
-get_shipping_label(jobIds; aws_config::AbstractAWSConfig=current_aws_config()) =
-    importexport(
+function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return importexport(
         "GetShippingLabel",
         Dict{String,Any}("jobIds" => jobIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_shipping_label(
     jobIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -159,12 +164,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"APIVersion"`:
 """
-get_status(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = importexport(
-    "GetStatus",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_status(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return importexport(
+        "GetStatus",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_status(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -193,8 +200,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Marker"`:
 - `"MaxJobs"`:
 """
-list_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -225,23 +233,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"APIVersion"`:
 """
-update_job(
+function update_job(
     JobId,
     JobType,
     Manifest,
     ValidateOnly;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = importexport(
-    "UpdateJob",
-    Dict{String,Any}(
-        "JobId" => JobId,
-        "JobType" => JobType,
-        "Manifest" => Manifest,
-        "ValidateOnly" => ValidateOnly,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return importexport(
+        "UpdateJob",
+        Dict{String,Any}(
+            "JobId" => JobId,
+            "JobType" => JobType,
+            "Manifest" => Manifest,
+            "ValidateOnly" => ValidateOnly,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_job(
     JobId,
     JobType,

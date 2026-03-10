@@ -26,15 +26,17 @@ For more information about SLO error budgets, see [ SLO concepts](https://docs.a
 - `timestamp`: The date and time that you want the report to be for. It is expressed as the
   number of milliseconds since Jan 1, 1970 00:00:00 UTC.
 """
-batch_get_service_level_objective_budget_report(
+function batch_get_service_level_objective_budget_report(
     SloIds, Timestamp; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_signals(
-    "POST",
-    "/budget-report",
-    Dict{String,Any}("SloIds" => SloIds, "Timestamp" => Timestamp);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_signals(
+        "POST",
+        "/budget-report",
+        Dict{String,Any}("SloIds" => SloIds, "Timestamp" => Timestamp);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_get_service_level_objective_budget_report(
     SloIds,
     Timestamp,
@@ -141,14 +143,17 @@ You can't specify both `RequestBasedSliConfig` and `SliConfig` in the same opera
   user permissions by granting a user permission to access or change only resources with
   certain tag values.
 """
-create_service_level_objective(Name; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function create_service_level_objective(
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "POST",
         "/slo",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_service_level_objective(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -171,10 +176,13 @@ Deletes the specified service level objective.
 
 - `id`: The ARN or name of the service level objective to delete.
 """
-delete_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function delete_service_level_objective(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "DELETE", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function delete_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -219,17 +227,19 @@ Your requested start time will be rounded to the nearest hour.
 
 Your requested start time will be rounded to the nearest hour.
 """
-get_service(
+function get_service(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_signals(
-    "POST",
-    "/service",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_signals(
+        "POST",
+        "/service",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_service(
     EndTime,
     KeyAttributes,
@@ -268,10 +278,11 @@ Returns information about one SLO created in the account.
   find the ARNs of SLOs by using the [ListServiceLevelObjectives](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListServiceLevelObjectives.html)
   operation.
 """
-get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function get_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_signals(
         "GET", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -324,17 +335,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependencies.
 """
-list_service_dependencies(
+function list_service_dependencies(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_signals(
-    "POST",
-    "/service-dependencies",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_signals(
+        "POST",
+        "/service-dependencies",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_service_dependencies(
     EndTime,
     KeyAttributes,
@@ -404,17 +417,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service dependents.
 """
-list_service_dependents(
+function list_service_dependents(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_signals(
-    "POST",
-    "/service-dependents",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_signals(
+        "POST",
+        "/service-dependents",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_service_dependents(
     EndTime,
     KeyAttributes,
@@ -470,10 +485,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next set of service level objectives.
 - `"OperationName"`: The name of the operation that this SLO is associated with.
 """
-list_service_level_objectives(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function list_service_level_objectives(; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_signals(
         "POST", "/slos"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_service_level_objectives(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -524,17 +540,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of service operations.
 """
-list_service_operations(
+function list_service_operations(
     EndTime, KeyAttributes, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_signals(
-    "POST",
-    "/service-operations",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_signals(
+        "POST",
+        "/service-operations",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "KeyAttributes" => KeyAttributes, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_service_operations(
     EndTime,
     KeyAttributes,
@@ -590,14 +608,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Include this value, if it was returned by the previous operation, to get
   the next set of services.
 """
-list_services(EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function list_services(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "GET",
         "/services",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_services(
     EndTime,
     StartTime,
@@ -637,14 +658,17 @@ level objectives.
   For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies)
   in the *Amazon Web Services General Reference*.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "GET",
         "/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -677,9 +701,11 @@ service- linked role has the following permissions: - `xray:GetServiceGraph`
 After completing this step, you still need to instrument your Java and Python applications
 to send data to Application Signals. For more information, see [ Enabling Application Signals](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Application-Signals-Enable.html).
 """
-start_discovery(; aws_config::AbstractAWSConfig=current_aws_config()) = application_signals(
-    "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function start_discovery(; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_signals(
+        "POST", "/start-discovery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function start_discovery(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -725,14 +751,15 @@ You can associate as many as 50 tags with a CloudWatch resource.
   in the *Amazon Web Services General Reference*.
 - `tags`: The list of key-value pairs to associate with the alarm.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_signals(
         "POST",
         "/tag-resource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -772,14 +799,17 @@ Removes one or more tags from the specified resource.
   in the *Amazon Web Services General Reference*.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "POST",
         "/untag-resource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -830,10 +860,13 @@ You can't specify both `SliConfig` and `RequestBasedSliConfig` in the same opera
 - `"SliConfig"`: If this SLO is a period-based SLO, this structure defines the information
   about what performance metric this SLO will monitor.
 """
-update_service_level_objective(Id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_signals(
+function update_service_level_objective(
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_signals(
         "PATCH", "/slo/$(Id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function update_service_level_objective(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -34,14 +34,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recognizes that you are requesting multiple challenge passwords.
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
-create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function create_challenge(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
         "POST",
         "/challenges",
         Dict{String,Any}("ConnectorArn" => ConnectorArn, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_challenge(
     ConnectorArn,
     params::AbstractDict{String};
@@ -106,18 +107,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
-create_connector(
+function create_connector(
     CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = pca_connector_scep(
-    "POST",
-    "/connectors",
-    Dict{String,Any}(
-        "CertificateAuthorityArn" => CertificateAuthorityArn,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pca_connector_scep(
+        "POST",
+        "/connectors",
+        Dict{String,Any}(
+            "CertificateAuthorityArn" => CertificateAuthorityArn,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_connector(
     CertificateAuthorityArn,
     params::AbstractDict{String};
@@ -151,13 +154,14 @@ Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-con
 
 - `challenge_arn`: The Amazon Resource Name (ARN) of the challenge password to delete.
 """
-delete_challenge(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function delete_challenge(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
         "DELETE",
         "/challenges/$(ChallengeArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_challenge(
     ChallengeArn,
     params::AbstractDict{String};
@@ -183,13 +187,14 @@ This operation also deletes any challenges associated with the connector.
 
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector to delete.
 """
-delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function delete_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
         "DELETE",
         "/connectors/$(ConnectorArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -214,13 +219,16 @@ Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com
 
 - `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 """
-get_challenge_metadata(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function get_challenge_metadata(
+    ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_scep(
         "GET",
         "/challengeMetadata/$(ChallengeArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_challenge_metadata(
     ChallengeArn,
     params::AbstractDict{String};
@@ -245,13 +253,16 @@ Retrieves the challenge password for the specified [Challenge](https://docs.aws.
 
 - `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 """
-get_challenge_password(ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function get_challenge_password(
+    ChallengeArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_scep(
         "GET",
         "/challengePasswords/$(ChallengeArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_challenge_password(
     ChallengeArn,
     params::AbstractDict{String};
@@ -278,13 +289,14 @@ URL where your clients can request certificates.
 
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector.
 """
-get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function get_connector(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
         "GET",
         "/connectors/$(ConnectorArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_connector(
     ConnectorArn,
     params::AbstractDict{String};
@@ -323,14 +335,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next batch of objects, use the token returned from the prior request in your next
   request.
 """
-list_challenge_metadata(ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function list_challenge_metadata(
+    ConnectorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_scep(
         "GET",
         "/challengeMetadata",
         Dict{String,Any}("ConnectorArn" => ConnectorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_challenge_metadata(
     ConnectorArn,
     params::AbstractDict{String};
@@ -367,9 +382,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the next batch of objects, use the token returned from the prior request in your next
   request.
 """
-list_connectors(; aws_config::AbstractAWSConfig=current_aws_config()) = pca_connector_scep(
-    "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
+        "GET", "/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -392,13 +409,16 @@ for a resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_scep(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -424,14 +444,15 @@ Adds one or more tags to your resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The key-value pairs to associate with the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return pca_connector_scep(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -459,14 +480,17 @@ Removes one or more tags from your resource.
 - `tag_keys`: Specifies a list of tag keys that you want to remove from the specified
   resources.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pca_connector_scep(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return pca_connector_scep(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,

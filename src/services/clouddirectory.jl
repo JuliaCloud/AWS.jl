@@ -24,22 +24,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ObjectAttributeList"`: Attributes on the facet that you are adding to the object.
 """
-add_facet_to_object(
+function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/facets",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "SchemaFacet" => SchemaFacet,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/facets",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "SchemaFacet" => SchemaFacet,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
@@ -81,20 +83,22 @@ the same name and version as that of the published schema.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> into which the schema is copied. For more information, see <a>arns</a>.
 """
-apply_schema(
+function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/apply",
-    Dict{String,Any}(
-        "PublishedSchemaArn" => PublishedSchemaArn,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/apply",
+        Dict{String,Any}(
+            "PublishedSchemaArn" => PublishedSchemaArn,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition,
@@ -136,24 +140,26 @@ Using the path
 - `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
 """
-attach_object(
+function attach_object(
     ChildReference,
     LinkName,
     ParentReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/attach",
-    Dict{String,Any}(
-        "ChildReference" => ChildReference,
-        "LinkName" => LinkName,
-        "ParentReference" => ParentReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/attach",
+        Dict{String,Any}(
+            "ChildReference" => ChildReference,
+            "LinkName" => LinkName,
+            "ParentReference" => ParentReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_object(
     ChildReference,
     LinkName,
@@ -198,22 +204,24 @@ attached policies.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
 """
-attach_policy(
+function attach_policy(
     ObjectReference,
     PolicyReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/policy/attach",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "PolicyReference" => PolicyReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/policy/attach",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "PolicyReference" => PolicyReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_policy(
     ObjectReference,
     PolicyReference,
@@ -254,22 +262,24 @@ Attaches the specified object to the specified index.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where the object
   and index exist.
 """
-attach_to_index(
+function attach_to_index(
     IndexReference,
     TargetReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/index/attach",
-    Dict{String,Any}(
-        "IndexReference" => IndexReference,
-        "TargetReference" => TargetReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/index/attach",
+        Dict{String,Any}(
+            "IndexReference" => IndexReference,
+            "TargetReference" => TargetReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_to_index(
     IndexReference,
     TargetReference,
@@ -315,26 +325,28 @@ Attaches a typed link to a specified source and target object. For more informat
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
   attach the typed link.
 """
-attach_typed_link(
+function attach_typed_link(
     Attributes,
     SourceObjectReference,
     TargetObjectReference,
     TypedLinkFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/typedlink/attach",
-    Dict{String,Any}(
-        "Attributes" => Attributes,
-        "SourceObjectReference" => SourceObjectReference,
-        "TargetObjectReference" => TargetObjectReference,
-        "TypedLinkFacet" => TypedLinkFacet,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/typedlink/attach",
+        Dict{String,Any}(
+            "Attributes" => Attributes,
+            "SourceObjectReference" => SourceObjectReference,
+            "TargetObjectReference" => TargetObjectReference,
+            "TypedLinkFacet" => TypedLinkFacet,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function attach_typed_link(
     Attributes,
     SourceObjectReference,
@@ -386,18 +398,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-batch_read(
+function batch_read(
     Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/batchread",
-    Dict{String,Any}(
-        "Operations" => Operations,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/batchread",
+        Dict{String,Any}(
+            "Operations" => Operations,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_read(
     Operations,
     x_amz_data_partition,
@@ -435,18 +449,20 @@ Performs all the write operations in a batch. Either all the operations succeed 
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a>. For more information, see <a>arns</a>.
 """
-batch_write(
+function batch_write(
     Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/batchwrite",
-    Dict{String,Any}(
-        "Operations" => Operations,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/batchwrite",
+        Dict{String,Any}(
+            "Operations" => Operations,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_write(
     Operations,
     x_amz_data_partition,
@@ -489,18 +505,20 @@ in the *Amazon Cloud Directory Developer Guide*.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the published schema that will
   be copied into the data <a>Directory</a>. For more information, see <a>arns</a>.
 """
-create_directory(
+function create_directory(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/directory/create",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/directory/create",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_directory(
     Name,
     x_amz_data_partition,
@@ -554,18 +572,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see [Policies](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/key_concepts_directory.html#key_concepts_policies).
    - Index: Can be created with the Index API.
 """
-create_facet(
+function create_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/facet/create",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/facet/create",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_facet(
     Name,
     x_amz_data_partition,
@@ -613,22 +633,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LinkName"`: The name of the link between the parent object and the index object.
 - `"ParentReference"`: A reference to the parent object that contains the index object.
 """
-create_index(
+function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/index",
-    Dict{String,Any}(
-        "IsUnique" => IsUnique,
-        "OrderedIndexedAttributeList" => OrderedIndexedAttributeList,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/index",
+        Dict{String,Any}(
+            "IsUnique" => IsUnique,
+            "OrderedIndexedAttributeList" => OrderedIndexedAttributeList,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
@@ -683,18 +705,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParentReference"`: If specified, the parent reference to which this object will be
   attached.
 """
-create_object(
+function create_object(
     SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object",
-    Dict{String,Any}(
-        "SchemaFacets" => SchemaFacets,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object",
+        Dict{String,Any}(
+            "SchemaFacets" => SchemaFacets,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_object(
     SchemaFacets,
     x_amz_data_partition,
@@ -737,13 +761,15 @@ apply only published schemas to directories.
 - `name`: The name that is associated with the schema. This is unique to each account and
   in each region.
 """
-create_schema(Name; aws_config::AbstractAWSConfig=current_aws_config()) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/create",
-    Dict{String,Any}("Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_schema(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/create",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_schema(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -768,18 +794,20 @@ Creates a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https:/
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   schema. For more information, see <a>arns</a>.
 """
-create_typed_link_facet(
+function create_typed_link_facet(
     Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet/create",
-    Dict{String,Any}(
-        "Facet" => Facet,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet/create",
+        Dict{String,Any}(
+            "Facet" => Facet,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_typed_link_facet(
     Facet,
     x_amz_data_partition,
@@ -816,8 +844,10 @@ be undone. Exercise extreme caution when deleting directories.
 
 - `x-amz-data-partition`: The ARN of the directory to delete.
 """
-delete_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function delete_directory(
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory",
         Dict{String,Any}(
@@ -826,6 +856,7 @@ delete_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -862,18 +893,20 @@ facet will be deleted. Only development schema facets are allowed deletion.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Facet</a>. For more information, see <a>arns</a>.
 """
-delete_facet(
+function delete_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/facet/delete",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/facet/delete",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_facet(
     Name,
     x_amz_data_partition,
@@ -913,20 +946,22 @@ object deletion is 30. For more information, see [Amazon Cloud Directory Limits]
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
 """
-delete_object(
+function delete_object(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/delete",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/delete",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_object(
     ObjectReference,
     x_amz_data_partition,
@@ -963,8 +998,10 @@ Deletes a given schema. Schemas in a development and published state can only be
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
   more information, see <a>arns</a>.
 """
-delete_schema(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function delete_schema(
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema",
         Dict{String,Any}(
@@ -973,6 +1010,7 @@ delete_schema(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_co
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_schema(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1008,18 +1046,20 @@ Deletes a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https:/
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   schema. For more information, see <a>arns</a>.
 """
-delete_typed_link_facet(
+function delete_typed_link_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet/delete",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet/delete",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_typed_link_facet(
     Name,
     x_amz_data_partition,
@@ -1058,22 +1098,24 @@ Detaches the specified object from the specified index.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory the index and
   object exist in.
 """
-detach_from_index(
+function detach_from_index(
     IndexReference,
     TargetReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/index/detach",
-    Dict{String,Any}(
-        "IndexReference" => IndexReference,
-        "TargetReference" => TargetReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/index/detach",
+        Dict{String,Any}(
+            "IndexReference" => IndexReference,
+            "TargetReference" => TargetReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_from_index(
     IndexReference,
     TargetReference,
@@ -1116,22 +1158,24 @@ parent is specified by the link name.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where objects reside. For more information, see <a>arns</a>.
 """
-detach_object(
+function detach_object(
     LinkName,
     ParentReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/detach",
-    Dict{String,Any}(
-        "LinkName" => LinkName,
-        "ParentReference" => ParentReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/detach",
+        Dict{String,Any}(
+            "LinkName" => LinkName,
+            "ParentReference" => ParentReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_object(
     LinkName,
     ParentReference,
@@ -1173,22 +1217,24 @@ Detaches a policy from an object.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where both objects reside. For more information, see <a>arns</a>.
 """
-detach_policy(
+function detach_policy(
     ObjectReference,
     PolicyReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/policy/detach",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "PolicyReference" => PolicyReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/policy/detach",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "PolicyReference" => PolicyReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_policy(
     ObjectReference,
     PolicyReference,
@@ -1228,20 +1274,22 @@ Detaches a typed link from a specified source and target object. For more inform
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to
   detach the typed link.
 """
-detach_typed_link(
+function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/typedlink/detach",
-    Dict{String,Any}(
-        "TypedLinkSpecifier" => TypedLinkSpecifier,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/typedlink/detach",
+        Dict{String,Any}(
+            "TypedLinkSpecifier" => TypedLinkSpecifier,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition,
@@ -1278,17 +1326,19 @@ enabled directories can be disabled. Disabled directories may be reenabled.
 
 - `x-amz-data-partition`: The ARN of the directory to disable.
 """
-disable_directory(
+function disable_directory(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/directory/disable",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/directory/disable",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1323,8 +1373,10 @@ the directory can then be read and written to.
 
 - `x-amz-data-partition`: The ARN of the directory to enable.
 """
-enable_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function enable_directory(
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory/enable",
         Dict{String,Any}(
@@ -1333,6 +1385,7 @@ enable_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function enable_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1366,14 +1419,17 @@ Returns current applied schema version ARN, including the minor version in use.
 
 - `schema_arn`: The ARN of the applied schema.
 """
-get_applied_schema_version(SchemaArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function get_applied_schema_version(
+    SchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/getappliedschema",
         Dict{String,Any}("SchemaArn" => SchemaArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_applied_schema_version(
     SchemaArn,
     params::AbstractDict{String};
@@ -1400,8 +1456,10 @@ Retrieves metadata about a directory.
 
 - `x-amz-data-partition`: The ARN of the directory.
 """
-get_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function get_directory(
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/directory/get",
         Dict{String,Any}(
@@ -1410,6 +1468,7 @@ get_directory(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_co
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_directory(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1447,8 +1506,10 @@ applied.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Facet</a>. For more information, see <a>arns</a>.
 """
-get_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function get_facet(
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/facet",
         Dict{String,Any}(
@@ -1458,6 +1519,7 @@ get_facet(Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_facet(
     Name,
     x_amz_data_partition,
@@ -1503,22 +1565,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConsistencyLevel"`: The consistency level at which to retrieve the attributes on a
   typed link.
 """
-get_link_attributes(
+function get_link_attributes(
     AttributeNames,
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/attributes/get",
-    Dict{String,Any}(
-        "AttributeNames" => AttributeNames,
-        "TypedLinkSpecifier" => TypedLinkSpecifier,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/attributes/get",
+        Dict{String,Any}(
+            "AttributeNames" => AttributeNames,
+            "TypedLinkSpecifier" => TypedLinkSpecifier,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_link_attributes(
     AttributeNames,
     TypedLinkSpecifier,
@@ -1569,24 +1633,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level at which to retrieve the attributes on
   an object.
 """
-get_object_attributes(
+function get_object_attributes(
     AttributeNames,
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/attributes/get",
-    Dict{String,Any}(
-        "AttributeNames" => AttributeNames,
-        "ObjectReference" => ObjectReference,
-        "SchemaFacet" => SchemaFacet,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/attributes/get",
+        Dict{String,Any}(
+            "AttributeNames" => AttributeNames,
+            "ObjectReference" => ObjectReference,
+            "SchemaFacet" => SchemaFacet,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_object_attributes(
     AttributeNames,
     ObjectReference,
@@ -1634,20 +1700,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-consistency-level"`: The consistency level at which to retrieve the object
   information.
 """
-get_object_information(
+function get_object_information(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/information",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/information",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_object_information(
     ObjectReference,
     x_amz_data_partition,
@@ -1684,17 +1752,19 @@ for more information.
 
 - `x-amz-data-partition`: The ARN of the schema to retrieve.
 """
-get_schema_as_json(
+function get_schema_as_json(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/schema/json",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/schema/json",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_schema_as_json(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -1731,18 +1801,20 @@ information, see [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   schema. For more information, see <a>arns</a>.
 """
-get_typed_link_facet_information(
+function get_typed_link_facet_information(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet/get",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet/get",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_typed_link_facet_information(
     Name,
     x_amz_data_partition,
@@ -1788,14 +1860,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaArn"`: The response for `ListAppliedSchemaArns` when this parameter is used will
   list all minor version ARNs for a major version.
 """
-list_applied_schema_arns(DirectoryArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_applied_schema_arns(
+    DirectoryArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/applied",
         Dict{String,Any}("DirectoryArn" => DirectoryArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_applied_schema_arns(
     DirectoryArn,
     params::AbstractDict{String};
@@ -1831,20 +1906,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token.
 - `"x-amz-consistency-level"`: The consistency level to use for this operation.
 """
-list_attached_indices(
+function list_attached_indices(
     TargetReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/indices",
-    Dict{String,Any}(
-        "TargetReference" => TargetReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/indices",
+        Dict{String,Any}(
+            "TargetReference" => TargetReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_attached_indices(
     TargetReference,
     x_amz_data_partition,
@@ -1883,13 +1960,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_development_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_development_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/development";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_development_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1917,12 +1995,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: The state of the directories in the list. Can be either Enabled, Disabled, or
   Deleted.
 """
-list_directories(; aws_config::AbstractAWSConfig=current_aws_config()) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/directory/list";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_directories(; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/directory/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_directories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1953,18 +2033,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_facet_attributes(
+function list_facet_attributes(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/facet/attributes",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/facet/attributes",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_facet_attributes(
     Name,
     x_amz_data_partition,
@@ -2007,8 +2089,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_facet_names(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_facet_names(
+    x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/facet/list",
         Dict{String,Any}(
@@ -2017,6 +2101,7 @@ list_facet_names(x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -2067,20 +2152,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_incoming_typed_links(
+function list_incoming_typed_links(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/incoming",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/incoming",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_incoming_typed_links(
     ObjectReference,
     x_amz_data_partition,
@@ -2127,18 +2214,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RangesOnIndexedValues"`: Specifies the ranges of indexed values that you want to query.
 - `"x-amz-consistency-level"`: The consistency level to execute the request at.
 """
-list_index(
+function list_index(
     IndexReference, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/index/targets",
-    Dict{String,Any}(
-        "IndexReference" => IndexReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/index/targets",
+        Dict{String,Any}(
+            "IndexReference" => IndexReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_index(
     IndexReference,
     x_amz_data_partition,
@@ -2180,13 +2269,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaArn"`: The response for ListManagedSchemaArns. When this parameter is used, all
   minor version ARNs for a major version are listed.
 """
-list_managed_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_managed_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/managed";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_managed_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2225,20 +2315,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-list_object_attributes(
+function list_object_attributes(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/attributes",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/attributes",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_object_attributes(
     ObjectReference,
     x_amz_data_partition,
@@ -2288,20 +2380,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-list_object_children(
+function list_object_children(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/children",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/children",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_object_children(
     ObjectReference,
     x_amz_data_partition,
@@ -2355,20 +2449,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   approximate number.
 - `"NextToken"`: The pagination token.
 """
-list_object_parent_paths(
+function list_object_parent_paths(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/parentpaths",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/parentpaths",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_object_parent_paths(
     ObjectReference,
     x_amz_data_partition,
@@ -2421,20 +2517,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-list_object_parents(
+function list_object_parents(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/parent",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/parent",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_object_parents(
     ObjectReference,
     x_amz_data_partition,
@@ -2484,20 +2582,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-list_object_policies(
+function list_object_policies(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/object/policy",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/object/policy",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_object_policies(
     ObjectReference,
     x_amz_data_partition,
@@ -2551,20 +2651,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_outgoing_typed_links(
+function list_outgoing_typed_links(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/outgoing",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/outgoing",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_outgoing_typed_links(
     ObjectReference,
     x_amz_data_partition,
@@ -2613,20 +2715,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   write or update of an object is reflected in a subsequent read operation of that same
   object.
 """
-list_policy_attachments(
+function list_policy_attachments(
     PolicyReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/policy/attachment",
-    Dict{String,Any}(
-        "PolicyReference" => PolicyReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/policy/attachment",
+        Dict{String,Any}(
+            "PolicyReference" => PolicyReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_policy_attachments(
     PolicyReference,
     x_amz_data_partition,
@@ -2668,13 +2772,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaArn"`: The response for `ListPublishedSchemaArns` when this parameter is used
   will list all minor version ARNs for a major version.
 """
-list_published_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_published_schema_arns(; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/published";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_published_schema_arns(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2709,14 +2814,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. This is for future use. Currently pagination is not
   supported for tagging.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/tags",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2753,18 +2861,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_typed_link_facet_attributes(
+function list_typed_link_facet_attributes(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_typed_link_facet_attributes(
     Name,
     x_amz_data_partition,
@@ -2809,17 +2919,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to retrieve.
 - `"NextToken"`: The pagination token.
 """
-list_typed_link_facet_names(
+function list_typed_link_facet_names(
     x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet/list",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet/list",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_typed_link_facet_names(
     x_amz_data_partition,
     params::AbstractDict{String};
@@ -2868,20 +2980,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   approximate number.
 - `"NextToken"`: The token to request the next page of results.
 """
-lookup_policy(
+function lookup_policy(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/policy/lookup",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/policy/lookup",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function lookup_policy(
     ObjectReference,
     x_amz_data_partition,
@@ -2930,18 +3044,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The new name under which the schema will be published. If this is not provided,
   the development schema is considered.
 """
-publish_schema(
+function publish_schema(
     Version, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/publish",
-    Dict{String,Any}(
-        "Version" => Version,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/publish",
+        Dict{String,Any}(
+            "Version" => Version,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function publish_schema(
     Version,
     x_amz_data_partition,
@@ -2980,18 +3096,20 @@ for more information.
 - `document`: The replacement JSON schema.
 - `x-amz-data-partition`: The ARN of the schema to update.
 """
-put_schema_from_json(
+function put_schema_from_json(
     Document, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/json",
-    Dict{String,Any}(
-        "Document" => Document,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/json",
+        Dict{String,Any}(
+            "Document" => Document,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_schema_from_json(
     Document,
     x_amz_data_partition,
@@ -3029,22 +3147,24 @@ Removes the specified facet from the specified object.
 - `schema_facet`: The facet to remove. See <a>SchemaFacet</a> for details.
 - `x-amz-data-partition`: The ARN of the directory in which the object resides.
 """
-remove_facet_from_object(
+function remove_facet_from_object(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/facets/delete",
-    Dict{String,Any}(
-        "ObjectReference" => ObjectReference,
-        "SchemaFacet" => SchemaFacet,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/facets/delete",
+        Dict{String,Any}(
+            "ObjectReference" => ObjectReference,
+            "SchemaFacet" => SchemaFacet,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_facet_from_object(
     ObjectReference,
     SchemaFacet,
@@ -3084,14 +3204,15 @@ An API operation for adding tags to a resource.
   for directories.
 - `tags`: A list of tag key-value pairs.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/tags/add",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -3125,14 +3246,17 @@ An API operation for removing tags from a resource.
   for directories.
 - `tag_keys`: Keys of the tag that need to be removed from the resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    clouddirectory(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/tags/remove",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -3178,18 +3302,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ObjectType"`: The object type that is associated with the facet. See
   <a>CreateFacetRequest\$ObjectType</a> for more details.
 """
-update_facet(
+function update_facet(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/facet",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/facet",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_facet(
     Name,
     x_amz_data_partition,
@@ -3229,22 +3355,24 @@ the typed link’s identity, as defined by its `IdentityAttributeOrder`.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   Directory where the updated typed link resides. For more information, see <a>arns</a> or [Typed Links](https://docs.aws.amazon.com/clouddirectory/latest/developerguide/directory_objects_links.html#directory_objects_links_typedlink).
 """
-update_link_attributes(
+function update_link_attributes(
     AttributeUpdates,
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "POST",
-    "/amazonclouddirectory/2017-01-11/typedlink/attributes/update",
-    Dict{String,Any}(
-        "AttributeUpdates" => AttributeUpdates,
-        "TypedLinkSpecifier" => TypedLinkSpecifier,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "POST",
+        "/amazonclouddirectory/2017-01-11/typedlink/attributes/update",
+        Dict{String,Any}(
+            "AttributeUpdates" => AttributeUpdates,
+            "TypedLinkSpecifier" => TypedLinkSpecifier,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_link_attributes(
     AttributeUpdates,
     TypedLinkSpecifier,
@@ -3285,22 +3413,24 @@ Updates a given object's attributes.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   <a>Directory</a> where the object resides. For more information, see <a>arns</a>.
 """
-update_object_attributes(
+function update_object_attributes(
     AttributeUpdates,
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/object/update",
-    Dict{String,Any}(
-        "AttributeUpdates" => AttributeUpdates,
-        "ObjectReference" => ObjectReference,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/object/update",
+        Dict{String,Any}(
+            "AttributeUpdates" => AttributeUpdates,
+            "ObjectReference" => ObjectReference,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_object_attributes(
     AttributeUpdates,
     ObjectReference,
@@ -3340,18 +3470,20 @@ Updates the schema name with a new name. Only development schema names can be up
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For
   more information, see <a>arns</a>.
 """
-update_schema(
+function update_schema(
     Name, x_amz_data_partition; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/update",
-    Dict{String,Any}(
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/update",
+        Dict{String,Any}(
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_schema(
     Name,
     x_amz_data_partition,
@@ -3398,24 +3530,26 @@ Updates a <a>TypedLinkFacet</a>. For more information, see [Typed Links](https:/
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the
   schema. For more information, see <a>arns</a>.
 """
-update_typed_link_facet(
+function update_typed_link_facet(
     AttributeUpdates,
     IdentityAttributeOrder,
     Name,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/typedlink/facet",
-    Dict{String,Any}(
-        "AttributeUpdates" => AttributeUpdates,
-        "IdentityAttributeOrder" => IdentityAttributeOrder,
-        "Name" => Name,
-        "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/typedlink/facet",
+        Dict{String,Any}(
+            "AttributeUpdates" => AttributeUpdates,
+            "IdentityAttributeOrder" => IdentityAttributeOrder,
+            "Name" => Name,
+            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_typed_link_facet(
     AttributeUpdates,
     IdentityAttributeOrder,
@@ -3468,17 +3602,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not. If schema compatibility fails, an exception would be thrown else the call would
   succeed but no changes will be saved. This parameter is optional.
 """
-upgrade_applied_schema(
+function upgrade_applied_schema(
     DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/upgradeapplied",
-    Dict{String,Any}(
-        "DirectoryArn" => DirectoryArn, "PublishedSchemaArn" => PublishedSchemaArn
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/upgradeapplied",
+        Dict{String,Any}(
+            "DirectoryArn" => DirectoryArn, "PublishedSchemaArn" => PublishedSchemaArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function upgrade_applied_schema(
     DirectoryArn,
     PublishedSchemaArn,
@@ -3527,22 +3663,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   schema compatibility fails, an exception would be thrown else the call would succeed.
   This parameter is optional and defaults to false.
 """
-upgrade_published_schema(
+function upgrade_published_schema(
     DevelopmentSchemaArn,
     MinorVersion,
     PublishedSchemaArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = clouddirectory(
-    "PUT",
-    "/amazonclouddirectory/2017-01-11/schema/upgradepublished",
-    Dict{String,Any}(
-        "DevelopmentSchemaArn" => DevelopmentSchemaArn,
-        "MinorVersion" => MinorVersion,
-        "PublishedSchemaArn" => PublishedSchemaArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return clouddirectory(
+        "PUT",
+        "/amazonclouddirectory/2017-01-11/schema/upgradepublished",
+        Dict{String,Any}(
+            "DevelopmentSchemaArn" => DevelopmentSchemaArn,
+            "MinorVersion" => MinorVersion,
+            "PublishedSchemaArn" => PublishedSchemaArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function upgrade_published_schema(
     DevelopmentSchemaArn,
     MinorVersion,

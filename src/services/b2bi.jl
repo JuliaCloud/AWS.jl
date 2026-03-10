@@ -29,19 +29,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-create_capability(
+function create_capability(
     configuration, name, type; aws_config::AbstractAWSConfig=current_aws_config()
-) = b2bi(
-    "CreateCapability",
-    Dict{String,Any}(
-        "configuration" => configuration,
-        "name" => name,
-        "type" => type,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "CreateCapability",
+        Dict{String,Any}(
+            "configuration" => configuration,
+            "name" => name,
+            "type" => type,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_capability(
     configuration,
     name,
@@ -94,20 +96,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-create_partnership(
+function create_partnership(
     capabilities, email, name, profileId; aws_config::AbstractAWSConfig=current_aws_config()
-) = b2bi(
-    "CreatePartnership",
-    Dict{String,Any}(
-        "capabilities" => capabilities,
-        "email" => email,
-        "name" => name,
-        "profileId" => profileId,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "CreatePartnership",
+        Dict{String,Any}(
+            "capabilities" => capabilities,
+            "email" => email,
+            "name" => name,
+            "profileId" => profileId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_partnership(
     capabilities,
     email,
@@ -161,20 +165,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-create_profile(
+function create_profile(
     businessName, logging, name, phone; aws_config::AbstractAWSConfig=current_aws_config()
-) = b2bi(
-    "CreateProfile",
-    Dict{String,Any}(
-        "businessName" => businessName,
-        "logging" => logging,
-        "name" => name,
-        "phone" => phone,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "CreateProfile",
+        Dict{String,Any}(
+            "businessName" => businessName,
+            "logging" => logging,
+            "name" => name,
+            "phone" => phone,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_profile(
     businessName,
     logging,
@@ -232,24 +238,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-create_transformer(
+function create_transformer(
     ediType,
     fileFormat,
     mappingTemplate,
     name;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = b2bi(
-    "CreateTransformer",
-    Dict{String,Any}(
-        "ediType" => ediType,
-        "fileFormat" => fileFormat,
-        "mappingTemplate" => mappingTemplate,
-        "name" => name,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "CreateTransformer",
+        Dict{String,Any}(
+            "ediType" => ediType,
+            "fileFormat" => fileFormat,
+            "mappingTemplate" => mappingTemplate,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_transformer(
     ediType,
     fileFormat,
@@ -289,12 +297,14 @@ transform incoming EDI documents into JSON or XML outputs.
 
 - `capability_id`: Specifies a system-assigned unique identifier for the capability.
 """
-delete_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "DeleteCapability",
-    Dict{String,Any}("capabilityId" => capabilityId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "DeleteCapability",
+        Dict{String,Any}("capabilityId" => capabilityId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -321,13 +331,16 @@ your trading partner. It ties together a profile and one or more trading capabil
 
 - `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 """
-delete_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function delete_partnership(
+    partnershipId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "DeletePartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -354,12 +367,14 @@ private network.
 
 - `profile_id`: Specifies the unique, system-generated identifier for the profile.
 """
-delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "DeleteProfile",
-    Dict{String,Any}("profileId" => profileId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "DeleteProfile",
+        Dict{String,Any}("profileId" => profileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_profile(
     profileId,
     params::AbstractDict{String};
@@ -386,13 +401,16 @@ documents and extract the necessary information to the output file.
 
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 """
-delete_transformer(transformerId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function delete_transformer(
+    transformerId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "DeleteTransformer",
         Dict{String,Any}("transformerId" => transformerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_transformer(
     transformerId,
     params::AbstractDict{String};
@@ -419,12 +437,14 @@ information required to transform incoming EDI documents into JSON or XML output
 
 - `capability_id`: Specifies a system-assigned unique identifier for the capability.
 """
-get_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "GetCapability",
-    Dict{String,Any}("capabilityId" => capabilityId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "GetCapability",
+        Dict{String,Any}("capabilityId" => capabilityId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -452,12 +472,14 @@ together a profile and one or more trading capabilities.
 
 - `partnership_id`: Specifies the unique, system-generated identifier for a partnership.
 """
-get_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "GetPartnership",
-    Dict{String,Any}("partnershipId" => partnershipId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "GetPartnership",
+        Dict{String,Any}("partnershipId" => partnershipId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -484,12 +506,14 @@ mechanism used to create the concept of a private network.
 
 - `profile_id`: Specifies the unique, system-generated identifier for the profile.
 """
-get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "GetProfile",
-    Dict{String,Any}("profileId" => profileId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "GetProfile",
+        Dict{String,Any}("profileId" => profileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_profile(
     profileId,
     params::AbstractDict{String};
@@ -517,12 +541,14 @@ to the output file.
 
 - `transformer_id`: Specifies the system-assigned unique identifier for the transformer.
 """
-get_transformer(transformerId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "GetTransformer",
-    Dict{String,Any}("transformerId" => transformerId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_transformer(transformerId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "GetTransformer",
+        Dict{String,Any}("transformerId" => transformerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_transformer(
     transformerId,
     params::AbstractDict{String};
@@ -550,16 +576,18 @@ Returns the details of the transformer run, based on the Transformer job ID.
 - `transformer_job_id`: Specifies the unique, system-generated identifier for a transformer
   run.
 """
-get_transformer_job(
+function get_transformer_job(
     transformerId, transformerJobId; aws_config::AbstractAWSConfig=current_aws_config()
-) = b2bi(
-    "GetTransformerJob",
-    Dict{String,Any}(
-        "transformerId" => transformerId, "transformerJobId" => transformerJobId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "GetTransformerJob",
+        Dict{String,Any}(
+            "transformerId" => transformerId, "transformerJobId" => transformerJobId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_transformer_job(
     transformerId,
     transformerJobId,
@@ -599,8 +627,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
-list_capabilities(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi("ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_capabilities(; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi("ListCapabilities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_capabilities(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -628,8 +657,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileId"`: Specifies the unique, system-generated identifier for the profile
   connected to this partnership.
 """
-list_partnerships(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi("ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_partnerships(; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi("ListPartnerships"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_partnerships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -655,8 +685,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
-list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -678,13 +709,16 @@ resource can be a capability, partnership, profile, or transformer.
   (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a
   capability, partnership, profile, or transformer.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -716,8 +750,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the `NextToken` parameter in a
   subsequent command to continue listing additional resources.
 """
-list_transformers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi("ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_transformers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi("ListTransformers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_transformers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -751,22 +786,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"clientToken"`: Reserved for future use.
 """
-start_transformer_job(
+function start_transformer_job(
     inputFile,
     outputLocation,
     transformerId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = b2bi(
-    "StartTransformerJob",
-    Dict{String,Any}(
-        "inputFile" => inputFile,
-        "outputLocation" => outputLocation,
-        "transformerId" => transformerId,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "StartTransformerJob",
+        Dict{String,Any}(
+            "inputFile" => inputFile,
+            "outputLocation" => outputLocation,
+            "transformerId" => transformerId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_transformer_job(
     inputFile,
     outputLocation,
@@ -810,12 +847,14 @@ There is no response returned from this call.
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "TagResource",
-    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -853,21 +892,23 @@ file contents from the Amazon S3 location, and passes the contents in as a strin
 - `mapping_template`: Specifies the mapping template for the transformer. This template is
   used to map the parsed EDI file using JSONata or XSLT.
 """
-test_mapping(
+function test_mapping(
     fileFormat,
     inputFileContent,
     mappingTemplate;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = b2bi(
-    "TestMapping",
-    Dict{String,Any}(
-        "fileFormat" => fileFormat,
-        "inputFileContent" => inputFileContent,
-        "mappingTemplate" => mappingTemplate,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "TestMapping",
+        Dict{String,Any}(
+            "fileFormat" => fileFormat,
+            "inputFileContent" => inputFileContent,
+            "mappingTemplate" => mappingTemplate,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_mapping(
     fileFormat,
     inputFileContent,
@@ -910,16 +951,18 @@ limit of 250 KB.
 - `input_file`: Specifies an `S3Location` object, which contains the Amazon S3 bucket and
   prefix for the location of the input file.
 """
-test_parsing(
+function test_parsing(
     ediType, fileFormat, inputFile; aws_config::AbstractAWSConfig=current_aws_config()
-) = b2bi(
-    "TestParsing",
-    Dict{String,Any}(
-        "ediType" => ediType, "fileFormat" => fileFormat, "inputFile" => inputFile
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return b2bi(
+        "TestParsing",
+        Dict{String,Any}(
+            "ediType" => ediType, "fileFormat" => fileFormat, "inputFile" => inputFile
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function test_parsing(
     ediType,
     fileFormat,
@@ -960,13 +1003,16 @@ Name (ARN). Resources are capability, partnership, profile, transformers and oth
   search for resources by type. You can attach this metadata to resources (capabilities,
   partnerships, and so on) for any purpose.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1009,12 +1055,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bucket and the key, to identify the document's location.
 - `"name"`: Specifies a new name for the capability, to replace the existing name.
 """
-update_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "UpdateCapability",
-    Dict{String,Any}("capabilityId" => capabilityId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_capability(capabilityId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "UpdateCapability",
+        Dict{String,Any}("capabilityId" => capabilityId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_capability(
     capabilityId,
     params::AbstractDict{String};
@@ -1049,13 +1097,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"capabilities"`: List of the capabilities associated with this partnership.
 - `"name"`: The name of the partnership, used to identify it.
 """
-update_partnership(partnershipId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function update_partnership(
+    partnershipId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "UpdatePartnership",
         Dict{String,Any}("partnershipId" => partnershipId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_partnership(
     partnershipId,
     params::AbstractDict{String};
@@ -1091,12 +1142,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the profile, used to identify it.
 - `"phone"`: Specifies the phone number associated with the profile.
 """
-update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config()) = b2bi(
-    "UpdateProfile",
-    Dict{String,Any}("profileId" => profileId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_profile(profileId; aws_config::AbstractAWSConfig=current_aws_config())
+    return b2bi(
+        "UpdateProfile",
+        Dict{String,Any}("profileId" => profileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_profile(
     profileId,
     params::AbstractDict{String};
@@ -1140,13 +1193,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Specifies the transformer's status. You can update the state of the
   transformer, from `active` to `inactive`, or `inactive` to `active`.
 """
-update_transformer(transformerId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    b2bi(
+function update_transformer(
+    transformerId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return b2bi(
         "UpdateTransformer",
         Dict{String,Any}("transformerId" => transformerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_transformer(
     transformerId,
     params::AbstractDict{String};

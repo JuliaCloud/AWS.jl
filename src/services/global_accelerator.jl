@@ -31,19 +31,21 @@ operation.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group for the custom
   routing endpoint.
 """
-add_custom_routing_endpoints(
+function add_custom_routing_endpoints(
     EndpointConfigurations,
     EndpointGroupArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "AddCustomRoutingEndpoints",
-    Dict{String,Any}(
-        "EndpointConfigurations" => EndpointConfigurations,
-        "EndpointGroupArn" => EndpointGroupArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "AddCustomRoutingEndpoints",
+        Dict{String,Any}(
+            "EndpointConfigurations" => EndpointConfigurations,
+            "EndpointGroupArn" => EndpointGroupArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_custom_routing_endpoints(
     EndpointConfigurations,
     EndpointGroupArn,
@@ -91,19 +93,21 @@ in the *Global Accelerator Developer Guide*.
 - `endpoint_configurations`: The list of endpoint objects.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group.
 """
-add_endpoints(
+function add_endpoints(
     EndpointConfigurations,
     EndpointGroupArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "AddEndpoints",
-    Dict{String,Any}(
-        "EndpointConfigurations" => EndpointConfigurations,
-        "EndpointGroupArn" => EndpointGroupArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "AddEndpoints",
+        Dict{String,Any}(
+            "EndpointConfigurations" => EndpointConfigurations,
+            "EndpointGroupArn" => EndpointGroupArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_endpoints(
     EndpointConfigurations,
     EndpointGroupArn,
@@ -149,13 +153,14 @@ in the *Global Accelerator Developer Guide*.
    For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the Global Accelerator Developer Guide.
 """
-advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "AdvertiseByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function advertise_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -213,14 +218,18 @@ The default value is FALSE.
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports)
   that you want to allow to receive traffic.
 """
-allow_custom_routing_traffic(
+function allow_custom_routing_traffic(
     EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "AllowCustomRoutingTraffic",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "AllowCustomRoutingTraffic",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function allow_custom_routing_traffic(
     EndpointGroupArn,
     EndpointId,
@@ -301,14 +310,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
   in the *Global Accelerator Developer Guide*.
 """
-create_accelerator(
+function create_accelerator(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "CreateAccelerator",
-    Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateAccelerator",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_accelerator(
     IdempotencyToken,
     Name,
@@ -375,14 +386,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
   in the *Global Accelerator Developer Guide*.
 """
-create_cross_account_attachment(
+function create_cross_account_attachment(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "CreateCrossAccountAttachment",
-    Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateCrossAccountAttachment",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cross_account_attachment(
     IdempotencyToken,
     Name,
@@ -466,14 +479,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
   in the *Global Accelerator Developer Guide*.
 """
-create_custom_routing_accelerator(
+function create_custom_routing_accelerator(
     IdempotencyToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "CreateCustomRoutingAccelerator",
-    Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateCustomRoutingAccelerator",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_routing_accelerator(
     IdempotencyToken,
     Name,
@@ -512,23 +527,25 @@ endpoint group is a collection of endpoints in one Amazon Web Services Region.
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener for a custom routing
   endpoint.
 """
-create_custom_routing_endpoint_group(
+function create_custom_routing_endpoint_group(
     DestinationConfigurations,
     EndpointGroupRegion,
     IdempotencyToken,
     ListenerArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "CreateCustomRoutingEndpointGroup",
-    Dict{String,Any}(
-        "DestinationConfigurations" => DestinationConfigurations,
-        "EndpointGroupRegion" => EndpointGroupRegion,
-        "IdempotencyToken" => IdempotencyToken,
-        "ListenerArn" => ListenerArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateCustomRoutingEndpointGroup",
+        Dict{String,Any}(
+            "DestinationConfigurations" => DestinationConfigurations,
+            "EndpointGroupRegion" => EndpointGroupRegion,
+            "IdempotencyToken" => IdempotencyToken,
+            "ListenerArn" => ListenerArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_routing_endpoint_group(
     DestinationConfigurations,
     EndpointGroupRegion,
@@ -575,21 +592,23 @@ specify.
 
   Separately, you set port ranges for endpoints. For more information, see [About endpoints for custom routing accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html).
 """
-create_custom_routing_listener(
+function create_custom_routing_listener(
     AcceleratorArn,
     IdempotencyToken,
     PortRanges;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "CreateCustomRoutingListener",
-    Dict{String,Any}(
-        "AcceleratorArn" => AcceleratorArn,
-        "IdempotencyToken" => IdempotencyToken,
-        "PortRanges" => PortRanges,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateCustomRoutingListener",
+        Dict{String,Any}(
+            "AcceleratorArn" => AcceleratorArn,
+            "IdempotencyToken" => IdempotencyToken,
+            "PortRanges" => PortRanges,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_custom_routing_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -669,21 +688,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The default value is 100.
 """
-create_endpoint_group(
+function create_endpoint_group(
     EndpointGroupRegion,
     IdempotencyToken,
     ListenerArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "CreateEndpointGroup",
-    Dict{String,Any}(
-        "EndpointGroupRegion" => EndpointGroupRegion,
-        "IdempotencyToken" => IdempotencyToken,
-        "ListenerArn" => ListenerArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateEndpointGroup",
+        Dict{String,Any}(
+            "EndpointGroupRegion" => EndpointGroupRegion,
+            "IdempotencyToken" => IdempotencyToken,
+            "ListenerArn" => ListenerArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_endpoint_group(
     EndpointGroupRegion,
     IdempotencyToken,
@@ -750,23 +771,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The default value is `NONE`.
 """
-create_listener(
+function create_listener(
     AcceleratorArn,
     IdempotencyToken,
     PortRanges,
     Protocol;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "CreateListener",
-    Dict{String,Any}(
-        "AcceleratorArn" => AcceleratorArn,
-        "IdempotencyToken" => IdempotencyToken,
-        "PortRanges" => PortRanges,
-        "Protocol" => Protocol,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "CreateListener",
+        Dict{String,Any}(
+            "AcceleratorArn" => AcceleratorArn,
+            "IdempotencyToken" => IdempotencyToken,
+            "PortRanges" => PortRanges,
+            "Protocol" => Protocol,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_listener(
     AcceleratorArn,
     IdempotencyToken,
@@ -820,13 +843,16 @@ in the *Global Accelerator Developer Guide*.
 
 - `accelerator_arn`: The Amazon Resource Name (ARN) of an accelerator.
 """
-delete_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function delete_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "DeleteAccelerator",
         Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -858,14 +884,16 @@ in the * Global Accelerator Developer Guide*.
 - `attachment_arn`: The Amazon Resource Name (ARN) for the cross-account attachment to
   delete.
 """
-delete_cross_account_attachment(
+function delete_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DeleteCrossAccountAttachment",
-    Dict{String,Any}("AttachmentArn" => AttachmentArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DeleteCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -907,14 +935,16 @@ in the *Global Accelerator Developer Guide*.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the custom routing accelerator to
   delete.
 """
-delete_custom_routing_accelerator(
+function delete_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DeleteCustomRoutingAccelerator",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DeleteCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -940,14 +970,16 @@ Delete an endpoint group from a listener for a custom routing accelerator.
 
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 """
-delete_custom_routing_endpoint_group(
+function delete_custom_routing_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DeleteCustomRoutingEndpointGroup",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DeleteCustomRoutingEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_routing_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -975,14 +1007,16 @@ Delete a listener for a custom routing accelerator.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to delete.
 """
-delete_custom_routing_listener(
+function delete_custom_routing_listener(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DeleteCustomRoutingListener",
-    Dict{String,Any}("ListenerArn" => ListenerArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DeleteCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_routing_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1008,14 +1042,16 @@ Delete an endpoint group from a listener.
 
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 """
-delete_endpoint_group(
+function delete_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DeleteEndpointGroup",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DeleteEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -1043,13 +1079,14 @@ Delete a listener from an accelerator.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener.
 """
-delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function delete_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "DeleteListener",
         Dict{String,Any}("ListenerArn" => ListenerArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1109,14 +1146,18 @@ The default value is FALSE.
 - `"DestinationPorts"`: A list of specific Amazon EC2 instance ports (destination ports) in
   a subnet endpoint that you want to prevent from receiving traffic.
 """
-deny_custom_routing_traffic(
+function deny_custom_routing_traffic(
     EndpointGroupArn, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DenyCustomRoutingTraffic",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DenyCustomRoutingTraffic",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function deny_custom_routing_traffic(
     EndpointGroupArn,
     EndpointId,
@@ -1162,13 +1203,14 @@ in the *Global Accelerator Developer Guide*.
    For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the Global Accelerator Developer Guide.
 """
-deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "DeprovisionByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function deprovision_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1190,13 +1232,16 @@ Describe an accelerator.
 
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 """
-describe_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function describe_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "DescribeAccelerator",
         Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1223,14 +1268,16 @@ Describe the attributes of an accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator with the attributes
   that you want to describe.
 """
-describe_accelerator_attributes(
+function describe_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeAcceleratorAttributes",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1257,14 +1304,16 @@ Gets configuration information about a cross-account attachment.
 - `attachment_arn`: The Amazon Resource Name (ARN) for the cross-account attachment to
   describe.
 """
-describe_cross_account_attachment(
+function describe_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeCrossAccountAttachment",
-    Dict{String,Any}("AttachmentArn" => AttachmentArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -1290,14 +1339,16 @@ Describe a custom routing accelerator.
 
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 """
-describe_custom_routing_accelerator(
+function describe_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeCustomRoutingAccelerator",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1324,14 +1375,16 @@ Describe the attributes of a custom routing accelerator.
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the custom routing accelerator to
   describe the attributes for.
 """
-describe_custom_routing_accelerator_attributes(
+function describe_custom_routing_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeCustomRoutingAcceleratorAttributes",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_custom_routing_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1357,14 +1410,16 @@ Describe an endpoint group for a custom routing accelerator.
 
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 """
-describe_custom_routing_endpoint_group(
+function describe_custom_routing_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeCustomRoutingEndpointGroup",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeCustomRoutingEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_custom_routing_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -1392,14 +1447,16 @@ The description of a listener for a custom routing accelerator.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 """
-describe_custom_routing_listener(
+function describe_custom_routing_listener(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeCustomRoutingListener",
-    Dict{String,Any}("ListenerArn" => ListenerArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_custom_routing_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1425,14 +1482,16 @@ Describe an endpoint group.
 
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 """
-describe_endpoint_group(
+function describe_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "DescribeEndpointGroup",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "DescribeEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -1460,13 +1519,14 @@ Describe a listener.
 
 - `listener_arn`: The Amazon Resource Name (ARN) of the listener to describe.
 """
-describe_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function describe_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "DescribeListener",
         Dict{String,Any}("ListenerArn" => ListenerArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -1497,10 +1557,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_accelerators(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_accelerators(; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "ListAccelerators"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_accelerators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1524,9 +1585,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned `nextToken` value.
 - `"NextToken"`: The token for the next page of results.
 """
-list_byoip_cidrs(; aws_config::AbstractAWSConfig=current_aws_config()) = global_accelerator(
-    "ListByoipCidrs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_byoip_cidrs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
+        "ListByoipCidrs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_byoip_cidrs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1550,12 +1613,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_cross_account_attachments(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_cross_account_attachments(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "ListCrossAccountAttachments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_cross_account_attachments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1576,12 +1642,15 @@ List the accounts that have cross-account resources.
 For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html)
 in the * Global Accelerator Developer Guide*.
 """
-list_cross_account_resource_accounts(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_cross_account_resource_accounts(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "ListCrossAccountResourceAccounts";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_cross_account_resource_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1615,14 +1684,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_cross_account_resources(
+function list_cross_account_resources(
     ResourceOwnerAwsAccountId; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ListCrossAccountResources",
-    Dict{String,Any}("ResourceOwnerAwsAccountId" => ResourceOwnerAwsAccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ListCrossAccountResources",
+        Dict{String,Any}("ResourceOwnerAwsAccountId" => ResourceOwnerAwsAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_cross_account_resources(
     ResourceOwnerAwsAccountId,
     params::AbstractDict{String};
@@ -1657,12 +1728,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_accelerators(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_custom_routing_accelerators(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "ListCustomRoutingAccelerators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_custom_routing_accelerators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1695,14 +1769,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_endpoint_groups(
+function list_custom_routing_endpoint_groups(
     ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ListCustomRoutingEndpointGroups",
-    Dict{String,Any}("ListenerArn" => ListenerArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ListCustomRoutingEndpointGroups",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_routing_endpoint_groups(
     ListenerArn,
     params::AbstractDict{String};
@@ -1738,14 +1814,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_listeners(
+function list_custom_routing_listeners(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ListCustomRoutingListeners",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ListCustomRoutingListeners",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_routing_listeners(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1797,14 +1875,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_port_mappings(
+function list_custom_routing_port_mappings(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ListCustomRoutingPortMappings",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ListCustomRoutingPortMappings",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_routing_port_mappings(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1845,16 +1925,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_custom_routing_port_mappings_by_destination(
+function list_custom_routing_port_mappings_by_destination(
     DestinationAddress, EndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ListCustomRoutingPortMappingsByDestination",
-    Dict{String,Any}(
-        "DestinationAddress" => DestinationAddress, "EndpointId" => EndpointId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ListCustomRoutingPortMappingsByDestination",
+        Dict{String,Any}(
+            "DestinationAddress" => DestinationAddress, "EndpointId" => EndpointId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_routing_port_mappings_by_destination(
     DestinationAddress,
     EndpointId,
@@ -1896,13 +1978,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_endpoint_groups(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_endpoint_groups(
+    ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "ListEndpointGroups",
         Dict{String,Any}("ListenerArn" => ListenerArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_endpoint_groups(
     ListenerArn,
     params::AbstractDict{String};
@@ -1938,13 +2023,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_listeners(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "ListListeners",
         Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_listeners(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -1974,13 +2060,16 @@ in the *Global Accelerator Developer Guide*.
 - `resource_arn`: The Amazon Resource Name (ARN) of the accelerator to list tags for. An
   ARN uniquely identifies an accelerator.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2018,16 +2107,18 @@ in the *Global Accelerator Developer Guide*.
 - `cidr_authorization_context`: A signed document that proves that you are authorized to
   bring the specified IP address range to Amazon using BYOIP.
 """
-provision_byoip_cidr(
+function provision_byoip_cidr(
     Cidr, CidrAuthorizationContext; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "ProvisionByoipCidr",
-    Dict{String,Any}(
-        "Cidr" => Cidr, "CidrAuthorizationContext" => CidrAuthorizationContext
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "ProvisionByoipCidr",
+        Dict{String,Any}(
+            "Cidr" => Cidr, "CidrAuthorizationContext" => CidrAuthorizationContext
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function provision_byoip_cidr(
     Cidr,
     CidrAuthorizationContext,
@@ -2063,14 +2154,18 @@ Remove endpoints from a custom routing accelerator.
 - `endpoint_ids`: The IDs for the endpoints. For custom routing accelerators, endpoint IDs
   are the virtual private cloud (VPC) subnet IDs.
 """
-remove_custom_routing_endpoints(
+function remove_custom_routing_endpoints(
     EndpointGroupArn, EndpointIds; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "RemoveCustomRoutingEndpoints",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "RemoveCustomRoutingEndpoints",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn, "EndpointIds" => EndpointIds
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_custom_routing_endpoints(
     EndpointGroupArn,
     EndpointIds,
@@ -2114,19 +2209,21 @@ that remain in the group.
 - `endpoint_group_arn`: The Amazon Resource Name (ARN) of the endpoint group.
 - `endpoint_identifiers`: The identifiers of the endpoints that you want to remove.
 """
-remove_endpoints(
+function remove_endpoints(
     EndpointGroupArn,
     EndpointIdentifiers;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = global_accelerator(
-    "RemoveEndpoints",
-    Dict{String,Any}(
-        "EndpointGroupArn" => EndpointGroupArn,
-        "EndpointIdentifiers" => EndpointIdentifiers,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "RemoveEndpoints",
+        Dict{String,Any}(
+            "EndpointGroupArn" => EndpointGroupArn,
+            "EndpointIdentifiers" => EndpointIdentifiers,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_endpoints(
     EndpointGroupArn,
     EndpointIdentifiers,
@@ -2166,13 +2263,14 @@ in the *Global Accelerator Developer Guide*.
 - `tags`: The tags to add to a resource. A tag consists of a key and a value that you
   define.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2210,13 +2308,16 @@ in the *Global Accelerator Developer Guide*.
   remove tags from. An ARN uniquely identifies a resource.
 - `tag_keys`: The tag key pairs that you want to remove from the specified resources.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2279,13 +2380,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
   end with a hyphen or period.
 """
-update_accelerator(AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function update_accelerator(
+    AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return global_accelerator(
         "UpdateAccelerator",
         Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2332,14 +2436,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 s3-bucket_name//AWSLogs/aws_account_id
 """
-update_accelerator_attributes(
+function update_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateAcceleratorAttributes",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2401,14 +2507,16 @@ To add more than one resource, separate the resource ARNs with commas.
 
 To remove more than one resource, separate the resource ARNs with commas.
 """
-update_cross_account_attachment(
+function update_cross_account_attachment(
     AttachmentArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateCrossAccountAttachment",
-    Dict{String,Any}("AttachmentArn" => AttachmentArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_cross_account_attachment(
     AttachmentArn,
     params::AbstractDict{String};
@@ -2450,14 +2558,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
   end with a hyphen or period.
 """
-update_custom_routing_accelerator(
+function update_custom_routing_accelerator(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateCustomRoutingAccelerator",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateCustomRoutingAccelerator",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_custom_routing_accelerator(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2505,14 +2615,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
 """
-update_custom_routing_accelerator_attributes(
+function update_custom_routing_accelerator_attributes(
     AcceleratorArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateCustomRoutingAcceleratorAttributes",
-    Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateCustomRoutingAcceleratorAttributes",
+        Dict{String,Any}("AcceleratorArn" => AcceleratorArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_custom_routing_accelerator_attributes(
     AcceleratorArn,
     params::AbstractDict{String};
@@ -2543,14 +2655,16 @@ Update a listener for a custom routing accelerator.
 
   Separately, you set port ranges for endpoints. For more information, see [About endpoints for custom routing accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html).
 """
-update_custom_routing_listener(
+function update_custom_routing_listener(
     ListenerArn, PortRanges; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateCustomRoutingListener",
-    Dict{String,Any}("ListenerArn" => ListenerArn, "PortRanges" => PortRanges);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateCustomRoutingListener",
+        Dict{String,Any}("ListenerArn" => ListenerArn, "PortRanges" => PortRanges);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_custom_routing_listener(
     ListenerArn,
     PortRanges,
@@ -2617,14 +2731,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 The default value is 100.
 """
-update_endpoint_group(
+function update_endpoint_group(
     EndpointGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = global_accelerator(
-    "UpdateEndpointGroup",
-    Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return global_accelerator(
+        "UpdateEndpointGroup",
+        Dict{String,Any}("EndpointGroupArn" => EndpointGroupArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_endpoint_group(
     EndpointGroupArn,
     params::AbstractDict{String};
@@ -2679,13 +2795,14 @@ The default value is `NONE`.
   accelerator.
 - `"Protocol"`: The updated protocol for the connections from clients to the accelerator.
 """
-update_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function update_listener(ListenerArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "UpdateListener",
         Dict{String,Any}("ListenerArn" => ListenerArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_listener(
     ListenerArn,
     params::AbstractDict{String};
@@ -2722,13 +2839,14 @@ in the *Global Accelerator Developer Guide*.
    For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
   in the Global Accelerator Developer Guide.
 """
-withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config()) =
-    global_accelerator(
+function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=current_aws_config())
+    return global_accelerator(
         "WithdrawByoipCidr",
         Dict{String,Any}("Cidr" => Cidr);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function withdraw_byoip_cidr(
     Cidr, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

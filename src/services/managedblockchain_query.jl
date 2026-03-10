@@ -22,13 +22,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"getTokenBalanceInputs"`: An array of `BatchGetTokenBalanceInputItem` objects whose
   balance is being requested.
 """
-batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return managedblockchain_query(
         "POST",
         "/batch-get-token-balance";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function batch_get_token_balance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -57,14 +58,17 @@ available for additional contracts in the future.
 - `contract_identifier`: Contains the blockchain address and network information about the
   contract.
 """
-get_asset_contract(contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function get_asset_contract(
+    contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return managedblockchain_query(
         "POST",
         "/get-asset-contract",
         Dict{String,Any}("contractIdentifier" => contractIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_asset_contract(
     contractIdentifier,
     params::AbstractDict{String};
@@ -110,17 +114,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     This time will only be recorded up to the second.
 """
-get_token_balance(
+function get_token_balance(
     ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = managedblockchain_query(
-    "POST",
-    "/get-token-balance",
-    Dict{String,Any}(
-        "ownerIdentifier" => ownerIdentifier, "tokenIdentifier" => tokenIdentifier
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return managedblockchain_query(
+        "POST",
+        "/get-token-balance",
+        Dict{String,Any}(
+            "ownerIdentifier" => ownerIdentifier, "tokenIdentifier" => tokenIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_token_balance(
     ownerIdentifier,
     tokenIdentifier,
@@ -171,14 +177,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     `transactionId` is only supported on the Bitcoin networks.
 """
-get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config())
+    return managedblockchain_query(
         "POST",
         "/get-transaction",
         Dict{String,Any}("network" => network);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_transaction(
     network,
     params::AbstractDict{String};
@@ -223,14 +230,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-list_asset_contracts(contractFilter; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function list_asset_contracts(
+    contractFilter; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return managedblockchain_query(
         "POST",
         "/list-asset-contracts",
         Dict{String,Any}("contractFilter" => contractFilter);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_asset_contracts(
     contractFilter,
     params::AbstractDict{String};
@@ -287,17 +297,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"voutFilter"`: This container specifies filtering attributes related to BITCOIN_VOUT
   event types
 """
-list_filtered_transaction_events(
+function list_filtered_transaction_events(
     addressIdentifierFilter, network; aws_config::AbstractAWSConfig=current_aws_config()
-) = managedblockchain_query(
-    "POST",
-    "/list-filtered-transaction-events",
-    Dict{String,Any}(
-        "addressIdentifierFilter" => addressIdentifierFilter, "network" => network
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return managedblockchain_query(
+        "POST",
+        "/list-filtered-transaction-events",
+        Dict{String,Any}(
+            "addressIdentifierFilter" => addressIdentifierFilter, "network" => network
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_filtered_transaction_events(
     addressIdentifierFilter,
     network,
@@ -366,14 +378,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter the request. You must specify the `address` property of the `ownerFilter` when
   listing balances of tokens owned by the address.
 """
-list_token_balances(tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function list_token_balances(
+    tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return managedblockchain_query(
         "POST",
         "/list-token-balances",
         Dict{String,Any}("tokenFilter" => tokenFilter);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_token_balances(
     tokenFilter,
     params::AbstractDict{String};
@@ -428,14 +443,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 !!! note
     `transactionId` is only supported on the Bitcoin networks.
 """
-list_transaction_events(network; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function list_transaction_events(
+    network; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return managedblockchain_query(
         "POST",
         "/list-transaction-events",
         Dict{String,Any}("network" => network);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_transaction_events(
     network,
     params::AbstractDict{String};
@@ -485,14 +503,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: The order by which the results will be sorted.
 - `"toBlockchainInstant"`:
 """
-list_transactions(address, network; aws_config::AbstractAWSConfig=current_aws_config()) =
-    managedblockchain_query(
+function list_transactions(
+    address, network; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return managedblockchain_query(
         "POST",
         "/list-transactions",
         Dict{String,Any}("address" => address, "network" => network);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_transactions(
     address,
     network,

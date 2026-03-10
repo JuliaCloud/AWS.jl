@@ -15,13 +15,16 @@ Lists all tags that have been added to a deployment parameter resource.
 - `resource_arn`: The Amazon Resource Name (ARN) associated with the deployment parameter
   resource you want to list tags on.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    marketplace_deployment(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_deployment(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -63,23 +66,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. Tags will only be applied for create operations, and they'll be ignored if the
   resource already exists.
 """
-put_deployment_parameter(
+function put_deployment_parameter(
     agreementId,
     catalog,
     deploymentParameter,
     productId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = marketplace_deployment(
-    "POST",
-    "/catalogs/$(catalog)/products/$(productId)/deployment-parameters",
-    Dict{String,Any}(
-        "agreementId" => agreementId,
-        "deploymentParameter" => deploymentParameter,
-        "clientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return marketplace_deployment(
+        "POST",
+        "/catalogs/$(catalog)/products/$(productId)/deployment-parameters",
+        Dict{String,Any}(
+            "agreementId" => agreementId,
+            "deploymentParameter" => deploymentParameter,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_deployment_parameter(
     agreementId,
     catalog,
@@ -125,13 +130,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A map of key-value pairs, where each pair represents a tag present on the
   resource.
 """
-tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    marketplace_deployment(
+function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return marketplace_deployment(
         "POST",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -158,14 +164,17 @@ Removes a tag or list of tags from a resource.
   remove the tag from.
 - `tag_keys`: A list of key names of tags to be removed.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    marketplace_deployment(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return marketplace_deployment(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,

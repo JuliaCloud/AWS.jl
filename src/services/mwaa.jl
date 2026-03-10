@@ -14,9 +14,11 @@ Creates a CLI token for the Airflow CLI. To learn more, see [Creating an Apache 
 
 - `name`: The name of the Amazon MWAA environment. For example, `MyMWAAEnvironment`.
 """
-create_cli_token(Name; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "POST", "/clitoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_cli_token(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "POST", "/clitoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_cli_token(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -145,25 +147,27 @@ Valid values: Accepts between `2` and `5`. Defaults to `2`.
   in the following format: `DAY:HH:MM`. For example: `TUE:03:30`. You can specify a start
   time in 30 minute increments only.
 """
-create_environment(
+function create_environment(
     DagS3Path,
     ExecutionRoleArn,
     Name,
     NetworkConfiguration,
     SourceBucketArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = mwaa(
-    "PUT",
-    "/environments/$(Name)",
-    Dict{String,Any}(
-        "DagS3Path" => DagS3Path,
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "NetworkConfiguration" => NetworkConfiguration,
-        "SourceBucketArn" => SourceBucketArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return mwaa(
+        "PUT",
+        "/environments/$(Name)",
+        Dict{String,Any}(
+            "DagS3Path" => DagS3Path,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "NetworkConfiguration" => NetworkConfiguration,
+            "SourceBucketArn" => SourceBucketArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_environment(
     DagS3Path,
     ExecutionRoleArn,
@@ -203,9 +207,11 @@ Creates a web login token for the Airflow Web UI. To learn more, see [Creating a
 
 - `name`: The name of the Amazon MWAA environment. For example, `MyMWAAEnvironment`.
 """
-create_web_login_token(Name; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "POST", "/webtoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_web_login_token(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "POST", "/webtoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_web_login_token(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -228,12 +234,14 @@ Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
 - `name`: The name of the Amazon MWAA environment. For example, `MyMWAAEnvironment`.
 """
-delete_environment(Name; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "DELETE",
-    "/environments/$(Name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_environment(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "DELETE",
+        "/environments/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_environment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -256,12 +264,14 @@ Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
 - `name`: The name of the Amazon MWAA environment. For example, `MyMWAAEnvironment`.
 """
-get_environment(Name; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "GET",
-    "/environments/$(Name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_environment(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "GET",
+        "/environments/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_environment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -288,8 +298,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environments per page.
 - `"NextToken"`: Retrieves the next page of the results.
 """
-list_environments(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    mwaa("GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_environments(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -314,13 +327,16 @@ Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apa
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon MWAA environment. For
   example, `arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment`.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    mwaa(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mwaa(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -347,15 +363,17 @@ end
 - `metric_data`:  **Internal only**. Publishes metrics to Amazon CloudWatch. To learn more
   about the metrics published to Amazon CloudWatch, see [Amazon MWAA performance metrics in Amazon CloudWatch](https://docs.aws.amazon.com/mwaa/latest/userguide/cw-metrics.html).
 """
-publish_metrics(
+function publish_metrics(
     EnvironmentName, MetricData; aws_config::AbstractAWSConfig=current_aws_config()
-) = mwaa(
-    "POST",
-    "/metrics/environments/$(EnvironmentName)",
-    Dict{String,Any}("MetricData" => MetricData);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return mwaa(
+        "POST",
+        "/metrics/environments/$(EnvironmentName)",
+        Dict{String,Any}("MetricData" => MetricData);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function publish_metrics(
     EnvironmentName,
     MetricData,
@@ -387,13 +405,15 @@ environment.
 - `tags`: The key-value tag pairs you want to associate to your environment. For example,
   `"Environment": "Staging"`. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "POST",
-    "/tags/$(ResourceArn)",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -423,14 +443,17 @@ Removes key-value tag pairs associated to your Amazon Managed Workflows for Apac
 - `tag_keys`: The key-value tag pair you want to remove. For example, `"Environment":
   "Staging"`.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    mwaa(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return mwaa(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -549,12 +572,14 @@ Valid values: Accepts between `2` and `5`. Defaults to `2`.
   in the following format: `DAY:HH:MM`. For example: `TUE:03:30`. You can specify a start
   time in 30 minute increments only.
 """
-update_environment(Name; aws_config::AbstractAWSConfig=current_aws_config()) = mwaa(
-    "PATCH",
-    "/environments/$(Name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_environment(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return mwaa(
+        "PATCH",
+        "/environments/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_environment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -20,19 +20,21 @@ Associates a physical device with a placement.
 - `project_name`: The name of the project containing the placement in which to associate
   the device.
 """
-associate_device_with_placement(
+function associate_device_with_placement(
     deviceId,
     deviceTemplateName,
     placementName,
     projectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot_1click_projects(
-    "PUT",
-    "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)",
-    Dict{String,Any}("deviceId" => deviceId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "PUT",
+        "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)",
+        Dict{String,Any}("deviceId" => deviceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_device_with_placement(
     deviceId,
     deviceTemplateName,
@@ -70,15 +72,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: Optional user-defined key/value pairs providing contextual data (such as
   location or function) for the placement.
 """
-create_placement(
+function create_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_1click_projects(
-    "POST",
-    "/projects/$(projectName)/placements",
-    Dict{String,Any}("placementName" => placementName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "POST",
+        "/projects/$(projectName)/placements",
+        Dict{String,Any}("placementName" => placementName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_placement(
     placementName,
     projectName,
@@ -119,14 +123,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Optional tags (metadata key/value pairs) to be associated with the project. For
   example, `{ {"key1": "value1", "key2": "value2"} }`. For more information, see [AWS Tagging Strategies](https://aws.amazon.com/answers/account-management/aws-tagging-strategies/).
 """
-create_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function create_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "POST",
         "/projects",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_project(
     projectName,
     params::AbstractDict{String};
@@ -158,14 +163,16 @@ it.
 - `placement_name`: The name of the empty placement to delete.
 - `project_name`: The project containing the empty placement to delete.
 """
-delete_placement(
+function delete_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_1click_projects(
-    "DELETE",
-    "/projects/$(projectName)/placements/$(placementName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "DELETE",
+        "/projects/$(projectName)/placements/$(placementName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_placement(
     placementName,
     projectName,
@@ -194,13 +201,14 @@ Deletes a project. To delete a project, it must not have any placements associat
 
 - `project_name`: The name of the empty project to delete.
 """
-delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "DELETE",
         "/projects/$(projectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_project(
     projectName,
     params::AbstractDict{String};
@@ -226,14 +234,16 @@ Describes a placement in a project.
 - `placement_name`: The name of the placement within a project.
 - `project_name`: The project containing the placement to be described.
 """
-describe_placement(
+function describe_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_1click_projects(
-    "GET",
-    "/projects/$(projectName)/placements/$(placementName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "GET",
+        "/projects/$(projectName)/placements/$(placementName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_placement(
     placementName,
     projectName,
@@ -259,13 +269,14 @@ Returns an object describing a project.
 
 - `project_name`: The name of the project to be described.
 """
-describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "GET",
         "/projects/$(projectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_project(
     projectName,
     params::AbstractDict{String};
@@ -292,17 +303,19 @@ Removes a physical device from a placement.
 - `placement_name`: The name of the placement that the device should be removed from.
 - `project_name`: The name of the project that contains the placement.
 """
-disassociate_device_from_placement(
+function disassociate_device_from_placement(
     deviceTemplateName,
     placementName,
     projectName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = iot_1click_projects(
-    "DELETE",
-    "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "DELETE",
+        "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_device_from_placement(
     deviceTemplateName,
     placementName,
@@ -330,14 +343,16 @@ Returns an object enumerating the devices in a placement.
 - `placement_name`: The name of the placement to get the devices from.
 - `project_name`: The name of the project containing the placement.
 """
-get_devices_in_placement(
+function get_devices_in_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_1click_projects(
-    "GET",
-    "/projects/$(projectName)/placements/$(placementName)/devices";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "GET",
+        "/projects/$(projectName)/placements/$(placementName)/devices";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_devices_in_placement(
     placementName,
     projectName,
@@ -371,13 +386,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
-list_placements(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function list_placements(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "GET",
         "/projects/$(projectName)/placements";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_placements(
     projectName,
     params::AbstractDict{String};
@@ -406,9 +422,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default value of 100 is used.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
-list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = iot_1click_projects(
-    "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
+        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -427,13 +445,16 @@ Lists the tags (metadata key/value pairs) which you have assigned to the resourc
 
 - `resource_arn`: The ARN of the resource whose tags you want to list.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot_1click_projects(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -461,14 +482,15 @@ used to manage a resource. For more information, see [AWS Tagging Strategies](ht
 - `tags`: The new or modifying tag(s) for the resource. See [AWS IoT 1-Click Service Limits](https://docs.aws.amazon.com/iot-1-click/latest/developerguide/1click-appendix.html#1click-limits)
   for the maximum number of tags allowed per resource.
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -495,14 +517,17 @@ Removes one or more tags (metadata key/value pairs) from a resource.
 - `resource_arn`: The ARN of the resource whose tag you want to remove.
 - `tag_keys`: The keys of those tags which you want to remove.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iot_1click_projects(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -537,14 +562,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"attributes"`: The user-defined object of attributes used to update the placement. The
   maximum number of key/value pairs is 50.
 """
-update_placement(
+function update_placement(
     placementName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iot_1click_projects(
-    "PUT",
-    "/projects/$(projectName)/placements/$(placementName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iot_1click_projects(
+        "PUT",
+        "/projects/$(projectName)/placements/$(placementName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_placement(
     placementName,
     projectName,
@@ -583,13 +610,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `placementTemplate`, you can update the associated `callbackOverrides` for the device
   definition using this API.
 """
-update_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iot_1click_projects(
+function update_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
+    return iot_1click_projects(
         "PUT",
         "/projects/$(projectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_project(
     projectName,
     params::AbstractDict{String};

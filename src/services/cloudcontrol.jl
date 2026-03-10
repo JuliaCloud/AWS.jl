@@ -19,13 +19,16 @@ canceled.
 - `request_token`: The `RequestToken` of the `ProgressEvent` object returned by the
   resource operation request.
 """
-cancel_resource_request(RequestToken; aws_config::AbstractAWSConfig=current_aws_config()) =
-    cloudcontrol(
+function cancel_resource_request(
+    RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudcontrol(
         "CancelResourceRequest",
         Dict{String,Any}("RequestToken" => RequestToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function cancel_resource_request(
     RequestToken,
     params::AbstractDict{String};
@@ -100,18 +103,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-create_resource(
+function create_resource(
     DesiredState, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = cloudcontrol(
-    "CreateResource",
-    Dict{String,Any}(
-        "DesiredState" => DesiredState,
-        "TypeName" => TypeName,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return cloudcontrol(
+        "CreateResource",
+        Dict{String,Any}(
+            "DesiredState" => DesiredState,
+            "TypeName" => TypeName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_resource(
     DesiredState,
     TypeName,
@@ -196,8 +201,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-delete_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    cloudcontrol(
+function delete_resource(
+    Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudcontrol(
         "DeleteResource",
         Dict{String,Any}(
             "Identifier" => Identifier,
@@ -207,6 +214,7 @@ delete_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_resource(
     Identifier,
     TypeName,
@@ -278,13 +286,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-get_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    cloudcontrol(
+function get_resource(
+    Identifier, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return cloudcontrol(
         "GetResource",
         Dict{String,Any}("Identifier" => Identifier, "TypeName" => TypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource(
     Identifier,
     TypeName,
@@ -320,14 +331,16 @@ in the *Amazon Web Services Cloud Control API User Guide*.
   Request tokens are included in the `ProgressEvent` type returned by a resource operation
   request.
 """
-get_resource_request_status(
+function get_resource_request_status(
     RequestToken; aws_config::AbstractAWSConfig=current_aws_config()
-) = cloudcontrol(
-    "GetResourceRequestStatus",
-    Dict{String,Any}("RequestToken" => RequestToken);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return cloudcontrol(
+        "GetResourceRequestStatus",
+        Dict{String,Any}("RequestToken" => RequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_resource_request_status(
     RequestToken,
     params::AbstractDict{String};
@@ -371,9 +384,11 @@ The default is `20`.
   object's `NextToken` parameter is set to `null`.
 - `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
 """
-list_resource_requests(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudcontrol(
-    "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_resource_requests(; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudcontrol(
+        "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_resource_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -426,12 +441,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-list_resources(TypeName; aws_config::AbstractAWSConfig=current_aws_config()) = cloudcontrol(
-    "ListResources",
-    Dict{String,Any}("TypeName" => TypeName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_resources(TypeName; aws_config::AbstractAWSConfig=current_aws_config())
+    return cloudcontrol(
+        "ListResources",
+        Dict{String,Any}("TypeName" => TypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_resources(
     TypeName,
     params::AbstractDict{String};
@@ -521,19 +538,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-update_resource(
+function update_resource(
     Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=current_aws_config()
-) = cloudcontrol(
-    "UpdateResource",
-    Dict{String,Any}(
-        "Identifier" => Identifier,
-        "PatchDocument" => PatchDocument,
-        "TypeName" => TypeName,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return cloudcontrol(
+        "UpdateResource",
+        Dict{String,Any}(
+            "Identifier" => Identifier,
+            "PatchDocument" => PatchDocument,
+            "TypeName" => TypeName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_resource(
     Identifier,
     PatchDocument,

@@ -16,18 +16,20 @@ This operation clones an existing backend.
 - `backend_environment_name`: The name of the backend environment.
 - `target_environment_name`: The name of the destination backend environment to be created.
 """
-clone_backend(
+function clone_backend(
     appId,
     backendEnvironmentName,
     targetEnvironmentName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/environments/$(backendEnvironmentName)/clone",
-    Dict{String,Any}("targetEnvironmentName" => targetEnvironmentName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/environments/$(backendEnvironmentName)/clone",
+        Dict{String,Any}("targetEnvironmentName" => targetEnvironmentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function clone_backend(
     appId,
     backendEnvironmentName,
@@ -70,22 +72,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceConfig"`: The resource configuration for creating a backend.
 - `"resourceName"`: The name of the resource.
 """
-create_backend(
+function create_backend(
     appId,
     appName,
     backendEnvironmentName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend",
-    Dict{String,Any}(
-        "appId" => appId,
-        "appName" => appName,
-        "backendEnvironmentName" => backendEnvironmentName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend",
+        Dict{String,Any}(
+            "appId" => appId,
+            "appName" => appName,
+            "backendEnvironmentName" => backendEnvironmentName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_backend(
     appId,
     appName,
@@ -125,23 +129,25 @@ Creates a new backend API resource.
 - `resource_config`: The resource configuration for this request.
 - `resource_name`: The name of this resource.
 """
-create_backend_api(
+function create_backend_api(
     appId,
     backendEnvironmentName,
     resourceConfig,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api",
-    Dict{String,Any}(
-        "backendEnvironmentName" => backendEnvironmentName,
-        "resourceConfig" => resourceConfig,
-        "resourceName" => resourceName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api",
+        Dict{String,Any}(
+            "backendEnvironmentName" => backendEnvironmentName,
+            "resourceConfig" => resourceConfig,
+            "resourceName" => resourceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_backend_api(
     appId,
     backendEnvironmentName,
@@ -182,23 +188,25 @@ Creates a new backend authentication resource.
 - `resource_config`: The resource configuration for this request object.
 - `resource_name`: The name of this resource.
 """
-create_backend_auth(
+function create_backend_auth(
     appId,
     backendEnvironmentName,
     resourceConfig,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/auth",
-    Dict{String,Any}(
-        "backendEnvironmentName" => backendEnvironmentName,
-        "resourceConfig" => resourceConfig,
-        "resourceName" => resourceName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/auth",
+        Dict{String,Any}(
+            "backendEnvironmentName" => backendEnvironmentName,
+            "resourceConfig" => resourceConfig,
+            "resourceName" => resourceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_backend_auth(
     appId,
     backendEnvironmentName,
@@ -242,13 +250,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"backendManagerAppId"`: The app ID for the backend manager.
 """
-create_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function create_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "POST",
         "/backend/$(appId)/config";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -274,23 +283,25 @@ Creates a backend storage resource.
 - `resource_config`: The resource configuration for creating backend storage.
 - `resource_name`: The name of the storage resource.
 """
-create_backend_storage(
+function create_backend_storage(
     appId,
     backendEnvironmentName,
     resourceConfig,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/storage",
-    Dict{String,Any}(
-        "backendEnvironmentName" => backendEnvironmentName,
-        "resourceConfig" => resourceConfig,
-        "resourceName" => resourceName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage",
+        Dict{String,Any}(
+            "backendEnvironmentName" => backendEnvironmentName,
+            "resourceConfig" => resourceConfig,
+            "resourceName" => resourceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_backend_storage(
     appId,
     backendEnvironmentName,
@@ -328,12 +339,14 @@ Generates a one-time challenge code to authenticate a user into your Amplify Adm
 
 - `app_id`: The app ID.
 """
-create_token(appId; aws_config::AbstractAWSConfig=current_aws_config()) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/challenge";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_token(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/challenge";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_token(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -357,14 +370,16 @@ Removes an existing environment from your Amplify project.
 - `app_id`: The app ID.
 - `backend_environment_name`: The name of the backend environment.
 """
-delete_backend(
+function delete_backend(
     appId, backendEnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/environments/$(backendEnvironmentName)/remove";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/environments/$(backendEnvironmentName)/remove";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_backend(
     appId,
     backendEnvironmentName,
@@ -399,18 +414,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
-delete_backend_api(
+function delete_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api/$(backendEnvironmentName)/remove",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api/$(backendEnvironmentName)/remove",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_backend_api(
     appId,
     backendEnvironmentName,
@@ -441,18 +458,20 @@ Deletes an existing backend authentication resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 """
-delete_backend_auth(
+function delete_backend_auth(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/auth/$(backendEnvironmentName)/remove",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/auth/$(backendEnvironmentName)/remove",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_backend_auth(
     appId,
     backendEnvironmentName,
@@ -484,19 +503,21 @@ Removes the specified backend storage resource.
 - `resource_name`: The name of the storage resource.
 - `service_name`: The name of the storage service.
 """
-delete_backend_storage(
+function delete_backend_storage(
     appId,
     backendEnvironmentName,
     resourceName,
     serviceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
-    Dict{String,Any}("resourceName" => resourceName, "serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/remove",
+        Dict{String,Any}("resourceName" => resourceName, "serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_backend_storage(
     appId,
     backendEnvironmentName,
@@ -533,13 +554,14 @@ Deletes the challenge token based on the given appId and sessionId.
 - `app_id`: The app ID.
 - `session_id`: The session ID.
 """
-delete_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function delete_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "POST",
         "/backend/$(appId)/challenge/$(sessionId)/remove";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_token(
     appId,
     sessionId,
@@ -567,18 +589,20 @@ Generates a model schema for an existing backend API resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 """
-generate_backend_apimodels(
+function generate_backend_apimodels(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api/$(backendEnvironmentName)/generateModels",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api/$(backendEnvironmentName)/generateModels",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function generate_backend_apimodels(
     appId,
     backendEnvironmentName,
@@ -613,12 +637,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"backendEnvironmentName"`: The name of the backend environment.
 """
-get_backend(appId; aws_config::AbstractAWSConfig=current_aws_config()) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/details";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_backend(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/details";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -650,18 +676,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
-get_backend_api(
+function get_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api/$(backendEnvironmentName)/details",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api/$(backendEnvironmentName)/details",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend_api(
     appId,
     backendEnvironmentName,
@@ -692,18 +720,20 @@ Gets a model introspection schema for an existing backend API resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 """
-get_backend_apimodels(
+function get_backend_apimodels(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api/$(backendEnvironmentName)/getModels",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api/$(backendEnvironmentName)/getModels",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend_apimodels(
     appId,
     backendEnvironmentName,
@@ -734,18 +764,20 @@ Gets a backend auth details.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of this resource.
 """
-get_backend_auth(
+function get_backend_auth(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/auth/$(backendEnvironmentName)/details",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/auth/$(backendEnvironmentName)/details",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend_auth(
     appId,
     backendEnvironmentName,
@@ -776,14 +808,16 @@ Returns information about a specific job.
 - `backend_environment_name`: The name of the backend environment.
 - `job_id`: The ID for the job.
 """
-get_backend_job(
+function get_backend_job(
     appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=current_aws_config()
-) = amplifybackend(
-    "GET",
-    "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "GET",
+        "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend_job(
     appId,
     backendEnvironmentName,
@@ -812,18 +846,20 @@ Gets details for a backend storage resource.
 - `backend_environment_name`: The name of the backend environment.
 - `resource_name`: The name of the storage resource.
 """
-get_backend_storage(
+function get_backend_storage(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/details",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_backend_storage(
     appId,
     backendEnvironmentName,
@@ -853,13 +889,14 @@ Gets the challenge token based on the given appId and sessionId.
 - `app_id`: The app ID.
 - `session_id`: The session ID.
 """
-get_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function get_token(appId, sessionId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "GET",
         "/backend/$(appId)/challenge/$(sessionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_token(
     appId,
     sessionId,
@@ -895,24 +932,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"identityPoolId"`: The ID of the Amazon Cognito identity pool.
 """
-import_backend_auth(
+function import_backend_auth(
     appId,
     backendEnvironmentName,
     nativeClientId,
     userPoolId,
     webClientId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/auth/$(backendEnvironmentName)/import",
-    Dict{String,Any}(
-        "nativeClientId" => nativeClientId,
-        "userPoolId" => userPoolId,
-        "webClientId" => webClientId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/auth/$(backendEnvironmentName)/import",
+        Dict{String,Any}(
+            "nativeClientId" => nativeClientId,
+            "userPoolId" => userPoolId,
+            "webClientId" => webClientId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_backend_auth(
     appId,
     backendEnvironmentName,
@@ -959,18 +998,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"bucketName"`: The name of the S3 bucket.
 """
-import_backend_storage(
+function import_backend_storage(
     appId,
     backendEnvironmentName,
     serviceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
-    Dict{String,Any}("serviceName" => serviceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)/import",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_backend_storage(
     appId,
     backendEnvironmentName,
@@ -1012,14 +1053,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Filters the list of response objects to include only those with the specified
   status.
 """
-list_backend_jobs(
+function list_backend_jobs(
     appId, backendEnvironmentName; aws_config::AbstractAWSConfig=current_aws_config()
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/job/$(backendEnvironmentName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/job/$(backendEnvironmentName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_backend_jobs(
     appId,
     backendEnvironmentName,
@@ -1047,9 +1090,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: Reserved for future use.
 """
-list_s3_buckets(; aws_config::AbstractAWSConfig=current_aws_config()) = amplifybackend(
-    "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_s3_buckets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
+        "POST", "/s3Buckets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_s3_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1074,13 +1119,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"cleanAmplifyApp"`: Cleans up the Amplify Console app if this value is set to true.
 """
-remove_all_backends(appId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function remove_all_backends(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "POST",
         "/backend/$(appId)/remove";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function remove_all_backends(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1103,13 +1149,14 @@ Removes the AWS resources required to access the Amplify Admin UI.
 
 - `app_id`: The app ID.
 """
-remove_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function remove_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "POST",
         "/backend/$(appId)/config/remove";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function remove_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1141,18 +1188,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceConfig"`: Defines the resource configuration for the data model in your Amplify
   project.
 """
-update_backend_api(
+function update_backend_api(
     appId,
     backendEnvironmentName,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/api/$(backendEnvironmentName)",
-    Dict{String,Any}("resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/api/$(backendEnvironmentName)",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_backend_api(
     appId,
     backendEnvironmentName,
@@ -1184,19 +1233,23 @@ Updates an existing backend authentication resource.
 - `resource_config`: The resource configuration for this request object.
 - `resource_name`: The name of this resource.
 """
-update_backend_auth(
+function update_backend_auth(
     appId,
     backendEnvironmentName,
     resourceConfig,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/auth/$(backendEnvironmentName)",
-    Dict{String,Any}("resourceConfig" => resourceConfig, "resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/auth/$(backendEnvironmentName)",
+        Dict{String,Any}(
+            "resourceConfig" => resourceConfig, "resourceName" => resourceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_backend_auth(
     appId,
     backendEnvironmentName,
@@ -1238,13 +1291,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"loginAuthConfig"`: Describes the Amazon Cognito configuration for Admin UI access.
 """
-update_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    amplifybackend(
+function update_backend_config(appId; aws_config::AbstractAWSConfig=current_aws_config())
+    return amplifybackend(
         "POST",
         "/backend/$(appId)/config/update";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_backend_config(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1278,14 +1332,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: Filters the list of response objects to include only those with the specified
   status.
 """
-update_backend_job(
+function update_backend_job(
     appId, backendEnvironmentName, jobId; aws_config::AbstractAWSConfig=current_aws_config()
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/job/$(backendEnvironmentName)/$(jobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_backend_job(
     appId,
     backendEnvironmentName,
@@ -1315,19 +1371,23 @@ Updates an existing backend storage resource.
 - `resource_config`: The resource configuration for updating backend storage.
 - `resource_name`: The name of the storage resource.
 """
-update_backend_storage(
+function update_backend_storage(
     appId,
     backendEnvironmentName,
     resourceConfig,
     resourceName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = amplifybackend(
-    "POST",
-    "/backend/$(appId)/storage/$(backendEnvironmentName)",
-    Dict{String,Any}("resourceConfig" => resourceConfig, "resourceName" => resourceName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return amplifybackend(
+        "POST",
+        "/backend/$(appId)/storage/$(backendEnvironmentName)",
+        Dict{String,Any}(
+            "resourceConfig" => resourceConfig, "resourceName" => resourceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_backend_storage(
     appId,
     backendEnvironmentName,

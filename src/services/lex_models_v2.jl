@@ -20,19 +20,21 @@ Create a batch of custom vocabulary items for a given bot locale's custom vocabu
 - `locale_id`: The identifier of the language and locale where this custom vocabulary is
   used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-batch_create_custom_vocabulary_item(
+function batch_create_custom_vocabulary_item(
     botId,
     botVersion,
     customVocabularyItemList,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
-    Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_create_custom_vocabulary_item(
     botId,
     botVersion,
@@ -72,19 +74,21 @@ Delete a batch of custom vocabulary items for a given bot locale's custom vocabu
 - `locale_id`: The identifier of the language and locale where this custom vocabulary is
   used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-batch_delete_custom_vocabulary_item(
+function batch_delete_custom_vocabulary_item(
     botId,
     botVersion,
     customVocabularyItemList,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
-    Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_delete_custom_vocabulary_item(
     botId,
     botVersion,
@@ -124,19 +128,21 @@ Update a batch of custom vocabulary items for a given bot locale's custom vocabu
 - `locale_id`: The identifier of the language and locale where this custom vocabulary is
   used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-batch_update_custom_vocabulary_item(
+function batch_update_custom_vocabulary_item(
     botId,
     botVersion,
     customVocabularyItemList,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
-    Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_update_custom_vocabulary_item(
     botId,
     botVersion,
@@ -178,14 +184,16 @@ into multiple locales. At runtime the locale is used to choose a specific build 
   string must match one of the supported locales. All of the intents, slot types, and slots
   used in the bot must have the same locale. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-build_bot_locale(
+function build_bot_locale(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function build_bot_locale(
     botId,
     botVersion,
@@ -240,24 +248,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags when you create a bot. You can't use the `UpdateAlias` operation to update tags. To
   update tags on the test alias, use the `TagResource` operation.
 """
-create_bot(
+function create_bot(
     botName,
     dataPrivacy,
     idleSessionTTLInSeconds,
     roleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/",
-    Dict{String,Any}(
-        "botName" => botName,
-        "dataPrivacy" => dataPrivacy,
-        "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/",
+        Dict{String,Any}(
+            "botName" => botName,
+            "dataPrivacy" => dataPrivacy,
+            "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_bot(
     botName,
     dataPrivacy,
@@ -321,14 +331,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an alias, you can't use the `UpdateBotAlias` operation to update the tags on a bot alias.
   To update tags, use the `TagResource` operation.
 """
-create_bot_alias(botAliasName, botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function create_bot_alias(
+    botAliasName, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botaliases/",
         Dict{String,Any}("botAliasName" => botAliasName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_bot_alias(
     botAliasName,
     botId,
@@ -385,22 +398,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"voiceSettings"`: The Amazon Polly voice ID that Amazon Lex uses for voice interaction
   with the user.
 """
-create_bot_locale(
+function create_bot_locale(
     botId,
     botVersion,
     localeId,
     nluIntentConfidenceThreshold;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
-    Dict{String,Any}(
-        "localeId" => localeId,
-        "nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
+        Dict{String,Any}(
+            "localeId" => localeId,
+            "nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_bot_locale(
     botId,
     botVersion,
@@ -440,15 +455,17 @@ Action to create a replication of the source bot in the secondary region.
 - `replica_region`: The request for the secondary region that will be used in the
   replication of the source bot.
 """
-create_bot_replica(
+function create_bot_replica(
     botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/replicas/",
-    Dict{String,Any}("replicaRegion" => replicaRegion);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/replicas/",
+        Dict{String,Any}("replicaRegion" => replicaRegion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_bot_replica(
     botId,
     replicaRegion,
@@ -491,15 +508,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the version. Use the description to help identify the
   version in lists.
 """
-create_bot_version(
+function create_bot_version(
     botId, botVersionLocaleSpecification; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/",
-    Dict{String,Any}("botVersionLocaleSpecification" => botVersionLocaleSpecification);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/",
+        Dict{String,Any}("botVersionLocaleSpecification" => botVersionLocaleSpecification);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_bot_version(
     botId,
     botVersionLocaleSpecification,
@@ -550,17 +569,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optional, but you should encrypt the archive to protect the data in transit between
   Amazon Lex and your local computer.
 """
-create_export(
+function create_export(
     fileFormat, resourceSpecification; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/exports/",
-    Dict{String,Any}(
-        "fileFormat" => fileFormat, "resourceSpecification" => resourceSpecification
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/exports/",
+        Dict{String,Any}(
+            "fileFormat" => fileFormat, "resourceSpecification" => resourceSpecification
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_export(
     fileFormat,
     resourceSpecification,
@@ -688,19 +709,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where
   they should be displayed in the utterance shown to the user..
 """
-create_intent(
+function create_intent(
     botId,
     botVersion,
     intentName,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
-    Dict{String,Any}("intentName" => intentName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
+        Dict{String,Any}("intentName" => intentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_intent(
     botId,
     botVersion,
@@ -737,15 +760,17 @@ If the policy isn't valid, Amazon Lex returns a validation exception.
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   policy is attached to.
 """
-create_resource_policy(
+function create_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/policy/$(resourceArn)/",
-    Dict{String,Any}("policy" => policy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/policy/$(resourceArn)/",
+        Dict{String,Any}("policy" => policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_resource_policy(
     policy,
     resourceArn,
@@ -801,25 +826,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify a revision, Amazon Lex overwrites the contents of the policy with
   the new values.
 """
-create_resource_policy_statement(
+function create_resource_policy_statement(
     action,
     effect,
     principal,
     resourceArn,
     statementId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/policy/$(resourceArn)/statements/",
-    Dict{String,Any}(
-        "action" => action,
-        "effect" => effect,
-        "principal" => principal,
-        "statementId" => statementId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/policy/$(resourceArn)/statements/",
+        Dict{String,Any}(
+            "action" => action,
+            "effect" => effect,
+            "principal" => principal,
+            "statementId" => statementId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_resource_policy_statement(
     action,
     effect,
@@ -892,7 +919,7 @@ The default is to obfuscate values in the CloudWatch logs.
 - `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
   the composite slot.
 """
-create_slot(
+function create_slot(
     botId,
     botVersion,
     intentId,
@@ -900,15 +927,17 @@ create_slot(
     slotName,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
-    Dict{String,Any}(
-        "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
+        Dict{String,Any}(
+            "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_slot(
     botId,
     botVersion,
@@ -982,19 +1011,21 @@ Only `AMAZON.AlphaNumeric` is supported.
   If you don't specify the `valueSelectionSetting` parameter, the default is
   `ORIGINAL_VALUE`.
 """
-create_slot_type(
+function create_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
-    Dict{String,Any}("slotTypeName" => slotTypeName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
+        Dict{String,Any}("slotTypeName" => slotTypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_slot_type(
     botId,
     botVersion,
@@ -1025,15 +1056,17 @@ Create a report that describes the differences between the bot and the test set.
 - `target`: The target bot for the test set discrepancy report.
 - `test_set_id`: The test set Id for the test set discrepancy report.
 """
-create_test_set_discrepancy_report(
+function create_test_set_discrepancy_report(
     target, testSetId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/testsets/$(testSetId)/testsetdiscrepancy",
-    Dict{String,Any}("target" => target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testsetdiscrepancy",
+        Dict{String,Any}("target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_test_set_discrepancy_report(
     target,
     testSetId,
@@ -1056,9 +1089,11 @@ end
 Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot
 or a bot locale.
 """
-create_upload_url(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function create_upload_url(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_upload_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1099,9 +1134,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to `true` to skip this check and remove the bot even if it is being used by
   another resource.
 """
-delete_bot(botId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function delete_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1135,13 +1172,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter to `true` to skip this check and remove the alias even if it is being used
   by another resource.
 """
-delete_bot_alias(botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function delete_bot_alias(
+    botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botaliases/$(botAliasId)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_bot_alias(
     botAliasId,
     botId,
@@ -1173,14 +1213,16 @@ also deleted.
 - `locale_id`: The identifier of the language and locale that will be deleted. The string
   must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-delete_bot_locale(
+function delete_bot_locale(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_bot_locale(
     botId,
     botVersion,
@@ -1208,14 +1250,16 @@ The action to delete the replicated bot in the secondary region.
 - `bot_id`: The unique ID of the replicated bot to be deleted from the secondary region
 - `replica_region`: The secondary region of the replicated bot that will be deleted.
 """
-delete_bot_replica(
+function delete_bot_replica(
     botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/replicas/$(replicaRegion)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/replicas/$(replicaRegion)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_bot_replica(
     botId,
     replicaRegion,
@@ -1253,13 +1297,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter to `true` to skip this check and remove the version even if it is being
   used by another resource.
 """
-delete_bot_version(botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function delete_bot_version(
+    botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_bot_version(
     botId,
     botVersion,
@@ -1288,14 +1335,16 @@ Removes a custom vocabulary from the specified locale in the specified bot.
 - `locale_id`: The locale identifier for the locale that contains the custom vocabulary to
   remove.
 """
-delete_custom_vocabulary(
+function delete_custom_vocabulary(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_custom_vocabulary(
     botId,
     botVersion,
@@ -1322,12 +1371,14 @@ Removes a previous export and the associated files stored in an S3 bucket.
 
 - `export_id`: The unique identifier of the export to delete.
 """
-delete_export(exportId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "DELETE",
-    "/exports/$(exportId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "DELETE",
+        "/exports/$(exportId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_export(
     exportId,
     params::AbstractDict{String};
@@ -1352,12 +1403,14 @@ Removes a previous import and the associated file stored in an S3 bucket.
 
 - `import_id`: The unique identifier of the import to delete.
 """
-delete_import(importId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "DELETE",
-    "/imports/$(importId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "DELETE",
+        "/imports/$(importId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_import(
     importId,
     params::AbstractDict{String};
@@ -1388,18 +1441,20 @@ Deleting an intent also deletes the slots associated with the intent.
 - `locale_id`: The identifier of the language and locale where the bot will be deleted. The
   string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-delete_intent(
+function delete_intent(
     botId,
     botVersion,
     intentId,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_intent(
     botId,
     botVersion,
@@ -1438,13 +1493,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If you don't specify a revision ID, Amazon Lex will delete the current policy.
 """
-delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function delete_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "DELETE",
         "/policy/$(resourceArn)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1488,14 +1546,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify a revision, Amazon Lex removes the current contents of the
   statement.
 """
-delete_resource_policy_statement(
+function delete_resource_policy_statement(
     resourceArn, statementId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "DELETE",
-    "/policy/$(resourceArn)/statements/$(statementId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/policy/$(resourceArn)/statements/$(statementId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_resource_policy_statement(
     resourceArn,
     statementId,
@@ -1526,19 +1586,21 @@ Deletes the specified slot from an intent.
   from. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_id`: The identifier of the slot to delete.
 """
-delete_slot(
+function delete_slot(
     botId,
     botVersion,
     intentId,
     localeId,
     slotId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_slot(
     botId,
     botVersion,
@@ -1583,18 +1645,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the `skipResourceInUseCheck` parameter to `true` to skip this check and remove the slot
   type even if a slot uses it.
 """
-delete_slot_type(
+function delete_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "DELETE",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "DELETE",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_slot_type(
     botId,
     botVersion,
@@ -1622,13 +1686,14 @@ The action to delete the selected test set.
 
 - `test_set_id`: The test set Id of the test set to be deleted.
 """
-delete_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function delete_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "DELETE",
         "/testsets/$(testSetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_test_set(
     testSetId,
     params::AbstractDict{String};
@@ -1674,13 +1739,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and [RecognizeUtterance](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_RecognizeUtterance.html)
   operations.
 """
-delete_utterances(botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function delete_utterances(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/utterances/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_utterances(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1703,9 +1769,11 @@ Provides metadata information about a bot.
 
 - `bot_id`: The unique identifier of the bot to describe.
 """
-describe_bot(botId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_bot(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_bot(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1729,13 +1797,16 @@ Get information about a specific bot alias.
 - `bot_alias_id`: The identifier of the bot alias to describe.
 - `bot_id`: The identifier of the bot associated with the bot alias to describe.
 """
-describe_bot_alias(botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function describe_bot_alias(
+    botAliasId, botId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "GET",
         "/bots/$(botId)/botaliases/$(botAliasId)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_bot_alias(
     botAliasId,
     botId,
@@ -1764,14 +1835,16 @@ Describes the settings that a bot has for a specific locale.
 - `locale_id`: The unique identifier of the locale to describe. The string must match one
   of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-describe_bot_locale(
+function describe_bot_locale(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_bot_locale(
     botId,
     botVersion,
@@ -1805,18 +1878,20 @@ recommendation.
 - `locale_id`: The identifier of the language and locale of the bot recommendation to
   describe. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-describe_bot_recommendation(
+function describe_bot_recommendation(
     botId,
     botRecommendationId,
     botVersion,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_bot_recommendation(
     botId,
     botRecommendationId,
@@ -1845,14 +1920,16 @@ Monitors the bot replication status through the UI console.
 - `bot_id`: The request for the unique bot ID of the replicated bot being monitored.
 - `replica_region`: The request for the region of the replicated bot being monitored.
 """
-describe_bot_replica(
+function describe_bot_replica(
     botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/replicas/$(replicaRegion)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/replicas/$(replicaRegion)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_bot_replica(
     botId,
     replicaRegion,
@@ -1885,18 +1962,20 @@ this configuration.
   generation details.
 - `locale_id`: The locale of the bot for which to return the generation details.
 """
-describe_bot_resource_generation(
+function describe_bot_resource_generation(
     botId,
     botVersion,
     generationId,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generations/$(generationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generations/$(generationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_bot_resource_generation(
     botId,
     botVersion,
@@ -1925,14 +2004,16 @@ Provides metadata about a version of a bot.
 - `bot_id`: The identifier of the bot containing the version to return metadata for.
 - `bot_version`: The version of the bot to return metadata for.
 """
-describe_bot_version(
+function describe_bot_version(
     botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_bot_version(
     botId,
     botVersion,
@@ -1961,14 +2042,16 @@ Provides metadata information about a custom vocabulary.
 - `locale_id`: The locale to return the custom vocabulary information for. The locale must
   be `en_GB`.
 """
-describe_custom_vocabulary_metadata(
+function describe_custom_vocabulary_metadata(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/metadata";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_custom_vocabulary_metadata(
     botId,
     botVersion,
@@ -1995,13 +2078,14 @@ Gets information about a specific export.
 
 - `export_id`: The unique identifier of the export to describe.
 """
-describe_export(exportId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function describe_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "GET",
         "/exports/$(exportId)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_export(
     exportId,
     params::AbstractDict{String};
@@ -2026,13 +2110,14 @@ Gets information about a specific import.
 
 - `import_id`: The unique identifier of the import to describe.
 """
-describe_import(importId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function describe_import(importId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "GET",
         "/imports/$(importId)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_import(
     importId,
     params::AbstractDict{String};
@@ -2061,18 +2146,20 @@ Returns metadata about an intent.
 - `locale_id`: The identifier of the language and locale of the intent to describe. The
   string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 """
-describe_intent(
+function describe_intent(
     botId,
     botVersion,
     intentId,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_intent(
     botId,
     botVersion,
@@ -2101,13 +2188,16 @@ Gets the resource policy and policy revision for a bot or bot alias.
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   policy is attached to.
 """
-describe_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function describe_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "GET",
         "/policy/$(resourceArn)/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -2137,19 +2227,21 @@ Gets metadata information about a slot.
   string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_id`: The unique identifier for the slot.
 """
-describe_slot(
+function describe_slot(
     botId,
     botVersion,
     intentId,
     localeId,
     slotId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_slot(
     botId,
     botVersion,
@@ -2182,18 +2274,20 @@ Gets metadata information about a slot type.
   string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
 - `slot_type_id`: The identifier of the slot type.
 """
-describe_slot_type(
+function describe_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "GET",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_slot_type(
     botId,
     botVersion,
@@ -2221,14 +2315,16 @@ Gets metadata information about the test execution.
 
 - `test_execution_id`: The execution Id of the test set execution.
 """
-describe_test_execution(
+function describe_test_execution(
     testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/testexecutions/$(testExecutionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_test_execution(
     testExecutionId,
     params::AbstractDict{String};
@@ -2253,13 +2349,14 @@ Gets metadata information about the test set.
 
 - `test_set_id`: The test set Id for the test set request.
 """
-describe_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function describe_test_set(testSetId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "GET",
         "/testsets/$(testSetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_test_set(
     testSetId,
     params::AbstractDict{String};
@@ -2285,14 +2382,16 @@ Gets metadata information about the test set discrepancy report.
 - `test_set_discrepancy_report_id`: The unique identifier of the test set discrepancy
   report.
 """
-describe_test_set_discrepancy_report(
+function describe_test_set_discrepancy_report(
     testSetDiscrepancyReportId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/testsetdiscrepancy/$(testSetDiscrepancyReportId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/testsetdiscrepancy/$(testSetDiscrepancyReportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_test_set_discrepancy_report(
     testSetDiscrepancyReportId,
     params::AbstractDict{String};
@@ -2317,14 +2416,16 @@ Gets metadata information about the test set generation.
 
 - `test_set_generation_id`: The unique identifier of the test set generation.
 """
-describe_test_set_generation(
+function describe_test_set_generation(
     testSetGenerationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/testsetgenerations/$(testSetGenerationId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/testsetgenerations/$(testSetGenerationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_test_set_generation(
     testSetGenerationId,
     params::AbstractDict{String};
@@ -2352,19 +2453,21 @@ Generates sample utterances for an intent.
 - `intent_id`: The intent unique Id for the bot request to generate utterances.
 - `locale_id`: The unique locale Id for the bot request to generate utterances.
 """
-generate_bot_element(
+function generate_bot_element(
     botId,
     botVersion,
     intentId,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generate",
-    Dict{String,Any}("intentId" => intentId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generate",
+        Dict{String,Any}("intentId" => intentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function generate_bot_element(
     botId,
     botVersion,
@@ -2394,14 +2497,16 @@ The pre-signed Amazon S3 URL to download the test execution result artifacts.
 
 - `test_execution_id`: The unique identifier of the completed test execution.
 """
-get_test_execution_artifacts_url(
+function get_test_execution_artifacts_url(
     testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "GET",
-    "/testexecutions/$(testExecutionId)/artifacturl";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)/artifacturl";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_test_execution_artifacts_url(
     testExecutionId,
     params::AbstractDict{String};
@@ -2466,15 +2571,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of utterances. You can sort by the
   hit count, the missed count, or the number of distinct sessions the utterance appeared in.
 """
-list_aggregated_utterances(
+function list_aggregated_utterances(
     aggregationDuration, botId, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/aggregatedutterances/",
-    Dict{String,Any}("aggregationDuration" => aggregationDuration, "localeId" => localeId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/aggregatedutterances/",
+        Dict{String,Any}(
+            "aggregationDuration" => aggregationDuration, "localeId" => localeId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_aggregated_utterances(
     aggregationDuration,
     botId,
@@ -2521,14 +2630,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The request for the next token for the replicated bot created from the
   source bot alias.
 """
-list_bot_alias_replicas(
+function list_bot_alias_replicas(
     botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/replicas/$(replicaRegion)/botaliases/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/replicas/$(replicaRegion)/botaliases/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_bot_alias_replicas(
     botId,
     replicaRegion,
@@ -2564,12 +2675,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than specified in the `maxResults` parameter, a token is returned in the response. Use
   that token in the `nextToken` parameter to return the next page of results.
 """
-list_bot_aliases(botId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botaliases/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_bot_aliases(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botaliases/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_bot_aliases(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2608,13 +2721,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of locales. You can sort by locale
   name in ascending or descending order.
 """
-list_bot_locales(botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_bot_locales(
+    botId, botVersion; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_bot_locales(
     botId,
     botVersion,
@@ -2653,14 +2769,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
 """
-list_bot_recommendations(
+function list_bot_recommendations(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_bot_recommendations(
     botId,
     botVersion,
@@ -2687,13 +2805,14 @@ The action to list the replicated bots.
 
 - `bot_id`: The request for the unique bot IDs in the list of replicated bots.
 """
-list_bot_replicas(botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_bot_replicas(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "POST",
         "/bots/$(botId)/replicas/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_bot_replicas(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2729,14 +2848,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: An object containing information about the attribute and the method by which
   to sort the results
 """
-list_bot_resource_generations(
+function list_bot_resource_generations(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/generations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_bot_resource_generations(
     botId,
     botVersion,
@@ -2773,14 +2894,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The next token given in the list of replicated bots.
 - `"sortBy"`: The requested sort category for the list of replicated bots.
 """
-list_bot_version_replicas(
+function list_bot_version_replicas(
     botId, replicaRegion; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/replicas/$(replicaRegion)/botversions/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/replicas/$(replicaRegion)/botversions/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_bot_version_replicas(
     botId,
     replicaRegion,
@@ -2825,13 +2948,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of versions. You can specify that
   the list be sorted by version name in either ascending or descending order.
 """
-list_bot_versions(botId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_bot_versions(botId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_bot_versions(
     botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2869,8 +2993,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
 """
-list_bots(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2("POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_bots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_bots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2908,13 +3035,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify that the list be sorted by the built-in intent signature in either ascending or
   descending order.
 """
-list_built_in_intents(localeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "POST",
         "/builtins/locales/$(localeId)/intents/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_built_in_intents(
     localeId,
     params::AbstractDict{String};
@@ -2954,13 +3082,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. You can choose to sort by the slot type signature in either ascending or
   descending order.
 """
-list_built_in_slot_types(localeId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_built_in_slot_types(
+    localeId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "POST",
         "/builtins/locales/$(localeId)/slottypes/";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_built_in_slot_types(
     localeId,
     params::AbstractDict{String};
@@ -2996,14 +3127,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of items returned by the list operation.
 - `"nextToken"`: The nextToken identifier to the list custom vocabulary request.
 """
-list_custom_vocabulary_items(
+function list_custom_vocabulary_items(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_custom_vocabulary_items(
     botId,
     botVersion,
@@ -3050,9 +3183,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
 """
-list_exports(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_exports(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3091,9 +3226,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
   the `LastUpdatedDateTime` field in ascending or descending order.
 """
-list_imports(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_imports(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3158,23 +3295,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return the next page of results. For a complete set of results, call the
   ListIntentMetrics operation until the nextToken returned in the response is null.
 """
-list_intent_metrics(
+function list_intent_metrics(
     botId,
     endDateTime,
     metrics,
     startDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/intentmetrics",
-    Dict{String,Any}(
-        "endDateTime" => endDateTime,
-        "metrics" => metrics,
-        "startDateTime" => startDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/intentmetrics",
+        Dict{String,Any}(
+            "endDateTime" => endDateTime,
+            "metrics" => metrics,
+            "startDateTime" => startDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_intent_metrics(
     botId,
     endDateTime,
@@ -3234,23 +3373,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: A list of objects, each describes a condition by which you want to filter
   the results.
 """
-list_intent_paths(
+function list_intent_paths(
     botId,
     endDateTime,
     intentPath,
     startDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/intentpaths",
-    Dict{String,Any}(
-        "endDateTime" => endDateTime,
-        "intentPath" => intentPath,
-        "startDateTime" => startDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/intentpaths",
+        Dict{String,Any}(
+            "endDateTime" => endDateTime,
+            "intentPath" => intentPath,
+            "startDateTime" => startDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_intent_paths(
     botId,
     endDateTime,
@@ -3332,23 +3473,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return the next page of results. For a complete set of results, call the
   ListIntentStageMetrics operation until the nextToken returned in the response is null.
 """
-list_intent_stage_metrics(
+function list_intent_stage_metrics(
     botId,
     endDateTime,
     metrics,
     startDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/intentstagemetrics",
-    Dict{String,Any}(
-        "endDateTime" => endDateTime,
-        "metrics" => metrics,
-        "startDateTime" => startDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/intentstagemetrics",
+        Dict{String,Any}(
+            "endDateTime" => endDateTime,
+            "metrics" => metrics,
+            "startDateTime" => startDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_intent_stage_metrics(
     botId,
     endDateTime,
@@ -3408,14 +3551,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can choose to sort by the intent name or last updated date in either ascending or
   descending order.
 """
-list_intents(
+function list_intents(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_intents(
     botId,
     botVersion,
@@ -3458,18 +3603,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
 """
-list_recommended_intents(
+function list_recommended_intents(
     botId,
     botRecommendationId,
     botVersion,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/intents";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/intents";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_recommended_intents(
     botId,
     botRecommendationId,
@@ -3526,15 +3673,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: An object specifying the measure and method by which to sort the session
   analytics data.
 """
-list_session_analytics_data(
+function list_session_analytics_data(
     botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/sessions",
-    Dict{String,Any}("endDateTime" => endDateTime, "startDateTime" => startDateTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/sessions",
+        Dict{String,Any}("endDateTime" => endDateTime, "startDateTime" => startDateTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_session_analytics_data(
     botId,
     endDateTime,
@@ -3615,23 +3764,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return the next page of results. For a complete set of results, call the
   ListSessionMetrics operation until the nextToken returned in the response is null.
 """
-list_session_metrics(
+function list_session_metrics(
     botId,
     endDateTime,
     metrics,
     startDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/sessionmetrics",
-    Dict{String,Any}(
-        "endDateTime" => endDateTime,
-        "metrics" => metrics,
-        "startDateTime" => startDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/sessionmetrics",
+        Dict{String,Any}(
+            "endDateTime" => endDateTime,
+            "metrics" => metrics,
+            "startDateTime" => startDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_session_metrics(
     botId,
     endDateTime,
@@ -3689,14 +3840,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. You can choose to sort by the slot type name or last updated date in either
   ascending or descending order.
 """
-list_slot_types(
+function list_slot_types(
     botId, botVersion, localeId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_slot_types(
     botId,
     botVersion,
@@ -3743,18 +3896,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You can choose to sort by the slot name or last updated date in either ascending or
   descending order.
 """
-list_slots(
+function list_slots(
     botId,
     botVersion,
     intentId,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_slots(
     botId,
     botVersion,
@@ -3783,13 +3938,16 @@ can have tags associated with them.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
 """
-list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_tags_for_resource(
+    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "GET",
         "/tags/$(resourceARN)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
@@ -3826,15 +3984,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more results than specified in the `maxResults` parameter, a token is returned in the
   response. Use that token in the `nextToken` parameter to return the next page of results.
 """
-list_test_execution_result_items(
+function list_test_execution_result_items(
     resultFilterBy, testExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/testexecutions/$(testExecutionId)/results",
-    Dict{String,Any}("resultFilterBy" => resultFilterBy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/testexecutions/$(testExecutionId)/results",
+        Dict{String,Any}("resultFilterBy" => resultFilterBy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_test_execution_result_items(
     resultFilterBy,
     testExecutionId,
@@ -3869,9 +4029,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use that token in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order of the test set executions.
 """
-list_test_executions(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST", "/testexecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_test_executions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/testexecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_test_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3904,13 +4066,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
 """
-list_test_set_records(testSetId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function list_test_set_records(
+    testSetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "POST",
         "/testsets/$(testSetId)/records";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_test_set_records(
     testSetId,
     params::AbstractDict{String};
@@ -3942,9 +4107,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in the nextToken parameter to return the next page of results.
 - `"sortBy"`: The sort order for the list of test sets.
 """
-list_test_sets(; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "POST", "/testsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_test_sets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "POST", "/testsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_test_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -3999,15 +4166,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: An object specifying the measure and method by which to sort the utterance
   analytics data.
 """
-list_utterance_analytics_data(
+function list_utterance_analytics_data(
     botId, endDateTime, startDateTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/utterances",
-    Dict{String,Any}("endDateTime" => endDateTime, "startDateTime" => startDateTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/utterances",
+        Dict{String,Any}("endDateTime" => endDateTime, "startDateTime" => startDateTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_utterance_analytics_data(
     botId,
     endDateTime,
@@ -4095,23 +4264,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return the next page of results. For a complete set of results, call the
   ListUtteranceMetrics operation until the nextToken returned in the response is null.
 """
-list_utterance_metrics(
+function list_utterance_metrics(
     botId,
     endDateTime,
     metrics,
     startDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/analytics/utterancemetrics",
-    Dict{String,Any}(
-        "endDateTime" => endDateTime,
-        "metrics" => metrics,
-        "startDateTime" => startDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/analytics/utterancemetrics",
+        Dict{String,Any}(
+            "endDateTime" => endDateTime,
+            "metrics" => metrics,
+            "startDateTime" => startDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_utterance_metrics(
     botId,
     endDateTime,
@@ -4170,20 +4341,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchOrder"`: How SearchResults are ordered. Valid values are Ascending or Descending.
   The default is Descending.
 """
-search_associated_transcripts(
+function search_associated_transcripts(
     botId,
     botRecommendationId,
     botVersion,
     filters,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "POST",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/associatedtranscripts",
-    Dict{String,Any}("filters" => filters);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/associatedtranscripts",
+        Dict{String,Any}("filters" => filters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_associated_transcripts(
     botId,
     botRecommendationId,
@@ -4225,19 +4398,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the data related to the bot recommendation results, as well as the KMS key ARN used to
   encrypt the associated metadata.
 """
-start_bot_recommendation(
+function start_bot_recommendation(
     botId,
     botVersion,
     localeId,
     transcriptSourceSetting;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
-    Dict{String,Any}("transcriptSourceSetting" => transcriptSourceSetting);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/",
+        Dict{String,Any}("transcriptSourceSetting" => transcriptSourceSetting);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_bot_recommendation(
     botId,
     botVersion,
@@ -4282,19 +4457,21 @@ this configuration.
   intent creation process.
 - `locale_id`: The locale of the bot for which to generate intents and slot types.
 """
-start_bot_resource_generation(
+function start_bot_resource_generation(
     botId,
     botVersion,
     generationInputPrompt,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/startgeneration",
-    Dict{String,Any}("generationInputPrompt" => generationInputPrompt);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/startgeneration",
+        Dict{String,Any}("generationInputPrompt" => generationInputPrompt);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_bot_resource_generation(
     botId,
     botVersion,
@@ -4344,22 +4521,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   definition. You should always encrypt the zip archive to protect it during transit
   between your site and Amazon Lex.
 """
-start_import(
+function start_import(
     importId,
     mergeStrategy,
     resourceSpecification;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/imports/",
-    Dict{String,Any}(
-        "importId" => importId,
-        "mergeStrategy" => mergeStrategy,
-        "resourceSpecification" => resourceSpecification,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/imports/",
+        Dict{String,Any}(
+            "importId" => importId,
+            "mergeStrategy" => mergeStrategy,
+            "resourceSpecification" => resourceSpecification,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_import(
     importId,
     mergeStrategy,
@@ -4406,15 +4585,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"testExecutionModality"`: Indicates whether audio or text is used.
 """
-start_test_execution(
+function start_test_execution(
     apiMode, target, testSetId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "POST",
-    "/testsets/$(testSetId)/testexecutions",
-    Dict{String,Any}("apiMode" => apiMode, "target" => target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testexecutions",
+        Dict{String,Any}("apiMode" => apiMode, "target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_test_execution(
     apiMode,
     target,
@@ -4458,24 +4639,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   import/generate a new test set. You can't use the `UpdateTestSet` operation to update
   tags. To update tags, use the `TagResource` operation.
 """
-start_test_set_generation(
+function start_test_set_generation(
     generationDataSource,
     roleArn,
     storageLocation,
     testSetName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/testsetgenerations",
-    Dict{String,Any}(
-        "generationDataSource" => generationDataSource,
-        "roleArn" => roleArn,
-        "storageLocation" => storageLocation,
-        "testSetName" => testSetName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/testsetgenerations",
+        Dict{String,Any}(
+            "generationDataSource" => generationDataSource,
+            "roleArn" => roleArn,
+            "storageLocation" => storageLocation,
+            "testSetName" => testSetName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_test_set_generation(
     generationDataSource,
     roleArn,
@@ -4519,18 +4702,20 @@ Stop an already running Bot Recommendation request.
 - `locale_id`: The identifier of the language and locale of the bot recommendation to stop.
   The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
 """
-stop_bot_recommendation(
+function stop_bot_recommendation(
     botId,
     botRecommendationId,
     botVersion,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/stopbotrecommendation";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/stopbotrecommendation";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_bot_recommendation(
     botId,
     botRecommendationId,
@@ -4562,14 +4747,15 @@ existing value is replaced with the new value.
 - `tags`: A list of tag keys to add to the resource. If a tag key already exists, the
   existing value is replaced with the new value.
 """
-tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
         "POST",
         "/tags/$(resourceARN)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceARN,
     tags,
@@ -4597,14 +4783,17 @@ Removes tags from a bot, bot alias, or bot channel.
 - `tag_keys`: A list of tag keys to remove from the resource. If a tag key does not exist
   on the resource, it is ignored.
 """
-untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    lex_models_v2(
+function untag_resource(
+    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return lex_models_v2(
         "DELETE",
         "/tags/$(resourceARN)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceARN,
     tagKeys,
@@ -4653,25 +4842,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"botType"`: The type of the bot to be updated.
 - `"description"`: A description of the bot.
 """
-update_bot(
+function update_bot(
     botId,
     botName,
     dataPrivacy,
     idleSessionTTLInSeconds,
     roleArn;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/",
-    Dict{String,Any}(
-        "botName" => botName,
-        "dataPrivacy" => dataPrivacy,
-        "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
-        "roleArn" => roleArn,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/",
+        Dict{String,Any}(
+            "botName" => botName,
+            "dataPrivacy" => dataPrivacy,
+            "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bot(
     botId,
     botName,
@@ -4725,15 +4916,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The new description to assign to the bot alias.
 - `"sentimentAnalysisSettings"`:
 """
-update_bot_alias(
+function update_bot_alias(
     botAliasId, botAliasName, botId; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botaliases/$(botAliasId)/",
-    Dict{String,Any}("botAliasName" => botAliasName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botaliases/$(botAliasId)/",
+        Dict{String,Any}("botAliasName" => botAliasName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bot_alias(
     botAliasId,
     botAliasName,
@@ -4780,19 +4973,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"voiceSettings"`: The new Amazon Polly voice Amazon Lex should use for voice interaction
   with the user.
 """
-update_bot_locale(
+function update_bot_locale(
     botId,
     botVersion,
     localeId,
     nluIntentConfidenceThreshold;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
-    Dict{String,Any}("nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
+        Dict{String,Any}("nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bot_locale(
     botId,
     botVersion,
@@ -4836,20 +5031,22 @@ Updates an existing bot recommendation request.
 - `locale_id`: The identifier of the language and locale of the bot recommendation to
   update. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html)
 """
-update_bot_recommendation(
+function update_bot_recommendation(
     botId,
     botRecommendationId,
     botVersion,
     encryptionSetting,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
-    Dict{String,Any}("encryptionSetting" => encryptionSetting);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/botrecommendations/$(botRecommendationId)/",
+        Dict{String,Any}("encryptionSetting" => encryptionSetting);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_bot_recommendation(
     botId,
     botRecommendationId,
@@ -4893,12 +5090,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"filePassword"`: The new password to use to encrypt the export zip archive.
 """
-update_export(exportId; aws_config::AbstractAWSConfig=current_aws_config()) = lex_models_v2(
-    "PUT",
-    "/exports/$(exportId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_export(exportId; aws_config::AbstractAWSConfig=current_aws_config())
+    return lex_models_v2(
+        "PUT",
+        "/exports/$(exportId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_export(
     exportId,
     params::AbstractDict{String};
@@ -4959,20 +5158,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"slotPriorities"`: A new list of slots and their priorities that are contained by the
   intent.
 """
-update_intent(
+function update_intent(
     botId,
     botVersion,
     intentId,
     intentName,
     localeId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
-    Dict{String,Any}("intentName" => intentName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
+        Dict{String,Any}("intentName" => intentName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_intent(
     botId,
     botVersion,
@@ -5021,15 +5222,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you don't specify a revision, Amazon Lex overwrites the contents of the policy with
   the new values.
 """
-update_resource_policy(
+function update_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/policy/$(resourceArn)/",
-    Dict{String,Any}("policy" => policy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/policy/$(resourceArn)/",
+        Dict{String,Any}("policy" => policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_resource_policy(
     policy,
     resourceArn,
@@ -5079,7 +5282,7 @@ If the `multipleValuesSetting` is not set, the default value is `false`.
 - `"subSlotSetting"`: Specifications for the constituent sub slots and the expression for
   the composite slot.
 """
-update_slot(
+function update_slot(
     botId,
     botVersion,
     intentId,
@@ -5088,15 +5291,17 @@ update_slot(
     slotName,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
-    Dict{String,Any}(
-        "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
+        Dict{String,Any}(
+            "slotName" => slotName, "valueElicitationSetting" => valueElicitationSetting
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_slot(
     botId,
     botVersion,
@@ -5155,20 +5360,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"valueSelectionSetting"`: The strategy that Amazon Lex should use when deciding on a
   value from the list of slot type values.
 """
-update_slot_type(
+function update_slot_type(
     botId,
     botVersion,
     localeId,
     slotTypeId,
     slotTypeName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = lex_models_v2(
-    "PUT",
-    "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
-    Dict{String,Any}("slotTypeName" => slotTypeName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        Dict{String,Any}("slotTypeName" => slotTypeName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_slot_type(
     botId,
     botVersion,
@@ -5206,15 +5413,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"description"`: The new test set description.
 """
-update_test_set(
+function update_test_set(
     testSetId, testSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = lex_models_v2(
-    "PUT",
-    "/testsets/$(testSetId)",
-    Dict{String,Any}("testSetName" => testSetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return lex_models_v2(
+        "PUT",
+        "/testsets/$(testSetId)",
+        Dict{String,Any}("testSetName" => testSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_test_set(
     testSetId,
     testSetName,

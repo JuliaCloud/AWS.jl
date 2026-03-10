@@ -44,10 +44,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecretIdList"`: The ARN or names of the secrets to retrieve. You must include `Filters`
   or `SecretIdList`, but not both.
 """
-batch_get_secret_value(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function batch_get_secret_value(; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "BatchGetSecretValue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function batch_get_secret_value(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -89,13 +90,14 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
   For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 """
-cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "CancelRotateSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function cancel_rotate_secret(
     SecretId,
     params::AbstractDict{String};
@@ -257,12 +259,14 @@ For information about how to format a JSON parameter for the various command lin
 
 For tag quotas and naming restrictions, see [Service quotas for Tagging](https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas) in the *Amazon Web Services General Reference guide*.
 """
-create_secret(Name; aws_config::AbstractAWSConfig=current_aws_config()) = secrets_manager(
-    "CreateSecret",
-    Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_secret(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
+        "CreateSecret",
+        Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_secret(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -302,13 +306,16 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
   For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 """
-delete_resource_policy(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function delete_resource_policy(
+    SecretId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return secrets_manager(
         "DeleteResourcePolicy",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_resource_policy(
     SecretId,
     params::AbstractDict{String};
@@ -398,13 +405,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `ForceDeleteWithoutRecovery` in the same call. If you don't use either, then by default
   Secrets Manager uses a 30 day recovery window.
 """
-delete_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function delete_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "DeleteSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_secret(
     SecretId,
     params::AbstractDict{String};
@@ -440,13 +448,14 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
   For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 """
-describe_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function describe_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "DescribeSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_secret(
     SecretId,
     params::AbstractDict{String};
@@ -469,7 +478,7 @@ end
 Generates a random password. We recommend that you specify the maximum length and include
 every character type that the system you are generating a password for can support. By
 default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following
-characters in passwords: `!\"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~`
+characters in passwords: `!\\"#\$%&amp;'()*+,-./:;&lt;=&gt;?@[\\\\]^_`{|}~`
 
 Secrets Manager generates a CloudTrail log entry when you call this action.
 
@@ -485,7 +494,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExcludeNumbers"`: Specifies whether to exclude numbers from the password. If you don't
   include this switch, the password can contain numbers.
 - `"ExcludePunctuation"`: Specifies whether to exclude the following punctuation characters
-  from the password: `! " # \$ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~`. If you don't include this switch, the password can contain punctuation.
+  from the password: `! " # \$ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \\ ] ^ _ ` { | } ~`. If you don't include this switch, the password can contain punctuation.
 - `"ExcludeUppercase"`: Specifies whether to exclude uppercase letters from the password.
   If you don't include this switch, the password can contain uppercase letters.
 - `"IncludeSpace"`: Specifies whether to include the space character. If you include this
@@ -496,9 +505,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   lowercase letter, one number, and one punctuation. If you don't include this switch, the
   password contains at least one of every character type.
 """
-get_random_password(; aws_config::AbstractAWSConfig=current_aws_config()) = secrets_manager(
-    "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_random_password(; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
+        "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_random_password(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -528,13 +539,14 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
   For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 """
-get_resource_policy(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function get_resource_policy(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "GetResourcePolicy",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource_policy(
     SecretId,
     params::AbstractDict{String};
@@ -600,13 +612,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must refer to the same secret version. If you don't specify either a `VersionStage` or
   `VersionId`, Secrets Manager returns the `AWSCURRENT` version.
 """
-get_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function get_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "GetSecretValue",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_secret_value(
     SecretId,
     params::AbstractDict{String};
@@ -662,13 +675,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call did not show all results. To get the next results, call
   `ListSecretVersionIds` again with this value.
 """
-list_secret_version_ids(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function list_secret_version_ids(
+    SecretId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return secrets_manager(
         "ListSecretVersionIds",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_secret_version_ids(
     SecretId,
     params::AbstractDict{String};
@@ -727,8 +743,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this value.
 - `"SortOrder"`: Secrets are listed by `CreatedDate`.
 """
-list_secrets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager("ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_secrets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
+        "ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_secrets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -781,14 +800,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, Key Management Service (KMS) keys)
   To review permissions to your secrets, see [Determine who has permissions to your secrets](https://docs.aws.amazon.com/secretsmanager/latest/userguide/determine-acccess_examine-iam-policies.html).
 """
-put_resource_policy(
+function put_resource_policy(
     ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=current_aws_config()
-) = secrets_manager(
-    "PutResourcePolicy",
-    Dict{String,Any}("ResourcePolicy" => ResourcePolicy, "SecretId" => SecretId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return secrets_manager(
+        "PutResourcePolicy",
+        Dict{String,Any}("ResourcePolicy" => ResourcePolicy, "SecretId" => SecretId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_resource_policy(
     ResourcePolicy,
     SecretId,
@@ -928,13 +949,14 @@ This value becomes the `VersionId` of the new version.
   If you don't include `VersionStages`, then Secrets Manager automatically moves the
   staging label `AWSCURRENT` to this version.
 """
-put_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function put_secret_value(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "PutSecretValue",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_secret_value(
     SecretId,
     params::AbstractDict{String};
@@ -976,16 +998,18 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 - `remove_replica_regions`: The Regions of the replicas to remove.
 - `secret_id`: The ARN or name of the secret.
 """
-remove_regions_from_replication(
+function remove_regions_from_replication(
     RemoveReplicaRegions, SecretId; aws_config::AbstractAWSConfig=current_aws_config()
-) = secrets_manager(
-    "RemoveRegionsFromReplication",
-    Dict{String,Any}(
-        "RemoveReplicaRegions" => RemoveReplicaRegions, "SecretId" => SecretId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return secrets_manager(
+        "RemoveRegionsFromReplication",
+        Dict{String,Any}(
+            "RemoveReplicaRegions" => RemoveReplicaRegions, "SecretId" => SecretId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_regions_from_replication(
     RemoveReplicaRegions,
     SecretId,
@@ -1037,14 +1061,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForceOverwriteReplicaSecret"`: Specifies whether to overwrite a secret with the same
   name in the destination Region. By default, secrets aren't overwritten.
 """
-replicate_secret_to_regions(
+function replicate_secret_to_regions(
     AddReplicaRegions, SecretId; aws_config::AbstractAWSConfig=current_aws_config()
-) = secrets_manager(
-    "ReplicateSecretToRegions",
-    Dict{String,Any}("AddReplicaRegions" => AddReplicaRegions, "SecretId" => SecretId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return secrets_manager(
+        "ReplicateSecretToRegions",
+        Dict{String,Any}("AddReplicaRegions" => AddReplicaRegions, "SecretId" => SecretId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function replicate_secret_to_regions(
     AddReplicaRegions,
     SecretId,
@@ -1087,13 +1113,14 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
   For an ARN, we recommend that you specify a complete ARN rather than a partial ARN. See [Finding a secret from a partial ARN](https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen).
 """
-restore_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function restore_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "RestoreSecret",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function restore_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1179,13 +1206,14 @@ By default, Secrets Manager rotates the secret immediately.
   in the *Secrets Manager User Guide*.
 - `"RotationRules"`: A structure that defines the rotation configuration for this secret.
 """
-rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function rotate_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "RotateSecret",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function rotate_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1229,13 +1257,16 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
 
 - `secret_id`: The ARN of the primary secret.
 """
-stop_replication_to_replica(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function stop_replication_to_replica(
+    SecretId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return secrets_manager(
         "StopReplicationToReplica",
         Dict{String,Any}("SecretId" => SecretId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_replication_to_replica(
     SecretId,
     params::AbstractDict{String};
@@ -1286,13 +1317,14 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
   specify key/value pairs. For more information, see [Specifying parameter values for the Amazon Web Services CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html)
   in the Amazon Web Services CLI User Guide.
 """
-tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "TagResource",
         Dict{String,Any}("SecretId" => SecretId, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     SecretId,
     Tags,
@@ -1345,13 +1377,16 @@ and [Authentication and access control in Secrets Manager](https://docs.aws.amaz
   specify key/value pairs. For more information, see [Specifying parameter values for the Amazon Web Services CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html)
   in the Amazon Web Services CLI User Guide.
 """
-untag_resource(SecretId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function untag_resource(
+    SecretId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return secrets_manager(
         "UntagResource",
         Dict{String,Any}("SecretId" => SecretId, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     SecretId,
     TagKeys,
@@ -1483,13 +1518,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in CloudTrail log entries. If you create your own log entries, you must also avoid
   logging the information in this field.
 """
-update_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    secrets_manager(
+function update_secret(SecretId; aws_config::AbstractAWSConfig=current_aws_config())
+    return secrets_manager(
         "UpdateSecret",
         Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_secret(
     SecretId,
     params::AbstractDict{String};
@@ -1566,14 +1602,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the label is to be removed from. If the label is attached and you either do not specify
   this parameter, or the version ID does not match, then the operation fails.
 """
-update_secret_version_stage(
+function update_secret_version_stage(
     SecretId, VersionStage; aws_config::AbstractAWSConfig=current_aws_config()
-) = secrets_manager(
-    "UpdateSecretVersionStage",
-    Dict{String,Any}("SecretId" => SecretId, "VersionStage" => VersionStage);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return secrets_manager(
+        "UpdateSecretVersionStage",
+        Dict{String,Any}("SecretId" => SecretId, "VersionStage" => VersionStage);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_secret_version_stage(
     SecretId,
     VersionStage,
@@ -1627,14 +1665,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecretId"`: The ARN or name of the secret with the resource-based policy you want to
   validate.
 """
-validate_resource_policy(
+function validate_resource_policy(
     ResourcePolicy; aws_config::AbstractAWSConfig=current_aws_config()
-) = secrets_manager(
-    "ValidateResourcePolicy",
-    Dict{String,Any}("ResourcePolicy" => ResourcePolicy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return secrets_manager(
+        "ValidateResourcePolicy",
+        Dict{String,Any}("ResourcePolicy" => ResourcePolicy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function validate_resource_policy(
     ResourcePolicy,
     params::AbstractDict{String};

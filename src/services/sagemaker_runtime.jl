@@ -84,14 +84,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For information about how to use variant targeting to perform a/b testing, see [Test models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html)
 """
-invoke_endpoint(Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    sagemaker_runtime(
+function invoke_endpoint(
+    Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return sagemaker_runtime(
         "POST",
         "/endpoints/$(EndpointName)/invocations",
         Dict{String,Any}("Body" => Body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function invoke_endpoint(
     Body,
     EndpointName,
@@ -166,21 +169,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
   queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
 """
-invoke_endpoint_async(
+function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = sagemaker_runtime(
-    "POST",
-    "/endpoints/$(EndpointName)/async-invocations",
-    Dict{String,Any}(
-        "headers" => Dict{String,Any}(
-            "X-Amzn-SageMaker-InputLocation" => X_Amzn_SageMaker_InputLocation
-        ),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_runtime(
+        "POST",
+        "/endpoints/$(EndpointName)/async-invocations",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}(
+                "X-Amzn-SageMaker-InputLocation" => X_Amzn_SageMaker_InputLocation
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation,
@@ -280,15 +285,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For information about how to use variant targeting to perform a/b testing, see [Test models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html)
 """
-invoke_endpoint_with_response_stream(
+function invoke_endpoint_with_response_stream(
     Body, EndpointName; aws_config::AbstractAWSConfig=current_aws_config()
-) = sagemaker_runtime(
-    "POST",
-    "/endpoints/$(EndpointName)/invocations-response-stream",
-    Dict{String,Any}("Body" => Body);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return sagemaker_runtime(
+        "POST",
+        "/endpoints/$(EndpointName)/invocations-response-stream",
+        Dict{String,Any}("Body" => Body);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function invoke_endpoint_with_response_stream(
     Body,
     EndpointName,

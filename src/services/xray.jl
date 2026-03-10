@@ -21,13 +21,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Pagination token.
 """
-batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/Traces",
-    Dict{String,Any}("TraceIds" => TraceIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function batch_get_traces(TraceIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/Traces",
+        Dict{String,Any}("TraceIds" => TraceIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_get_traces(
     TraceIds,
     params::AbstractDict{String};
@@ -79,13 +81,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - Tag keys and values are case sensitive.
    - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
 """
-create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/CreateGroup",
-    Dict{String,Any}("GroupName" => GroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_group(GroupName; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/CreateGroup",
+        Dict{String,Any}("GroupName" => GroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_group(
     GroupName,
     params::AbstractDict{String};
@@ -135,14 +139,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - Tag keys and values are case sensitive.
    - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
 """
-create_sampling_rule(SamplingRule; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function create_sampling_rule(
+    SamplingRule; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/CreateSamplingRule",
         Dict{String,Any}("SamplingRule" => SamplingRule);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_sampling_rule(
     SamplingRule,
     params::AbstractDict{String};
@@ -172,8 +179,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
-delete_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray("POST", "/DeleteGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST", "/DeleteGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -205,14 +215,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not match the latest policy revision id, an `InvalidPolicyRevisionIdException` exception
   is returned.
 """
-delete_resource_policy(PolicyName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function delete_resource_policy(
+    PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/DeleteResourcePolicy",
         Dict{String,Any}("PolicyName" => PolicyName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_resource_policy(
     PolicyName,
     params::AbstractDict{String};
@@ -244,12 +257,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleName"`: The name of the sampling rule. Specify a rule by either name or ARN, but
   not both.
 """
-delete_sampling_rule(; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/DeleteSamplingRule";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_sampling_rule(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/DeleteSamplingRule";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_sampling_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -268,9 +283,11 @@ end
 
 Retrieves the current encryption configuration for X-Ray data.
 """
-get_encryption_config(; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST", "/EncryptionConfig"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_encryption_config(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST", "/EncryptionConfig"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_encryption_config(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -296,8 +313,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
-get_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray("POST", "/GetGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray("POST", "/GetGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -318,8 +336,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Pagination token.
 """
-get_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray("POST", "/Groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray("POST", "/Groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function get_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -341,13 +360,15 @@ start and end time of the insight.
 - `insight_id`: The insight's unique identifier. Use the GetInsightSummaries action to
   retrieve an InsightId.
 """
-get_insight(InsightId; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/Insight",
-    Dict{String,Any}("InsightId" => InsightId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_insight(InsightId; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/Insight",
+        Dict{String,Any}("InsightId" => InsightId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_insight(
     InsightId,
     params::AbstractDict{String};
@@ -385,13 +406,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of events.
 """
-get_insight_events(InsightId; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/InsightEvents",
-    Dict{String,Any}("InsightId" => InsightId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_insight_events(InsightId; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/InsightEvents",
+        Dict{String,Any}("InsightId" => InsightId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_insight_events(
     InsightId,
     params::AbstractDict{String};
@@ -433,17 +456,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of results.
 """
-get_insight_impact_graph(
+function get_insight_impact_graph(
     EndTime, InsightId, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/InsightImpactGraph",
-    Dict{String,Any}(
-        "EndTime" => EndTime, "InsightId" => InsightId, "StartTime" => StartTime
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/InsightImpactGraph",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "InsightId" => InsightId, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_insight_impact_graph(
     EndTime,
     InsightId,
@@ -493,15 +518,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 - `"States"`: The list of insight states.
 """
-get_insight_summaries(
+function get_insight_summaries(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/InsightSummaries",
-    Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/InsightSummaries",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_insight_summaries(
     EndTime,
     StartTime,
@@ -535,9 +562,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Pagination token.
 """
-get_sampling_rules(; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST", "/GetSamplingRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_sampling_rules(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST", "/GetSamplingRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_sampling_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -562,13 +591,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Pagination token.
 """
-get_sampling_statistic_summaries(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function get_sampling_statistic_summaries(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/SamplingStatisticSummaries";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_sampling_statistic_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -592,15 +624,17 @@ Requests a sampling quota for rules that the service is using to sample requests
 - `sampling_statistics_documents`: Information about rules that the service is using to
   sample requests.
 """
-get_sampling_targets(
+function get_sampling_targets(
     SamplingStatisticsDocuments; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/SamplingTargets",
-    Dict{String,Any}("SamplingStatisticsDocuments" => SamplingStatisticsDocuments);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/SamplingTargets",
+        Dict{String,Any}("SamplingStatisticsDocuments" => SamplingStatisticsDocuments);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_sampling_targets(
     SamplingStatisticsDocuments,
     params::AbstractDict{String};
@@ -647,14 +681,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The name of a group based on which you want to generate a graph.
 - `"NextToken"`: Pagination token.
 """
-get_service_graph(EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function get_service_graph(
+    EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/ServiceGraph",
         Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_service_graph(
     EndTime,
     StartTime,
@@ -702,15 +739,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination token.
 - `"Period"`: Aggregation period in seconds.
 """
-get_time_series_service_statistics(
+function get_time_series_service_statistics(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/TimeSeriesServiceStatistics",
-    Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/TimeSeriesServiceStatistics",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_time_series_service_statistics(
     EndTime,
     StartTime,
@@ -748,13 +787,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Pagination token.
 """
-get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/TraceGraph",
-    Dict{String,Any}("TraceIds" => TraceIds);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_trace_graph(TraceIds; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/TraceGraph",
+        Dict{String,Any}("TraceIds" => TraceIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_trace_graph(
     TraceIds,
     params::AbstractDict{String};
@@ -811,15 +852,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeRangeType"`: A parameter to indicate whether to query trace summaries by TraceId,
   Event (trace update time), or Service (segment end time).
 """
-get_trace_summaries(
+function get_trace_summaries(
     EndTime, StartTime; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/TraceSummaries",
-    Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/TraceSummaries",
+        Dict{String,Any}("EndTime" => EndTime, "StartTime" => StartTime);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_trace_summaries(
     EndTime,
     StartTime,
@@ -853,12 +896,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"NextToken"`: Not currently supported.
 """
-list_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/ListResourcePolicies";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_resource_policies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/ListResourcePolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -890,14 +935,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` value returned with the current page of results as the value of this
   parameter to get the next page of results.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -938,13 +986,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format to specify a key in a different account.
 Omit this key if you set `Type` to `NONE`.
 """
-put_encryption_config(Type; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/PutEncryptionConfig",
-    Dict{String,Any}("Type" => Type);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function put_encryption_config(Type; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/PutEncryptionConfig",
+        Dict{String,Any}("Type" => Type);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_encryption_config(
     Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -997,15 +1047,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `InvalidPolicyRevisionIdException` exception if a resource policy with the same name
   already exists.
 """
-put_resource_policy(
+function put_resource_policy(
     PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/PutResourcePolicy",
-    Dict{String,Any}("PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_resource_policy(
     PolicyDocument,
     PolicyName,
@@ -1047,15 +1099,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Hostname"`: <p/>
 - `"ResourceARN"`: <p/>
 """
-put_telemetry_records(
+function put_telemetry_records(
     TelemetryRecords; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/TelemetryRecords",
-    Dict{String,Any}("TelemetryRecords" => TelemetryRecords);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/TelemetryRecords",
+        Dict{String,Any}("TelemetryRecords" => TelemetryRecords);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_telemetry_records(
     TelemetryRecords,
     params::AbstractDict{String};
@@ -1118,15 +1172,17 @@ example, 10:00AM December 2nd, 2016 PST in epoch time is `1480615200` seconds, o
 - `trace_segment_documents`: A string containing a JSON document defining one or more
   segments or subsegments.
 """
-put_trace_segments(
+function put_trace_segments(
     TraceSegmentDocuments; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/TraceSegments",
-    Dict{String,Any}("TraceSegmentDocuments" => TraceSegmentDocuments);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/TraceSegments",
+        Dict{String,Any}("TraceSegmentDocuments" => TraceSegmentDocuments);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_trace_segments(
     TraceSegmentDocuments,
     params::AbstractDict{String};
@@ -1170,13 +1226,15 @@ Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
    - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use. You
   cannot edit or delete system tags.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = xray(
-    "POST",
-    "/TagResource",
-    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST",
+        "/TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1211,14 +1269,17 @@ delete system tags (those with an `aws:` prefix).
 - `tag_keys`: Keys for one or more tags that you want to remove from an X-Ray group or
   sampling rule.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return xray(
         "POST",
         "/UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1261,8 +1322,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the group. Notifications can only be enabled on a group with InsightsEnabled set to
   true.
 """
-update_group(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    xray("POST", "/UpdateGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
+    return xray(
+        "POST", "/UpdateGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1285,15 +1349,17 @@ Modifies a sampling rule's configuration.
 
 - `sampling_rule_update`: The rule and fields to change.
 """
-update_sampling_rule(
+function update_sampling_rule(
     SamplingRuleUpdate; aws_config::AbstractAWSConfig=current_aws_config()
-) = xray(
-    "POST",
-    "/UpdateSamplingRule",
-    Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return xray(
+        "POST",
+        "/UpdateSamplingRule",
+        Dict{String,Any}("SamplingRuleUpdate" => SamplingRuleUpdate);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_sampling_rule(
     SamplingRuleUpdate,
     params::AbstractDict{String};

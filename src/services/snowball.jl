@@ -16,12 +16,14 @@ status. You'll have at least an hour after creating a cluster job to cancel it.
 - `cluster_id`: The 39-character ID for the cluster that you want to cancel, for example
   `CID123e4567-e89b-12d3-a456-426655440000`.
 """
-cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "CancelCluster",
-    Dict{String,Any}("ClusterId" => ClusterId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function cancel_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "CancelCluster",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -50,12 +52,14 @@ Cancels the specified job. You can only cancel a job before its `JobState` value
 - `job_id`: The 39-character job ID for the job that you want to cancel, for example
   `JID123e4567-e89b-12d3-a456-426655440000`.
 """
-cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "CancelJob",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function cancel_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "CancelJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -82,12 +86,14 @@ address.json`.
 
 - `address`: The address that you want the Snow device shipped to.
 """
-create_address(Address; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "CreateAddress",
-    Dict{String,Any}("Address" => Address);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_address(Address; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "CreateAddress",
+        Dict{String,Any}("Address" => Address);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_address(
     Address,
     params::AbstractDict{String};
@@ -190,23 +196,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
 - `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
-create_cluster(
+function create_cluster(
     AddressId,
     JobType,
     ShippingOption,
     SnowballType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = snowball(
-    "CreateCluster",
-    Dict{String,Any}(
-        "AddressId" => AddressId,
-        "JobType" => JobType,
-        "ShippingOption" => ShippingOption,
-        "SnowballType" => SnowballType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return snowball(
+        "CreateCluster",
+        Dict{String,Any}(
+            "AddressId" => AddressId,
+            "JobType" => JobType,
+            "ShippingOption" => ShippingOption,
+            "SnowballType" => SnowballType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_cluster(
     AddressId,
     JobType,
@@ -373,8 +381,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
 - `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
-create_job(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("CreateJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_job(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball("CreateJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function create_job(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -404,16 +413,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
   the device should be renewed.
 """
-create_long_term_pricing(
+function create_long_term_pricing(
     LongTermPricingType, SnowballType; aws_config::AbstractAWSConfig=current_aws_config()
-) = snowball(
-    "CreateLongTermPricing",
-    Dict{String,Any}(
-        "LongTermPricingType" => LongTermPricingType, "SnowballType" => SnowballType
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return snowball(
+        "CreateLongTermPricing",
+        Dict{String,Any}(
+            "LongTermPricingType" => LongTermPricingType, "SnowballType" => SnowballType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_long_term_pricing(
     LongTermPricingType,
     SnowballType,
@@ -456,13 +467,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   how soon the device is returned to Amazon Web Services. This speed represents how quickly
   it moves to its destination while in transit. Regional shipping speeds are as follows:
 """
-create_return_shipping_label(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball(
+function create_return_shipping_label(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return snowball(
         "CreateReturnShippingLabel",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_return_shipping_label(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -485,12 +499,14 @@ Takes an `AddressId` and returns specific details about that address in the form
 
 - `address_id`: The automatically generated ID for a specific address.
 """
-describe_address(AddressId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "DescribeAddress",
-    Dict{String,Any}("AddressId" => AddressId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_address(AddressId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "DescribeAddress",
+        Dict{String,Any}("AddressId" => AddressId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_address(
     AddressId,
     params::AbstractDict{String};
@@ -523,8 +539,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of `ADDRESS` objects, you have the option of specifying a value for `NextToken` as
   the starting point for your list of returned addresses.
 """
-describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_addresses(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "DescribeAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_addresses(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -544,12 +563,14 @@ status, and other important metadata.
 
 - `cluster_id`: The automatically generated ID for a cluster.
 """
-describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "DescribeCluster",
-    Dict{String,Any}("ClusterId" => ClusterId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "DescribeCluster",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -577,12 +598,14 @@ other important metadata.
 - `job_id`: The automatically generated ID for a job, for example `JID123e4567-e89b-12d3-
   a456-426655440000`.
 """
-describe_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "DescribeJob",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "DescribeJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -606,13 +629,16 @@ Services.
 - `job_id`: The automatically generated ID for a job, for example `JID123e4567-e89b-12d3-
   a456-426655440000`.
 """
-describe_return_shipping_label(JobId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball(
+function describe_return_shipping_label(
+    JobId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return snowball(
         "DescribeReturnShippingLabel",
         Dict{String,Any}("JobId" => JobId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_return_shipping_label(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -652,12 +678,14 @@ days after the job is created.
 - `job_id`: The ID for a job that you want to get the manifest file for, for example
   `JID123e4567-e89b-12d3-a456-426655440000`.
 """
-get_job_manifest(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "GetJobManifest",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_job_manifest(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "GetJobManifest",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_job_manifest(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -692,12 +720,14 @@ unauthorized parties from gaining access to the Snow device associated with that
 - `job_id`: The ID for the job that you want to get the `UnlockCode` value for, for example
   `JID123e4567-e89b-12d3-a456-426655440000`.
 """
-get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "GetJobUnlockCode",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_job_unlock_code(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "GetJobUnlockCode",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_job_unlock_code(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,8 +749,11 @@ number of Snow devices your account has in use.
 The default service limit for the number of Snow devices that you can have at one time is
 1. If you want to increase your service limit, contact Amazon Web Services Support.
 """
-get_snowball_usage(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("GetSnowballUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_snowball_usage(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "GetSnowballUsage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_snowball_usage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -740,12 +773,14 @@ Returns an Amazon S3 presigned URL for an update file associated with a specifie
 - `job_id`: The ID for a job that you want to get the software update file for, for example
   `JID123e4567-e89b-12d3-a456-426655440000`.
 """
-get_software_updates(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "GetSoftwareUpdates",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_software_updates(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "GetSoftwareUpdates",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_software_updates(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,12 +814,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of `JobListEntry` objects, you have the option of specifying `NextToken` as the
   starting point for your returned list.
 """
-list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "ListClusterJobs",
-    Dict{String,Any}("ClusterId" => ClusterId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_cluster_jobs(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "ListClusterJobs",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_cluster_jobs(
     ClusterId,
     params::AbstractDict{String};
@@ -817,8 +854,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of `ClusterListEntry` objects, you have the option of specifying `NextToken` as the
   starting point for your returned list.
 """
-list_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -849,8 +887,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of compatible images, you can specify a value for `NextToken` as the starting point
   for your list of returned images.
 """
-list_compatible_images(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("ListCompatibleImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_compatible_images(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "ListCompatibleImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_compatible_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -880,8 +921,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of `JobListEntry` objects, you have the option of specifying `NextToken` as the
   starting point for your returned list.
 """
-list_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -904,8 +946,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Because HTTP requests are stateless, this is the starting point for your
   next list of `ListLongTermPricing` to return.
 """
-list_long_term_pricing(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("ListLongTermPricing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_long_term_pricing(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "ListLongTermPricing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_long_term_pricing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -932,8 +977,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of `ListPickupLocationsRequest` objects, you have the option of specifying
   `NextToken` as the starting point for your returned list.
 """
-list_pickup_locations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball("ListPickupLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_pickup_locations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "ListPickupLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_pickup_locations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,13 +1014,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Because HTTP requests are stateless, this is the starting point for the
   next list of returned `ListServiceVersionsRequest` versions.
 """
-list_service_versions(ServiceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    snowball(
+function list_service_versions(
+    ServiceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return snowball(
         "ListServiceVersions",
         Dict{String,Any}("ServiceName" => ServiceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_service_versions(
     ServiceName,
     params::AbstractDict{String};
@@ -1022,12 +1073,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShippingOption"`: The updated shipping option value of this cluster's
   <a>ShippingDetails</a> object.
 """
-update_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "UpdateCluster",
-    Dict{String,Any}("ClusterId" => ClusterId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "UpdateCluster",
+        Dict{String,Any}("ClusterId" => ClusterId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_cluster(
     ClusterId,
     params::AbstractDict{String};
@@ -1085,12 +1138,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide* or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-
   types.html" (Snow Family Devices and Capacity) in the *Snowcone User Guide*.
 """
-update_job(JobId; aws_config::AbstractAWSConfig=current_aws_config()) = snowball(
-    "UpdateJob",
-    Dict{String,Any}("JobId" => JobId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_job(JobId; aws_config::AbstractAWSConfig=current_aws_config())
+    return snowball(
+        "UpdateJob",
+        Dict{String,Any}("JobId" => JobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_job(
     JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1118,14 +1173,16 @@ Updates the state when a shipment state changes to a different state.
 
 Set to `RETURNED` when you have returned the device to Amazon Web Services.
 """
-update_job_shipment_state(
+function update_job_shipment_state(
     JobId, ShipmentState; aws_config::AbstractAWSConfig=current_aws_config()
-) = snowball(
-    "UpdateJobShipmentState",
-    Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return snowball(
+        "UpdateJobShipmentState",
+        Dict{String,Any}("JobId" => JobId, "ShipmentState" => ShipmentState);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_job_shipment_state(
     JobId,
     ShipmentState,
@@ -1166,14 +1223,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplacementJob"`: Specifies that a device that is ordered with long-term pricing should
   be replaced with a new device.
 """
-update_long_term_pricing(
+function update_long_term_pricing(
     LongTermPricingId; aws_config::AbstractAWSConfig=current_aws_config()
-) = snowball(
-    "UpdateLongTermPricing",
-    Dict{String,Any}("LongTermPricingId" => LongTermPricingId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return snowball(
+        "UpdateLongTermPricing",
+        Dict{String,Any}("LongTermPricingId" => LongTermPricingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_long_term_pricing(
     LongTermPricingId,
     params::AbstractDict{String};

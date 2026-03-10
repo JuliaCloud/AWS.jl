@@ -15,9 +15,11 @@ Deletes an object at the specified path.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
-    "DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function delete_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediastore_data(
+        "DELETE", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -37,9 +39,11 @@ Gets the headers for an object at the specified path.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
-    "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediastore_data(
+        "HEAD", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -61,7 +65,7 @@ object.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
-  For example, to upload the file `mlaw.avi` to the folder path `premium\canada` in the
+  For example, to upload the file `mlaw.avi` to the folder path `premium\\canada` in the
   container `movies`, enter the path `premium/canada/mlaw.avi`.
 
   Do not include the container name in this path.
@@ -89,9 +93,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWS Elemental MediaStore ignores this header for partially uploaded objects that have
   streaming upload availability.
 """
-get_object(Path; aws_config::AbstractAWSConfig=current_aws_config()) = mediastore_data(
-    "GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_object(Path; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediastore_data(
+        "GET", "/$(Path)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_object(
     Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -128,8 +134,11 @@ Tokens expire after 15 minutes.
 - `"Path"`: The path in the container from which to retrieve items. Format: &lt;folder
   name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
-list_items(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    mediastore_data("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_items(; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediastore_data(
+        "GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_items(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -151,7 +160,7 @@ upload availability and 10 MB for streaming upload availability.
 - `path`: The path (including the file name) where the object is stored in the container.
   Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 
-  For example, to upload the file `mlaw.avi` to the folder path `premium\canada` in the
+  For example, to upload the file `mlaw.avi` to the folder path `premium\\canada` in the
   container `movies`, enter the path `premium/canada/mlaw.avi`.
 
   Do not include the container name in this path.
@@ -190,14 +199,15 @@ Headers with a custom user-defined value are also accepted.
 
 To use this header, you must also set the HTTP `Transfer-Encoding` header to `chunked`.
 """
-put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config()) =
-    mediastore_data(
+function put_object(Body, Path; aws_config::AbstractAWSConfig=current_aws_config())
+    return mediastore_data(
         "PUT",
         "/$(Path)",
         Dict{String,Any}("Body" => Body);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function put_object(
     Body,
     Path,

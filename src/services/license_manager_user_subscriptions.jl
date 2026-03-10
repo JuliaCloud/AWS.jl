@@ -28,22 +28,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Domain"`: The domain name of the user.
 """
-associate_user(
+function associate_user(
     IdentityProvider,
     InstanceId,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/AssociateUser",
-    Dict{String,Any}(
-        "IdentityProvider" => IdentityProvider,
-        "InstanceId" => InstanceId,
-        "Username" => Username,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/AssociateUser",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "InstanceId" => InstanceId,
+            "Username" => Username,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_user(
     IdentityProvider,
     InstanceId,
@@ -81,15 +83,17 @@ Deregisters the identity provider from providing user-based subscriptions.
 - `identity_provider`: An object that specifies details for the identity provider.
 - `product`: The name of the user-based subscription product.
 """
-deregister_identity_provider(
+function deregister_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/identity-provider/DeregisterIdentityProvider",
-    Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/DeregisterIdentityProvider",
+        Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function deregister_identity_provider(
     IdentityProvider,
     Product,
@@ -131,22 +135,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Domain"`: The domain name of the user.
 """
-disassociate_user(
+function disassociate_user(
     IdentityProvider,
     InstanceId,
     Username;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/DisassociateUser",
-    Dict{String,Any}(
-        "IdentityProvider" => IdentityProvider,
-        "InstanceId" => InstanceId,
-        "Username" => Username,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/DisassociateUser",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "InstanceId" => InstanceId,
+            "Username" => Username,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_user(
     IdentityProvider,
     InstanceId,
@@ -186,13 +192,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_user_subscriptions(
+function list_identity_providers(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
         "POST",
         "/identity-provider/ListIdentityProviders";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_identity_providers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -220,13 +227,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-list_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    license_manager_user_subscriptions(
+function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
+    return license_manager_user_subscriptions(
         "POST",
         "/instance/ListInstances";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -259,15 +267,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-list_product_subscriptions(
+function list_product_subscriptions(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/ListProductSubscriptions",
-    Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/ListProductSubscriptions",
+        Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_product_subscriptions(
     IdentityProvider,
     Product,
@@ -311,15 +321,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-list_user_associations(
+function list_user_associations(
     IdentityProvider, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/ListUserAssociations",
-    Dict{String,Any}("IdentityProvider" => IdentityProvider, "InstanceId" => InstanceId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/ListUserAssociations",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider, "InstanceId" => InstanceId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_user_associations(
     IdentityProvider,
     InstanceId,
@@ -361,15 +375,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Settings"`: The registered identity provider’s product related configuration settings
   such as the subnets to provision VPC endpoints.
 """
-register_identity_provider(
+function register_identity_provider(
     IdentityProvider, Product; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/identity-provider/RegisterIdentityProvider",
-    Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/RegisterIdentityProvider",
+        Dict{String,Any}("IdentityProvider" => IdentityProvider, "Product" => Product);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_identity_provider(
     IdentityProvider,
     Product,
@@ -417,19 +433,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Domain"`: The domain name of the user.
 """
-start_product_subscription(
+function start_product_subscription(
     IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/StartProductSubscription",
-    Dict{String,Any}(
-        "IdentityProvider" => IdentityProvider,
-        "Product" => Product,
-        "Username" => Username,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/StartProductSubscription",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "Product" => Product,
+            "Username" => Username,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_product_subscription(
     IdentityProvider,
     Product,
@@ -474,19 +492,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Domain"`: The domain name of the user.
 """
-stop_product_subscription(
+function stop_product_subscription(
     IdentityProvider, Product, Username; aws_config::AbstractAWSConfig=current_aws_config()
-) = license_manager_user_subscriptions(
-    "POST",
-    "/user/StopProductSubscription",
-    Dict{String,Any}(
-        "IdentityProvider" => IdentityProvider,
-        "Product" => Product,
-        "Username" => Username,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/user/StopProductSubscription",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "Product" => Product,
+            "Username" => Username,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function stop_product_subscription(
     IdentityProvider,
     Product,
@@ -529,22 +549,24 @@ Updates additional product configuration settings for the registered identity pr
    - Subnets which you want to remove the VPC endpoints from.
    - Security group ID which permits traffic to the VPC endpoints.
 """
-update_identity_provider_settings(
+function update_identity_provider_settings(
     IdentityProvider,
     Product,
     UpdateSettings;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = license_manager_user_subscriptions(
-    "POST",
-    "/identity-provider/UpdateIdentityProviderSettings",
-    Dict{String,Any}(
-        "IdentityProvider" => IdentityProvider,
-        "Product" => Product,
-        "UpdateSettings" => UpdateSettings,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return license_manager_user_subscriptions(
+        "POST",
+        "/identity-provider/UpdateIdentityProviderSettings",
+        Dict{String,Any}(
+            "IdentityProvider" => IdentityProvider,
+            "Product" => Product,
+            "UpdateSettings" => UpdateSettings,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_identity_provider_settings(
     IdentityProvider,
     Product,

@@ -58,14 +58,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not include `InputType`, your category is created as a post-call category by
   default.
 """
-create_call_analytics_category(
+function create_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "CreateCallAnalyticsCategory",
-    Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "CreateCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_call_analytics_category(
     CategoryName,
     Rules,
@@ -144,23 +146,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
-create_language_model(
+function create_language_model(
     BaseModelName,
     InputDataConfig,
     LanguageCode,
     ModelName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = transcribe(
-    "CreateLanguageModel",
-    Dict{String,Any}(
-        "BaseModelName" => BaseModelName,
-        "InputDataConfig" => InputDataConfig,
-        "LanguageCode" => LanguageCode,
-        "ModelName" => ModelName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "CreateLanguageModel",
+        Dict{String,Any}(
+            "BaseModelName" => BaseModelName,
+            "InputDataConfig" => InputDataConfig,
+            "LanguageCode" => LanguageCode,
+            "ModelName" => ModelName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_language_model(
     BaseModelName,
     InputDataConfig,
@@ -232,21 +236,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
-create_medical_vocabulary(
+function create_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
     VocabularyName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = transcribe(
-    "CreateMedicalVocabulary",
-    Dict{String,Any}(
-        "LanguageCode" => LanguageCode,
-        "VocabularyFileUri" => VocabularyFileUri,
-        "VocabularyName" => VocabularyName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "CreateMedicalVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode,
+            "VocabularyFileUri" => VocabularyFileUri,
+            "VocabularyName" => VocabularyName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -346,14 +352,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note that if you include `VocabularyFileUri` in your request, you cannot use the
   `Phrases` flag; you must choose one or the other.
 """
-create_vocabulary(
+function create_vocabulary(
     LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "CreateVocabulary",
-    Dict{String,Any}("LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "CreateVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_vocabulary(
     LanguageCode,
     VocabularyName,
@@ -449,16 +459,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 """
-create_vocabulary_filter(
+function create_vocabulary_filter(
     LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "CreateVocabularyFilter",
-    Dict{String,Any}(
-        "LanguageCode" => LanguageCode, "VocabularyFilterName" => VocabularyFilterName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "CreateVocabularyFilter",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyFilterName" => VocabularyFilterName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_vocabulary_filter(
     LanguageCode,
     VocabularyFilterName,
@@ -494,14 +506,16 @@ you want to delete using `CategoryName`. Category names are case sensitive.
 - `category_name`: The name of the Call Analytics category you want to delete. Category
   names are case sensitive.
 """
-delete_call_analytics_category(
+function delete_call_analytics_category(
     CategoryName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteCallAnalyticsCategory",
-    Dict{String,Any}("CategoryName" => CategoryName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_call_analytics_category(
     CategoryName,
     params::AbstractDict{String};
@@ -529,14 +543,16 @@ to delete using `CallAnalyticsJobName`. Job names are case sensitive.
 - `call_analytics_job_name`: The name of the Call Analytics job you want to delete. Job
   names are case sensitive.
 """
-delete_call_analytics_job(
+function delete_call_analytics_job(
     CallAnalyticsJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteCallAnalyticsJob",
-    Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteCallAnalyticsJob",
+        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_call_analytics_job(
     CallAnalyticsJobName,
     params::AbstractDict{String};
@@ -568,13 +584,16 @@ model you want to delete using `ModelName`. custom language model names are case
 - `model_name`: The name of the custom language model you want to delete. Model names are
   case sensitive.
 """
-delete_language_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function delete_language_model(
+    ModelName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "DeleteLanguageModel",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_language_model(
     ModelName,
     params::AbstractDict{String};
@@ -602,14 +621,16 @@ to delete using `MedicalScribeJobName`. Job names are case sensitive.
 - `medical_scribe_job_name`: The name of the Medical Scribe job you want to delete. Job
   names are case sensitive.
 """
-delete_medical_scribe_job(
+function delete_medical_scribe_job(
     MedicalScribeJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteMedicalScribeJob",
-    Dict{String,Any}("MedicalScribeJobName" => MedicalScribeJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteMedicalScribeJob",
+        Dict{String,Any}("MedicalScribeJobName" => MedicalScribeJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_medical_scribe_job(
     MedicalScribeJobName,
     params::AbstractDict{String};
@@ -641,14 +662,16 @@ want to delete using `MedicalTranscriptionJobName`. Job names are case sensitive
 - `medical_transcription_job_name`: The name of the medical transcription job you want to
   delete. Job names are case sensitive.
 """
-delete_medical_transcription_job(
+function delete_medical_transcription_job(
     MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteMedicalTranscriptionJob",
-    Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteMedicalTranscriptionJob",
+        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_medical_transcription_job(
     MedicalTranscriptionJobName,
     params::AbstractDict{String};
@@ -683,14 +706,16 @@ sensitive.
 - `vocabulary_name`: The name of the custom medical vocabulary you want to delete. Custom
   medical vocabulary names are case sensitive.
 """
-delete_medical_vocabulary(
+function delete_medical_vocabulary(
     VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteMedicalVocabulary",
-    Dict{String,Any}("VocabularyName" => VocabularyName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteMedicalVocabulary",
+        Dict{String,Any}("VocabularyName" => VocabularyName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_medical_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -718,14 +743,16 @@ delete using `TranscriptionJobName`. Job names are case sensitive.
 - `transcription_job_name`: The name of the transcription job you want to delete. Job names
   are case sensitive.
 """
-delete_transcription_job(
+function delete_transcription_job(
     TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteTranscriptionJob",
-    Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteTranscriptionJob",
+        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_transcription_job(
     TranscriptionJobName,
     params::AbstractDict{String};
@@ -758,13 +785,16 @@ sensitive.
 - `vocabulary_name`: The name of the custom vocabulary you want to delete. Custom
   vocabulary names are case sensitive.
 """
-delete_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function delete_vocabulary(
+    VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "DeleteVocabulary",
         Dict{String,Any}("VocabularyName" => VocabularyName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -793,14 +823,16 @@ names are case sensitive.
 - `vocabulary_filter_name`: The name of the custom vocabulary filter you want to delete.
   Custom vocabulary filter names are case sensitive.
 """
-delete_vocabulary_filter(
+function delete_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "DeleteVocabularyFilter",
-    Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "DeleteVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};
@@ -838,13 +870,16 @@ can use `DescribeLanguageModel` to help identify the reason for this failure.
 - `model_name`: The name of the custom language model you want information about. Model
   names are case sensitive.
 """
-describe_language_model(ModelName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function describe_language_model(
+    ModelName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "DescribeLanguageModel",
         Dict{String,Any}("ModelName" => ModelName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_language_model(
     ModelName,
     params::AbstractDict{String};
@@ -873,14 +908,16 @@ To get a list of your Call Analytics categories, use the operation.
 - `category_name`: The name of the Call Analytics category you want information about.
   Category names are case sensitive.
 """
-get_call_analytics_category(
+function get_call_analytics_category(
     CategoryName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetCallAnalyticsCategory",
-    Dict{String,Any}("CategoryName" => CategoryName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_call_analytics_category(
     CategoryName,
     params::AbstractDict{String};
@@ -920,14 +957,16 @@ To get a list of your Call Analytics jobs, use the operation.
 - `call_analytics_job_name`: The name of the Call Analytics job you want information about.
   Job names are case sensitive.
 """
-get_call_analytics_job(
+function get_call_analytics_job(
     CallAnalyticsJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetCallAnalyticsJob",
-    Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetCallAnalyticsJob",
+        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_call_analytics_job(
     CallAnalyticsJobName,
     params::AbstractDict{String};
@@ -965,14 +1004,16 @@ To get a list of your Medical Scribe jobs, use the operation.
 - `medical_scribe_job_name`: The name of the Medical Scribe job you want information about.
   Job names are case sensitive.
 """
-get_medical_scribe_job(
+function get_medical_scribe_job(
     MedicalScribeJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetMedicalScribeJob",
-    Dict{String,Any}("MedicalScribeJobName" => MedicalScribeJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetMedicalScribeJob",
+        Dict{String,Any}("MedicalScribeJobName" => MedicalScribeJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_medical_scribe_job(
     MedicalScribeJobName,
     params::AbstractDict{String};
@@ -1010,14 +1051,16 @@ To get a list of your medical transcription jobs, use the operation.
 - `medical_transcription_job_name`: The name of the medical transcription job you want
   information about. Job names are case sensitive.
 """
-get_medical_transcription_job(
+function get_medical_transcription_job(
     MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetMedicalTranscriptionJob",
-    Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetMedicalTranscriptionJob",
+        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_medical_transcription_job(
     MedicalTranscriptionJobName,
     params::AbstractDict{String};
@@ -1056,13 +1099,16 @@ To get a list of your custom medical vocabularies, use the operation.
 - `vocabulary_name`: The name of the custom medical vocabulary you want information about.
   Custom medical vocabulary names are case sensitive.
 """
-get_medical_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function get_medical_vocabulary(
+    VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "GetMedicalVocabulary",
         Dict{String,Any}("VocabularyName" => VocabularyName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_medical_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -1099,14 +1145,16 @@ To get a list of your transcription jobs, use the operation.
 - `transcription_job_name`: The name of the transcription job you want information about.
   Job names are case sensitive.
 """
-get_transcription_job(
+function get_transcription_job(
     TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetTranscriptionJob",
-    Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetTranscriptionJob",
+        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_transcription_job(
     TranscriptionJobName,
     params::AbstractDict{String};
@@ -1143,13 +1191,14 @@ To get a list of your custom vocabularies, use the operation.
 - `vocabulary_name`: The name of the custom vocabulary you want information about. Custom
   vocabulary names are case sensitive.
 """
-get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
         "GetVocabulary",
         Dict{String,Any}("VocabularyName" => VocabularyName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_vocabulary(
     VocabularyName,
     params::AbstractDict{String};
@@ -1178,14 +1227,16 @@ To get a list of your custom vocabulary filters, use the operation.
 - `vocabulary_filter_name`: The name of the custom vocabulary filter you want information
   about. Custom vocabulary filter names are case sensitive.
 """
-get_vocabulary_filter(
+function get_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "GetVocabularyFilter",
-    Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "GetVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};
@@ -1227,12 +1278,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextToken` with the value of the copied string. Repeat as needed to view all your
   results.
 """
-list_call_analytics_categories(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function list_call_analytics_categories(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "ListCallAnalyticsCategories";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_call_analytics_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1270,9 +1324,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by creation date, with the newest job first. If you do not include `Status`, all Call
   Analytics jobs are returned.
 """
-list_call_analytics_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = transcribe(
-    "ListCallAnalyticsJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListCallAnalyticsJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_call_analytics_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1310,8 +1366,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   models are ordered by creation date, with the newest model first. If you do not include
   `StatusEquals`, all custom language models are returned.
 """
-list_language_models(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe("ListLanguageModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_language_models(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListLanguageModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_language_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1346,9 +1405,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by creation date, with the newest job first. If you do not include `Status`, all Medical
   Scribe jobs are returned.
 """
-list_medical_scribe_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = transcribe(
-    "ListMedicalScribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_medical_scribe_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListMedicalScribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_medical_scribe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1387,12 +1448,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ordered by creation date, with the newest job first. If you do not include `Status`, all
   medical transcription jobs are returned.
 """
-list_medical_transcription_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function list_medical_transcription_jobs(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "ListMedicalTranscriptionJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_medical_transcription_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1430,10 +1494,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Custom vocabularies are ordered by creation date, with the newest vocabulary first. If
   you do not include `StateEquals`, all custom medical vocabularies are returned.
 """
-list_medical_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function list_medical_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
         "ListMedicalVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_medical_vocabularies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1466,13 +1531,16 @@ To learn more about using tags with Amazon Transcribe, refer to [Tagging resourc
   Valid values for `resource-type` are: `transcription-job`, `medical-transcription-job`,
   `vocabulary`, `medical-vocabulary`, `vocabulary-filter`, and `language-model`.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1514,9 +1582,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by creation date, with the newest job first. If you do not include `Status`, all
   transcription jobs are returned.
 """
-list_transcription_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = transcribe(
-    "ListTranscriptionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_transcription_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListTranscriptionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_transcription_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1554,8 +1624,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are ordered by creation date, with the newest vocabulary first. If you do not include
   `StateEquals`, all custom medical vocabularies are returned.
 """
-list_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe("ListVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_vocabularies(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_vocabularies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1587,9 +1660,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results, copy this string and repeat your request, including `NextToken`
   with the value of the copied string. Repeat as needed to view all your results.
 """
-list_vocabulary_filters(; aws_config::AbstractAWSConfig=current_aws_config()) = transcribe(
-    "ListVocabularyFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_vocabulary_filters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
+        "ListVocabularyFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_vocabulary_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1712,14 +1787,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   redaction; allows you to apply custom language models, vocabulary filters, and custom
   vocabularies to your Call Analytics job.
 """
-start_call_analytics_job(
+function start_call_analytics_job(
     CallAnalyticsJobName, Media; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "StartCallAnalyticsJob",
-    Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName, "Media" => Media);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "StartCallAnalyticsJob",
+        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName, "Media" => Media);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_call_analytics_job(
     CallAnalyticsJobName,
     Media,
@@ -1846,25 +1923,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
-start_medical_scribe_job(
+function start_medical_scribe_job(
     DataAccessRoleArn,
     Media,
     MedicalScribeJobName,
     OutputBucketName,
     Settings;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = transcribe(
-    "StartMedicalScribeJob",
-    Dict{String,Any}(
-        "DataAccessRoleArn" => DataAccessRoleArn,
-        "Media" => Media,
-        "MedicalScribeJobName" => MedicalScribeJobName,
-        "OutputBucketName" => OutputBucketName,
-        "Settings" => Settings,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "StartMedicalScribeJob",
+        Dict{String,Any}(
+            "DataAccessRoleArn" => DataAccessRoleArn,
+            "Media" => Media,
+            "MedicalScribeJobName" => MedicalScribeJobName,
+            "OutputBucketName" => OutputBucketName,
+            "Settings" => Settings,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_medical_scribe_job(
     DataAccessRoleArn,
     Media,
@@ -2032,7 +2111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
-start_medical_transcription_job(
+function start_medical_transcription_job(
     LanguageCode,
     Media,
     MedicalTranscriptionJobName,
@@ -2040,19 +2119,21 @@ start_medical_transcription_job(
     Specialty,
     Type;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = transcribe(
-    "StartMedicalTranscriptionJob",
-    Dict{String,Any}(
-        "LanguageCode" => LanguageCode,
-        "Media" => Media,
-        "MedicalTranscriptionJobName" => MedicalTranscriptionJobName,
-        "OutputBucketName" => OutputBucketName,
-        "Specialty" => Specialty,
-        "Type" => Type,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "StartMedicalTranscriptionJob",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode,
+            "Media" => Media,
+            "MedicalTranscriptionJobName" => MedicalTranscriptionJobName,
+            "OutputBucketName" => OutputBucketName,
+            "Specialty" => Specialty,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_medical_transcription_job(
     LanguageCode,
     Media,
@@ -2326,14 +2407,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
   For information on the types of toxic speech Amazon Transcribe can detect, see [Detecting toxic speech](https://docs.aws.amazon.com/transcribe/latest/dg/toxic-language.html).
 """
-start_transcription_job(
+function start_transcription_job(
     Media, TranscriptionJobName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "StartTranscriptionJob",
-    Dict{String,Any}("Media" => Media, "TranscriptionJobName" => TranscriptionJobName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "StartTranscriptionJob",
+        Dict{String,Any}("Media" => Media, "TranscriptionJobName" => TranscriptionJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_transcription_job(
     Media,
     TranscriptionJobName,
@@ -2380,13 +2463,14 @@ To learn more about using tags with Amazon Transcribe, refer to [Tagging resourc
 
   To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return transcribe(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2429,13 +2513,16 @@ If you include `UntagResource` in your request, you must also include `ResourceA
   `vocabulary`, `medical-vocabulary`, `vocabulary-filter`, and `language-model`.
 - `tag_keys`: Removes the specified tag keys from the specified Amazon Transcribe resource.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    transcribe(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return transcribe(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2482,14 +2569,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For example, if you created a category with the `POST_CALL` input type, you must use
   `POST_CALL` as the input type when updating this category.
 """
-update_call_analytics_category(
+function update_call_analytics_category(
     CategoryName, Rules; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "UpdateCallAnalyticsCategory",
-    Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "UpdateCallAnalyticsCategory",
+        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_call_analytics_category(
     CategoryName,
     Rules,
@@ -2531,21 +2620,23 @@ Here's an example URI path: `s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt`
 - `vocabulary_name`: The name of the custom medical vocabulary you want to update. Custom
   medical vocabulary names are case sensitive.
 """
-update_medical_vocabulary(
+function update_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
     VocabularyName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = transcribe(
-    "UpdateMedicalVocabulary",
-    Dict{String,Any}(
-        "LanguageCode" => LanguageCode,
-        "VocabularyFileUri" => VocabularyFileUri,
-        "VocabularyName" => VocabularyName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "UpdateMedicalVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode,
+            "VocabularyFileUri" => VocabularyFileUri,
+            "VocabularyName" => VocabularyName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_medical_vocabulary(
     LanguageCode,
     VocabularyFileUri,
@@ -2629,14 +2720,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Note that if you include `VocabularyFileUri` in your request, you cannot use the
   `Phrases` flag; you must choose one or the other.
 """
-update_vocabulary(
+function update_vocabulary(
     LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "UpdateVocabulary",
-    Dict{String,Any}("LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "UpdateVocabulary",
+        Dict{String,Any}(
+            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_vocabulary(
     LanguageCode,
     VocabularyName,
@@ -2707,14 +2802,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Refer to [Character Sets for Custom Vocabularies](https://docs.aws.amazon.com/transcribe/latest/dg/charsets.html)
   to get the character set for your language.
 """
-update_vocabulary_filter(
+function update_vocabulary_filter(
     VocabularyFilterName; aws_config::AbstractAWSConfig=current_aws_config()
-) = transcribe(
-    "UpdateVocabularyFilter",
-    Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return transcribe(
+        "UpdateVocabularyFilter",
+        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_vocabulary_filter(
     VocabularyFilterName,
     params::AbstractDict{String};

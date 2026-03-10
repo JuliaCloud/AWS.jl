@@ -41,13 +41,14 @@ When using this parameter, be sure the filter resource is `ACTIVE`.
 - `"numResults"`: The number of results to return. The default is 5. The maximum is 100.
 - `"userId"`: The user ID of the user to provide action recommendations for.
 """
-get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize_runtime(
+function get_action_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize_runtime(
         "POST",
         "/action-recommendations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_action_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -108,17 +109,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
    For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata).
 """
-get_personalized_ranking(
+function get_personalized_ranking(
     campaignArn, inputList, userId; aws_config::AbstractAWSConfig=current_aws_config()
-) = personalize_runtime(
-    "POST",
-    "/personalize-ranking",
-    Dict{String,Any}(
-        "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return personalize_runtime(
+        "POST",
+        "/personalize-ranking",
+        Dict{String,Any}(
+            "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_personalized_ranking(
     campaignArn,
     inputList,
@@ -210,10 +213,11 @@ Required for `RELATED_ITEMS` recipe type.
 
 Required for `USER_PERSONALIZATION` recipe type.
 """
-get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    personalize_runtime(
+function get_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
+    return personalize_runtime(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

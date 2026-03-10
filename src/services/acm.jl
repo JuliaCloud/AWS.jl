@@ -36,14 +36,16 @@ action.
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 - `tags`: The key-value pair that defines the tag. The tag value is optional.
 """
-add_tags_to_certificate(
+function add_tags_to_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "AddTagsToCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "AddTagsToCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_tags_to_certificate(
     CertificateArn,
     Tags,
@@ -87,13 +89,16 @@ removed.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
-delete_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    acm(
+function delete_certificate(
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return acm(
         "DeleteCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -127,13 +132,16 @@ delay of several seconds before you can retrieve information about it.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
-describe_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    acm(
+function describe_certificate(
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return acm(
         "DescribeCertificate",
         Dict{String,Any}("CertificateArn" => CertificateArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -178,14 +186,16 @@ see [Export a Private Certificate](https://docs.aws.amazon.com/acm/latest/usergu
 
  <p> `openssl rsa -in encrypted_key.pem -out decrypted_key.pem`
 """
-export_certificate(
+function export_certificate(
     CertificateArn, Passphrase; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "ExportCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn, "Passphrase" => Passphrase);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "ExportCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn, "Passphrase" => Passphrase);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function export_certificate(
     CertificateArn,
     Passphrase,
@@ -214,8 +224,11 @@ end
 
 Returns the account configuration options associated with an Amazon Web Services account.
 """
-get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    acm("GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_account_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
+    return acm(
+        "GetAccountConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_account_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -246,12 +259,14 @@ to decode the certificates and inspect individual fields.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
-get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) = acm(
-    "GetCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return acm(
+        "GetCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -295,8 +310,8 @@ by a password or a passphrase.
 only when you want to replace a previously imported certificate.
  - When you import a certificate by using the CLI, you must specify the certificate, the
 certificate chain, and the private key by their file names preceded by `fileb://`. For
-example, you can specify a certificate saved in the `C:\temp` folder as
-`fileb://C:\temp\certificate_to_import.pem`. If you are making an HTTP or HTTPS Query
+example, you can specify a certificate saved in the `C:\\temp` folder as
+`fileb://C:\\temp\\certificate_to_import.pem`. If you are making an HTTP or HTTPS Query
 request, include these arguments as BLOBs.
  - When you import a certificate by using an SDK, you must specify the certificate, the
 certificate chain, and the private key files in the manner required by the programming
@@ -323,14 +338,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Note: You cannot apply tags when reimporting a certificate.
 """
-import_certificate(
+function import_certificate(
     Certificate, PrivateKey; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "ImportCertificate",
-    Dict{String,Any}("Certificate" => Certificate, "PrivateKey" => PrivateKey);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "ImportCertificate",
+        Dict{String,Any}("Certificate" => Certificate, "PrivateKey" => PrivateKey);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_certificate(
     Certificate,
     PrivateKey,
@@ -380,8 +397,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Specifies the order of sorted results. If you specify `SortOrder`, you
   must also specify `SortBy`.
 """
-list_certificates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return acm("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -408,14 +426,16 @@ action.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
-list_tags_for_certificate(
+function list_tags_for_certificate(
     CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "ListTagsForCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "ListTagsForCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_tags_for_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -456,14 +476,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ExpiryEvents"`: Specifies expiration events associated with an account.
 """
-put_account_configuration(
+function put_account_configuration(
     IdempotencyToken; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "PutAccountConfiguration",
-    Dict{String,Any}("IdempotencyToken" => IdempotencyToken);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "PutAccountConfiguration",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_account_configuration(
     IdempotencyToken,
     params::AbstractDict{String};
@@ -504,14 +526,16 @@ action.
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 - `tags`: The key-value pair that defines the tag to remove.
 """
-remove_tags_from_certificate(
+function remove_tags_from_certificate(
     CertificateArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "RemoveTagsFromCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "RemoveTagsFromCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_tags_from_certificate(
     CertificateArn,
     Tags,
@@ -551,12 +575,16 @@ in the ACM User Guide.
 
   For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
-renew_certificate(CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()) = acm(
-    "RenewCertificate",
-    Dict{String,Any}("CertificateArn" => CertificateArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function renew_certificate(
+    CertificateArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return acm(
+        "RenewCertificate",
+        Dict{String,Any}("CertificateArn" => CertificateArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function renew_certificate(
     CertificateArn,
     params::AbstractDict{String};
@@ -673,12 +701,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or [validate with email](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html).
   We recommend that you use DNS validation.
 """
-request_certificate(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) = acm(
-    "RequestCertificate",
-    Dict{String,Any}("DomainName" => DomainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function request_certificate(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return acm(
+        "RequestCertificate",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function request_certificate(
     DomainName,
     params::AbstractDict{String};
@@ -731,21 +761,23 @@ your contact email addresses, see [Configure Email for your Domain](https://docs
    - postmaster@subdomain.example.com
  - webmaster@subdomain.example.com
 """
-resend_validation_email(
+function resend_validation_email(
     CertificateArn,
     Domain,
     ValidationDomain;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = acm(
-    "ResendValidationEmail",
-    Dict{String,Any}(
-        "CertificateArn" => CertificateArn,
-        "Domain" => Domain,
-        "ValidationDomain" => ValidationDomain,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "ResendValidationEmail",
+        Dict{String,Any}(
+            "CertificateArn" => CertificateArn,
+            "Domain" => Domain,
+            "ValidationDomain" => ValidationDomain,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function resend_validation_email(
     CertificateArn,
     Domain,
@@ -789,14 +821,16 @@ information, see [ Opting Out of Certificate Transparency Logging](https://docs.
   possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued.
   Certificates that have not been logged typically produce an error message in a browser.
 """
-update_certificate_options(
+function update_certificate_options(
     CertificateArn, Options; aws_config::AbstractAWSConfig=current_aws_config()
-) = acm(
-    "UpdateCertificateOptions",
-    Dict{String,Any}("CertificateArn" => CertificateArn, "Options" => Options);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return acm(
+        "UpdateCertificateOptions",
+        Dict{String,Any}("CertificateArn" => CertificateArn, "Options" => Options);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_certificate_options(
     CertificateArn,
     Options,

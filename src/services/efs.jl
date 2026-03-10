@@ -54,15 +54,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each key must be unique. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
   in the *Amazon Web Services General Reference Guide*.
 """
-create_access_point(
+function create_access_point(
     ClientToken, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "POST",
-    "/2015-02-01/access-points",
-    Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "POST",
+        "/2015-02-01/access-points",
+        Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_access_point(
     ClientToken,
     FileSystemId,
@@ -225,13 +227,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Default is `bursting`.
 """
-create_file_system(CreationToken; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "POST",
-    "/2015-02-01/file-systems",
-    Dict{String,Any}("CreationToken" => CreationToken);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function create_file_system(
+    CreationToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return efs(
+        "POST",
+        "/2015-02-01/file-systems",
+        Dict{String,Any}("CreationToken" => CreationToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_file_system(
     CreationToken,
     params::AbstractDict{String};
@@ -347,15 +353,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroups"`: Up to five VPC security group IDs, of the form `sg-xxxxxxxx`. These
   must be for the same VPC as subnet specified.
 """
-create_mount_target(
+function create_mount_target(
     FileSystemId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "POST",
-    "/2015-02-01/mount-targets",
-    Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "POST",
+        "/2015-02-01/mount-targets",
+        Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_mount_target(
     FileSystemId,
     SubnetId,
@@ -434,15 +442,17 @@ in the *Amazon EFS User Guide*.
   This file system cannot already be a source or destination file system in another
   replication configuration.
 """
-create_replication_configuration(
+function create_replication_configuration(
     Destinations, SourceFileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "POST",
-    "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
-    Dict{String,Any}("Destinations" => Destinations);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "POST",
+        "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
+        Dict{String,Any}("Destinations" => Destinations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_replication_configuration(
     Destinations,
     SourceFileSystemId,
@@ -482,13 +492,15 @@ you add the `Name` tag to your file system, Amazon EFS returns it in the respons
   operation modifies the tags only, not the file system.
 - `tags`: An array of `Tag` objects to add. Each `Tag` object is a key-value pair.
 """
-create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "POST",
-    "/2015-02-01/create-tags/$(FileSystemId)",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "POST",
+        "/2015-02-01/create-tags/$(FileSystemId)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_tags(
     FileSystemId,
     Tags,
@@ -518,13 +530,16 @@ This operation requires permissions for the `elasticfilesystem:DeleteAccessPoint
 
 - `access_point_id`: The ID of the access point that you want to delete.
 """
-delete_access_point(AccessPointId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function delete_access_point(
+    AccessPointId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "DELETE",
         "/2015-02-01/access-points/$(AccessPointId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_access_point(
     AccessPointId,
     params::AbstractDict{String};
@@ -568,12 +583,16 @@ or creation token for the deleted file system, the <a>DescribeFileSystems</a> re
 
 - `file_system_id`: The ID of the file system you want to delete.
 """
-delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "DELETE",
-    "/2015-02-01/file-systems/$(FileSystemId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function delete_file_system(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return efs(
+        "DELETE",
+        "/2015-02-01/file-systems/$(FileSystemId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -604,14 +623,16 @@ action.
 - `file_system_id`: Specifies the EFS file system for which to delete the
   `FileSystemPolicy`.
 """
-delete_file_system_policy(
+function delete_file_system_policy(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "DELETE",
-    "/2015-02-01/file-systems/$(FileSystemId)/policy";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "DELETE",
+        "/2015-02-01/file-systems/$(FileSystemId)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_file_system_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -655,13 +676,16 @@ target's network interface: - `ec2:DeleteNetworkInterface`
 
 - `mount_target_id`: The ID of the mount target to delete (String).
 """
-delete_mount_target(MountTargetId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function delete_mount_target(
+    MountTargetId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "DELETE",
         "/2015-02-01/mount-targets/$(MountTargetId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_mount_target(
     MountTargetId,
     params::AbstractDict{String};
@@ -693,14 +717,16 @@ This operation requires permissions for the
 - `source_file_system_id`: The ID of the source file system in the replication
   configuration.
 """
-delete_replication_configuration(
+function delete_replication_configuration(
     SourceFileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "DELETE",
-    "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "DELETE",
+        "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_replication_configuration(
     SourceFileSystemId,
     params::AbstractDict{String};
@@ -735,14 +761,17 @@ in the *Billing and Cost Management User Guide*.
 - `file_system_id`: The ID of the file system whose tags you want to delete (String).
 - `tag_keys`: A list of tag keys to delete.
 """
-delete_tags(FileSystemId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function delete_tags(
+    FileSystemId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "POST",
         "/2015-02-01/delete-tags/$(FileSystemId)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_tags(
     FileSystemId,
     TagKeys,
@@ -784,12 +813,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `NextMarker` in the subsequent request to fetch the next page of access point
   descriptions.
 """
-describe_access_points(; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "GET",
-    "/2015-02-01/access-points";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_access_points(; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "GET",
+        "/2015-02-01/access-points";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_access_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -820,12 +851,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of Amazon Web Services account preferences if the response payload was
   paginated.
 """
-describe_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "GET",
-    "/2015-02-01/account-preferences";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_account_preferences(; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "GET",
+        "/2015-02-01/account-preferences";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_account_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -849,13 +882,16 @@ Returns the backup policy for the specified EFS file system.
 - `file_system_id`: Specifies which EFS file system for which to retrieve the
   `BackupPolicy`.
 """
-describe_backup_policy(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function describe_backup_policy(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_backup_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -883,14 +919,16 @@ action.
 
 - `file_system_id`: Specifies which EFS file system to retrieve the `FileSystemPolicy` for.
 """
-describe_file_system_policy(
+function describe_file_system_policy(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "GET",
-    "/2015-02-01/file-systems/$(FileSystemId)/policy";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "GET",
+        "/2015-02-01/file-systems/$(FileSystemId)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_file_system_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -947,12 +985,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response (integer). This number is automatically set to 100. The response is paginated at
   100 per page if you have more than 100 file systems.
 """
-describe_file_systems(; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "GET",
-    "/2015-02-01/file-systems";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_file_systems(; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "GET",
+        "/2015-02-01/file-systems";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_file_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -982,14 +1022,16 @@ This operation requires permissions for the
 - `file_system_id`: The ID of the file system whose `LifecycleConfiguration` object you
   want to retrieve (String).
 """
-describe_lifecycle_configuration(
+function describe_lifecycle_configuration(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "GET",
-    "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "GET",
+        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_lifecycle_configuration(
     FileSystemId,
     params::AbstractDict{String};
@@ -1021,14 +1063,16 @@ system.
 
 - `mount_target_id`: The ID of the mount target whose security groups you want to retrieve.
 """
-describe_mount_target_security_groups(
+function describe_mount_target_security_groups(
     MountTargetId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "GET",
-    "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "GET",
+        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_mount_target_security_groups(
     MountTargetId,
     params::AbstractDict{String};
@@ -1075,12 +1119,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (String). It must be included in your request if `FileSystemId` is not included. Accepts
   either a mount target ID or ARN as input.
 """
-describe_mount_targets(; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "GET",
-    "/2015-02-01/mount-targets";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_mount_targets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "GET",
+        "/2015-02-01/mount-targets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_mount_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1112,13 +1158,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  `NextToken` is present if the response is paginated. You can use
   `NextToken` in a subsequent request to fetch the next page of output.
 """
-describe_replication_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function describe_replication_configurations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "GET",
         "/2015-02-01/file-systems/replication-configurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_replication_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1161,12 +1210,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. Currently, this number is automatically set to 100, and other values are
   ignored. The response is paginated at 100 per page if you have more than 100 tags.
 """
-describe_tags(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "GET",
-    "/2015-02-01/tags/$(FileSystemId)/";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "GET",
+        "/2015-02-01/tags/$(FileSystemId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_tags(
     FileSystemId,
     params::AbstractDict{String};
@@ -1204,13 +1255,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) You can use `NextToken` in a subsequent request to fetch the
   next page of access point descriptions if the response payload was paginated.
 """
-list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function list_tags_for_resource(
+    ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "GET",
         "/2015-02-01/resource-tags/$(ResourceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -1252,14 +1306,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"SecurityGroups"`: An array of up to five VPC security group IDs.
 """
-modify_mount_target_security_groups(
+function modify_mount_target_security_groups(
     MountTargetId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_mount_target_security_groups(
     MountTargetId,
     params::AbstractDict{String};
@@ -1301,15 +1357,17 @@ resources.
   preference to `SHORT_ID`. Contact Amazon Web Services support if you receive an error and
   must use short IDs for file system and mount target resources.
 """
-put_account_preferences(
+function put_account_preferences(
     ResourceIdType; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/account-preferences",
-    Dict{String,Any}("ResourceIdType" => ResourceIdType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/account-preferences",
+        Dict{String,Any}("ResourceIdType" => ResourceIdType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_account_preferences(
     ResourceIdType,
     params::AbstractDict{String};
@@ -1338,15 +1396,17 @@ of the file system.
 - `backup_policy`: The backup policy included in the `PutBackupPolicy` request.
 - `file_system_id`: Specifies which EFS file system to update the backup policy for.
 """
-put_backup_policy(
+function put_backup_policy(
     BackupPolicy, FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
-    Dict{String,Any}("BackupPolicy" => BackupPolicy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
+        Dict{String,Any}("BackupPolicy" => BackupPolicy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_backup_policy(
     BackupPolicy,
     FileSystemId,
@@ -1399,15 +1459,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principal that is making the request from making subsequent `PutFileSystemPolicy`
   requests on this file system. The default value is `False`.
 """
-put_file_system_policy(
+function put_file_system_policy(
     FileSystemId, Policy; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/file-systems/$(FileSystemId)/policy",
-    Dict{String,Any}("Policy" => Policy);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)/policy",
+        Dict{String,Any}("Policy" => Policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_file_system_policy(
     FileSystemId,
     Policy,
@@ -1498,15 +1560,17 @@ same Key Management Service permissions as when you created the encrypted file s
   object for each storage transition. See the example requests in the following section for
   more information.
 """
-put_lifecycle_configuration(
+function put_lifecycle_configuration(
     FileSystemId, LifecyclePolicies; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
-    Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
+        Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_lifecycle_configuration(
     FileSystemId,
     LifecyclePolicies,
@@ -1540,13 +1604,15 @@ This operation requires permissions for the `elasticfilesystem:TagResource` acti
 - `resource_id`: The ID specifying the EFS resource that you want to create a tag for.
 - `tags`: An array of `Tag` objects to add. Each `Tag` object is a key-value pair.
 """
-tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "POST",
-    "/2015-02-01/resource-tags/$(ResourceId)",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return efs(
+        "POST",
+        "/2015-02-01/resource-tags/$(ResourceId)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceId,
     Tags,
@@ -1577,14 +1643,17 @@ This operation requires permissions for the `elasticfilesystem:UntagResource` ac
 - `tag_keys`: The keys of the key-value tag pairs that you want to remove from the
   specified EFS resource.
 """
-untag_resource(ResourceId, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    efs(
+function untag_resource(
+    ResourceId, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return efs(
         "DELETE",
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceId,
     tagKeys,
@@ -1626,12 +1695,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you are changing the `ThroughputMode` to `provisioned`, you must also set a value for
   `ProvisionedThroughputInMibps`.
 """
-update_file_system(FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()) = efs(
-    "PUT",
-    "/2015-02-01/file-systems/$(FileSystemId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function update_file_system(
+    FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -1676,14 +1749,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the replication configuration is deleted, the file system's replication overwrite
   protection is re-enabled, the file system becomes writeable.
 """
-update_file_system_protection(
+function update_file_system_protection(
     FileSystemId; aws_config::AbstractAWSConfig=current_aws_config()
-) = efs(
-    "PUT",
-    "/2015-02-01/file-systems/$(FileSystemId)/protection";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)/protection";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_file_system_protection(
     FileSystemId,
     params::AbstractDict{String};

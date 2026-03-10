@@ -26,14 +26,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotent API request with an action, specify a client token in the request.
 - `"Tags"`: The tags associated with the cluster.
 """
-create_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function create_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "POST",
         "/cluster",
         Dict{String,Any}("ClusterName" => ClusterName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_cluster(
     ClusterName,
     params::AbstractDict{String};
@@ -79,19 +80,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotent API request with an action, specify a client token in the request.
 - `"Tags"`: The tags associated with the control panel.
 """
-create_control_panel(
+function create_control_panel(
     ClusterArn, ControlPanelName; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "POST",
-    "/controlpanel",
-    Dict{String,Any}(
-        "ClusterArn" => ClusterArn,
-        "ControlPanelName" => ControlPanelName,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "POST",
+        "/controlpanel",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn,
+            "ControlPanelName" => ControlPanelName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_control_panel(
     ClusterArn,
     ControlPanelName,
@@ -145,19 +148,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes
   the routing control.
 """
-create_routing_control(
+function create_routing_control(
     ClusterArn, RoutingControlName; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "POST",
-    "/routingcontrol",
-    Dict{String,Any}(
-        "ClusterArn" => ClusterArn,
-        "RoutingControlName" => RoutingControlName,
-        "ClientToken" => string(uuid4()),
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "POST",
+        "/routingcontrol",
+        Dict{String,Any}(
+            "ClusterArn" => ClusterArn,
+            "RoutingControlName" => RoutingControlName,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_routing_control(
     ClusterArn,
     RoutingControlName,
@@ -215,14 +220,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GatingRule"`: The gating rule requested.
 - `"Tags"`: The tags associated with the safety rule.
 """
-create_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function create_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "POST",
         "/safetyrule",
         Dict{String,Any}("ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_safety_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -247,13 +253,14 @@ Delete a cluster.
 
 - `cluster_arn`: The Amazon Resource Name (ARN) of the cluster that you're deleting.
 """
-delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "DELETE",
         "/cluster/$(ClusterArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_cluster(
     ClusterArn,
     params::AbstractDict{String};
@@ -278,13 +285,16 @@ Deletes a control panel.
 
 - `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 """
-delete_control_panel(ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function delete_control_panel(
+    ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "DELETE",
         "/controlpanel/$(ControlPanelArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_control_panel(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -310,14 +320,16 @@ Deletes a routing control.
 - `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control that you're
   deleting.
 """
-delete_routing_control(
+function delete_routing_control(
     RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "DELETE",
-    "/routingcontrol/$(RoutingControlArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "DELETE",
+        "/routingcontrol/$(RoutingControlArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_routing_control(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -342,13 +354,16 @@ Deletes a safety rule./&gt;
 
 - `safety_rule_arn`: The ARN of the safety rule.
 """
-delete_safety_rule(SafetyRuleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function delete_safety_rule(
+    SafetyRuleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "DELETE",
         "/safetyrule/$(SafetyRuleArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_safety_rule(
     SafetyRuleArn,
     params::AbstractDict{String};
@@ -374,13 +389,14 @@ status, and Amazon Resource Name (ARN).
 
 - `cluster_arn`: The Amazon Resource Name (ARN) of the cluster.
 """
-describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "GET",
         "/cluster/$(ClusterArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_cluster(
     ClusterArn,
     params::AbstractDict{String};
@@ -405,14 +421,16 @@ Displays details about a control panel.
 
 - `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 """
-describe_control_panel(
+function describe_control_panel(
     ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "GET",
-    "/controlpanel/$(ControlPanelArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "GET",
+        "/controlpanel/$(ControlPanelArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_control_panel(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -442,14 +460,16 @@ actions for Amazon Route 53 Application Recovery Controller.
 
 - `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control.
 """
-describe_routing_control(
+function describe_routing_control(
     RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "GET",
-    "/routingcontrol/$(RoutingControlArn)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "GET",
+        "/routingcontrol/$(RoutingControlArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_routing_control(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -474,13 +494,16 @@ Returns information about a safety rule.
 
 - `safety_rule_arn`: The ARN of the safety rule.
 """
-describe_safety_rule(SafetyRuleArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function describe_safety_rule(
+    SafetyRuleArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "GET",
         "/safetyrule/$(SafetyRuleArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_safety_rule(
     SafetyRuleArn,
     params::AbstractDict{String};
@@ -505,13 +528,16 @@ Get information about the resource policy for a cluster.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function get_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "GET",
         "/resourcePolicy/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_resource_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -544,14 +570,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_associated_route53_health_checks(
+function list_associated_route53_health_checks(
     RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "GET",
-    "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "GET",
+        "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_associated_route53_health_checks(
     RoutingControlArn,
     params::AbstractDict{String};
@@ -579,10 +607,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "GET", "/cluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -605,10 +634,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_control_panels(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function list_control_panels(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "GET", "/controlpanels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_control_panels(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -641,13 +671,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_routing_controls(ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function list_routing_controls(
+    ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "GET",
         "/controlpanel/$(ControlPanelArn)/routingcontrols";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_routing_controls(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -680,13 +713,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of objects that you want to return with this call.
 - `"NextToken"`: The token that identifies which batch of results you want to see.
 """
-list_safety_rules(ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function list_safety_rules(
+    ControlPanelArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "GET",
         "/controlpanel/$(ControlPanelArn)/safetyrules";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_safety_rules(
     ControlPanelArn,
     params::AbstractDict{String};
@@ -711,13 +747,16 @@ Lists the tags for a resource.
 
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -743,14 +782,15 @@ Adds a tag to a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
 - `tags`: The tags associated with the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -777,14 +817,17 @@ Removes a tag from a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) for the resource that's tagged.
 - `tag_keys`: Keys for the tags to be removed.
 """
-untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function untag_resource(
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return route53_recovery_control_config(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -812,17 +855,19 @@ name of the control panel.
 - `control_panel_arn`: The Amazon Resource Name (ARN) of the control panel.
 - `control_panel_name`: The name of the control panel.
 """
-update_control_panel(
+function update_control_panel(
     ControlPanelArn, ControlPanelName; aws_config::AbstractAWSConfig=current_aws_config()
-) = route53_recovery_control_config(
-    "PUT",
-    "/controlpanel",
-    Dict{String,Any}(
-        "ControlPanelArn" => ControlPanelArn, "ControlPanelName" => ControlPanelName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "PUT",
+        "/controlpanel",
+        Dict{String,Any}(
+            "ControlPanelArn" => ControlPanelArn, "ControlPanelName" => ControlPanelName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_control_panel(
     ControlPanelArn,
     ControlPanelName,
@@ -860,20 +905,22 @@ Amazon Route 53 Application Recovery Controller.
 - `routing_control_arn`: The Amazon Resource Name (ARN) of the routing control.
 - `routing_control_name`: The name of the routing control.
 """
-update_routing_control(
+function update_routing_control(
     RoutingControlArn,
     RoutingControlName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = route53_recovery_control_config(
-    "PUT",
-    "/routingcontrol",
-    Dict{String,Any}(
-        "RoutingControlArn" => RoutingControlArn,
-        "RoutingControlName" => RoutingControlName,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return route53_recovery_control_config(
+        "PUT",
+        "/routingcontrol",
+        Dict{String,Any}(
+            "RoutingControlArn" => RoutingControlArn,
+            "RoutingControlName" => RoutingControlName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_routing_control(
     RoutingControlArn,
     RoutingControlName,
@@ -913,10 +960,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AssertionRuleUpdate"`: The assertion rule to update.
 - `"GatingRuleUpdate"`: The gating rule to update.
 """
-update_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    route53_recovery_control_config(
+function update_safety_rule(; aws_config::AbstractAWSConfig=current_aws_config())
+    return route53_recovery_control_config(
         "PUT", "/safetyrule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function update_safety_rule(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

@@ -24,14 +24,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be associated with. For the list of supported feature names, see
   <a>DBEngineVersion</a>.
 """
-add_role_to_dbcluster(
+function add_role_to_dbcluster(
     DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "AddRoleToDBCluster",
-    Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "AddRoleToDBCluster",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_role_to_dbcluster(
     DBClusterIdentifier,
     RoleArn,
@@ -72,16 +76,18 @@ Adds a source identifier to an existing event notification subscription.
 - `subscription_name`: The name of the event notification subscription you want to add a
   source identifier to.
 """
-add_source_identifier_to_subscription(
+function add_source_identifier_to_subscription(
     SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "AddSourceIdentifierToSubscription",
-    Dict{String,Any}(
-        "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "AddSourceIdentifierToSubscription",
+        Dict{String,Any}(
+            "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_source_identifier_to_subscription(
     SourceIdentifier,
     SubscriptionName,
@@ -125,14 +131,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the Amazon Neptune resource.
 """
-add_tags_to_resource(
+function add_tags_to_resource(
     ResourceName, Tag; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "AddTagsToResource",
-    Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "AddTagsToResource",
+        Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_tags_to_resource(
     ResourceName,
     Tag,
@@ -174,21 +182,23 @@ Valid values: `system-update`, `db-upgrade`
 - `resource_identifier`: The Amazon Resource Name (ARN) of the resource that the pending
   maintenance action applies to. For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing).
 """
-apply_pending_maintenance_action(
+function apply_pending_maintenance_action(
     ApplyAction,
     OptInType,
     ResourceIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "ApplyPendingMaintenanceAction",
-    Dict{String,Any}(
-        "ApplyAction" => ApplyAction,
-        "OptInType" => OptInType,
-        "ResourceIdentifier" => ResourceIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ApplyPendingMaintenanceAction",
+        Dict{String,Any}(
+            "ApplyAction" => ApplyAction,
+            "OptInType" => OptInType,
+            "ResourceIdentifier" => ResourceIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function apply_pending_maintenance_action(
     ApplyAction,
     OptInType,
@@ -250,24 +260,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the copied DB cluster parameter group.
 """
-copy_dbcluster_parameter_group(
+function copy_dbcluster_parameter_group(
     SourceDBClusterParameterGroupIdentifier,
     TargetDBClusterParameterGroupDescription,
     TargetDBClusterParameterGroupIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CopyDBClusterParameterGroup",
-    Dict{String,Any}(
-        "SourceDBClusterParameterGroupIdentifier" =>
-            SourceDBClusterParameterGroupIdentifier,
-        "TargetDBClusterParameterGroupDescription" =>
-            TargetDBClusterParameterGroupDescription,
-        "TargetDBClusterParameterGroupIdentifier" =>
-            TargetDBClusterParameterGroupIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CopyDBClusterParameterGroup",
+        Dict{String,Any}(
+            "SourceDBClusterParameterGroupIdentifier" =>
+                SourceDBClusterParameterGroupIdentifier,
+            "TargetDBClusterParameterGroupDescription" =>
+                TargetDBClusterParameterGroupDescription,
+            "TargetDBClusterParameterGroupIdentifier" =>
+                TargetDBClusterParameterGroupIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_dbcluster_parameter_group(
     SourceDBClusterParameterGroupIdentifier,
     TargetDBClusterParameterGroupDescription,
@@ -349,19 +361,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreSignedUrl"`: Not currently supported.
 - `"Tags"`: The tags to assign to the new DB cluster snapshot copy.
 """
-copy_dbcluster_snapshot(
+function copy_dbcluster_snapshot(
     SourceDBClusterSnapshotIdentifier,
     TargetDBClusterSnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CopyDBClusterSnapshot",
-    Dict{String,Any}(
-        "SourceDBClusterSnapshotIdentifier" => SourceDBClusterSnapshotIdentifier,
-        "TargetDBClusterSnapshotIdentifier" => TargetDBClusterSnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CopyDBClusterSnapshot",
+        Dict{String,Any}(
+            "SourceDBClusterSnapshotIdentifier" => SourceDBClusterSnapshotIdentifier,
+            "TargetDBClusterSnapshotIdentifier" => TargetDBClusterSnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_dbcluster_snapshot(
     SourceDBClusterSnapshotIdentifier,
     TargetDBClusterSnapshotIdentifier,
@@ -416,21 +430,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the copied DB parameter group.
 """
-copy_dbparameter_group(
+function copy_dbparameter_group(
     SourceDBParameterGroupIdentifier,
     TargetDBParameterGroupDescription,
     TargetDBParameterGroupIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CopyDBParameterGroup",
-    Dict{String,Any}(
-        "SourceDBParameterGroupIdentifier" => SourceDBParameterGroupIdentifier,
-        "TargetDBParameterGroupDescription" => TargetDBParameterGroupDescription,
-        "TargetDBParameterGroupIdentifier" => TargetDBParameterGroupIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CopyDBParameterGroup",
+        Dict{String,Any}(
+            "SourceDBParameterGroupIdentifier" => SourceDBParameterGroupIdentifier,
+            "TargetDBParameterGroupDescription" => TargetDBParameterGroupDescription,
+            "TargetDBParameterGroupIdentifier" => TargetDBParameterGroupIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function copy_dbparameter_group(
     SourceDBParameterGroupIdentifier,
     TargetDBParameterGroupDescription,
@@ -600,14 +616,16 @@ Constraints: Minimum 30-minute window.
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
   cluster.
 """
-create_dbcluster(
+function create_dbcluster(
     DBClusterIdentifier, Engine; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "CreateDBCluster",
-    Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier, "Engine" => Engine);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBCluster",
+        Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier, "Engine" => Engine);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbcluster(
     DBClusterIdentifier,
     Engine,
@@ -655,21 +673,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group.
 - `"Tags"`: The tags to be assigned to the Amazon Neptune resource.
 """
-create_dbcluster_endpoint(
+function create_dbcluster_endpoint(
     DBClusterEndpointIdentifier,
     DBClusterIdentifier,
     EndpointType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBClusterEndpoint",
-    Dict{String,Any}(
-        "DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier,
-        "DBClusterIdentifier" => DBClusterIdentifier,
-        "EndpointType" => EndpointType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBClusterEndpoint",
+        Dict{String,Any}(
+            "DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier,
+            "DBClusterIdentifier" => DBClusterIdentifier,
+            "EndpointType" => EndpointType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbcluster_endpoint(
     DBClusterEndpointIdentifier,
     DBClusterIdentifier,
@@ -744,21 +764,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the new DB cluster parameter group.
 """
-create_dbcluster_parameter_group(
+function create_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     DBParameterGroupFamily,
     Description;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBClusterParameterGroup",
-    Dict{String,Any}(
-        "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-        "DBParameterGroupFamily" => DBParameterGroupFamily,
-        "Description" => Description,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBClusterParameterGroup",
+        Dict{String,Any}(
+            "DBClusterParameterGroupName" => DBClusterParameterGroupName,
+            "DBParameterGroupFamily" => DBParameterGroupFamily,
+            "Description" => Description,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     DBParameterGroupFamily,
@@ -811,19 +833,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the DB cluster snapshot.
 """
-create_dbcluster_snapshot(
+function create_dbcluster_snapshot(
     DBClusterIdentifier,
     DBClusterSnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBClusterSnapshot",
-    Dict{String,Any}(
-        "DBClusterIdentifier" => DBClusterIdentifier,
-        "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBClusterSnapshot",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier,
+            "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbcluster_snapshot(
     DBClusterIdentifier,
     DBClusterSnapshotIdentifier,
@@ -1026,23 +1050,25 @@ Not applicable. Storage is managed by the DB Cluster.
 
 Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
-create_dbinstance(
+function create_dbinstance(
     DBClusterIdentifier,
     DBInstanceClass,
     DBInstanceIdentifier,
     Engine;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBInstance",
-    Dict{String,Any}(
-        "DBClusterIdentifier" => DBClusterIdentifier,
-        "DBInstanceClass" => DBInstanceClass,
-        "DBInstanceIdentifier" => DBInstanceIdentifier,
-        "Engine" => Engine,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBInstance",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier,
+            "DBInstanceClass" => DBInstanceClass,
+            "DBInstanceIdentifier" => DBInstanceIdentifier,
+            "Engine" => Engine,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbinstance(
     DBClusterIdentifier,
     DBInstanceClass,
@@ -1118,21 +1144,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Tags"`: The tags to be assigned to the new DB parameter group.
 """
-create_dbparameter_group(
+function create_dbparameter_group(
     DBParameterGroupFamily,
     DBParameterGroupName,
     Description;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBParameterGroup",
-    Dict{String,Any}(
-        "DBParameterGroupFamily" => DBParameterGroupFamily,
-        "DBParameterGroupName" => DBParameterGroupName,
-        "Description" => Description,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBParameterGroup",
+        Dict{String,Any}(
+            "DBParameterGroupFamily" => DBParameterGroupFamily,
+            "DBParameterGroupName" => DBParameterGroupName,
+            "Description" => Description,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbparameter_group(
     DBParameterGroupFamily,
     DBParameterGroupName,
@@ -1184,21 +1212,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SubnetIds"`: The EC2 Subnet IDs for the DB subnet group.
 - `"Tags"`: The tags to be assigned to the new DB subnet group.
 """
-create_dbsubnet_group(
+function create_dbsubnet_group(
     DBSubnetGroupDescription,
     DBSubnetGroupName,
     SubnetIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "CreateDBSubnetGroup",
-    Dict{String,Any}(
-        "DBSubnetGroupDescription" => DBSubnetGroupDescription,
-        "DBSubnetGroupName" => DBSubnetGroupName,
-        "SubnetIdentifier" => SubnetIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateDBSubnetGroup",
+        Dict{String,Any}(
+            "DBSubnetGroupDescription" => DBSubnetGroupDescription,
+            "DBSubnetGroupName" => DBSubnetGroupName,
+            "SubnetIdentifier" => SubnetIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_dbsubnet_group(
     DBSubnetGroupDescription,
     DBSubnetGroupName,
@@ -1282,14 +1312,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `db-snapshot` | `db-cluster-snapshot`
 - `"Tags"`: The tags to be applied to the new event subscription.
 """
-create_event_subscription(
+function create_event_subscription(
     SnsTopicArn, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "CreateEventSubscription",
-    Dict{String,Any}("SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateEventSubscription",
+        Dict{String,Any}(
+            "SnsTopicArn" => SnsTopicArn, "SubscriptionName" => SubscriptionName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_event_subscription(
     SnsTopicArn,
     SubscriptionName,
@@ -1345,14 +1379,16 @@ Valid values: `1.2.0.0` or above.
   Neptune DB cluster to use as the primary cluster of the new global database.
 - `"StorageEncrypted"`: The storage encryption setting for the new global database cluster.
 """
-create_global_cluster(
+function create_global_cluster(
     GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "CreateGlobalCluster",
-    Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "CreateGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
@@ -1410,13 +1446,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       You must specify a `FinalDBSnapshotIdentifier` parameter if `SkipFinalSnapshot` is
   `false`.Default: `false`
 """
-delete_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function delete_dbcluster(
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "DeleteDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
@@ -1447,14 +1486,16 @@ Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
 - `dbcluster_endpoint_identifier`: The identifier associated with the custom endpoint. This
   parameter is stored as a lowercase string.
 """
-delete_dbcluster_endpoint(
+function delete_dbcluster_endpoint(
     DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBClusterEndpoint",
-    Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBClusterEndpoint",
+        Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbcluster_endpoint(
     DBClusterEndpointIdentifier,
     params::AbstractDict{String};
@@ -1491,14 +1532,16 @@ deleted can't be associated with any DB clusters.
    - You can't delete a default DB cluster parameter group.
    - Cannot be associated with any DB clusters.
 """
-delete_dbcluster_parameter_group(
+function delete_dbcluster_parameter_group(
     DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBClusterParameterGroup",
-    Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBClusterParameterGroup",
+        Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
@@ -1536,14 +1579,16 @@ terminated.
 
   Constraints: Must be the name of an existing DB cluster snapshot in the `available` state.
 """
-delete_dbcluster_snapshot(
+function delete_dbcluster_snapshot(
     DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBClusterSnapshot",
-    Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBClusterSnapshot",
+        Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbcluster_snapshot(
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
@@ -1619,14 +1664,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
       The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is
   `false`.Default: `false`
 """
-delete_dbinstance(
+function delete_dbinstance(
     DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBInstance",
-    Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBInstance",
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
@@ -1661,14 +1708,16 @@ associated with any DB instances.
    - You can't delete a default DB parameter group
    - Cannot be associated with any DB instances
 """
-delete_dbparameter_group(
+function delete_dbparameter_group(
     DBParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBParameterGroup",
-    Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBParameterGroup",
+        Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbparameter_group(
     DBParameterGroupName,
     params::AbstractDict{String};
@@ -1708,14 +1757,16 @@ Deletes a DB subnet group.
 
  <p>Example: `mySubnetgroup`
 """
-delete_dbsubnet_group(
+function delete_dbsubnet_group(
     DBSubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteDBSubnetGroup",
-    Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteDBSubnetGroup",
+        Dict{String,Any}("DBSubnetGroupName" => DBSubnetGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_dbsubnet_group(
     DBSubnetGroupName,
     params::AbstractDict{String};
@@ -1743,14 +1794,16 @@ Deletes an event notification subscription.
 
 - `subscription_name`: The name of the event notification subscription you want to delete.
 """
-delete_event_subscription(
+function delete_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteEventSubscription",
-    Dict{String,Any}("SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -1780,14 +1833,16 @@ or deleted first.
 - `global_cluster_identifier`: The cluster identifier of the global database cluster being
   deleted.
 """
-delete_global_cluster(
+function delete_global_cluster(
     GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DeleteGlobalCluster",
-    Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DeleteGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
@@ -1845,10 +1900,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function describe_dbcluster_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
         "DescribeDBClusterEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_dbcluster_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1888,12 +1944,15 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbcluster_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function describe_dbcluster_parameter_groups(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "DescribeDBClusterParameterGroups";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_dbcluster_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1936,14 +1995,16 @@ Constraints: Minimum 20, maximum 100.
 - `"Source"`:  A value that indicates to return only parameters for a specific source.
   Parameter sources can be `engine`, `service`, or `customer`.
 """
-describe_dbcluster_parameters(
+function describe_dbcluster_parameters(
     DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeDBClusterParameters",
-    Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeDBClusterParameters",
+        Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dbcluster_parameters(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
@@ -1987,14 +2048,16 @@ snapshot, or to make the manual DB cluster snapshot public or private, use the
 - `dbcluster_snapshot_identifier`: The identifier for the DB cluster snapshot to describe
   the attributes for.
 """
-describe_dbcluster_snapshot_attributes(
+function describe_dbcluster_snapshot_attributes(
     DBClusterSnapshotIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeDBClusterSnapshotAttributes",
-    Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeDBClusterSnapshotAttributes",
+        Dict{String,Any}("DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dbcluster_snapshot_attributes(
     DBClusterSnapshotIdentifier,
     params::AbstractDict{String};
@@ -2078,10 +2141,11 @@ Constraints: Minimum 20, maximum 100.
   `SnapshotType` is set to `shared`. The `IncludeShared` parameter doesn't apply when
   `SnapshotType` is set to `public`.
 """
-describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function describe_dbcluster_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
         "DescribeDBClusterSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_dbcluster_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2132,8 +2196,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbclusters(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune("DescribeDBClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_dbclusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeDBClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dbclusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2180,9 +2247,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbengine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = neptune(
-    "DescribeDBEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_dbengine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeDBEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dbengine_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2233,8 +2302,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbinstances(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune("DescribeDBInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_dbinstances(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeDBInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dbinstances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2273,9 +2345,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbparameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = neptune(
-    "DescribeDBParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_dbparameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeDBParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dbparameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2321,14 +2395,16 @@ Default: All parameter types returned
 
 Valid Values: `user | system | engine-default`
 """
-describe_dbparameters(
+function describe_dbparameters(
     DBParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeDBParameters",
-    Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeDBParameters",
+        Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_dbparameters(
     DBParameterGroupName,
     params::AbstractDict{String};
@@ -2374,9 +2450,11 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = neptune(
-    "DescribeDBSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_dbsubnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeDBSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_dbsubnet_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2416,14 +2494,16 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_engine_default_cluster_parameters(
+function describe_engine_default_cluster_parameters(
     DBParameterGroupFamily; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeEngineDefaultClusterParameters",
-    Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeEngineDefaultClusterParameters",
+        Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_engine_default_cluster_parameters(
     DBParameterGroupFamily,
     params::AbstractDict{String};
@@ -2470,14 +2550,16 @@ Default: 100
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_engine_default_parameters(
+function describe_engine_default_parameters(
     DBParameterGroupFamily; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeEngineDefaultParameters",
-    Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeEngineDefaultParameters",
+        Dict{String,Any}("DBParameterGroupFamily" => DBParameterGroupFamily);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_engine_default_parameters(
     DBParameterGroupFamily,
     params::AbstractDict{String};
@@ -2513,9 +2595,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config()) = neptune(
-    "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_event_categories(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeEventCategories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_event_categories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2555,10 +2639,11 @@ Constraints: Minimum 20, maximum 100.
 - `"SubscriptionName"`: The name of the event notification subscription you want to
   describe.
 """
-describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function describe_event_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
         "DescribeEventSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function describe_event_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2621,8 +2706,9 @@ Constraints: Minimum 20, maximum 100.
 
 Example: 2009-07-08T18:00Z
 """
-describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function describe_events(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2657,9 +2743,11 @@ Default: `100`
 
 Constraints: Minimum 20, maximum 100.
 """
-describe_global_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = neptune(
-    "DescribeGlobalClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_global_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "DescribeGlobalClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_global_clusters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2705,14 +2793,16 @@ Constraints: Minimum 20, maximum 100.
 - `"Vpc"`: The VPC filter value. Specify this parameter to show only the available VPC or
   non-VPC offerings.
 """
-describe_orderable_dbinstance_options(
+function describe_orderable_dbinstance_options(
     Engine; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeOrderableDBInstanceOptions",
-    Dict{String,Any}("Engine" => Engine);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeOrderableDBInstanceOptions",
+        Dict{String,Any}("Engine" => Engine);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_orderable_dbinstance_options(
     Engine, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2757,12 +2847,15 @@ Default: 100
 Constraints: Minimum 20, maximum 100.
 - `"ResourceIdentifier"`: The ARN of a resource to return pending maintenance actions for.
 """
-describe_pending_maintenance_actions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function describe_pending_maintenance_actions(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "DescribePendingMaintenanceActions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_pending_maintenance_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2786,14 +2879,16 @@ can make to your DB instance. You can use this information when you call
 
 - `dbinstance_identifier`: The customer identifier or the ARN of your DB instance.
 """
-describe_valid_dbinstance_modifications(
+function describe_valid_dbinstance_modifications(
     DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "DescribeValidDBInstanceModifications",
-    Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "DescribeValidDBInstanceModifications",
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_valid_dbinstance_modifications(
     DBInstanceIdentifier,
     params::AbstractDict{String};
@@ -2842,8 +2937,11 @@ Constraints: - Must match the identifier of an existing DBCluster.
   You must specify the instance identifier for an Read Replica in the DB cluster. For
   example, `mydbcluster-replica1`.
 """
-failover_dbcluster(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune("FailoverDBCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function failover_dbcluster(; aws_config::AbstractAWSConfig=current_aws_config())
+    return neptune(
+        "FailoverDBCluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function failover_dbcluster(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -2881,19 +2979,21 @@ Constraints: Must match the identifier of an existing Neptune global database.
 - `target_db_cluster_identifier`: The Amazon Resource Name (ARN) of the secondary Neptune
   DB cluster that you want to promote to primary for the global database.
 """
-failover_global_cluster(
+function failover_global_cluster(
     GlobalClusterIdentifier,
     TargetDbClusterIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "FailoverGlobalCluster",
-    Dict{String,Any}(
-        "GlobalClusterIdentifier" => GlobalClusterIdentifier,
-        "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "FailoverGlobalCluster",
+        Dict{String,Any}(
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function failover_global_cluster(
     GlobalClusterIdentifier,
     TargetDbClusterIdentifier,
@@ -2934,13 +3034,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Filters"`: This parameter is not currently supported.
 """
-list_tags_for_resource(ResourceName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function list_tags_for_resource(
+    ResourceName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "ListTagsForResource",
         Dict{String,Any}("ResourceName" => ResourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceName,
     params::AbstractDict{String};
@@ -3074,13 +3177,16 @@ Valid Values: - `standard | iopt1`
 Default: - `standard`
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
 """
-modify_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function modify_dbcluster(
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "ModifyDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function modify_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
@@ -3122,14 +3228,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StaticMembers"`: List of DB instance identifiers that are part of the custom endpoint
   group.
 """
-modify_dbcluster_endpoint(
+function modify_dbcluster_endpoint(
     DBClusterEndpointIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyDBClusterEndpoint",
-    Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBClusterEndpoint",
+        Dict{String,Any}("DBClusterEndpointIdentifier" => DBClusterEndpointIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbcluster_endpoint(
     DBClusterEndpointIdentifier,
     params::AbstractDict{String};
@@ -3186,19 +3294,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"Parameters"`: A list of parameters in the DB cluster parameter group to modify.
 """
-modify_dbcluster_parameter_group(
+function modify_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     Parameter;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "ModifyDBClusterParameterGroup",
-    Dict{String,Any}(
-        "DBClusterParameterGroupName" => DBClusterParameterGroupName,
-        "Parameter" => Parameter,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBClusterParameterGroup",
+        Dict{String,Any}(
+            "DBClusterParameterGroupName" => DBClusterParameterGroupName,
+            "Parameter" => Parameter,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     Parameter,
@@ -3273,19 +3383,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you specify `all`, an Amazon account whose account ID is explicitly added to the
   `restore` attribute can still copy or restore a manual DB cluster snapshot.
 """
-modify_dbcluster_snapshot_attribute(
+function modify_dbcluster_snapshot_attribute(
     AttributeName,
     DBClusterSnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "ModifyDBClusterSnapshotAttribute",
-    Dict{String,Any}(
-        "AttributeName" => AttributeName,
-        "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBClusterSnapshotAttribute",
+        Dict{String,Any}(
+            "AttributeName" => AttributeName,
+            "DBClusterSnapshotIdentifier" => DBClusterSnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbcluster_snapshot_attribute(
     AttributeName,
     DBClusterSnapshotIdentifier,
@@ -3503,14 +3615,16 @@ Valid Values: 0 - 15
 
 Constraints: - If supplied, must match existing VpcSecurityGroupIds.
 """
-modify_dbinstance(
+function modify_dbinstance(
     DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyDBInstance",
-    Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBInstance",
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
@@ -3586,16 +3700,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reboot value for both dynamic and static parameters, and changes are applied when you
   reboot the DB instance without failover.
 """
-modify_dbparameter_group(
+function modify_dbparameter_group(
     DBParameterGroupName, Parameter; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyDBParameterGroup",
-    Dict{String,Any}(
-        "DBParameterGroupName" => DBParameterGroupName, "Parameter" => Parameter
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBParameterGroup",
+        Dict{String,Any}(
+            "DBParameterGroupName" => DBParameterGroupName, "Parameter" => Parameter
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbparameter_group(
     DBParameterGroupName,
     Parameter,
@@ -3642,16 +3758,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBSubnetGroupDescription"`: The description for the DB subnet group.
 - `"SubnetIds"`: The EC2 subnet IDs for the DB subnet group.
 """
-modify_dbsubnet_group(
+function modify_dbsubnet_group(
     DBSubnetGroupName, SubnetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyDBSubnetGroup",
-    Dict{String,Any}(
-        "DBSubnetGroupName" => DBSubnetGroupName, "SubnetIdentifier" => SubnetIdentifier
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyDBSubnetGroup",
+        Dict{String,Any}(
+            "DBSubnetGroupName" => DBSubnetGroupName, "SubnetIdentifier" => SubnetIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_dbsubnet_group(
     DBSubnetGroupName,
     SubnetIdentifier,
@@ -3708,14 +3826,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-modify_event_subscription(
+function modify_event_subscription(
     SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyEventSubscription",
-    Dict{String,Any}("SubscriptionName" => SubscriptionName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyEventSubscription",
+        Dict{String,Any}("SubscriptionName" => SubscriptionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_event_subscription(
     SubscriptionName,
     params::AbstractDict{String};
@@ -3776,14 +3896,16 @@ To list all of the available Neptune engine versions, use the following command:
    - Can't end with a hyphen or contain two consecutive hyphens
 Example: `my-cluster2`
 """
-modify_global_cluster(
+function modify_global_cluster(
     GlobalClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ModifyGlobalCluster",
-    Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ModifyGlobalCluster",
+        Dict{String,Any}("GlobalClusterIdentifier" => GlobalClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function modify_global_cluster(
     GlobalClusterIdentifier,
     params::AbstractDict{String};
@@ -3813,14 +3935,16 @@ Not supported.
 
 - `dbcluster_identifier`: Not supported.
 """
-promote_read_replica_dbcluster(
+function promote_read_replica_dbcluster(
     DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "PromoteReadReplicaDBCluster",
-    Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "PromoteReadReplicaDBCluster",
+        Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function promote_read_replica_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
@@ -3866,14 +3990,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 Constraint: You can't specify `true` if the instance is not configured for MultiAZ.
 """
-reboot_dbinstance(
+function reboot_dbinstance(
     DBInstanceIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "RebootDBInstance",
-    Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RebootDBInstance",
+        Dict{String,Any}("DBInstanceIdentifier" => DBInstanceIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reboot_dbinstance(
     DBInstanceIdentifier,
     params::AbstractDict{String};
@@ -3908,19 +4034,21 @@ longer receives data from a the primary cluster.
 - `global_cluster_identifier`: The identifier of the Neptune global database from which to
   detach the specified Neptune DB cluster.
 """
-remove_from_global_cluster(
+function remove_from_global_cluster(
     DbClusterIdentifier,
     GlobalClusterIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "RemoveFromGlobalCluster",
-    Dict{String,Any}(
-        "DbClusterIdentifier" => DbClusterIdentifier,
-        "GlobalClusterIdentifier" => GlobalClusterIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RemoveFromGlobalCluster",
+        Dict{String,Any}(
+            "DbClusterIdentifier" => DbClusterIdentifier,
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_from_global_cluster(
     DbClusterIdentifier,
     GlobalClusterIdentifier,
@@ -3964,14 +4092,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disassociated from. For the list of supported feature names, see
   <a>DescribeDBEngineVersions</a>.
 """
-remove_role_from_dbcluster(
+function remove_role_from_dbcluster(
     DBClusterIdentifier, RoleArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "RemoveRoleFromDBCluster",
-    Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RemoveRoleFromDBCluster",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier, "RoleArn" => RoleArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_role_from_dbcluster(
     DBClusterIdentifier,
     RoleArn,
@@ -4007,16 +4139,18 @@ Removes a source identifier from an existing event notification subscription.
 - `subscription_name`: The name of the event notification subscription you want to remove a
   source identifier from.
 """
-remove_source_identifier_from_subscription(
+function remove_source_identifier_from_subscription(
     SourceIdentifier, SubscriptionName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "RemoveSourceIdentifierFromSubscription",
-    Dict{String,Any}(
-        "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RemoveSourceIdentifierFromSubscription",
+        Dict{String,Any}(
+            "SourceIdentifier" => SourceIdentifier, "SubscriptionName" => SubscriptionName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_source_identifier_from_subscription(
     SourceIdentifier,
     SubscriptionName,
@@ -4052,14 +4186,16 @@ Removes metadata tags from an Amazon Neptune resource.
   is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing).
 - `tag_keys`: The tag key (name) of the tag to be removed.
 """
-remove_tags_from_resource(
+function remove_tags_from_resource(
     ResourceName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "RemoveTagsFromResource",
-    Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RemoveTagsFromResource",
+        Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function remove_tags_from_resource(
     ResourceName,
     TagKeys,
@@ -4110,14 +4246,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter if there is a list of parameter names specified for the `Parameters`
   parameter.
 """
-reset_dbcluster_parameter_group(
+function reset_dbcluster_parameter_group(
     DBClusterParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ResetDBClusterParameterGroup",
-    Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ResetDBClusterParameterGroup",
+        Dict{String,Any}("DBClusterParameterGroupName" => DBClusterParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_dbcluster_parameter_group(
     DBClusterParameterGroupName,
     params::AbstractDict{String};
@@ -4171,14 +4309,16 @@ Valid Values (for Apply method): `pending-reboot`
 
 Default: `true`
 """
-reset_dbparameter_group(
+function reset_dbparameter_group(
     DBParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-) = neptune(
-    "ResetDBParameterGroup",
-    Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "ResetDBParameterGroup",
+        Dict{String,Any}("DBParameterGroupName" => DBParameterGroupName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reset_dbparameter_group(
     DBParameterGroupName,
     params::AbstractDict{String};
@@ -4295,21 +4435,23 @@ Default: `standard`
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster will
   belong to.
 """
-restore_dbcluster_from_snapshot(
+function restore_dbcluster_from_snapshot(
     DBClusterIdentifier,
     Engine,
     SnapshotIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "RestoreDBClusterFromSnapshot",
-    Dict{String,Any}(
-        "DBClusterIdentifier" => DBClusterIdentifier,
-        "Engine" => Engine,
-        "SnapshotIdentifier" => SnapshotIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RestoreDBClusterFromSnapshot",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier,
+            "Engine" => Engine,
+            "SnapshotIdentifier" => SnapshotIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function restore_dbcluster_from_snapshot(
     DBClusterIdentifier,
     Engine,
@@ -4443,19 +4585,21 @@ Default: `standard`
 Constraints: Cannot be specified if `RestoreToTime` parameter is provided.
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster belongs to.
 """
-restore_dbcluster_to_point_in_time(
+function restore_dbcluster_to_point_in_time(
     DBClusterIdentifier,
     SourceDBClusterIdentifier;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = neptune(
-    "RestoreDBClusterToPointInTime",
-    Dict{String,Any}(
-        "DBClusterIdentifier" => DBClusterIdentifier,
-        "SourceDBClusterIdentifier" => SourceDBClusterIdentifier,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return neptune(
+        "RestoreDBClusterToPointInTime",
+        Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier,
+            "SourceDBClusterIdentifier" => SourceDBClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function restore_dbcluster_to_point_in_time(
     DBClusterIdentifier,
     SourceDBClusterIdentifier,
@@ -4491,13 +4635,16 @@ CLI stop-db-cluster command, or the StopDBCluster API.
 - `dbcluster_identifier`: The DB cluster identifier of the Neptune DB cluster to be
   started. This parameter is stored as a lowercase string.
 """
-start_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function start_dbcluster(
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "StartDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function start_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};
@@ -4532,13 +4679,16 @@ necessary.
 - `dbcluster_identifier`: The DB cluster identifier of the Neptune DB cluster to be
   stopped. This parameter is stored as a lowercase string.
 """
-stop_dbcluster(DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) =
-    neptune(
+function stop_dbcluster(
+    DBClusterIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return neptune(
         "StopDBCluster",
         Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_dbcluster(
     DBClusterIdentifier,
     params::AbstractDict{String};

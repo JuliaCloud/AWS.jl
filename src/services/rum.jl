@@ -68,20 +68,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metrics. You must have already defined this experiment as a valid destination. For more
   information, see [PutRumMetricsDestination](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_PutRumMetricsDestination.html).
 """
-batch_create_rum_metric_definitions(
+function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
     MetricDefinitions;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = rum(
-    "POST",
-    "/rummetrics/$(AppMonitorName)/metrics",
-    Dict{String,Any}(
-        "Destination" => Destination, "MetricDefinitions" => MetricDefinitions
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "Destination" => Destination, "MetricDefinitions" => MetricDefinitions
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
@@ -140,20 +142,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter specifies the ARN of the Evidently experiment that was receiving the
   metrics that are being deleted.
 """
-batch_delete_rum_metric_definitions(
+function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
     metricDefinitionIds;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = rum(
-    "DELETE",
-    "/rummetrics/$(AppMonitorName)/metrics",
-    Dict{String,Any}(
-        "destination" => destination, "metricDefinitionIds" => metricDefinitionIds
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "destination" => destination, "metricDefinitionIds" => metricDefinitionIds
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -209,15 +213,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-batch_get_rum_metric_definitions(
+function batch_get_rum_metric_definitions(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
-) = rum(
-    "GET",
-    "/rummetrics/$(AppMonitorName)/metrics",
-    Dict{String,Any}("destination" => destination);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}("destination" => destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function batch_get_rum_metric_definitions(
     AppMonitorName,
     destination,
@@ -291,13 +297,17 @@ If you omit this parameter, the default is `false`.
 
   For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-create_app_monitor(Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()) = rum(
-    "POST",
-    "/appmonitor",
-    Dict{String,Any}("Domain" => Domain, "Name" => Name);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
+function create_app_monitor(
+    Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
+    return rum(
+        "POST",
+        "/appmonitor",
+        Dict{String,Any}("Domain" => Domain, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_app_monitor(
     Domain,
     Name,
@@ -325,12 +335,14 @@ Deletes an existing app monitor. This immediately stops the collection of data.
 
 - `name`: The name of the app monitor to delete.
 """
-delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config()) = rum(
-    "DELETE",
-    "/appmonitor/$(Name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "DELETE",
+        "/appmonitor/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -365,15 +377,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `Destination` is `CloudWatch`, do not use this parameter. This parameter specifies the
   ARN of the Evidently experiment that corresponds to the destination to delete.
 """
-delete_rum_metrics_destination(
+function delete_rum_metrics_destination(
     AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
-) = rum(
-    "DELETE",
-    "/rummetrics/$(AppMonitorName)/metricsdestination",
-    Dict{String,Any}("destination" => destination);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "DELETE",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}("destination" => destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_rum_metrics_destination(
     AppMonitorName,
     destination,
@@ -401,9 +415,11 @@ Retrieves the complete configuration information for one app monitor.
 
 - `name`: The app monitor to retrieve information for.
 """
-get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config()) = rum(
-    "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -439,14 +455,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-get_app_monitor_data(Name, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rum(
+function get_app_monitor_data(
+    Name, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
         "POST",
         "/appmonitor/$(Name)/data",
         Dict{String,Any}("TimeRange" => TimeRange);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_app_monitor_data(
     Name,
     TimeRange,
@@ -479,8 +498,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rum("POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_app_monitors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -518,14 +540,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-list_rum_metrics_destinations(
+function list_rum_metrics_destinations(
     AppMonitorName; aws_config::AbstractAWSConfig=current_aws_config()
-) = rum(
-    "GET",
-    "/rummetrics/$(AppMonitorName)/metricsdestination";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "GET",
+        "/rummetrics/$(AppMonitorName)/metricsdestination";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_rum_metrics_destinations(
     AppMonitorName,
     params::AbstractDict{String};
@@ -550,13 +574,16 @@ Displays the tags associated with a CloudWatch RUM resource.
 
 - `resource_arn`: The ARN of the resource that you want to see the tags of.
 """
-list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rum(
+function list_tags_for_resource(
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -591,25 +618,27 @@ Each `PutRumEvents` operation can send a batch of events from one user session.
 - `user_details`: A structure that contains information about the user session that this
   batch of events was collected from.
 """
-put_rum_events(
+function put_rum_events(
     AppMonitorDetails,
     BatchId,
     Id,
     RumEvents,
     UserDetails;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = rum(
-    "POST",
-    "/appmonitors/$(Id)/",
-    Dict{String,Any}(
-        "AppMonitorDetails" => AppMonitorDetails,
-        "BatchId" => BatchId,
-        "RumEvents" => RumEvents,
-        "UserDetails" => UserDetails,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "POST",
+        "/appmonitors/$(Id)/",
+        Dict{String,Any}(
+            "AppMonitorDetails" => AppMonitorDetails,
+            "BatchId" => BatchId,
+            "RumEvents" => RumEvents,
+            "UserDetails" => UserDetails,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_rum_events(
     AppMonitorDetails,
     BatchId,
@@ -674,15 +703,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions attached to it, to allow the role to be passed. The [ CloudWatchAmazonCloudWatchRUMFullAccess](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html#managed-policies-cloudwatch-RUM)
   policy doesn't include `PassRole` permissions.
 """
-put_rum_metrics_destination(
+function put_rum_metrics_destination(
     AppMonitorName, Destination; aws_config::AbstractAWSConfig=current_aws_config()
-) = rum(
-    "POST",
-    "/rummetrics/$(AppMonitorName)/metricsdestination",
-    Dict{String,Any}("Destination" => Destination);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "POST",
+        "/rummetrics/$(AppMonitorName)/metricsdestination",
+        Dict{String,Any}("Destination" => Destination);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_rum_metrics_destination(
     AppMonitorName,
     Destination,
@@ -728,13 +759,15 @@ For more information, see [Tagging Amazon Web Services resources](https://docs.a
 - `resource_arn`: The ARN of the CloudWatch RUM resource that you're adding tags to.
 - `tags`: The list of key-value pairs to associate with the resource.
 """
-tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = rum(
-    "POST",
-    "/tags/$(ResourceArn)",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "POST",
+        "/tags/$(ResourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -761,14 +794,17 @@ Removes one or more tags from the specified resource.
 - `resource_arn`: The ARN of the CloudWatch RUM resource that you're removing tags from.
 - `tag_keys`: The list of tag keys to remove from the resource.
 """
-untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rum(
+function untag_resource(
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rum(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -824,12 +860,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Domain"`: The top-level internet domain name for which your application has
   administrative authority.
 """
-update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config()) = rum(
-    "PATCH",
-    "/appmonitor/$(Name)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
+    return rum(
+        "PATCH",
+        "/appmonitor/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_app_monitor(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -871,23 +909,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metrics. You must have already defined this experiment as a valid destination. For more
   information, see [PutRumMetricsDestination](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_PutRumMetricsDestination.html).
 """
-update_rum_metric_definition(
+function update_rum_metric_definition(
     AppMonitorName,
     Destination,
     MetricDefinition,
     MetricDefinitionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = rum(
-    "PATCH",
-    "/rummetrics/$(AppMonitorName)/metrics",
-    Dict{String,Any}(
-        "Destination" => Destination,
-        "MetricDefinition" => MetricDefinition,
-        "MetricDefinitionId" => MetricDefinitionId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rum(
+        "PATCH",
+        "/rummetrics/$(AppMonitorName)/metrics",
+        Dict{String,Any}(
+            "Destination" => Destination,
+            "MetricDefinition" => MetricDefinition,
+            "MetricDefinitionId" => MetricDefinitionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_rum_metric_definition(
     AppMonitorName,
     Destination,

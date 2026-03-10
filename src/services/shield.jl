@@ -21,13 +21,16 @@ or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise
 
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 """
-associate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function associate_drtlog_bucket(
+    LogBucket; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "AssociateDRTLogBucket",
         Dict{String,Any}("LogBucket" => LogBucket);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function associate_drtlog_bucket(
     LogBucket,
     params::AbstractDict{String};
@@ -84,12 +87,14 @@ or the [Enterprise Support plan](http://aws.amazon.com/premiumsupport/enterprise
   Prior to making the `AssociateDRTRole` request, you must attach the [AWSShieldDRTAccessPolicy](https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy)
   managed policy to this role. For more information see [Attaching and Detaching IAM Policies]( https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
 """
-associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=current_aws_config()) = shield(
-    "AssociateDRTRole",
-    Dict{String,Any}("RoleArn" => RoleArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function associate_drtrole(RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "AssociateDRTRole",
+        Dict{String,Any}("RoleArn" => RoleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_drtrole(
     RoleArn,
     params::AbstractDict{String};
@@ -122,14 +127,18 @@ in the *WAF Developer Guide*.
 - `protection_id`: The unique identifier (ID) for the <a>Protection</a> object to add the
   health check association to.
 """
-associate_health_check(
+function associate_health_check(
     HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "AssociateHealthCheck",
-    Dict{String,Any}("HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "AssociateHealthCheck",
+        Dict{String,Any}(
+            "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_health_check(
     HealthCheckArn,
     ProtectionId,
@@ -184,14 +193,16 @@ defined. If you already have contacts defined and want to use them, retrieve the
   you already have contacts defined and want to use them, retrieve the list using
   `DescribeEmergencyContactSettings` and then provide it here.
 """
-associate_proactive_engagement_details(
+function associate_proactive_engagement_details(
     EmergencyContactList; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "AssociateProactiveEngagementDetails",
-    Dict{String,Any}("EmergencyContactList" => EmergencyContactList);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "AssociateProactiveEngagementDetails",
+        Dict{String,Any}("EmergencyContactList" => EmergencyContactList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_proactive_engagement_details(
     EmergencyContactList,
     params::AbstractDict{String};
@@ -251,13 +262,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: One or more tag key-value pairs for the <a>Protection</a> object that is
   created.
 """
-create_protection(Name, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function create_protection(
+    Name, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "CreateProtection",
         Dict{String,Any}("Name" => Name, "ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_protection(
     Name,
     ResourceArn,
@@ -316,21 +330,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to `BY_RESOURCE_TYPE` and you must not set it for any other `Pattern` setting.
 - `"Tags"`: One or more tag key-value pairs for the protection group.
 """
-create_protection_group(
+function create_protection_group(
     Aggregation,
     Pattern,
     ProtectionGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = shield(
-    "CreateProtectionGroup",
-    Dict{String,Any}(
-        "Aggregation" => Aggregation,
-        "Pattern" => Pattern,
-        "ProtectionGroupId" => ProtectionGroupId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "CreateProtectionGroup",
+        Dict{String,Any}(
+            "Aggregation" => Aggregation,
+            "Pattern" => Pattern,
+            "ProtectionGroupId" => ProtectionGroupId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_protection_group(
     Aggregation,
     Pattern,
@@ -369,8 +385,11 @@ the payer account itself is subscribed.When you initially create a subscription,
 subscription is set to be automatically renewed at the end of the existing subscription
 period. You can change this by submitting an `UpdateSubscription` request.
 """
-create_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("CreateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function create_subscription(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "CreateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function create_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -390,13 +409,14 @@ Deletes an Shield Advanced <a>Protection</a>.
 - `protection_id`: The unique identifier (ID) for the <a>Protection</a> object to be
   deleted.
 """
-delete_protection(ProtectionId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function delete_protection(ProtectionId; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
         "DeleteProtection",
         Dict{String,Any}("ProtectionId" => ProtectionId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_protection(
     ProtectionId,
     params::AbstractDict{String};
@@ -424,14 +444,16 @@ Removes the specified protection group.
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
 """
-delete_protection_group(
+function delete_protection_group(
     ProtectionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "DeleteProtectionGroup",
-    Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "DeleteProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -456,8 +478,11 @@ end
 Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription
 commitment. You cannot delete a subscription prior to the completion of that commitment.
 """
-delete_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("DeleteSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function delete_subscription(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DeleteSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -476,12 +501,14 @@ Describes the details of a DDoS attack.
 
 - `attack_id`: The unique identifier (ID) for the attack.
 """
-describe_attack(AttackId; aws_config::AbstractAWSConfig=current_aws_config()) = shield(
-    "DescribeAttack",
-    Dict{String,Any}("AttackId" => AttackId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_attack(AttackId; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DescribeAttack",
+        Dict{String,Any}("AttackId" => AttackId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_attack(
     AttackId,
     params::AbstractDict{String};
@@ -513,9 +540,11 @@ UTC, today. For example, if the current time is `2020-10-26 15:39:32 PDT`, equal
 
 The time range indicates the period covered by the attack statistics data items.
 """
-describe_attack_statistics(; aws_config::AbstractAWSConfig=current_aws_config()) = shield(
-    "DescribeAttackStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_attack_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DescribeAttackStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_attack_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -534,8 +563,11 @@ end
 Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team
 (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
 """
-describe_drtaccess(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("DescribeDRTAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_drtaccess(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DescribeDRTAccess"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_drtaccess(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -552,12 +584,15 @@ A list of email addresses and phone numbers that the Shield Response Team (SRT) 
 contact you if you have proactive engagement enabled, for escalations to the SRT and to
 initiate proactive customer support.
 """
-describe_emergency_contact_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function describe_emergency_contact_settings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "DescribeEmergencyContactSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_emergency_contact_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -586,8 +621,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource. You must provide either the `ResourceArn` of the protected resource or the
   `ProtectionID` of the protection, but not both.
 """
-describe_protection(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("DescribeProtection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_protection(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DescribeProtection"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_protection(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -608,14 +646,16 @@ Returns the specification for the specified protection group.
   protection group in lists and to manage the protection group, for example to update,
   delete, or describe it.
 """
-describe_protection_group(
+function describe_protection_group(
     ProtectionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "DescribeProtectionGroup",
-    Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "DescribeProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -639,8 +679,11 @@ end
 
 Provides details about the Shield Advanced subscription for an account.
 """
-describe_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("DescribeSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function describe_subscription(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DescribeSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -664,14 +707,16 @@ rules for attacks that it detects for the resource.
 
 - `resource_arn`: The ARN (Amazon Resource Name) of the protected resource.
 """
-disable_application_layer_automatic_response(
+function disable_application_layer_automatic_response(
     ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "DisableApplicationLayerAutomaticResponse",
-    Dict{String,Any}("ResourceArn" => ResourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "DisableApplicationLayerAutomaticResponse",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disable_application_layer_automatic_response(
     ResourceArn,
     params::AbstractDict{String};
@@ -694,9 +739,11 @@ end
 Removes authorization from the Shield Response Team (SRT) to notify contacts about
 escalations to the SRT and to initiate proactive customer support.
 """
-disable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aws_config()) = shield(
-    "DisableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function disable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DisableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function disable_proactive_engagement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -719,13 +766,16 @@ containing the logs that you shared previously.
 
 - `log_bucket`: The Amazon S3 bucket that contains the logs that you want to share.
 """
-disassociate_drtlog_bucket(LogBucket; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function disassociate_drtlog_bucket(
+    LogBucket; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "DisassociateDRTLogBucket",
         Dict{String,Any}("LogBucket" => LogBucket);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function disassociate_drtlog_bucket(
     LogBucket,
     params::AbstractDict{String};
@@ -747,8 +797,11 @@ end
 
 Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
 """
-disassociate_drtrole(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("DisassociateDRTRole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function disassociate_drtrole(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "DisassociateDRTRole"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function disassociate_drtrole(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -779,14 +832,18 @@ in the *WAF Developer Guide*.
 - `protection_id`: The unique identifier (ID) for the <a>Protection</a> object to remove
   the health check association from.
 """
-disassociate_health_check(
+function disassociate_health_check(
     HealthCheckArn, ProtectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "DisassociateHealthCheck",
-    Dict{String,Any}("HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "DisassociateHealthCheck",
+        Dict{String,Any}(
+            "HealthCheckArn" => HealthCheckArn, "ProtectionId" => ProtectionId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_health_check(
     HealthCheckArn,
     ProtectionId,
@@ -844,14 +901,16 @@ information about WAF, see [WAF Developer Guide](https://docs.aws.amazon.com/waf
   you have associated with the resource.
 - `resource_arn`: The ARN (Amazon Resource Name) of the protected resource.
 """
-enable_application_layer_automatic_response(
+function enable_application_layer_automatic_response(
     Action, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "EnableApplicationLayerAutomaticResponse",
-    Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "EnableApplicationLayerAutomaticResponse",
+        Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function enable_application_layer_automatic_response(
     Action,
     ResourceArn,
@@ -879,9 +938,11 @@ end
 Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about
 escalations to the SRT and to initiate proactive customer support.
 """
-enable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aws_config()) = shield(
-    "EnableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function enable_proactive_engagement(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "EnableProactiveEngagement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function enable_proactive_engagement(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -899,8 +960,11 @@ end
 
 Returns the `SubscriptionState`, either `Active` or `Inactive`.
 """
-get_subscription_state(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("GetSubscriptionState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function get_subscription_state(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "GetSubscriptionState"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function get_subscription_state(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -954,8 +1018,9 @@ On your first call to a list operation, leave this setting empty.
   the time in any valid [timestamp format](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp)
   setting.
 """
-list_attacks(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_attacks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield("ListAttacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_attacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1003,8 +1068,11 @@ The default setting is 20.
 
 On your first call to a list operation, leave this setting empty.
 """
-list_protection_groups(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("ListProtectionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_protection_groups(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "ListProtectionGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_protection_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1055,8 +1123,9 @@ The default setting is 20.
 
 On your first call to a list operation, leave this setting empty.
 """
-list_protections(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_protections(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield("ListProtections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
 function list_protections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1103,14 +1172,16 @@ The default setting is 20.
 
 On your first call to a list operation, leave this setting empty.
 """
-list_resources_in_protection_group(
+function list_resources_in_protection_group(
     ProtectionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "ListResourcesInProtectionGroup",
-    Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "ListResourcesInProtectionGroup",
+        Dict{String,Any}("ProtectionGroupId" => ProtectionGroupId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_resources_in_protection_group(
     ProtectionGroupId,
     params::AbstractDict{String};
@@ -1139,13 +1210,16 @@ in Shield.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1173,13 +1247,14 @@ Adds or updates tags for a resource in Shield.
   update tags for.
 - `tags`: The tags that you want to modify or add to the resource.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1212,13 +1287,16 @@ Removes tags from a resource in Shield.
   tags from.
 - `tag_keys`: The tag key for each tag that you want to remove from the resource.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1256,14 +1334,16 @@ configuration for the specified resource.
   you have associated with the resource.
 - `resource_arn`: The ARN (Amazon Resource Name) of the resource.
 """
-update_application_layer_automatic_response(
+function update_application_layer_automatic_response(
     Action, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-) = shield(
-    "UpdateApplicationLayerAutomaticResponse",
-    Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "UpdateApplicationLayerAutomaticResponse",
+        Dict{String,Any}("Action" => Action, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_application_layer_automatic_response(
     Action,
     ResourceArn,
@@ -1303,12 +1383,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you have proactive engagement enabled, the contact list must include at least one
   phone number.
 """
-update_emergency_contact_settings(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield(
+function update_emergency_contact_settings(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return shield(
         "UpdateEmergencyContactSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_emergency_contact_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1359,21 +1442,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set `Pattern` to `BY_RESOURCE_TYPE` and you must not set it for any other `Pattern`
   setting.
 """
-update_protection_group(
+function update_protection_group(
     Aggregation,
     Pattern,
     ProtectionGroupId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = shield(
-    "UpdateProtectionGroup",
-    Dict{String,Any}(
-        "Aggregation" => Aggregation,
-        "Pattern" => Pattern,
-        "ProtectionGroupId" => ProtectionGroupId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return shield(
+        "UpdateProtectionGroup",
+        Dict{String,Any}(
+            "Aggregation" => Aggregation,
+            "Pattern" => Pattern,
+            "ProtectionGroupId" => ProtectionGroupId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_protection_group(
     Aggregation,
     Pattern,
@@ -1421,8 +1506,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the `UpdateSubscription` request does not included a value for `AutoRenew`, the
   existing value for `AutoRenew` remains unchanged.
 """
-update_subscription(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    shield("UpdateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function update_subscription(; aws_config::AbstractAWSConfig=current_aws_config())
+    return shield(
+        "UpdateSubscription"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function update_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

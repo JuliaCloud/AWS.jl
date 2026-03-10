@@ -25,21 +25,23 @@ about using CloudWatch log streams with Amazon Kinesis Analytics applications, s
   role that is used must have the `PutLogEvents` policy action enabled.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 """
-add_application_cloud_watch_logging_option(
+function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
     CurrentApplicationVersionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "AddApplicationCloudWatchLoggingOption",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CloudWatchLoggingOption" => CloudWatchLoggingOption,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "AddApplicationCloudWatchLoggingOption",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CloudWatchLoggingOption" => CloudWatchLoggingOption,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -100,21 +102,23 @@ operation to find the current application version.
 - `input`: The [Input](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_Input.html)
   to add.
 """
-add_application_input(
+function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
     Input;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "AddApplicationInput",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "Input" => Input,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "AddApplicationInput",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "Input" => Input,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -168,23 +172,25 @@ application's SQL code executes. Currently, the only input processor available i
 - `input_processing_configuration`: The [InputProcessingConfiguration](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_InputProcessingConfiguration.html)
   to add to the application.
 """
-add_application_input_processing_configuration(
+function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
     InputId,
     InputProcessingConfiguration;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "AddApplicationInputProcessingConfiguration",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "InputId" => InputId,
-        "InputProcessingConfiguration" => InputProcessingConfiguration,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "AddApplicationInputProcessingConfiguration",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "InputId" => InputId,
+            "InputProcessingConfiguration" => InputProcessingConfiguration,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -258,21 +264,23 @@ For the limits on the number of application inputs and outputs you can configure
   an Amazon Kinesis stream, an Amazon Kinesis Firehose delivery stream, or an AWS Lambda
   function), and record the formation to use when writing to the destination.
 """
-add_application_output(
+function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     Output;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "AddApplicationOutput",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "Output" => Output,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "AddApplicationOutput",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "Output" => Output,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -337,21 +345,23 @@ For the limits on data sources you can add to your application, see [Limits](htt
   the necessary permissions that Amazon Kinesis Analytics can assume to read the object
   from your S3 bucket on your behalf.
 """
-add_application_reference_data_source(
+function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceDataSource;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "AddApplicationReferenceDataSource",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "ReferenceDataSource" => ReferenceDataSource,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "AddApplicationReferenceDataSource",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "ReferenceDataSource" => ReferenceDataSource,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -472,13 +482,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-tagging.html).
 """
-create_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function create_application(
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_analytics(
         "CreateApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -518,16 +531,18 @@ action.
 - `application_name`: Name of the Amazon Kinesis Analytics application to delete.
 - `create_timestamp`:  You can use the `DescribeApplication` operation to get this value.
 """
-delete_application(
+function delete_application(
     ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=current_aws_config()
-) = kinesis_analytics(
-    "DeleteApplication",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "DeleteApplication",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_application(
     ApplicationName,
     CreateTimestamp,
@@ -572,21 +587,23 @@ log streams with Amazon Kinesis Analytics applications, see [Working with Amazon
   operation.
 - `current_application_version_id`: The version ID of the Kinesis Analytics application.
 """
-delete_application_cloud_watch_logging_option(
+function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
     CurrentApplicationVersionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "DeleteApplicationCloudWatchLoggingOption",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "DeleteApplicationCloudWatchLoggingOption",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -633,21 +650,23 @@ from an input.
   configuration. You can get a list of the input IDs for an application by using the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation.
 """
-delete_application_input_processing_configuration(
+function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
     InputId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "DeleteApplicationInputProcessingConfiguration",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "InputId" => InputId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "DeleteApplicationInputProcessingConfiguration",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "InputId" => InputId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -704,21 +723,23 @@ external output destination.
   [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get the specific `OutputId`.
 """
-delete_application_output(
+function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     OutputId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "DeleteApplicationOutput",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "OutputId" => OutputId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "DeleteApplicationOutput",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "OutputId" => OutputId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -774,21 +795,23 @@ operation.
   Amazon Kinesis Analytics assigns an ID. You can use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get the reference ID.
 """
-delete_application_reference_data_source(
+function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "DeleteApplicationReferenceDataSource",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        "ReferenceId" => ReferenceId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "DeleteApplicationReferenceDataSource",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+            "ReferenceId" => ReferenceId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -837,13 +860,16 @@ current application versionId, which you need to call other operations such as `
 
 - `application_name`: Name of the application.
 """
-describe_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function describe_application(
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_analytics(
         "DescribeApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -898,10 +924,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
   S3 object.
 """
-discover_input_schema(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function discover_input_schema(; aws_config::AbstractAWSConfig=current_aws_config())
+    return kinesis_analytics(
         "DiscoverInputSchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function discover_input_schema(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -944,9 +971,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the previous response to get the next page of applications.
 - `"Limit"`: Maximum number of applications to list.
 """
-list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = kinesis_analytics(
-    "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
+    return kinesis_analytics(
+        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -966,13 +995,16 @@ Retrieves the list of key-value tags assigned to the application. For more infor
 
 - `resource_arn`: The ARN of the application for which to retrieve tags.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_analytics(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1023,17 +1055,19 @@ action.
   the input. You can also specify where in the streaming source you want Amazon Kinesis
   Analytics to start reading.
 """
-start_application(
+function start_application(
     ApplicationName, InputConfigurations; aws_config::AbstractAWSConfig=current_aws_config()
-) = kinesis_analytics(
-    "StartApplication",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "InputConfigurations" => InputConfigurations,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "StartApplication",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "InputConfigurations" => InputConfigurations,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_application(
     ApplicationName,
     InputConfigurations,
@@ -1080,13 +1114,16 @@ action.
 
 - `application_name`: Name of the running application to stop.
 """
-stop_application(ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function stop_application(
+    ApplicationName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_analytics(
         "StopApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function stop_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1117,13 +1154,14 @@ application tags is 50. For more information, see [Using Tagging](https://docs.a
 - `resource_arn`: The ARN of the application to assign the tags.
 - `tags`: The key-value tags to assign to the application.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return kinesis_analytics(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1156,13 +1194,16 @@ Removes one or more tags from a Kinesis Analytics application. For more informat
   tags.
 - `tag_keys`: A list of keys of tags to remove from the specified application.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    kinesis_analytics(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return kinesis_analytics(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1208,21 +1249,23 @@ update your application.
 - `current_application_version_id`: The current application version ID. You can use the [DescribeApplication](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/API_DescribeApplication.html)
   operation to get this value.
 """
-update_application(
+function update_application(
     ApplicationName,
     ApplicationUpdate,
     CurrentApplicationVersionId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = kinesis_analytics(
-    "UpdateApplication",
-    Dict{String,Any}(
-        "ApplicationName" => ApplicationName,
-        "ApplicationUpdate" => ApplicationUpdate,
-        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return kinesis_analytics(
+        "UpdateApplication",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName,
+            "ApplicationUpdate" => ApplicationUpdate,
+            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_application(
     ApplicationName,
     ApplicationUpdate,

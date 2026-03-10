@@ -33,13 +33,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
-create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=current_aws_config()) =
-    budgets(
+function create_budget(
+    AccountId, Budget; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return budgets(
         "CreateBudget",
         Dict{String,Any}("AccountId" => AccountId, "Budget" => Budget);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_budget(
     AccountId,
     Budget,
@@ -87,7 +90,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget action.
   Each tag consists of a key and a value, and each key must be unique for the resource.
 """
-create_budget_action(
+function create_budget_action(
     AccountId,
     ActionThreshold,
     ActionType,
@@ -98,22 +101,24 @@ create_budget_action(
     NotificationType,
     Subscribers;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "CreateBudgetAction",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "ActionThreshold" => ActionThreshold,
-        "ActionType" => ActionType,
-        "ApprovalModel" => ApprovalModel,
-        "BudgetName" => BudgetName,
-        "Definition" => Definition,
-        "ExecutionRoleArn" => ExecutionRoleArn,
-        "NotificationType" => NotificationType,
-        "Subscribers" => Subscribers,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "CreateBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ActionThreshold" => ActionThreshold,
+            "ActionType" => ActionType,
+            "ApprovalModel" => ApprovalModel,
+            "BudgetName" => BudgetName,
+            "Definition" => Definition,
+            "ExecutionRoleArn" => ExecutionRoleArn,
+            "NotificationType" => NotificationType,
+            "Subscribers" => Subscribers,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_budget_action(
     AccountId,
     ActionThreshold,
@@ -168,23 +173,25 @@ notification.
 - `subscribers`: A list of subscribers that you want to associate with the notification.
   Each notification can have one SNS subscriber and up to 10 email subscribers.
 """
-create_notification(
+function create_notification(
     AccountId,
     BudgetName,
     Notification,
     Subscribers;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "CreateNotification",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "Notification" => Notification,
-        "Subscribers" => Subscribers,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "CreateNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscribers" => Subscribers,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_notification(
     AccountId,
     BudgetName,
@@ -228,23 +235,25 @@ create the subscriber.
 - `notification`: The notification that you want to create a subscriber for.
 - `subscriber`: The subscriber that you want to associate with a budget notification.
 """
-create_subscriber(
+function create_subscriber(
     AccountId,
     BudgetName,
     Notification,
     Subscriber;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "CreateSubscriber",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "Notification" => Notification,
-        "Subscriber" => Subscriber,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "CreateSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscriber" => Subscriber,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_subscriber(
     AccountId,
     BudgetName,
@@ -287,13 +296,16 @@ with that budget.
 - `account_id`: The `accountId` that is associated with the budget that you want to delete.
 - `budget_name`: The name of the budget that you want to delete.
 """
-delete_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    budgets(
+function delete_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return budgets(
         "DeleteBudget",
         Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_budget(
     AccountId,
     BudgetName,
@@ -326,16 +338,18 @@ end
 - `action_id`:  A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 """
-delete_budget_action(
+function delete_budget_action(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DeleteBudgetAction",
-    Dict{String,Any}(
-        "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DeleteBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_budget_action(
     AccountId,
     ActionId,
@@ -378,18 +392,20 @@ notification.
 - `budget_name`: The name of the budget whose notification you want to delete.
 - `notification`: The notification that you want to delete.
 """
-delete_notification(
+function delete_notification(
     AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DeleteNotification",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "Notification" => Notification,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DeleteNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_notification(
     AccountId,
     BudgetName,
@@ -432,23 +448,25 @@ Deletes a subscriber.
 - `notification`: The notification whose subscriber you want to delete.
 - `subscriber`: The subscriber that you want to delete.
 """
-delete_subscriber(
+function delete_subscriber(
     AccountId,
     BudgetName,
     Notification,
     Subscriber;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "DeleteSubscriber",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "Notification" => Notification,
-        "Subscriber" => Subscriber,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DeleteSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+            "Subscriber" => Subscriber,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_subscriber(
     AccountId,
     BudgetName,
@@ -493,13 +511,16 @@ section.
   description of.
 - `budget_name`: The name of the budget that you want a description of.
 """
-describe_budget(AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    budgets(
+function describe_budget(
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return budgets(
         "DescribeBudget",
         Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_budget(
     AccountId,
     BudgetName,
@@ -532,16 +553,18 @@ end
 - `action_id`:  A system-generated universally unique identifier (UUID) for the action.
 - `budget_name`:
 """
-describe_budget_action(
+function describe_budget_action(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetAction",
-    Dict{String,Any}(
-        "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_action(
     AccountId,
     ActionId,
@@ -587,16 +610,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"TimePeriod"`:
 """
-describe_budget_action_histories(
+function describe_budget_action_histories(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetActionHistories",
-    Dict{String,Any}(
-        "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetActionHistories",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_action_histories(
     AccountId,
     ActionId,
@@ -639,14 +664,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_budget_actions_for_account(
+function describe_budget_actions_for_account(
     AccountId; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetActionsForAccount",
-    Dict{String,Any}("AccountId" => AccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetActionsForAccount",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_actions_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -680,14 +707,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-describe_budget_actions_for_budget(
+function describe_budget_actions_for_budget(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetActionsForBudget",
-    Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetActionsForBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_actions_for_budget(
     AccountId,
     BudgetName,
@@ -726,14 +755,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contains. The default is 50.
 - `"NextToken"`:
 """
-describe_budget_notifications_for_account(
+function describe_budget_notifications_for_account(
     AccountId; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetNotificationsForAccount",
-    Dict{String,Any}("AccountId" => AccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetNotificationsForAccount",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_notifications_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -770,14 +801,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimePeriod"`: Retrieves how often the budget went into an `ALARM` state for the
   specified time period.
 """
-describe_budget_performance_history(
+function describe_budget_performance_history(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeBudgetPerformanceHistory",
-    Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeBudgetPerformanceHistory",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budget_performance_history(
     AccountId,
     BudgetName,
@@ -823,12 +856,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_budgets(AccountId; aws_config::AbstractAWSConfig=current_aws_config()) = budgets(
-    "DescribeBudgets",
-    Dict{String,Any}("AccountId" => AccountId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function describe_budgets(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
+    return budgets(
+        "DescribeBudgets",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_budgets(
     AccountId,
     params::AbstractDict{String};
@@ -865,14 +900,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_notifications_for_budget(
+function describe_notifications_for_budget(
     AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeNotificationsForBudget",
-    Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeNotificationsForBudget",
+        Dict{String,Any}("AccountId" => AccountId, "BudgetName" => BudgetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_notifications_for_budget(
     AccountId,
     BudgetName,
@@ -915,18 +952,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-describe_subscribers_for_notification(
+function describe_subscribers_for_notification(
     AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "DescribeSubscribersForNotification",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "Notification" => Notification,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "DescribeSubscribersForNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "Notification" => Notification,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_subscribers_for_notification(
     AccountId,
     BudgetName,
@@ -965,23 +1004,25 @@ end
 - `budget_name`:
 - `execution_type`:  The type of execution.
 """
-execute_budget_action(
+function execute_budget_action(
     AccountId,
     ActionId,
     BudgetName,
     ExecutionType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "ExecuteBudgetAction",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "ActionId" => ActionId,
-        "BudgetName" => BudgetName,
-        "ExecutionType" => ExecutionType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "ExecuteBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "ActionId" => ActionId,
+            "BudgetName" => BudgetName,
+            "ExecutionType" => ExecutionType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function execute_budget_action(
     AccountId,
     ActionId,
@@ -1019,13 +1060,16 @@ Lists tags associated with a budget or budget action resource.
 
 - `resource_arn`: The unique identifier for the resource.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    budgets(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return budgets(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1052,14 +1096,16 @@ Creates tags for a budget or budget action resource.
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tags`: The tags associated with the resource.
 """
-tag_resource(
+function tag_resource(
     ResourceARN, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "TagResource",
-    Dict{String,Any}("ResourceARN" => ResourceARN, "ResourceTags" => ResourceTags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "ResourceTags" => ResourceTags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     ResourceARN,
     ResourceTags,
@@ -1093,14 +1139,18 @@ Deletes tags associated with a budget or budget action resource.
 - `resource_arn`: The unique identifier for the resource.
 - `resource_tag_keys`: The key that's associated with the tag.
 """
-untag_resource(
+function untag_resource(
     ResourceARN, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "UntagResource",
-    Dict{String,Any}("ResourceARN" => ResourceARN, "ResourceTagKeys" => ResourceTagKeys);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "UntagResource",
+        Dict{String,Any}(
+            "ResourceARN" => ResourceARN, "ResourceTagKeys" => ResourceTagKeys
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function untag_resource(
     ResourceARN,
     ResourceTagKeys,
@@ -1142,13 +1192,16 @@ section.
 - `account_id`: The `accountId` that is associated with the budget that you want to update.
 - `new_budget`: The budget that you want to update your budget to.
 """
-update_budget(AccountId, NewBudget; aws_config::AbstractAWSConfig=current_aws_config()) =
-    budgets(
+function update_budget(
+    AccountId, NewBudget; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return budgets(
         "UpdateBudget",
         Dict{String,Any}("AccountId" => AccountId, "NewBudget" => NewBudget);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_budget(
     AccountId,
     NewBudget,
@@ -1193,16 +1246,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationType"`:
 - `"Subscribers"`:
 """
-update_budget_action(
+function update_budget_action(
     AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = budgets(
-    "UpdateBudgetAction",
-    Dict{String,Any}(
-        "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "UpdateBudgetAction",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "ActionId" => ActionId, "BudgetName" => BudgetName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_budget_action(
     AccountId,
     ActionId,
@@ -1242,23 +1297,25 @@ Updates a notification.
 - `new_notification`: The updated notification to be associated with a budget.
 - `old_notification`: The previous notification that is associated with a budget.
 """
-update_notification(
+function update_notification(
     AccountId,
     BudgetName,
     NewNotification,
     OldNotification;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "UpdateNotification",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "NewNotification" => NewNotification,
-        "OldNotification" => OldNotification,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "UpdateNotification",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "NewNotification" => NewNotification,
+            "OldNotification" => OldNotification,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_notification(
     AccountId,
     BudgetName,
@@ -1301,25 +1358,27 @@ Updates a subscriber.
 - `notification`: The notification whose subscriber you want to update.
 - `old_subscriber`: The previous subscriber that is associated with a budget notification.
 """
-update_subscriber(
+function update_subscriber(
     AccountId,
     BudgetName,
     NewSubscriber,
     Notification,
     OldSubscriber;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = budgets(
-    "UpdateSubscriber",
-    Dict{String,Any}(
-        "AccountId" => AccountId,
-        "BudgetName" => BudgetName,
-        "NewSubscriber" => NewSubscriber,
-        "Notification" => Notification,
-        "OldSubscriber" => OldSubscriber,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return budgets(
+        "UpdateSubscriber",
+        Dict{String,Any}(
+            "AccountId" => AccountId,
+            "BudgetName" => BudgetName,
+            "NewSubscriber" => NewSubscriber,
+            "Notification" => Notification,
+            "OldSubscriber" => OldSubscriber,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_subscriber(
     AccountId,
     BudgetName,

@@ -120,23 +120,25 @@ in the *Application Auto Scaling User Guide*.
   resource. For a resource provided by your own application or service, use `custom-
   resource` instead.
 """
-delete_scaling_policy(
+function delete_scaling_policy(
     PolicyName,
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "DeleteScalingPolicy",
-    Dict{String,Any}(
-        "PolicyName" => PolicyName,
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DeleteScalingPolicy",
+        Dict{String,Any}(
+            "PolicyName" => PolicyName,
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -275,23 +277,25 @@ in the *Application Auto Scaling User Guide*.
   resource. For a resource provided by your own application or service, use `custom-
   resource` instead.
 """
-delete_scheduled_action(
+function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "DeleteScheduledAction",
-    Dict{String,Any}(
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ScheduledActionName" => ScheduledActionName,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DeleteScheduledAction",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ScheduledActionName" => ScheduledActionName,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -431,21 +435,23 @@ that are associated with it.
   resource. For a resource provided by your own application or service, use `custom-
   resource` instead.
 """
-deregister_scalable_target(
+function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "DeregisterScalableTarget",
-    Dict{String,Any}(
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DeregisterScalableTarget",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -594,14 +600,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
   WorkSpaces in the pool.
 """
-describe_scalable_targets(
+function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_auto_scaling(
-    "DescribeScalableTargets",
-    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DescribeScalableTargets",
+        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scalable_targets(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -749,14 +757,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
   WorkSpaces in the pool.
 """
-describe_scaling_activities(
+function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_auto_scaling(
-    "DescribeScalingActivities",
-    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DescribeScalingActivities",
+        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scaling_activities(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -903,14 +913,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    - `workspaces:workspacespool:DesiredUserSessions` - The number of user sessions for the
   WorkSpaces in the pool.
 """
-describe_scaling_policies(
+function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_auto_scaling(
-    "DescribeScalingPolicies",
-    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DescribeScalingPolicies",
+        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scaling_policies(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -1057,14 +1069,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WorkSpaces in the pool.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
-describe_scheduled_actions(
+function describe_scheduled_actions(
     ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
-) = application_auto_scaling(
-    "DescribeScheduledActions",
-    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "DescribeScheduledActions",
+        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_scheduled_actions(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -1100,13 +1114,16 @@ in the *Amazon Web Services General Reference*.
 
 To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
 """
-list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_auto_scaling(
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_auto_scaling(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1291,23 +1308,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This parameter is required if you are creating a policy and the policy type is
   `TargetTrackingScaling`.
 """
-put_scaling_policy(
+function put_scaling_policy(
     PolicyName,
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "PutScalingPolicy",
-    Dict{String,Any}(
-        "PolicyName" => PolicyName,
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "PutScalingPolicy",
+        Dict{String,Any}(
+            "PolicyName" => PolicyName,
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1495,23 +1514,25 @@ For rate expressions, *value* is a positive integer and *unit* is `minute` | `mi
   Valid values are the canonical names of the IANA time zones supported by Joda-Time (such
   as `Etc/GMT+9` or `Pacific/Tahiti`). For more information, see [https://www.joda.org/joda-time/timezones.html](https://www.joda.org/joda-time/timezones.html).
 """
-put_scheduled_action(
+function put_scheduled_action(
     ResourceId,
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "PutScheduledAction",
-    Dict{String,Any}(
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ScheduledActionName" => ScheduledActionName,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "PutScheduledAction",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ScheduledActionName" => ScheduledActionName,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1749,21 +1770,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Use tags to control access to a scalable target. For more information, see [Tagging support for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/resource-tagging-support.html)
   in the *Application Auto Scaling User Guide*.
 """
-register_scalable_target(
+function register_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = application_auto_scaling(
-    "RegisterScalableTarget",
-    Dict{String,Any}(
-        "ResourceId" => ResourceId,
-        "ScalableDimension" => ScalableDimension,
-        "ServiceNamespace" => ServiceNamespace,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return application_auto_scaling(
+        "RegisterScalableTarget",
+        Dict{String,Any}(
+            "ResourceId" => ResourceId,
+            "ScalableDimension" => ScalableDimension,
+            "ServiceNamespace" => ServiceNamespace,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1832,13 +1855,14 @@ To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
   For information about the rules that apply to tag keys and tag values, see [User-defined tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html)
   in the *Amazon Web Services Billing User Guide*.
 """
-tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_auto_scaling(
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return application_auto_scaling(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1877,13 +1901,16 @@ tag key and the Application Auto Scaling scalable target.
 To get the ARN for a scalable target, use <a>DescribeScalableTargets</a>.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 """
-untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    application_auto_scaling(
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return application_auto_scaling(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     ResourceARN,
     TagKeys,

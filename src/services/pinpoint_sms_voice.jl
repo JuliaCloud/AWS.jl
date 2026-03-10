@@ -17,13 +17,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ConfigurationSetName"`: The name that you want to give the configuration set.
 """
-create_configuration_set(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pinpoint_sms_voice(
+function create_configuration_set(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pinpoint_sms_voice(
         "POST",
         "/v1/sms-voice/configuration-sets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_configuration_set(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -53,14 +54,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventDestination"`:
 - `"EventDestinationName"`: A name that identifies the event destination.
 """
-create_configuration_set_event_destination(
+function create_configuration_set_event_destination(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = pinpoint_sms_voice(
-    "POST",
-    "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pinpoint_sms_voice(
+        "POST",
+        "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_configuration_set_event_destination(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -85,14 +88,16 @@ Deletes an existing configuration set.
 
 - `configuration_set_name`: ConfigurationSetName
 """
-delete_configuration_set(
+function delete_configuration_set(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = pinpoint_sms_voice(
-    "DELETE",
-    "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pinpoint_sms_voice(
+        "DELETE",
+        "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_configuration_set(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -118,16 +123,18 @@ Deletes an event destination in a configuration set.
 - `configuration_set_name`: ConfigurationSetName
 - `event_destination_name`: EventDestinationName
 """
-delete_configuration_set_event_destination(
+function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pinpoint_sms_voice(
-    "DELETE",
-    "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pinpoint_sms_voice(
+        "DELETE",
+        "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,
@@ -154,14 +161,16 @@ the Amazon Resource Name (ARN) of the destination, and the name of the event des
 
 - `configuration_set_name`: ConfigurationSetName
 """
-get_configuration_set_event_destinations(
+function get_configuration_set_event_destinations(
     ConfigurationSetName; aws_config::AbstractAWSConfig=current_aws_config()
-) = pinpoint_sms_voice(
-    "GET",
-    "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pinpoint_sms_voice(
+        "GET",
+        "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_configuration_set_event_destinations(
     ConfigurationSetName,
     params::AbstractDict{String};
@@ -191,13 +200,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   position in the list of results.
 - `"PageSize"`: Used to specify the number of items that should be returned in the response.
 """
-list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pinpoint_sms_voice(
+function list_configuration_sets(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pinpoint_sms_voice(
         "GET",
         "/v1/sms-voice/configuration-sets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_configuration_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -231,13 +241,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   devices when they receive the message, because you can specify a CallerId parameter in
   the request.
 """
-send_voice_message(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    pinpoint_sms_voice(
+function send_voice_message(; aws_config::AbstractAWSConfig=current_aws_config())
+    return pinpoint_sms_voice(
         "POST",
         "/v1/sms-voice/voice/message";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function send_voice_message(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -269,16 +280,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"EventDestination"`:
 """
-update_configuration_set_event_destination(
+function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = pinpoint_sms_voice(
-    "PUT",
-    "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return pinpoint_sms_voice(
+        "PUT",
+        "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName,

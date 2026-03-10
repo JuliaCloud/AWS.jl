@@ -15,14 +15,16 @@ request.
 
 - `connection_id`: The id of the inbound connection that you want to accept.
 """
-accept_inbound_cross_cluster_search_connection(
+function accept_inbound_cross_cluster_search_connection(
     ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "PUT",
-    "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "PUT",
+        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function accept_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -52,14 +54,15 @@ Elasticsearch Service Domains for more information.</a>
 - `arn`:  Specify the `ARN` for which you want to add the tags.
 - `tag_list`:  List of `Tag` that need to be added for the Elasticsearch domain.
 """
-add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "POST",
         "/2015-01-01/tags",
         Dict{String,Any}("ARN" => ARN, "TagList" => TagList);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function add_tags(
     ARN,
     TagList,
@@ -89,14 +92,16 @@ Associates a package with an Amazon ES domain.
 - `package_id`: Internal ID of the package that you want to associate with a domain. Use
   `DescribePackages` to find this value.
 """
-associate_package(
+function associate_package(
     DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_package(
     DomainName,
     PackageID,
@@ -124,15 +129,17 @@ endpoint.
 - `account`: The account ID to grant access to.
 - `domain_name`: The name of the OpenSearch Service domain to provide access to.
 """
-authorize_vpc_endpoint_access(
+function authorize_vpc_endpoint_access(
     Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
-    Dict{String,Any}("Account" => Account);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/authorizeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function authorize_vpc_endpoint_access(
     Account,
     DomainName,
@@ -165,14 +172,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: When set to **True**, returns the list of change IDs and properties that will
   be cancelled without actually cancelling the change.
 """
-cancel_domain_config_change(
+function cancel_domain_config_change(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain/$(DomainName)/config/cancel";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/config/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_domain_config_change(
     DomainName,
     params::AbstractDict{String};
@@ -200,15 +209,17 @@ this operation before the `AutomatedUpdateDate` and when the `UpdateStatus` is i
 - `domain_name`: The name of the domain that you want to stop the latest service software
   update on.
 """
-cancel_elasticsearch_service_software_update(
+function cancel_elasticsearch_service_software_update(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/serviceSoftwareUpdate/cancel",
-    Dict{String,Any}("DomainName" => DomainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/serviceSoftwareUpdate/cancel",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function cancel_elasticsearch_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -280,15 +291,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service/latest/developerguide/es-vpc.html#es-creating-vpc" target="_blank">Creating a
   VPC</a> in *VPC Endpoints for Amazon Elasticsearch Service Domains*
 """
-create_elasticsearch_domain(
+function create_elasticsearch_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain",
-    Dict{String,Any}("DomainName" => DomainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -320,22 +333,24 @@ Creates a new cross-cluster search connection from a source domain to a destinat
 - `source_domain_info`: Specifies the `<a>DomainInformation</a>` for the source
   Elasticsearch domain.
 """
-create_outbound_cross_cluster_search_connection(
+function create_outbound_cross_cluster_search_connection(
     ConnectionAlias,
     DestinationDomainInfo,
     SourceDomainInfo;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/ccs/outboundConnection",
-    Dict{String,Any}(
-        "ConnectionAlias" => ConnectionAlias,
-        "DestinationDomainInfo" => DestinationDomainInfo,
-        "SourceDomainInfo" => SourceDomainInfo,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/ccs/outboundConnection",
+        Dict{String,Any}(
+            "ConnectionAlias" => ConnectionAlias,
+            "DestinationDomainInfo" => DestinationDomainInfo,
+            "SourceDomainInfo" => SourceDomainInfo,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_outbound_cross_cluster_search_connection(
     ConnectionAlias,
     DestinationDomainInfo,
@@ -380,22 +395,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"PackageDescription"`: Description of the package.
 """
-create_package(
+function create_package(
     PackageName,
     PackageSource,
     PackageType;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/packages",
-    Dict{String,Any}(
-        "PackageName" => PackageName,
-        "PackageSource" => PackageSource,
-        "PackageType" => PackageType,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/packages",
+        Dict{String,Any}(
+            "PackageName" => PackageName,
+            "PackageSource" => PackageSource,
+            "PackageType" => PackageType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_package(
     PackageName,
     PackageSource,
@@ -439,15 +456,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"ClientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 """
-create_vpc_endpoint(
+function create_vpc_endpoint(
     DomainArn, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/vpcEndpoints",
-    Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints",
+        Dict{String,Any}("DomainArn" => DomainArn, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_vpc_endpoint(
     DomainArn,
     VpcOptions,
@@ -480,14 +499,16 @@ is deleted, it cannot be recovered.
 
 - `domain_name`: The name of the Elasticsearch domain that you want to permanently delete.
 """
-delete_elasticsearch_domain(
+function delete_elasticsearch_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "DELETE",
-    "/2015-01-01/es/domain/$(DomainName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "DELETE",
+        "/2015-01-01/es/domain/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -513,13 +534,16 @@ href="http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-
 enabling-slr" target="_blank">Deleting Elasticsearch Service Role</a> in *VPC Endpoints for
 Amazon Elasticsearch Service Domains*.
 """
-delete_elasticsearch_service_role(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function delete_elasticsearch_service_role(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/role";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_elasticsearch_service_role(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -543,14 +567,16 @@ connection.
 
 - `connection_id`: The id of the inbound connection that you want to permanently delete.
 """
-delete_inbound_cross_cluster_search_connection(
+function delete_inbound_cross_cluster_search_connection(
     ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "DELETE",
-    "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "DELETE",
+        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -576,14 +602,16 @@ connection.
 
 - `connection_id`: The id of the outbound connection that you want to permanently delete.
 """
-delete_outbound_cross_cluster_search_connection(
+function delete_outbound_cross_cluster_search_connection(
     ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "DELETE",
-    "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "DELETE",
+        "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_outbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -609,13 +637,14 @@ Delete the package.
 - `package_id`: Internal ID of the package that you want to delete. Use `DescribePackages`
   to find this value.
 """
-delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function delete_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "DELETE",
         "/2015-01-01/packages/$(PackageID)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_package(
     PackageID,
     params::AbstractDict{String};
@@ -640,13 +669,16 @@ Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
 
 - `vpc_endpoint_id`: The unique identifier of the endpoint to be deleted.
 """
-delete_vpc_endpoint(VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function delete_vpc_endpoint(
+    VpcEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/vpcEndpoints/$(VpcEndpointId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_vpc_endpoint(
     VpcEndpointId,
     params::AbstractDict{String};
@@ -681,13 +713,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
-describe_domain_auto_tunes(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function describe_domain_auto_tunes(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/autoTunes";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_domain_auto_tunes(
     DomainName,
     params::AbstractDict{String};
@@ -721,14 +756,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is an optional parameter. If omitted, the service returns information about the most
   recent configuration change.
 """
-describe_domain_change_progress(
+function describe_domain_change_progress(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/domain/$(DomainName)/progress";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/progress";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_domain_change_progress(
     DomainName,
     params::AbstractDict{String};
@@ -754,14 +791,16 @@ including the domain ID, domain endpoint, and domain ARN.
 
 - `domain_name`: The name of the Elasticsearch domain for which you want information.
 """
-describe_elasticsearch_domain(
+function describe_elasticsearch_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/domain/$(DomainName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_elasticsearch_domain(
     DomainName,
     params::AbstractDict{String};
@@ -787,14 +826,16 @@ as the state, creation date, update version, and update date for cluster options
 
 - `domain_name`: The Elasticsearch domain that you want to get information about.
 """
-describe_elasticsearch_domain_config(
+function describe_elasticsearch_domain_config(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/domain/$(DomainName)/config";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_elasticsearch_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -820,15 +861,17 @@ including the domain ID, domain endpoint, and domain ARN.
 
 - `domain_names`: The Elasticsearch domains for which you want information.
 """
-describe_elasticsearch_domains(
+function describe_elasticsearch_domains(
     DomainNames; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain-info",
-    Dict{String,Any}("DomainNames" => DomainNames);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain-info",
+        Dict{String,Any}("DomainNames" => DomainNames);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_elasticsearch_domains(
     DomainNames,
     params::AbstractDict{String};
@@ -868,14 +911,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   modify. This should be present only if we are querying for Elasticsearch ` <a>Limits</a>
   ` for existing domain.
 """
-describe_elasticsearch_instance_type_limits(
+function describe_elasticsearch_instance_type_limits(
     ElasticsearchVersion, InstanceType; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_elasticsearch_instance_type_limits(
     ElasticsearchVersion,
     InstanceType,
@@ -913,14 +958,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
-describe_inbound_cross_cluster_search_connections(;
+function describe_inbound_cross_cluster_search_connections(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/ccs/inboundConnection/search";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/ccs/inboundConnection/search";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_inbound_cross_cluster_search_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -955,14 +1002,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
-describe_outbound_cross_cluster_search_connections(;
+function describe_outbound_cross_cluster_search_connections(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/ccs/outboundConnection/search";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/ccs/outboundConnection/search";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_outbound_cross_cluster_search_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -991,13 +1040,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Used for pagination. Only necessary if a previous API call includes a non-
   null NextToken value. If provided, returns results for the next page.
 """
-describe_packages(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function describe_packages(; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/describe";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1027,14 +1077,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"offeringId"`: The offering identifier filter value. Use this parameter to show only the
   available offering that matches the specified reservation identifier.
 """
-describe_reserved_elasticsearch_instance_offerings(;
+function describe_reserved_elasticsearch_instance_offerings(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/reservedInstanceOfferings";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/reservedInstanceOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_reserved_elasticsearch_instance_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1064,14 +1116,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
   show only the reservation that matches the specified reserved Elasticsearch instance ID.
 """
-describe_reserved_elasticsearch_instances(;
+function describe_reserved_elasticsearch_instances(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/reservedInstances";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/reservedInstances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_reserved_elasticsearch_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1094,14 +1148,17 @@ Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
 
 - `vpc_endpoint_ids`: The unique identifiers of the endpoints to get information about.
 """
-describe_vpc_endpoints(VpcEndpointIds; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function describe_vpc_endpoints(
+    VpcEndpointIds; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "POST",
         "/2015-01-01/es/vpcEndpoints/describe",
         Dict{String,Any}("VpcEndpointIds" => VpcEndpointIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function describe_vpc_endpoints(
     VpcEndpointIds,
     params::AbstractDict{String};
@@ -1130,14 +1187,16 @@ Dissociates a package from the Amazon ES domain.
 - `package_id`: Internal ID of the package that you want to associate with a domain. Use
   `DescribePackages` to find this value.
 """
-dissociate_package(
+function dissociate_package(
     DomainName, PackageID; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function dissociate_package(
     DomainName,
     PackageID,
@@ -1167,14 +1226,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"domainName"`:
 """
-get_compatible_elasticsearch_versions(;
+function get_compatible_elasticsearch_versions(;
     aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/compatibleVersions";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/compatibleVersions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_compatible_elasticsearch_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1206,13 +1267,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a non-
   null NextToken value. If provided, returns results for the next page.
 """
-get_package_version_history(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function get_package_version_history(
+    PackageID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/history";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_package_version_history(
     PackageID,
     params::AbstractDict{String};
@@ -1244,13 +1308,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`:
 - `"nextToken"`:
 """
-get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/history";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_upgrade_history(
     DomainName,
     params::AbstractDict{String};
@@ -1276,13 +1341,14 @@ performed on the domain.
 
 - `domain_name`:
 """
-get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/status";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_upgrade_status(
     DomainName,
     params::AbstractDict{String};
@@ -1310,10 +1376,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"engineType"`:  Optional parameter to filter the output by domain engine type.
   Acceptable values are 'Elasticsearch' and 'OpenSearch'.
 """
-list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_domain_names(; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "GET", "/2015-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_domain_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1344,13 +1411,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a non-
   null NextToken value. If provided, returns results for the next page.
 """
-list_domains_for_package(PackageID; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_domains_for_package(
+    PackageID; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/domains";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_domains_for_package(
     PackageID,
     params::AbstractDict{String};
@@ -1388,14 +1458,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: NextToken should be sent in case if earlier API call produced result
   containing NextToken. It is used for pagination.
 """
-list_elasticsearch_instance_types(
+function list_elasticsearch_instance_types(
     ElasticsearchVersion; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_elasticsearch_instance_types(
     ElasticsearchVersion,
     params::AbstractDict{String};
@@ -1424,13 +1496,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be greater than 10 else it wont be honored.
 - `"nextToken"`:
 """
-list_elasticsearch_versions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_elasticsearch_versions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/versions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_elasticsearch_versions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1461,13 +1534,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a non-
   null NextToken value. If provided, returns results for the next page.
 """
-list_packages_for_domain(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_packages_for_domain(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/domain/$(DomainName)/packages";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_packages_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1493,13 +1569,15 @@ Returns all tags for the given Elasticsearch domain.
 - `arn`:  Specify the `ARN` for the Elasticsearch domain to which the tags are attached
   that you want to view.
 """
-list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config()) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/tags/",
-    Dict{String,Any}("arn" => arn);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_tags(arn; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/tags/",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_tags(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1530,13 +1608,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
 """
-list_vpc_endpoint_access(DomainName; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_vpc_endpoint_access(
+    DomainName; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/listVpcEndpointAccess";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_vpc_endpoint_access(
     DomainName,
     params::AbstractDict{String};
@@ -1564,13 +1645,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: Identifier to allow retrieval of paginated results.
 """
-list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function list_vpc_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "GET",
         "/2015-01-01/es/vpcEndpoints";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_vpc_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1600,14 +1682,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
 """
-list_vpc_endpoints_for_domain(
+function list_vpc_endpoints_for_domain(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "GET",
-    "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "GET",
+        "/2015-01-01/es/domain/$(DomainName)/vpcEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_vpc_endpoints_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1640,21 +1724,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"InstanceCount"`: The number of Elasticsearch instances to reserve.
 """
-purchase_reserved_elasticsearch_instance_offering(
+function purchase_reserved_elasticsearch_instance_offering(
     ReservationName,
     ReservedElasticsearchInstanceOfferingId;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/purchaseReservedInstanceOffering",
-    Dict{String,Any}(
-        "ReservationName" => ReservationName,
-        "ReservedElasticsearchInstanceOfferingId" =>
-            ReservedElasticsearchInstanceOfferingId,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/purchaseReservedInstanceOffering",
+        Dict{String,Any}(
+            "ReservationName" => ReservationName,
+            "ReservedElasticsearchInstanceOfferingId" =>
+                ReservedElasticsearchInstanceOfferingId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function purchase_reserved_elasticsearch_instance_offering(
     ReservationName,
     ReservedElasticsearchInstanceOfferingId,
@@ -1691,14 +1777,16 @@ request.
 
 - `connection_id`: The id of the inbound connection that you want to reject.
 """
-reject_inbound_cross_cluster_search_connection(
+function reject_inbound_cross_cluster_search_connection(
     ConnectionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "PUT",
-    "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "PUT",
+        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function reject_inbound_cross_cluster_search_connection(
     ConnectionId,
     params::AbstractDict{String};
@@ -1726,14 +1814,15 @@ Removes the specified set of tags from the specified Elasticsearch domain.
 - `tag_keys`: Specifies the `TagKey` list which you want to remove from the Elasticsearch
   domain.
 """
-remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    elasticsearch_service(
+function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
+    return elasticsearch_service(
         "POST",
         "/2015-01-01/tags-removal",
         Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function remove_tags(
     ARN,
     TagKeys,
@@ -1763,15 +1852,17 @@ interface VPC endpoint.
 - `account`: The account ID to revoke access from.
 - `domain_name`: The name of the OpenSearch Service domain.
 """
-revoke_vpc_endpoint_access(
+function revoke_vpc_endpoint_access(
     Account, DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
-    Dict{String,Any}("Account" => Account);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/revokeVpcEndpointAccess",
+        Dict{String,Any}("Account" => Account);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function revoke_vpc_endpoint_access(
     Account,
     DomainName,
@@ -1798,15 +1889,17 @@ Schedules a service software update for an Amazon ES domain.
 - `domain_name`: The name of the domain that you want to update to the latest service
   software.
 """
-start_elasticsearch_service_software_update(
+function start_elasticsearch_service_software_update(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/serviceSoftwareUpdate/start",
-    Dict{String,Any}("DomainName" => DomainName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/serviceSoftwareUpdate/start",
+        Dict{String,Any}("DomainName" => DomainName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function start_elasticsearch_service_software_update(
     DomainName,
     params::AbstractDict{String};
@@ -1871,14 +1964,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service/latest/developerguide/es-vpc.html#es-creating-vpc" target="_blank">Creating a
   VPC</a> in *VPC Endpoints for Amazon Elasticsearch Service Domains*
 """
-update_elasticsearch_domain_config(
+function update_elasticsearch_domain_config(
     DomainName; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/domain/$(DomainName)/config";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/config";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_elasticsearch_domain_config(
     DomainName,
     params::AbstractDict{String};
@@ -1912,15 +2007,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   `GetPackageVersionHistoryResponse`.
 - `"PackageDescription"`: New description of the package.
 """
-update_package(
+function update_package(
     PackageID, PackageSource; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/packages/update",
-    Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/packages/update",
+        Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_package(
     PackageID,
     PackageSource,
@@ -1955,15 +2052,17 @@ Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
 - `vpc_endpoint_id`: Unique identifier of the VPC endpoint to be updated.
 - `vpc_options`: The security groups and/or subnets to add, remove, or modify.
 """
-update_vpc_endpoint(
+function update_vpc_endpoint(
     VpcEndpointId, VpcOptions; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/vpcEndpoints/update",
-    Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/vpcEndpoints/update",
+        Dict{String,Any}("VpcEndpointId" => VpcEndpointId, "VpcOptions" => VpcOptions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_vpc_endpoint(
     VpcEndpointId,
     VpcOptions,
@@ -2006,15 +2105,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PerformCheckOnly"`:  This flag, when set to True, indicates that an Upgrade Eligibility
   Check needs to be performed. This will not actually perform the Upgrade.
 """
-upgrade_elasticsearch_domain(
+function upgrade_elasticsearch_domain(
     DomainName, TargetVersion; aws_config::AbstractAWSConfig=current_aws_config()
-) = elasticsearch_service(
-    "POST",
-    "/2015-01-01/es/upgradeDomain",
-    Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/upgradeDomain",
+        Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function upgrade_elasticsearch_domain(
     DomainName,
     TargetVersion,

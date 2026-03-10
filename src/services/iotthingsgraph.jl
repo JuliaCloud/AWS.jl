@@ -29,14 +29,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
-associate_entity_to_thing(
+function associate_entity_to_thing(
     entityId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotthingsgraph(
-    "AssociateEntityToThing",
-    Dict{String,Any}("entityId" => entityId, "thingName" => thingName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotthingsgraph(
+        "AssociateEntityToThing",
+        Dict{String,Any}("entityId" => entityId, "thingName" => thingName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_entity_to_thing(
     entityId,
     thingName,
@@ -79,13 +81,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If no value is specified, the latest version is used by default.
 """
-create_flow_template(definition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function create_flow_template(
+    definition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "CreateFlowTemplate",
         Dict{String,Any}("definition" => definition);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_flow_template(
     definition,
     params::AbstractDict{String};
@@ -148,14 +153,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata, consisting of key-value pairs, that can be used to categorize your
   system instances.
 """
-create_system_instance(
+function create_system_instance(
     definition, target; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotthingsgraph(
-    "CreateSystemInstance",
-    Dict{String,Any}("definition" => definition, "target" => target);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotthingsgraph(
+        "CreateSystemInstance",
+        Dict{String,Any}("definition" => definition, "target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_system_instance(
     definition,
     target,
@@ -196,13 +203,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If no value is specified, the latest version is used by default.
 """
-create_system_template(definition; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function create_system_template(
+    definition; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "CreateSystemTemplate",
         Dict{String,Any}("definition" => definition);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function create_system_template(
     definition,
     params::AbstractDict{String};
@@ -234,13 +244,14 @@ update or deploy. Existing deployments that contain the workflow will continue t
 
  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
-delete_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function delete_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeleteFlowTemplate",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -260,9 +271,11 @@ Deletes the specified namespace. This action deletes all of the entities in the 
 Delete the systems and flows that use entities in the namespace before performing this
 action. This action takes no request parameters.
 """
-delete_namespace(; aws_config::AbstractAWSConfig=current_aws_config()) = iotthingsgraph(
-    "DeleteNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function delete_namespace(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
+        "DeleteNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function delete_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -286,10 +299,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"id"`: The ID of the system instance to be deleted.
 """
-delete_system_instance(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function delete_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeleteSystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function delete_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -317,13 +331,14 @@ the system that is taken when it is deployed.
 
  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
-delete_system_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function delete_system_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeleteSystemTemplate",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function delete_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -367,10 +382,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
-deploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function deploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function deploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -397,13 +413,14 @@ flows can't be deployed, but existing deployments will continue to run.
 
  `urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME`
 """
-deprecate_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function deprecate_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeprecateFlowTemplate",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function deprecate_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -429,13 +446,14 @@ Deprecates the specified system.
 
  `urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME`
 """
-deprecate_system_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function deprecate_system_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "DeprecateSystemTemplate",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function deprecate_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -460,9 +478,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceName"`: The name of the user's namespace. Set this to `aws` to get the public
   namespace.
 """
-describe_namespace(; aws_config::AbstractAWSConfig=current_aws_config()) = iotthingsgraph(
-    "DescribeNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function describe_namespace(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
+        "DescribeNamespace"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function describe_namespace(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -484,14 +504,16 @@ associated with a thing.
 - `entity_type`: The entity type from which to disassociate the thing.
 - `thing_name`: The name of the thing to disassociate.
 """
-dissociate_entity_from_thing(
+function dissociate_entity_from_thing(
     entityType, thingName; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotthingsgraph(
-    "DissociateEntityFromThing",
-    Dict{String,Any}("entityType" => entityType, "thingName" => thingName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotthingsgraph(
+        "DissociateEntityFromThing",
+        Dict{String,Any}("entityType" => entityType, "thingName" => thingName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function dissociate_entity_from_thing(
     entityType,
     thingName,
@@ -543,12 +565,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"namespaceVersion"`: The version of the user's namespace. Defaults to the latest version
   of the user's namespace.
 """
-get_entities(ids; aws_config::AbstractAWSConfig=current_aws_config()) = iotthingsgraph(
-    "GetEntities",
-    Dict{String,Any}("ids" => ids);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_entities(ids; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
+        "GetEntities",
+        Dict{String,Any}("ids" => ids);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_entities(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -581,12 +605,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revisionNumber"`: The number of the workflow revision to retrieve.
 """
-get_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config()) = iotthingsgraph(
-    "GetFlowTemplate",
-    Dict{String,Any}("id" => id);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_flow_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
+        "GetFlowTemplate",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_flow_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -622,13 +648,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-get_flow_template_revisions(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_flow_template_revisions(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "GetFlowTemplateRevisions",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_flow_template_revisions(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -646,10 +673,11 @@ end
 
 Gets the status of a namespace deletion task.
 """
-get_namespace_deletion_status(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_namespace_deletion_status(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "GetNamespaceDeletionStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function get_namespace_deletion_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -676,13 +704,14 @@ Gets a system instance.
 
  `urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME`
 """
-get_system_instance(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_system_instance(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "GetSystemInstance",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_system_instance(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -714,13 +743,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"revisionNumber"`: The number that specifies the revision of the system to get.
 """
-get_system_template(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_system_template(id; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "GetSystemTemplate",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_system_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -756,13 +786,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-get_system_template_revisions(id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_system_template_revisions(
+    id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "GetSystemTemplateRevisions",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_system_template_revisions(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -785,13 +818,14 @@ Gets the status of the specified upload.
 - `upload_id`: The ID of the upload. This value is returned by the
   `UploadEntityDefinitions` action.
 """
-get_upload_status(uploadId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function get_upload_status(uploadId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "GetUploadStatus",
         Dict{String,Any}("uploadId" => uploadId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function get_upload_status(
     uploadId,
     params::AbstractDict{String};
@@ -825,14 +859,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-list_flow_execution_messages(
+function list_flow_execution_messages(
     flowExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotthingsgraph(
-    "ListFlowExecutionMessages",
-    Dict{String,Any}("flowExecutionId" => flowExecutionId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotthingsgraph(
+        "ListFlowExecutionMessages",
+        Dict{String,Any}("flowExecutionId" => flowExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_flow_execution_messages(
     flowExecutionId,
     params::AbstractDict{String};
@@ -868,13 +904,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of tags to return.
 - `"nextToken"`: The token that specifies the next page of results to return.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -918,13 +957,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_entities(entityTypes; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function search_entities(entityTypes; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "SearchEntities",
         Dict{String,Any}("entityTypes" => entityTypes);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function search_entities(
     entityTypes,
     params::AbstractDict{String};
@@ -961,14 +1001,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginating results.
 - `"startTime"`: The date and time of the earliest flow execution to return.
 """
-search_flow_executions(
+function search_flow_executions(
     systemInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-) = iotthingsgraph(
-    "SearchFlowExecutions",
-    Dict{String,Any}("systemInstanceId" => systemInstanceId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return iotthingsgraph(
+        "SearchFlowExecutions",
+        Dict{String,Any}("systemInstanceId" => systemInstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function search_flow_executions(
     systemInstanceId,
     params::AbstractDict{String};
@@ -1002,10 +1044,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_flow_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function search_flow_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "SearchFlowTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function search_flow_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1036,10 +1079,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_system_instances(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function search_system_instances(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "SearchSystemInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function search_system_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1068,10 +1112,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_system_templates(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function search_system_templates(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "SearchSystemTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function search_system_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1115,13 +1160,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The string that specifies the next page of results. Use this when you're
   paginating results.
 """
-search_things(entityId; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function search_things(entityId; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "SearchThings",
         Dict{String,Any}("entityId" => entityId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function search_things(
     entityId,
     params::AbstractDict{String};
@@ -1148,13 +1194,14 @@ Creates a tag for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags are returned.
 - `tags`: A list of tags to add to the resource.&gt;
 """
-tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function tag_resource(
     resourceArn,
     tags,
@@ -1187,10 +1234,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 - `"id"`: The ID of the system instance to remove from its target.
 """
-undeploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function undeploy_system_instance(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "UndeploySystemInstance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function undeploy_system_instance(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -1219,13 +1267,16 @@ Removes a tag from the specified resource.
   format a JSON parameter for the various command line tool environments, see [Using JSON for Parameters](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json)
   in the *AWS CLI User Guide*.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1273,13 +1324,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If no value is specified, the latest version is used by default. Use the
   `GetFlowTemplateRevisions` if you want to find earlier revisions of the flow to update.
 """
-update_flow_template(definition, id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function update_flow_template(
+    definition, id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "UpdateFlowTemplate",
         Dict{String,Any}("definition" => definition, "id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_flow_template(
     definition,
     id,
@@ -1324,13 +1378,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 
 If no value is specified, the latest version is used by default.
 """
-update_system_template(definition, id; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function update_system_template(
+    definition, id; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return iotthingsgraph(
         "UpdateSystemTemplate",
         Dict{String,Any}("definition" => definition, "id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function update_system_template(
     definition,
     id,
@@ -1385,10 +1442,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   latest version of the public namespace. If set to `true`, the upload will create a new
   namespace version.
 """
-upload_entity_definitions(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    iotthingsgraph(
+function upload_entity_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
+    return iotthingsgraph(
         "UploadEntityDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function upload_entity_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )

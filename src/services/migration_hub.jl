@@ -33,21 +33,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-associate_created_artifact(
+function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "AssociateCreatedArtifact",
-    Dict{String,Any}(
-        "CreatedArtifact" => CreatedArtifact,
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "AssociateCreatedArtifact",
+        Dict{String,Any}(
+            "CreatedArtifact" => CreatedArtifact,
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
@@ -94,21 +96,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-associate_discovered_resource(
+function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "AssociateDiscoveredResource",
-    Dict{String,Any}(
-        "DiscoveredResource" => DiscoveredResource,
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "AssociateDiscoveredResource",
+        Dict{String,Any}(
+            "DiscoveredResource" => DiscoveredResource,
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
@@ -156,14 +160,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-create_progress_update_stream(
+function create_progress_update_stream(
     ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
-) = migration_hub(
-    "CreateProgressUpdateStream",
-    Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "CreateProgressUpdateStream",
+        Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -211,14 +217,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-delete_progress_update_stream(
+function delete_progress_update_stream(
     ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
-) = migration_hub(
-    "DeleteProgressUpdateStream",
-    Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "DeleteProgressUpdateStream",
+        Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
@@ -249,14 +257,16 @@ Gets the migration status of an application.
 - `application_id`: The configurationId in Application Discovery Service that uniquely
   identifies the grouped application.
 """
-describe_application_state(
+function describe_application_state(
     ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
-) = migration_hub(
-    "DescribeApplicationState",
-    Dict{String,Any}("ApplicationId" => ApplicationId);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "DescribeApplicationState",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_application_state(
     ApplicationId,
     params::AbstractDict{String};
@@ -284,19 +294,21 @@ Retrieves a list of all attributes associated with a specific migration task.
   data in this field.*
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 """
-describe_migration_task(
+function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "DescribeMigrationTask",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "DescribeMigrationTask",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -349,21 +361,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-disassociate_created_artifact(
+function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "DisassociateCreatedArtifact",
-    Dict{String,Any}(
-        "CreatedArtifactName" => CreatedArtifactName,
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "DisassociateCreatedArtifact",
+        Dict{String,Any}(
+            "CreatedArtifactName" => CreatedArtifactName,
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
@@ -410,21 +424,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-disassociate_discovered_resource(
+function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "DisassociateDiscoveredResource",
-    Dict{String,Any}(
-        "ConfigurationId" => ConfigurationId,
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "DisassociateDiscoveredResource",
+        Dict{String,Any}(
+            "ConfigurationId" => ConfigurationId,
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
@@ -473,19 +489,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-import_migration_task(
+function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "ImportMigrationTask",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "ImportMigrationTask",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -528,10 +546,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in `NextToken`.
 """
-list_application_states(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migration_hub(
+function list_application_states(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migration_hub(
         "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_application_states(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -569,19 +588,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in `NextToken`.
 """
-list_created_artifacts(
+function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "ListCreatedArtifacts",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "ListCreatedArtifacts",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -626,19 +647,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in `NextToken`.
 """
-list_discovered_resources(
+function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "ListDiscoveredResources",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "ListDiscoveredResources",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream,
@@ -682,9 +705,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in `NextToken`.
 - `"ResourceName"`: Filter migration tasks by discovered resource name.
 """
-list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config()) = migration_hub(
-    "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-)
+function list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migration_hub(
+        "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
 function list_migration_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -708,10 +733,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in `NextToken`.
 """
-list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aws_config()) =
-    migration_hub(
+function list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aws_config())
+    return migration_hub(
         "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
+end
 function list_progress_update_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
@@ -745,14 +771,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to test if the caller has permission to make the call.
 - `"UpdateDateTime"`: The timestamp when the application state changed.
 """
-notify_application_state(
+function notify_application_state(
     ApplicationId, Status; aws_config::AbstractAWSConfig=current_aws_config()
-) = migration_hub(
-    "NotifyApplicationState",
-    Dict{String,Any}("ApplicationId" => ApplicationId, "Status" => Status);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "NotifyApplicationState",
+        Dict{String,Any}("ApplicationId" => ApplicationId, "Status" => Status);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function notify_application_state(
     ApplicationId,
     Status,
@@ -802,25 +830,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-notify_migration_task_state(
+function notify_migration_task_state(
     MigrationTaskName,
     NextUpdateSeconds,
     ProgressUpdateStream,
     Task,
     UpdateDateTime;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "NotifyMigrationTaskState",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "NextUpdateSeconds" => NextUpdateSeconds,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-        "Task" => Task,
-        "UpdateDateTime" => UpdateDateTime,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "NotifyMigrationTaskState",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "NextUpdateSeconds" => NextUpdateSeconds,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+            "Task" => Task,
+            "UpdateDateTime" => UpdateDateTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function notify_migration_task_state(
     MigrationTaskName,
     NextUpdateSeconds,
@@ -904,21 +934,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
-put_resource_attributes(
+function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,
     ResourceAttributeList;
     aws_config::AbstractAWSConfig=current_aws_config(),
-) = migration_hub(
-    "PutResourceAttributes",
-    Dict{String,Any}(
-        "MigrationTaskName" => MigrationTaskName,
-        "ProgressUpdateStream" => ProgressUpdateStream,
-        "ResourceAttributeList" => ResourceAttributeList,
-    );
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return migration_hub(
+        "PutResourceAttributes",
+        Dict{String,Any}(
+            "MigrationTaskName" => MigrationTaskName,
+            "ProgressUpdateStream" => ProgressUpdateStream,
+            "ResourceAttributeList" => ResourceAttributeList,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,

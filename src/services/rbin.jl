@@ -40,15 +40,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are not tagged.
 - `"Tags"`: Information about the tags to assign to the retention rule.
 """
-create_rule(
+function create_rule(
     ResourceType, RetentionPeriod; aws_config::AbstractAWSConfig=current_aws_config()
-) = rbin(
-    "POST",
-    "/rules",
-    Dict{String,Any}("ResourceType" => ResourceType, "RetentionPeriod" => RetentionPeriod);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rbin(
+        "POST",
+        "/rules",
+        Dict{String,Any}(
+            "ResourceType" => ResourceType, "RetentionPeriod" => RetentionPeriod
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function create_rule(
     ResourceType,
     RetentionPeriod,
@@ -83,12 +87,14 @@ in the *Amazon Elastic Compute Cloud User Guide*.
 
 - `identifier`: The unique ID of the retention rule.
 """
-delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "DELETE",
-    "/rules/$(identifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function delete_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "DELETE",
+        "/rules/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function delete_rule(
     identifier,
     params::AbstractDict{String};
@@ -113,12 +119,14 @@ Gets information about a Recycle Bin retention rule.
 
 - `identifier`: The unique ID of the retention rule.
 """
-get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "GET",
-    "/rules/$(identifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function get_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "GET",
+        "/rules/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function get_rule(
     identifier,
     params::AbstractDict{String};
@@ -158,13 +166,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: Information about the resource tags used to identify resources that are
   retained by the retention rule.
 """
-list_rules(ResourceType; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "POST",
-    "/list-rules",
-    Dict{String,Any}("ResourceType" => ResourceType);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function list_rules(ResourceType; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "POST",
+        "/list-rules",
+        Dict{String,Any}("ResourceType" => ResourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function list_rules(
     ResourceType,
     params::AbstractDict{String};
@@ -191,13 +201,16 @@ Lists the tags assigned to a retention rule.
 
 - `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
 """
-list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rbin(
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rbin(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -223,15 +236,17 @@ Locks a retention rule. A locked retention rule can't be modified or deleted.
 - `lock_configuration`: Information about the retention rule lock configuration.
 - `identifier`: The unique ID of the retention rule.
 """
-lock_rule(
+function lock_rule(
     LockConfiguration, identifier; aws_config::AbstractAWSConfig=current_aws_config()
-) = rbin(
-    "PATCH",
-    "/rules/$(identifier)/lock",
-    Dict{String,Any}("LockConfiguration" => LockConfiguration);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
 )
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/lock",
+        Dict{String,Any}("LockConfiguration" => LockConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function lock_rule(
     LockConfiguration,
     identifier,
@@ -262,13 +277,15 @@ Assigns tags to the specified retention rule.
 - `tags`: Information about the tags to assign to the retention rule.
 - `resource_arn`: The Amazon Resource Name (ARN) of the retention rule.
 """
-tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "POST",
-    "/tags/$(resourceArn)",
-    Dict{String,Any}("Tags" => Tags);
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function tag_resource(
     Tags,
     resourceArn,
@@ -295,12 +312,14 @@ only after the unlock delay period expires.
 
 - `identifier`: The unique ID of the retention rule.
 """
-unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "PATCH",
-    "/rules/$(identifier)/unlock";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function unlock_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)/unlock";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function unlock_rule(
     identifier,
     params::AbstractDict{String};
@@ -327,14 +346,17 @@ Unassigns a tag from a retention rule.
 - `tag_keys`: The tag keys of the tags to unassign. All tags that have the specified tag
   key are unassigned.
 """
-untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) =
-    rbin(
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
+)
+    return rbin(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
+end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -389,12 +411,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetentionPeriod"`: Information about the retention period for which the retention rule
   is to retain resources.
 """
-update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config()) = rbin(
-    "PATCH",
-    "/rules/$(identifier)";
-    aws_config=aws_config,
-    feature_set=SERVICE_FEATURE_SET,
-)
+function update_rule(identifier; aws_config::AbstractAWSConfig=current_aws_config())
+    return rbin(
+        "PATCH",
+        "/rules/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
 function update_rule(
     identifier,
     params::AbstractDict{String};
