@@ -9,68 +9,55 @@ using AWS.UUIDs
     batch_evaluate_feature(project, requests, params::Dict{String,<:Any})
 
 This operation assigns feature variation to user sessions. For each user session, you pass
-in an entityID that represents the user. Evidently then checks the evaluation rules and
-assigns the variation. The first rules that are evaluated are the override rules. If the
-user's entityID matches an override rule, the user is served the variation specified by
-that rule. Next, if there is a launch of the feature, the user might be assigned to a
-variation in the launch. The chance of this depends on the percentage of users that are
-allocated to that launch. If the user is enrolled in the launch, the variation they are
-served depends on the allocation of the various feature variations used for the launch. If
-the user is not assigned to a launch, and there is an ongoing experiment for this feature,
-the user might be assigned to a variation in the experiment. The chance of this depends on
-the percentage of users that are allocated to that experiment. If the user is enrolled in
-the experiment, the variation they are served depends on the allocation of the various
-feature variations used for the experiment.  If the user is not assigned to a launch or
-experiment, they are served the default variation.
+in an `entityID` that represents the user. Evidently then checks the evaluation rules and
+assigns the variation.
+
+The first rules that are evaluated are the override rules. If the user's `entityID` matches
+an override rule, the user is served the variation specified by that rule.
+
+Next, if there is a launch of the feature, the user might be assigned to a variation in the
+launch. The chance of this depends on the percentage of users that are allocated to that
+launch. If the user is enrolled in the launch, the variation they are served depends on the
+allocation of the various feature variations used for the launch.
+
+If the user is not assigned to a launch, and there is an ongoing experiment for this
+feature, the user might be assigned to a variation in the experiment. The chance of this
+depends on the percentage of users that are allocated to that experiment. If the user is
+enrolled in the experiment, the variation they are served depends on the allocation of the
+various feature variations used for the experiment.
+
+If the user is not assigned to a launch or experiment, they are served the default
+variation.
 
 # Arguments
+
 - `project`: The name or ARN of the project that contains the feature being evaluated.
 - `requests`: An array of structures, where each structure assigns a feature variation to
   one user session.
-
 """
-function batch_evaluate_feature(
-    project, requests; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/evaluations",
-        Dict{String,Any}("requests" => requests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_evaluate_feature(
-    project,
-    requests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/evaluations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requests" => requests), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_evaluate_feature(project, requests; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/evaluations", Dict{String, Any}("requests"=>requests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_evaluate_feature(project, requests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/evaluations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requests"=>requests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_experiment(metric_goals, name, project, treatments)
     create_experiment(metric_goals, name, project, treatments, params::Dict{String,<:Any})
 
-Creates an Evidently experiment. Before you create an experiment, you must create the
-feature to use for the experiment. An experiment helps you make feature design decisions
-based on evidence and data. An experiment can test as many as five variations at once.
-Evidently collects experiment data and analyzes it by statistical methods, and provides
-clear recommendations about which variations perform better. You can optionally specify a
-segment to have the experiment consider only certain audience types in the experiment, such
-as using only user sessions from a certain location or who use a certain internet browser.
-Don't use this operation to update an existing experiment. Instead, use UpdateExperiment.
+Creates an Evidently *experiment*. Before you create an experiment, you must create the
+feature to use for the experiment.
+
+An experiment helps you make feature design decisions based on evidence and data. An
+experiment can test as many as five variations at once. Evidently collects experiment data
+and analyzes it by statistical methods, and provides clear recommendations about which
+variations perform better.
+
+You can optionally specify a `segment` to have the experiment consider only certain
+audience types in the experiment, such as using only user sessions from a certain location
+or who use a certain internet browser.
+
+Don't use this operation to update an existing experiment. Instead, use [UpdateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateExperiment.html).
 
 # Arguments
+
 - `metric_goals`: An array of structures that defines the metrics used for the experiment,
   and whether a higher or lower value for each metric is the goal.
 - `name`: A name for the new experiment.
@@ -79,356 +66,261 @@ Don't use this operation to update an existing experiment. Instead, use UpdateEx
   variation used in the experiment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description of the experiment.
 - `"onlineAbConfig"`: A structure that contains the configuration of which variation to use
-  as the \"control\" version. tThe \"control\" version is used for comparison with other
-  variations. This structure also specifies how much experiment traffic is allocated to each
-  variation.
+  as the "control" version. tThe "control" version is used for comparison with other
+  variations. This structure also specifies how much experiment traffic is allocated to
+  each variation.
 - `"randomizationSalt"`: When Evidently assigns a particular user session to an experiment,
   it must use a randomization ID to determine which variation the user session is served.
-  This randomization ID is a combination of the entity ID and randomizationSalt. If you omit
-  randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
+  This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
+  omit `randomizationSalt`, Evidently uses the experiment name as the `randomizationSalt`.
 - `"samplingRate"`: The portion of the available audience that you want to allocate to this
-  experiment, in thousandths of a percent. The available audience is the total audience minus
-  the audience that you have allocated to overrides or current launches of this feature. This
-  is represented in thousandths of a percent. For example, specify 10,000 to allocate 10% of
-  the available audience.
-- `"segment"`: Specifies an audience segment to use in the experiment. When a segment is
+  experiment, in thousandths of a percent. The available audience is the total audience
+  minus the audience that you have allocated to overrides or current launches of this
+  feature.
+
+  This is represented in thousandths of a percent. For example, specify 10,000 to allocate
+  10% of the available audience.
+- `"segment"`: Specifies an audience *segment* to use in the experiment. When a segment is
   used in an experiment, only user sessions that match the segment pattern are used in the
   experiment.
-- `"tags"`: Assigns one or more tags (key-value pairs) to the experiment. Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. Tags
-  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters. You can associate as many as 50 tags with an experiment. For more
-  information, see Tagging Amazon Web Services resources.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the experiment.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
+
+  You can associate as many as 50 tags with an experiment.
+
+  For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-function create_experiment(
-    metricGoals,
-    name,
-    project,
-    treatments;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments",
-        Dict{String,Any}(
-            "metricGoals" => metricGoals, "name" => name, "treatments" => treatments
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_experiment(
-    metricGoals,
-    name,
-    project,
-    treatments,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "metricGoals" => metricGoals, "name" => name, "treatments" => treatments
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_experiment(metricGoals, name, project, treatments; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments", Dict{String, Any}("metricGoals"=>metricGoals, "name"=>name, "treatments"=>treatments); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_experiment(metricGoals, name, project, treatments, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("metricGoals"=>metricGoals, "name"=>name, "treatments"=>treatments), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_feature(name, project, variations)
     create_feature(name, project, variations, params::Dict{String,<:Any})
 
-Creates an Evidently feature that you want to launch or test. You can define up to five
+Creates an Evidently *feature* that you want to launch or test. You can define up to five
 variations of a feature, and use these variations in your launches and experiments. A
-feature must be created in a project. For information about creating a project, see
-CreateProject. Don't use this operation to update an existing feature. Instead, use
-UpdateFeature.
+feature must be created in a project. For information about creating a project, see [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html).
+
+Don't use this operation to update an existing feature. Instead, use [UpdateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateFeature.html).
 
 # Arguments
+
 - `name`: The name for the new feature.
 - `project`: The name or ARN of the project that is to contain the new feature.
 - `variations`: An array of structures that contain the configuration of the feature's
   different variations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"defaultVariation"`: The name of the variation to use as the default variation. The
   default variation is served to users who are not allocated to any ongoing launches or
-  experiments of this feature. This variation must also be listed in the variations
-  structure. If you omit defaultVariation, the first variation listed in the variations
-  structure is used as the default variation.
+  experiments of this feature.
+
+  This variation must also be listed in the `variations` structure.
+
+  If you omit `defaultVariation`, the first variation listed in the `variations` structure
+  is used as the default variation.
 - `"description"`: An optional description of the feature.
 - `"entityOverrides"`: Specify users that should always be served a specific variation of a
   feature. Each user is specified by a key-value pair . For each key, specify a user by
   entering their user ID, account ID, or some other identifier. For the value, specify the
-  name of the variation that they are to be served. This parameter is limited to 2500
-  overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
-- `"evaluationStrategy"`: Specify ALL_RULES to activate the traffic allocation specified by
-  any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default
+  name of the variation that they are to be served.
+
+  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes
+  an overhead of 6 bytes per override.
+- `"evaluationStrategy"`: Specify `ALL_RULES` to activate the traffic allocation specified
+  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the default
   variation to all users instead.
-- `"tags"`: Assigns one or more tags (key-value pairs) to the feature. Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. Tags
-  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters. You can associate as many as 50 tags with a feature. For more
-  information, see Tagging Amazon Web Services resources.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the feature.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
+
+  You can associate as many as 50 tags with a feature.
+
+  For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-function create_feature(
-    name, project, variations; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/features",
-        Dict{String,Any}("name" => name, "variations" => variations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_feature(
-    name,
-    project,
-    variations,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/features",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("name" => name, "variations" => variations), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_feature(name, project, variations; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/features", Dict{String, Any}("name"=>name, "variations"=>variations); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_feature(name, project, variations, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/features", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "variations"=>variations), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_launch(groups, name, project)
     create_launch(groups, name, project, params::Dict{String,<:Any})
 
-Creates a launch of a given feature. Before you create a launch, you must create the
-feature to use for the launch. You can use a launch to safely validate new features by
-serving them to a specified percentage of your users while you roll out the feature. You
-can monitor the performance of the new feature to help you decide when to ramp up traffic
-to more users. This helps you reduce risk and identify unintended consequences before you
-fully launch the feature. Don't use this operation to update an existing launch. Instead,
-use UpdateLaunch.
+Creates a *launch* of a given feature. Before you create a launch, you must create the
+feature to use for the launch.
+
+You can use a launch to safely validate new features by serving them to a specified
+percentage of your users while you roll out the feature. You can monitor the performance of
+the new feature to help you decide when to ramp up traffic to more users. This helps you
+reduce risk and identify unintended consequences before you fully launch the feature.
+
+Don't use this operation to update an existing launch. Instead, use [UpdateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateLaunch.html).
 
 # Arguments
+
 - `groups`: An array of structures that contains the feature and variations that are to be
   used for the launch.
 - `name`: The name for the new launch.
 - `project`: The name or ARN of the project that you want to create the launch in.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description for the launch.
 - `"metricMonitors"`: An array of structures that define the metrics that will be used to
   monitor the launch performance.
 - `"randomizationSalt"`: When Evidently assigns a particular user session to a launch, it
   must use a randomization ID to determine which variation the user session is served. This
-  randomization ID is a combination of the entity ID and randomizationSalt. If you omit
-  randomizationSalt, Evidently uses the launch name as the randomizationSalt.
+  randomization ID is a combination of the entity ID and `randomizationSalt`. If you omit
+  `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
 - `"scheduledSplitsConfig"`: An array of structures that define the traffic allocation
   percentages among the feature variations during each step of the launch.
-- `"tags"`: Assigns one or more tags (key-value pairs) to the launch. Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. Tags
-  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters. You can associate as many as 50 tags with a launch. For more
-  information, see Tagging Amazon Web Services resources.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the launch.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
+
+  You can associate as many as 50 tags with a launch.
+
+  For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-function create_launch(
-    groups, name, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches",
-        Dict{String,Any}("groups" => groups, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_launch(
-    groups,
-    name,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("groups" => groups, "name" => name), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_launch(groups, name, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches", Dict{String, Any}("groups"=>groups, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_launch(groups, name, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("groups"=>groups, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_project(name)
     create_project(name, params::Dict{String,<:Any})
 
 Creates a project, which is the logical object in Evidently that can contain features,
-launches, and experiments. Use projects to group similar features together. To update an
-existing project, use UpdateProject.
+launches, and experiments. Use projects to group similar features together.
+
+To update an existing project, use [UpdateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProject.html).
 
 # Arguments
+
 - `name`: The name for the project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"appConfigResource"`: Use this parameter if the project will use client-side evaluation
-  powered by AppConfig. Client-side evaluation allows your application to assign variations
-  to user sessions locally instead of by calling the EvaluateFeature operation. This
-  mitigates the latency and availability risks that come with an API call. For more
-  information, see  Client-side evaluation - powered by AppConfig.  This parameter is a
-  structure that contains information about the AppConfig application and environment that
-  will be used as for client-side evaluation. To create a project that uses client-side
-  evaluation, you must have the evidently:ExportProjectAsConfiguration permission.
+
+- `"appConfigResource"`: Use this parameter if the project will use *client-side evaluation
+  powered by AppConfig*. Client-side evaluation allows your application to assign
+  variations to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
+  operation. This mitigates the latency and availability risks that come with an API call.
+  For more information, see [ Client-side evaluation - powered by AppConfig.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-client-side-evaluation.html)
+
+
+  This parameter is a structure that contains information about the AppConfig application
+  and environment that will be used as for client-side evaluation.
+
+  To create a project that uses client-side evaluation, you must have the
+  `evidently:ExportProjectAsConfiguration` permission.
 - `"dataDelivery"`: A structure that contains information about where Evidently is to store
   evaluation events for longer term storage, if you choose to do so. If you choose not to
   store these events, Evidently deletes them after using them to produce metrics and other
   experiment results that you can view.
 - `"description"`: An optional description of the project.
-- `"tags"`: Assigns one or more tags (key-value pairs) to the project. Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. Tags
-  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters. You can associate as many as 50 tags with a project. For more
-  information, see Tagging Amazon Web Services resources.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the project.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
+
+  You can associate as many as 50 tags with a project.
+
+  For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-function create_project(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "POST",
-        "/projects",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_segment(name, pattern)
     create_segment(name, pattern, params::Dict{String,<:Any})
 
-Use this operation to define a segment of your audience. A segment is a portion of your
+Use this operation to define a *segment* of your audience. A segment is a portion of your
 audience that share one or more characteristics. Examples could be Chrome browser users,
 users in Europe, or Firefox browser users in Europe who also fit other criteria that your
-application collects, such as age. Using a segment in an experiment limits that experiment
-to evaluate only the users who match the segment criteria. Using one or more segments in a
-launch allows you to define different traffic splits for the different audience segments.
-For more information about segment pattern syntax, see  Segment rule pattern syntax. The
-pattern that you define for a segment is matched against the value of evaluationContext,
-which is passed into Evidently in the EvaluateFeature operation, when Evidently assigns a
-feature variation to a user.
+application collects, such as age.
+
+Using a segment in an experiment limits that experiment to evaluate only the users who
+match the segment criteria. Using one or more segments in a launch allows you to define
+different traffic splits for the different audience segments.
+
+For more information about segment pattern syntax, see [ Segment rule pattern syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html#CloudWatch-Evidently-segments-syntax.html).
+
+The pattern that you define for a segment is matched against the value of
+`evaluationContext`, which is passed into Evidently in the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
+operation, when Evidently assigns a feature variation to a user.
 
 # Arguments
+
 - `name`: A name for the segment.
 - `pattern`: The pattern to use for the segment. For more information about pattern syntax,
-  see  Segment rule pattern syntax.
+  see [ Segment rule pattern syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html#CloudWatch-Evidently-segments-syntax.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description for this segment.
-- `"tags"`: Assigns one or more tags (key-value pairs) to the segment. Tags can help you
-  organize and categorize your resources. You can also use them to scope user permissions by
-  granting a user permission to access or change only resources with certain tag values. Tags
-  don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
-  strings of characters. You can associate as many as 50 tags with a segment. For more
-  information, see Tagging Amazon Web Services resources.
+- `"tags"`: Assigns one or more tags (key-value pairs) to the segment.
+
+  Tags can help you organize and categorize your resources. You can also use them to scope
+  user permissions by granting a user permission to access or change only resources with
+  certain tag values.
+
+  Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly
+  as strings of characters.
+
+  You can associate as many as 50 tags with a segment.
+
+  For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 """
-function create_segment(name, pattern; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "POST",
-        "/segments",
-        Dict{String,Any}("name" => name, "pattern" => pattern);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_segment(
-    name,
-    pattern,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/segments",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("name" => name, "pattern" => pattern), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_segment(name, pattern; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/segments", Dict{String, Any}("name"=>name, "pattern"=>pattern); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_segment(name, pattern, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "pattern"=>pattern), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_experiment(experiment, project)
     delete_experiment(experiment, project, params::Dict{String,<:Any})
 
-Deletes an Evidently experiment. The feature used for the experiment is not deleted. To
-stop an experiment without deleting it, use StopExperiment.
+Deletes an Evidently experiment. The feature used for the experiment is not deleted.
+
+To stop an experiment without deleting it, use [StopExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopExperiment.html).
 
 # Arguments
+
 - `experiment`: The name of the experiment to delete.
 - `project`: The name or ARN of the project that contains the experiment to delete.
-
 """
-function delete_experiment(
-    experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_experiment(
-    experiment,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/experiments/$(experiment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_experiment(experiment, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/experiments/$(experiment)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_experiment(experiment, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/experiments/$(experiment)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_feature(feature, project)
@@ -437,102 +329,42 @@ end
 Deletes an Evidently feature.
 
 # Arguments
+
 - `feature`: The name of the feature to delete.
 - `project`: The name or ARN of the project that contains the feature to delete.
-
 """
-function delete_feature(
-    feature, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_feature(
-    feature,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/features/$(feature)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_feature(feature, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/features/$(feature)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_feature(feature, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/features/$(feature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_launch(launch, project)
     delete_launch(launch, project, params::Dict{String,<:Any})
 
-Deletes an Evidently launch. The feature used for the launch is not deleted. To stop a
-launch without deleting it, use StopLaunch.
+Deletes an Evidently launch. The feature used for the launch is not deleted.
+
+To stop a launch without deleting it, use [StopLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_StopLaunch.html).
 
 # Arguments
+
 - `launch`: The name of the launch to delete.
 - `project`: The name or ARN of the project that contains the launch to delete.
-
 """
-function delete_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_launch(
-    launch,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)/launches/$(launch)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/launches/$(launch)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_launch(launch, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)/launches/$(launch)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_project(project)
     delete_project(project, params::Dict{String,<:Any})
 
 Deletes an Evidently project. Before you can delete a project, you must delete all the
-features that the project contains. To delete a feature, use DeleteFeature.
+features that the project contains. To delete a feature, use [DeleteFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_DeleteFeature.html).
 
 # Arguments
-- `project`: The name or ARN of the project to delete.
 
+- `project`: The name or ARN of the project to delete.
 """
-function delete_project(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "DELETE",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_project(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/projects/$(project)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_project(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/projects/$(project)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_segment(segment)
@@ -542,134 +374,82 @@ Deletes a segment. You can't delete a segment that is being used in a launch or 
 even if that launch or experiment is not currently running.
 
 # Arguments
-- `segment`: Specifies the segment to delete.
 
+- `segment`: Specifies the segment to delete.
 """
-function delete_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "DELETE",
-        "/segments/$(segment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_segment(
-    segment,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/segments/$(segment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_segment(segment; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/segments/$(segment)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_segment(segment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/segments/$(segment)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     evaluate_feature(entity_id, feature, project)
     evaluate_feature(entity_id, feature, project, params::Dict{String,<:Any})
 
 This operation assigns a feature variation to one given user session. You pass in an
-entityID that represents the user. Evidently then checks the evaluation rules and assigns
-the variation. The first rules that are evaluated are the override rules. If the user's
-entityID matches an override rule, the user is served the variation specified by that rule.
+`entityID` that represents the user. Evidently then checks the evaluation rules and assigns
+the variation.
+
+The first rules that are evaluated are the override rules. If the user's `entityID` matches
+an override rule, the user is served the variation specified by that rule.
+
 If there is a current launch with this feature that uses segment overrides, and if the user
-session's evaluationContext matches a segment rule defined in a segment override, the
-configuration in the segment overrides is used. For more information about segments, see
-CreateSegment and Use segments to focus your audience. If there is a launch with no segment
-overrides, the user might be assigned to a variation in the launch. The chance of this
-depends on the percentage of users that are allocated to that launch. If the user is
-enrolled in the launch, the variation they are served depends on the allocation of the
-various feature variations used for the launch. If the user is not assigned to a launch,
-and there is an ongoing experiment for this feature, the user might be assigned to a
-variation in the experiment. The chance of this depends on the percentage of users that are
-allocated to that experiment. If the experiment uses a segment, then only user sessions
-with evaluationContext values that match the segment rule are used in the experiment. If
-the user is enrolled in the experiment, the variation they are served depends on the
-allocation of the various feature variations used for the experiment.  If the user is not
-assigned to a launch or experiment, they are served the default variation.
+session's `evaluationContext` matches a segment rule defined in a segment override, the
+configuration in the segment overrides is used. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html)
+and [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html).
+
+If there is a launch with no segment overrides, the user might be assigned to a variation
+in the launch. The chance of this depends on the percentage of users that are allocated to
+that launch. If the user is enrolled in the launch, the variation they are served depends
+on the allocation of the various feature variations used for the launch.
+
+If the user is not assigned to a launch, and there is an ongoing experiment for this
+feature, the user might be assigned to a variation in the experiment. The chance of this
+depends on the percentage of users that are allocated to that experiment.
+
+If the experiment uses a segment, then only user sessions with `evaluationContext` values
+that match the segment rule are used in the experiment.
+
+If the user is enrolled in the experiment, the variation they are served depends on the
+allocation of the various feature variations used for the experiment.
+
+If the user is not assigned to a launch or experiment, they are served the default
+variation.
 
 # Arguments
+
 - `entity_id`: An internal ID that represents a unique user of the application. This
-  entityID is checked against any override rules assigned for this feature.
+  `entityID` is checked against any override rules assigned for this feature.
 - `feature`: The name of the feature being evaluated.
 - `project`: The name or ARN of the project that contains this feature.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"evaluationContext"`: A JSON object of attributes that you can optionally pass in as
   part of the evaluation event sent to Evidently from the user session. Evidently can use
-  this value to match user sessions with defined audience segments. For more information, see
-  Use segments to focus your audience. If you include this parameter, the value must be a
-  JSON object. A JSON array is not supported.
+  this value to match user sessions with defined audience segments. For more information,
+  see [Use segments to focus your audience](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Evidently-segments.html).
+
+  If you include this parameter, the value must be a JSON object. A JSON array is not
+  supported.
 """
-function evaluate_feature(
-    entityId, feature, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/evaluations/$(feature)",
-        Dict{String,Any}("entityId" => entityId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function evaluate_feature(
-    entityId,
-    feature,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/evaluations/$(feature)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+evaluate_feature(entityId, feature, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/evaluations/$(feature)", Dict{String, Any}("entityId"=>entityId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+evaluate_feature(entityId, feature, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/evaluations/$(feature)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityId"=>entityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_experiment(experiment, project)
     get_experiment(experiment, project, params::Dict{String,<:Any})
 
 Returns the details about one experiment. You must already know the experiment name. To
-retrieve a list of experiments in your account, use ListExperiments.
+retrieve a list of experiments in your account, use [ListExperiments](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListExperiments.html).
 
 # Arguments
+
 - `experiment`: The name of the experiment that you want to see the details of.
 - `project`: The name or ARN of the project that contains the experiment.
-
 """
-function get_experiment(
-    experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_experiment(
-    experiment,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/experiments/$(experiment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_experiment(experiment, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/experiments/$(experiment)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_experiment(experiment, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/experiments/$(experiment)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_experiment_results(experiment, metric_names, project, treatment_names)
@@ -680,11 +460,13 @@ there have been 100 events for each variation and at least 10 minutes have passe
 start of the experiment. To increase the statistical power, Evidently performs an
 additional offline p-value analysis at the end of the experiment. Offline p-value analysis
 can detect statistical significance in some cases where the anytime p-values used during
-the experiment do not find statistical significance. Experiment results are available up to
-63 days after the start of the experiment. They are not available after that because of
-CloudWatch data retention policies.
+the experiment do not find statistical significance.
+
+Experiment results are available up to 63 days after the start of the experiment. They are
+not available after that because of CloudWatch data retention policies.
 
 # Arguments
+
 - `experiment`: The name of the experiment to retrieve the results of.
 - `metric_names`: The names of the experiment metrics that you want to see the results of.
 - `project`: The name or ARN of the project that contains the experiment that you want to
@@ -693,171 +475,79 @@ CloudWatch data retention policies.
   results for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"baseStat"`: The statistic used to calculate experiment results. Currently the only
-  valid value is mean, which uses the mean of the collected values as the statistic.
+  valid value is `mean`, which uses the mean of the collected values as the statistic.
 - `"endTime"`: The date and time that the experiment ended, if it is completed. This must
   be no longer than 30 days after the experiment start time.
 - `"period"`: In seconds, the amount of time to aggregate results together.
 - `"reportNames"`: The names of the report types that you want to see. Currently,
-  BayesianInference is the only valid value.
-- `"resultStats"`: The statistics that you want to see in the returned results.    PValue
+  `BayesianInference` is the only valid value.
+- `"resultStats"`: The statistics that you want to see in the returned results. - `PValue`
   specifies to use p-values for the results. A p-value is used in hypothesis testing to
   measure how often you are willing to make a mistake in rejecting the null hypothesis. A
   general practice is to reject the null hypothesis and declare that the results are
-  statistically significant when the p-value is less than 0.05.    ConfidenceInterval
-  specifies a confidence interval for the results. The confidence interval represents the
-  range of values for the chosen metric that is likely to contain the true difference between
-  the baseStat of a variation and the baseline. Evidently returns the 95% confidence
-  interval.     TreatmentEffect is the difference in the statistic specified by the baseStat
-  parameter between each variation and the default variation.     BaseStat returns the
-  statistical values collected for the metric for each variation. The statistic uses the same
-  statistic specified in the baseStat parameter. Therefore, if baseStat is mean, this returns
-  the mean of the values collected for each variation.
+  statistically significant when the p-value is less than 0.05.
+   - `ConfidenceInterval` specifies a confidence interval for the results. The confidence
+  interval represents the range of values for the chosen metric that is likely to contain
+  the true difference between the `baseStat` of a variation and the baseline. Evidently
+  returns the 95% confidence interval.
+   - `TreatmentEffect` is the difference in the statistic specified by the `baseStat`
+  parameter between each variation and the default variation.
+   - `BaseStat` returns the statistical values collected for the metric for each variation.
+  The statistic uses the same statistic specified in the `baseStat` parameter. Therefore,
+  if `baseStat` is `mean`, this returns the mean of the values collected for each
+  variation.
 - `"startTime"`: The date and time that the experiment started.
 """
-function get_experiment_results(
-    experiment,
-    metricNames,
-    project,
-    treatmentNames;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/results",
-        Dict{String,Any}("metricNames" => metricNames, "treatmentNames" => treatmentNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_experiment_results(
-    experiment,
-    metricNames,
-    project,
-    treatmentNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/results",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "metricNames" => metricNames, "treatmentNames" => treatmentNames
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_experiment_results(experiment, metricNames, project, treatmentNames; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/results", Dict{String, Any}("metricNames"=>metricNames, "treatmentNames"=>treatmentNames); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_experiment_results(experiment, metricNames, project, treatmentNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/results", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("metricNames"=>metricNames, "treatmentNames"=>treatmentNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_feature(feature, project)
     get_feature(feature, project, params::Dict{String,<:Any})
 
 Returns the details about one feature. You must already know the feature name. To retrieve
-a list of features in your account, use ListFeatures.
+a list of features in your account, use [ListFeatures](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListFeatures.html).
 
 # Arguments
+
 - `feature`: The name of the feature that you want to retrieve information for.
 - `project`: The name or ARN of the project that contains the feature.
-
 """
-function get_feature(feature, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_feature(
-    feature,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/features/$(feature)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_feature(feature, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/features/$(feature)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_feature(feature, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/features/$(feature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_launch(launch, project)
     get_launch(launch, project, params::Dict{String,<:Any})
 
 Returns the details about one launch. You must already know the launch name. To retrieve a
-list of launches in your account, use ListLaunches.
+list of launches in your account, use [ListLaunches](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListLaunches.html).
 
 # Arguments
+
 - `launch`: The name of the launch that you want to see the details of.
 - `project`: The name or ARN of the project that contains the launch.
-
 """
-function get_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch(
-    launch,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/launches/$(launch)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/launches/$(launch)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_launch(launch, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/launches/$(launch)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_project(project)
     get_project(project, params::Dict{String,<:Any})
 
 Returns the details about one launch. You must already know the project name. To retrieve a
-list of projects in your account, use ListProjects.
+list of projects in your account, use [ListProjects](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_ListProjects.html).
 
 # Arguments
-- `project`: The name or ARN of the project that you want to see the details of.
 
+- `project`: The name or ARN of the project that you want to see the details of.
 """
-function get_project(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_project(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_project(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_project(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment(segment)
@@ -867,30 +557,11 @@ Returns information about the specified segment. Specify the segment you want to
 specifying its ARN.
 
 # Arguments
-- `segment`: The ARN of the segment to return information for.
 
+- `segment`: The ARN of the segment to return information for.
 """
-function get_segment(segment; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/segments/$(segment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment(
-    segment,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/segments/$(segment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment(segment; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments/$(segment)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment(segment, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments/$(segment)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_experiments(project)
@@ -899,37 +570,21 @@ end
 Returns configuration details about all the experiments in the specified project.
 
 # Arguments
+
 - `project`: The name or ARN of the project to return the experiment list from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListExperiments operation.
+  this token from a previous `ListExperiments` operation.
 - `"status"`: Use this optional parameter to limit the returned results to only the
   experiments with the status that you specify here.
 """
-function list_experiments(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)/experiments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_experiments(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/experiments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_experiments(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_experiments(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/experiments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_features(project)
@@ -938,35 +593,19 @@ end
 Returns configuration details about all the features in the specified project.
 
 # Arguments
+
 - `project`: The name or ARN of the project to return the feature list from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListFeatures operation.
+  this token from a previous `ListFeatures` operation.
 """
-function list_features(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)/features";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_features(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/features",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_features(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/features"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_features(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/features", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_launches(project)
@@ -975,37 +614,21 @@ end
 Returns configuration details about all the launches in the specified project.
 
 # Arguments
+
 - `project`: The name or ARN of the project to return the launch list from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListLaunches operation.
+  this token from a previous `ListLaunches` operation.
 - `"status"`: Use this optional parameter to limit the returned results to only the
   launches with the status that you specify here.
 """
-function list_launches(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET",
-        "/projects/$(project)/launches";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_launches(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/projects/$(project)/launches",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_launches(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/launches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_launches(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects/$(project)/launches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_projects()
@@ -1014,23 +637,15 @@ end
 Returns configuration details about all the projects in the current Region in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListProjects operation.
+  this token from a previous `ListProjects` operation.
 """
-function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_segment_references(segment, type)
@@ -1039,42 +654,22 @@ end
 Use this operation to find which experiments or launches are using a specified segment.
 
 # Arguments
+
 - `segment`: The ARN of the segment that you want to view information for.
 - `type`: Specifies whether to return information about launches or experiments that use
   this segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListSegmentReferences operation.
+  this token from a previous `ListSegmentReferences` operation.
 """
-function list_segment_references(
-    segment, type; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "GET",
-        "/segments/$(segment)/references",
-        Dict{String,Any}("type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_segment_references(
-    segment,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/segments/$(segment)/references",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("type" => type), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_segment_references(segment, type; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments/$(segment)/references", Dict{String, Any}("type"=>type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_segment_references(segment, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments/$(segment)/references", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_segments()
@@ -1083,24 +678,16 @@ end
 Returns a list of audience segments that you have created in your account in this Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to include in the response. If you omit
   this, the default of 50 is used.
 - `"nextToken"`: The token to use when requesting the next set of results. You received
-  this token from a previous ListSegments operation.
+  this token from a previous `ListSegments` operation.
 """
-function list_segments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_segments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "GET", "/segments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_segments(; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_segments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/segments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1109,32 +696,11 @@ end
 Displays the tags associated with an Evidently resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that you want to see the tags of.
 
+- `resource_arn`: The ARN of the resource that you want to see the tags of.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_project_events(events, project)
@@ -1144,119 +710,43 @@ Sends performance events to Evidently. These events can be used to evaluate a la
 experiment.
 
 # Arguments
+
 - `events`: An array of event structures that contain the performance data that is being
   sent to Evidently.
 - `project`: The name or ARN of the project to write the events to.
-
 """
-function put_project_events(
-    events, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/events/projects/$(project)",
-        Dict{String,Any}("events" => events);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_project_events(
-    events,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/events/projects/$(project)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("events" => events), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_project_events(events, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/events/projects/$(project)", Dict{String, Any}("events"=>events); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_project_events(events, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/events/projects/$(project)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("events"=>events), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_experiment(analysis_complete_time, experiment, project)
     start_experiment(analysis_complete_time, experiment, project, params::Dict{String,<:Any})
 
-Starts an existing experiment. To create an experiment, use CreateExperiment.
+Starts an existing experiment. To create an experiment, use [CreateExperiment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateExperiment.html).
 
 # Arguments
+
 - `analysis_complete_time`: The date and time to end the experiment. This must be no more
   than 30 days after the experiment starts.
 - `experiment`: The name of the experiment to start.
 - `project`: The name or ARN of the project that contains the experiment to start.
-
 """
-function start_experiment(
-    analysisCompleteTime,
-    experiment,
-    project;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/start",
-        Dict{String,Any}("analysisCompleteTime" => analysisCompleteTime);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_experiment(
-    analysisCompleteTime,
-    experiment,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/start",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("analysisCompleteTime" => analysisCompleteTime),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_experiment(analysisCompleteTime, experiment, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/start", Dict{String, Any}("analysisCompleteTime"=>analysisCompleteTime); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_experiment(analysisCompleteTime, experiment, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/start", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("analysisCompleteTime"=>analysisCompleteTime), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_launch(launch, project)
     start_launch(launch, project, params::Dict{String,<:Any})
 
-Starts an existing launch. To create a launch, use CreateLaunch.
+Starts an existing launch. To create a launch, use [CreateLaunch](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateLaunch.html).
 
 # Arguments
+
 - `launch`: The name of the launch to start.
 - `project`: The name or ARN of the project that contains the launch to start.
-
 """
-function start_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches/$(launch)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_launch(
-    launch,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches/$(launch)/start",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches/$(launch)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_launch(launch, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches/$(launch)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     stop_experiment(experiment, project)
@@ -1266,39 +756,20 @@ Stops an experiment that is currently running. If you stop an experiment, you ca
 it or restart it.
 
 # Arguments
+
 - `experiment`: The name of the experiment to stop.
 - `project`: The name or ARN of the project that contains the experiment to stop.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"desiredState"`: Specify whether the experiment is to be considered COMPLETED or
-  CANCELLED after it stops.
+
+- `"desiredState"`: Specify whether the experiment is to be considered `COMPLETED` or
+  `CANCELLED` after it stops.
 - `"reason"`: A string that describes why you are stopping the experiment.
 """
-function stop_experiment(
-    experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_experiment(
-    experiment,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/experiments/$(experiment)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_experiment(experiment, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_experiment(experiment, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/experiments/$(experiment)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     stop_launch(launch, project)
@@ -1311,124 +782,66 @@ experiment, if there is one. Otherwise, all traffic will be served the default v
 after the launch is stopped.
 
 # Arguments
+
 - `launch`: The name of the launch to stop.
 - `project`: The name or ARN of the project that contains the launch that you want to stop.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"desiredState"`: Specify whether to consider the launch as COMPLETED or CANCELLED after
-  it stops.
+
+- `"desiredState"`: Specify whether to consider the launch as `COMPLETED` or `CANCELLED`
+  after it stops.
 - `"reason"`: A string that describes why you are stopping the launch.
 """
-function stop_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches/$(launch)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_launch(
-    launch,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/projects/$(project)/launches/$(launch)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches/$(launch)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_launch(launch, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/projects/$(project)/launches/$(launch)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Assigns one or more tags (key-value pairs) to the specified CloudWatch Evidently resource.
-Projects, features, launches, and experiments can be tagged. Tags can help you organize and
-categorize your resources. You can also use them to scope user permissions by granting a
-user permission to access or change only resources with certain tag values. Tags don't have
-any semantic meaning to Amazon Web Services and are interpreted strictly as strings of
-characters. You can use the TagResource action with a resource that already has tags. If
-you specify a new tag key for the resource, this tag is appended to the list of tags
-associated with the alarm. If you specify a tag key that is already associated with the
-resource, the new tag value that you specify replaces the previous value for that tag. You
-can associate as many as 50 tags with a resource. For more information, see Tagging Amazon
-Web Services resources.
+Projects, features, launches, and experiments can be tagged.
+
+Tags can help you organize and categorize your resources. You can also use them to scope
+user permissions by granting a user permission to access or change only resources with
+certain tag values.
+
+Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as
+strings of characters.
+
+You can use the `TagResource` action with a resource that already has tags. If you specify
+a new tag key for the resource, this tag is appended to the list of tags associated with
+the alarm. If you specify a tag key that is already associated with the resource, the new
+tag value that you specify replaces the previous value for that tag.
+
+You can associate as many as 50 tags with a resource.
+
+For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
 
 # Arguments
+
 - `resource_arn`: The ARN of the CloudWatch Evidently resource that you're adding tags to.
 - `tags`: The list of key-value pairs to associate with the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     test_segment_pattern(pattern, payload)
     test_segment_pattern(pattern, payload, params::Dict{String,<:Any})
 
 Use this operation to test a rules pattern that you plan to use to create an audience
-segment. For more information about segments, see CreateSegment.
+segment. For more information about segments, see [CreateSegment](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateSegment.html).
 
 # Arguments
-- `pattern`: The pattern to test.
-- `payload`: A sample evaluationContext JSON block to test against the specified pattern.
 
+- `pattern`: The pattern to test.
+- `payload`: A sample `evaluationContext` JSON block to test against the specified pattern.
 """
-function test_segment_pattern(
-    pattern, payload; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "POST",
-        "/test-segment-pattern",
-        Dict{String,Any}("pattern" => pattern, "payload" => payload);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function test_segment_pattern(
-    pattern,
-    payload,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "POST",
-        "/test-segment-pattern",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("pattern" => pattern, "payload" => payload), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+test_segment_pattern(pattern, payload; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/test-segment-pattern", Dict{String, Any}("pattern"=>pattern, "payload"=>payload); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+test_segment_pattern(pattern, payload, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("POST", "/test-segment-pattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pattern"=>pattern, "payload"=>payload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1437,117 +850,83 @@ end
 Removes one or more tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the CloudWatch Evidently resource that you're removing tags
   from.
 - `tag_keys`: The list of tag keys to remove from the resource.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_experiment(experiment, project)
     update_experiment(experiment, project, params::Dict{String,<:Any})
 
-Updates an Evidently experiment.  Don't use this operation to update an experiment's tag.
-Instead, use TagResource.
+Updates an Evidently experiment.
+
+Don't use this operation to update an experiment's tag. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
 
 # Arguments
+
 - `experiment`: The name of the experiment to update.
 - `project`: The name or ARN of the project that contains the experiment that you want to
   update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description of the experiment.
 - `"metricGoals"`: An array of structures that defines the metrics used for the experiment,
   and whether a higher or lower value for each metric is the goal.
 - `"onlineAbConfig"`: A structure that contains the configuration of which variation o use
-  as the \"control\" version. The \"control\" version is used for comparison with other
-  variations. This structure also specifies how much experiment traffic is allocated to each
-  variation.
+  as the "control" version. The "control" version is used for comparison with other
+  variations. This structure also specifies how much experiment traffic is allocated to
+  each variation.
 - `"randomizationSalt"`: When Evidently assigns a particular user session to an experiment,
   it must use a randomization ID to determine which variation the user session is served.
-  This randomization ID is a combination of the entity ID and randomizationSalt. If you omit
-  randomizationSalt, Evidently uses the experiment name as the randomizationSalt.
+  This randomization ID is a combination of the entity ID and `randomizationSalt`. If you
+  omit `randomizationSalt`, Evidently uses the experiment name as the `randomizationSalt`.
 - `"removeSegment"`: Removes a segment from being used in an experiment. You can't use this
   parameter if the experiment is currently running.
 - `"samplingRate"`: The portion of the available audience that you want to allocate to this
-  experiment, in thousandths of a percent. The available audience is the total audience minus
-  the audience that you have allocated to overrides or current launches of this feature. This
-  is represented in thousandths of a percent. For example, specify 20,000 to allocate 20% of
-  the available audience.
-- `"segment"`: Adds an audience segment to an experiment. When a segment is used in an
+  experiment, in thousandths of a percent. The available audience is the total audience
+  minus the audience that you have allocated to overrides or current launches of this
+  feature.
+
+  This is represented in thousandths of a percent. For example, specify 20,000 to allocate
+  20% of the available audience.
+- `"segment"`: Adds an audience *segment* to an experiment. When a segment is used in an
   experiment, only user sessions that match the segment pattern are used in the experiment.
   You can't use this parameter if the experiment is currently running.
 - `"treatments"`: An array of structures that define the variations being tested in the
   experiment.
 """
-function update_experiment(
-    experiment, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/experiments/$(experiment)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_experiment(
-    experiment,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/experiments/$(experiment)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_experiment(experiment, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/experiments/$(experiment)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_experiment(experiment, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/experiments/$(experiment)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_feature(feature, project)
     update_feature(feature, project, params::Dict{String,<:Any})
 
-Updates an existing feature. You can't use this operation to update the tags of an existing
-feature. Instead, use TagResource.
+Updates an existing feature.
+
+You can't use this operation to update the tags of an existing feature. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
 
 # Arguments
+
 - `feature`: The name of the feature to be updated.
 - `project`: The name or ARN of the project that contains the feature to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"addOrUpdateVariations"`: To update variation configurations for this feature, or add
   new ones, specify this structure. In this array, include any variations that you want to
-  add or update. If the array includes a variation name that already exists for this feature,
-  it is updated. If it includes a new variation name, it is added as a new variation.
+  add or update. If the array includes a variation name that already exists for this
+  feature, it is updated. If it includes a new variation name, it is added as a new
+  variation.
 - `"defaultVariation"`: The name of the variation to use as the default variation. The
   default variation is served to users who are not allocated to any ongoing launches or
   experiments of this feature.
@@ -1555,54 +934,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"entityOverrides"`: Specified users that should always be served a specific variation of
   a feature. Each user is specified by a key-value pair . For each key, specify a user by
   entering their user ID, account ID, or some other identifier. For the value, specify the
-  name of the variation that they are to be served. This parameter is limited to 2500
-  overrides or a total of 40KB. The 40KB limit includes an overhead of 6 bytes per override.
-- `"evaluationStrategy"`: Specify ALL_RULES to activate the traffic allocation specified by
-  any ongoing launches or experiments. Specify DEFAULT_VARIATION to serve the default
+  name of the variation that they are to be served.
+
+  This parameter is limited to 2500 overrides or a total of 40KB. The 40KB limit includes
+  an overhead of 6 bytes per override.
+- `"evaluationStrategy"`: Specify `ALL_RULES` to activate the traffic allocation specified
+  by any ongoing launches or experiments. Specify `DEFAULT_VARIATION` to serve the default
   variation to all users instead.
 - `"removeVariations"`: Removes a variation from the feature. If the variation you specify
-  doesn't exist, then this makes no change and does not report an error. This operation fails
-  if you try to remove a variation that is part of an ongoing launch or experiment.
+  doesn't exist, then this makes no change and does not report an error.
+
+  This operation fails if you try to remove a variation that is part of an ongoing launch
+  or experiment.
 """
-function update_feature(
-    feature, project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/features/$(feature)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_feature(
-    feature,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/features/$(feature)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_feature(feature, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/features/$(feature)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_feature(feature, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/features/$(feature)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_launch(launch, project)
     update_launch(launch, project, params::Dict{String,<:Any})
 
-Updates a launch of a given feature.  Don't use this operation to update the tags of an
-existing launch. Instead, use TagResource.
+Updates a launch of a given feature.
+
+Don't use this operation to update the tags of an existing launch. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
 
 # Arguments
+
 - `launch`: The name of the launch that is to be updated.
 - `project`: The name or ARN of the project that contains the launch that you want to
   update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: An optional description for the launch.
 - `"groups"`: An array of structures that contains the feature and variations that are to
   be used for the launch.
@@ -1610,77 +975,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   monitor the launch performance.
 - `"randomizationSalt"`: When Evidently assigns a particular user session to a launch, it
   must use a randomization ID to determine which variation the user session is served. This
-  randomization ID is a combination of the entity ID and randomizationSalt. If you omit
-  randomizationSalt, Evidently uses the launch name as the randomizationSalt.
+  randomization ID is a combination of the entity ID and `randomizationSalt`. If you omit
+  `randomizationSalt`, Evidently uses the launch name as the `randomizationSalt`.
 - `"scheduledSplitsConfig"`: An array of structures that define the traffic allocation
   percentages among the feature variations during each step of the launch.
 """
-function update_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/launches/$(launch)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_launch(
-    launch,
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/launches/$(launch)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_launch(launch, project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/launches/$(launch)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_launch(launch, project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/launches/$(launch)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_project(project)
     update_project(project, params::Dict{String,<:Any})
 
-Updates the description of an existing project. To create a new project, use CreateProject.
-Don't use this operation to update the data storage options of a project. Instead, use
-UpdateProjectDataDelivery.  Don't use this operation to update the tags of a project.
-Instead, use TagResource.
+Updates the description of an existing project.
+
+To create a new project, use [CreateProject](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_CreateProject.html).
+
+Don't use this operation to update the data storage options of a project. Instead, use [UpdateProjectDataDelivery](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_UpdateProjectDataDelivery.html).
+
+
+Don't use this operation to update the tags of a project. Instead, use [TagResource](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_TagResource.html).
 
 # Arguments
+
 - `project`: The name or ARN of the project to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appConfigResource"`: Use this parameter if the project will use client-side evaluation
   powered by AppConfig. Client-side evaluation allows your application to assign variations
-  to user sessions locally instead of by calling the EvaluateFeature operation. This
-  mitigates the latency and availability risks that come with an API call. allows you to This
-  parameter is a structure that contains information about the AppConfig application that
-  will be used for client-side evaluation.
+  to user sessions locally instead of by calling the [EvaluateFeature](https://docs.aws.amazon.com/cloudwatchevidently/latest/APIReference/API_EvaluateFeature.html)
+  operation. This mitigates the latency and availability risks that come with an API call.
+  allows you to
+
+  This parameter is a structure that contains information about the AppConfig application
+  that will be used for client-side evaluation.
 - `"description"`: An optional description of the project.
 """
-function update_project(project; aws_config::AbstractAWSConfig=current_aws_config())
-    return evidently(
-        "PATCH",
-        "/projects/$(project)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_project(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_project_data_delivery(project)
@@ -1689,40 +1024,23 @@ end
 Updates the data storage options for this project. If you store evaluation events, you an
 keep them and analyze them on your own. If you choose not to store evaluation events,
 Evidently deletes them after using them to produce metrics and other experiment results
-that you can view. You can't specify both cloudWatchLogs and s3Destination in the same
-operation.
+that you can view.
+
+You can't specify both `cloudWatchLogs` and `s3Destination` in the same operation.
 
 # Arguments
+
 - `project`: The name or ARN of the project that you want to modify the data storage
   options for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cloudWatchLogs"`: A structure containing the CloudWatch Logs log group where you want
   to store evaluation events.
 - `"s3Destination"`: A structure containing the S3 bucket name and bucket prefix where you
   want to store evaluation events.
 """
-function update_project_data_delivery(
-    project; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/data-delivery";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_project_data_delivery(
-    project,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return evidently(
-        "PATCH",
-        "/projects/$(project)/data-delivery",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project_data_delivery(project; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/data-delivery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project_data_delivery(project, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = evidently("PATCH", "/projects/$(project)/data-delivery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

@@ -11,62 +11,20 @@ using AWS.UUIDs
 Creates a campaign for the specified Amazon Connect account. This API is idempotent.
 
 # Arguments
+
 - `connect_instance_id`:
 - `dialer_config`:
 - `name`:
 - `outbound_call_config`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`:
 """
-function create_campaign(
-    connectInstanceId,
-    dialerConfig,
-    name,
-    outboundCallConfig;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "PUT",
-        "/campaigns",
-        Dict{String,Any}(
-            "connectInstanceId" => connectInstanceId,
-            "dialerConfig" => dialerConfig,
-            "name" => name,
-            "outboundCallConfig" => outboundCallConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_campaign(
-    connectInstanceId,
-    dialerConfig,
-    name,
-    outboundCallConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "PUT",
-        "/campaigns",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "connectInstanceId" => connectInstanceId,
-                    "dialerConfig" => dialerConfig,
-                    "name" => name,
-                    "outboundCallConfig" => outboundCallConfig,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_campaign(connectInstanceId, dialerConfig, name, outboundCallConfig; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/campaigns", Dict{String, Any}("connectInstanceId"=>connectInstanceId, "dialerConfig"=>dialerConfig, "name"=>name, "outboundCallConfig"=>outboundCallConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_campaign(connectInstanceId, dialerConfig, name, outboundCallConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectInstanceId"=>connectInstanceId, "dialerConfig"=>dialerConfig, "name"=>name, "outboundCallConfig"=>outboundCallConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_campaign(id)
@@ -75,25 +33,11 @@ end
 Deletes a campaign from the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function delete_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "DELETE", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "DELETE",
-        "/campaigns/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/campaigns/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_connect_instance_config(connect_instance_id)
@@ -102,32 +46,11 @@ end
 Deletes a connect instance config from the specified AWS account.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
-function delete_connect_instance_config(
-    connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "DELETE",
-        "/connect-instance/$(connectInstanceId)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_connect_instance_config(
-    connectInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "DELETE",
-        "/connect-instance/$(connectInstanceId)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_connect_instance_config(connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/connect-instance/$(connectInstanceId)/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_connect_instance_config(connectInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/connect-instance/$(connectInstanceId)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_instance_onboarding_job(connect_instance_id)
@@ -136,32 +59,11 @@ end
 Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
-function delete_instance_onboarding_job(
-    connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "DELETE",
-        "/connect-instance/$(connectInstanceId)/onboarding";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_instance_onboarding_job(
-    connectInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "DELETE",
-        "/connect-instance/$(connectInstanceId)/onboarding",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_instance_onboarding_job(connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/connect-instance/$(connectInstanceId)/onboarding"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_instance_onboarding_job(connectInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/connect-instance/$(connectInstanceId)/onboarding", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_campaign(id)
@@ -170,25 +72,11 @@ end
 Describes the specific campaign.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function describe_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "GET", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "GET",
-        "/campaigns/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/campaigns/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/campaigns/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_state(id)
@@ -197,28 +85,11 @@ end
 Get state of a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function get_campaign_state(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "GET",
-        "/campaigns/$(id)/state";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_state(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "GET",
-        "/campaigns/$(id)/state",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_state(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/campaigns/$(id)/state"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_state(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/campaigns/$(id)/state", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_state_batch(campaign_ids)
@@ -227,35 +98,11 @@ end
 Get state of campaigns for the specified Amazon Connect account.
 
 # Arguments
-- `campaign_ids`:
 
+- `campaign_ids`:
 """
-function get_campaign_state_batch(
-    campaignIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns-state",
-        Dict{String,Any}("campaignIds" => campaignIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_state_batch(
-    campaignIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns-state",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("campaignIds" => campaignIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_state_batch(campaignIds; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns-state", Dict{String, Any}("campaignIds"=>campaignIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_state_batch(campaignIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns-state", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignIds"=>campaignIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_connect_instance_config(connect_instance_id)
@@ -264,32 +111,11 @@ end
 Get the specific Connect instance config.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
-function get_connect_instance_config(
-    connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "GET",
-        "/connect-instance/$(connectInstanceId)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_connect_instance_config(
-    connectInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "GET",
-        "/connect-instance/$(connectInstanceId)/config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_connect_instance_config(connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/connect-instance/$(connectInstanceId)/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_connect_instance_config(connectInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/connect-instance/$(connectInstanceId)/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_instance_onboarding_job_status(connect_instance_id)
@@ -298,32 +124,11 @@ end
 Get the specific instance onboarding job status.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
-function get_instance_onboarding_job_status(
-    connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "GET",
-        "/connect-instance/$(connectInstanceId)/onboarding";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_instance_onboarding_job_status(
-    connectInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "GET",
-        "/connect-instance/$(connectInstanceId)/onboarding",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_instance_onboarding_job_status(connectInstanceId; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/connect-instance/$(connectInstanceId)/onboarding"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_instance_onboarding_job_status(connectInstanceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/connect-instance/$(connectInstanceId)/onboarding", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_campaigns()
@@ -332,27 +137,15 @@ end
 Provides summary information about the campaigns under the specified Amazon Connect account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`:
 - `"maxResults"`:
 - `"nextToken"`:
 """
-function list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST", "/campaigns-summary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_campaigns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns-summary",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_campaigns(; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns-summary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_campaigns(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns-summary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(arn)
@@ -361,25 +154,11 @@ end
 List tags for a resource.
 
 # Arguments
-- `arn`:
 
+- `arn`:
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "GET",
-        "/tags/$(arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("GET", "/tags/$(arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     pause_campaign(id)
@@ -388,28 +167,11 @@ end
 Pauses a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function pause_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/pause";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function pause_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/pause",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+pause_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/pause"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+pause_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/pause", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_dial_request_batch(dial_requests, id)
@@ -419,37 +181,12 @@ Creates dials requests for the specified campaign Amazon Connect account. This A
 idempotent.
 
 # Arguments
+
 - `dial_requests`:
 - `id`:
-
 """
-function put_dial_request_batch(
-    dialRequests, id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "PUT",
-        "/campaigns/$(id)/dial-requests",
-        Dict{String,Any}("dialRequests" => dialRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_dial_request_batch(
-    dialRequests,
-    id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "PUT",
-        "/campaigns/$(id)/dial-requests",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("dialRequests" => dialRequests), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_dial_request_batch(dialRequests, id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/campaigns/$(id)/dial-requests", Dict{String, Any}("dialRequests"=>dialRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_dial_request_batch(dialRequests, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/campaigns/$(id)/dial-requests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dialRequests"=>dialRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     resume_campaign(id)
@@ -458,28 +195,11 @@ end
 Stops a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function resume_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/resume";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function resume_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/resume",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+resume_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/resume"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+resume_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/resume", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_campaign(id)
@@ -488,28 +208,11 @@ end
 Starts a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function start_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/start",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/start", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_instance_onboarding_job(connect_instance_id, encryption_config)
@@ -518,39 +221,12 @@ end
 Onboard the specific Amazon Connect instance to Connect Campaigns.
 
 # Arguments
+
 - `connect_instance_id`:
 - `encryption_config`:
-
 """
-function start_instance_onboarding_job(
-    connectInstanceId, encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "PUT",
-        "/connect-instance/$(connectInstanceId)/onboarding",
-        Dict{String,Any}("encryptionConfig" => encryptionConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_instance_onboarding_job(
-    connectInstanceId,
-    encryptionConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "PUT",
-        "/connect-instance/$(connectInstanceId)/onboarding",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("encryptionConfig" => encryptionConfig), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_instance_onboarding_job(connectInstanceId, encryptionConfig; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/connect-instance/$(connectInstanceId)/onboarding", Dict{String, Any}("encryptionConfig"=>encryptionConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_instance_onboarding_job(connectInstanceId, encryptionConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("PUT", "/connect-instance/$(connectInstanceId)/onboarding", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("encryptionConfig"=>encryptionConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     stop_campaign(id)
@@ -559,28 +235,11 @@ end
 Stops a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
-function stop_campaign(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_campaign(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/stop",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_campaign(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_campaign(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/stop", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(arn, tags)
@@ -589,33 +248,12 @@ end
 Tag a resource.
 
 # Arguments
+
 - `arn`:
 - `tags`:
-
 """
-function tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/tags/$(arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    arn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "POST",
-        "/tags/$(arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(arn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/tags/$(arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(arn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/tags/$(arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(arn, tag_keys)
@@ -624,33 +262,12 @@ end
 Untag a resource.
 
 # Arguments
+
 - `arn`:
 - `tag_keys`:
-
 """
-function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "DELETE",
-        "/tags/$(arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "DELETE",
-        "/tags/$(arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/tags/$(arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("DELETE", "/tags/$(arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_campaign_dialer_config(dialer_config, id)
@@ -659,37 +276,12 @@ end
 Updates the dialer config of a campaign. This API is idempotent.
 
 # Arguments
+
 - `dialer_config`:
 - `id`:
-
 """
-function update_campaign_dialer_config(
-    dialerConfig, id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/dialer-config",
-        Dict{String,Any}("dialerConfig" => dialerConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_campaign_dialer_config(
-    dialerConfig,
-    id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/dialer-config",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("dialerConfig" => dialerConfig), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_campaign_dialer_config(dialerConfig, id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/dialer-config", Dict{String, Any}("dialerConfig"=>dialerConfig); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_campaign_dialer_config(dialerConfig, id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/dialer-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dialerConfig"=>dialerConfig), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_campaign_name(id, name)
@@ -698,33 +290,12 @@ end
 Updates the name of a campaign. This API is idempotent.
 
 # Arguments
+
 - `id`:
 - `name`:
-
 """
-function update_campaign_name(id, name; aws_config::AbstractAWSConfig=current_aws_config())
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/name",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_campaign_name(
-    id,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/name",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_campaign_name(id, name; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/name", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_campaign_name(id, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_campaign_outbound_call_config(id)
@@ -733,32 +304,16 @@ end
 Updates the outbound call config of a campaign. This API is idempotent.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"answerMachineDetectionConfig"`:
 - `"connectContactFlowId"`:
 - `"connectSourcePhoneNumber"`:
 """
-function update_campaign_outbound_call_config(
-    id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/outbound-call-config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_campaign_outbound_call_config(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return connectcampaigns(
-        "POST",
-        "/campaigns/$(id)/outbound-call-config",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_campaign_outbound_call_config(id; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/outbound-call-config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_campaign_outbound_call_config(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = connectcampaigns("POST", "/campaigns/$(id)/outbound-call-config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

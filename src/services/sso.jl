@@ -11,58 +11,15 @@ using AWS.UUIDs
 Returns the STS short-term credentials for a given role name that is assigned to the user.
 
 # Arguments
+
 - `account_id`: The identifier for the AWS account that is assigned to the user.
 - `role_name`: The friendly name of the role that is assigned to the user.
-- `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
-
+- `x-amz-sso_bearer_token`: The token issued by the `CreateToken` API call. For more
+  information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
+  in the *IAM Identity Center OIDC API Reference Guide*.
 """
-function get_role_credentials(
-    account_id,
-    role_name,
-    x_amz_sso_bearer_token;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sso(
-        "GET",
-        "/federation/credentials",
-        Dict{String,Any}(
-            "account_id" => account_id,
-            "role_name" => role_name,
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_role_credentials(
-    account_id,
-    role_name,
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sso(
-        "GET",
-        "/federation/credentials",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "account_id" => account_id,
-                    "role_name" => role_name,
-                    "headers" => Dict{String,Any}(
-                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
-                    ),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_role_credentials(account_id, role_name, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_role_credentials(account_id, role_name, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_account_roles(account_id, x-amz-sso_bearer_token)
@@ -71,112 +28,47 @@ end
 Lists all roles that are assigned to the user for a given AWS account.
 
 # Arguments
+
 - `account_id`: The identifier for the AWS account that is assigned to the user.
-- `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
+- `x-amz-sso_bearer_token`: The token issued by the `CreateToken` API call. For more
+  information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
+  in the *IAM Identity Center OIDC API Reference Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_result"`: The number of items that clients can request per page.
 - `"next_token"`: The page token from the previous response output when you request
   subsequent pages.
 """
-function list_account_roles(
-    account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sso(
-        "GET",
-        "/assignment/roles",
-        Dict{String,Any}(
-            "account_id" => account_id,
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_account_roles(
-    account_id,
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sso(
-        "GET",
-        "/assignment/roles",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "account_id" => account_id,
-                    "headers" => Dict{String,Any}(
-                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
-                    ),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_account_roles(account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_account_roles(account_id, x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_accounts(x-amz-sso_bearer_token)
     list_accounts(x-amz-sso_bearer_token, params::Dict{String,<:Any})
 
 Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
-administrator of the account. For more information, see Assign User Access in the IAM
-Identity Center User Guide. This operation returns a paginated response.
+administrator of the account. For more information, see [Assign User Access](https://docs.aws.amazon.com/singlesignon/latest/userguide/useraccess.html#assignusers)
+in the *IAM Identity Center User Guide*. This operation returns a paginated response.
 
 # Arguments
-- `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
+
+- `x-amz-sso_bearer_token`: The token issued by the `CreateToken` API call. For more
+  information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
+  in the *IAM Identity Center OIDC API Reference Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_result"`: This is the number of items clients can request per page.
 - `"next_token"`: (Optional) When requesting subsequent pages, this is the page token from
   the previous response output.
 """
-function list_accounts(
-    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return sso(
-        "GET",
-        "/assignment/accounts",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_accounts(
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sso(
-        "GET",
-        "/assignment/accounts",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}(
-                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
-                    ),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_accounts(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_accounts(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     logout(x-amz-sso_bearer_token)
@@ -184,52 +76,25 @@ end
 
 Removes the locally stored SSO tokens from the client-side cache and sends an API call to
 the IAM Identity Center service to invalidate the corresponding server-side IAM Identity
-Center sign in session.  If a user uses IAM Identity Center to access the AWS CLI, the
-user’s IAM Identity Center sign in session is used to obtain an IAM session, as specified
-in the corresponding IAM Identity Center permission set. More specifically, IAM Identity
-Center assumes an IAM role in the target account on behalf of the user, and the
-corresponding temporary AWS credentials are returned to the client. After user logout, any
-existing IAM role sessions that were created by using IAM Identity Center permission sets
-continue based on the duration configured in the permission set. For more information, see
-User authentications in the IAM Identity Center User Guide.
+Center sign in session.</p>
+
+!!! note
+    If a user uses IAM Identity Center to access the AWS CLI, the user’s IAM Identity
+Center sign in session is used to obtain an IAM session, as specified in the corresponding
+IAM Identity Center permission set. More specifically, IAM Identity Center assumes an IAM
+role in the target account on behalf of the user, and the corresponding temporary AWS
+credentials are returned to the client.
+
+ <p>After user logout, any existing IAM role sessions that were created by using IAM
+Identity Center permission sets continue based on the duration configured in the permission
+set. For more information, see [User authentications](https://docs.aws.amazon.com/singlesignon/latest/userguide/authconcept.html)
+in the *IAM Identity Center User Guide*.
 
 # Arguments
-- `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more
-  information, see CreateToken in the IAM Identity Center OIDC API Reference Guide.
 
+- `x-amz-sso_bearer_token`: The token issued by the `CreateToken` API call. For more
+  information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html)
+  in the *IAM Identity Center OIDC API Reference Guide*.
 """
-function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config())
-    return sso(
-        "POST",
-        "/logout",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function logout(
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return sso(
-        "POST",
-        "/logout",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "headers" => Dict{String,Any}(
-                        "x-amz-sso_bearer_token" => x_amz_sso_bearer_token
-                    ),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=current_aws_config()) = sso("POST", "/logout", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+logout(x_amz_sso_bearer_token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

@@ -10,60 +10,37 @@ using AWS.UUIDs
 
 Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds,
 which gives you 60 seconds to establish a serial console connection to the instance using
-SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
+SSH. For more information, see [EC2 Serial Console](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html)
+in the *Amazon EC2 User Guide*.
 
 # Arguments
+
 - `instance_id`: The ID of the EC2 instance.
 - `sshpublic_key`: The public key material. To use the public key, you must have the
-  matching private key. For information about the supported key formats and lengths, see
-  Requirements for key pairs in the Amazon EC2 User Guide.
+  matching private key. For information about the supported key formats and lengths, see [Requirements for key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws)
+  in the *Amazon EC2 User Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
-  Default: 0
+
+Default: 0
 """
-function send_serial_console_sshpublic_key(
-    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return ec2_instance_connect(
-        "SendSerialConsoleSSHPublicKey",
-        Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_serial_console_sshpublic_key(
-    InstanceId,
-    SSHPublicKey,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2_instance_connect(
-        "SendSerialConsoleSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_serial_console_sshpublic_key(InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_serial_console_sshpublic_key(InstanceId, SSHPublicKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2_instance_connect("SendSerialConsoleSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_sshpublic_key(instance_id, instance_osuser, sshpublic_key)
     send_sshpublic_key(instance_id, instance_osuser, sshpublic_key, params::Dict{String,<:Any})
 
 Pushes an SSH public key to the specified EC2 instance for use by the specified user. The
-key remains for 60 seconds. For more information, see Connect to your Linux instance using
-EC2 Instance Connect in the Amazon EC2 User Guide.
+key remains for 60 seconds. For more information, see [Connect to your Linux instance using EC2 Instance Connect](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html)
+in the *Amazon EC2 User Guide*.
 
 # Arguments
+
 - `instance_id`: The ID of the EC2 instance.
 - `instance_osuser`: The OS user on the EC2 instance for whom the key can be used to
   authenticate.
@@ -71,47 +48,10 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
   matching private key.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AvailabilityZone"`: The Availability Zone in which the EC2 instance was launched.
 """
-function send_sshpublic_key(
-    InstanceId,
-    InstanceOSUser,
-    SSHPublicKey;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2_instance_connect(
-        "SendSSHPublicKey",
-        Dict{String,Any}(
-            "InstanceId" => InstanceId,
-            "InstanceOSUser" => InstanceOSUser,
-            "SSHPublicKey" => SSHPublicKey,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_sshpublic_key(
-    InstanceId,
-    InstanceOSUser,
-    SSHPublicKey,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return ec2_instance_connect(
-        "SendSSHPublicKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceId" => InstanceId,
-                    "InstanceOSUser" => InstanceOSUser,
-                    "SSHPublicKey" => SSHPublicKey,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_sshpublic_key(InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AbstractAWSConfig=current_aws_config()) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}("InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_sshpublic_key(InstanceId, InstanceOSUser, SSHPublicKey, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

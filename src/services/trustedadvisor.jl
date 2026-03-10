@@ -11,44 +11,12 @@ using AWS.UUIDs
 Update one or more exclusion status for a list of recommendation resources
 
 # Arguments
+
 - `recommendation_resource_exclusions`: A list of recommendation resource ARNs and
   exclusion status to update
-
 """
-function batch_update_recommendation_resource_exclusion(
-    recommendationResourceExclusions; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/batch-update-recommendation-resource-exclusion",
-        Dict{String,Any}(
-            "recommendationResourceExclusions" => recommendationResourceExclusions
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_update_recommendation_resource_exclusion(
-    recommendationResourceExclusions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/batch-update-recommendation-resource-exclusion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "recommendationResourceExclusions" => recommendationResourceExclusions
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_update_recommendation_resource_exclusion(recommendationResourceExclusions; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/batch-update-recommendation-resource-exclusion", Dict{String, Any}("recommendationResourceExclusions"=>recommendationResourceExclusions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_recommendation_resource_exclusion(recommendationResourceExclusions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/batch-update-recommendation-resource-exclusion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationResourceExclusions"=>recommendationResourceExclusions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_organization_recommendation(organization_recommendation_identifier)
@@ -58,32 +26,11 @@ Get a specific recommendation within an AWS Organizations organization. This API
 only prioritized recommendations.
 
 # Arguments
-- `organization_recommendation_identifier`: The Recommendation identifier
 
+- `organization_recommendation_identifier`: The Recommendation identifier
 """
-function get_organization_recommendation(
-    organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_organization_recommendation(
-    organizationRecommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_organization_recommendation(organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_organization_recommendation(organizationRecommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_recommendation(recommendation_identifier)
@@ -92,32 +39,11 @@ end
 Get a specific Recommendation
 
 # Arguments
-- `recommendation_identifier`: The Recommendation identifier
 
+- `recommendation_identifier`: The Recommendation identifier
 """
-function get_recommendation(
-    recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/recommendations/$(recommendationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recommendation(
-    recommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/recommendations/$(recommendationIdentifier)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_recommendation(recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations/$(recommendationIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommendation(recommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations/$(recommendationIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_checks()
@@ -126,7 +52,9 @@ end
 List a filterable set of Checks
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"awsService"`: The aws service associated with the check
 - `"language"`: The ISO 639-1 code for the language that you want your checks to appear in.
 - `"maxResults"`: The maximum number of results to return per page.
@@ -135,18 +63,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"pillar"`: The pillar of the check
 - `"source"`: The source of the check
 """
-function list_checks(; aws_config::AbstractAWSConfig=current_aws_config())
-    return trustedadvisor(
-        "GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_checks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET", "/v1/checks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_checks(; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/checks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_checks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/checks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_organization_recommendation_accounts(organization_recommendation_identifier)
@@ -156,38 +74,20 @@ Lists the accounts that own the resources for an organization aggregate recommen
 This API only supports prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_organization_recommendation_accounts(
-    organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_organization_recommendation_accounts(
-    organizationRecommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_organization_recommendation_accounts(organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_organization_recommendation_accounts(organizationRecommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/accounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_organization_recommendation_resources(organization_recommendation_identifier)
@@ -197,11 +97,14 @@ List Resources of a Recommendation within an Organization. This API only support
 prioritized recommendations.
 
 # Arguments
+
 - `organization_recommendation_identifier`: The AWS Organization organization's
   Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"affectedAccountId"`: An account affected by this organization recommendation
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
@@ -210,29 +113,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regionCode"`: The AWS Region code of the resource
 - `"status"`: The status of the resource
 """
-function list_organization_recommendation_resources(
-    organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_organization_recommendation_resources(
-    organizationRecommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_organization_recommendation_resources(organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_organization_recommendation_resources(organizationRecommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_organization_recommendations()
@@ -242,7 +124,9 @@ List a filterable set of Recommendations within an Organization. This API only s
 prioritized recommendations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -255,27 +139,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the Recommendation
 - `"type"`: The type of the Recommendation
 """
-function list_organization_recommendations(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_organization_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/organization-recommendations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_organization_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_organization_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/organization-recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_recommendation_resources(recommendation_identifier)
@@ -284,10 +149,13 @@ end
 List Resources of a Recommendation
 
 # Arguments
+
 - `recommendation_identifier`: The Recommendation identifier
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"exclusionStatus"`: The exclusion status of the resource
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
@@ -295,29 +163,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"regionCode"`: The AWS Region code of the resource
 - `"status"`: The status of the resource
 """
-function list_recommendation_resources(
-    recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/recommendations/$(recommendationIdentifier)/resources";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recommendation_resources(
-    recommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/recommendations/$(recommendationIdentifier)/resources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_recommendation_resources(recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations/$(recommendationIdentifier)/resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recommendation_resources(recommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations/$(recommendationIdentifier)/resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_recommendations()
@@ -326,7 +173,9 @@ end
 List a filterable set of Recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterLastUpdatedAt"`: After the last update of the Recommendation
 - `"awsService"`: The aws service associated with the Recommendation
 - `"beforeLastUpdatedAt"`: Before the last update of the Recommendation
@@ -339,22 +188,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the Recommendation
 - `"type"`: The type of the Recommendation
 """
-function list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return trustedadvisor(
-        "GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return trustedadvisor(
-        "GET",
-        "/v1/recommendations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_recommendations(; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_recommendations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("GET", "/v1/recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_organization_recommendation_lifecycle(lifecycle_stage, organization_recommendation_identifier)
@@ -364,44 +199,20 @@ Update the lifecycle of a Recommendation within an Organization. This API only s
 prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `organization_recommendation_identifier`: The Recommendation identifier for AWS Trusted
   Advisor Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
-function update_organization_recommendation_lifecycle(
-    lifecycleStage,
-    organizationRecommendationIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/lifecycle",
-        Dict{String,Any}("lifecycleStage" => lifecycleStage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_organization_recommendation_lifecycle(
-    lifecycleStage,
-    organizationRecommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/lifecycle",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("lifecycleStage" => lifecycleStage), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_organization_recommendation_lifecycle(lifecycleStage, organizationRecommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/lifecycle", Dict{String, Any}("lifecycleStage"=>lifecycleStage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_organization_recommendation_lifecycle(lifecycleStage, organizationRecommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/organization-recommendations/$(organizationRecommendationIdentifier)/lifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecycleStage"=>lifecycleStage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_recommendation_lifecycle(lifecycle_stage, recommendation_identifier)
@@ -410,41 +221,17 @@ end
 Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
 
 # Arguments
+
 - `lifecycle_stage`: The new lifecycle stage
 - `recommendation_identifier`: The Recommendation identifier for AWS Trusted Advisor
   Priority recommendations
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updateReason"`: Reason for the lifecycle stage change
 - `"updateReasonCode"`: Reason code for the lifecycle state change
 """
-function update_recommendation_lifecycle(
-    lifecycleStage,
-    recommendationIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/recommendations/$(recommendationIdentifier)/lifecycle",
-        Dict{String,Any}("lifecycleStage" => lifecycleStage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_recommendation_lifecycle(
-    lifecycleStage,
-    recommendationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return trustedadvisor(
-        "PUT",
-        "/v1/recommendations/$(recommendationIdentifier)/lifecycle",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("lifecycleStage" => lifecycleStage), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_recommendation_lifecycle(lifecycleStage, recommendationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/recommendations/$(recommendationIdentifier)/lifecycle", Dict{String, Any}("lifecycleStage"=>lifecycleStage); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_recommendation_lifecycle(lifecycleStage, recommendationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = trustedadvisor("PUT", "/v1/recommendations/$(recommendationIdentifier)/lifecycle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("lifecycleStage"=>lifecycleStage), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

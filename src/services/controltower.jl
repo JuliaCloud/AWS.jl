@@ -12,45 +12,19 @@ Creates a new landing zone. This API call starts an asynchronous operation that 
 configures a landing zone, based on the parameters specified in the manifest JSON file.
 
 # Arguments
+
 - `manifest`: The manifest JSON file is a text file that describes your Amazon Web Services
-  resources. For examples, review Launch your landing zone.
+  resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
 - `version`: The landing zone version, for example, 3.0.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: Tags to be applied to the landing zone.
 """
-function create_landing_zone(
-    manifest, version; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/create-landingzone",
-        Dict{String,Any}("manifest" => manifest, "version" => version);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_landing_zone(
-    manifest,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/create-landingzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("manifest" => manifest, "version" => version),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_landing_zone(manifest, version; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/create-landingzone", Dict{String, Any}("manifest"=>manifest, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_landing_zone(manifest, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/create-landingzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manifest"=>manifest, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_landing_zone(landing_zone_identifier)
@@ -61,202 +35,73 @@ Amazon Web Services Control Tower resources deployed in accounts managed by Amaz
 Services Control Tower.
 
 # Arguments
-- `landing_zone_identifier`: The unique identifier of the landing zone.
 
+- `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-function delete_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/delete-landingzone",
-        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_landing_zone(
-    landingZoneIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/delete-landingzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_landing_zone(landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/delete-landingzone", Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_landing_zone(landingZoneIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/delete-landingzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disable_baseline(enabled_baseline_identifier)
     disable_baseline(enabled_baseline_identifier, params::Dict{String,<:Any})
 
-Disable an EnabledBaseline resource on the specified Target. This API starts an
+Disable an `EnabledBaseline` resource on the specified Target. This API starts an
 asynchronous operation to remove all resources deployed as part of the baseline enablement.
-The resource will vary depending on the enabled baseline. For usage examples, see  the
-Amazon Web Services Control Tower User Guide .
+The resource will vary depending on the enabled baseline. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
-- `enabled_baseline_identifier`: Identifier of the EnabledBaseline resource to be
-  deactivated, in ARN format.
 
+- `enabled_baseline_identifier`: Identifier of the `EnabledBaseline` resource to be
+  deactivated, in ARN format.
 """
-function disable_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/disable-baseline",
-        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_baseline(
-    enabledBaselineIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/disable-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disable_baseline(enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/disable-baseline", Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_baseline(enabledBaselineIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/disable-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disable_control(control_identifier, target_identifier)
     disable_control(control_identifier, target_identifier, params::Dict{String,<:Any})
 
-This API call turns off a control. It starts an asynchronous operation that deletes AWS
-resources on the specified organizational unit and the accounts it contains. The resources
-will vary according to the control that you specify. For usage examples, see  the Amazon
-Web Services Control Tower User Guide .
+This API call turns off a control. It starts an asynchronous operation that deletes Amazon
+Web Services resources on the specified organizational unit and the accounts it contains.
+The resources will vary according to the control that you specify. For usage examples, see
+the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
-- `control_identifier`: The ARN of the control. Only Strongly recommended and Elective
-  controls are permitted, with the exception of the Region deny control. For information on
-  how to find the controlIdentifier, see the overview page.
-- `target_identifier`: The ARN of the organizational unit. For information on how to find
-  the targetIdentifier, see the overview page.
 
+- `control_identifier`: The ARN of the control. Only **Strongly recommended** and
+  **Elective** controls are permitted, with the exception of the **Region deny** control.
+  For information on how to find the `controlIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
+- `target_identifier`: The ARN of the organizational unit. For information on how to find
+  the `targetIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 """
-function disable_control(
-    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/disable-control",
-        Dict{String,Any}(
-            "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_control(
-    controlIdentifier,
-    targetIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/disable-control",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlIdentifier" => controlIdentifier,
-                    "targetIdentifier" => targetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disable_control(controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/disable-control", Dict{String, Any}("controlIdentifier"=>controlIdentifier, "targetIdentifier"=>targetIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disable_control(controlIdentifier, targetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/disable-control", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlIdentifier"=>controlIdentifier, "targetIdentifier"=>targetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     enable_baseline(baseline_identifier, baseline_version, target_identifier)
     enable_baseline(baseline_identifier, baseline_version, target_identifier, params::Dict{String,<:Any})
 
-Enable (apply) a Baseline to a Target. This API starts an asynchronous operation to deploy
-resources specified by the Baseline to the specified Target. For usage examples, see  the
-Amazon Web Services Control Tower User Guide .
+Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to
+deploy resources specified by the `Baseline` to the specified Target. For usage examples,
+see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
+
 - `baseline_identifier`: The ARN of the baseline to be enabled.
 - `baseline_version`: The specific version to be enabled of the specified baseline.
 - `target_identifier`: The ARN of the target on which the baseline will be enabled. Only
   OUs are supported as targets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"parameters"`: A list of key-value objects that specify enablement parameters, where key
-  is a string and value is a document of any type.
-- `"tags"`: Tags associated with input to EnableBaseline.
+
+- `"parameters"`: A list of `key-value` objects that specify enablement parameters, where
+  `key` is a string and `value` is a document of any type.
+- `"tags"`: Tags associated with input to `EnableBaseline`.
 """
-function enable_baseline(
-    baselineIdentifier,
-    baselineVersion,
-    targetIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/enable-baseline",
-        Dict{String,Any}(
-            "baselineIdentifier" => baselineIdentifier,
-            "baselineVersion" => baselineVersion,
-            "targetIdentifier" => targetIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_baseline(
-    baselineIdentifier,
-    baselineVersion,
-    targetIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/enable-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "baselineIdentifier" => baselineIdentifier,
-                    "baselineVersion" => baselineVersion,
-                    "targetIdentifier" => targetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+enable_baseline(baselineIdentifier, baselineVersion, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/enable-baseline", Dict{String, Any}("baselineIdentifier"=>baselineIdentifier, "baselineVersion"=>baselineVersion, "targetIdentifier"=>targetIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_baseline(baselineIdentifier, baselineVersion, targetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/enable-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("baselineIdentifier"=>baselineIdentifier, "baselineVersion"=>baselineVersion, "targetIdentifier"=>targetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     enable_control(control_identifier, target_identifier)
@@ -265,270 +110,99 @@ end
 This API call activates a control. It starts an asynchronous operation that creates Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources created will vary according to the control that you specify. For usage
-examples, see  the Amazon Web Services Control Tower User Guide .
+examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
-- `control_identifier`: The ARN of the control. Only Strongly recommended and Elective
-  controls are permitted, with the exception of the Region deny control. For information on
-  how to find the controlIdentifier, see the overview page.
+
+- `control_identifier`: The ARN of the control. Only **Strongly recommended** and
+  **Elective** controls are permitted, with the exception of the **Region deny** control.
+  For information on how to find the `controlIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 - `target_identifier`: The ARN of the organizational unit. For information on how to find
-  the targetIdentifier, see the overview page.
+  the `targetIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`: A list of input parameter values, which are specified to configure the
   control when you enable it.
-- `"tags"`: Tags to be applied to the EnabledControl resource.
+- `"tags"`: Tags to be applied to the `EnabledControl` resource.
 """
-function enable_control(
-    controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/enable-control",
-        Dict{String,Any}(
-            "controlIdentifier" => controlIdentifier, "targetIdentifier" => targetIdentifier
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_control(
-    controlIdentifier,
-    targetIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/enable-control",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlIdentifier" => controlIdentifier,
-                    "targetIdentifier" => targetIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+enable_control(controlIdentifier, targetIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/enable-control", Dict{String, Any}("controlIdentifier"=>controlIdentifier, "targetIdentifier"=>targetIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+enable_control(controlIdentifier, targetIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/enable-control", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlIdentifier"=>controlIdentifier, "targetIdentifier"=>targetIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_baseline(baseline_identifier)
     get_baseline(baseline_identifier, params::Dict{String,<:Any})
 
-Retrieve details about an existing Baseline resource by specifying its identifier. For
-usage examples, see  the Amazon Web Services Control Tower User Guide .
+Retrieve details about an existing `Baseline` resource by specifying its identifier. For
+usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
-- `baseline_identifier`: The ARN of the Baseline resource to be retrieved.
 
+- `baseline_identifier`: The ARN of the `Baseline` resource to be retrieved.
 """
-function get_baseline(
-    baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-baseline",
-        Dict{String,Any}("baselineIdentifier" => baselineIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_baseline(
-    baselineIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("baselineIdentifier" => baselineIdentifier), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_baseline(baselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-baseline", Dict{String, Any}("baselineIdentifier"=>baselineIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_baseline(baselineIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("baselineIdentifier"=>baselineIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_baseline_operation(operation_identifier)
     get_baseline_operation(operation_identifier, params::Dict{String,<:Any})
 
 Returns the details of an asynchronous baseline operation, as initiated by any of these
-APIs: EnableBaseline, DisableBaseline, UpdateEnabledBaseline, ResetEnabledBaseline. A
-status message is displayed in case of operation failure. For usage examples, see  the
-Amazon Web Services Control Tower User Guide .
+APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`.
+A status message is displayed in case of operation failure. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
+
 - `operation_identifier`: The operation ID returned from mutating asynchronous APIs
   (Enable, Disable, Update, Reset).
-
 """
-function get_baseline_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-baseline-operation",
-        Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_baseline_operation(
-    operationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-baseline-operation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("operationIdentifier" => operationIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_baseline_operation(operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-baseline-operation", Dict{String, Any}("operationIdentifier"=>operationIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_baseline_operation(operationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-baseline-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationIdentifier"=>operationIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_control_operation(operation_identifier)
     get_control_operation(operation_identifier, params::Dict{String,<:Any})
 
-Returns the status of a particular EnableControl or DisableControl operation. Displays a
-message in case of error. Details for an operation are available for 90 days. For usage
-examples, see  the Amazon Web Services Control Tower User Guide .
+Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays
+a message in case of error. Details for an operation are available for 90 days. For usage
+examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
+
 - `operation_identifier`: The ID of the asynchronous operation, which is used to track
   status. The operation is available for 90 days.
-
 """
-function get_control_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-control-operation",
-        Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_control_operation(
-    operationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-control-operation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("operationIdentifier" => operationIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_control_operation(operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-control-operation", Dict{String, Any}("operationIdentifier"=>operationIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_control_operation(operationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-control-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationIdentifier"=>operationIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_enabled_baseline(enabled_baseline_identifier)
     get_enabled_baseline(enabled_baseline_identifier, params::Dict{String,<:Any})
 
-Retrieve details of an EnabledBaseline resource by specifying its identifier.
+Retrieve details of an `EnabledBaseline` resource by specifying its identifier.
 
 # Arguments
-- `enabled_baseline_identifier`: Identifier of the EnabledBaseline resource to be
-  retrieved, in ARN format.
 
+- `enabled_baseline_identifier`: Identifier of the `EnabledBaseline` resource to be
+  retrieved, in ARN format.
 """
-function get_enabled_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-enabled-baseline",
-        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_enabled_baseline(
-    enabledBaselineIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-enabled-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_enabled_baseline(enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-enabled-baseline", Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_enabled_baseline(enabledBaselineIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-enabled-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_enabled_control(enabled_control_identifier)
     get_enabled_control(enabled_control_identifier, params::Dict{String,<:Any})
 
-Retrieves details about an enabled control. For usage examples, see  the Amazon Web
-Services Control Tower User Guide .
+Retrieves details about an enabled control. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
-- `enabled_control_identifier`: The controlIdentifier of the enabled control.
 
+- `enabled_control_identifier`: The `controlIdentifier` of the enabled control.
 """
-function get_enabled_control(
-    enabledControlIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-enabled-control",
-        Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_enabled_control(
-    enabledControlIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-enabled-control",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("enabledControlIdentifier" => enabledControlIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_enabled_control(enabledControlIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-enabled-control", Dict{String, Any}("enabledControlIdentifier"=>enabledControlIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_enabled_control(enabledControlIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-enabled-control", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledControlIdentifier"=>enabledControlIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_landing_zone(landing_zone_identifier)
@@ -537,39 +211,11 @@ end
 Returns details about the landing zone. Displays a message in case of error.
 
 # Arguments
-- `landing_zone_identifier`: The unique identifier of the landing zone.
 
+- `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-function get_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-landingzone",
-        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_landing_zone(
-    landingZoneIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-landingzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_landing_zone(landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-landingzone", Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_landing_zone(landingZoneIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-landingzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_landing_zone_operation(operation_identifier)
@@ -579,174 +225,108 @@ Returns the status of the specified landing zone operation. Details for an opera
 available for 90 days.
 
 # Arguments
-- `operation_identifier`: A unique identifier assigned to a landing zone operation.
 
+- `operation_identifier`: A unique identifier assigned to a landing zone operation.
 """
-function get_landing_zone_operation(
-    operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/get-landingzone-operation",
-        Dict{String,Any}("operationIdentifier" => operationIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_landing_zone_operation(
-    operationIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/get-landingzone-operation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("operationIdentifier" => operationIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_landing_zone_operation(operationIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-landingzone-operation", Dict{String, Any}("operationIdentifier"=>operationIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_landing_zone_operation(operationIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/get-landingzone-operation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("operationIdentifier"=>operationIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_baselines()
     list_baselines(params::Dict{String,<:Any})
 
-Returns a summary list of all available baselines. For usage examples, see  the Amazon Web
-Services Control Tower User Guide .
+Returns a summary list of all available baselines. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_baselines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/list-baselines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_baselines(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_baselines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-baselines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_control_operations()
     list_control_operations(params::Dict{String,<:Any})
 
-Provides a list of operations in progress or queued.
+Provides a list of operations in progress or queued. For usage examples, see [ListControlOperation examples](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html#list-control-operations-api-examples).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: An input filter for the ListControlOperations API that lets you select the
+
+- `"filter"`: An input filter for the `ListControlOperations` API that lets you select the
   types of control operations to view.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST",
-        "/list-control-operations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_control_operations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/list-control-operations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_control_operations(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-control-operations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_control_operations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-control-operations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_enabled_baselines()
     list_enabled_baselines(params::Dict{String,<:Any})
 
-Returns a list of summaries describing EnabledBaseline resources. You can filter the list
-by the corresponding Baseline or Target of the EnabledBaseline resources. For usage
-examples, see  the Amazon Web Services Control Tower User Guide .
+Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list
+by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage
+examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: A filter applied on the ListEnabledBaseline operation. Allowed filters are
-  baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
+
+- `"filter"`: A filter applied on the `ListEnabledBaseline` operation. Allowed filters are
+  `baselineIdentifiers` and `targetIdentifiers`. The filter can be applied for either, or
+  both.
 - `"maxResults"`: The maximum number of results to be shown.
 - `"nextToken"`: A pagination token.
 """
-function list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST",
-        "/list-enabled-baselines";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_enabled_baselines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/list-enabled-baselines",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_enabled_baselines(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-enabled-baselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_enabled_baselines(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-enabled-baselines", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_enabled_controls()
     list_enabled_controls(params::Dict{String,<:Any})
 
 Lists the controls enabled by Amazon Web Services Control Tower on the specified
-organizational unit and the accounts it contains. For usage examples, see  the Amazon Web
-Services Control Tower User Guide .
+organizational unit and the accounts it contains. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: An input filter for the ListCEnabledControls API that lets you select the
+
+- `"filter"`: An input filter for the `ListEnabledControls` API that lets you select the
   types of control operations to view.
 - `"maxResults"`: How many results to return per API call.
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 - `"targetIdentifier"`: The ARN of the organizational unit. For information on how to find
-  the targetIdentifier, see the overview page.
+  the `targetIdentifier`, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
 """
-function list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST",
-        "/list-enabled-controls";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_enabled_controls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/list-enabled-controls",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_enabled_controls(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-enabled-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_enabled_controls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-enabled-controls", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    list_landing_zone_operations()
+    list_landing_zone_operations(params::Dict{String,<:Any})
+
+Lists all landing zone operations from the past 90 days. Results are sorted by time, with
+the most recent operation first.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"filter"`: An input filter for the `ListLandingZoneOperations` API that lets you select
+  the types of landing zone operations to view.
+- `"maxResults"`: How many results to return per API call.
+- `"nextToken"`: The token to continue the list from a previous API call with the same
+  parameters.
+"""
+list_landing_zone_operations(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-landingzone-operations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_landing_zone_operations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-landingzone-operations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_landing_zones()
@@ -754,338 +334,141 @@ end
 
 Returns the landing zone ARN for the landing zone deployed in your managed account. This
 API also creates an ARN for existing accounts that do not yet have a landing zone ARN.
+
 Returns one landing zone ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of returned landing zone ARNs, which is one.
 - `"nextToken"`: The token to continue the list from a previous API call with the same
   parameters.
 """
-function list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_landing_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/list-landingzones",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_landing_zones(; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-landingzones"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_landing_zones(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/list-landingzones", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns a list of tags associated with the resource. For usage examples, see  the Amazon
-Web Services Control Tower User Guide .
+Returns a list of tags associated with the resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
-- `resource_arn`:  The ARN of the resource.
 
+- `resource_arn`:  The ARN of the resource.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     reset_enabled_baseline(enabled_baseline_identifier)
     reset_enabled_baseline(enabled_baseline_identifier, params::Dict{String,<:Any})
 
-Re-enables an EnabledBaseline resource. For example, this API can re-apply the existing
-Baseline after a new member account is moved to the target OU. For usage examples, see  the
-Amazon Web Services Control Tower User Guide .
+Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing
+`Baseline` after a new member account is moved to the target OU. For usage examples, see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
-- `enabled_baseline_identifier`: Specifies the ID of the EnabledBaseline resource to be
-  re-enabled, in ARN format.
 
+- `enabled_baseline_identifier`: Specifies the ID of the `EnabledBaseline` resource to be
+  re-enabled, in ARN format.
 """
-function reset_enabled_baseline(
-    enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/reset-enabled-baseline",
-        Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reset_enabled_baseline(
-    enabledBaselineIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/reset-enabled-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("enabledBaselineIdentifier" => enabledBaselineIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reset_enabled_baseline(enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/reset-enabled-baseline", Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_enabled_baseline(enabledBaselineIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/reset-enabled-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledBaselineIdentifier"=>enabledBaselineIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     reset_landing_zone(landing_zone_identifier)
     reset_landing_zone(landing_zone_identifier, params::Dict{String,<:Any})
 
 This API call resets a landing zone. It starts an asynchronous operation that resets the
-landing zone to the parameters specified in its original configuration.
+landing zone to the parameters specified in the original configuration, which you specified
+in the manifest file. Nothing in the manifest file's original landing zone configuration is
+changed during the reset process, by default. This API is not the same as a rollback of a
+landing zone version, which is not a supported operation.
 
 # Arguments
-- `landing_zone_identifier`: The unique identifier of the landing zone.
 
+- `landing_zone_identifier`: The unique identifier of the landing zone.
 """
-function reset_landing_zone(
-    landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/reset-landingzone",
-        Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reset_landing_zone(
-    landingZoneIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/reset-landingzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("landingZoneIdentifier" => landingZoneIdentifier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reset_landing_zone(landingZoneIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/reset-landingzone", Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_landing_zone(landingZoneIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/reset-landingzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies tags to a resource. For usage examples, see  the Amazon Web Services Control Tower
-User Guide .
+Applies tags to a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to be tagged.
 - `tags`: Tags to be applied to the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return controltower(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a resource. For usage examples, see  the Amazon Web Services Control
-Tower User Guide .
+Removes tags from a resource. For usage examples, see the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: Tag keys to be removed from the resource.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_enabled_baseline(baseline_version, enabled_baseline_identifier)
     update_enabled_baseline(baseline_version, enabled_baseline_identifier, params::Dict{String,<:Any})
 
-Updates an EnabledBaseline resource's applied parameters or version. For usage examples,
-see  the Amazon Web Services Control Tower User Guide .
+Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples,
+see [ *the Amazon Web Services Control Tower User Guide* ](https://docs.aws.amazon.com/controltower/latest/userguide/baseline-api-examples.html).
 
 # Arguments
-- `baseline_version`: Specifies the new Baseline version, to which the EnabledBaseline
+
+- `baseline_version`: Specifies the new `Baseline` version, to which the `EnabledBaseline`
   should be updated.
-- `enabled_baseline_identifier`: Specifies the EnabledBaseline resource to be updated.
+- `enabled_baseline_identifier`: Specifies the `EnabledBaseline` resource to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"parameters"`: Parameters to apply when making an update.
 """
-function update_enabled_baseline(
-    baselineVersion,
-    enabledBaselineIdentifier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/update-enabled-baseline",
-        Dict{String,Any}(
-            "baselineVersion" => baselineVersion,
-            "enabledBaselineIdentifier" => enabledBaselineIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_enabled_baseline(
-    baselineVersion,
-    enabledBaselineIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/update-enabled-baseline",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "baselineVersion" => baselineVersion,
-                    "enabledBaselineIdentifier" => enabledBaselineIdentifier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_enabled_baseline(baselineVersion, enabledBaselineIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-enabled-baseline", Dict{String, Any}("baselineVersion"=>baselineVersion, "enabledBaselineIdentifier"=>enabledBaselineIdentifier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_enabled_baseline(baselineVersion, enabledBaselineIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-enabled-baseline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("baselineVersion"=>baselineVersion, "enabledBaselineIdentifier"=>enabledBaselineIdentifier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_enabled_control(enabled_control_identifier, parameters)
     update_enabled_control(enabled_control_identifier, parameters, params::Dict{String,<:Any})
 
- Updates the configuration of an already enabled control. If the enabled control shows an
-EnablementStatus of SUCCEEDED, supply parameters that are different from the currently
-configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the
-request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services
-Control Tower will update the control to match any valid parameters that you supply. If the
-DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead,
-you can update the control by calling DisableControl and again calling EnableControl, or
-you can run an extending governance operation. For usage examples, see  the Amazon Web
-Services Control Tower User Guide
+ Updates the configuration of an already enabled control.
+
+If the enabled control shows an `EnablementStatus` of SUCCEEDED, supply parameters that are
+different from the currently configured parameters. Otherwise, Amazon Web Services Control
+Tower will not accept the request.
+
+If the enabled control shows an `EnablementStatus` of FAILED, Amazon Web Services Control
+Tower updates the control to match any valid parameters that you supply.
+
+If the `DriftSummary` status for the control shows as DRIFTED, you cannot call this API.
+Instead, you can update the control by calling `DisableControl` and again calling
+`EnableControl`, or you can run an extending governance operation. For usage examples, see
+the [ *Controls Reference Guide* ](https://docs.aws.amazon.com/controltower/latest/controlreference/control-api-examples-short.html).
 
 # Arguments
-- `enabled_control_identifier`:  The ARN of the enabled control that will be updated.
-- `parameters`: A key/value pair, where Key is of type String and Value is of type Document.
 
+- `enabled_control_identifier`:  The ARN of the enabled control that will be updated.
+- `parameters`: A key/value pair, where `Key` is of type `String` and `Value` is of type
+  `Document`.
 """
-function update_enabled_control(
-    enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return controltower(
-        "POST",
-        "/update-enabled-control",
-        Dict{String,Any}(
-            "enabledControlIdentifier" => enabledControlIdentifier,
-            "parameters" => parameters,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_enabled_control(
-    enabledControlIdentifier,
-    parameters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/update-enabled-control",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "enabledControlIdentifier" => enabledControlIdentifier,
-                    "parameters" => parameters,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_enabled_control(enabledControlIdentifier, parameters; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-enabled-control", Dict{String, Any}("enabledControlIdentifier"=>enabledControlIdentifier, "parameters"=>parameters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_enabled_control(enabledControlIdentifier, parameters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-enabled-control", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("enabledControlIdentifier"=>enabledControlIdentifier, "parameters"=>parameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_landing_zone(landing_zone_identifier, manifest, version)
@@ -1096,52 +479,13 @@ the landing zone based on the new landing zone version, or on the changed parame
 specified in the updated manifest file.
 
 # Arguments
-- `landing_zone_identifier`: The unique identifier of the landing zone.
-- `manifest`: The manifest JSON file is a text file that describes your Amazon Web Services
-  resources. For examples, review Launch your landing zone.
-- `version`: The landing zone version, for example, 3.2.
 
+- `landing_zone_identifier`: The unique identifier of the landing zone.
+- `manifest`: The manifest file (JSON) is a text file that describes your Amazon Web
+  Services resources. For an example, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+  The example manifest file contains each of the available parameters. The schema for the
+  landing zone's JSON manifest file is not published, by design.
+- `version`: The landing zone version, for example, 3.2.
 """
-function update_landing_zone(
-    landingZoneIdentifier,
-    manifest,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/update-landingzone",
-        Dict{String,Any}(
-            "landingZoneIdentifier" => landingZoneIdentifier,
-            "manifest" => manifest,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_landing_zone(
-    landingZoneIdentifier,
-    manifest,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return controltower(
-        "POST",
-        "/update-landingzone",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "landingZoneIdentifier" => landingZoneIdentifier,
-                    "manifest" => manifest,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_landing_zone(landingZoneIdentifier, manifest, version; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-landingzone", Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier, "manifest"=>manifest, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_landing_zone(landingZoneIdentifier, manifest, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = controltower("POST", "/update-landingzone", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("landingZoneIdentifier"=>landingZoneIdentifier, "manifest"=>manifest, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

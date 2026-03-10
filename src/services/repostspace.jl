@@ -11,56 +11,29 @@ using AWS.UUIDs
 Creates an AWS re:Post Private private re:Post.
 
 # Arguments
+
 - `name`: The name for the private re:Post. This must be unique in your account.
 - `subdomain`: The subdomain that you use to access your AWS re:Post Private private
   re:Post. All custom subdomains must be approved by AWS before use. In addition to your
-  custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate
-  use.
+  custom subdomain, all private re:Posts are issued an AWS generated subdomain for
+  immediate use.
 - `tier`: The pricing tier for the private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the private re:Post. This is used only to help you
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert
   unanswered questions into AWS support tickets.
 - `"tags"`: The list of tags associated with the private re:Post.
-- `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you
-  don't provide a key, your data is encrypted by default with a key that AWS owns and manages
-  for you.
+- `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
+  provide a key, your data is encrypted by default with a key that AWS owns and manages for
+  you.
 """
-function create_space(
-    name, subdomain, tier; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "POST",
-        "/spaces",
-        Dict{String,Any}("name" => name, "subdomain" => subdomain, "tier" => tier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_space(
-    name,
-    subdomain,
-    tier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "POST",
-        "/spaces",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "subdomain" => subdomain, "tier" => tier),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_space(name, subdomain, tier; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces", Dict{String, Any}("name"=>name, "subdomain"=>subdomain, "tier"=>tier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_space(name, subdomain, tier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "subdomain"=>subdomain, "tier"=>tier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_space(space_id)
@@ -69,30 +42,11 @@ end
 Deletes an AWS re:Post Private private re:Post.
 
 # Arguments
-- `space_id`: The unique ID of the private re:Post.
 
+- `space_id`: The unique ID of the private re:Post.
 """
-function delete_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return repostspace(
-        "DELETE",
-        "/spaces/$(spaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_space(
-    spaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "DELETE",
-        "/spaces/$(spaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_space(spaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/spaces/$(spaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     deregister_admin(admin_id, space_id)
@@ -101,34 +55,12 @@ end
 Removes the user or group from the list of administrators of the private re:Post.
 
 # Arguments
+
 - `admin_id`: The ID of the admin to remove.
 - `space_id`: The ID of the private re:Post to remove the admin from.
-
 """
-function deregister_admin(
-    adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "DELETE",
-        "/spaces/$(spaceId)/admins/$(adminId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_admin(
-    adminId,
-    spaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "DELETE",
-        "/spaces/$(spaceId)/admins/$(adminId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deregister_admin(adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/spaces/$(spaceId)/admins/$(adminId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_admin(adminId, spaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/spaces/$(spaceId)/admins/$(adminId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_space(space_id)
@@ -137,27 +69,11 @@ end
 Displays information about the AWS re:Post Private private re:Post.
 
 # Arguments
-- `space_id`: The ID of the private re:Post.
 
+- `space_id`: The ID of the private re:Post.
 """
-function get_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return repostspace(
-        "GET", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_space(
-    spaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "GET",
-        "/spaces/$(spaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_space(spaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/spaces/$(spaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_spaces()
@@ -167,23 +83,15 @@ Returns a list of AWS re:Post Private private re:Posts in the account with some 
 about each private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of private re:Posts to include in the results.
 - `"nextToken"`: The token for the next set of private re:Posts to return. You receive this
   token from a previous ListSpaces operation.
 """
-function list_spaces(; aws_config::AbstractAWSConfig=current_aws_config())
-    return repostspace(
-        "GET", "/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_spaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "GET", "/spaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_spaces(; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_spaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/spaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -193,32 +101,11 @@ Returns the tags that are associated with the AWS re:Post Private resource speci
 resourceArn. The only resource that can be tagged is a private re:Post.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that the tags are associated with.
 
+- `resource_arn`: The ARN of the resource that the tags are associated with.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     register_admin(admin_id, space_id)
@@ -227,34 +114,12 @@ end
 Adds a user or group to the list of administrators of the private re:Post.
 
 # Arguments
+
 - `admin_id`: The ID of the administrator.
 - `space_id`: The ID of the private re:Post.
-
 """
-function register_admin(
-    adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "POST",
-        "/spaces/$(spaceId)/admins/$(adminId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_admin(
-    adminId,
-    spaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "POST",
-        "/spaces/$(spaceId)/admins/$(adminId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+register_admin(adminId, spaceId; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces/$(spaceId)/admins/$(adminId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_admin(adminId, spaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces/$(spaceId)/admins/$(adminId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_invites(accessor_ids, body, space_id, title)
@@ -263,47 +128,14 @@ end
 Sends an invitation email to selected users and groups.
 
 # Arguments
+
 - `accessor_ids`: The array of identifiers for the users and groups.
 - `body`: The body of the invite.
 - `space_id`: The ID of the private re:Post.
 - `title`: The title of the invite.
-
 """
-function send_invites(
-    accessorIds, body, spaceId, title; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "POST",
-        "/spaces/$(spaceId)/invite",
-        Dict{String,Any}("accessorIds" => accessorIds, "body" => body, "title" => title);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_invites(
-    accessorIds,
-    body,
-    spaceId,
-    title,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "POST",
-        "/spaces/$(spaceId)/invite",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "accessorIds" => accessorIds, "body" => body, "title" => title
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_invites(accessorIds, body, spaceId, title; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces/$(spaceId)/invite", Dict{String, Any}("accessorIds"=>accessorIds, "body"=>body, "title"=>title); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_invites(accessorIds, body, spaceId, title, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/spaces/$(spaceId)/invite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessorIds"=>accessorIds, "body"=>body, "title"=>title), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -316,35 +148,14 @@ key that’s already associated with the resource, the new tag value that you sp
 replaces the previous value for that tag.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource that the tag is associated with.
 - `tags`: The list of tag keys and values that must be associated with the resource. You
   can associate tag keys only, tags (key and values) only, or a combination of tag keys and
   tags.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return repostspace(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -353,35 +164,12 @@ end
 Removes the association of the tag with the AWS re:Post Private resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: The key values of the tag.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return repostspace(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_space(space_id)
@@ -390,31 +178,18 @@ end
 Modifies an existing AWS re:Post Private private re:Post.
 
 # Arguments
+
 - `space_id`: The unique ID of this private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the private re:Post. This is used only to help you
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert
   unanswered questions into AWS support tickets.
 - `"tier"`: The pricing tier of this private re:Post.
 """
-function update_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return repostspace(
-        "PUT", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_space(
-    spaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return repostspace(
-        "PUT",
-        "/spaces/$(spaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_space(spaceId; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("PUT", "/spaces/$(spaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_space(spaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = repostspace("PUT", "/spaces/$(spaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

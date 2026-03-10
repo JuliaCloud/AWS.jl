@@ -11,53 +11,14 @@ using AWS.UUIDs
 Adds a workload to a component. Each component can have at most five workloads.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `workload_configuration`: The configuration settings of the workload. The value is the
   escaped JSON of the configuration.
-
 """
-function add_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "AddWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadConfiguration" => WorkloadConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "AddWorkload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "WorkloadConfiguration" => WorkloadConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+add_workload(ComponentName, ResourceGroupName, WorkloadConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("AddWorkload", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadConfiguration"=>WorkloadConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+add_workload(ComponentName, ResourceGroupName, WorkloadConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("AddWorkload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadConfiguration"=>WorkloadConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_application()
@@ -66,7 +27,9 @@ end
 Adds an application that is created from a resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttachMissingPermission"`: If set to true, the managed policies for SSM and CW will be
   attached to the instance roles if they are missing.
 - `"AutoConfigEnabled"`:  Indicates whether Application Insights automatically configures
@@ -74,33 +37,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoCreate"`:  Configures all of the resources in the resource group by applying the
   recommended configurations.
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as instance terminated, failed deployment, and
-  others.
+  events for the application resources, such as `instance terminated`, `failed deployment`,
+  and others.
 - `"GroupingType"`: Application Insights can create applications based on a resource group
-  or on an account. To create an account-based application using all of the resources in the
-  account, set this parameter to ACCOUNT_BASED.
-- `"OpsCenterEnabled"`:  When set to true, creates opsItems for any problems detected on an
-  application.
+  or on an account. To create an account-based application using all of the resources in
+  the account, set this parameter to `ACCOUNT_BASED`.
+- `"OpsCenterEnabled"`:  When set to `true`, creates opsItems for any problems detected on
+  an application.
 - `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
   associated to the created opsItem. Allows you to receive notifications for updates to the
   opsItem.
 - `"ResourceGroupName"`: The name of the resource group.
-- `"Tags"`: List of tags to add to the application. tag key (Key) and an associated tag
-  value (Value). The maximum length of a tag key is 128 characters. The maximum length of a
-  tag value is 256 characters.
+- `"Tags"`: List of tags to add to the application. tag key (`Key`) and an associated tag
+  value (`Value`). The maximum length of a tag key is 128 characters. The maximum length of
+  a tag value is 256 characters.
 """
-function create_application(; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_application(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "CreateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_application(; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_application(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_component(component_name, resource_group_name, resource_list)
@@ -109,123 +62,38 @@ end
 Creates a custom component by grouping similar standalone instances to monitor.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `resource_list`: The list of resource ARNs that belong to the component.
-
 """
-function create_component(
-    ComponentName,
-    ResourceGroupName,
-    ResourceList;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "CreateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "ResourceList" => ResourceList,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_component(
-    ComponentName,
-    ResourceGroupName,
-    ResourceList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "CreateComponent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "ResourceList" => ResourceList,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_component(ComponentName, ResourceGroupName, ResourceList; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateComponent", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "ResourceList"=>ResourceList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_component(ComponentName, ResourceGroupName, ResourceList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "ResourceList"=>ResourceList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_log_pattern(pattern, pattern_name, pattern_set_name, rank, resource_group_name)
     create_log_pattern(pattern, pattern_name, pattern_set_name, rank, resource_group_name, params::Dict{String,<:Any})
 
-Adds an log pattern to a LogPatternSet.
+Adds an log pattern to a `LogPatternSet`.
 
 # Arguments
+
 - `pattern`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
 - `pattern_name`: The name of the log pattern.
 - `pattern_set_name`: The name of the log pattern set.
-- `rank`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns
-  are sorted by rank, so we recommend that you set your highest priority patterns with the
-  lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern
-  of rank 1,000,000 will be last to get matched. When you configure custom log patterns from
-  the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern
-  translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank.
-  Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+- `rank`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
+  patterns are sorted by rank, so we recommend that you set your highest priority patterns
+  with the lowest rank. A pattern of rank `1` will be the first to get matched to a log
+  line. A pattern of rank `1,000,000` will be last to get matched. When you configure
+  custom log patterns from the console, a `Low` severity pattern translates to a `750,000`
+  rank. A `Medium` severity pattern translates to a `500,000` rank. And a `High` severity
+  pattern translates to a `250,000` rank. Rank values less than `1` or greater than
+  `1,000,000` are reserved for AWS-provided patterns.
 - `resource_group_name`: The name of the resource group.
-
 """
-function create_log_pattern(
-    Pattern,
-    PatternName,
-    PatternSetName,
-    Rank,
-    ResourceGroupName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "CreateLogPattern",
-        Dict{String,Any}(
-            "Pattern" => Pattern,
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "Rank" => Rank,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_log_pattern(
-    Pattern,
-    PatternName,
-    PatternSetName,
-    Rank,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "CreateLogPattern",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Pattern" => Pattern,
-                    "PatternName" => PatternName,
-                    "PatternSetName" => PatternSetName,
-                    "Rank" => Rank,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_log_pattern(Pattern, PatternName, PatternSetName, Rank, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateLogPattern", Dict{String, Any}("Pattern"=>Pattern, "PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "Rank"=>Rank, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_log_pattern(Pattern, PatternName, PatternSetName, Rank, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("CreateLogPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern, "PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "Rank"=>Rank, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_application(resource_group_name)
@@ -234,35 +102,11 @@ end
 Removes the specified application from monitoring. Does not delete the application.
 
 # Arguments
-- `resource_group_name`: The name of the resource group.
 
+- `resource_group_name`: The name of the resource group.
 """
-function delete_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DeleteApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DeleteApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_application(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteApplication", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_application(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_component(component_name, resource_group_name)
@@ -273,98 +117,27 @@ that are set up for the component are removed and the instances revert to their 
 status.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
-
 """
-function delete_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DeleteComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_component(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DeleteComponent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_component(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteComponent", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_component(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_log_pattern(pattern_name, pattern_set_name, resource_group_name)
     delete_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
 
-Removes the specified log pattern from a LogPatternSet.
+Removes the specified log pattern from a `LogPatternSet`.
 
 # Arguments
+
 - `pattern_name`: The name of the log pattern.
 - `pattern_set_name`: The name of the log pattern set.
 - `resource_group_name`: The name of the resource group.
-
 """
-function delete_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DeleteLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DeleteLogPattern",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PatternName" => PatternName,
-                    "PatternSetName" => PatternSetName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_log_pattern(PatternName, PatternSetName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteLogPattern", Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_log_pattern(PatternName, PatternSetName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DeleteLogPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_application(resource_group_name)
@@ -373,38 +146,17 @@ end
 Describes the application.
 
 # Arguments
+
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DescribeApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_application(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeApplication", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_application(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_component(component_name, resource_group_name)
@@ -413,47 +165,18 @@ end
 Describes a component and lists the resources that are grouped together in a component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DescribeComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeComponent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_component(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponent", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_component(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_component_configuration(component_name, resource_group_name)
@@ -462,47 +185,18 @@ end
 Describes the monitoring configuration of the component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_component_configuration(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DescribeComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component_configuration(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeComponentConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_component_configuration(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponentConfiguration", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_component_configuration(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_component_configuration_recommendation(component_name, resource_group_name, tier)
@@ -511,113 +205,41 @@ end
 Describes the recommended monitoring configuration of the component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `tier`: The tier of the application component.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RecommendationType"`: The recommended configuration type.
 - `"WorkloadName"`: The name of the workload.
 """
-function describe_component_configuration_recommendation(
-    ComponentName,
-    ResourceGroupName,
-    Tier;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeComponentConfigurationRecommendation",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "Tier" => Tier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component_configuration_recommendation(
-    ComponentName,
-    ResourceGroupName,
-    Tier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeComponentConfigurationRecommendation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "Tier" => Tier,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_component_configuration_recommendation(ComponentName, ResourceGroupName, Tier; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponentConfigurationRecommendation", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "Tier"=>Tier); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_component_configuration_recommendation(ComponentName, ResourceGroupName, Tier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeComponentConfigurationRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "Tier"=>Tier), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_log_pattern(pattern_name, pattern_set_name, resource_group_name)
     describe_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
 
-Describe a specific log pattern from a LogPatternSet.
+Describe a specific log pattern from a `LogPatternSet`.
 
 # Arguments
+
 - `pattern_name`: The name of the log pattern.
 - `pattern_set_name`: The name of the log pattern set.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeLogPattern",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PatternName" => PatternName,
-                    "PatternSetName" => PatternSetName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_log_pattern(PatternName, PatternSetName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeLogPattern", Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_log_pattern(PatternName, PatternSetName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeLogPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_observation(observation_id)
@@ -626,36 +248,17 @@ end
 Describes an anomaly or error with the application.
 
 # Arguments
+
 - `observation_id`: The ID of the observation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_observation(
-    ObservationId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DescribeObservation",
-        Dict{String,Any}("ObservationId" => ObservationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_observation(
-    ObservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeObservation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ObservationId" => ObservationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_observation(ObservationId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeObservation", Dict{String, Any}("ObservationId"=>ObservationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_observation(ObservationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeObservation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObservationId"=>ObservationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_problem(problem_id)
@@ -664,35 +267,18 @@ end
 Describes an application problem.
 
 # Arguments
+
 - `problem_id`: The ID of the problem.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the owner of the resource group affected by the
   problem.
 """
-function describe_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "DescribeProblem",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_problem(
-    ProblemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeProblem",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeProblem", Dict{String, Any}("ProblemId"=>ProblemId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_problem(ProblemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeProblem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProblemId"=>ProblemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_problem_observations(problem_id)
@@ -701,36 +287,17 @@ end
 Describes the anomalies or errors associated with the problem.
 
 # Arguments
+
 - `problem_id`: The ID of the problem.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 """
-function describe_problem_observations(
-    ProblemId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "DescribeProblemObservations",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_problem_observations(
-    ProblemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeProblemObservations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_problem_observations(ProblemId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeProblemObservations", Dict{String, Any}("ProblemId"=>ProblemId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_problem_observations(ProblemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeProblemObservations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProblemId"=>ProblemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_workload(component_name, resource_group_name, workload_id)
@@ -739,55 +306,19 @@ end
 Describes a workload and its configuration.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `workload_id`: The ID of the workload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the workload owner.
 """
-function describe_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadId" => WorkloadId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "DescribeWorkload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "WorkloadId" => WorkloadId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_workload(ComponentName, ResourceGroupName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeWorkload", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadId"=>WorkloadId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_workload(ComponentName, ResourceGroupName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("DescribeWorkload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadId"=>WorkloadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_applications()
@@ -796,24 +327,16 @@ end
 Lists the IDs of the applications that you are monitoring.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_applications(; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_applications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_components(resource_group_name)
@@ -822,86 +345,55 @@ end
 Lists the auto-grouped, standalone, and custom components of the application.
 
 # Arguments
+
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_components(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListComponents",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_components(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "ListComponents",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_components(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListComponents", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListComponents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_configuration_history()
     list_configuration_history(params::Dict{String,<:Any})
 
  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
-Application Insights. Examples of events represented are:    INFO: creating a new alarm or
-updating an alarm threshold.   WARN: alarm not created due to insufficient data points used
-to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding
-quotas.
+Application Insights. Examples of events represented are:  - INFO: creating a new alarm or
+updating an alarm threshold.
+ - WARN: alarm not created due to insufficient data points used to predict thresholds.
+ - ERROR: alarm not created due to permission errors or exceeding quotas.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"EndTime"`: The end time of the event.
 - `"EventStatus"`: The status of the configuration update event. Possible values include
   INFO, WARN, and ERROR.
-- `"MaxResults"`:  The maximum number of results returned by ListConfigurationHistory in
-  paginated output. When this parameter is used, ListConfigurationHistory returns only
-  MaxResults in a single page along with a NextToken response element. The remaining results
-  of the initial request can be seen by sending another ListConfigurationHistory request with
-  the returned NextToken value. If this parameter is not used, then ListConfigurationHistory
-  returns all results.
-- `"NextToken"`: The NextToken value returned from a previous paginated
-  ListConfigurationHistory request where MaxResults was used and the results exceeded the
-  value of that parameter. Pagination continues from the end of the previous results that
-  returned the NextToken value. This value is null when there are no more results to return.
+- `"MaxResults"`:  The maximum number of results returned by `ListConfigurationHistory` in
+  paginated output. When this parameter is used, `ListConfigurationHistory` returns only
+  `MaxResults` in a single page along with a `NextToken` response element. The remaining
+  results of the initial request can be seen by sending another `ListConfigurationHistory`
+  request with the returned `NextToken` value. If this parameter is not used, then
+  `ListConfigurationHistory` returns all results.
+- `"NextToken"`: The `NextToken` value returned from a previous paginated
+  `ListConfigurationHistory` request where `MaxResults` was used and the results exceeded
+  the value of that parameter. Pagination continues from the end of the previous results
+  that returned the `NextToken` value. This value is `null` when there are no more results
+  to return.
 - `"ResourceGroupName"`: Resource group to which the application belongs.
 - `"StartTime"`: The start time of the event.
 """
-function list_configuration_history(; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_configuration_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListConfigurationHistory",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_configuration_history(; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_configuration_history(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListConfigurationHistory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_log_pattern_sets(resource_group_name)
@@ -910,85 +402,43 @@ end
 Lists the log pattern sets in the specific application.
 
 # Arguments
+
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_log_pattern_sets(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListLogPatternSets",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_log_pattern_sets(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "ListLogPatternSets",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_log_pattern_sets(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListLogPatternSets", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_log_pattern_sets(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListLogPatternSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_log_patterns(resource_group_name)
     list_log_patterns(resource_group_name, params::Dict{String,<:Any})
 
-Lists the log patterns in the specific log LogPatternSet.
+Lists the log patterns in the specific log `LogPatternSet`.
 
 # Arguments
+
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 - `"PatternSetName"`: The name of the log pattern set.
 """
-function list_log_patterns(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListLogPatterns",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_log_patterns(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "ListLogPatterns",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_log_patterns(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListLogPatterns", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_log_patterns(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListLogPatterns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_problems()
@@ -997,13 +447,15 @@ end
 Lists the problems with your application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID for the resource group owner.
 - `"ComponentName"`:  The name of the component.
 - `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
   problems within the past seven days are returned.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 - `"ResourceGroupName"`: The name of the resource group.
 - `"StartTime"`: The time when the problem was detected, in epoch seconds. If you don't
@@ -1011,58 +463,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Visibility"`: Specifies whether or not you can view the problem. If not specified,
   visible and ignored problems are returned.
 """
-function list_problems(; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_problems(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListProblems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_problems(; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_problems(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListProblems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Retrieve a list of the tags (keys and values) that are associated with a specified
-application. A tag is a label that you optionally define and associate with an application.
-Each tag consists of a required tag key and an optional associated tag value. A tag key is
-a general label that acts as a category for more specific tag values. A tag value acts as a
-descriptor within a tag key.
+application. A *tag* is a label that you optionally define and associate with an
+application. Each tag consists of a required *tag key* and an optional associated *tag
+value*. A tag key is a general label that acts as a category for more specific tag values.
+A tag value acts as a descriptor within a tag key.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to
   retrieve tag information for.
-
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workloads(component_name, resource_group_name)
@@ -1071,50 +491,21 @@ end
 Lists the workloads that are configured on a given component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountId"`: The AWS account ID of the owner of the workload.
 - `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
+  remaining results, make another call with the returned `NextToken` value.
 - `"NextToken"`: The token to request the next page of results.
 """
-function list_workloads(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "ListWorkloads",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_workloads(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "ListWorkloads",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_workloads(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListWorkloads", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workloads(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("ListWorkloads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     remove_workload(component_name, resource_group_name, workload_id)
@@ -1123,99 +514,37 @@ end
 Remove workload from a component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `workload_id`: The ID of the workload.
-
 """
-function remove_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "RemoveWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadId" => WorkloadId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "RemoveWorkload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "WorkloadId" => WorkloadId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+remove_workload(ComponentName, ResourceGroupName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("RemoveWorkload", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadId"=>WorkloadId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_workload(ComponentName, ResourceGroupName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("RemoveWorkload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadId"=>WorkloadId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Add one or more tags (keys and values) to a specified application. A tag is a label that
+Add one or more tags (keys and values) to a specified application. A *tag* is a label that
 you optionally define and associate with an application. Tags can help you categorize and
 manage application in different ways, such as by purpose, owner, environment, or other
-criteria.  Each tag consists of a required tag key and an associated tag value, both of
-which you define. A tag key is a general label that acts as a category for more specific
-tag values. A tag value acts as a descriptor within a tag key.
+criteria.
+
+Each tag consists of a required *tag key* and an associated *tag value*, both of which you
+define. A tag key is a general label that acts as a category for more specific tag values.
+A tag value acts as a descriptor within a tag key.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to add
   one or more tags to.
 - `tags`: A list of tags that to add to the application. A tag consists of a required tag
-  key (Key) and an associated tag value (Value). The maximum length of a tag key is 128
+  key (`Key`) and an associated tag value (`Value`). The maximum length of a tag key is 128
   characters. The maximum length of a tag value is 256 characters.
-
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceARN, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1224,43 +553,17 @@ end
 Remove one or more tags (keys and values) from a specified application.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the application that you want to remove
   one or more tags from.
 - `tag_keys`: The tags (tag keys) that you want to remove from the resource. When you
-  specify a tag key, the action removes both that key and its associated tag value. To remove
-  more than one tag from the application, append the TagKeys parameter and argument for each
-  additional tag to remove, separated by an ampersand.
+  specify a tag key, the action removes both that key and its associated tag value.
 
+  To remove more than one tag from the application, append the `TagKeys` parameter and
+  argument for each additional tag to remove, separated by an ampersand.
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceARN, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_application(resource_group_name)
@@ -1269,50 +572,29 @@ end
 Updates the application.
 
 # Arguments
+
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AttachMissingPermission"`: If set to true, the managed policies for SSM and CW will be
   attached to the instance roles if they are missing.
 - `"AutoConfigEnabled"`:  Turns auto-configuration on or off.
 - `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
-  events for the application resources, such as instance terminated, failed deployment, and
-  others.
-- `"OpsCenterEnabled"`:  When set to true, creates opsItems for any problems detected on an
-  application.
+  events for the application resources, such as `instance terminated`, `failed deployment`,
+  and others.
+- `"OpsCenterEnabled"`:  When set to `true`, creates opsItems for any problems detected on
+  an application.
 - `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
   associated to the created opsItem. Allows you to receive notifications for updates to the
   opsItem.
 - `"RemoveSNSTopic"`:  Disassociates the SNS topic from the opsItem created for detected
   problems.
 """
-function update_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "UpdateApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateApplication",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ResourceGroupName" => ResourceGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_application(ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateApplication", Dict{String, Any}("ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application(ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_component(component_name, resource_group_name)
@@ -1321,48 +603,19 @@ end
 Updates the custom component name and/or the list of resources that make up the component.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NewComponentName"`: The new name of the component.
 - `"ResourceList"`: The list of resource ARNs that belong to the component.
 """
-function update_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "UpdateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_component(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateComponent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_component(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateComponent", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_component(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_component_configuration(component_name, resource_group_name)
@@ -1370,163 +623,82 @@ end
 
 Updates the monitoring configurations for the component. The configuration input parameter
 is an escaped JSON of the configuration and should match the schema of what is returned by
-DescribeComponentConfigurationRecommendation.
+`DescribeComponentConfigurationRecommendation`.
 
 # Arguments
+
 - `component_name`: The name of the component.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AutoConfigEnabled"`:  Automatically configures the component by applying the
   recommended configurations.
 - `"ComponentConfiguration"`: The configuration settings of the component. The value is the
-  escaped JSON of the configuration. For more information about the JSON format, see Working
-  with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see
-  the recommended configuration for a component. For the complete format of the component
-  configuration file, see Component Configuration.
+  escaped JSON of the configuration. For more information about the JSON format, see [Working with JSON](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/working-with-json.html).
+  You can send a request to `DescribeComponentConfigurationRecommendation` to see the
+  recommended configuration for a component. For the complete format of the component
+  configuration file, see [Component Configuration](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/component-config.html).
 - `"Monitor"`: Indicates whether the application component is monitored.
 - `"Tier"`: The tier of the application component.
 """
-function update_component_configuration(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return application_insights(
-        "UpdateComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_component_configuration(
-    ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateComponentConfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_component_configuration(ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateComponentConfiguration", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_component_configuration(ComponentName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateComponentConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_log_pattern(pattern_name, pattern_set_name, resource_group_name)
     update_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
 
-Adds a log pattern to a LogPatternSet.
+Adds a log pattern to a `LogPatternSet`.
 
 # Arguments
+
 - `pattern_name`: The name of the log pattern.
 - `pattern_set_name`: The name of the log pattern set.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Pattern"`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
-- `"Rank"`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns
-  are sorted by rank, so we recommend that you set your highest priority patterns with the
-  lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern
-  of rank 1,000,000 will be last to get matched. When you configure custom log patterns from
-  the console, a Low severity pattern translates to a 750,000 rank. A Medium severity pattern
-  translates to a 500,000 rank. And a High severity pattern translates to a 250,000 rank.
-  Rank values less than 1 or greater than 1,000,000 are reserved for AWS-provided patterns.
+- `"Rank"`: Rank of the log pattern. Must be a value between `1` and `1,000,000`. The
+  patterns are sorted by rank, so we recommend that you set your highest priority patterns
+  with the lowest rank. A pattern of rank `1` will be the first to get matched to a log
+  line. A pattern of rank `1,000,000` will be last to get matched. When you configure
+  custom log patterns from the console, a `Low` severity pattern translates to a `750,000`
+  rank. A `Medium` severity pattern translates to a `500,000` rank. And a `High` severity
+  pattern translates to a `250,000` rank. Rank values less than `1` or greater than
+  `1,000,000` are reserved for AWS-provided patterns.
 """
-function update_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateLogPattern",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PatternName" => PatternName,
-                    "PatternSetName" => PatternSetName,
-                    "ResourceGroupName" => ResourceGroupName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_log_pattern(PatternName, PatternSetName, ResourceGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateLogPattern", Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_log_pattern(PatternName, PatternSetName, ResourceGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateLogPattern", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PatternName"=>PatternName, "PatternSetName"=>PatternSetName, "ResourceGroupName"=>ResourceGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_problem(problem_id)
     update_problem(problem_id, params::Dict{String,<:Any})
 
-Updates the visibility of the problem or specifies the problem as RESOLVED.
+Updates the visibility of the problem or specifies the problem as `RESOLVED`.
 
 # Arguments
+
 - `problem_id`: The ID of the problem.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"UpdateStatus"`: The status of the problem. Arguments can be passed for only problems
-  that show a status of RECOVERING.
-- `"Visibility"`: The visibility of a problem. When you pass a value of IGNORED, the
+  that show a status of `RECOVERING`.
+- `"Visibility"`: The visibility of a problem. When you pass a value of `IGNORED`, the
   problem is removed from the default view, and all notifications for the problem are
-  suspended. When VISIBLE is passed, the IGNORED action is reversed.
+  suspended. When `VISIBLE` is passed, the `IGNORED` action is reversed.
 """
-function update_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config())
-    return application_insights(
-        "UpdateProblem",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_problem(
-    ProblemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateProblem",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProblemId" => ProblemId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_problem(ProblemId; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateProblem", Dict{String, Any}("ProblemId"=>ProblemId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_problem(ProblemId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateProblem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProblemId"=>ProblemId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_workload(component_name, resource_group_name, workload_configuration)
@@ -1535,53 +707,17 @@ end
 Adds a workload to a component. Each component can have at most five workloads.
 
 # Arguments
+
 - `component_name`:  The name of the component.
 - `resource_group_name`: The name of the resource group.
 - `workload_configuration`: The configuration settings of the workload. The value is the
   escaped JSON of the configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WorkloadId"`: The ID of the workload.
 """
-function update_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateWorkload",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "WorkloadConfiguration" => WorkloadConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workload(
-    ComponentName,
-    ResourceGroupName,
-    WorkloadConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return application_insights(
-        "UpdateWorkload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ComponentName" => ComponentName,
-                    "ResourceGroupName" => ResourceGroupName,
-                    "WorkloadConfiguration" => WorkloadConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workload(ComponentName, ResourceGroupName, WorkloadConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateWorkload", Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadConfiguration"=>WorkloadConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workload(ComponentName, ResourceGroupName, WorkloadConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = application_insights("UpdateWorkload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComponentName"=>ComponentName, "ResourceGroupName"=>ResourceGroupName, "WorkloadConfiguration"=>WorkloadConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

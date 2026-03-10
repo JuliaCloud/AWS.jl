@@ -9,78 +9,48 @@ using AWS.UUIDs
     associate_external_connection(domain, external-connection, repository, params::Dict{String,<:Any})
 
 Adds an existing external connection to a repository. One external connection is allowed
-per repository.  A repository can have one or more upstream repositories, or an external
-connection.
+per repository.
+
+!!! note
+    A repository can have one or more upstream repositories, or an external connection.
 
 # Arguments
+
 - `domain`: The name of the domain that contains the repository.
 - `external-connection`:  The name of the external connection to add to the repository. The
-  following values are supported:     public:npmjs - for the npm public repository.
-  public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.
-    public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google
-  Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.
-  public:maven-commonsware - for the CommonsWare Android repository.     public:maven-clojars
-  - for the Clojars repository.     public:ruby-gems-org - for RubyGems.org.
-  public:crates-io - for Crates.io.
+  following values are supported:  - `public:npmjs` - for the npm public repository.
+   - `public:nuget-org` - for the NuGet Gallery.
+   - `public:pypi` - for the Python Package Index.
+   - `public:maven-central` - for Maven Central.
+   - `public:maven-googleandroid` - for the Google Android repository.
+   - `public:maven-gradleplugins` - for the Gradle plugins repository.
+   - `public:maven-commonsware` - for the CommonsWare Android repository.
+   - `public:maven-clojars` - for the Clojars repository.
+   - `public:ruby-gems-org` - for RubyGems.org.
+ - `public:crates-io` - for Crates.io.
 - `repository`:  The name of the repository to which the external connection is added.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function associate_external_connection(
-    domain,
-    external_connection,
-    repository;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            "domain" => domain,
-            "external-connection" => external_connection,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_external_connection(
-    domain,
-    external_connection,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "external-connection" => external_connection,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_external_connection(domain, external_connection, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     copy_package_versions(destination-repository, domain, format, package, source-repository)
     copy_package_versions(destination-repository, domain, format, package, source-repository, params::Dict{String,<:Any})
 
  Copies package versions from one repository to another repository in the same domain.
-You must specify versions or versionRevisions. You cannot specify both.
+
+!!! note
+    You must specify `versions` or `versionRevisions`. You cannot specify both.
 
 # Arguments
+
 - `destination-repository`:  The name of the repository into which package versions are
   copied.
 - `domain`:  The name of the domain that contains the source and destination repositories.
@@ -90,185 +60,113 @@ You must specify versions or versionRevisions. You cannot specify both.
   copied.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"allowOverwrite"`:  Set to true to overwrite a package version that already exists in
   the destination repository. If set to false and the package version already exists in the
-  destination repository, the package version is returned in the failedVersions field of the
-  response with an ALREADY_EXISTS error code.
+  destination repository, the package version is returned in the `failedVersions` field of
+  the response with an `ALREADY_EXISTS` error code.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"includeFromUpstream"`:  Set to true to copy packages from repositories that are
   upstream from the source repository to the destination repository. The default setting is
-  false. For more information, see Working with upstream repositories.
+  false. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 - `"namespace"`: The namespace of the package versions to be copied. The package component
-  that specifies its namespace depends on its type. For example:  The namespace is required
-  when copying package versions of the following formats:   Maven   Swift   generic       The
-  namespace of a Maven package version is its groupId.     The namespace of an npm or Swift
-  package version is its scope.    The namespace of a generic package is its namespace.
-  Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.
+  that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when copying package versions of the following formats: -
+  Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  A list of key-value pairs. The keys are package versions and the
-  values are package version revisions. A CopyPackageVersion operation succeeds if the
+  values are package version revisions. A `CopyPackageVersion` operation succeeds if the
   specified versions in the source repository match the specified package version revision.
-   You must specify versions or versionRevisions. You cannot specify both.
-- `"versions"`:  The versions of the package to be copied.    You must specify versions or
-  versionRevisions. You cannot specify both.
+
+!!! note
+    You must specify `versions` or `versionRevisions`. You cannot specify both.
+- `"versions"`:  The versions of the package to be copied.
+
+!!! note
+    You must specify `versions` or `versionRevisions`. You cannot specify both.
 """
-function copy_package_versions(
-    destination_repository,
-    domain,
-    format,
-    package,
-    source_repository;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/copy",
-        Dict{String,Any}(
-            "destination-repository" => destination_repository,
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "source-repository" => source_repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_package_versions(
-    destination_repository,
-    domain,
-    format,
-    package,
-    source_repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/copy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destination-repository" => destination_repository,
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "source-repository" => source_repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+copy_package_versions(destination_repository, domain, format, package, source_repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_package_versions(destination_repository, domain, format, package, source_repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_domain(domain)
     create_domain(domain, params::Dict{String,<:Any})
 
- Creates a domain. CodeArtifact domains make it easier to manage multiple repositories
+ Creates a domain. CodeArtifact *domains* make it easier to manage multiple repositories
 across an organization. You can use a domain to apply permissions across many repositories
 owned by different Amazon Web Services accounts. An asset is stored only once in a domain,
-even if it's in multiple repositories.  Although you can have multiple domains, we
-recommend a single production domain that contains all published artifacts so that your
-development teams can find and share packages. You can use a second pre-production domain
-to test changes to the production domain configuration.
+even if it's in multiple repositories.
+
+Although you can have multiple domains, we recommend a single production domain that
+contains all published artifacts so that your development teams can find and share
+packages. You can use a second pre-production domain to test changes to the production
+domain configuration.
 
 # Arguments
+
 - `domain`:  The name of the domain to create. All domain names in an Amazon Web Services
-  Region that are in the same Amazon Web Services account must be unique. The domain name is
-  used as the prefix in DNS hostnames. Do not use sensitive information in a domain name
+  Region that are in the same Amazon Web Services account must be unique. The domain name
+  is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name
   because it is publicly discoverable.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"encryptionKey"`:  The encryption key for the domain. This is used to encrypt content
-  stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a
-  key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have
-  kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For
-  more information, see DescribeKey in the Key Management Service API Reference and Key
-  Management Service API Permissions Reference in the Key Management Service Developer Guide.
-     CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your
-  domain. For more information, see Using symmetric and asymmetric keys in the Key Management
-  Service Developer Guide.
+  stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN),
+  a key alias, or a key alias ARN. To specify an `encryptionKey`, your IAM role must have
+  `kms:DescribeKey` and `kms:CreateGrant` permissions on the encryption key that is used.
+  For more information, see [DescribeKey](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestSyntax)
+  in the *Key Management Service API Reference* and [Key Management Service API Permissions Reference](https://docs.aws.amazon.com/kms/latest/developerguide/kms-api-permissions-reference.html)
+  in the *Key Management Service Developer Guide*.
+
+  !!! important
+      CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with
+  your domain. For more information, see [Using symmetric and asymmetric keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html)
+  in the *Key Management Service Developer Guide*.
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
-function create_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/domain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_domain(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_package_group(domain, package_group)
     create_package_group(domain, package_group, params::Dict{String,<:Any})
 
  Creates a package group. For more information about creating package groups, including
-example CLI commands, see Create a package group in the CodeArtifact User Guide.
+example CLI commands, see [Create a package group](https://docs.aws.amazon.com/codeartifact/latest/ug/create-package-group.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain in which you want to create a package group.
 - `package_group`: The pattern of the package group to create. The pattern is also the
   identifier of the package group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"contactInfo"`:  The contact information for the created package group.
 - `"description"`:  A description of the package group.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the package group.
 """
-function create_package_group(
-    domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/package-group",
-        Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_package_group(
-    domain,
-    packageGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_package_group(domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-group", Dict{String, Any}("domain"=>domain, "packageGroup"=>packageGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_package_group(domain, packageGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "packageGroup"=>packageGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_repository(domain, repository)
@@ -277,51 +175,24 @@ end
  Creates a repository.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the created repository.
 - `repository`: The name of the repository to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  A description of the created repository.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the repository.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
   order of the upstream repositories in the list determines their priority order when
-  CodeArtifact looks for a requested package version. For more information, see Working with
-  upstream repositories.
+  CodeArtifact looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 """
-function create_repository(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/repository",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_repository(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_domain(domain)
@@ -331,33 +202,18 @@ end
 delete a domain with repositories, first delete its repositories.
 
 # Arguments
+
 - `domain`:  The name of the domain to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function delete_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "DELETE",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/domain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_domain_permissions_policy(domain)
@@ -366,107 +222,58 @@ end
  Deletes the resource policy set on a domain.
 
 # Arguments
+
 - `domain`:  The name of the domain associated with the resource policy to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"policy-revision"`:  The current revision of the resource policy to be deleted. This
   revision is used for optimistic locking, which prevents others from overwriting your
   changes to the domain's resource policy.
 """
-function delete_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain_permissions_policy(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_package(domain, format, package, repository)
     delete_package(domain, format, package, repository, params::Dict{String,<:Any})
 
 Deletes a package and all associated package versions. A deleted package cannot be
-restored. To delete one or more package versions, use the DeletePackageVersions API.
+restored. To delete one or more package versions, use the [DeletePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DeletePackageVersions.html)
+API.
 
 # Arguments
+
 - `domain`: The name of the domain that contains the package to delete.
 - `format`: The format of the requested package to delete.
 - `package`: The name of the package to delete.
 - `repository`: The name of the repository that contains the package to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package to delete. The package component that
-  specifies its namespace depends on its type. For example:  The namespace is required when
-  deleting packages of the following formats:   Maven   Swift   generic       The namespace
-  of a Maven package version is its groupId.     The namespace of an npm or Swift package
-  version is its scope.    The namespace of a generic package is its namespace.    Python,
-  NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package
-  versions of those formats do not have a namespace.
+  specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when deleting packages of the following formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function delete_package(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/package",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_package(
-    domain,
-    format,
-    package,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/package",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_package(domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/package", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_package(domain, format, package, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/package", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_package_group(domain, package-group)
@@ -479,45 +286,19 @@ group. Therefore, if any of the child groups are inheriting any settings from th
 those settings could change.
 
 # Arguments
+
 - `domain`:  The domain that contains the package group to be deleted.
 - `package-group`: The pattern of the package group to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function delete_package_group(
-    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/package-group",
-        Dict{String,Any}("domain" => domain, "package-group" => package_group);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_package_group(
-    domain,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/package-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "package-group" => package_group),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_package_group(domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/package-group", Dict{String, Any}("domain"=>domain, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_package_group(domain, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/package-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_package_versions(domain, format, package, repository, versions)
@@ -525,11 +306,12 @@ end
 
  Deletes one or more versions of a package. A deleted package version cannot be restored in
 your repository. If you want to remove a package version from your repository and be able
-to restore it later, set its status to Archived. Archived packages cannot be downloaded
-from a repository and don't show up with list package APIs (for example,
-ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
+to restore it later, set its status to `Archived`. Archived packages cannot be downloaded
+from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)),
+but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the package to delete.
 - `format`:  The format of the package versions to delete.
 - `package`:  The name of the package with the versions to delete.
@@ -537,69 +319,28 @@ ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus
 - `versions`:  An array of strings that specify the versions of the package to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The expected status of the package version to delete.
 - `"namespace"`: The namespace of the package versions to be deleted. The package component
-  that specifies its namespace depends on its type. For example:  The namespace is required
-  when deleting package versions of the following formats:   Maven   Swift   generic
-  The namespace of a Maven package version is its groupId.     The namespace of an npm or
-  Swift package version is its scope.    The namespace of a generic package is its namespace.
-     Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when deleting package versions of the following formats: -
+  Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
   component, package versions of those formats do not have a namespace.
 """
-function delete_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/delete",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/delete",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "versions" => versions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_package_versions(domain, format, package, repository, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_repository(domain, repository)
@@ -608,45 +349,19 @@ end
  Deletes a repository.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository to delete.
 - `repository`:  The name of the repository to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function delete_repository(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_repository(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_repository_permissions_policy(domain, repository)
@@ -654,334 +369,172 @@ end
 
  Deletes the resource policy that is set on a repository. After a resource policy is
 deleted, the permissions allowed and denied by the deleted policy are removed. The effect
-of deleting a resource policy might not be immediate.    Use
-DeleteRepositoryPermissionsPolicy with caution. After a policy is deleted, Amazon Web
-Services users, roles, and accounts lose permissions to perform the repository actions
+of deleting a resource policy might not be immediate.
+
+!!! important
+    Use `DeleteRepositoryPermissionsPolicy` with caution. After a policy is deleted, Amazon
+Web Services users, roles, and accounts lose permissions to perform the repository actions
 granted by the deleted policy.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository associated with the
   resource policy to be deleted.
 - `repository`:  The name of the repository that is associated with the resource policy to
   be deleted
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"policy-revision"`:  The revision of the repository's resource policy to be deleted.
   This revision is used for optimistic locking, which prevents others from accidentally
   overwriting your changes to the repository's resource policy.
 """
-function delete_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/permissions/policies",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_repository_permissions_policy(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/permissions/policies",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_repository_permissions_policy(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_domain(domain)
     describe_domain(domain, params::Dict{String,<:Any})
 
- Returns a DomainDescription object that contains information about the requested domain.
+ Returns a [DomainDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html)
+object that contains information about the requested domain.
 
 # Arguments
+
 - `domain`:  A string that specifies the name of the requested domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function describe_domain(domain; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "GET",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/domain",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_domain(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/domain", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_package(domain, format, package, repository)
     describe_package(domain, format, package, repository, params::Dict{String,<:Any})
 
- Returns a PackageDescription object that contains information about the requested package.
+ Returns a [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html)
+object that contains information about the requested package.
 
 # Arguments
+
 - `domain`: The name of the domain that contains the repository that contains the package.
 - `format`: A format that specifies the type of the requested package.
 - `package`: The name of the requested package.
 - `repository`: The name of the repository that contains the requested package.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the requested package. The package component that
-  specifies its namespace depends on its type. For example:  The namespace is required when
-  requesting packages of the following formats:   Maven   Swift   generic       The namespace
-  of a Maven package version is its groupId.     The namespace of an npm or Swift package
-  version is its scope.    The namespace of a generic package is its namespace.    Python,
-  NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package
-  versions of those formats do not have a namespace.
+  specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when requesting packages of the following formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function describe_package(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/package",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package(
-    domain,
-    format,
-    package,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_package(domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package(domain, format, package, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_package_group(domain, package-group)
     describe_package_group(domain, package-group, params::Dict{String,<:Any})
 
-Returns a PackageGroupDescription object that contains information about the requested
-package group.
+Returns a [PackageGroupDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html)
+object that contains information about the requested package group.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the package group.
 - `package-group`: The pattern of the requested package group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function describe_package_group(
-    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/package-group",
-        Dict{String,Any}("domain" => domain, "package-group" => package_group);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package_group(
-    domain,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "package-group" => package_group),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_package_group(domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package-group", Dict{String, Any}("domain"=>domain, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package_group(domain, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_package_version(domain, format, package, repository, version)
     describe_package_version(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Returns a PackageVersionDescription object that contains information about the requested
-package version.
+ Returns a [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html)
+object that contains information about the requested package version.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the package
   version.
 - `format`:  A format that specifies the type of the requested package version.
 - `package`:  The name of the requested package version.
 - `repository`:  The name of the repository that contains the package version.
-- `version`:  A string that contains the package version (for example, 3.5.2).
+- `version`:  A string that contains the package version (for example, `3.5.2`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the requested package version. The package component that
-  specifies its namespace depends on its type. For example:  The namespace is required when
-  requesting package versions of the following formats:   Maven   Swift   generic       The
-  namespace of a Maven package version is its groupId.     The namespace of an npm or Swift
-  package version is its scope.    The namespace of a generic package is its namespace.
-  Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.
+  specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when requesting package versions of the following formats: -
+   Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function describe_package_version(
-    domain,
-    format,
-    package,
-    repository,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package_version(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_package_version(domain, format, package, repository, version; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_package_version(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_repository(domain, repository)
     describe_repository(domain, repository, params::Dict{String,<:Any})
 
- Returns a RepositoryDescription object that contains detailed information about the
+ Returns a `RepositoryDescription` object that contains detailed information about the
 requested repository.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository to describe.
 - `repository`:  A string that specifies the name of the requested repository.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function describe_repository(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_repository(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_external_connection(domain, external-connection, repository)
@@ -990,6 +543,7 @@ end
  Removes an existing external connection from a repository.
 
 # Arguments
+
 - `domain`: The name of the domain that contains the repository from which to remove the
   external repository.
 - `external-connection`: The name of the external connection to be removed from the
@@ -998,65 +552,31 @@ end
   removed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function disassociate_external_connection(
-    domain,
-    external_connection,
-    repository;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            "domain" => domain,
-            "external-connection" => external_connection,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_external_connection(
-    domain,
-    external_connection,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "external-connection" => external_connection,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_external_connection(domain, external_connection, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_external_connection(domain, external_connection, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     dispose_package_versions(domain, format, package, repository, versions)
     dispose_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
 
- Deletes the assets in package versions and sets the package versions' status to Disposed.
-A disposed package version cannot be restored in your repository because its assets are
-deleted.   To view all disposed package versions in a repository, use ListPackageVersions
-and set the status parameter to Disposed.   To view information about a disposed package
-version, use DescribePackageVersion.
+ Deletes the assets in package versions and sets the package versions' status to
+`Disposed`. A disposed package version cannot be restored in your repository because its
+assets are deleted.
+
+ To view all disposed package versions in a repository, use [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)
+and set the [status](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax)
+parameter to `Disposed`.
+
+ To view information about a disposed package version, use [DescribePackageVersion](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html).
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository you want to dispose.
 - `format`:  A format that specifies the type of package versions you want to dispose.
 - `package`:  The name of the package with the versions you want to dispose.
@@ -1065,70 +585,29 @@ version, use DescribePackageVersion.
 - `versions`:  The versions of the package you want to dispose.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The expected status of the package version to dispose.
 - `"namespace"`: The namespace of the package versions to be disposed. The package
-  component that specifies its namespace depends on its type. For example:  The namespace is
-  required when disposing package versions of the following formats:   Maven   Swift
-  generic       The namespace of a Maven package version is its groupId.     The namespace of
-  an npm or Swift package version is its scope.    The namespace of a generic package is its
-  namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a
-  corresponding component, package versions of those formats do not have a namespace.
+  component that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when disposing package versions of the following formats: -
+  Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
-function dispose_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/dispose",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function dispose_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/dispose",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "versions" => versions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+dispose_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+dispose_package_versions(domain, format, package, repository, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_associated_package_group(domain, format, package)
@@ -1136,166 +615,122 @@ end
 
 Returns the most closely associated package group to the specified package. This API does
 not require that the package exist in any repository in the domain. As such,
-GetAssociatedPackageGroup can be used to see which package group's origin configuration
+`GetAssociatedPackageGroup` can be used to see which package group's origin configuration
 applies to a package before that package is in a repository. This can be helpful to check
-if public packages are blocked without ingesting them. For information package group
-association and matching, see Package group definition syntax and matching behavior in the
-CodeArtifact User Guide.
+if public packages are blocked without ingesting them.
+
+For information package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the package from which to get the
   associated package group.
 - `format`:  The format of the package from which to get the associated package group.
 - `package`:  The package from which to get the associated package group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package from which to get the associated package
-  group. The package component that specifies its namespace depends on its type. For example:
-   The namespace is required when getting associated package groups from packages of the
-  following formats:   Maven   Swift   generic       The namespace of a Maven package version
-  is its groupId.     The namespace of an npm or Swift package version is its scope.    The
-  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
-  versions do not contain a corresponding component, package versions of those formats do not
-  have a namespace.
+  group. The package component that specifies its namespace depends on its type. For
+  example:
+
+  !!! note
+      The namespace is required when getting associated package groups from packages of the
+  following formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function get_associated_package_group(
-    domain, format, package; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/get-associated-package-group",
-        Dict{String,Any}("domain" => domain, "format" => format, "package" => package);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_associated_package_group(
-    domain,
-    format,
-    package,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/get-associated-package-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain, "format" => format, "package" => package
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_associated_package_group(domain, format, package; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/get-associated-package-group", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_associated_package_group(domain, format, package, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/get-associated-package-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_authorization_token(domain)
     get_authorization_token(domain, params::Dict{String,<:Any})
 
  Generates a temporary authorization token for accessing repositories in the domain. This
-API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken
-permissions. For more information about authorization tokens, see CodeArtifact
-authentication and tokens.   CodeArtifact authorization tokens are valid for a period of 12
-hours when created with the login command. You can call login periodically to refresh the
-token. When you create an authorization token with the GetAuthorizationToken API, you can
-set a custom authorization period, up to a maximum of 12 hours, with the durationSeconds
-parameter. The authorization period begins after login or GetAuthorizationToken is called.
-If login or GetAuthorizationToken is called while assuming a role, the token lifetime is
-independent of the maximum session duration of the role. For example, if you call sts
-assume-role and specify a session duration of 15 minutes, then generate a CodeArtifact
+API requires the `codeartifact:GetAuthorizationToken` and `sts:GetServiceBearerToken`
+permissions. For more information about authorization tokens, see [CodeArtifact authentication and tokens](https://docs.aws.amazon.com/codeartifact/latest/ug/tokens-authentication.html).
+</p>
+
+!!! note
+    CodeArtifact authorization tokens are valid for a period of 12 hours when created with
+the `login` command. You can call `login` periodically to refresh the token. When you
+create an authorization token with the `GetAuthorizationToken` API, you can set a custom
+authorization period, up to a maximum of 12 hours, with the `durationSeconds` parameter.
+
+The authorization period begins after `login` or `GetAuthorizationToken` is called. If
+`login` or `GetAuthorizationToken` is called while assuming a role, the token lifetime is
+independent of the maximum session duration of the role. For example, if you call `sts
+assume-role` and specify a session duration of 15 minutes, then generate a CodeArtifact
 authorization token, the token will be valid for the full authorization period even though
-this is longer than the 15-minute session duration. See Using IAM Roles for more
-information on controlling session duration.
+this is longer than the 15-minute session duration.
+
+ <p>See [Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+for more information on controlling session duration.
 
 # Arguments
+
 - `domain`:  The name of the domain that is in scope for the generated authorization token.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"duration"`: The time, in seconds, that the generated authorization token is valid.
-  Valid values are 0 and any number between 900 (15 minutes) and 43200 (12 hours). A value of
-  0 will set the expiration of the authorization token to the same expiration of the user's
-  role's temporary credentials.
+  Valid values are `0` and any number between `900` (15 minutes) and `43200` (12 hours). A
+  value of `0` will set the expiration of the authorization token to the same expiration of
+  the user's role's temporary credentials.
 """
-function get_authorization_token(domain; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/authorization-token",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_authorization_token(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/authorization-token",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_authorization_token(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_authorization_token(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_domain_permissions_policy(domain)
     get_domain_permissions_policy(domain, params::Dict{String,<:Any})
 
- Returns the resource policy attached to the specified domain.    The policy is a
-resource-based policy, not an identity-based policy. For more information, see
-Identity-based policies and resource-based policies  in the IAM User Guide.
+ Returns the resource policy attached to the specified domain.
+
+!!! note
+    The policy is a resource-based policy, not an identity-based policy. For more
+information, see [Identity-based policies and resource-based policies ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html)
+in the *IAM User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain to which the resource policy is attached.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function get_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_domain_permissions_policy(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_package_version_asset(asset, domain, format, package, repository, version)
     get_package_version_asset(asset, domain, format, package, repository, version, params::Dict{String,<:Any})
 
  Returns an asset (or file) that is in a package. For example, for a Maven package version,
-use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the
-package version.
+use `GetPackageVersionAsset` to download a `JAR` file, a `POM` file, or any other assets in
+the package version.
 
 # Arguments
+
 - `asset`:  The name of the requested asset.
 - `domain`:  The name of the domain that contains the repository that contains the package
   version with the requested asset.
@@ -1303,216 +738,105 @@ package version.
   asset file.
 - `package`:  The name of the package that contains the requested asset.
 - `repository`:  The repository that contains the package version with the requested asset.
-- `version`:  A string that contains the package version (for example, 3.5.2).
+- `version`:  A string that contains the package version (for example, `3.5.2`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested asset file. The
-  package component that specifies its namespace depends on its type. For example:  The
-  namespace is required when requesting assets from package versions of the following
-  formats:   Maven   Swift   generic       The namespace of a Maven package version is its
-  groupId.     The namespace of an npm or Swift package version is its scope.    The
-  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
-  versions do not contain a corresponding component, package versions of those formats do not
-  have a namespace.
+  package component that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when requesting assets from package versions of the
+  following formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"revision"`:  The name of the package version revision that contains the requested
   asset.
 """
-function get_package_version_asset(
-    asset,
-    domain,
-    format,
-    package,
-    repository,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version/asset",
-        Dict{String,Any}(
-            "asset" => asset,
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_asset(
-    asset,
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version/asset",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "asset" => asset,
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_package_version_asset(asset, domain, format, package, repository, version; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_package_version_asset(asset, domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_package_version_readme(domain, format, package, repository, version)
     get_package_version_readme(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Gets the readme file or descriptive text for a package version.   The returned text might
-contain formatting. For example, it might contain formatting for Markdown or
-reStructuredText.
+ Gets the readme file or descriptive text for a package version.
+
+ The returned text might contain formatting. For example, it might contain formatting for
+Markdown or reStructuredText.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the package
   version with the requested readme file.
 - `format`:  A format that specifies the type of the package version with the requested
   readme file.
 - `package`:  The name of the package version that contains the requested readme file.
 - `repository`:  The repository that contains the package with the requested readme file.
-- `version`:  A string that contains the package version (for example, 3.5.2).
+- `version`:  A string that contains the package version (for example, `3.5.2`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested readme file. The
-  package component that specifies its namespace depends on its type. For example:  The
-  namespace is required when requesting the readme from package versions of the following
-  formats:   Maven   Swift   generic       The namespace of a Maven package version is its
-  groupId.     The namespace of an npm or Swift package version is its scope.    The
-  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
-  versions do not contain a corresponding component, package versions of those formats do not
-  have a namespace.
+  package component that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when requesting the readme from package versions of the
+  following formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function get_package_version_readme(
-    domain,
-    format,
-    package,
-    repository,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version/readme",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_readme(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package/version/readme",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_package_version_readme(domain, format, package, repository, version; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_package_version_readme(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_repository_endpoint(domain, format, repository)
     get_repository_endpoint(domain, format, repository, params::Dict{String,<:Any})
 
  Returns the endpoint of a repository for a specific package format. A repository has one
-endpoint for each package format:     cargo     generic     maven     npm     nuget
-pypi     ruby     swift
+endpoint for each package format:  - `cargo`
+ - `generic`
+ - `maven`
+ - `npm`
+ - `nuget`
+ - `pypi`
+ - `ruby`
+ - `swift`
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository.
 - `format`:  Returns which endpoint of a repository to return. A repository has one
   endpoint for each package format.
 - `repository`:  The name of the repository.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain that contains the repository. It does not include dashes or spaces.
 """
-function get_repository_endpoint(
-    domain, format, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository/endpoint",
-        Dict{String,Any}(
-            "domain" => domain, "format" => format, "repository" => repository
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_repository_endpoint(
-    domain,
-    format,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository/endpoint",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain, "format" => format, "repository" => repository
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_repository_endpoint(domain, format, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_repository_endpoint(domain, format, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_repository_permissions_policy(domain, repository)
@@ -1521,47 +845,21 @@ end
  Returns the resource policy that is set on a repository.
 
 # Arguments
+
 - `domain`:  The name of the domain containing the repository whose associated resource
   policy is to be retrieved.
 - `repository`:  The name of the repository whose associated resource policy is to be
   retrieved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function get_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_repository_permissions_policy(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_repository_permissions_policy(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_allowed_repositories_for_group(domain, origin_restriction_type, package-group)
@@ -1569,9 +867,11 @@ end
 
 Lists the repositories in the added repositories list of the specified restriction type for
 a package group. For more information about restriction types and added repository lists,
-see Package group origin controls in the CodeArtifact User Guide.
+see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the package group from which to list
   allowed repositories.
 - `origin_restriction_type`: The origin configuration restriction type of which to list
@@ -1579,143 +879,66 @@ see Package group origin controls in the CodeArtifact User Guide.
 - `package-group`: The pattern of the package group from which to list allowed repositories.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_allowed_repositories_for_group(
-    domain,
-    originRestrictionType,
-    package_group;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package-group-allowed-repositories",
-        Dict{String,Any}(
-            "domain" => domain,
-            "originRestrictionType" => originRestrictionType,
-            "package-group" => package_group,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_allowed_repositories_for_group(
-    domain,
-    originRestrictionType,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/package-group-allowed-repositories",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "originRestrictionType" => originRestrictionType,
-                    "package-group" => package_group,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_allowed_repositories_for_group(domain, originRestrictionType, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package-group-allowed-repositories", Dict{String, Any}("domain"=>domain, "originRestrictionType"=>originRestrictionType, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_allowed_repositories_for_group(domain, originRestrictionType, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/package-group-allowed-repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "originRestrictionType"=>originRestrictionType, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_associated_packages(domain, package-group)
     list_associated_packages(domain, package-group, params::Dict{String,<:Any})
 
 Returns a list of packages associated with the requested package group. For information
-package group association and matching, see Package group definition syntax and matching
-behavior in the CodeArtifact User Guide.
+package group association and matching, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the package group from which to list
   associated packages.
 - `package-group`:  The pattern of the package group from which to list associated
   packages.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"preview"`:  When this flag is included, ListAssociatedPackages will return a list of
+- `"preview"`:  When this flag is included, `ListAssociatedPackages` will return a list of
   packages that would be associated with a package group, even if it does not exist.
 """
-function list_associated_packages(
-    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "GET",
-        "/v1/list-associated-packages",
-        Dict{String,Any}("domain" => domain, "package-group" => package_group);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_associated_packages(
-    domain,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "GET",
-        "/v1/list-associated-packages",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "package-group" => package_group),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_associated_packages(domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/list-associated-packages", Dict{String, Any}("domain"=>domain, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_associated_packages(domain, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("GET", "/v1/list-associated-packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
- Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services
-account that makes this call. Each returned DomainSummary object contains information about
-a domain.
+ Returns a list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html)
+objects for all domains owned by the Amazon Web Services account that makes this call. Each
+returned `DomainSummary` object contains information about a domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of results to return per page.
 - `"nextToken"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/domains",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_package_groups(domain)
@@ -1724,215 +947,120 @@ end
 Returns a list of package groups in the requested domain.
 
 # Arguments
+
 - `domain`:  The domain for which you want to list package groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"prefix"`:  A prefix for which to search package groups. When included,
-  ListPackageGroups will return only package groups with patterns that match the prefix.
+  `ListPackageGroups` will return only package groups with patterns that match the prefix.
 """
-function list_package_groups(domain; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/package-groups",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_groups(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/package-groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_package_groups(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-groups", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_package_groups(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_package_version_assets(domain, format, package, repository, version)
     list_package_version_assets(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Returns a list of AssetSummary objects for assets in a package version.
+ Returns a list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html)
+objects for assets in a package version.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository associated with the
   package version assets.
 - `format`:  The format of the package that contains the requested package version assets.
 - `package`:  The name of the package that contains the requested package version assets.
 - `repository`:  The name of the repository that contains the package that contains the
   requested package version assets.
-- `version`:  A string that contains the package version (for example, 3.5.2).
+- `version`:  A string that contains the package version (for example, `3.5.2`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"namespace"`: The namespace of the package version that contains the requested package
-  version assets. The package component that specifies its namespace depends on its type. For
-  example:  The namespace is required requesting assets from package versions of the
-  following formats:   Maven   Swift   generic       The namespace of a Maven package version
-  is its groupId.     The namespace of an npm or Swift package version is its scope.    The
-  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
-  versions do not contain a corresponding component, package versions of those formats do not
-  have a namespace.
+  version assets. The package component that specifies its namespace depends on its type.
+  For example:
+
+  !!! note
+      The namespace is required requesting assets from package versions of the following
+  formats: - Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_package_version_assets(
-    domain,
-    format,
-    package,
-    repository,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/assets",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_version_assets(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/assets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_package_version_assets(domain, format, package, repository, version; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_package_version_assets(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_package_version_dependencies(domain, format, package, repository, version)
     list_package_version_dependencies(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Returns the direct dependencies for a package version. The dependencies are returned as
-PackageDependency objects. CodeArtifact extracts the dependencies for a package version
-from the metadata file for the package format (for example, the package.json file for npm
-packages and the pom.xml file for Maven). Any package version dependencies that are not
-listed in the configuration file are not returned.
+ Returns the direct dependencies for a package version. The dependencies are returned as [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html)
+objects. CodeArtifact extracts the dependencies for a package version from the metadata
+file for the package format (for example, the `package.json` file for npm packages and the
+`pom.xml` file for Maven). Any package version dependencies that are not listed in the
+configuration file are not returned.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the
   requested package version dependencies.
 - `format`:  The format of the package with the requested dependencies.
 - `package`:  The name of the package versions' package.
 - `repository`:  The name of the repository that contains the requested package version.
-- `version`:  A string that contains the package version (for example, 3.5.2).
+- `version`:  A string that contains the package version (for example, `3.5.2`).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested dependencies. The
-  package component that specifies its namespace depends on its type. For example:  The
-  namespace is required when listing dependencies from package versions of the following
-  formats:   Maven       The namespace of a Maven package version is its groupId.     The
-  namespace of an npm package version is its scope.     Python and NuGet package versions do
-  not contain a corresponding component, package versions of those formats do not have a
-  namespace.
+  package component that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when listing dependencies from package versions of the
+  following formats: - Maven
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm package version is its `scope`.
+   - Python and NuGet package versions do not contain a corresponding component, package
+  versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_package_version_dependencies(
-    domain,
-    format,
-    package,
-    repository,
-    version;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/dependencies",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_version_dependencies(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/dependencies",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_package_version_dependencies(domain, format, package, repository, version; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_package_version_dependencies(domain, format, package, repository, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_package_versions(domain, format, package, repository)
     list_package_versions(domain, format, package, repository, params::Dict{String,<:Any})
 
- Returns a list of PackageVersionSummary objects for package versions in a repository that
-match the request parameters. Package versions of all statuses will be returned by default
-when calling list-package-versions with no --status parameter.
+ Returns a list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html)
+objects for package versions in a repository that match the request parameters. Package
+versions of all statuses will be returned by default when calling `list-package-versions`
+with no `--status` parameter.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the
   requested package versions.
 - `format`:  The format of the package versions you want to list.
@@ -1940,82 +1068,52 @@ when calling list-package-versions with no --status parameter.
 - `repository`:  The name of the repository that contains the requested package versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"namespace"`: The namespace of the package that contains the requested package versions.
-  The package component that specifies its namespace depends on its type. For example:  The
-  namespace is required when deleting package versions of the following formats:   Maven
-  Swift   generic       The namespace of a Maven package version is its groupId.     The
-  namespace of an npm or Swift package version is its scope.    The namespace of a generic
-  package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain
-  a corresponding component, package versions of those formats do not have a namespace.
+  The package component that specifies its namespace depends on its type. For example:
+
+  !!! note
+      The namespace is required when deleting package versions of the following formats: -
+  Maven
+   - Swift
+   - generic
+   - The namespace of a Maven package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"originType"`: The originType used to filter package versions. Only package versions
-  with the provided originType will be returned.
+- `"originType"`: The `originType` used to filter package versions. Only package versions
+  with the provided `originType` will be returned.
 - `"sortBy"`:  How to sort the requested list of package versions.
 - `"status"`:  A string that filters the requested package versions by status.
 """
-function list_package_versions(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_package_versions(domain, format, package, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_package_versions(domain, format, package, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_packages(domain, repository)
     list_packages(domain, repository, params::Dict{String,<:Any})
 
- Returns a list of PackageSummary objects for packages in a repository that match the
-request parameters.
+ Returns a list of [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html)
+objects for packages in a repository that match the request parameters.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the
   requested packages.
 - `repository`:  The name of the repository that contains the requested packages.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"format"`: The format used to filter requested packages. Only packages from the provided
@@ -2023,100 +1121,66 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`:  The maximum number of results to return per page.
 - `"namespace"`: The namespace prefix used to filter requested packages. Only packages with
   a namespace that starts with the provided string value are returned. Note that although
-  this option is called --namespace and not --namespace-prefix, it has prefix-matching
-  behavior. Each package format uses namespace as follows:    The namespace of a Maven
-  package version is its groupId.     The namespace of an npm or Swift package version is its
-  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
-  Cargo package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.
+  this option is called `--namespace` and not `--namespace-prefix`, it has prefix-matching
+  behavior.
+
+  Each package format uses namespace as follows: - The namespace of a Maven package version
+  is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"package-prefix"`:  A prefix used to filter requested packages. Only packages with names
-  that start with packagePrefix are returned.
-- `"publish"`: The value of the Publish package origin control restriction used to filter
+  that start with `packagePrefix` are returned.
+- `"publish"`: The value of the `Publish` package origin control restriction used to filter
   requested packages. Only packages with the provided restriction are returned. For more
-  information, see PackageOriginRestrictions.
-- `"upstream"`: The value of the Upstream package origin control restriction used to filter
-  requested packages. Only packages with the provided restriction are returned. For more
-  information, see PackageOriginRestrictions.
+  information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
+- `"upstream"`: The value of the `Upstream` package origin control restriction used to
+  filter requested packages. Only packages with the provided restriction are returned. For
+  more information, see [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html).
 """
-function list_packages(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/packages",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_packages(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/packages",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_packages(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_packages(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_repositories()
     list_repositories(params::Dict{String,<:Any})
 
- Returns a list of RepositorySummary objects. Each RepositorySummary contains information
-about a repository in the specified Amazon Web Services account and that matches the input
-parameters.
+ Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html)
+objects. Each `RepositorySummary` contains information about a repository in the specified
+Amazon Web Services account and that matches the input parameters.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"repository-prefix"`:  A prefix used to filter returned repositories. Only repositories
-  with names that start with repositoryPrefix are returned.
+  with names that start with `repositoryPrefix` are returned.
 """
-function list_repositories(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_repositories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/repositories",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_repositories(; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_repositories(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/repositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_repositories_in_domain(domain)
     list_repositories_in_domain(domain, params::Dict{String,<:Any})
 
- Returns a list of RepositorySummary objects. Each RepositorySummary contains information
-about a repository in the specified domain and that matches the input parameters.
+ Returns a list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html)
+objects. Each `RepositorySummary` contains information about a repository in the specified
+domain and that matches the input parameters.
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the returned list of repositories.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"administrator-account"`:  Filter the list of repositories to only include those that
   are managed by the Amazon Web Services account ID.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
@@ -2125,83 +1189,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"repository-prefix"`:  A prefix used to filter returned repositories. Only repositories
-  with names that start with repositoryPrefix are returned.
+  with names that start with `repositoryPrefix` are returned.
 """
-function list_repositories_in_domain(
-    domain; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/domain/repositories",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_repositories_in_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/domain/repositories",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_repositories_in_domain(domain; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}("domain"=>domain); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_repositories_in_domain(domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sub_package_groups(domain, package-group)
     list_sub_package_groups(domain, package-group, params::Dict{String,<:Any})
 
-Returns a list of direct children of the specified package group. For information package
-group hierarchy, see Package group definition syntax and matching behavior in the
-CodeArtifact User Guide.
+Returns a list of direct children of the specified package group.
+
+For information package group hierarchy, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain which contains the package group from which to list sub
   package groups.
 - `package-group`:  The pattern of the package group from which to list sub package groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_sub_package_groups(
-    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/package-groups/sub-groups",
-        Dict{String,Any}("domain" => domain, "package-group" => package_group);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sub_package_groups(
-    domain,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package-groups/sub-groups",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "package-group" => package_group),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sub_package_groups(domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-groups/sub-groups", Dict{String, Any}("domain"=>domain, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sub_package_groups(domain, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package-groups/sub-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -2211,295 +1230,159 @@ Gets information about Amazon Web Services tags for a specified Amazon Resource 
 in CodeArtifact.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to get tags for.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/tags",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/tags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     publish_package_version(asset, asset_content, domain, format, package, repository, version, x-amz-content-sha256)
     publish_package_version(asset, asset_content, domain, format, package, repository, version, x-amz-content-sha256, params::Dict{String,<:Any})
 
-Creates a new package version containing one or more assets (or files). The unfinished flag
-can be used to keep the package version in the Unfinished state until all of its assets
-have been uploaded (see Package version status in the CodeArtifact user guide). To set the
-package version’s status to Published, omit the unfinished flag when uploading the final
-asset, or set the status using UpdatePackageVersionStatus. Once a package version’s
-status is set to Published, it cannot change back to Unfinished.  Only generic packages can
-be published using this API. For more information, see Using generic packages in the
-CodeArtifact User Guide.
+Creates a new package version containing one or more assets (or files).
+
+The `unfinished` flag can be used to keep the package version in the `Unfinished` state
+until all of its assets have been uploaded (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status)
+in the *CodeArtifact user guide*). To set the package version’s status to `Published`, omit
+the `unfinished` flag when uploading the final asset, or set the status using [UpdatePackageVersionStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
+Once a package version’s status is set to `Published`, it cannot change back to
+`Unfinished`.
+
+!!! note
+    Only generic packages can be published using this API. For more information, see [Using generic packages](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `asset`: The name of the asset to publish. Asset names can include Unicode letters and
-  numbers, and the following special characters: ~ ! @ ^ &amp; ( ) - ` _ + [ ] { } ; , . `
+  numbers, and the following special characters: `~ ! @ ^ &amp; ( ) - ` _ + [ ] { } ; , . ``
 - `asset_content`: The content of the asset to publish.
 - `domain`: The name of the domain that contains the repository that contains the package
   version to publish.
 - `format`: A format that specifies the type of the package version with the requested
-  asset file. The only supported value is generic.
+  asset file.
+
+The only supported value is `generic`.
 - `package`: The name of the package version to publish.
 - `repository`: The name of the repository that the package version will be published to.
-- `version`: The package version to publish (for example, 3.5.2).
-- `x-amz-content-sha256`: The SHA256 hash of the assetContent to publish. This value must
-  be calculated by the caller and provided with the request (see Publishing a generic package
-  in the CodeArtifact User Guide). This value is used as an integrity check to verify that
-  the assetContent has not changed after it was originally sent.
+- `version`: The package version to publish (for example, `3.5.2`).
+- `x-amz-content-sha256`: The SHA256 hash of the `assetContent` to publish. This value must
+  be calculated by the caller and provided with the request (see [Publishing a generic package](https://docs.aws.amazon.com/codeartifact/latest/ug/using-generic.html#publishing-generic-packages)
+  in the *CodeArtifact User Guide*).
+
+  This value is used as an integrity check to verify that the `assetContent` has not
+  changed after it was originally sent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`: The 12-digit account number of the AWS account that owns the domain. It
   does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version to publish.
-- `"unfinished"`: Specifies whether the package version should remain in the unfinished
-  state. If omitted, the package version status will be set to Published (see Package version
-  status in the CodeArtifact User Guide). Valid values: unfinished
+- `"unfinished"`: Specifies whether the package version should remain in the `unfinished`
+  state. If omitted, the package version status will be set to `Published` (see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status)
+  in the *CodeArtifact User Guide*).
+
+Valid values: `unfinished`
 """
-function publish_package_version(
-    asset,
-    assetContent,
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    x_amz_content_sha256;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/publish",
-        Dict{String,Any}(
-            "asset" => asset,
-            "assetContent" => assetContent,
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-            "headers" => Dict{String,Any}("x-amz-content-sha256" => x_amz_content_sha256),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function publish_package_version(
-    asset,
-    assetContent,
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    x_amz_content_sha256,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/version/publish",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "asset" => asset,
-                    "assetContent" => assetContent,
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "version" => version,
-                    "headers" =>
-                        Dict{String,Any}("x-amz-content-sha256" => x_amz_content_sha256),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+publish_package_version(asset, assetContent, domain, format, package, repository, version, x_amz_content_sha256; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/publish", Dict{String, Any}("asset"=>asset, "assetContent"=>assetContent, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version, "headers"=>Dict{String, Any}("x-amz-content-sha256"=>x_amz_content_sha256)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+publish_package_version(asset, assetContent, domain, format, package, repository, version, x_amz_content_sha256, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/version/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "assetContent"=>assetContent, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version, "headers"=>Dict{String, Any}("x-amz-content-sha256"=>x_amz_content_sha256)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_domain_permissions_policy(domain, policy_document)
     put_domain_permissions_policy(domain, policy_document, params::Dict{String,<:Any})
 
- Sets a resource policy on a domain that specifies permissions to access it.   When you
-call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when
-evaluting permissions. This ensures that the owner of a domain cannot lock themselves out
-of the domain, which would prevent them from being able to update the resource policy.
+ Sets a resource policy on a domain that specifies permissions to access it.
+
+ When you call `PutDomainPermissionsPolicy`, the resource policy on the domain is ignored
+when evaluting permissions. This ensures that the owner of a domain cannot lock themselves
+out of the domain, which would prevent them from being able to update the resource policy.
 
 # Arguments
+
 - `domain`:  The name of the domain on which to set the resource policy.
 - `policy_document`:  A valid displayable JSON Aspen policy string to be set as the access
   control resource policy on the provided domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domainOwner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"policyRevision"`:  The current revision of the resource policy to be set. This revision
-  is used for optimistic locking, which prevents others from overwriting your changes to the
-  domain's resource policy.
+  is used for optimistic locking, which prevents others from overwriting your changes to
+  the domain's resource policy.
 """
-function put_domain_permissions_policy(
-    domain, policyDocument; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain, "policyDocument" => policyDocument);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_domain_permissions_policy(
-    domain,
-    policyDocument,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "PUT",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "policyDocument" => policyDocument),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_domain_permissions_policy(domain, policyDocument; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_domain_permissions_policy(domain, policyDocument, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_package_origin_configuration(domain, format, package, repository, restrictions)
     put_package_origin_configuration(domain, format, package, repository, restrictions, params::Dict{String,<:Any})
 
-Sets the package origin configuration for a package. The package origin configuration
-determines how new versions of a package can be added to a repository. You can allow or
-block direct publishing of new package versions, or ingestion and retaining of new package
-versions from an external connection or upstream source. For more information about package
-origin controls and configuration, see Editing package origin controls in the CodeArtifact
-User Guide.  PutPackageOriginConfiguration can be called on a package that doesn't yet
-exist in the repository. When called on a package that does not exist, a package is created
-in the repository with no versions and the requested restrictions are set on the package.
-This can be used to preemptively block ingesting or retaining any versions from external
-connections or upstream repositories, or to block publishing any versions of the package
-into the repository before connecting any package managers or publishers to the repository.
+Sets the package origin configuration for a package.
+
+The package origin configuration determines how new versions of a package can be added to a
+repository. You can allow or block direct publishing of new package versions, or ingestion
+and retaining of new package versions from an external connection or upstream source. For
+more information about package origin controls and configuration, see [Editing package origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-origin-controls.html)
+in the *CodeArtifact User Guide*.
+
+ `PutPackageOriginConfiguration` can be called on a package that doesn't yet exist in the
+repository. When called on a package that does not exist, a package is created in the
+repository with no versions and the requested restrictions are set on the package. This can
+be used to preemptively block ingesting or retaining any versions from external connections
+or upstream repositories, or to block publishing any versions of the package into the
+repository before connecting any package managers or publishers to the repository.
 
 # Arguments
+
 - `domain`: The name of the domain that contains the repository that contains the package.
 - `format`: A format that specifies the type of the package to be updated.
 - `package`: The name of the package to be updated.
 - `repository`: The name of the repository that contains the package.
-- `restrictions`: A PackageOriginRestrictions object that contains information about the
-  upstream and publish package origin restrictions. The upstream restriction determines if
-  new package versions can be ingested or retained from external connections or upstream
-  repositories. The publish restriction determines if new package versions can be published
-  directly to the repository. You must include both the desired upstream and publish
-  restrictions.
+- `restrictions`: A [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html)
+  object that contains information about the `upstream` and `publish` package origin
+  restrictions. The `upstream` restriction determines if new package versions can be
+  ingested or retained from external connections or upstream repositories. The `publish`
+  restriction determines if new package versions can be published directly to the
+  repository.
+
+You must include both the desired `upstream` and `publish` restrictions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package to be updated. The package component that
-  specifies its namespace depends on its type. For example:    The namespace of a Maven
-  package version is its groupId.     The namespace of an npm or Swift package version is its
-  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
-  Cargo package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.
+  specifies its namespace depends on its type. For example: - The namespace of a Maven
+  package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
-function put_package_origin_configuration(
-    domain,
-    format,
-    package,
-    repository,
-    restrictions;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "restrictions" => restrictions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_package_origin_configuration(
-    domain,
-    format,
-    package,
-    repository,
-    restrictions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "restrictions" => restrictions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_package_origin_configuration(domain, format, package, repository, restrictions; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "restrictions"=>restrictions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_package_origin_configuration(domain, format, package, repository, restrictions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "restrictions"=>restrictions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_repository_permissions_policy(domain, policy_document, repository)
     put_repository_permissions_policy(domain, policy_document, repository, params::Dict{String,<:Any})
 
- Sets the resource policy on a repository that specifies permissions to access it.   When
-you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored
-when evaluting permissions. This ensures that the owner of a repository cannot lock
+ Sets the resource policy on a repository that specifies permissions to access it.
+
+ When you call `PutRepositoryPermissionsPolicy`, the resource policy on the repository is
+ignored when evaluting permissions. This ensures that the owner of a repository cannot lock
 themselves out of the repository, which would prevent them from being able to update the
 resource policy.
 
 # Arguments
+
 - `domain`:  The name of the domain containing the repository to set the resource policy
   on.
 - `policy_document`:  A valid displayable JSON Aspen policy string to be set as the access
@@ -2507,53 +1390,17 @@ resource policy.
 - `repository`:  The name of the repository to set the resource policy on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"policyRevision"`:  Sets the revision of the resource policy that specifies permissions
   to access the repository. This revision is used for optimistic locking, which prevents
   others from overwriting your changes to the repository's resource policy.
 """
-function put_repository_permissions_policy(
-    domain, policyDocument, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}(
-            "domain" => domain,
-            "policyDocument" => policyDocument,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_repository_permissions_policy(
-    domain,
-    policyDocument,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "PUT",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "policyDocument" => policyDocument,
-                    "repository" => repository,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_repository_permissions_policy(domain, policyDocument, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_repository_permissions_policy(domain, policyDocument, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -2562,40 +1409,13 @@ end
 Adds or updates tags for a resource in CodeArtifact.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add or
   update tags for.
 - `tags`: The tags you want to modify or add to the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/tag",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/tag",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/tag", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2604,114 +1424,62 @@ end
 Removes tags from a resource in CodeArtifact.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
   tags from.
 - `tag_keys`: The tag key for each tag that you want to remove from the resource.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/untag",
-        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/untag",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/untag", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_package_group(domain, package_group)
     update_package_group(domain, package_group, params::Dict{String,<:Any})
 
 Updates a package group. This API cannot be used to update a package group's origin
-configuration or pattern. To update a package group's origin configuration, use
-UpdatePackageGroupOriginConfiguration.
+configuration or pattern. To update a package group's origin configuration, use [UpdatePackageGroupOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageGroupOriginConfiguration.html).
 
 # Arguments
+
 - `domain`:  The name of the domain which contains the package group to be updated.
 - `package_group`:  The pattern of the package group to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"contactInfo"`:  Contact information which you want to update the requested package
   group with.
 - `"description"`:  The description you want to update the requested package group with.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 """
-function update_package_group(
-    domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/package-group",
-        Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package_group(
-    domain,
-    packageGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "PUT",
-        "/v1/package-group",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_package_group(domain, packageGroup; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/package-group", Dict{String, Any}("domain"=>domain, "packageGroup"=>packageGroup); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_package_group(domain, packageGroup, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/package-group", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "packageGroup"=>packageGroup), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_package_group_origin_configuration(domain, package-group)
     update_package_group_origin_configuration(domain, package-group, params::Dict{String,<:Any})
 
-Updates the package origin configuration for a package group. The package origin
-configuration determines how new versions of a package can be added to a repository. You
-can allow or block direct publishing of new package versions, or ingestion and retaining of
-new package versions from an external connection or upstream source. For more information
-about package group origin controls and configuration, see Package group origin controls in
-the CodeArtifact User Guide.
+Updates the package origin configuration for a package group.
+
+The package origin configuration determines how new versions of a package can be added to a
+repository. You can allow or block direct publishing of new package versions, or ingestion
+and retaining of new package versions from an external connection or upstream source. For
+more information about package group origin controls and configuration, see [Package group origin controls](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-origin-controls.html)
+in the *CodeArtifact User Guide*.
 
 # Arguments
+
 - `domain`:  The name of the domain which contains the package group for which to update
   the origin configuration.
 - `package-group`:  The pattern of the package group for which to update the origin
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"addAllowedRepositories"`: The repository name and restrictions to add to the allowed
   repository list of the specified package group.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
@@ -2721,48 +1489,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"restrictions"`:  The origin configuration settings that determine how package versions
   can enter repositories.
 """
-function update_package_group_origin_configuration(
-    domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/package-group-origin-configuration",
-        Dict{String,Any}("domain" => domain, "package-group" => package_group);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package_group_origin_configuration(
-    domain,
-    package_group,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "PUT",
-        "/v1/package-group-origin-configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "package-group" => package_group),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_package_group_origin_configuration(domain, package_group; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/package-group-origin-configuration", Dict{String, Any}("domain"=>domain, "package-group"=>package_group); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_package_group_origin_configuration(domain, package_group, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/package-group-origin-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "package-group"=>package_group), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_package_versions_status(domain, format, package, repository, target_status, versions)
     update_package_versions_status(domain, format, package, repository, target_status, versions, params::Dict{String,<:Any})
 
  Updates the status of one or more versions of a package. Using
-UpdatePackageVersionsStatus, you can update the status of package versions to Archived,
-Published, or Unlisted. To set the status of a package version to Disposed, use
-DisposePackageVersions.
+`UpdatePackageVersionsStatus`, you can update the status of package versions to `Archived`,
+`Published`, or `Unlisted`. To set the status of a package version to `Disposed`, use [DisposePackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DisposePackageVersions.html).
 
 # Arguments
+
 - `domain`:  The name of the domain that contains the repository that contains the package
   versions with a status to be updated.
 - `format`:  A format that specifies the type of the package with the statuses to update.
@@ -2774,77 +1513,27 @@ DisposePackageVersions.
   statuses to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The package version’s expected status before it is updated. If
-  expectedStatus is provided, the package version's status is updated only if its status at
-  the time UpdatePackageVersionsStatus is called matches expectedStatus.
+  `expectedStatus` is provided, the package version's status is updated only if its status
+  at the time `UpdatePackageVersionsStatus` is called matches `expectedStatus`.
 - `"namespace"`: The namespace of the package version to be updated. The package component
-  that specifies its namespace depends on its type. For example:    The namespace of a Maven
-  package version is its groupId.     The namespace of an npm or Swift package version is its
-  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
-  Cargo package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.
+  that specifies its namespace depends on its type. For example: - The namespace of a Maven
+  package version is its `groupId`.
+   - The namespace of an npm or Swift package version is its `scope`.
+   - The namespace of a generic package is its `namespace`.
+   - Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  A map of package versions and package version revisions. The map
-  key is the package version (for example, 3.5.2), and the map value is the package version
-  revision.
+  `key` is the package version (for example, `3.5.2`), and the map `value` is the package
+  version revision.
 """
-function update_package_versions_status(
-    domain,
-    format,
-    package,
-    repository,
-    targetStatus,
-    versions;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/update_status",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "targetStatus" => targetStatus,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package_versions_status(
-    domain,
-    format,
-    package,
-    repository,
-    targetStatus,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/update_status",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "domain" => domain,
-                    "format" => format,
-                    "package" => package,
-                    "repository" => repository,
-                    "targetStatus" => targetStatus,
-                    "versions" => versions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_package_versions_status(domain, format, package, repository, targetStatus, versions; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_package_versions_status(domain, format, package, repository, targetStatus, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_repository(domain, repository)
@@ -2853,47 +1542,20 @@ end
  Update the properties of a repository.
 
 # Arguments
+
 - `domain`:  The name of the domain associated with the repository to update.
 - `repository`:  The name of the repository to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  An updated repository description.
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
   order of the upstream repositories in the list determines their priority order when
-  CodeArtifact looks for a requested package version. For more information, see Working with
-  upstream repositories.
+  CodeArtifact looks for a requested package version. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
 """
-function update_repository(
-    domain, repository; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codeartifact(
-        "PUT",
-        "/v1/repository",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("domain" => domain, "repository" => repository),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_repository(domain, repository; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_repository(domain, repository, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

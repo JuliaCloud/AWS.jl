@@ -9,39 +9,20 @@ using AWS.UUIDs
     batch_update_cluster(cluster_names, params::Dict{String,<:Any})
 
 Apply the service update to a list of clusters supplied. For more information on service
-updates and applying them, see Applying the service updates.
+updates and applying them, see [Applying the service updates](https://docs.aws.amazon.com/MemoryDB/latest/devguide/managing-updates.html#applying-updates).
 
 # Arguments
+
 - `cluster_names`: The cluster names to apply the updates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ServiceUpdate"`: The unique ID of the service update
 """
-function batch_update_cluster(
-    ClusterNames; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "BatchUpdateCluster",
-        Dict{String,Any}("ClusterNames" => ClusterNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_update_cluster(
-    ClusterNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "BatchUpdateCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterNames" => ClusterNames), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_update_cluster(ClusterNames; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("BatchUpdateCluster", Dict{String, Any}("ClusterNames"=>ClusterNames); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_update_cluster(ClusterNames, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("BatchUpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterNames"=>ClusterNames), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     copy_snapshot(source_snapshot_name, target_snapshot_name)
@@ -50,95 +31,47 @@ end
 Makes a copy of an existing snapshot.
 
 # Arguments
+
 - `source_snapshot_name`: The name of an existing snapshot from which to make a copy.
 - `target_snapshot_name`: A name for the snapshot copy. MemoryDB does not permit
-  overwriting a snapshot, therefore this name must be unique within its context - MemoryDB or
-  an Amazon S3 bucket if exporting.
+  overwriting a snapshot, therefore this name must be unique within its context - MemoryDB
+  or an Amazon S3 bucket if exporting.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the target snapshot.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 - `"TargetBucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
   is used only when exporting a snapshot for external access. When using this parameter to
-  export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For more
-  information, see Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket.
+  export a snapshot, be sure MemoryDB has the needed permissions to this S3 bucket. For
+  more information, see [Step 2: Grant MemoryDB Access to Your Amazon S3 Bucket](https://docs.aws.amazon.com/MemoryDB/latest/devguide/snapshots-exporting.html).
 """
-function copy_snapshot(
-    SourceSnapshotName,
-    TargetSnapshotName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CopySnapshot",
-        Dict{String,Any}(
-            "SourceSnapshotName" => SourceSnapshotName,
-            "TargetSnapshotName" => TargetSnapshotName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_snapshot(
-    SourceSnapshotName,
-    TargetSnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CopySnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SourceSnapshotName" => SourceSnapshotName,
-                    "TargetSnapshotName" => TargetSnapshotName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+copy_snapshot(SourceSnapshotName, TargetSnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CopySnapshot", Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_snapshot(SourceSnapshotName, TargetSnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CopySnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceSnapshotName"=>SourceSnapshotName, "TargetSnapshotName"=>TargetSnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_acl(aclname)
     create_acl(aclname, params::Dict{String,<:Any})
 
-Creates an Access Control List. For more information, see Authenticating users with Access
-Contol Lists (ACLs).
+Creates an Access Control List. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 # Arguments
+
 - `aclname`: The name of the Access Control List.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 - `"UserNames"`: The list of users that belong to the Access Control List.
 """
-function create_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "CreateACL",
-        Dict{String,Any}("ACLName" => ACLName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_acl(
-    ACLName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateACL",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateACL", Dict{String, Any}("ACLName"=>ACLName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_acl(ACLName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_cluster(aclname, cluster_name, node_type)
@@ -147,25 +80,36 @@ end
 Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
 
 # Arguments
+
 - `aclname`: The name of the Access Control List to associate with the cluster.
 - `cluster_name`: The name of the cluster. This value must be unique as it also serves as
   the cluster identifier.
 - `node_type`: The compute and memory capacity of the nodes in the cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AutoMinorVersionUpgrade"`: When set to true, the cluster will automatically receive
   minor engine version upgrades after launch.
 - `"DataTiering"`: Enables data tiering. Data tiering is only supported for clusters using
-  the r6gd node type. This parameter must be set when using r6gd nodes. For more information,
-  see Data tiering.
+  the r6gd node type. This parameter must be set when using r6gd nodes. For more
+  information, see [Data tiering](https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html).
 - `"Description"`: An optional description of the cluster.
-- `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
+- `"EngineVersion"`: The version number of the Redis OSS engine to be used for the cluster.
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
-  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
-  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
-     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
+  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
+  (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+
+  Valid values for `ddd` are: - `sun`
+   - `mon`
+ - `tue`
+ - `wed`
+ - `thu`
+ - `fri`
+ - `sat`
+Example: `sun:23:00-mon:01:30`
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
 - `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
@@ -181,52 +125,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a
   snapshot that was taken today is retained for 5 days before being deleted.
 - `"SnapshotWindow"`: The daily time range (in UTC) during which MemoryDB begins taking a
-  daily snapshot of your shard.  Example: 05:00-09:00  If you do not specify this parameter,
-  MemoryDB automatically chooses an appropriate time range.
+  daily snapshot of your shard.
+
+   Example: 05:00-09:00
+
+   If you do not specify this parameter, MemoryDB automatically chooses an appropriate time
+  range.
 - `"SnsTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   (SNS) topic to which notifications are sent.
 - `"SubnetGroupName"`: The name of the subnet group to be used for the cluster.
 - `"TLSEnabled"`: A flag to enable in-transit encryption on the cluster.
 - `"Tags"`: A list of tags to be added to this resource. Tags are comma-separated key,value
-  pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following:
-  Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
+  pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown
+  following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue.
 """
-function create_cluster(
-    ACLName, ClusterName, NodeType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "CreateCluster",
-        Dict{String,Any}(
-            "ACLName" => ACLName, "ClusterName" => ClusterName, "NodeType" => NodeType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cluster(
-    ACLName,
-    ClusterName,
-    NodeType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ACLName" => ACLName,
-                    "ClusterName" => ClusterName,
-                    "NodeType" => NodeType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_cluster(ACLName, ClusterName, NodeType; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateCluster", Dict{String, Any}("ACLName"=>ACLName, "ClusterName"=>ClusterName, "NodeType"=>NodeType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cluster(ACLName, ClusterName, NodeType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName, "ClusterName"=>ClusterName, "NodeType"=>NodeType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_parameter_group(family, parameter_group_name)
@@ -234,50 +148,24 @@ end
 
 Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and
 their values that are applied to all of the nodes in any cluster. For more information, see
-Configuring engine parameters using parameter groups.
+[Configuring engine parameters using parameter groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/parametergroups.html).
 
 # Arguments
+
 - `family`: The name of the parameter group family that the parameter group can be used
   with.
 - `parameter_group_name`: The name of the parameter group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: An optional description of the parameter group.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function create_parameter_group(
-    Family, ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "CreateParameterGroup",
-        Dict{String,Any}("Family" => Family, "ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_parameter_group(
-    Family,
-    ParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Family" => Family, "ParameterGroupName" => ParameterGroupName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_parameter_group(Family, ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateParameterGroup", Dict{String, Any}("Family"=>Family, "ParameterGroupName"=>ParameterGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_parameter_group(Family, ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Family"=>Family, "ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_snapshot(cluster_name, snapshot_name)
@@ -286,46 +174,20 @@ end
 Creates a copy of an entire cluster at a specific moment in time.
 
 # Arguments
+
 - `cluster_name`: The snapshot is created from this cluster.
 - `snapshot_name`: A name for the snapshot being created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the snapshot.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function create_snapshot(
-    ClusterName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "CreateSnapshot",
-        Dict{String,Any}("ClusterName" => ClusterName, "SnapshotName" => SnapshotName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_snapshot(
-    ClusterName,
-    SnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateSnapshot",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterName" => ClusterName, "SnapshotName" => SnapshotName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_snapshot(ClusterName, SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateSnapshot", Dict{String, Any}("ClusterName"=>ClusterName, "SnapshotName"=>SnapshotName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_snapshot(ClusterName, SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_subnet_group(subnet_group_name, subnet_ids)
@@ -335,58 +197,32 @@ Creates a subnet group. A subnet group is a collection of subnets (typically pri
 you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC)
 environment. When you create a cluster in an Amazon VPC, you must specify a subnet group.
 MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to
-associate with your nodes. For more information, see Subnets and subnet groups.
+associate with your nodes. For more information, see [Subnets and subnet groups](https://docs.aws.amazon.com/MemoryDB/latest/devguide/subnetgroups.html).
 
 # Arguments
+
 - `subnet_group_name`: The name of the subnet group.
 - `subnet_ids`: A list of VPC subnet IDs for the subnet group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the subnet group.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function create_subnet_group(
-    SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "CreateSubnetGroup",
-        Dict{String,Any}("SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_subnet_group(
-    SubnetGroupName,
-    SubnetIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SubnetGroupName" => SubnetGroupName, "SubnetIds" => SubnetIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_subnet_group(SubnetGroupName, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_subnet_group(SubnetGroupName, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_user(access_string, authentication_mode, user_name)
     create_user(access_string, authentication_mode, user_name, params::Dict{String,<:Any})
 
-Creates a MemoryDB user. For more information, see Authenticating users with Access Contol
-Lists (ACLs).
+Creates a MemoryDB user. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 # Arguments
+
 - `access_string`: Access permissions string used for this user.
 - `authentication_mode`: Denotes the user's authentication properties, such as whether it
   requires a password to authenticate.
@@ -394,84 +230,28 @@ Lists (ACLs).
   user identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function create_user(
-    AccessString,
-    AuthenticationMode,
-    UserName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateUser",
-        Dict{String,Any}(
-            "AccessString" => AccessString,
-            "AuthenticationMode" => AuthenticationMode,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user(
-    AccessString,
-    AuthenticationMode,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "CreateUser",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccessString" => AccessString,
-                    "AuthenticationMode" => AuthenticationMode,
-                    "UserName" => UserName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_user(AccessString, AuthenticationMode, UserName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateUser", Dict{String, Any}("AccessString"=>AccessString, "AuthenticationMode"=>AuthenticationMode, "UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_user(AccessString, AuthenticationMode, UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessString"=>AccessString, "AuthenticationMode"=>AuthenticationMode, "UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_acl(aclname)
     delete_acl(aclname, params::Dict{String,<:Any})
 
 Deletes an Access Control List. The ACL must first be disassociated from the cluster before
-it can be deleted. For more information, see Authenticating users with Access Contol Lists
-(ACLs).
+it can be deleted. For more information, see [Authenticating users with Access Contol Lists (ACLs)](https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html).
 
 # Arguments
-- `aclname`: The name of the Access Control List to delete
 
+- `aclname`: The name of the Access Control List to delete
 """
-function delete_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DeleteACL",
-        Dict{String,Any}("ACLName" => ACLName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_acl(
-    ACLName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteACL",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteACL", Dict{String, Any}("ACLName"=>ACLName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_acl(ACLName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_cluster(cluster_name)
@@ -479,37 +259,24 @@ end
 
 Deletes a cluster. It also deletes all associated nodes and node endpoints
 
+!!! note
+    `CreateSnapshot` permission is required to create a final snapshot. Without this
+permission, the API call will fail with an `Access Denied` exception.
+
 # Arguments
+
 - `cluster_name`: The name of the cluster to be deleted
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FinalSnapshotName"`: The user-supplied name of a final cluster snapshot. This is the
   unique name that identifies the snapshot. MemoryDB creates the snapshot, and then deletes
   the cluster immediately afterward.
 """
-function delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DeleteCluster",
-        Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cluster(
-    ClusterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cluster(ClusterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_parameter_group(parameter_group_name)
@@ -520,35 +287,11 @@ associated with any clusters. You cannot delete the default parameter groups in 
 account.
 
 # Arguments
-- `parameter_group_name`: The name of the parameter group to delete.
 
+- `parameter_group_name`: The name of the parameter group to delete.
 """
-function delete_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DeleteParameterGroup",
-        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_parameter_group(
-    ParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_parameter_group(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_snapshot(snapshot_name)
@@ -559,31 +302,11 @@ MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert t
 operation.
 
 # Arguments
-- `snapshot_name`: The name of the snapshot to delete
 
+- `snapshot_name`: The name of the snapshot to delete
 """
-function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DeleteSnapshot",
-        Dict{String,Any}("SnapshotName" => SnapshotName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_snapshot(
-    SnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteSnapshot",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("SnapshotName" => SnapshotName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteSnapshot", Dict{String, Any}("SnapshotName"=>SnapshotName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_snapshot(SnapshotName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotName"=>SnapshotName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_subnet_group(subnet_group_name)
@@ -593,35 +316,11 @@ Deletes a subnet group. You cannot delete a default subnet group or one that is 
 with any clusters.
 
 # Arguments
-- `subnet_group_name`: The name of the subnet group to delete
 
+- `subnet_group_name`: The name of the subnet group to delete
 """
-function delete_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DeleteSubnetGroup",
-        Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_subnet_group(
-    SubnetGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_subnet_group(SubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_user(user_name)
@@ -631,31 +330,11 @@ Deletes a user. The user will be removed from all ACLs and in turn removed from 
 clusters.
 
 # Arguments
-- `user_name`: The name of the user to delete
 
+- `user_name`: The name of the user to delete
 """
-function delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DeleteUser",
-        Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_user(
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DeleteUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_user(UserName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_acls()
@@ -664,26 +343,20 @@ end
 Returns a list of ACLs
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ACLName"`: The name of the ACL
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
-function describe_acls(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb("DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_acls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_acls(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeACLs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_acls(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeACLs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_clusters()
@@ -693,11 +366,13 @@ Returns information about all provisioned clusters if no cluster identifier is s
 or about a specific cluster if a cluster name is supplied.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterName"`: The name of the cluster
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
@@ -705,33 +380,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ShowShardDetails"`: An optional flag that can be included in the request to retrieve
   information about the individual shard(s).
 """
-function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_engine_versions()
     describe_engine_versions(params::Dict{String,<:Any})
 
-Returns a list of the available Redis engine versions.
+Returns a list of the available Redis OSS engine versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
-- `"EngineVersion"`: The Redis engine version
+- `"EngineVersion"`: The Redis OSS engine version
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
@@ -739,21 +406,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParameterGroupFamily"`: The name of a specific parameter group family to return details
   for.
 """
-function describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_engine_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeEngineVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_engine_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_events()
@@ -765,13 +419,15 @@ the name as a parameter. By default, only the events occurring within the last h
 returned; however, you can retrieve up to 14 days' worth of events if necessary.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Duration"`: The number of minutes worth of events to retrieve.
 - `"EndTime"`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format. Example: 2017-03-30T07:03:49.555Z
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
@@ -783,18 +439,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format. Example: 2017-03-30T07:03:49.555Z
 """
-function describe_events(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_events(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_events(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_parameter_groups()
@@ -804,31 +450,20 @@ Returns a list of parameter group descriptions. If a parameter group name is spe
 list contains only the descriptions for that group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"ParameterGroupName"`: The name of a specific parameter group to return details for.
 """
-function describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_parameter_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeParameterGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_parameter_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_parameter_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeParameterGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_parameters(parameter_group_name)
@@ -837,44 +472,23 @@ end
 Returns the detailed parameter list for a particular parameter group.
 
 # Arguments
+
 - `parameter_group_name`: he name of a specific parameter group to return details for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 """
-function describe_parameters(
-    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeParameters",
-        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_parameters(
-    ParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "DescribeParameters",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_parameters(ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeParameters", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_parameters(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_reserved_nodes()
@@ -884,41 +498,29 @@ Returns information about reserved nodes for this account, or about a specified 
 node.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Duration"`: The duration filter value, specified in years or seconds. Use this
   parameter to show only reservations for this duration.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxRecords value, a marker is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
 - `"NodeType"`: The node type filter value. Use this parameter to show only those
-  reservations matching the specified node type. For more information, see Supported node
-  types.
+  reservations matching the specified node type. For more information, see [Supported node types](https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported).
 - `"OfferingType"`: The offering type filter value. Use this parameter to show only the
-  available offerings matching the specified offering type. Valid values: \"All
-  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+  available offerings matching the specified offering type. Valid values: "All
+  Upfront"|"Partial Upfront"| "No Upfront"
 - `"ReservationId"`: The reserved node identifier filter value. Use this parameter to show
   only the reservation that matches the specified reservation ID.
 - `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
   show only purchased reservations matching the specified offering identifier.
 """
-function describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_reserved_nodes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeReservedNodes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_reserved_nodes(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_nodes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeReservedNodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_reserved_nodes_offerings()
@@ -927,42 +529,26 @@ end
 Lists available reserved node offerings.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Duration"`: Duration filter value, specified in years or seconds. Use this parameter to
   show only reservations for a given duration.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxRecords value, a marker is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"NodeType"`: The node type for the reserved nodes. For more information, see Supported
-  node types.
+- `"NodeType"`: The node type for the reserved nodes. For more information, see [Supported node types](https://docs.aws.amazon.com/memorydb/latest/devguide/nodes.reserved.html#reserved-nodes-supported).
 - `"OfferingType"`: The offering type filter value. Use this parameter to show only the
-  available offerings matching the specified offering type. Valid values: \"All
-  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+  available offerings matching the specified offering type. Valid values: "All
+  Upfront"|"Partial Upfront"| "No Upfront"
 - `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
   show only the available offering that matches the specified reservation identifier.
 """
-function describe_reserved_nodes_offerings(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeReservedNodesOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_nodes_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeReservedNodesOfferings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_reserved_nodes_offerings(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeReservedNodesOfferings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_reserved_nodes_offerings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeReservedNodesOfferings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_service_updates()
@@ -971,11 +557,13 @@ end
 Returns details of the service updates
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterNames"`: The list of cluster names to identify service updates to apply
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
@@ -983,21 +571,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceUpdateName"`: The unique ID of the service update to describe.
 - `"Status"`: The status(es) of the service updates to filter on
 """
-function describe_service_updates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_service_updates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeServiceUpdates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_service_updates(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_service_updates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeServiceUpdates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_snapshots()
@@ -1008,12 +583,14 @@ your snapshots; it can optionally describe a single snapshot, or just the snapsh
 associated with a particular cluster.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterName"`: A user-supplied cluster identifier. If this parameter is specified, only
   snapshots associated with that specific cluster are described.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
@@ -1026,18 +603,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by MemoryDB. If set to user the output shows snapshots that were manually created. If
   omitted, the output shows both automatically and manually created snapshots.
 """
-function describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_snapshots(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_snapshots(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_subnet_groups()
@@ -1047,31 +614,20 @@ Returns a list of subnet group descriptions. If a subnet group name is specified
 contains only the description of that group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"SubnetGroupName"`: The name of the subnet group to return details for.
 """
-function describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_subnet_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeSubnetGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_subnet_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_subnet_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeSubnetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_users()
@@ -1080,27 +636,21 @@ end
 Returns a list of users.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Filter to determine the list of users to return.
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+  exist than the specified MaxResults value, a token is included in the response so that
+  the remaining results can be retrieved.
 - `"NextToken"`: An optional argument to pass in case the total number of records exceeds
   the value of MaxResults. If nextToken is returned, there are more results available. The
   value of nextToken is a unique pagination token for each page. Make the call again using
   the returned token to retrieve the next page. Keep all other arguments unchanged.
 - `"UserName"`: The name of the user
 """
-function describe_users(; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb("DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_users(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_users(; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_users(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     failover_shard(cluster_name, shard_name)
@@ -1112,39 +662,12 @@ initiating a failover to overcome a problem you may have with the cluster. Moreo
 certain conditions such as large scale operational events, Amazon may block this API.
 
 # Arguments
+
 - `cluster_name`: The cluster being failed over
 - `shard_name`: The name of the shard
-
 """
-function failover_shard(
-    ClusterName, ShardName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "FailoverShard",
-        Dict{String,Any}("ClusterName" => ClusterName, "ShardName" => ShardName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function failover_shard(
-    ClusterName,
-    ShardName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "FailoverShard",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ClusterName" => ClusterName, "ShardName" => ShardName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+failover_shard(ClusterName, ShardName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("FailoverShard", Dict{String, Any}("ClusterName"=>ClusterName, "ShardName"=>ShardName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+failover_shard(ClusterName, ShardName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("FailoverShard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName, "ShardName"=>ShardName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_allowed_node_type_updates(cluster_name)
@@ -1155,35 +678,13 @@ When you use the UpdateCluster operation to scale your cluster, the value of the
 parameter must be one of the node types returned by this operation.
 
 # Arguments
+
 - `cluster_name`: The name of the cluster you want to scale. MemoryDB uses the cluster name
   to identify the current node type being used by this cluster, and from that to create a
   list of node types you can scale up to.
-
 """
-function list_allowed_node_type_updates(
-    ClusterName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "ListAllowedNodeTypeUpdates",
-        Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_allowed_node_type_updates(
-    ClusterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "ListAllowedNodeTypeUpdates",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_allowed_node_type_updates(ClusterName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ListAllowedNodeTypeUpdates", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_allowed_node_type_updates(ClusterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ListAllowedNodeTypeUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags(resource_arn)
@@ -1191,35 +692,15 @@ end
 
 Lists all tags currently on a named resource. A tag is a key-value pair where the key and
 value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.
-For more information, see Tagging your MemoryDB resources
+For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/Tagging-Resources.html)
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want the
   list of tags
-
 """
-function list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "ListTags",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "ListTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     purchase_reserved_nodes_offering(reserved_nodes_offering_id)
@@ -1229,43 +710,20 @@ Allows you to purchase a reserved node offering. Reserved nodes are not eligible
 cancellation and are non-refundable.
 
 # Arguments
+
 - `reserved_nodes_offering_id`: The ID of the reserved node offering to purchase.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NodeCount"`: The number of node instances to reserve.
 - `"ReservationId"`: A customer-specified identifier to track this reservation.
 - `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function purchase_reserved_nodes_offering(
-    ReservedNodesOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "PurchaseReservedNodesOffering",
-        Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function purchase_reserved_nodes_offering(
-    ReservedNodesOfferingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "PurchaseReservedNodesOffering",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+purchase_reserved_nodes_offering(ReservedNodesOfferingId; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("PurchaseReservedNodesOffering", Dict{String, Any}("ReservedNodesOfferingId"=>ReservedNodesOfferingId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+purchase_reserved_nodes_offering(ReservedNodesOfferingId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("PurchaseReservedNodesOffering", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedNodesOfferingId"=>ReservedNodesOfferingId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     reset_parameter_group(parameter_group_name)
@@ -1276,10 +734,13 @@ reset specific parameters by submitting a list of parameter names. To reset the 
 parameter group, specify the AllParameters and ParameterGroupName parameters.
 
 # Arguments
+
 - `parameter_group_name`: The name of the parameter group to reset.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AllParameters"`: If true, all parameters in the parameter group are reset to their
   default values. If false, only the parameters listed by ParameterNames are reset to their
   default values.
@@ -1287,32 +748,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AllParameters is true, do not use ParameterNames. If AllParameters is false, you must
   specify the name of at least one parameter to reset.
 """
-function reset_parameter_group(
-    ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "ResetParameterGroup",
-        Dict{String,Any}("ParameterGroupName" => ParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reset_parameter_group(
-    ParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "ResetParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ParameterGroupName" => ParameterGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reset_parameter_group(ParameterGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ResetParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reset_parameter_group(ParameterGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("ResetParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -1320,47 +757,23 @@ end
 
 A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
 categorize and track all your MemoryDB resources. When you add or remove tags on clusters,
-those actions will be replicated to all nodes in the cluster. For more information, see
-Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB
-resources, Amazon generates a cost allocation report as a comma-separated value (CSV) file
-with your usage and costs aggregated by your tags. You can apply tags that represent
-business categories (such as cost centers, application names, or owners) to organize your
-costs across multiple services. For more information, see Using Cost Allocation Tags.
+those actions will be replicated to all nodes in the cluster. For more information, see [Resource-level permissions](https://docs.aws.amazon.com/MemoryDB/latest/devguide/iam.resourcelevelpermissions.html).
+
+For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates
+a cost allocation report as a comma-separated value (CSV) file with your usage and costs
+aggregated by your tags. You can apply tags that represent business categories (such as
+cost centers, application names, or owners) to organize your costs across multiple
+services. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging.html).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tags are to
   be added
 - `tags`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
   must be accompanied by a tag value, although null is accepted.
-
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1369,40 +782,13 @@ end
 Use this operation to remove tags on a resource
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which the tags are to
   be removed
 - `tag_keys`: The list of keys of the tags that are to be removed
-
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_acl(aclname)
@@ -1411,33 +797,18 @@ end
 Changes the list of users that belong to the Access Control List.
 
 # Arguments
+
 - `aclname`: The name of the Access Control List
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"UserNamesToAdd"`: The list of users to add to the Access Control List
 - `"UserNamesToRemove"`: The list of users to remove from the Access Control List
 """
-function update_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "UpdateACL",
-        Dict{String,Any}("ACLName" => ACLName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_acl(
-    ACLName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateACL",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ACLName" => ACLName), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_acl(ACLName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateACL", Dict{String, Any}("ACLName"=>ACLName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_acl(ACLName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ACLName"=>ACLName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_cluster(cluster_name)
@@ -1447,10 +818,13 @@ Modifies the settings for a cluster. You can use this operation to change one or
 cluster configuration settings by specifying the settings and the new values.
 
 # Arguments
+
 - `cluster_name`: The name of the cluster to update
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ACLName"`: The Access Control List that is associated with the cluster
 - `"Description"`: The description of the cluster to update
 - `"EngineVersion"`: The upgraded version of the engine to be run on the nodes. You can
@@ -1458,9 +832,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you want to use an earlier engine version, you must delete the existing cluster and
   create it anew with the earlier engine version.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
-  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
-  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
-     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
+  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi
+  (24H Clock UTC). The minimum maintenance window is a 60 minute period.
+
+  Valid values for `ddd` are: - `sun`
+   - `mon`
+ - `tue`
+ - `wed`
+ - `thu`
+ - `fri`
+ - `sat`
+Example: `sun:23:00-mon:01:30`
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 - `"ParameterGroupName"`: The name of the parameter group to update
 - `"ReplicaConfiguration"`: The number of replicas that will reside in each shard
@@ -1475,28 +857,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnsTopicStatus"`: The status of the Amazon SNS notification topic. Notifications are
   sent only if the status is active.
 """
-function update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "UpdateCluster",
-        Dict{String,Any}("ClusterName" => ClusterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_cluster(
-    ClusterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_cluster(ClusterName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateCluster", Dict{String, Any}("ClusterName"=>ClusterName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_cluster(ClusterName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterName"=>ClusterName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_parameter_group(parameter_group_name, parameter_name_values)
@@ -1506,90 +868,34 @@ Updates the parameters of a parameter group. You can modify up to 20 parameters 
 request by submitting a list parameter name and value pairs.
 
 # Arguments
+
 - `parameter_group_name`: The name of the parameter group to update.
 - `parameter_name_values`: An array of parameter names and values for the parameter update.
-  You must supply at least one parameter name and value; subsequent arguments are optional. A
-  maximum of 20 parameters may be updated per request.
-
+  You must supply at least one parameter name and value; subsequent arguments are optional.
+  A maximum of 20 parameters may be updated per request.
 """
-function update_parameter_group(
-    ParameterGroupName,
-    ParameterNameValues;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateParameterGroup",
-        Dict{String,Any}(
-            "ParameterGroupName" => ParameterGroupName,
-            "ParameterNameValues" => ParameterNameValues,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_parameter_group(
-    ParameterGroupName,
-    ParameterNameValues,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateParameterGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ParameterGroupName" => ParameterGroupName,
-                    "ParameterNameValues" => ParameterNameValues,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_parameter_group(ParameterGroupName, ParameterNameValues; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateParameterGroup", Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_parameter_group(ParameterGroupName, ParameterNameValues, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ParameterGroupName"=>ParameterGroupName, "ParameterNameValues"=>ParameterNameValues), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_subnet_group(subnet_group_name)
     update_subnet_group(subnet_group_name, params::Dict{String,<:Any})
 
-Updates a subnet group. For more information, see Updating a subnet group
+Updates a subnet group. For more information, see [Updating a subnet group](https://docs.aws.amazon.com/MemoryDB/latest/devguide/ubnetGroups.Modifying.html)
 
 # Arguments
+
 - `subnet_group_name`: The name of the subnet group
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the subnet group
 - `"SubnetIds"`: The EC2 subnet IDs for the subnet group.
 """
-function update_subnet_group(
-    SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return memorydb(
-        "UpdateSubnetGroup",
-        Dict{String,Any}("SubnetGroupName" => SubnetGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_subnet_group(
-    SubnetGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateSubnetGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SubnetGroupName" => SubnetGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_subnet_group(SubnetGroupName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateSubnetGroup", Dict{String, Any}("SubnetGroupName"=>SubnetGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_subnet_group(SubnetGroupName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubnetGroupName"=>SubnetGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_user(user_name)
@@ -1598,33 +904,16 @@ end
 Changes user password(s) and/or access string.
 
 # Arguments
+
 - `user_name`: The name of the user
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessString"`: Access permissions string used for this user.
 - `"AuthenticationMode"`: Denotes the user's authentication properties, such as whether it
   requires a password to authenticate.
 """
-function update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config())
-    return memorydb(
-        "UpdateUser",
-        Dict{String,Any}("UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user(
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return memorydb(
-        "UpdateUser",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_user(UserName; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_user(UserName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = memorydb("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

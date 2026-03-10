@@ -11,55 +11,32 @@ using AWS.UUIDs
 Creates an Amazon Connect Wisdom assistant.
 
 # Arguments
+
 - `name`: The name of the assistant.
 - `type`: The type of assistant.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"description"`: The description of the assistant.
 - `"serverSideEncryptionConfiguration"`: The configuration information for the customer
-  managed key used for encryption.  The customer managed key must have a policy that allows
-  kms:CreateGrant,  kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the
-  IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must
-  also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the
-  connect.amazonaws.com service principal.  For more information about setting up a customer
-  managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
+  managed key used for encryption.
+
+  The customer managed key must have a policy that allows `kms:CreateGrant`, `
+  kms:DescribeKey`, and `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM identity
+  using the key to invoke Wisdom. To use Wisdom with chat, the key policy must also allow
+  `kms:Decrypt`, `kms:GenerateDataKey*`, and `kms:DescribeKey` permissions to the
+  `connect.amazonaws.com` service principal.
+
+  For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "POST",
-        "/assistants",
-        Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assistant(
-    name,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name, "type" => type, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_assistant(name, type; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants", Dict{String, Any}("name"=>name, "type"=>type, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_assistant(name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "type"=>type, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_assistant_association(assistant_id, association, association_type)
@@ -70,203 +47,110 @@ Currently, the only supported association is with a knowledge base. An assistant
 only a single association.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `association`: The identifier of the associated resource.
 - `association_type`: The type of association.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_assistant_association(
-    assistantId,
-    association,
-    associationType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/associations",
-        Dict{String,Any}(
-            "association" => association,
-            "associationType" => associationType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assistant_association(
-    assistantId,
-    association,
-    associationType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "association" => association,
-                    "associationType" => associationType,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_assistant_association(assistantId, association, associationType; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/associations", Dict{String, Any}("association"=>association, "associationType"=>associationType, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_assistant_association(assistantId, association, associationType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("association"=>association, "associationType"=>associationType, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_content(knowledge_base_id, name, upload_id)
     create_content(knowledge_base_id, name, upload_id, params::Dict{String,<:Any})
 
-Creates Wisdom content. Before to calling this API, use StartContentUpload to upload an
-asset.
+Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html)
+to upload an asset.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `name`: The name of the content. Each piece of content in a knowledge base must have a
-  unique name. You can retrieve a piece of content using only its knowledge base and its name
-  with the SearchContent API.
-- `upload_id`: A pointer to the uploaded asset. This value is returned by
-  StartContentUpload.
+  unique name. You can retrieve a piece of content using only its knowledge base and its
+  name with the [SearchContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_SearchContent.html)
+  API.
+- `upload_id`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
-  Wisdom, you can store an external version identifier as metadata to utilize for determining
-  drift.
+  Wisdom, you can store an external version identifier as metadata to utilize for
+  determining drift.
 - `"overrideLinkOutUri"`: The URI you want to use for the article. If the knowledge base
   has a templateUri, setting this argument overrides it for this piece of content.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 - `"title"`: The title of the content. If not set, the title is equal to the name.
 """
-function create_content(
-    knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents",
-        Dict{String,Any}(
-            "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_content(
-    knowledgeBaseId,
-    name,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_content(knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/contents", Dict{String, Any}("name"=>name, "uploadId"=>uploadId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_content(knowledgeBaseId, name, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/contents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uploadId"=>uploadId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_knowledge_base(knowledge_base_type, name)
     create_knowledge_base(knowledge_base_type, name, params::Dict{String,<:Any})
 
-Creates a knowledge base.  When using this API, you cannot reuse Amazon AppIntegrations
+Creates a knowledge base.</p>
+
+!!! note
+    When using this API, you cannot reuse [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
 DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you
-do, you'll get an InvalidRequestException error.  For example, you're programmatically
-managing your external knowledge base, and you want to add or remove one of the fields that
-is being ingested from Salesforce. Do the following:   Call DeleteKnowledgeBase.   Call
-DeleteDataIntegration.   Call CreateDataIntegration to recreate the DataIntegration or a
-create different one.   Call CreateKnowledgeBase.
+do, you'll get an `InvalidRequestException` error.
+
+ <p>For example, you're programmatically managing your external knowledge base, and you
+want to add or remove one of the fields that is being ingested from Salesforce. Do the
+following: 1. Call [DeleteKnowledgeBase](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.html).
+ 2. Call [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html).
+ 3. Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+to recreate the DataIntegration or a create different one.
+ 4. Call CreateKnowledgeBase.
 
 # Arguments
+
 - `knowledge_base_type`: The type of knowledge base. Only CUSTOM knowledge bases allow you
-  to upload your own content. EXTERNAL knowledge bases support integrations with third-party
-  systems whose content is synchronized automatically.
+  to upload your own content. EXTERNAL knowledge bases support integrations with third-
+  party systems whose content is synchronized automatically.
 - `name`: The name of the knowledge base.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"description"`: The description.
 - `"renderingConfiguration"`: Information about how to render the content.
 - `"serverSideEncryptionConfiguration"`: The configuration information for the customer
-  managed key used for encryption.  This KMS key must have a policy that allows
-  kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the
-  IAM identity using the key to invoke Wisdom. For more information about setting up a
-  customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
+  managed key used for encryption.
+
+  This KMS key must have a policy that allows `kms:CreateGrant`, `kms:DescribeKey`, and
+  `kms:Decrypt/kms:GenerateDataKey` permissions to the IAM identity using the key to invoke
+  Wisdom.
+
+  For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html).
 - `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
   for EXTERNAL knowledge bases.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_knowledge_base(
-    knowledgeBaseType, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases",
-        Dict{String,Any}(
-            "knowledgeBaseType" => knowledgeBaseType,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_knowledge_base(
-    knowledgeBaseType,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "knowledgeBaseType" => knowledgeBaseType,
-                    "name" => name,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_knowledge_base(knowledgeBaseType, name; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases", Dict{String, Any}("knowledgeBaseType"=>knowledgeBaseType, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_knowledge_base(knowledgeBaseType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("knowledgeBaseType"=>knowledgeBaseType, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_quick_response(content, knowledge_base_id, name)
@@ -275,68 +159,38 @@ end
 Creates a Wisdom quick response.
 
 # Arguments
+
 - `content`: The content of the quick response.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `name`: The name of the quick response.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"channels"`: The Amazon Connect channels this quick response applies to.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
-- `"contentType"`: The media type of the quick response content.   Use
-  application/x.quickresponse;format=plain for a quick response written in plain text.   Use
-  application/x.quickresponse;format=markdown for a quick response written in richtext.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+- `"contentType"`: The media type of the quick response content. - Use
+  `application/x.quickresponse;format=plain` for a quick response written in plain text.
+   - Use `application/x.quickresponse;format=markdown` for a quick response written in
+  richtext.
 - `"description"`: The description of the quick response.
 - `"groupingConfiguration"`: The configuration information of the user groups that the
   quick response is accessible to.
 - `"isActive"`: Whether the quick response is active.
 - `"language"`: The language code value for the language in which the quick response is
-  written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT,
-  ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`,
+  `id_ID`, `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
 - `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
   across the knowledge base.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_quick_response(
-    content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
-        Dict{String,Any}(
-            "content" => content, "name" => name, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_quick_response(
-    content,
-    knowledgeBaseId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "content" => content, "name" => name, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_quick_response(content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/quickResponses", Dict{String, Any}("content"=>content, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_quick_response(content, knowledgeBaseId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/quickResponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_session(assistant_id, name)
@@ -346,49 +200,23 @@ Creates a session. A session is a contextual container used for generating recom
 Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `name`: The name of the session.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"description"`: The description.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_session(
-    assistantId, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions",
-        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_session(
-    assistantId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_session(assistantId, name; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/sessions", Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_session(assistantId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assistant(assistant_id)
@@ -397,31 +225,12 @@ end
 Deletes an assistant.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
-
 """
-function delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assistant(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/assistants/$(assistantId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assistant(assistantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/assistants/$(assistantId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assistant_association(assistant_association_id, assistant_id)
@@ -430,36 +239,14 @@ end
 Deletes an assistant association.
 
 # Arguments
+
 - `assistant_association_id`: The identifier of the assistant association. Can be either
   the ID or the ARN. URLs cannot contain the ARN.
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
-
 """
-function delete_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assistant_association(
-    assistantAssociationId,
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assistant_association(assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/assistants/$(assistantId)/associations/$(assistantAssociationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assistant_association(assistantAssociationId, assistantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/assistants/$(assistantId)/associations/$(assistantAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_content(content_id, knowledge_base_id)
@@ -468,37 +255,15 @@ end
 Deletes the content.
 
 # Arguments
+
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
-
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
-function delete_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_content(contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_content(contentId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_import_job(import_job_id, knowledge_base_id)
@@ -507,75 +272,35 @@ end
 Deletes the quick response import job.
 
 # Arguments
+
 - `import_job_id`: The identifier of the import job to be deleted.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
   QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
-
 """
-function delete_import_job(
-    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_import_job(
-    importJobId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_import_job(importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_import_job(importJobId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_knowledge_base(knowledge_base_id)
     delete_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
 
-Deletes the knowledge base.  When you use this API to delete an external knowledge base
-such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations
+Deletes the knowledge base.
+
+!!! note
+    When you use this API to delete an external knowledge base such as Salesforce or
+ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html)
 DataIntegration. This is because you can't reuse the DataIntegration after it's been
-associated with an external knowledge base. However, you can delete and recreate it. See
-DeleteDataIntegration and CreateDataIntegration in the Amazon AppIntegrations API
-Reference.
+associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html)
+and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+in the *Amazon AppIntegrations API Reference*.
 
 # Arguments
+
 - `knowledge_base_id`: The knowledge base to delete content from. Can be either the ID or
   the ARN. URLs cannot contain the ARN.
-
 """
-function delete_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_knowledge_base(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_quick_response(knowledge_base_id, quick_response_id)
@@ -584,36 +309,14 @@ end
 Deletes a quick response.
 
 # Arguments
-- `knowledge_base_id`: The knowledge base from which the quick response is deleted. The
-  identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base
-  if you're storing Wisdom Content resource to it.
-- `quick_response_id`: The identifier of the quick response to delete.
 
+- `knowledge_base_id`: The knowledge base from which the quick response is deleted. The
+  identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge
+  base if you're storing Wisdom Content resource to it.
+- `quick_response_id`: The identifier of the quick response to delete.
 """
-function delete_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_quick_response(
-    knowledgeBaseId,
-    quickResponseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_quick_response(knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_quick_response(knowledgeBaseId, quickResponseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_assistant(assistant_id)
@@ -622,31 +325,12 @@ end
 Retrieves information about an assistant.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
-
 """
-function get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assistant(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_assistant(assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_assistant(assistantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_assistant_association(assistant_association_id, assistant_id)
@@ -655,36 +339,14 @@ end
 Retrieves information about an assistant association.
 
 # Arguments
+
 - `assistant_association_id`: The identifier of the assistant association. Can be either
   the ID or the ARN. URLs cannot contain the ARN.
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
-
 """
-function get_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assistant_association(
-    assistantAssociationId,
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_assistant_association(assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/associations/$(assistantAssociationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_assistant_association(assistantAssociationId, assistantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/associations/$(assistantAssociationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_content(content_id, knowledge_base_id)
@@ -693,37 +355,15 @@ end
 Retrieves content, including a pre-signed URL to download the content.
 
 # Arguments
+
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
-
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
-function get_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_content(contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_content(contentId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_content_summary(content_id, knowledge_base_id)
@@ -732,37 +372,15 @@ end
 Retrieves summary information about the content.
 
 # Arguments
+
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
-
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
-function get_content_summary(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_content_summary(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_content_summary(contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_content_summary(contentId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_import_job(import_job_id, knowledge_base_id)
@@ -771,34 +389,12 @@ end
 Retrieves the started import job.
 
 # Arguments
+
 - `import_job_id`: The identifier of the import job to retrieve.
 - `knowledge_base_id`: The identifier of the knowledge base that the import job belongs to.
-
 """
-function get_import_job(
-    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_import_job(
-    importJobId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_import_job(importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_import_job(importJobId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_knowledge_base(knowledge_base_id)
@@ -807,34 +403,13 @@ end
 Retrieves information about the knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
 
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
-function get_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_knowledge_base(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_quick_response(knowledge_base_id, quick_response_id)
@@ -843,84 +418,43 @@ end
 Retrieves the quick response.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should be a
   QUICK_RESPONSES type knowledge base.
 - `quick_response_id`: The identifier of the quick response.
-
 """
-function get_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_quick_response(
-    knowledgeBaseId,
-    quickResponseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_quick_response(knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_quick_response(knowledgeBaseId, quickResponseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_recommendations(assistant_id, session_id)
     get_recommendations(assistant_id, session_id, params::Dict{String,<:Any})
 
 Retrieves recommendations for the specified session. To avoid retrieving the same
-recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports
-long-polling behavior with the waitTimeSeconds parameter. Short poll is the default
-behavior and only returns recommendations already available. To perform a manual query
-against an assistant, use QueryAssistant.
+recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html).
+This API supports long-polling behavior with the `waitTimeSeconds` parameter. Short poll is
+the default behavior and only returns recommendations already available. To perform a
+manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"waitTimeSeconds"`: The duration (in seconds) for which the call waits for a
-  recommendation to be made available before returning. If a recommendation is available, the
-  call returns sooner than WaitTimeSeconds. If no messages are available and the wait time
-  expires, the call returns successfully with an empty list.
+  recommendation to be made available before returning. If a recommendation is available,
+  the call returns sooner than `WaitTimeSeconds`. If no messages are available and the wait
+  time expires, the call returns successfully with an empty list.
 """
-function get_recommendations(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recommendations(
-    assistantId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_recommendations(assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommendations(assistantId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_session(assistant_id, session_id)
@@ -929,36 +463,14 @@ end
 Retrieves information for a specified session.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-
 """
-function get_session(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_session(
-    assistantId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_session(assistantId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/sessions/$(sessionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session(assistantId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assistant_associations(assistant_id)
@@ -967,38 +479,20 @@ end
 Lists information about assistant associations.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_assistant_associations(
-    assistantId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_assistant_associations(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assistant_associations(assistantId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assistant_associations(assistantId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants/$(assistantId)/associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assistants()
@@ -1007,23 +501,15 @@ end
 Lists information about assistants.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_assistants(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_assistants(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_assistants(; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assistants(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_contents(knowledge_base_id)
@@ -1032,37 +518,21 @@ end
 Lists the content.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_contents(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_contents(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/contents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_import_jobs(knowledge_base_id)
@@ -1071,39 +541,21 @@ end
 Lists information about import jobs.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_import_jobs(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_import_jobs(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_import_jobs(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/importJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_import_jobs(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/importJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_knowledge_bases()
@@ -1112,27 +564,15 @@ end
 Lists the knowledge bases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_knowledge_bases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_knowledge_bases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_quick_responses(knowledge_base_id)
@@ -1141,39 +581,21 @@ end
 Lists information about quick response.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_quick_responses(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_quick_responses(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_quick_responses(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/quickResponses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_quick_responses(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/knowledgeBases/$(knowledgeBaseId)/quickResponses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1182,128 +604,55 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     notify_recommendations_received(assistant_id, recommendation_ids, session_id)
     notify_recommendations_received(assistant_id, recommendation_ids, session_id, params::Dict{String,<:Any})
 
 Removes the specified recommendations from the specified assistant's queue of newly
-available recommendations. You can use this API in conjunction with GetRecommendations and
-a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
+available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html)
+and a `waitTimeSeconds` input for long-polling behavior and avoiding duplicate
+recommendations.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `recommendation_ids`: The identifiers of the recommendations.
 - `session_id`: The identifier of the session. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-
 """
-function notify_recommendations_received(
-    assistantId,
-    recommendationIds,
-    sessionId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
-        Dict{String,Any}("recommendationIds" => recommendationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function notify_recommendations_received(
-    assistantId,
-    recommendationIds,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("recommendationIds" => recommendationIds), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+notify_recommendations_received(assistantId, recommendationIds, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify", Dict{String, Any}("recommendationIds"=>recommendationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+notify_recommendations_received(assistantId, recommendationIds, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recommendationIds"=>recommendationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     query_assistant(assistant_id, query_text)
     query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
 
 Performs a manual search against the specified assistant. To retrieve recommendations for
-an assistant, use GetRecommendations.
+an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `query_text`: The text to search for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function query_assistant(
-    assistantId, queryText; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/query",
-        Dict{String,Any}("queryText" => queryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query_assistant(
-    assistantId,
-    queryText,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/query",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("queryText" => queryText), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+query_assistant(assistantId, queryText; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/query", Dict{String, Any}("queryText"=>queryText); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+query_assistant(assistantId, queryText, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryText"=>queryText), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     remove_knowledge_base_template_uri(knowledge_base_id)
@@ -1312,34 +661,13 @@ end
 Removes a URI template from a knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
 
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 """
-function remove_knowledge_base_template_uri(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_knowledge_base_template_uri(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+remove_knowledge_base_template_uri(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/templateUri"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_knowledge_base_template_uri(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/knowledgeBases/$(knowledgeBaseId)/templateUri", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_content(knowledge_base_id, search_expression)
@@ -1349,46 +677,22 @@ Searches for content in a specified knowledge base. Can be used to get a specifi
 resource by its name.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function search_content(
-    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/search",
-        Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_content(
-    knowledgeBaseId,
-    searchExpression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/search",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("searchExpression" => searchExpression), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_content(knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/search", Dict{String, Any}("searchExpression"=>searchExpression); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_content(knowledgeBaseId, searchExpression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchExpression"=>searchExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_quick_responses(knowledge_base_id, search_expression)
@@ -1397,48 +701,24 @@ end
 Searches existing Wisdom quick responses in a Wisdom knowledge base.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should be a
   QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
   the ARN.
 - `search_expression`: The search expression for querying the quick response.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"attributes"`: The user-defined Amazon Connect contact attributes to be resolved when
-  search results are returned.
+
+- `"attributes"`: The [user-defined Amazon Connect contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes)
+  to be resolved when search results are returned.
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function search_quick_responses(
-    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
-        Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_quick_responses(
-    knowledgeBaseId,
-    searchExpression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("searchExpression" => searchExpression), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_quick_responses(knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses", Dict{String, Any}("searchExpression"=>searchExpression); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_quick_responses(knowledgeBaseId, searchExpression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchExpression"=>searchExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_sessions(assistant_id, search_expression)
@@ -1447,45 +727,21 @@ end
 Searches for sessions.
 
 # Arguments
+
 - `assistant_id`: The identifier of the Wisdom assistant. Can be either the ID or the ARN.
   URLs cannot contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function search_sessions(
-    assistantId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/searchSessions",
-        Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_sessions(
-    assistantId,
-    searchExpression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/searchSessions",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("searchExpression" => searchExpression), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_sessions(assistantId, searchExpression; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/searchSessions", Dict{String, Any}("searchExpression"=>searchExpression); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_sessions(assistantId, searchExpression, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/assistants/$(assistantId)/searchSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("searchExpression"=>searchExpression), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_content_upload(content_type, knowledge_base_id)
@@ -1493,118 +749,59 @@ end
 
 Get a URL to upload content to a knowledge base. To upload content, first make a PUT
 request to the returned URL with your file, making sure to include the required headers.
-Then use CreateContent to finalize the content creation process or UpdateContent to modify
-an existing resource. You can only upload content to a knowledge base of type CUSTOM.
+Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html)
+to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html)
+to modify an existing resource. You can only upload content to a knowledge base of type
+CUSTOM.
 
 # Arguments
+
 - `content_type`: The type of content to upload.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"presignedUrlTimeToLive"`: The expected expiration time of the generated presigned URL,
   specified in minutes.
 """
-function start_content_upload(
-    contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/upload",
-        Dict{String,Any}("contentType" => contentType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_content_upload(
-    contentType,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/upload",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("contentType" => contentType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_content_upload(contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/upload", Dict{String, Any}("contentType"=>contentType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_content_upload(contentType, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentType"=>contentType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_import_job(import_job_type, knowledge_base_id, upload_id)
     start_import_job(import_job_type, knowledge_base_id, upload_id, params::Dict{String,<:Any})
 
 Start an asynchronous job to import Wisdom resources from an uploaded source file. Before
-calling this API, use StartContentUpload to upload an asset that contains the resource
-data.   For importing Wisdom quick responses, you need to upload a csv file including the
-quick responses. For information about how to format the csv file for importing quick
-responses, see Import quick responses.
+calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html)
+to upload an asset that contains the resource data. - For importing Wisdom quick responses,
+you need to upload a csv file including the quick responses. For information about how to
+format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
 
 # Arguments
-- `import_job_type`: The type of the import job.   For importing quick response resource,
-  set the value to QUICK_RESPONSES.
+
+- `import_job_type`: The type of the import job. - For importing quick response resource,
+  set the value to `QUICK_RESPONSES`.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.   For importing Wisdom quick
-  responses, this should be a QUICK_RESPONSES type knowledge base.
-- `upload_id`: A pointer to the uploaded asset. This value is returned by
-  StartContentUpload.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN. - For importing Wisdom quick
+  responses, this should be a `QUICK_RESPONSES` type knowledge base.
+- `upload_id`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The tags used to organize, track, or control access for this resource.
 - `"externalSourceConfiguration"`: The configuration information of the external source
   that the resource data are imported from.
 - `"metadata"`: The metadata fields of the imported Wisdom resources.
 """
-function start_import_job(
-    importJobType,
-    knowledgeBaseId,
-    uploadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
-        Dict{String,Any}(
-            "importJobType" => importJobType,
-            "uploadId" => uploadId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_import_job(
-    importJobType,
-    knowledgeBaseId,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "importJobType" => importJobType,
-                    "uploadId" => uploadId,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_import_job(importJobType, knowledgeBaseId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/importJobs", Dict{String, Any}("importJobType"=>importJobType, "uploadId"=>uploadId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_import_job(importJobType, knowledgeBaseId, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/importJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("importJobType"=>importJobType, "uploadId"=>uploadId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -1613,33 +810,12 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return wisdom(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1648,35 +824,12 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_content(content_id, knowledge_base_id)
@@ -1685,99 +838,55 @@ end
 Updates information about the content.
 
 # Arguments
+
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
-  Wisdom, you can store an external version identifier as metadata to utilize for determining
-  drift.
+  Wisdom, you can store an external version identifier as metadata to utilize for
+  determining drift.
 - `"overrideLinkOutUri"`: The URI for the article. If the knowledge base has a templateUri,
   setting this argument overrides it for this piece of content. To remove an existing
-  overrideLinkOurUri, exclude this argument and set removeOverrideLinkOutUri to true.
-- `"removeOverrideLinkOutUri"`: Unset the existing overrideLinkOutUri if it exists.
-- `"revisionId"`: The revisionId of the content resource to update, taken from an earlier
-  call to GetContent, GetContentSummary, SearchContent, or ListContents. If included, this
-  argument acts as an optimistic lock to ensure content was not modified since it was last
-  read. If it has been modified, this API throws a PreconditionFailedException.
+  `overrideLinkOurUri`, exclude this argument and set `removeOverrideLinkOutUri` to true.
+- `"removeOverrideLinkOutUri"`: Unset the existing `overrideLinkOutUri` if it exists.
+- `"revisionId"`: The `revisionId` of the content resource to update, taken from an earlier
+  call to `GetContent`, `GetContentSummary`, `SearchContent`, or `ListContents`. If
+  included, this argument acts as an optimistic lock to ensure content was not modified
+  since it was last read. If it has been modified, this API throws a
+  `PreconditionFailedException`.
 - `"title"`: The title of the content.
-- `"uploadId"`: A pointer to the uploaded asset. This value is returned by
-  StartContentUpload.
+- `"uploadId"`: A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
 """
-function update_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_content(contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_content(contentId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_knowledge_base_template_uri(knowledge_base_id, template_uri)
     update_knowledge_base_template_uri(knowledge_base_id, template_uri, params::Dict{String,<:Any})
 
 Updates the template URI of a knowledge base. This is only supported for knowledge bases of
-type EXTERNAL. Include a single variable in {variable} format; this interpolated by Wisdom
-using ingested content. For example, if you ingest a Salesforce article, it has an Id
-value, and you can set the template URI to
-https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*{Id}*/view.
+type EXTERNAL. Include a single variable in `${variable}` format; this interpolated by
+Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an
+`Id` value, and you can set the template URI to
+`https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view`.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
-- `template_uri`: The template URI to update.
 
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
+- `template_uri`: The template URI to update.
 """
-function update_knowledge_base_template_uri(
-    knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri",
-        Dict{String,Any}("templateUri" => templateUri);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_knowledge_base_template_uri(
-    knowledgeBaseId,
-    templateUri,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("templateUri" => templateUri), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_knowledge_base_template_uri(knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/templateUri", Dict{String, Any}("templateUri"=>templateUri); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_knowledge_base_template_uri(knowledgeBaseId, templateUri, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/templateUri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("templateUri"=>templateUri), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_quick_response(knowledge_base_id, quick_response_id)
@@ -1786,25 +895,29 @@ end
 Updates an existing Wisdom quick response.
 
 # Arguments
+
 - `knowledge_base_id`: The identifier of the knowledge base. This should not be a
-  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
-  either the ID or the ARN. URLs cannot contain the ARN.
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can
+  be either the ID or the ARN. URLs cannot contain the ARN.
 - `quick_response_id`: The identifier of the quick response.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"channels"`: The Amazon Connect contact channels this quick response applies to. The
-  supported contact channel types include Chat.
+  supported contact channel types include `Chat`.
 - `"content"`: The updated content of the quick response.
-- `"contentType"`: The media type of the quick response content.   Use
-  application/x.quickresponse;format=plain for quick response written in plain text.   Use
-  application/x.quickresponse;format=markdown for quick response written in richtext.
+- `"contentType"`: The media type of the quick response content. - Use
+  `application/x.quickresponse;format=plain` for quick response written in plain text.
+   - Use `application/x.quickresponse;format=markdown` for quick response written in
+  richtext.
 - `"description"`: The updated description of the quick response.
 - `"groupingConfiguration"`: The updated grouping configuration of the quick response.
 - `"isActive"`: Whether the quick response is active.
 - `"language"`: The language code value for the language in which the quick response is
-  written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT,
-  ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+  written. The supported language codes include `de_DE`, `en_US`, `es_ES`, `fr_FR`,
+  `id_ID`, `it_IT`, `ja_JP`, `ko_KR`, `pt_BR`, `zh_CN`, `zh_TW`
 - `"name"`: The name of the quick response.
 - `"removeDescription"`: Whether to remove the description from the quick response.
 - `"removeGroupingConfiguration"`: Whether to remove the grouping configuration of the
@@ -1813,27 +926,5 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
   across the knowledge base.
 """
-function update_quick_response(
-    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_quick_response(
-    knowledgeBaseId,
-    quickResponseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_quick_response(knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_quick_response(knowledgeBaseId, quickResponseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wisdom("POST", "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

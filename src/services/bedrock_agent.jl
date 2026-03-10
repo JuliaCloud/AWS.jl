@@ -9,10 +9,11 @@ using AWS.UUIDs
     associate_agent_knowledge_base(agent_id, agent_version, description, knowledge_base_id, params::Dict{String,<:Any})
 
 Associates a knowledge base with an agent. If a knowledge base is associated and its
-indexState is set to Enabled, the agent queries the knowledge base for information to
+`indexState` is set to `Enabled`, the agent queries the knowledge base for information to
 augment its response to the user.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent with which you want to associate the
   knowledge base.
 - `agent_version`: The version of the agent with which you want to associate the knowledge
@@ -22,80 +23,53 @@ augment its response to the user.
   agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"knowledgeBaseState"`: Specifies whether to use the knowledge base or not when sending
-  an InvokeAgent request.
+  an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 """
-function associate_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    description,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/",
-        Dict{String,Any}(
-            "description" => description, "knowledgeBaseId" => knowledgeBaseId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    description,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "description" => description, "knowledgeBaseId" => knowledgeBaseId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_agent_knowledge_base(agentId, agentVersion, description, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/", Dict{String, Any}("description"=>description, "knowledgeBaseId"=>knowledgeBaseId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_agent_knowledge_base(agentId, agentVersion, description, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "knowledgeBaseId"=>knowledgeBaseId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_agent(agent_name)
     create_agent(agent_name, params::Dict{String,<:Any})
 
 Creates an agent that orchestrates interactions between foundation models, data sources,
-software applications, user conversations, and APIs to carry out tasks to help customers.
-Specify the following fields for security purposes.    agentResourceRoleArn – The Amazon
-Resource Name (ARN) of the role with permissions to invoke API operations on an agent.
-(Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to
-encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the
-number of seconds for which the agent should maintain session information. After this time
-expires, the subsequent InvokeAgent request begins a new session.     To override the
-default prompt behavior for agent orchestration and to use advanced prompts, include a
-promptOverrideConfiguration object. For more information, see Advanced prompts.   If you
-agent fails to be created, the response returns a list of failureReasons alongside a list
-of recommendedActions for you to troubleshoot.
+software applications, user conversations, and APIs to carry out tasks to help customers. -
+Specify the following fields for security purposes. <ul> <li> `agentResourceRoleArn` – The
+Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an
+agent.
+ - (Optional) `customerEncryptionKeyArn` – The Amazon Resource Name (ARN) of a KMS key to
+encrypt the creation of the agent.
+ - (Optional) `idleSessionTTLinSeconds` – Specify the number of seconds for which the agent
+should maintain session information. After this time expires, the subsequent `InvokeAgent`
+request begins a new session.
+ </li> <li>To enable your agent to retain conversational context across multiple sessions,
+include a `memoryConfiguration` object. For more information, see [Configure memory](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-configure-memory.html).
+</li> <li>To override the default prompt behavior for agent orchestration and to use
+advanced prompts, include a `promptOverrideConfiguration` object. For more information, see
+[Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+</li> <li>If your agent fails to be created, the response returns a list of
+`failureReasons` alongside a list of `recommendedActions` for you to troubleshoot. </li>
+<li>The agent instructions will not be honored if your agent has only one knowledge base,
+uses default prompts, has no action group, and user input is disabled. </li> </ul>
 
 # Arguments
+
 - `agent_name`: A name for the agent that you create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"agentResourceRoleArn"`: The Amazon Resource Name (ARN) of the IAM role with permissions
   to invoke API operations on the agent.
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key with which to
   encrypt the agent.
 - `"description"`: A description of the agent.
@@ -104,45 +78,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"guardrailConfiguration"`: The unique Guardrail configuration assigned to the agent when
   it is created.
 - `"idleSessionTTLInSeconds"`: The number of seconds for which Amazon Bedrock keeps
-  information about a user's conversation with the agent. A user interaction remains active
-  for the amount of time specified. If no conversation occurs during this time, the session
-  expires and Amazon Bedrock deletes any data provided before the timeout.
+  information about a user's conversation with the agent.
+
+  A user interaction remains active for the amount of time specified. If no conversation
+  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
+  before the timeout.
 - `"instruction"`: Instructions that tell the agent what it should do and how it should
   interact with users.
+- `"memoryConfiguration"`:  Contains the details of the memory configured for the agent.
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
-  parts of an agent sequence. For more information, see Advanced prompts.
+  parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
 - `"tags"`: Any tags that you want to attach to the agent.
 """
-function create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "PUT",
-        "/agents/",
-        Dict{String,Any}("agentName" => agentName, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_agent(
-    agentName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "agentName" => agentName, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_agent(agentName; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/", Dict{String, Any}("agentName"=>agentName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_agent(agentName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentName"=>agentName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_agent_action_group(action_group_name, agent_id, agent_version)
@@ -150,83 +99,63 @@ end
 
 Creates an action group for an agent. An action group represents the actions that an agent
 can carry out for the customer by defining the APIs that an agent can call and the logic
-for calling them. To allow your agent to request the user for additional information when
-trying to complete a task, add an action group with the parentActionGroupSignature field
-set to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor
-fields blank for this action group. During orchestration, if your agent determines that it
-needs to invoke an API in an action group, but doesn't have enough information to complete
-the API request, it will invoke this action group instead and return an Observation
+for calling them.
+
+To allow your agent to request the user for additional information when trying to complete
+a task, add an action group with the `parentActionGroupSignature` field set to
+`AMAZON.UserInput`.
+
+To allow your agent to generate, run, and troubleshoot code when trying to complete a task,
+add an action group with the `parentActionGroupSignature` field set to
+`AMAZON.CodeInterpreter`.
+
+You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for
+this action group. During orchestration, if your agent determines that it needs to invoke
+an API in an action group, but doesn't have enough information to complete the API request,
+it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
 reprompting the user for more information.
 
 # Arguments
+
 - `action_group_name`: The name to give the action group.
 - `agent_id`: The unique identifier of the agent for which to create the action group.
 - `agent_version`: The version of the agent for which to create the action group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionGroupExecutor"`: The Amazon Resource Name (ARN) of the Lambda function containing
   the business logic that is carried out upon invoking the action or the custom control
   method for handling the information elicited from the user.
 - `"actionGroupState"`: Specifies whether the action group is available for the agent to
-  invoke or not when sending an InvokeAgent request.
+  invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
   for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see Action group OpenAPI schemas.
+  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the action group.
 - `"functionSchema"`: Contains details about the function schema for the action group or
   the JSON or YAML-formatted payload defining the schema.
 - `"parentActionGroupSignature"`: To allow your agent to request the user for additional
-  information when trying to complete a task, set this field to AMAZON.UserInput. You must
-  leave the description, apiSchema, and actionGroupExecutor fields blank for this action
-  group. During orchestration, if your agent determines that it needs to invoke an API in an
+  information when trying to complete a task, set this field to `AMAZON.UserInput`. You
+  must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for
+  this action group.
+
+  To allow your agent to generate, run, and troubleshoot code when trying to complete a
+  task, set this field to `AMAZON.CodeInterpreter`. You must leave the `description`,
+  `apiSchema`, and `actionGroupExecutor` fields blank for this action group.
+
+  During orchestration, if your agent determines that it needs to invoke an API in an
   action group, but doesn't have enough information to complete the API request, it will
-  invoke this action group instead and return an Observation reprompting the user for more
-  information.
+  invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+  reprompting the user for more information.
 """
-function create_agent_action_group(
-    actionGroupName,
-    agentId,
-    agentVersion;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/",
-        Dict{String,Any}(
-            "actionGroupName" => actionGroupName, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_agent_action_group(
-    actionGroupName,
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "actionGroupName" => actionGroupName, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_agent_action_group(actionGroupName, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/", Dict{String, Any}("actionGroupName"=>actionGroupName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_agent_action_group(actionGroupName, agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionGroupName"=>actionGroupName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_agent_alias(agent_alias_name, agent_id)
@@ -235,124 +164,148 @@ end
 Creates an alias of an agent that can be used to deploy the agent.
 
 # Arguments
+
 - `agent_alias_name`: The name of the alias.
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the alias of the agent.
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 - `"tags"`: Any tags that you want to attach to the alias of the agent.
 """
-function create_agent_alias(
-    agentAliasName, agentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentaliases/",
-        Dict{String,Any}(
-            "agentAliasName" => agentAliasName, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_agent_alias(
-    agentAliasName,
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentaliases/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "agentAliasName" => agentAliasName, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_agent_alias(agentAliasName, agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentaliases/", Dict{String, Any}("agentAliasName"=>agentAliasName, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_agent_alias(agentAliasName, agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentaliases/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentAliasName"=>agentAliasName, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_data_source(data_source_configuration, knowledge_base_id, name)
     create_data_source(data_source_configuration, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Sets up a data source to be added to a knowledge base.  You can't change the
-chunkingConfiguration after you create the data source.
+Creates a data source connector for a knowledge base.
+
+!!! important
+    You can't change the `chunkingConfiguration` after you create the data source connector.
 
 # Arguments
-- `data_source_configuration`: Contains metadata about where the data source is stored.
+
+- `data_source_configuration`: The connection configuration for the data source.
 - `knowledge_base_id`: The unique identifier of the knowledge base to which to add the data
   source.
 - `name`: The name of the data source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
-- `"dataDeletionPolicy"`: The data deletion policy assigned to the data source.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"dataDeletionPolicy"`: The data deletion policy for the data source.
+
+  You can set the data deletion policy to: - DELETE: Deletes all data from your data source
+  that’s converted into vector embeddings upon deletion of a knowledge base or data source
+  resource. Note that the **vector store itself is not deleted**, only the data. This flag
+  is ignored if an Amazon Web Services account is deleted.
+   - RETAIN: Retains all data from your data source that’s converted into vector embeddings
+  upon deletion of a knowledge base or data source resource. Note that the **vector store
+  itself is not deleted** if you delete a knowledge base or data source resource.
 - `"description"`: A description of the data source.
 - `"serverSideEncryptionConfiguration"`: Contains details about the server-side encryption
   for the data source.
 - `"vectorIngestionConfiguration"`: Contains details about how to ingest the documents in
   the data source.
 """
-function create_data_source(
-    dataSourceConfiguration,
-    knowledgeBaseId,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/",
-        Dict{String,Any}(
-            "dataSourceConfiguration" => dataSourceConfiguration,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_data_source(
-    dataSourceConfiguration,
-    knowledgeBaseId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSourceConfiguration" => dataSourceConfiguration,
-                    "name" => name,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_data_source(dataSourceConfiguration, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/", Dict{String, Any}("dataSourceConfiguration"=>dataSourceConfiguration, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_data_source(dataSourceConfiguration, knowledgeBaseId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceConfiguration"=>dataSourceConfiguration, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    create_flow(execution_role_arn, name)
+    create_flow(execution_role_arn, name, params::Dict{String,<:Any})
+
+Creates a prompt flow that you can use to send an input through various steps to yield an
+output. Configure nodes, each of which corresponds to a step of the flow, and create
+connections between the nodes to create paths to different outputs. For more information,
+see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
+and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
+  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
+  in the Amazon Bedrock User Guide.
+- `name`: A name for the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
+  the flow.
+- `"definition"`: A definition of the nodes and connections between nodes in the flow.
+- `"description"`: A description for the flow.
+- `"tags"`: Any tags that you want to attach to the flow. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+"""
+create_flow(executionRoleArn, name; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/", Dict{String, Any}("executionRoleArn"=>executionRoleArn, "name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_flow(executionRoleArn, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionRoleArn"=>executionRoleArn, "name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    create_flow_alias(flow_identifier, name, routing_configuration)
+    create_flow_alias(flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
+
+Creates an alias of a flow for deployment. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow for which to create an alias.
+- `name`: A name for the alias.
+- `routing_configuration`: Contains information about the version to which to map the alias.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"description"`: A description for the alias.
+- `"tags"`: Any tags that you want to attach to the alias of the flow. For more
+  information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+"""
+create_flow_alias(flowIdentifier, name, routingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/aliases", Dict{String, Any}("name"=>name, "routingConfiguration"=>routingConfiguration, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_flow_alias(flowIdentifier, name, routingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "routingConfiguration"=>routingConfiguration, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    create_flow_version(flow_identifier)
+    create_flow_version(flow_identifier, params::Dict{String,<:Any})
+
+Creates a version of the flow that you can deploy. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow that you want to create a version of.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"description"`: A description of the version of the flow.
+"""
+create_flow_version(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/versions", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_flow_version(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_knowledge_base(knowledge_base_configuration, name, role_arn, storage_configuration)
@@ -360,23 +313,29 @@ end
 
 Creates a knowledge base that contains data sources from which information can be queried
 and used by LLMs. To create a knowledge base, you must first set up your data sources and
-configure a supported vector store. For more information, see Set up your data for
-ingestion.  If you prefer to let Amazon Bedrock create and manage a vector store for you in
-Amazon OpenSearch Service, use the console. For more information, see Create a knowledge
-base.    Provide the name and an optional description.   Provide the Amazon Resource Name
-(ARN) with permissions to create a knowledge base in the roleArn field.   Provide the
-embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration
-object.   Provide the configuration for your vector store in the storageConfiguration
-object.   For an Amazon OpenSearch Service database, use the
-opensearchServerlessConfiguration object. For more information, see Create a vector store
-in Amazon OpenSearch Service.   For an Amazon Aurora database, use the RdsConfiguration
-object. For more information, see Create a vector store in Amazon Aurora.   For a Pinecone
-database, use the pineconeConfiguration object. For more information, see Create a vector
-store in Pinecone.   For a Redis Enterprise Cloud database, use the
-redisEnterpriseCloudConfiguration object. For more information, see Create a vector store
-in Redis Enterprise Cloud.
+configure a supported vector store. For more information, see [Set up your data for ingestion](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup.html).
+
+!!! note
+    If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon
+OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
+- Provide the `name` and an optional `description`.
+ - Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in
+the `roleArn` field.
+ - Provide the embedding model to use in the `embeddingModelArn` field in the
+`knowledgeBaseConfiguration` object.
+ - Provide the configuration for your vector store in the `storageConfiguration` object.
+<ul> <li>For an Amazon OpenSearch Service database, use the
+`opensearchServerlessConfiguration` object. For more information, see [Create a vector store in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
+ - For an Amazon Aurora database, use the `RdsConfiguration` object. For more information,
+see [Create a vector store in Amazon Aurora](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
+ - For a Pinecone database, use the `pineconeConfiguration` object. For more information,
+see [Create a vector store in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
+ - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration`
+object. For more information, see [Create a vector store in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-redis.html).
+ </li> </ul>
 
 # Arguments
+
 - `knowledge_base_configuration`: Contains details about the embeddings model used for the
   knowledge base.
 - `name`: A name for the knowledge base.
@@ -386,64 +345,78 @@ in Redis Enterprise Cloud.
   used for the knowledge base.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the knowledge base.
 - `"tags"`: Specify the key-value pairs for the tags that you want to attach to your
   knowledge base in this object.
 """
-function create_knowledge_base(
-    knowledgeBaseConfiguration,
-    name,
-    roleArn,
-    storageConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/",
-        Dict{String,Any}(
-            "knowledgeBaseConfiguration" => knowledgeBaseConfiguration,
-            "name" => name,
-            "roleArn" => roleArn,
-            "storageConfiguration" => storageConfiguration,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_knowledge_base(
-    knowledgeBaseConfiguration,
-    name,
-    roleArn,
-    storageConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "knowledgeBaseConfiguration" => knowledgeBaseConfiguration,
-                    "name" => name,
-                    "roleArn" => roleArn,
-                    "storageConfiguration" => storageConfiguration,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_knowledge_base(knowledgeBaseConfiguration, name, roleArn, storageConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/", Dict{String, Any}("knowledgeBaseConfiguration"=>knowledgeBaseConfiguration, "name"=>name, "roleArn"=>roleArn, "storageConfiguration"=>storageConfiguration, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_knowledge_base(knowledgeBaseConfiguration, name, roleArn, storageConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("knowledgeBaseConfiguration"=>knowledgeBaseConfiguration, "name"=>name, "roleArn"=>roleArn, "storageConfiguration"=>storageConfiguration, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    create_prompt(name)
+    create_prompt(name, params::Dict{String,<:Any})
+
+Creates a prompt in your prompt library that you can add to a flow. For more information,
+see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html),
+[Create a prompt using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-create.html)
+and [Prompt flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `name`: A name for the prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
+  the prompt.
+- `"defaultVariant"`: The name of the default variant for the prompt. This value must match
+  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
+  object.
+- `"description"`: A description for the prompt.
+- `"tags"`: Any tags that you want to attach to the prompt. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+- `"variants"`: A list of objects, each containing details about a variant of the prompt.
+"""
+create_prompt(name; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/prompts/", Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_prompt(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/prompts/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    create_prompt_version(prompt_identifier)
+    create_prompt_version(prompt_identifier, params::Dict{String,<:Any})
+
+Creates a static snapshot of your prompt that can be deployed to production. For more
+information, see [Deploy prompts using Prompt management by creating versions](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `prompt_identifier`: The unique identifier of the prompt that you want to create a
+  version of.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
+  completes no more than one time. If this token matches a previous request, Amazon Bedrock
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+- `"description"`: A description for the version of the prompt.
+- `"tags"`: Any tags that you want to attach to the version of the prompt. For more
+  information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+"""
+create_prompt_version(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/prompts/$(promptIdentifier)/versions", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_prompt_version(promptIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/prompts/$(promptIdentifier)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_agent(agent_id)
@@ -452,35 +425,19 @@ end
 Deletes an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
-function delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_agent(
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_agent(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_agent_action_group(action_group_id, agent_id, agent_version)
@@ -489,41 +446,21 @@ end
 Deletes an action group in an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group to delete.
 - `agent_id`: The unique identifier of the agent that the action group belongs to.
 - `agent_version`: The version of the agent that the action group belongs to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
-function delete_agent_action_group(
-    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_agent_action_group(
-    actionGroupId,
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_agent_action_group(actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_agent_action_group(actionGroupId, agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_agent_alias(agent_alias_id, agent_id)
@@ -532,34 +469,12 @@ end
 Deletes an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias to delete.
 - `agent_id`: The unique identifier of the agent that the alias belongs to.
-
 """
-function delete_agent_alias(
-    agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_agent_alias(
-    agentAliasId,
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_agent_alias(agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentaliases/$(agentAliasId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_agent_alias(agentAliasId, agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentaliases/$(agentAliasId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_agent_version(agent_id, agent_version)
@@ -568,39 +483,20 @@ end
 Deletes a version of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent that the version belongs to.
 - `agent_version`: The version of the agent to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, this value is false and deletion is stopped if
-  the resource is in use. If you set it to true, the resource will be deleted even if the
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
   resource is in use.
 """
-function delete_agent_version(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_agent_version(
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_agent_version(agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_agent_version(agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_data_source(data_source_id, knowledge_base_id)
@@ -609,71 +505,108 @@ end
 Deletes a data source from a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source to delete.
 - `knowledge_base_id`: The unique identifier of the knowledge base from which to delete the
   data source.
+"""
+delete_data_source(dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_data_source(dataSourceId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function delete_data_source(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_data_source(
-    dataSourceId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    delete_flow(flow_identifier)
+    delete_flow(flow_identifier, params::Dict{String,<:Any})
+
+Deletes a flow.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
+  resource is in use.
+"""
+delete_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_flow(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    delete_flow_alias(alias_identifier, flow_identifier)
+    delete_flow_alias(alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Deletes an alias of a flow.
+
+# Arguments
+
+- `alias_identifier`: The unique identifier of the alias to be deleted.
+- `flow_identifier`: The unique identifier of the flow that the alias belongs to.
+"""
+delete_flow_alias(aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_flow_alias(aliasIdentifier, flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    delete_flow_version(flow_identifier, flow_version)
+    delete_flow_version(flow_identifier, flow_version, params::Dict{String,<:Any})
+
+Deletes a version of a flow.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow whose version that you want to delete
+- `flow_version`: The version of the flow that you want to delete.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"skipResourceInUseCheck"`: By default, this value is `false` and deletion is stopped if
+  the resource is in use. If you set it to `true`, the resource will be deleted even if the
+  resource is in use.
+"""
+delete_flow_version(flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/versions/$(flowVersion)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_flow_version(flowIdentifier, flowVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/flows/$(flowIdentifier)/versions/$(flowVersion)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_knowledge_base(knowledge_base_id)
     delete_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
 
 Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the
-knowledge base from any agents that it is associated with by making a
-DisassociateAgentKnowledgeBase request.
+knowledge base from any agents that it is associated with by making a [DisassociateAgentKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_DisassociateAgentKnowledgeBase.html)
+request.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base to delete.
+"""
+delete_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/knowledgebases/$(knowledgeBaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_knowledge_base(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/knowledgebases/$(knowledgeBaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function delete_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/knowledgebases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/knowledgebases/$(knowledgeBaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    delete_prompt(prompt_identifier)
+    delete_prompt(prompt_identifier, params::Dict{String,<:Any})
+
+Deletes a prompt or a version of it, depending on whether you include the `promptVersion`
+field or not. For more information, see [Delete prompts from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-delete.html)
+and [Delete a version of a prompt from the Prompt management tool](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-delete.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `prompt_identifier`: The unique identifier of the prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"promptVersion"`: The version of the prompt to delete. To delete the prompt, omit this
+  field.
+"""
+delete_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/prompts/$(promptIdentifier)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_prompt(promptIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/prompts/$(promptIdentifier)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_agent_knowledge_base(agent_id, agent_version, knowledge_base_id)
@@ -682,40 +615,14 @@ end
 Disassociates a knowledge base from an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent from which to disassociate the knowledge
   base.
 - `agent_version`: The version of the agent from which to disassociate the knowledge base.
 - `knowledge_base_id`: The unique identifier of the knowledge base to disassociate.
-
 """
-function disassociate_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_agent(agent_id)
@@ -724,27 +631,11 @@ end
 Gets information about an agent.
 
 # Arguments
-- `agent_id`: The unique identifier of the agent.
 
+- `agent_id`: The unique identifier of the agent.
 """
-function get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_agent(
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_agent_action_group(action_group_id, agent_id, agent_version)
@@ -753,36 +644,13 @@ end
 Gets information about an action group for an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group for which to get information.
 - `agent_id`: The unique identifier of the agent that the action group belongs to.
 - `agent_version`: The version of the agent that the action group belongs to.
-
 """
-function get_agent_action_group(
-    actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_agent_action_group(
-    actionGroupId,
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_agent_action_group(actionGroupId, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent_action_group(actionGroupId, agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_agent_alias(agent_alias_id, agent_id)
@@ -791,35 +659,13 @@ end
 Gets information about an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias for which to get information.
 - `agent_id`: The unique identifier of the agent to which the alias to get information
   belongs.
-
 """
-function get_agent_alias(
-    agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_agent_alias(
-    agentAliasId,
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_agent_alias(agentAliasId, agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentaliases/$(agentAliasId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent_alias(agentAliasId, agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentaliases/$(agentAliasId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_agent_knowledge_base(agent_id, agent_version, knowledge_base_id)
@@ -828,41 +674,15 @@ end
 Gets information about a knowledge base associated with an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent with which the knowledge base is
   associated.
 - `agent_version`: The version of the agent with which the knowledge base is associated.
 - `knowledge_base_id`: The unique identifier of the knowledge base associated with the
   agent.
-
 """
-function get_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_agent_version(agent_id, agent_version)
@@ -871,34 +691,12 @@ end
 Gets details about a version of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_version`: The version of the agent.
-
 """
-function get_agent_version(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_agent_version(
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_agent_version(agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_agent_version(agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/agents/$(agentId)/agentversions/$(agentVersion)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_data_source(data_source_id, knowledge_base_id)
@@ -907,35 +705,57 @@ end
 Gets information about a data source.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source.
 - `knowledge_base_id`: The unique identifier of the knowledge base that the data source was
   added to.
+"""
+get_data_source(dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_data_source(dataSourceId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function get_data_source(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_data_source(
-    dataSourceId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    get_flow(flow_identifier)
+    get_flow(flow_identifier, params::Dict{String,<:Any})
+
+Retrieves information about a flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow.
+"""
+get_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_flow(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    get_flow_alias(alias_identifier, flow_identifier)
+    get_flow_alias(alias_identifier, flow_identifier, params::Dict{String,<:Any})
+
+Retrieves information about a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `alias_identifier`: The unique identifier of the alias for which to retrieve information.
+- `flow_identifier`: The unique identifier of the flow that the alias belongs to.
+"""
+get_flow_alias(aliasIdentifier, flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_flow_alias(aliasIdentifier, flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    get_flow_version(flow_identifier, flow_version)
+    get_flow_version(flow_identifier, flow_version, params::Dict{String,<:Any})
+
+Retrieves information about a version of a flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow for which to get information.
+- `flow_version`: The version of the flow for which to get information.
+"""
+get_flow_version(flowIdentifier, flowVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/versions/$(flowVersion)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_flow_version(flowIdentifier, flowVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/versions/$(flowVersion)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_ingestion_job(data_source_id, ingestion_job_id, knowledge_base_id)
@@ -944,40 +764,14 @@ end
 Gets information about a ingestion job, in which a data source is added to a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source in the ingestion job.
 - `ingestion_job_id`: The unique identifier of the ingestion job.
 - `knowledge_base_id`: The unique identifier of the knowledge base for which the ingestion
   job applies.
-
 """
-function get_ingestion_job(
-    dataSourceId,
-    ingestionJobId,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ingestion_job(
-    dataSourceId,
-    ingestionJobId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_ingestion_job(dataSourceId, ingestionJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ingestion_job(dataSourceId, ingestionJobId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/$(ingestionJobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_knowledge_base(knowledge_base_id)
@@ -986,33 +780,36 @@ end
 Gets information about a knoweldge base.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to get
   information.
+"""
+get_knowledge_base(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_knowledge_base(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/knowledgebases/$(knowledgeBaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function get_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/knowledgebases/$(knowledgeBaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    get_prompt(prompt_identifier)
+    get_prompt(prompt_identifier, params::Dict{String,<:Any})
+
+Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of
+it, depending on whether you include the `promptVersion` field or not. For more
+information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
+and [View information about a version of your prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html#prompt-management-versions-view.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `prompt_identifier`: The unique identifier of the prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"promptVersion"`: The version of the prompt about which you want to retrieve
+  information. Omit this field to return information about the working draft of the prompt.
+"""
+get_prompt(promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/prompts/$(promptIdentifier)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_prompt(promptIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/prompts/$(promptIdentifier)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_agent_action_groups(agent_id, agent_version)
@@ -1021,42 +818,23 @@ end
 Lists the action groups for an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_version`: The version of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_agent_action_groups(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_agent_action_groups(
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_agent_action_groups(agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agent_action_groups(agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_agent_aliases(agent_id)
@@ -1065,38 +843,22 @@ end
 Lists the aliases of an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentaliases/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_agent_aliases(
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentaliases/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_agent_aliases(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentaliases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agent_aliases(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentaliases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_agent_knowledge_bases(agent_id, agent_version)
@@ -1105,44 +867,25 @@ end
 Lists knowledge bases associated with an agent and information about each one.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent for which to return information about
   knowledge bases associated with it.
 - `agent_version`: The version of the agent for which to return information about knowledge
   bases associated with it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_agent_knowledge_bases(
-    agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_agent_knowledge_bases(
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_agent_knowledge_bases(agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agent_knowledge_bases(agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_agent_versions(agent_id)
@@ -1151,38 +894,22 @@ end
 Lists the versions of an agent and information about each version.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_agent_versions(
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/agentversions/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_agent_versions(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agent_versions(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/agentversions/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_agents()
@@ -1191,26 +918,18 @@ end
 Lists the agents belonging to an account and information about each agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_agents(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_agents(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_agents(; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_agents(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_data_sources(knowledge_base_id)
@@ -1219,41 +938,93 @@ end
 Lists the data sources in a knowledge base and information about each one.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to return a
   list of information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_data_sources(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_data_sources(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_data_sources(knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/$(knowledgeBaseId)/datasources/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_data_sources(knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/$(knowledgeBaseId)/datasources/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    list_flow_aliases(flow_identifier)
+    list_flow_aliases(flow_identifier, params::Dict{String,<:Any})
+
+Returns a list of aliases for a flow.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow for which aliases are being returned.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
+"""
+list_flow_aliases(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/aliases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_flow_aliases(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/aliases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    list_flow_versions(flow_identifier)
+    list_flow_versions(flow_identifier, params::Dict{String,<:Any})
+
+Returns a list of information about each flow. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
+"""
+list_flow_versions(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_flow_versions(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/$(flowIdentifier)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    list_flows()
+    list_flows(params::Dict{String,<:Any})
+
+Returns a list of flows and information about each flow. For more information, see [Manage a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-manage.html)
+in the Amazon Bedrock User Guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
+"""
+list_flows(; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_flows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/flows/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_ingestion_jobs(data_source_id, knowledge_base_id)
@@ -1262,46 +1033,27 @@ end
 Lists the ingestion jobs for a data source and information about each of them.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source for which to return ingestion
   jobs.
 - `knowledge_base_id`: The unique identifier of the knowledge base for which to return
   ingestion jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: Contains a definition of a filter for which to filter the results.
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 - `"sortBy"`: Contains details about how to sort the results.
 """
-function list_ingestion_jobs(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_ingestion_jobs(
-    dataSourceId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_ingestion_jobs(dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_ingestion_jobs(dataSourceId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_knowledge_bases()
@@ -1310,30 +1062,43 @@ end
 Lists the knowledge bases in an account and information about each of them.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response. If the total
-  number of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
-- `"nextToken"`: If the total number of results is greater than the maxResults value
-  provided in the request, enter the token returned in the nextToken field in the response in
-  this field to return the next batch of results.
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
 """
-function list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_knowledge_bases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "POST",
-        "/knowledgebases/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_knowledge_bases(; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_knowledge_bases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/knowledgebases/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    list_prompts()
+    list_prompts(params::Dict{String,<:Any})
+
+Returns either information about the working draft (`DRAFT` version) of each prompt in an
+account, or information about of all versions of a prompt, depending on whether you include
+the `promptIdentifier` field or not. For more information, see [View information about prompts using Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-view.html)
+in the Amazon Bedrock User Guide.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in
+  the `nextToken` field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the `maxResults` value
+  provided in the request, enter the token returned in the `nextToken` field in the
+  response in this field to return the next batch of results.
+- `"promptIdentifier"`: The unique identifier of the prompt for whose versions you want to
+  return information. Omit this field to list information about all prompts in an account.
+"""
+list_prompts(; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/prompts/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_prompts(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/prompts/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1342,64 +1107,39 @@ end
 List all the tags for the resource you specify.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list tags.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to list tags.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     prepare_agent(agent_id)
     prepare_agent(agent_id, params::Dict{String,<:Any})
 
-Creates a DRAFT version of the agent that can be used for internal testing.
+Creates a `DRAFT` version of the agent that can be used for internal testing.
 
 # Arguments
-- `agent_id`: The unique identifier of the agent for which to create a DRAFT version.
+
+- `agent_id`: The unique identifier of the agent for which to create a `DRAFT` version.
+"""
+prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+prepare_agent(agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/agents/$(agentId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function prepare_agent(agentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function prepare_agent(
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/agents/$(agentId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    prepare_flow(flow_identifier)
+    prepare_flow(flow_identifier, params::Dict{String,<:Any})
+
+Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see
+[Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `flow_identifier`: The unique identifier of the flow.
+"""
+prepare_flow(flowIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+prepare_flow(flowIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/flows/$(flowIdentifier)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_ingestion_job(data_source_id, knowledge_base_id)
@@ -1408,82 +1148,38 @@ end
 Begins an ingestion job, in which a data source is added to a knowledge base.
 
 # Arguments
+
 - `data_source_id`: The unique identifier of the data source to ingest.
 - `knowledge_base_id`: The unique identifier of the knowledge base to which to add the data
   source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier to ensure that the API request
   completes no more than one time. If this token matches a previous request, Amazon Bedrock
-  ignores the request, but does not return an error. For more information, see Ensuring
-  idempotency.
+  ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
 - `"description"`: A description of the ingestion job.
 """
-function start_ingestion_job(
-    dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_ingestion_job(
-    dataSourceId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_ingestion_job(dataSourceId, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_ingestion_job(dataSourceId, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)/ingestionjobs/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Associate tags with a resource. For more information, see Tagging resources in the Amazon
-Bedrock User Guide.
+Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html)
+in the Amazon Bedrock User Guide.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to tag.
 - `tags`: An object containing key-value pairs that define the tags to attach to the
   resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return bedrock_agent(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1492,35 +1188,12 @@ end
 Remove tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource from which to remove tags.
 - `tag_keys`: A list of keys of the tags to remove from the resource.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return bedrock_agent(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_agent(agent_id, agent_name, agent_resource_role_arn, foundation_model)
@@ -1529,6 +1202,7 @@ end
 Updates the configuration of an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent.
 - `agent_name`: Specifies a new name for the agent.
 - `agent_resource_role_arn`: The Amazon Resource Name (ARN) of the IAM role with
@@ -1537,66 +1211,28 @@ Updates the configuration of an agent.
   agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key with which to
   encrypt the agent.
 - `"description"`: Specifies a new description of the agent.
 - `"guardrailConfiguration"`: The unique Guardrail configuration assigned to the agent when
   it is updated.
 - `"idleSessionTTLInSeconds"`: The number of seconds for which Amazon Bedrock keeps
-  information about a user's conversation with the agent. A user interaction remains active
-  for the amount of time specified. If no conversation occurs during this time, the session
-  expires and Amazon Bedrock deletes any data provided before the timeout.
+  information about a user's conversation with the agent.
+
+  A user interaction remains active for the amount of time specified. If no conversation
+  occurs during this time, the session expires and Amazon Bedrock deletes any data provided
+  before the timeout.
 - `"instruction"`: Specifies new instructions that tell the agent what it should do and how
   it should interact with users.
+- `"memoryConfiguration"`: Specifies the new memory configuration for the agent.
 - `"promptOverrideConfiguration"`: Contains configurations to override prompts in different
-  parts of an agent sequence. For more information, see Advanced prompts.
+  parts of an agent sequence. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
 """
-function update_agent(
-    agentId,
-    agentName,
-    agentResourceRoleArn,
-    foundationModel;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/",
-        Dict{String,Any}(
-            "agentName" => agentName,
-            "agentResourceRoleArn" => agentResourceRoleArn,
-            "foundationModel" => foundationModel,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_agent(
-    agentId,
-    agentName,
-    agentResourceRoleArn,
-    foundationModel,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "agentName" => agentName,
-                    "agentResourceRoleArn" => agentResourceRoleArn,
-                    "foundationModel" => foundationModel,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_agent(agentId, agentName, agentResourceRoleArn, foundationModel; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/", Dict{String, Any}("agentName"=>agentName, "agentResourceRoleArn"=>agentResourceRoleArn, "foundationModel"=>foundationModel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agent(agentId, agentName, agentResourceRoleArn, foundationModel, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentName"=>agentName, "agentResourceRoleArn"=>agentResourceRoleArn, "foundationModel"=>foundationModel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_agent_action_group(action_group_id, action_group_name, agent_id, agent_version)
@@ -1605,6 +1241,7 @@ end
 Updates the configuration for an action group for an agent.
 
 # Arguments
+
 - `action_group_id`: The unique identifier of the action group.
 - `action_group_name`: Specifies a new name for the action group.
 - `agent_id`: The unique identifier of the agent for which to update the action group.
@@ -1612,60 +1249,32 @@ Updates the configuration for an action group for an agent.
   action group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionGroupExecutor"`: The Amazon Resource Name (ARN) of the Lambda function containing
   the business logic that is carried out upon invoking the action.
 - `"actionGroupState"`: Specifies whether the action group is available for the agent to
-  invoke or not when sending an InvokeAgent request.
+  invoke or not when sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 - `"apiSchema"`: Contains either details about the S3 object containing the OpenAPI schema
   for the action group or the JSON or YAML-formatted payload defining the schema. For more
-  information, see Action group OpenAPI schemas.
+  information, see [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
 - `"description"`: Specifies a new name for the action group.
 - `"functionSchema"`: Contains details about the function schema for the action group or
   the JSON or YAML-formatted payload defining the schema.
 - `"parentActionGroupSignature"`: To allow your agent to request the user for additional
-  information when trying to complete a task, set this field to AMAZON.UserInput. You must
-  leave the description, apiSchema, and actionGroupExecutor fields blank for this action
-  group. During orchestration, if your agent determines that it needs to invoke an API in an
+  information when trying to complete a task, set this field to `AMAZON.UserInput`. You
+  must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for
+  this action group.
+
+  During orchestration, if your agent determines that it needs to invoke an API in an
   action group, but doesn't have enough information to complete the API request, it will
-  invoke this action group instead and return an Observation reprompting the user for more
-  information.
+  invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html)
+  reprompting the user for more information.
 """
-function update_agent_action_group(
-    actionGroupId,
-    actionGroupName,
-    agentId,
-    agentVersion;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
-        Dict{String,Any}("actionGroupName" => actionGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_agent_action_group(
-    actionGroupId,
-    actionGroupName,
-    agentId,
-    agentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("actionGroupName" => actionGroupName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_agent_action_group(actionGroupId, actionGroupName, agentId, agentVersion; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/", Dict{String, Any}("actionGroupName"=>actionGroupName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agent_action_group(actionGroupId, actionGroupName, agentId, agentVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/actiongroups/$(actionGroupId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionGroupName"=>actionGroupName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_agent_alias(agent_alias_id, agent_alias_name, agent_id)
@@ -1674,46 +1283,20 @@ end
 Updates configurations for an alias of an agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of the alias.
 - `agent_alias_name`: Specifies a new name for the alias.
 - `agent_id`: The unique identifier of the agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the alias.
 - `"routingConfiguration"`: Contains details about the routing configuration of the alias.
 """
-function update_agent_alias(
-    agentAliasId,
-    agentAliasName,
-    agentId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
-        Dict{String,Any}("agentAliasName" => agentAliasName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_agent_alias(
-    agentAliasId,
-    agentAliasName,
-    agentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentaliases/$(agentAliasId)/",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("agentAliasName" => agentAliasName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_agent_alias(agentAliasId, agentAliasName, agentId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentaliases/$(agentAliasId)/", Dict{String, Any}("agentAliasName"=>agentAliasName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agent_alias(agentAliasId, agentAliasName, agentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentaliases/$(agentAliasId)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("agentAliasName"=>agentAliasName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_agent_knowledge_base(agent_id, agent_version, knowledge_base_id)
@@ -1722,6 +1305,7 @@ end
 Updates the configuration for a knowledge base that has been associated with an agent.
 
 # Arguments
+
 - `agent_id`: The unique identifier of the agent associated with the knowledge base that
   you want to update.
 - `agent_version`: The version of the agent associated with the knowledge base that you
@@ -1730,106 +1314,104 @@ Updates the configuration for a knowledge base that has been associated with an 
   with an agent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the knowledge base associated with an
   agent.
 - `"knowledgeBaseState"`: Specifies whether the agent uses the knowledge base or not when
-  sending an InvokeAgent request.
+  sending an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html)
+  request.
 """
-function update_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_agent_knowledge_base(
-    agentId,
-    agentVersion,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_agent_knowledge_base(agentId, agentVersion, knowledgeBaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/agents/$(agentId)/agentversions/$(agentVersion)/knowledgebases/$(knowledgeBaseId)/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name)
     update_data_source(data_source_configuration, data_source_id, knowledge_base_id, name, params::Dict{String,<:Any})
 
-Updates configurations for a data source.  You can't change the chunkingConfiguration after
-you create the data source. Specify the existing chunkingConfiguration.
+Updates the configurations for a data source connector.
+
+!!! important
+    You can't change the `chunkingConfiguration` after you create the data source
+connector. Specify the existing `chunkingConfiguration`.
 
 # Arguments
-- `data_source_configuration`: Contains details about the storage configuration of the data
-  source.
+
+- `data_source_configuration`: The connection configuration for the data source that you
+  want to update.
 - `data_source_id`: The unique identifier of the data source.
-- `knowledge_base_id`: The unique identifier of the knowledge base to which the data source
-  belongs.
+- `knowledge_base_id`: The unique identifier of the knowledge base for the data source.
 - `name`: Specifies a new name for the data source.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"dataDeletionPolicy"`: The data deletion policy of the updated data source.
+
+- `"dataDeletionPolicy"`: The data deletion policy for the data source that you want to
+  update.
 - `"description"`: Specifies a new description for the data source.
 - `"serverSideEncryptionConfiguration"`: Contains details about server-side encryption of
   the data source.
 - `"vectorIngestionConfiguration"`: Contains details about how to ingest the documents in
   the data source.
 """
-function update_data_source(
-    dataSourceConfiguration,
-    dataSourceId,
-    knowledgeBaseId,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
-        Dict{String,Any}(
-            "dataSourceConfiguration" => dataSourceConfiguration, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_data_source(
-    dataSourceConfiguration,
-    dataSourceId,
-    knowledgeBaseId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSourceConfiguration" => dataSourceConfiguration, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_data_source(dataSourceConfiguration, dataSourceId, knowledgeBaseId, name; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)", Dict{String, Any}("dataSourceConfiguration"=>dataSourceConfiguration, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_data_source(dataSourceConfiguration, dataSourceId, knowledgeBaseId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)/datasources/$(dataSourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSourceConfiguration"=>dataSourceConfiguration, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    update_flow(execution_role_arn, flow_identifier, name)
+    update_flow(execution_role_arn, flow_identifier, name, params::Dict{String,<:Any})
+
+Modifies a flow. Include both fields that you want to keep and fields that you want to
+change. For more information, see [How it works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-how-it-works.html)
+and [Create a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-create.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `execution_role_arn`: The Amazon Resource Name (ARN) of the service role with permissions
+  to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html)
+  in the Amazon Bedrock User Guide.
+- `flow_identifier`: The unique identifier of the flow.
+- `name`: A name for the flow.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
+  the flow.
+- `"definition"`: A definition of the nodes and the connections between the nodes in the
+  flow.
+- `"description"`: A description for the flow.
+"""
+update_flow(executionRoleArn, flowIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/flows/$(flowIdentifier)/", Dict{String, Any}("executionRoleArn"=>executionRoleArn, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_flow(executionRoleArn, flowIdentifier, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/flows/$(flowIdentifier)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionRoleArn"=>executionRoleArn, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    update_flow_alias(alias_identifier, flow_identifier, name, routing_configuration)
+    update_flow_alias(alias_identifier, flow_identifier, name, routing_configuration, params::Dict{String,<:Any})
+
+Modifies the alias of a flow. Include both fields that you want to keep and ones that you
+want to change. For more information, see [Deploy a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-deploy.html)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `alias_identifier`: The unique identifier of the alias.
+- `flow_identifier`: The unique identifier of the flow.
+- `name`: The name of the alias.
+- `routing_configuration`: Contains information about the version to which to map the alias.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"description"`: A description for the alias.
+"""
+update_flow_alias(aliasIdentifier, flowIdentifier, name, routingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)", Dict{String, Any}("name"=>name, "routingConfiguration"=>routingConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_flow_alias(aliasIdentifier, flowIdentifier, name, routingConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/flows/$(flowIdentifier)/aliases/$(aliasIdentifier)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "routingConfiguration"=>routingConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_knowledge_base(knowledge_base_configuration, knowledge_base_id, name, role_arn, storage_configuration)
@@ -1837,72 +1419,63 @@ end
 
 Updates the configuration of a knowledge base with the fields that you specify. Because all
 fields will be overwritten, you must include the same values for fields that you want to
-keep the same. You can change the following fields:    name     description     roleArn
-You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must
-specify the same configurations as when you created the knowledge base. You can send a
-GetKnowledgeBase request and copy the same configurations.
+keep the same.
+
+You can change the following fields: - `name`
+ - `description`
+ - `roleArn`
+You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you
+must specify the same configurations as when you created the knowledge base. You can send a
+[GetKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetKnowledgeBase.html)
+request and copy the same configurations.
 
 # Arguments
+
 - `knowledge_base_configuration`: Specifies the configuration for the embeddings model used
-  for the knowledge base. You must use the same configuration as when the knowledge base was
-  created.
+  for the knowledge base. You must use the same configuration as when the knowledge base
+  was created.
 - `knowledge_base_id`: The unique identifier of the knowledge base to update.
 - `name`: Specifies a new name for the knowledge base.
 - `role_arn`: Specifies a different Amazon Resource Name (ARN) of the IAM role with
   permissions to invoke API operations on the knowledge base.
 - `storage_configuration`: Specifies the configuration for the vector store used for the
-  knowledge base. You must use the same configuration as when the knowledge base was created.
+  knowledge base. You must use the same configuration as when the knowledge base was
+  created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: Specifies a new description for the knowledge base.
 """
-function update_knowledge_base(
-    knowledgeBaseConfiguration,
-    knowledgeBaseId,
-    name,
-    roleArn,
-    storageConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)",
-        Dict{String,Any}(
-            "knowledgeBaseConfiguration" => knowledgeBaseConfiguration,
-            "name" => name,
-            "roleArn" => roleArn,
-            "storageConfiguration" => storageConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_knowledge_base(
-    knowledgeBaseConfiguration,
-    knowledgeBaseId,
-    name,
-    roleArn,
-    storageConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return bedrock_agent(
-        "PUT",
-        "/knowledgebases/$(knowledgeBaseId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "knowledgeBaseConfiguration" => knowledgeBaseConfiguration,
-                    "name" => name,
-                    "roleArn" => roleArn,
-                    "storageConfiguration" => storageConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_knowledge_base(knowledgeBaseConfiguration, knowledgeBaseId, name, roleArn, storageConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)", Dict{String, Any}("knowledgeBaseConfiguration"=>knowledgeBaseConfiguration, "name"=>name, "roleArn"=>roleArn, "storageConfiguration"=>storageConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_knowledge_base(knowledgeBaseConfiguration, knowledgeBaseId, name, roleArn, storageConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/knowledgebases/$(knowledgeBaseId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("knowledgeBaseConfiguration"=>knowledgeBaseConfiguration, "name"=>name, "roleArn"=>roleArn, "storageConfiguration"=>storageConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    update_prompt(name, prompt_identifier)
+    update_prompt(name, prompt_identifier, params::Dict{String,<:Any})
+
+Modifies a prompt in your prompt library. Include both fields that you want to keep and
+fields that you want to replace. For more information, see [Prompt management in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html)
+and [Edit prompts in your prompt library](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-manage.html#prompt-management-edit)
+in the Amazon Bedrock User Guide.
+
+# Arguments
+
+- `name`: A name for the prompt.
+- `prompt_identifier`: The unique identifier of the prompt.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"customerEncryptionKeyArn"`: The Amazon Resource Name (ARN) of the KMS key to encrypt
+  the prompt.
+- `"defaultVariant"`: The name of the default variant for the prompt. This value must match
+  the `name` field in the relevant [PromptVariant](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptVariant.html)
+  object.
+- `"description"`: A description for the prompt.
+- `"variants"`: A list of objects, each containing details about a variant of the prompt.
+"""
+update_prompt(name, promptIdentifier; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/prompts/$(promptIdentifier)/", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_prompt(name, promptIdentifier, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = bedrock_agent("PUT", "/prompts/$(promptIdentifier)/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

@@ -5,49 +5,60 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    batch_execute_statement(database, sqls)
-    batch_execute_statement(database, sqls, params::Dict{String,<:Any})
+    batch_execute_statement(sqls)
+    batch_execute_statement(sqls, params::Dict{String,<:Any})
 
 Runs one or more SQL statements, which can be data manipulation language (DML) or data
 definition language (DDL). Depending on the authorization method, use one of the following
-combinations of request parameters:    Secrets Manager - when connecting to a cluster,
-provide the secret-arn of a secret stored in Secrets Manager which has username and
-password. The specified secret contains credentials to connect to the database you specify.
-When you are connecting to a cluster, you also supply the database name, If you provide a
-cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in
-the secret. When you are connecting to a serverless workgroup, you also supply the database
-name.   Temporary credentials - when connecting to your data warehouse, choose one of the
-following options:   When connecting to a serverless workgroup, specify the workgroup name
-and database name. The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+combinations of request parameters:  - Secrets Manager - when connecting to a cluster,
+provide the `secret-arn` of a secret stored in Secrets Manager which has `username` and
+`password`. The specified secret contains credentials to connect to the `database` you
+specify. When you are connecting to a cluster, you also supply the database name, If you
+provide a cluster identifier (`dbClusterIdentifier`), it must match the cluster identifier
+stored in the secret. When you are connecting to a serverless workgroup, you also supply
+the database name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
-- `database`: The name of the database. This parameter is required when authenticating
-  using either Secrets Manager or temporary credentials.
-- `sqls`: One or more SQL statements to run.  The SQL statements are run as a single
-  transaction. They run serially in the order of the array. Subsequent SQL statements don't
-  start until the previous statement in the array completes. If any SQL statement fails, then
-  because they are run as one transaction, all work is rolled back.&lt;/p&gt;
+
+- `sqls`: <p>One or more SQL statements to run. <pre>` The SQL statements are run as a
+  single transaction. They run serially in the order of the array. Subsequent SQL
+  statements don't start until the previous statement in the array completes. If any SQL
+  statement fails, then because they are run as one transaction, all work is rolled
+  back.&lt;/p&gt; `</pre>
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
+- `"Database"`: The name of the database. This parameter is required when authenticating
+  using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
+- `"SessionId"`: The session identifier of the query.
+- `"SessionKeepAliveSeconds"`: The number of seconds to keep the session alive after the
+  query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours,
+  the session is forced closed and the query is terminated.
 - `"StatementName"`: The name of the SQL statements. You can name the SQL statements when
   you create them to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
@@ -56,72 +67,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function batch_execute_statement(
-    Database, Sqls; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "BatchExecuteStatement",
-        Dict{String,Any}(
-            "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_execute_statement(
-    Database,
-    Sqls,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "BatchExecuteStatement",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Database" => Database, "Sqls" => Sqls, "ClientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_execute_statement(Sqls; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("BatchExecuteStatement", Dict{String, Any}("Sqls"=>Sqls, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_execute_statement(Sqls, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("BatchExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sqls"=>Sqls, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_statement(id)
     cancel_statement(id, params::Dict{String,<:Any})
 
-Cancels a running query. To be canceled, a query must be running.  For more information
-about the Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift
-Data API in the Amazon Redshift Management Guide.
+Cancels a running query. To be canceled, a query must be running.
+
+For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `id`: The identifier of the SQL statement to cancel. This value is a universally unique
   identifier (UUID) generated by Amazon Redshift Data API. This identifier is returned by
-  BatchExecuteStatment, ExecuteStatment, and ListStatements.
-
+  `BatchExecuteStatment`, `ExecuteStatment`, and `ListStatements`.
 """
-function cancel_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "CancelStatement",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_statement(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "CancelStatement",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_statement(Id; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("CancelStatement", Dict{String, Any}("Id"=>Id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_statement(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("CancelStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_statement(id)
@@ -129,36 +94,21 @@ end
 
 Describes the details about a specific instance when a query was run by the Amazon Redshift
 Data API. The information includes when the query started, when it finished, the query
-status, the number of rows returned, and the SQL statement.  For more information about the
-Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in
-the Amazon Redshift Management Guide.
+status, the number of rows returned, and the SQL statement.
+
+For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `id`: The identifier of the SQL statement to describe. This value is a universally unique
   identifier (UUID) generated by Amazon Redshift Data API. A suffix indicates the number of
-  the SQL statement. For example, d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2
-  that indicates the second SQL statement of a batch query. This identifier is returned by
-  BatchExecuteStatment, ExecuteStatement, and ListStatements.
-
+  the SQL statement. For example, `d9b6c0c9-0747-4bf4-b142-e8883122f766:2` has a suffix of
+  `:2` that indicates the second SQL statement of a batch query. This identifier is
+  returned by `BatchExecuteStatment`, `ExecuteStatement`, and `ListStatements`.
 """
-function describe_statement(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "DescribeStatement",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_statement(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "DescribeStatement",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_statement(Id; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("DescribeStatement", Dict{String, Any}("Id"=>Id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_statement(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("DescribeStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_table(database)
@@ -167,33 +117,39 @@ end
 Describes the detailed information about a table from metadata in the cluster. The
 information includes its columns. A token is returned to page through the column list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
-secret stored in Secrets Manager which has username and password. The specified secret
-contains credentials to connect to the database you specify. When you are connecting to a
-cluster, you also supply the database name, If you provide a cluster identifier
-(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
-are connecting to a serverless workgroup, you also supply the database name.   Temporary
-credentials - when connecting to your data warehouse, choose one of the following options:
- When connecting to a serverless workgroup, specify the workgroup name and database name.
-The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+parameters:  - Secrets Manager - when connecting to a cluster, provide the `secret-arn` of
+a secret stored in Secrets Manager which has `username` and `password`. The specified
+secret contains credentials to connect to the `database` you specify. When you are
+connecting to a cluster, you also supply the database name, If you provide a cluster
+identifier (`dbClusterIdentifier`), it must match the cluster identifier stored in the
+secret. When you are connecting to a serverless workgroup, you also supply the database
+name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `database`: The name of the database that contains the tables to be described. If
-  ConnectedDatabase is not specified, this is also the database to connect to with your
+  `ConnectedDatabase` is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
@@ -201,10 +157,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of tables to return in the response. If more tables
-  exist than fit in one response, then NextToken is returned to page through the results.
+  exist than fit in one response, then `NextToken` is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 - `"Schema"`: The schema that contains the table. If no schema is specified, then matching
@@ -218,72 +174,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function describe_table(Database; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "DescribeTable",
-        Dict{String,Any}("Database" => Database);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_table(
-    Database,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "DescribeTable",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Database" => Database), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_table(Database; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("DescribeTable", Dict{String, Any}("Database"=>Database); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_table(Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("DescribeTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-    execute_statement(database, sql)
-    execute_statement(database, sql, params::Dict{String,<:Any})
+    execute_statement(sql)
+    execute_statement(sql, params::Dict{String,<:Any})
 
 Runs an SQL statement, which can be data manipulation language (DML) or data definition
 language (DDL). This statement must be a single SQL statement. Depending on the
-authorization method, use one of the following combinations of request parameters:
-Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored
-in Secrets Manager which has username and password. The specified secret contains
-credentials to connect to the database you specify. When you are connecting to a cluster,
+authorization method, use one of the following combinations of request parameters:  -
+Secrets Manager - when connecting to a cluster, provide the `secret-arn` of a secret stored
+in Secrets Manager which has `username` and `password`. The specified secret contains
+credentials to connect to the `database` you specify. When you are connecting to a cluster,
 you also supply the database name, If you provide a cluster identifier
-(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
-are connecting to a serverless workgroup, you also supply the database name.   Temporary
-credentials - when connecting to your data warehouse, choose one of the following options:
- When connecting to a serverless workgroup, specify the workgroup name and database name.
-The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+(`dbClusterIdentifier`), it must match the cluster identifier stored in the secret. When
+you are connecting to a serverless workgroup, you also supply the database name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
-- `database`: The name of the database. This parameter is required when authenticating
-  using either Secrets Manager or temporary credentials.
+
 - `sql`: The SQL statement text to run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
+- `"Database"`: The name of the database. This parameter is required when authenticating
+  using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"Parameters"`: The parameters for the SQL statement.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
+- `"SessionId"`: The session identifier of the query.
+- `"SessionKeepAliveSeconds"`: The number of seconds to keep the session alive after the
+  query finishes. The maximum time a session can keep alive is 24 hours. After 24 hours,
+  the session is forced closed and the query is terminated.
 - `"StatementName"`: The name of the SQL statement. You can name the SQL statement when you
   create it to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
@@ -292,83 +237,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function execute_statement(
-    Database, Sql; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "ExecuteStatement",
-        Dict{String,Any}(
-            "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function execute_statement(
-    Database,
-    Sql,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "ExecuteStatement",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Database" => Database, "Sql" => Sql, "ClientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+execute_statement(Sql; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ExecuteStatement", Dict{String, Any}("Sql"=>Sql, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+execute_statement(Sql, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ExecuteStatement", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Sql"=>Sql, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_statement_result(id)
     get_statement_result(id, params::Dict{String,<:Any})
 
 Fetches the temporarily cached result of an SQL statement. A token is returned to page
-through the statement results.  For more information about the Amazon Redshift Data API and
-CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift
-Management Guide.
+through the statement results.
+
+For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `id`: The identifier of the SQL statement whose results are to be fetched. This value is
   a universally unique identifier (UUID) generated by Amazon Redshift Data API. A suffix
-  indicates then number of the SQL statement. For example,
-  d9b6c0c9-0747-4bf4-b142-e8883122f766:2 has a suffix of :2 that indicates the second SQL
-  statement of a batch query. This identifier is returned by BatchExecuteStatment,
-  ExecuteStatment, and ListStatements.
+  indicates then number of the SQL statement. For example, `d9b6c0c9-0747-4bf4-b142-
+  e8883122f766:2` has a suffix of `:2` that indicates the second SQL statement of a batch
+  query. This identifier is returned by `BatchExecuteStatment`, `ExecuteStatment`, and
+  `ListStatements`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 """
-function get_statement_result(Id; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "GetStatementResult",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_statement_result(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "GetStatementResult",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_statement_result(Id; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("GetStatementResult", Dict{String, Any}("Id"=>Id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_statement_result(Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("GetStatementResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_databases(database)
@@ -376,42 +278,48 @@ end
 
 List the databases in a cluster. A token is returned to page through the database list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
-secret stored in Secrets Manager which has username and password. The specified secret
-contains credentials to connect to the database you specify. When you are connecting to a
-cluster, you also supply the database name, If you provide a cluster identifier
-(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
-are connecting to a serverless workgroup, you also supply the database name.   Temporary
-credentials - when connecting to your data warehouse, choose one of the following options:
- When connecting to a serverless workgroup, specify the workgroup name and database name.
-The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+parameters:  - Secrets Manager - when connecting to a cluster, provide the `secret-arn` of
+a secret stored in Secrets Manager which has `username` and `password`. The specified
+secret contains credentials to connect to the `database` you specify. When you are
+connecting to a cluster, you also supply the database name, If you provide a cluster
+identifier (`dbClusterIdentifier`), it must match the cluster identifier stored in the
+secret. When you are connecting to a serverless workgroup, you also supply the database
+name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `database`: The name of the database. This parameter is required when authenticating
   using either Secrets Manager or temporary credentials.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of databases to return in the response. If more
-  databases exist than fit in one response, then NextToken is returned to page through the
-  results.
+  databases exist than fit in one response, then `NextToken` is returned to page through
+  the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
@@ -420,28 +328,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_databases(Database; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "ListDatabases",
-        Dict{String,Any}("Database" => Database);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_databases(
-    Database,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "ListDatabases",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Database" => Database), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_databases(Database; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListDatabases", Dict{String, Any}("Database"=>Database); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_databases(Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_schemas(database)
@@ -449,33 +337,39 @@ end
 
 Lists the schemas in a database. A token is returned to page through the schema list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
-secret stored in Secrets Manager which has username and password. The specified secret
-contains credentials to connect to the database you specify. When you are connecting to a
-cluster, you also supply the database name, If you provide a cluster identifier
-(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
-are connecting to a serverless workgroup, you also supply the database name.   Temporary
-credentials - when connecting to your data warehouse, choose one of the following options:
- When connecting to a serverless workgroup, specify the workgroup name and database name.
-The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+parameters:  - Secrets Manager - when connecting to a cluster, provide the `secret-arn` of
+a secret stored in Secrets Manager which has `username` and `password`. The specified
+secret contains credentials to connect to the `database` you specify. When you are
+connecting to a cluster, you also supply the database name, If you provide a cluster
+identifier (`dbClusterIdentifier`), it must match the cluster identifier stored in the
+secret. When you are connecting to a serverless workgroup, you also supply the database
+name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `database`: The name of the database that contains the schemas to list. If
-  ConnectedDatabase is not specified, this is also the database to connect to with your
+  `ConnectedDatabase` is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
@@ -483,14 +377,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of schemas to return in the response. If more schemas
-  exist than fit in one response, then NextToken is returned to page through the results.
+  exist than fit in one response, then `NextToken` is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 - `"SchemaPattern"`: A pattern to filter results by schema name. Within a schema pattern,
-  \"%\" means match any substring of 0 or more characters and \"_\" means match any one
+  "%" means match any substring of 0 or more characters and "_" means match any one
   character. Only schema name entries matching the search pattern are returned.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
@@ -498,111 +392,93 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_schemas(Database; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "ListSchemas",
-        Dict{String,Any}("Database" => Database);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_schemas(
-    Database,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "ListSchemas",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Database" => Database), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_schemas(Database; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListSchemas", Dict{String, Any}("Database"=>Database); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_schemas(Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_statements()
     list_statements(params::Dict{String,<:Any})
 
 List of SQL statements. By default, only finished statements are shown. A token is returned
-to page through the statement list.  For more information about the Amazon Redshift Data
-API and CLI usage examples, see Using the Amazon Redshift Data API in the Amazon Redshift
-Management Guide.
+to page through the statement list.
+
+For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of SQL statements to return in the response. If more
-  SQL statements exist than fit in one response, then NextToken is returned to page through
-  the results.
+  SQL statements exist than fit in one response, then `NextToken` is returned to page
+  through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 - `"RoleLevel"`: A value that filters which statements to return in the response. If true,
-  all statements run by the caller's IAM role are returned. If false, only statements run by
-  the caller's IAM role in the current IAM session are returned. The default is true.
+  all statements run by the caller's IAM role are returned. If false, only statements run
+  by the caller's IAM role in the current IAM session are returned. The default is true.
 - `"StatementName"`: The name of the SQL statement specified as input to
-  BatchExecuteStatement or ExecuteStatement to identify the query. You can list multiple
-  statements by providing a prefix that matches the beginning of the statement name. For
-  example, to list myStatement1, myStatement2, myStatement3, and so on, then provide the a
-  value of myStatement. Data API does a case-sensitive match of SQL statement names to the
-  prefix value you provide.
+  `BatchExecuteStatement` or `ExecuteStatement` to identify the query. You can list
+  multiple statements by providing a prefix that matches the beginning of the statement
+  name. For example, to list myStatement1, myStatement2, myStatement3, and so on, then
+  provide the a value of `myStatement`. Data API does a case-sensitive match of SQL
+  statement names to the prefix value you provide.
 - `"Status"`: The status of the SQL statement to list. Status values are defined as
-  follows:    ABORTED - The query run was stopped by the user.    ALL - A status value that
-  includes all query statuses. This value can be used to filter results.    FAILED - The
-  query run failed.    FINISHED - The query has finished running.    PICKED - The query has
-  been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was
-  submitted, but not yet processed.
+  follows:  - ABORTED - The query run was stopped by the user.
+   - ALL - A status value that includes all query statuses. This value can be used to
+  filter results.
+   - FAILED - The query run failed.
+   - FINISHED - The query has finished running.
+   - PICKED - The query has been chosen to be run.
+   - STARTED - The query run has started.
+   - SUBMITTED - The query was submitted, but not yet processed.
 """
-function list_statements(; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_statements(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return redshift_data(
-        "ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_statements(; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListStatements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_statements(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListStatements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tables(database)
     list_tables(database, params::Dict{String,<:Any})
 
-List the tables in a database. If neither SchemaPattern nor TablePattern are specified,
+List the tables in a database. If neither `SchemaPattern` nor `TablePattern` are specified,
 then all tables in the database are returned. A token is returned to page through the table
 list. Depending on the authorization method, use one of the following combinations of
-request parameters:    Secrets Manager - when connecting to a cluster, provide the
-secret-arn of a secret stored in Secrets Manager which has username and password. The
-specified secret contains credentials to connect to the database you specify. When you are
-connecting to a cluster, you also supply the database name, If you provide a cluster
-identifier (dbClusterIdentifier), it must match the cluster identifier stored in the
+request parameters:  - Secrets Manager - when connecting to a cluster, provide the `secret-
+arn` of a secret stored in Secrets Manager which has `username` and `password`. The
+specified secret contains credentials to connect to the `database` you specify. When you
+are connecting to a cluster, you also supply the database name, If you provide a cluster
+identifier (`dbClusterIdentifier`), it must match the cluster identifier stored in the
 secret. When you are connecting to a serverless workgroup, you also supply the database
-name.   Temporary credentials - when connecting to your data warehouse, choose one of the
-following options:   When connecting to a serverless workgroup, specify the workgroup name
-and database name. The database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift-serverless:GetCredentials operation is required.   When connecting to a
-cluster as an IAM identity, specify the cluster identifier and the database name. The
-database user name is derived from the IAM identity. For example,
-arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
-the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
-cluster as a database user, specify the cluster identifier, the database name, and the
-database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required.     For more information about the Amazon Redshift Data API and CLI usage
-examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
+name.
+ - Temporary credentials - when connecting to your data warehouse, choose one of the
+following options: <ul> <li>When connecting to a serverless workgroup, specify the
+workgroup name and database name. The database user name is derived from the IAM identity.
+For example, `arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also,
+permission to call the `redshift-serverless:GetCredentials` operation is required.
+ - When connecting to a cluster as an IAM identity, specify the cluster identifier and the
+database name. The database user name is derived from the IAM identity. For example,
+`arn:iam::123456789012:user:foo` has the database user name `IAM:foo`. Also, permission to
+call the `redshift:GetClusterCredentialsWithIAM` operation is required.
+ - When connecting to a cluster as a database user, specify the cluster identifier, the
+database name, and the database user name. Also, permission to call the
+`redshift:GetClusterCredentials` operation is required.
+ </li> </ul>For more information about the Amazon Redshift Data API and CLI usage examples,
+see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html)
+in the *Amazon Redshift Management Guide*.
 
 # Arguments
+
 - `database`: The name of the database that contains the tables to list. If
-  ConnectedDatabase is not specified, this is also the database to connect to with your
+  `ConnectedDatabase` is not specified, this is also the database to connect to with your
   authentication credentials.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
@@ -610,47 +486,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
   cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of tables to return in the response. If more tables
-  exist than fit in one response, then NextToken is returned to page through the results.
+  exist than fit in one response, then `NextToken` is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
-  records in a subsequent request. If a value is returned in a response, you can retrieve the
-  next set of records by providing this returned NextToken value in the next NextToken
+  records in a subsequent request. If a value is returned in a response, you can retrieve
+  the next set of records by providing this returned NextToken value in the next NextToken
   parameter and retrying the command. If the NextToken field is empty, all response records
   have been retrieved for the request.
 - `"SchemaPattern"`: A pattern to filter results by schema name. Within a schema pattern,
-  \"%\" means match any substring of 0 or more characters and \"_\" means match any one
+  "%" means match any substring of 0 or more characters and "_" means match any one
   character. Only schema name entries matching the search pattern are returned. If
-  SchemaPattern is not specified, then all tables that match TablePattern are returned. If
-  neither SchemaPattern or TablePattern are specified, then all tables are returned.
+  `SchemaPattern` is not specified, then all tables that match `TablePattern` are returned.
+  If neither `SchemaPattern` or `TablePattern` are specified, then all tables are returned.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
-- `"TablePattern"`: A pattern to filter results by table name. Within a table pattern,
-  \"%\" means match any substring of 0 or more characters and \"_\" means match any one
-  character. Only table name entries matching the search pattern are returned. If
-  TablePattern is not specified, then all tables that match SchemaPatternare returned. If
-  neither SchemaPattern or TablePattern are specified, then all tables are returned.
+- `"TablePattern"`: A pattern to filter results by table name. Within a table pattern, "%"
+  means match any substring of 0 or more characters and "_" means match any one character.
+  Only table name entries matching the search pattern are returned. If `TablePattern` is
+  not specified, then all tables that match `SchemaPattern`are returned. If neither
+  `SchemaPattern` or `TablePattern` are specified, then all tables are returned.
 - `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
   parameter is required when connecting to a serverless workgroup and authenticating using
   either Secrets Manager or temporary credentials.
 """
-function list_tables(Database; aws_config::AbstractAWSConfig=current_aws_config())
-    return redshift_data(
-        "ListTables",
-        Dict{String,Any}("Database" => Database);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tables(
-    Database,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return redshift_data(
-        "ListTables",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("Database" => Database), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tables(Database; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListTables", Dict{String, Any}("Database"=>Database); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tables(Database, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = redshift_data("ListTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

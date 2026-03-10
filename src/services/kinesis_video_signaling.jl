@@ -12,51 +12,33 @@ Gets the Interactive Connectivity Establishment (ICE) server configuration infor
 including URIs, username, and password which can be used to configure the WebRTC
 connection. The ICE component uses this configuration information to setup the WebRTC
 connection, including authenticating with the Traversal Using Relays around NAT (TURN)
-relay server.  TURN is a protocol that is used to improve the connectivity of peer-to-peer
-applications. By providing a cloud-based relay service, TURN ensures that a connection can
-be established even when one or more peers are incapable of a direct peer-to-peer
-connection. For more information, see A REST API For Access To TURN Services.  You can
-invoke this API to establish a fallback mechanism in case either of the peers is unable to
-establish a direct peer-to-peer connection over a signaling channel. You must specify
-either a signaling channel ARN or the client ID in order to invoke this API.
+relay server.
+
+TURN is a protocol that is used to improve the connectivity of peer-to-peer applications.
+By providing a cloud-based relay service, TURN ensures that a connection can be established
+even when one or more peers are incapable of a direct peer-to-peer connection. For more
+information, see [A REST API For Access To TURN Services](https://tools.ietf.org/html/draft-uberti-rtcweb-turn-rest-00).
+
+ You can invoke this API to establish a fallback mechanism in case either of the peers is
+unable to establish a direct peer-to-peer connection over a signaling channel. You must
+specify either a signaling channel ARN or the client ID in order to invoke this API.
 
 # Arguments
+
 - `channel_arn`: The ARN of the signaling channel to be used for the peer-to-peer
   connection between configured peers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientId"`: Unique identifier for the viewer. Must be unique within the signaling
   channel.
-- `"Service"`: Specifies the desired service. Currently, TURN is the only valid value.
+- `"Service"`: Specifies the desired service. Currently, `TURN` is the only valid value.
 - `"Username"`: An optional user ID to be associated with the credentials.
 """
-function get_ice_server_config(
-    ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/get-ice-server-config",
-        Dict{String,Any}("ChannelARN" => ChannelARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ice_server_config(
-    ChannelARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/get-ice-server-config",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ChannelARN" => ChannelARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_ice_server_config(ChannelARN; aws_config::AbstractAWSConfig=current_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_ice_server_config(ChannelARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id)
@@ -69,52 +51,11 @@ channel. This API returns the SDP answer from the connected master. If the maste
 connected to the signaling channel, redelivery requests are made until the message expires.
 
 # Arguments
+
 - `channel_arn`: The ARN of the signaling channel by which Alexa and the master peer
   communicate.
 - `message_payload`: The base64-encoded SDP offer content.
 - `sender_client_id`: The unique identifier for the sender client.
-
 """
-function send_alexa_offer_to_master(
-    ChannelARN,
-    MessagePayload,
-    SenderClientId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/send-alexa-offer-to-master",
-        Dict{String,Any}(
-            "ChannelARN" => ChannelARN,
-            "MessagePayload" => MessagePayload,
-            "SenderClientId" => SenderClientId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_alexa_offer_to_master(
-    ChannelARN,
-    MessagePayload,
-    SenderClientId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/send-alexa-offer-to-master",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChannelARN" => ChannelARN,
-                    "MessagePayload" => MessagePayload,
-                    "SenderClientId" => SenderClientId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId; aws_config::AbstractAWSConfig=current_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_alexa_offer_to_master(ChannelARN, MessagePayload, SenderClientId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

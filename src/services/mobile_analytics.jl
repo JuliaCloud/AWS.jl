@@ -13,49 +13,16 @@ events per app, any combination of up to 40 attributes and metrics per custom ev
 any number of attribute or metric values.
 
 # Arguments
+
 - `events`: An array of Event JSON objects
 - `x-amz-_client-_context`: The client context including the client ID, app title, app
   version and package name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
-function put_events(
-    events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return mobile_analytics(
-        "POST",
-        "/2014-06-05/events",
-        Dict{String,Any}(
-            "events" => events,
-            "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_events(
-    events,
-    x_amz_Client_Context,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return mobile_analytics(
-        "POST",
-        "/2014-06-05/events",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "events" => events,
-                    "headers" =>
-                        Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_events(events, x_amz_Client_Context; aws_config::AbstractAWSConfig=current_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_events(events, x_amz_Client_Context, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

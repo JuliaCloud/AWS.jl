@@ -11,49 +11,13 @@ using AWS.UUIDs
 Associates the fraudsters with the watchlist specified in the same domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster to be associated with the watchlist.
 - `watchlist_id`: The identifier of the watchlist you want to associate with the fraudster.
-
 """
-function associate_fraudster(
-    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "AssociateFraudster",
-        Dict{String,Any}(
-            "DomainId" => DomainId,
-            "FraudsterId" => FraudsterId,
-            "WatchlistId" => WatchlistId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_fraudster(
-    DomainId,
-    FraudsterId,
-    WatchlistId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "AssociateFraudster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainId" => DomainId,
-                    "FraudsterId" => FraudsterId,
-                    "WatchlistId" => WatchlistId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_fraudster(DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("AssociateFraudster", Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId, "WatchlistId"=>WatchlistId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_fraudster(DomainId, FraudsterId, WatchlistId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("AssociateFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId, "WatchlistId"=>WatchlistId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_domain(name, server_side_encryption_configuration)
@@ -64,59 +28,24 @@ fraudsters, customer audio, and voiceprints. Every domain is created with a defa
 watchlist that fraudsters can be a part of.
 
 # Arguments
+
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to
-  Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used.
+  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to [ Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
+  for more details on how the KMS key is used.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A brief description of this domain.
 - `"Tags"`: A list of tags you want added to the domain.
 """
-function create_domain(
-    Name,
-    ServerSideEncryptionConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "CreateDomain",
-        Dict{String,Any}(
-            "Name" => Name,
-            "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_domain(
-    Name,
-    ServerSideEncryptionConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "CreateDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "ServerSideEncryptionConfiguration" =>
-                        ServerSideEncryptionConfiguration,
-                    "ClientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_domain(Name, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("CreateDomain", Dict{String, Any}("Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_domain(Name, ServerSideEncryptionConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_watchlist(domain_id, name)
@@ -125,49 +54,21 @@ end
 Creates a watchlist that fraudsters can be a part of.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `name`: The name of the watchlist.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A brief description of this watchlist.
 """
-function create_watchlist(
-    DomainId, Name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "CreateWatchlist",
-        Dict{String,Any}(
-            "DomainId" => DomainId, "Name" => Name, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_watchlist(
-    DomainId,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "CreateWatchlist",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainId" => DomainId, "Name" => Name, "ClientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_watchlist(DomainId, Name; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("CreateWatchlist", Dict{String, Any}("DomainId"=>DomainId, "Name"=>Name, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_watchlist(DomainId, Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("CreateWatchlist", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "Name"=>Name, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_domain(domain_id)
@@ -176,31 +77,11 @@ end
 Deletes the specified domain from Voice ID.
 
 # Arguments
-- `domain_id`: The identifier of the domain you want to delete.
 
+- `domain_id`: The identifier of the domain you want to delete.
 """
-function delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "DeleteDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_domain(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DeleteDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteDomain", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_domain(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_fraudster(domain_id, fraudster_id)
@@ -210,39 +91,12 @@ Deletes the specified fraudster from Voice ID. This action disassociates the fra
 any watchlists it is a part of.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster you want to delete.
-
 """
-function delete_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DeleteFraudster",
-        Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fraudster(
-    DomainId,
-    FraudsterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DeleteFraudster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fraudster(DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteFraudster", Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fraudster(DomainId, FraudsterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_speaker(domain_id, speaker_id)
@@ -251,39 +105,12 @@ end
 Deletes the specified speaker from Voice ID.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you want to delete.
-
 """
-function delete_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DeleteSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DeleteSpeaker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteSpeaker", Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_speaker(DomainId, SpeakerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_watchlist(domain_id, watchlist_id)
@@ -295,39 +122,12 @@ and then delete the watchlist. Every domain has a default watchlist which cannot
 deleted.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist to be deleted.
-
 """
-function delete_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DeleteWatchlist",
-        Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_watchlist(
-    DomainId,
-    WatchlistId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DeleteWatchlist",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_watchlist(DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteWatchlist", Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_watchlist(DomainId, WatchlistId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DeleteWatchlist", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_domain(domain_id)
@@ -336,31 +136,11 @@ end
 Describes the specified domain.
 
 # Arguments
-- `domain_id`: The identifier of the domain that you are describing.
 
+- `domain_id`: The identifier of the domain that you are describing.
 """
-function describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "DescribeDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeDomain",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_domain(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeDomain", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_domain(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_fraudster(domain_id, fraudster_id)
@@ -369,39 +149,12 @@ end
 Describes the specified fraudster.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster you are describing.
-
 """
-function describe_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DescribeFraudster",
-        Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fraudster(
-    DomainId,
-    FraudsterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeFraudster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_fraudster(DomainId, FraudsterId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeFraudster", Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fraudster(DomainId, FraudsterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_fraudster_registration_job(domain_id, job_id)
@@ -410,37 +163,12 @@ end
 Describes the specified fraudster registration job.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster registration job.
 - `job_id`: The identifier of the fraudster registration job you are describing.
-
 """
-function describe_fraudster_registration_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DescribeFraudsterRegistrationJob",
-        Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fraudster_registration_job(
-    DomainId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeFraudsterRegistrationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_fraudster_registration_job(DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeFraudsterRegistrationJob", Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_fraudster_registration_job(DomainId, JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeFraudsterRegistrationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_speaker(domain_id, speaker_id)
@@ -449,39 +177,12 @@ end
 Describes the specified speaker.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you are describing.
-
 """
-function describe_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DescribeSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeSpeaker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeSpeaker", Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_speaker(DomainId, SpeakerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_speaker_enrollment_job(domain_id, job_id)
@@ -490,37 +191,12 @@ end
 Describes the specified speaker enrollment job.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker enrollment job.
 - `job_id`: The identifier of the speaker enrollment job you are describing.
-
 """
-function describe_speaker_enrollment_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DescribeSpeakerEnrollmentJob",
-        Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_speaker_enrollment_job(
-    DomainId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeSpeakerEnrollmentJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_speaker_enrollment_job(DomainId, JobId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeSpeakerEnrollmentJob", Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_speaker_enrollment_job(DomainId, JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeSpeakerEnrollmentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "JobId"=>JobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_watchlist(domain_id, watchlist_id)
@@ -529,39 +205,12 @@ end
 Describes the specified watchlist.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist that you are describing.
-
 """
-function describe_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DescribeWatchlist",
-        Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_watchlist(
-    DomainId,
-    WatchlistId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DescribeWatchlist",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_watchlist(DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeWatchlist", Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_watchlist(DomainId, WatchlistId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DescribeWatchlist", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_fraudster(domain_id, fraudster_id, watchlist_id)
@@ -569,53 +218,17 @@ end
 
 Disassociates the fraudsters from the watchlist specified. Voice ID always expects a
 fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster
-from its only watchlist, a ValidationException is thrown.
+from its only watchlist, a `ValidationException` is thrown.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster to be disassociated from the watchlist.
 - `watchlist_id`: The identifier of the watchlist that you want to disassociate from the
   fraudster.
-
 """
-function disassociate_fraudster(
-    DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "DisassociateFraudster",
-        Dict{String,Any}(
-            "DomainId" => DomainId,
-            "FraudsterId" => FraudsterId,
-            "WatchlistId" => WatchlistId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_fraudster(
-    DomainId,
-    FraudsterId,
-    WatchlistId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "DisassociateFraudster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainId" => DomainId,
-                    "FraudsterId" => FraudsterId,
-                    "WatchlistId" => WatchlistId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_fraudster(DomainId, FraudsterId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DisassociateFraudster", Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId, "WatchlistId"=>WatchlistId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_fraudster(DomainId, FraudsterId, WatchlistId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("DisassociateFraudster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "FraudsterId"=>FraudsterId, "WatchlistId"=>WatchlistId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     evaluate_session(domain_id, session_name_or_id)
@@ -625,42 +238,13 @@ Evaluates a specified session based on audio data accumulated during a streaming
 Connect Voice ID call.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain where the session started.
 - `session_name_or_id`: The session identifier, or name of the session, that you want to
   evaluate. In Voice ID integration, this is the Contact-Id.
-
 """
-function evaluate_session(
-    DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "EvaluateSession",
-        Dict{String,Any}("DomainId" => DomainId, "SessionNameOrId" => SessionNameOrId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function evaluate_session(
-    DomainId,
-    SessionNameOrId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "EvaluateSession",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainId" => DomainId, "SessionNameOrId" => SessionNameOrId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+evaluate_session(DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("EvaluateSession", Dict{String, Any}("DomainId"=>DomainId, "SessionNameOrId"=>SessionNameOrId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+evaluate_session(DomainId, SessionNameOrId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("EvaluateSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SessionNameOrId"=>SessionNameOrId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_domains()
@@ -669,71 +253,47 @@ end
 Lists all the domains in the Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_domains(; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_domains(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_fraudster_registration_jobs(domain_id)
     list_fraudster_registration_jobs(domain_id, params::Dict{String,<:Any})
 
-Lists all the fraudster registration jobs in the domain with the given JobStatus. If
-JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
+Lists all the fraudster registration jobs in the domain with the given `JobStatus`. If
+`JobStatus` is not provided, this lists all fraudster registration jobs in the given
+domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster registration Jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobStatus"`: Provides the status of your fraudster registration job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_fraudster_registration_jobs(
-    DomainId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "ListFraudsterRegistrationJobs",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fraudster_registration_jobs(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListFraudsterRegistrationJobs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fraudster_registration_jobs(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListFraudsterRegistrationJobs", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fraudster_registration_jobs(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListFraudsterRegistrationJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_fraudsters(domain_id)
@@ -742,89 +302,53 @@ end
 Lists all fraudsters in a specified watchlist or domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 - `"WatchlistId"`: The identifier of the watchlist. If provided, all fraudsters in the
   watchlist are listed. If not provided, all fraudsters in the domain are listed.
 """
-function list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "ListFraudsters",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fraudsters(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListFraudsters",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fraudsters(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListFraudsters", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fraudsters(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListFraudsters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_speaker_enrollment_jobs(domain_id)
     list_speaker_enrollment_jobs(domain_id, params::Dict{String,<:Any})
 
-Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If
-JobStatus is not provided, this lists all jobs with all possible speaker enrollment job
+Lists all the speaker enrollment jobs in the domain with the specified `JobStatus`. If
+`JobStatus` is not provided, this lists all jobs with all possible speaker enrollment job
 statuses.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker enrollment jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobStatus"`: Provides the status of your speaker enrollment Job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_speaker_enrollment_jobs(
-    DomainId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "ListSpeakerEnrollmentJobs",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_speaker_enrollment_jobs(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListSpeakerEnrollmentJobs",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_speaker_enrollment_jobs(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListSpeakerEnrollmentJobs", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_speaker_enrollment_jobs(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListSpeakerEnrollmentJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_speakers(domain_id)
@@ -833,40 +357,23 @@ end
 Lists all speakers in a specified domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "ListSpeakers",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_speakers(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListSpeakers",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_speakers(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListSpeakers", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_speakers(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListSpeakers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -875,34 +382,12 @@ end
 Lists all tags associated with a specified Voice ID resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource for which you
   want to list the tags.
-
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(ResourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_watchlists(domain_id)
@@ -911,40 +396,23 @@ end
 Lists all watchlists in a specified domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "ListWatchlists",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_watchlists(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "ListWatchlists",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("DomainId" => DomainId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_watchlists(DomainId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListWatchlists", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_watchlists(DomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("ListWatchlists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     opt_out_speaker(domain_id, speaker_id)
@@ -957,39 +425,12 @@ opted out. Enrollment and evaluation authentication requests are rejected for op
 speakers, and opted out speakers have no voice embeddings stored in Voice ID.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you want opted-out.
-
 """
-function opt_out_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "OptOutSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function opt_out_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "OptOutSpeaker",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+opt_out_speaker(DomainId, SpeakerId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("OptOutSpeaker", Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+opt_out_speaker(DomainId, SpeakerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("OptOutSpeaker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "SpeakerId"=>SpeakerId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_fraudster_registration_job(data_access_role_arn, domain_id, input_data_config, output_data_config)
@@ -998,10 +439,11 @@ end
 Starts a new batch fraudster registration job using provided details.
 
 # Arguments
+
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the Job
-  output file. Refer to the Create and edit a fraudster watchlist documentation for the
-  permissions needed in this role.
+  permissions to access customer's buckets to read the input manifest file and write the
+  Job output file. Refer to the [Create and edit a fraudster watchlist](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-fraudster-watchlist.html)
+  documentation for the permissions needed in this role.
 - `domain_id`: The identifier of the domain that contains the fraudster registration job
   and in which the fraudsters are registered.
 - `input_data_config`: The input data config containing an S3 URI for the input manifest
@@ -1010,62 +452,19 @@ Starts a new batch fraudster registration job using provided details.
   writes the job output file; you must also include a KMS key ID to encrypt the file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"JobName"`: The name of the new fraudster registration job.
 - `"RegistrationConfig"`: The registration config containing details such as the action to
   take when a duplicate fraudster is detected, and the similarity threshold to use for
   detecting a duplicate fraudster.
 """
-function start_fraudster_registration_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "StartFraudsterRegistrationJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DomainId" => DomainId,
-            "InputDataConfig" => InputDataConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_fraudster_registration_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "StartFraudsterRegistrationJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "DomainId" => DomainId,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "ClientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_fraudster_registration_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("StartFraudsterRegistrationJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_fraudster_registration_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("StartFraudsterRegistrationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_speaker_enrollment_job(data_access_role_arn, domain_id, input_data_config, output_data_config)
@@ -1074,10 +473,11 @@ end
 Starts a new batch speaker enrollment job using specified details.
 
 # Arguments
+
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the job
-  output file. Refer to Batch enrollment using audio data from prior calls for the
-  permissions needed in this role.
+  permissions to access customer's buckets to read the input manifest file and write the
+  job output file. Refer to [Batch enrollment using audio data from prior calls](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-batch-enrollment.html)
+  for the permissions needed in this role.
 - `domain_id`: The identifier of the domain that contains the speaker enrollment job and in
   which the speakers are enrolled.
 - `input_data_config`: The input data config containing the S3 location for the input
@@ -1086,62 +486,19 @@ Starts a new batch speaker enrollment job using specified details.
   writes the job output file; you must also include a KMS key ID to encrypt the file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
   take when a speaker is already enrolled in Voice ID or when a speaker is identified as a
   fraudster.
 - `"JobName"`: A name for your speaker enrollment job.
 """
-function start_speaker_enrollment_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "StartSpeakerEnrollmentJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DomainId" => DomainId,
-            "InputDataConfig" => InputDataConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_speaker_enrollment_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "StartSpeakerEnrollmentJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DataAccessRoleArn" => DataAccessRoleArn,
-                    "DomainId" => DomainId,
-                    "InputDataConfig" => InputDataConfig,
-                    "OutputDataConfig" => OutputDataConfig,
-                    "ClientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_speaker_enrollment_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("StartSpeakerEnrollmentJob", Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_speaker_enrollment_job(DataAccessRoleArn, DomainId, InputDataConfig, OutputDataConfig, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("StartSpeakerEnrollmentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataAccessRoleArn"=>DataAccessRoleArn, "DomainId"=>DomainId, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "ClientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -1150,37 +507,12 @@ end
 Tags a Voice ID resource with the provided list of tags.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to tag.
 - `tags`: The list of tags to assign to the specified resource.
-
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return voice_id(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceArn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1189,40 +521,13 @@ end
 Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to
   remove tags from.
 - `tag_keys`: The list of tag keys you want to remove from the specified resource.
-
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceArn, TagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_domain(domain_id, name, server_side_encryption_configuration)
@@ -1233,61 +538,24 @@ attributes. If an optional field, such as 'Description' is not provided, it is r
 the domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain to be updated.
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
   identifier, to be used by Voice ID for the server-side encryption of your data. Changing
   the domain's associated KMS key immediately triggers an asynchronous process to remove
   dependency on the old KMS key, such that the domain's data can only be accessed using the
-  new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this
-  process.
+  new KMS key. The domain's `ServerSideEncryptionUpdateDetails` contains the details for
+  this process.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A brief description about this domain.
 """
-function update_domain(
-    DomainId,
-    Name,
-    ServerSideEncryptionConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "UpdateDomain",
-        Dict{String,Any}(
-            "DomainId" => DomainId,
-            "Name" => Name,
-            "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_domain(
-    DomainId,
-    Name,
-    ServerSideEncryptionConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "UpdateDomain",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DomainId" => DomainId,
-                    "Name" => Name,
-                    "ServerSideEncryptionConfiguration" =>
-                        ServerSideEncryptionConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_domain(DomainId, Name, ServerSideEncryptionConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UpdateDomain", Dict{String, Any}("DomainId"=>DomainId, "Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_domain(DomainId, Name, ServerSideEncryptionConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UpdateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "Name"=>Name, "ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_watchlist(domain_id, watchlist_id)
@@ -1297,40 +565,16 @@ Updates the specified watchlist. Every domain has a default watchlist which cann
 updated.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A brief description about this watchlist.
 - `"Name"`: The name of the watchlist.
 """
-function update_watchlist(
-    DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return voice_id(
-        "UpdateWatchlist",
-        Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_watchlist(
-    DomainId,
-    WatchlistId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return voice_id(
-        "UpdateWatchlist",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("DomainId" => DomainId, "WatchlistId" => WatchlistId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_watchlist(DomainId, WatchlistId; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UpdateWatchlist", Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_watchlist(DomainId, WatchlistId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = voice_id("UpdateWatchlist", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "WatchlistId"=>WatchlistId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

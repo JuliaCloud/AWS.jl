@@ -8,224 +8,126 @@ using AWS.UUIDs
     copy_backup_to_region(backup_id, destination_region)
     copy_backup_to_region(backup_id, destination_region, params::Dict{String,<:Any})
 
-Copy an AWS CloudHSM cluster backup to a different region.
+Copy an CloudHSM cluster backup to a different region.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `backup_id`: The ID of the backup that will be copied to the destination region.
 - `destination_region`: The AWS region that will contain your copied CloudHSM cluster
   backup.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TagList"`: Tags to apply to the destination backup during creation. If you specify
   tags, only these tags will be applied to the destination backup. If you do not specify
   tags, the service copies tags from the source backup to the destination backup.
 """
-function copy_backup_to_region(
-    BackupId, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "CopyBackupToRegion",
-        Dict{String,Any}("BackupId" => BackupId, "DestinationRegion" => DestinationRegion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_backup_to_region(
-    BackupId,
-    DestinationRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "CopyBackupToRegion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BackupId" => BackupId, "DestinationRegion" => DestinationRegion
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+copy_backup_to_region(BackupId, DestinationRegion; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_backup_to_region(BackupId, DestinationRegion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CopyBackupToRegion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "DestinationRegion"=>DestinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_cluster(hsm_type, subnet_ids)
     create_cluster(hsm_type, subnet_ids, params::Dict{String,<:Any})
 
-Creates a new AWS CloudHSM cluster.
+Creates a new CloudHSM cluster.
+
+ **Cross-account use:** Yes. To perform this operation with an CloudHSM backup in a
+different AWS account, specify the full backup ARN in the value of the SourceBackupId
+parameter.
 
 # Arguments
-- `hsm_type`: The type of HSM to use in the cluster. The allowed values are hsm1.medium and
-  hsm2m.medium.
+
+- `hsm_type`: The type of HSM to use in the cluster. The allowed values are `hsm1.medium`
+  and `hsm2m.medium`.
 - `subnet_ids`: The identifiers (IDs) of the subnets where you are creating the cluster.
   You must specify at least one subnet. If you specify multiple subnets, they must meet the
-  following criteria:   All subnets must be in the same virtual private cloud (VPC).   You
-  can specify only one subnet per Availability Zone.
+  following criteria: - All subnets must be in the same virtual private cloud (VPC).
+   - You can specify only one subnet per Availability Zone.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BackupRetentionPolicy"`: A policy that defines how the service retains backups.
-- `"Mode"`: The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
-- `"SourceBackupId"`: The identifier (ID) of the cluster backup to restore. Use this value
-  to restore the cluster from a backup instead of creating a new cluster. To find the backup
-  ID, use DescribeBackups.
+- `"Mode"`: The mode to use in the cluster. The allowed values are `FIPS` and `NON_FIPS`.
+- `"SourceBackupId"`: The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
+  backup to restore. Use this value to restore the cluster from a backup instead of
+  creating a new cluster. To find the backup ID or ARN, use <a>DescribeBackups</a>. *If
+  using a backup in another account, the full ARN must be supplied.*
 - `"TagList"`: Tags to apply to the CloudHSM cluster during creation.
 """
-function create_cluster(
-    HsmType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "CreateCluster",
-        Dict{String,Any}("HsmType" => HsmType, "SubnetIds" => SubnetIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cluster(
-    HsmType,
-    SubnetIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "CreateCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("HsmType" => HsmType, "SubnetIds" => SubnetIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_cluster(HsmType, SubnetIds; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_cluster(HsmType, SubnetIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HsmType"=>HsmType, "SubnetIds"=>SubnetIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_hsm(availability_zone, cluster_id)
     create_hsm(availability_zone, cluster_id, params::Dict{String,<:Any})
 
-Creates a new hardware security module (HSM) in the specified AWS CloudHSM cluster.
+Creates a new hardware security module (HSM) in the specified CloudHSM cluster.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a
+different Amazon Web Service account.
 
 # Arguments
+
 - `availability_zone`: The Availability Zone where you are creating the HSM. To find the
-  cluster's Availability Zones, use DescribeClusters.
+  cluster's Availability Zones, use <a>DescribeClusters</a>.
 - `cluster_id`: The identifier (ID) of the HSM's cluster. To find the cluster ID, use
-  DescribeClusters.
+  <a>DescribeClusters</a>.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IpAddress"`: The HSM's IP address. If you specify an IP address, use an available
-  address from the subnet that maps to the Availability Zone where you are creating the HSM.
-  If you don't specify an IP address, one is chosen for you from that subnet.
+  address from the subnet that maps to the Availability Zone where you are creating the
+  HSM. If you don't specify an IP address, one is chosen for you from that subnet.
 """
-function create_hsm(
-    AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "CreateHsm",
-        Dict{String,Any}("AvailabilityZone" => AvailabilityZone, "ClusterId" => ClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_hsm(
-    AvailabilityZone,
-    ClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "CreateHsm",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AvailabilityZone" => AvailabilityZone, "ClusterId" => ClusterId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_hsm(AvailabilityZone, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_hsm(AvailabilityZone, ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("CreateHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_backup(backup_id)
     delete_backup(backup_id, params::Dict{String,<:Any})
 
-Deletes a specified AWS CloudHSM backup. A backup can be restored up to 7 days after the
-DeleteBackup request is made. For more information on restoring a backup, see RestoreBackup.
+Deletes a specified CloudHSM backup. A backup can be restored up to 7 days after the
+DeleteBackup request is made. For more information on restoring a backup, see
+<a>RestoreBackup</a>.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a
+different Amazon Web Services account.
 
 # Arguments
-- `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the
-  DescribeBackups operation.
 
+- `backup_id`: The ID of the backup to be deleted. To find the ID of a backup, use the
+  <a>DescribeBackups</a> operation.
 """
-function delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "DeleteBackup",
-        Dict{String,Any}("BackupId" => BackupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup(
-    BackupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "DeleteBackup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_backup(BackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_cluster(cluster_id)
     delete_cluster(cluster_id, params::Dict{String,<:Any})
 
-Deletes the specified AWS CloudHSM cluster. Before you can delete a cluster, you must
-delete all HSMs in the cluster. To see if the cluster contains any HSMs, use
-DescribeClusters. To delete an HSM, use DeleteHsm.
+Deletes the specified CloudHSM cluster. Before you can delete a cluster, you must delete
+all HSMs in the cluster. To see if the cluster contains any HSMs, use
+<a>DescribeClusters</a>. To delete an HSM, use <a>DeleteHsm</a>.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a
+different Amazon Web Services account.
 
 # Arguments
-- `cluster_id`: The identifier (ID) of the cluster that you are deleting. To find the
-  cluster ID, use DescribeClusters.
 
+- `cluster_id`: The identifier (ID) of the cluster that you are deleting. To find the
+  cluster ID, use <a>DescribeClusters</a>.
 """
-function delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "DeleteCluster",
-        Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cluster(
-    ClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "DeleteCluster",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_cluster(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_cluster(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_hsm(cluster_id)
@@ -233,432 +135,345 @@ end
 
 Deletes the specified HSM. To specify an HSM, you can use its identifier (ID), the IP
 address of the HSM's elastic network interface (ENI), or the ID of the HSM's ENI. You need
-to specify only one of these values. To find these values, use DescribeClusters.
+to specify only one of these values. To find these values, use <a>DescribeClusters</a>.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM hsm in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `cluster_id`: The identifier (ID) of the cluster that contains the HSM that you are
   deleting.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EniId"`: The identifier (ID) of the elastic network interface (ENI) of the HSM that you
   are deleting.
 - `"EniIp"`: The IP address of the elastic network interface (ENI) of the HSM that you are
   deleting.
 - `"HsmId"`: The identifier (ID) of the HSM that you are deleting.
 """
-function delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "DeleteHsm",
-        Dict{String,Any}("ClusterId" => ClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_hsm(
-    ClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "DeleteHsm",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_hsm(ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_hsm(ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteHsm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    delete_resource_policy()
+    delete_resource_policy(params::Dict{String,<:Any})
+
+ Deletes an CloudHSM resource policy. Deleting a resource policy will result in the
+resource being unshared and removed from any RAM resource shares. Deleting the resource
+policy attached to a backup will not impact any clusters created from that backup.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
+different Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ResourceArn"`: Amazon Resource Name (ARN) of the resource from which the policy will be
+  removed.
+"""
+delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DeleteResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_backups()
     describe_backups(params::Dict{String,<:Any})
 
-Gets information about backups of AWS CloudHSM clusters. This is a paginated operation,
-which means that each response might contain only a subset of all the backups. When the
-response contains only a subset of backups, it includes a NextToken value. Use this value
-in a subsequent DescribeBackups request to get more backups. When you receive a response
-with no NextToken (or an empty or null value), that means there are no more backups to get.
+Gets information about backups of CloudHSM clusters. Lists either the backups you own or
+the backups shared with you when the Shared parameter is true.
+
+This is a paginated operation, which means that each response might contain only a subset
+of all the backups. When the response contains only a subset of backups, it includes a
+`NextToken` value. Use this value in a subsequent `DescribeBackups` request to get more
+backups. When you receive a response with no `NextToken` (or an empty or null value), that
+means there are no more backups to get.
+
+ **Cross-account use:** Yes. Customers can describe backups in other Amazon Web Services
+accounts that are shared with them.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters to limit the items returned in the response. Use the
-  backupIds filter to return only the specified backups. Specify backups by their backup
-  identifier (ID). Use the sourceBackupIds filter to return only the backups created from a
-  source backup. The sourceBackupID of a source backup is returned by the CopyBackupToRegion
-  operation. Use the clusterIds filter to return only the backups for the specified clusters.
-  Specify clusters by their cluster identifier (ID). Use the states filter to return only
-  backups that match the specified state. Use the neverExpires filter to return backups
-  filtered by the value in the neverExpires parameter. True returns all backups exempt from
-  the backup retention policy. False returns all backups with a backup retention policy
-  defined at the cluster.
+
+- `"Filters"`: One or more filters to limit the items returned in the response.
+
+  Use the `backupIds` filter to return only the specified backups. Specify backups by their
+  backup identifier (ID).
+
+  Use the `sourceBackupIds` filter to return only the backups created from a source backup.
+  The `sourceBackupID` of a source backup is returned by the <a>CopyBackupToRegion</a>
+  operation.
+
+  Use the `clusterIds` filter to return only the backups for the specified clusters.
+  Specify clusters by their cluster identifier (ID).
+
+  Use the `states` filter to return only backups that match the specified state.
+
+  Use the `neverExpires` filter to return backups filtered by the value in the
+  `neverExpires` parameter. `True` returns all backups exempt from the backup retention
+  policy. `False` returns all backups with a backup retention policy defined at the cluster.
 - `"MaxResults"`: The maximum number of backups to return in the response. When there are
-  more backups than the number you specify, the response contains a NextToken value.
-- `"NextToken"`: The NextToken value that you received in the previous response. Use this
+  more backups than the number you specify, the response contains a `NextToken` value.
+- `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more backups.
+- `"Shared"`: Describe backups that are shared with you.
+
+  !!! note
+      By default when using this option, the command returns backups that have been shared
+  using a standard Resource Access Manager resource share. In order for a backup that was
+  shared using the PutResourcePolicy command to be returned, the share must be promoted to
+  a standard resource share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/cli/latest/reference/ram/promote-resource-share-created-from-policy.html)
+  API operation. For more information about sharing backups, see [ Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
+  in the CloudHSM User Guide.
 - `"SortAscending"`: Designates whether or not to sort the return backups by ascending
   chronological order of generation.
 """
-function describe_backups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_backups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_backups(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_backups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_clusters()
     describe_clusters(params::Dict{String,<:Any})
 
-Gets information about AWS CloudHSM clusters. This is a paginated operation, which means
-that each response might contain only a subset of all the clusters. When the response
-contains only a subset of clusters, it includes a NextToken value. Use this value in a
-subsequent DescribeClusters request to get more clusters. When you receive a response with
-no NextToken (or an empty or null value), that means there are no more clusters to get.
+Gets information about CloudHSM clusters.
+
+This is a paginated operation, which means that each response might contain only a subset
+of all the clusters. When the response contains only a subset of clusters, it includes a
+`NextToken` value. Use this value in a subsequent `DescribeClusters` request to get more
+clusters. When you receive a response with no `NextToken` (or an empty or null value), that
+means there are no more clusters to get.
+
+ **Cross-account use:** No. You cannot perform this operation on CloudHSM clusters in a
+different Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters to limit the items returned in the response. Use the
-  clusterIds filter to return only the specified clusters. Specify clusters by their cluster
-  identifier (ID). Use the vpcIds filter to return only the clusters in the specified virtual
-  private clouds (VPCs). Specify VPCs by their VPC identifier (ID). Use the states filter to
-  return only clusters that match the specified state.
+
+- `"Filters"`: One or more filters to limit the items returned in the response.
+
+  Use the `clusterIds` filter to return only the specified clusters. Specify clusters by
+  their cluster identifier (ID).
+
+  Use the `vpcIds` filter to return only the clusters in the specified virtual private
+  clouds (VPCs). Specify VPCs by their VPC identifier (ID).
+
+Use the `states` filter to return only clusters that match the specified state.
 - `"MaxResults"`: The maximum number of clusters to return in the response. When there are
-  more clusters than the number you specify, the response contains a NextToken value.
-- `"NextToken"`: The NextToken value that you received in the previous response. Use this
+  more clusters than the number you specify, the response contains a `NextToken` value.
+- `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more clusters.
 """
-function describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_clusters(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_clusters(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("DescribeClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+
+"""
+    get_resource_policy()
+    get_resource_policy(params::Dict{String,<:Any})
+
+ Retrieves the resource policy document attached to a given resource.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
+different Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which a policy is attached.
+"""
+get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("GetResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     initialize_cluster(cluster_id, signed_cert, trust_anchor)
     initialize_cluster(cluster_id, signed_cert, trust_anchor, params::Dict{String,<:Any})
 
-Claims an AWS CloudHSM cluster by submitting the cluster certificate issued by your issuing
+Claims an CloudHSM cluster by submitting the cluster certificate issued by your issuing
 certificate authority (CA) and the CA's root certificate. Before you can claim a cluster,
 you must sign the cluster's certificate signing request (CSR) with your issuing CA. To get
-the cluster's CSR, use DescribeClusters.
+the cluster's CSR, use <a>DescribeClusters</a>.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `cluster_id`: The identifier (ID) of the cluster that you are claiming. To find the
-  cluster ID, use DescribeClusters.
+  cluster ID, use <a>DescribeClusters</a>.
 - `signed_cert`: The cluster certificate issued (signed) by your issuing certificate
   authority (CA). The certificate must be in PEM format and can contain a maximum of 5000
   characters.
 - `trust_anchor`: The issuing certificate of the issuing certificate authority (CA) that
   issued (signed) the cluster certificate. You must use a self-signed certificate. The
-  certificate used to sign the HSM CSR must be directly available, and thus must be the root
-  certificate. The certificate must be in PEM format and can contain a maximum of 5000
+  certificate used to sign the HSM CSR must be directly available, and thus must be the
+  root certificate. The certificate must be in PEM format and can contain a maximum of 5000
   characters.
-
 """
-function initialize_cluster(
-    ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "InitializeCluster",
-        Dict{String,Any}(
-            "ClusterId" => ClusterId,
-            "SignedCert" => SignedCert,
-            "TrustAnchor" => TrustAnchor,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function initialize_cluster(
-    ClusterId,
-    SignedCert,
-    TrustAnchor,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "InitializeCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId,
-                    "SignedCert" => SignedCert,
-                    "TrustAnchor" => TrustAnchor,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+initialize_cluster(ClusterId, SignedCert, TrustAnchor; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+initialize_cluster(ClusterId, SignedCert, TrustAnchor, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("InitializeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "SignedCert"=>SignedCert, "TrustAnchor"=>TrustAnchor), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags(resource_id)
     list_tags(resource_id, params::Dict{String,<:Any})
 
-Gets a list of tags for the specified AWS CloudHSM cluster. This is a paginated operation,
-which means that each response might contain only a subset of all the tags. When the
-response contains only a subset of tags, it includes a NextToken value. Use this value in a
-subsequent ListTags request to get more tags. When you receive a response with no NextToken
-(or an empty or null value), that means there are no more tags to get.
+Gets a list of tags for the specified CloudHSM cluster.
+
+This is a paginated operation, which means that each response might contain only a subset
+of all the tags. When the response contains only a subset of tags, it includes a
+`NextToken` value. Use this value in a subsequent `ListTags` request to get more tags. When
+you receive a response with no `NextToken` (or an empty or null value), that means there
+are no more tags to get.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `resource_id`: The cluster identifier (ID) for the cluster whose tags you are getting. To
-  find the cluster ID, use DescribeClusters.
+  find the cluster ID, use <a>DescribeClusters</a>.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of tags to return in the response. When there are more
-  tags than the number you specify, the response contains a NextToken value.
-- `"NextToken"`: The NextToken value that you received in the previous response. Use this
+  tags than the number you specify, the response contains a `NextToken` value.
+- `"NextToken"`: The `NextToken` value that you received in the previous response. Use this
   value to get more tags.
 """
-function list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "ListTags",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "ListTags",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags(ResourceId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}("ResourceId"=>ResourceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags(ResourceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     modify_backup_attributes(backup_id, never_expires)
     modify_backup_attributes(backup_id, never_expires, params::Dict{String,<:Any})
 
-Modifies attributes for AWS CloudHSM backup.
+Modifies attributes for CloudHSM backup.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a
+different Amazon Web Services account.
 
 # Arguments
-- `backup_id`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
-  the DescribeBackups operation.
-- `never_expires`: Specifies whether the service should exempt a backup from the retention
-  policy for the cluster. True exempts a backup from the retention policy. False means the
-  service applies the backup retention policy defined at the cluster.
 
+- `backup_id`: The identifier (ID) of the backup to modify. To find the ID of a backup, use
+  the <a>DescribeBackups</a> operation.
+- `never_expires`: Specifies whether the service should exempt a backup from the retention
+  policy for the cluster. `True` exempts a backup from the retention policy. `False` means
+  the service applies the backup retention policy defined at the cluster.
 """
-function modify_backup_attributes(
-    BackupId, NeverExpires; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "ModifyBackupAttributes",
-        Dict{String,Any}("BackupId" => BackupId, "NeverExpires" => NeverExpires);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_backup_attributes(
-    BackupId,
-    NeverExpires,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "ModifyBackupAttributes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BackupId" => BackupId, "NeverExpires" => NeverExpires),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+modify_backup_attributes(BackupId, NeverExpires; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_backup_attributes(BackupId, NeverExpires, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyBackupAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "NeverExpires"=>NeverExpires), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     modify_cluster(backup_retention_policy, cluster_id)
     modify_cluster(backup_retention_policy, cluster_id, params::Dict{String,<:Any})
 
-Modifies AWS CloudHSM cluster.
+Modifies CloudHSM cluster.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM cluster in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `backup_retention_policy`: A policy that defines how the service retains backups.
 - `cluster_id`: The identifier (ID) of the cluster that you want to modify. To find the
-  cluster ID, use DescribeClusters.
+  cluster ID, use <a>DescribeClusters</a>.
+"""
+modify_cluster(BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+modify_cluster(BackupRetentionPolicy, ClusterId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupRetentionPolicy"=>BackupRetentionPolicy, "ClusterId"=>ClusterId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
-function modify_cluster(
-    BackupRetentionPolicy, ClusterId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "ModifyCluster",
-        Dict{String,Any}(
-            "BackupRetentionPolicy" => BackupRetentionPolicy, "ClusterId" => ClusterId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_cluster(
-    BackupRetentionPolicy,
-    ClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "ModifyCluster",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "BackupRetentionPolicy" => BackupRetentionPolicy,
-                    "ClusterId" => ClusterId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+    put_resource_policy()
+    put_resource_policy(params::Dict{String,<:Any})
+
+Creates or updates an CloudHSM resource policy. A resource policy helps you to define the
+IAM entity (for example, an Amazon Web Services account) that can manage your CloudHSM
+resources. The following resources support CloudHSM resource policies:  - Backup - The
+resource policy allows you to describe the backup and restore a cluster from the backup in
+another Amazon Web Services account.
+In order to share a backup, it must be in a 'READY' state and you must own it.
+
+!!! important
+    While you can share a backup using the CloudHSM PutResourcePolicy operation, we
+recommend using Resource Access Manager (RAM) instead. Using RAM provides multiple benefits
+as it creates the policy for you, allows multiple resources to be shared at one time, and
+increases the discoverability of shared resources. If you use PutResourcePolicy and want
+consumers to be able to describe the backups you share with them, you must promote the
+backup to a standard RAM Resource Share using the RAM PromoteResourceShareCreatedFromPolicy
+API operation. For more information, see [ Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
+in the CloudHSM User Guide **Cross-account use:** No. You cannot perform this operation on
+an CloudHSM resource in a different Amazon Web Services account.
+
+# Optional Parameters
+
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
+- `"Policy"`: The policy you want to associate with a resource.
+
+  For an example policy, see [ Working with shared backups](https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html)
+  in the CloudHSM User Guide
+- `"ResourceArn"`: Amazon Resource Name (ARN) of the resource to which you want to attach a
+  policy.
+"""
+put_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("PutResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("PutResourcePolicy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     restore_backup(backup_id)
     restore_backup(backup_id, params::Dict{String,<:Any})
 
-Restores a specified AWS CloudHSM backup that is in the PENDING_DELETION state. For mor
-information on deleting a backup, see DeleteBackup.
+Restores a specified CloudHSM backup that is in the `PENDING_DELETION` state. For more
+information on deleting a backup, see <a>DeleteBackup</a>.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM backup in a
+different Amazon Web Services account.
 
 # Arguments
-- `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the
-  DescribeBackups operation.
 
+- `backup_id`: The ID of the backup to be restored. To find the ID of a backup, use the
+  <a>DescribeBackups</a> operation.
 """
-function restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config())
-    return cloudhsm_v2(
-        "RestoreBackup",
-        Dict{String,Any}("BackupId" => BackupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function restore_backup(
-    BackupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "RestoreBackup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("BackupId" => BackupId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+restore_backup(BackupId; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}("BackupId"=>BackupId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+restore_backup(BackupId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("RestoreBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_id, tag_list)
     tag_resource(resource_id, tag_list, params::Dict{String,<:Any})
 
-Adds or overwrites one or more tags for the specified AWS CloudHSM cluster.
+Adds or overwrites one or more tags for the specified CloudHSM cluster.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
+different Amazon Web Services account.
 
 # Arguments
-- `resource_id`: The cluster identifier (ID) for the cluster that you are tagging. To find
-  the cluster ID, use DescribeClusters.
-- `tag_list`: A list of one or more tags.
 
+- `resource_id`: The cluster identifier (ID) for the cluster that you are tagging. To find
+  the cluster ID, use <a>DescribeClusters</a>.
+- `tag_list`: A list of one or more tags.
 """
-function tag_resource(
-    ResourceId, TagList; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "TagResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "TagList" => TagList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    ResourceId,
-    TagList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagList" => TagList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceId, TagList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(ResourceId, TagList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagList"=>TagList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_id, tag_key_list)
     untag_resource(resource_id, tag_key_list, params::Dict{String,<:Any})
 
-Removes the specified tag or tags from the specified AWS CloudHSM cluster.
+Removes the specified tag or tags from the specified CloudHSM cluster.
+
+ **Cross-account use:** No. You cannot perform this operation on an CloudHSM resource in a
+different Amazon Web Services account.
 
 # Arguments
+
 - `resource_id`: The cluster identifier (ID) for the cluster whose tags you are removing.
-  To find the cluster ID, use DescribeClusters.
+  To find the cluster ID, use <a>DescribeClusters</a>.
 - `tag_key_list`: A list of one or more tag keys for the tags that you are removing.
   Specify only the tag keys, not the tag values.
-
 """
-function untag_resource(
-    ResourceId, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return cloudhsm_v2(
-        "UntagResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "TagKeyList" => TagKeyList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceId,
-    TagKeyList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return cloudhsm_v2(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ResourceId" => ResourceId, "TagKeyList" => TagKeyList),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(ResourceId, TagKeyList; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(ResourceId, TagKeyList, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = cloudhsm_v2("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeyList"=>TagKeyList), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

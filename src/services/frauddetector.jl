@@ -11,38 +11,17 @@ using AWS.UUIDs
 Creates a batch of variables.
 
 # Arguments
+
 - `variable_entries`: The list of variables for the batch create variable request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A collection of key and value pairs.
 """
-function batch_create_variable(
-    variableEntries; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "BatchCreateVariable",
-        Dict{String,Any}("variableEntries" => variableEntries);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_create_variable(
-    variableEntries,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "BatchCreateVariable",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("variableEntries" => variableEntries), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_create_variable(variableEntries; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("BatchCreateVariable", Dict{String, Any}("variableEntries"=>variableEntries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_create_variable(variableEntries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("BatchCreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("variableEntries"=>variableEntries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_variable(names)
@@ -51,27 +30,11 @@ end
 Gets a batch of variables.
 
 # Arguments
-- `names`: The list of variable names to get.
 
+- `names`: The list of variable names to get.
 """
-function batch_get_variable(names; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "BatchGetVariable",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_variable(
-    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "BatchGetVariable",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_variable(names; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("BatchGetVariable", Dict{String, Any}("names"=>names); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_variable(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("BatchGetVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_batch_import_job(job_id)
@@ -80,28 +43,14 @@ end
  Cancels an in-progress batch import job.
 
 # Arguments
-- `job_id`:  The ID of an in-progress batch import job to cancel.  Amazon Fraud Detector
-  will throw an error if the batch import job is in FAILED, CANCELED, or COMPLETED state.
 
+- `job_id`:  The ID of an in-progress batch import job to cancel.
+
+  Amazon Fraud Detector will throw an error if the batch import job is in `FAILED`,
+  `CANCELED`, or `COMPLETED` state.
 """
-function cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "CancelBatchImportJob",
-        Dict{String,Any}("jobId" => jobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_batch_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CancelBatchImportJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CancelBatchImportJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_batch_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CancelBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_batch_prediction_job(job_id)
@@ -110,29 +59,11 @@ end
 Cancels the specified batch prediction job.
 
 # Arguments
-- `job_id`: The ID of the batch prediction job to cancel.
 
+- `job_id`: The ID of the batch prediction job to cancel.
 """
-function cancel_batch_prediction_job(
-    jobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CancelBatchPredictionJob",
-        Dict{String,Any}("jobId" => jobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_batch_prediction_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CancelBatchPredictionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CancelBatchPredictionJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_batch_prediction_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CancelBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_batch_import_job(event_type_name, iam_role_arn, input_path, job_id, output_path)
@@ -141,69 +72,27 @@ end
 Creates a batch import job.
 
 # Arguments
+
 - `event_type_name`: The name of the event type.
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
-  file. The IAM role must have read permissions to your input S3 bucket and write permissions
-  to your output S3 bucket. For more information about bucket permissions, see User policy
-  examples in the Amazon S3 User Guide.
+  file.
+
+  The IAM role must have read permissions to your input S3 bucket and write permissions to
+  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  in the *Amazon S3 User Guide*.
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
-  exists in CREATE_FAILED state.
+  exists in `CREATE_FAILED` state.
 - `output_path`: The URI that points to the Amazon S3 location for storing your results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A collection of key-value pairs associated with this request.
 """
-function create_batch_import_job(
-    eventTypeName,
-    iamRoleArn,
-    inputPath,
-    jobId,
-    outputPath;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateBatchImportJob",
-        Dict{String,Any}(
-            "eventTypeName" => eventTypeName,
-            "iamRoleArn" => iamRoleArn,
-            "inputPath" => inputPath,
-            "jobId" => jobId,
-            "outputPath" => outputPath,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_batch_import_job(
-    eventTypeName,
-    iamRoleArn,
-    inputPath,
-    jobId,
-    outputPath,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateBatchImportJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "eventTypeName" => eventTypeName,
-                    "iamRoleArn" => iamRoleArn,
-                    "inputPath" => inputPath,
-                    "jobId" => jobId,
-                    "outputPath" => outputPath,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_batch_import_job(eventTypeName, iamRoleArn, inputPath, jobId, outputPath; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateBatchImportJob", Dict{String, Any}("eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_batch_import_job(eventTypeName, iamRoleArn, inputPath, jobId, outputPath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_batch_prediction_job(detector_name, event_type_name, iam_role_arn, input_path, job_id, output_path)
@@ -212,168 +101,93 @@ end
 Creates a batch prediction job.
 
 # Arguments
+
 - `detector_name`: The name of the detector.
 - `event_type_name`: The name of the event type.
-- `iam_role_arn`: The ARN of the IAM role to use for this job request. The IAM Role must
-  have read permissions to your input S3 bucket and write permissions to your output S3
-  bucket. For more information about bucket permissions, see User policy examples in the
-  Amazon S3 User Guide.
+- `iam_role_arn`: The ARN of the IAM role to use for this job request.
+
+  The IAM Role must have read permissions to your input S3 bucket and write permissions to
+  your output S3 bucket. For more information about bucket permissions, see [User policy examples](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-policies-s3.html)
+  in the *Amazon S3 User Guide*.
 - `input_path`: The Amazon S3 location of your training file.
 - `job_id`: The ID of the batch prediction job.
 - `output_path`: The Amazon S3 location of your output file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"detectorVersion"`: The detector version.
 - `"tags"`: A collection of key and value pairs.
 """
-function create_batch_prediction_job(
-    detectorName,
-    eventTypeName,
-    iamRoleArn,
-    inputPath,
-    jobId,
-    outputPath;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateBatchPredictionJob",
-        Dict{String,Any}(
-            "detectorName" => detectorName,
-            "eventTypeName" => eventTypeName,
-            "iamRoleArn" => iamRoleArn,
-            "inputPath" => inputPath,
-            "jobId" => jobId,
-            "outputPath" => outputPath,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_batch_prediction_job(
-    detectorName,
-    eventTypeName,
-    iamRoleArn,
-    inputPath,
-    jobId,
-    outputPath,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateBatchPredictionJob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorName" => detectorName,
-                    "eventTypeName" => eventTypeName,
-                    "iamRoleArn" => iamRoleArn,
-                    "inputPath" => inputPath,
-                    "jobId" => jobId,
-                    "outputPath" => outputPath,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_batch_prediction_job(detectorName, eventTypeName, iamRoleArn, inputPath, jobId, outputPath; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateBatchPredictionJob", Dict{String, Any}("detectorName"=>detectorName, "eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_batch_prediction_job(detectorName, eventTypeName, iamRoleArn, inputPath, jobId, outputPath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorName"=>detectorName, "eventTypeName"=>eventTypeName, "iamRoleArn"=>iamRoleArn, "inputPath"=>inputPath, "jobId"=>jobId, "outputPath"=>outputPath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_detector_version(detector_id, rules)
     create_detector_version(detector_id, rules, params::Dict{String,<:Any})
 
-Creates a detector version. The detector version starts in a DRAFT status.
+Creates a detector version. The detector version starts in a `DRAFT` status.
 
 # Arguments
+
 - `detector_id`: The ID of the detector under which you want to create a new version.
 - `rules`: The rules to include in the detector version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the detector version.
 - `"externalModelEndpoints"`: The Amazon Sagemaker model endpoints to include in the
   detector version.
 - `"modelVersions"`: The model versions to include in the detector version.
 - `"ruleExecutionMode"`: The rule execution mode for the rules included in the detector
-  version. You can define and edit the rule mode at the detector version level, when it is in
-  draft status. If you specify FIRST_MATCHED, Amazon Fraud Detector evaluates rules
-  sequentially, first to last, stopping at the first matched rule. Amazon Fraud dectector
-  then provides the outcomes for that single rule. If you specifiy ALL_MATCHED, Amazon Fraud
-  Detector evaluates all rules and returns the outcomes for all matched rules.  The default
-  behavior is FIRST_MATCHED.
+  version.
+
+  You can define and edit the rule mode at the detector version level, when it is in draft
+  status.
+
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
+  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
+  outcomes for that single rule.
+
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
+  outcomes for all matched rules.
+
+The default behavior is `FIRST_MATCHED`.
 - `"tags"`: A collection of key and value pairs.
 """
-function create_detector_version(
-    detectorId, rules; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CreateDetectorVersion",
-        Dict{String,Any}("detectorId" => detectorId, "rules" => rules);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_detector_version(
-    detectorId,
-    rules,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateDetectorVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("detectorId" => detectorId, "rules" => rules),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_detector_version(detectorId, rules; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "rules"=>rules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_detector_version(detectorId, rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "rules"=>rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_list(name)
     create_list(name, params::Dict{String,<:Any})
 
- Creates a list.  List is a set of input data for a variable in your event dataset. You use
-the input data in a rule that's associated with your detector. For more information, see
-Lists.
+ Creates a list.
+
+List is a set of input data for a variable in your event dataset. You use the input data in
+a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
 
 # Arguments
+
 - `name`:  The name of the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of the list.
 - `"elements"`:  The names of the elements, if providing. You can also create an empty list
-  and add elements later using the UpdateList API.
+  and add elements later using the [UpdateList](https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html)
+  API.
 - `"tags"`:  A collection of the key and value pairs.
 - `"variableType"`:  The variable type of the list. You can only assign the variable type
-  with String data type. For more information, see Variable types.
+  with String data type. For more information, see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 """
-function create_list(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "CreateList",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CreateList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_list(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateList", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_list(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_model(event_type_name, model_id, model_type)
@@ -382,51 +196,20 @@ end
 Creates a model using the specified model type.
 
 # Arguments
+
 - `event_type_name`: The name of the event type.
 - `model_id`: The model ID.
 - `model_type`: The model type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The model description.
 - `"tags"`: A collection of key and value pairs.
 """
-function create_model(
-    eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "CreateModel",
-        Dict{String,Any}(
-            "eventTypeName" => eventTypeName, "modelId" => modelId, "modelType" => modelType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_model(
-    eventTypeName,
-    modelId,
-    modelType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateModel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "eventTypeName" => eventTypeName,
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_model(eventTypeName, modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateModel", Dict{String, Any}("eventTypeName"=>eventTypeName, "modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_model(eventTypeName, modelId, modelType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName, "modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_model_version(model_id, model_type, training_data_schema, training_data_source)
@@ -435,64 +218,24 @@ end
 Creates a version of the model using the specified model type and model id.
 
 # Arguments
+
 - `model_id`: The model ID.
 - `model_type`: The model type.
 - `training_data_schema`: The training data schema.
 - `training_data_source`: The training data source location in Amazon S3.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"externalEventsDetail"`: Details of the external events data used for model version
-  training. Required if trainingDataSource is EXTERNAL_EVENTS.
+  training. Required if `trainingDataSource` is `EXTERNAL_EVENTS`.
 - `"ingestedEventsDetail"`: Details of the ingested events data used for model version
-  training. Required if trainingDataSource is INGESTED_EVENTS.
+  training. Required if `trainingDataSource` is `INGESTED_EVENTS`.
 - `"tags"`: A collection of key and value pairs.
 """
-function create_model_version(
-    modelId,
-    modelType,
-    trainingDataSchema,
-    trainingDataSource;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateModelVersion",
-        Dict{String,Any}(
-            "modelId" => modelId,
-            "modelType" => modelType,
-            "trainingDataSchema" => trainingDataSchema,
-            "trainingDataSource" => trainingDataSource,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_model_version(
-    modelId,
-    modelType,
-    trainingDataSchema,
-    trainingDataSource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateModelVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                    "trainingDataSchema" => trainingDataSchema,
-                    "trainingDataSource" => trainingDataSource,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_model_version(modelId, modelType, trainingDataSchema, trainingDataSource; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateModelVersion", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "trainingDataSchema"=>trainingDataSchema, "trainingDataSource"=>trainingDataSource); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_model_version(modelId, modelType, trainingDataSchema, trainingDataSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "trainingDataSchema"=>trainingDataSchema, "trainingDataSource"=>trainingDataSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_rule(detector_id, expression, language, outcomes, rule_id)
@@ -501,6 +244,7 @@ end
 Creates a rule for use with the specified detector.
 
 # Arguments
+
 - `detector_id`: The detector ID for the rule's parent detector.
 - `expression`: The rule expression.
 - `language`: The language of the rule.
@@ -508,59 +252,14 @@ Creates a rule for use with the specified detector.
 - `rule_id`: The rule ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The rule description.
 - `"tags"`: A collection of key and value pairs.
 """
-function create_rule(
-    detectorId,
-    expression,
-    language,
-    outcomes,
-    ruleId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateRule",
-        Dict{String,Any}(
-            "detectorId" => detectorId,
-            "expression" => expression,
-            "language" => language,
-            "outcomes" => outcomes,
-            "ruleId" => ruleId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_rule(
-    detectorId,
-    expression,
-    language,
-    outcomes,
-    ruleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateRule",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId,
-                    "expression" => expression,
-                    "language" => language,
-                    "outcomes" => outcomes,
-                    "ruleId" => ruleId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_rule(detectorId, expression, language, outcomes, ruleId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateRule", Dict{String, Any}("detectorId"=>detectorId, "expression"=>expression, "language"=>language, "outcomes"=>outcomes, "ruleId"=>ruleId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_rule(detectorId, expression, language, outcomes, ruleId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "expression"=>expression, "language"=>language, "outcomes"=>outcomes, "ruleId"=>ruleId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_variable(data_source, data_type, default_value, name)
@@ -569,68 +268,31 @@ end
 Creates a variable.
 
 # Arguments
+
 - `data_source`: The source of the data.
 - `data_type`: The data type of the variable.
 - `default_value`: The default value for the variable when no value is received.
 - `name`: The name of the variable.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description.
 - `"tags"`: A collection of key and value pairs.
-- `"variableType"`: The variable type. For more information see Variable types.  Valid
-  Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY |
+- `"variableType"`: The variable type. For more information see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
+
+
+  Valid Values: `AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY |
   BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN |
-  CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT |
-  IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY |
-  SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY |
-  SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT
+  CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT
+  | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE |
+  PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY |
+  SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP |
+  USERAGENT`
 """
-function create_variable(
-    dataSource,
-    dataType,
-    defaultValue,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateVariable",
-        Dict{String,Any}(
-            "dataSource" => dataSource,
-            "dataType" => dataType,
-            "defaultValue" => defaultValue,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_variable(
-    dataSource,
-    dataType,
-    defaultValue,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "CreateVariable",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "dataSource" => dataSource,
-                    "dataType" => dataType,
-                    "defaultValue" => defaultValue,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_variable(dataSource, dataType, defaultValue, name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_variable(dataSource, dataType, defaultValue, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("CreateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "dataType"=>dataType, "defaultValue"=>defaultValue, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_batch_import_job(job_id)
@@ -640,27 +302,11 @@ Deletes the specified batch import job ID record. This action does not delete th
 was batch imported.
 
 # Arguments
-- `job_id`: The ID of the batch import job to delete.
 
+- `job_id`: The ID of the batch import job to delete.
 """
-function delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteBatchImportJob",
-        Dict{String,Any}("jobId" => jobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_batch_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteBatchImportJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_batch_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteBatchImportJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_batch_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteBatchImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_batch_prediction_job(job_id)
@@ -669,222 +315,108 @@ end
 Deletes a batch prediction job.
 
 # Arguments
-- `job_id`: The ID of the batch prediction job to delete.
 
+- `job_id`: The ID of the batch prediction job to delete.
 """
-function delete_batch_prediction_job(
-    jobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteBatchPredictionJob",
-        Dict{String,Any}("jobId" => jobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_batch_prediction_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteBatchPredictionJob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobId" => jobId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_batch_prediction_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteBatchPredictionJob", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_batch_prediction_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteBatchPredictionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_detector(detector_id)
     delete_detector(detector_id, params::Dict{String,<:Any})
 
 Deletes the detector. Before deleting a detector, you must first delete all detector
-versions and rule versions associated with the detector. When you delete a detector, Amazon
-Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon
-Fraud Detector.
+versions and rule versions associated with the detector.
+
+When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the
+data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `detector_id`: The ID of the detector to delete.
 
+- `detector_id`: The ID of the detector to delete.
 """
-function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteDetector",
-        Dict{String,Any}("detectorId" => detectorId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_detector(
-    detectorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteDetector",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("detectorId" => detectorId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteDetector", Dict{String, Any}("detectorId"=>detectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_detector(detectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_detector_version(detector_id, detector_version_id)
     delete_detector_version(detector_id, detector_version_id, params::Dict{String,<:Any})
 
-Deletes the detector version. You cannot delete detector versions that are in ACTIVE
-status. When you delete a detector version, Amazon Fraud Detector permanently deletes the
-detector and the data is no longer stored in Amazon Fraud Detector.
+Deletes the detector version. You cannot delete detector versions that are in `ACTIVE`
+status.
+
+When you delete a detector version, Amazon Fraud Detector permanently deletes the detector
+and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
+
 - `detector_id`: The ID of the parent detector for the detector version to delete.
 - `detector_version_id`: The ID of the detector version to delete.
-
 """
-function delete_detector_version(
-    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteDetectorVersion",
-        Dict{String,Any}(
-            "detectorId" => detectorId, "detectorVersionId" => detectorVersionId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_detector_version(
-    detectorId,
-    detectorVersionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteDetectorVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId, "detectorVersionId" => detectorVersionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_detector_version(detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_detector_version(detectorId, detectorVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_entity_type(name)
     delete_entity_type(name, params::Dict{String,<:Any})
 
-Deletes an entity type. You cannot delete an entity type that is included in an event type.
+Deletes an entity type.
+
+You cannot delete an entity type that is included in an event type.
+
 When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type
 and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `name`: The name of the entity type to delete.
 
+- `name`: The name of the entity type to delete.
 """
-function delete_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteEntityType",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_entity_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteEntityType",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEntityType", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_entity_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEntityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_event(event_id, event_type_name)
     delete_event(event_id, event_type_name, params::Dict{String,<:Any})
 
-Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently
-deletes that event and the event data is no longer stored in Amazon Fraud Detector. If
-deleteAuditHistory is True, event data is available through search for up to 30 seconds
-after the delete operation is completed.
+Deletes the specified event.
+
+When you delete an event, Amazon Fraud Detector permanently deletes that event and the
+event data is no longer stored in Amazon Fraud Detector. If `deleteAuditHistory` is `True`,
+event data is available through search for up to 30 seconds after the delete operation is
+completed.
 
 # Arguments
+
 - `event_id`: The ID of the event to delete.
 - `event_type_name`: The name of the event type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deleteAuditHistory"`: Specifies whether or not to delete any predictions associated
-  with the event. If set to True,
+  with the event. If set to `True`,
 """
-function delete_event(
-    eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteEvent",
-        Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_event(
-    eventId,
-    eventTypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteEvent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_event(eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEvent", Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event(eventId, eventTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_event_type(name)
     delete_event_type(name, params::Dict{String,<:Any})
 
-Deletes an event type. You cannot delete an event type that is used in a detector or a
-model. When you delete an event type, Amazon Fraud Detector permanently deletes that event
-type and the data is no longer stored in Amazon Fraud Detector.
+Deletes an event type.
+
+You cannot delete an event type that is used in a detector or a model.
+
+When you delete an event type, Amazon Fraud Detector permanently deletes that event type
+and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `name`: The name of the event type to delete.
 
+- `name`: The name of the event type to delete.
 """
-function delete_event_type(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteEventType",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_event_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteEventType",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_event_type(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEventType", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_events_by_event_type(event_type_name)
@@ -893,328 +425,162 @@ end
 Deletes all events of a particular event type.
 
 # Arguments
-- `event_type_name`: The name of the event type.
 
+- `event_type_name`: The name of the event type.
 """
-function delete_events_by_event_type(
-    eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteEventsByEventType",
-        Dict{String,Any}("eventTypeName" => eventTypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_events_by_event_type(
-    eventTypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteEventsByEventType",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("eventTypeName" => eventTypeName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_events_by_event_type(eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEventsByEventType", Dict{String, Any}("eventTypeName"=>eventTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_events_by_event_type(eventTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteEventsByEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_external_model(model_endpoint)
     delete_external_model(model_endpoint, params::Dict{String,<:Any})
 
-Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker
-model if it is not associated with a detector version. Removing a SageMaker model
-disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
+Removes a SageMaker model from Amazon Fraud Detector.
+
+You can remove an Amazon SageMaker model if it is not associated with a detector version.
+Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains
+available in SageMaker.
 
 # Arguments
-- `model_endpoint`: The endpoint of the Amazon Sagemaker model to delete.
 
+- `model_endpoint`: The endpoint of the Amazon Sagemaker model to delete.
 """
-function delete_external_model(
-    modelEndpoint; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteExternalModel",
-        Dict{String,Any}("modelEndpoint" => modelEndpoint);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_external_model(
-    modelEndpoint,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteExternalModel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("modelEndpoint" => modelEndpoint), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_external_model(modelEndpoint; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteExternalModel", Dict{String, Any}("modelEndpoint"=>modelEndpoint); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_external_model(modelEndpoint, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteExternalModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelEndpoint"=>modelEndpoint), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_label(name)
     delete_label(name, params::Dict{String,<:Any})
 
-Deletes a label. You cannot delete labels that are included in an event type in Amazon
-Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete
-the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes
-that label and the data is no longer stored in Amazon Fraud Detector.
+Deletes a label.
+
+You cannot delete labels that are included in an event type in Amazon Fraud Detector.
+
+You cannot delete a label assigned to an event ID. You must first delete the relevant event
+ID.
+
+When you delete a label, Amazon Fraud Detector permanently deletes that label and the data
+is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `name`: The name of the label to delete.
 
+- `name`: The name of the label to delete.
 """
-function delete_label(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteLabel",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_label(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteLabel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_label(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteLabel", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_label(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_list(name)
     delete_list(name, params::Dict{String,<:Any})
 
- Deletes the list, provided it is not used in a rule.   When you delete a list, Amazon
-Fraud Detector permanently deletes that list and the elements in the list.
+ Deletes the list, provided it is not used in a rule.
+
+ When you delete a list, Amazon Fraud Detector permanently deletes that list and the
+elements in the list.
 
 # Arguments
-- `name`:  The name of the list to delete.
 
+- `name`:  The name of the list to delete.
 """
-function delete_list(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteList",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_list(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteList", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_list(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_model(model_id, model_type)
     delete_model(model_id, model_type, params::Dict{String,<:Any})
 
-Deletes a model. You can delete models and model versions in Amazon Fraud Detector,
-provided that they are not associated with a detector version.  When you delete a model,
-Amazon Fraud Detector permanently deletes that model and the data is no longer stored in
-Amazon Fraud Detector.
+Deletes a model.
+
+You can delete models and model versions in Amazon Fraud Detector, provided that they are
+not associated with a detector version.
+
+ When you delete a model, Amazon Fraud Detector permanently deletes that model and the data
+is no longer stored in Amazon Fraud Detector.
 
 # Arguments
+
 - `model_id`: The model ID of the model to delete.
 - `model_type`: The model type of the model to delete.
-
 """
-function delete_model(
-    modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteModel",
-        Dict{String,Any}("modelId" => modelId, "modelType" => modelType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_model(
-    modelId,
-    modelType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteModel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("modelId" => modelId, "modelType" => modelType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_model(modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteModel", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_model(modelId, modelType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_model_version(model_id, model_type, model_version_number)
     delete_model_version(model_id, model_type, model_version_number, params::Dict{String,<:Any})
 
-Deletes a model version. You can delete models and model versions in Amazon Fraud Detector,
-provided that they are not associated with a detector version.  When you delete a model
-version, Amazon Fraud Detector permanently deletes that model version and the data is no
-longer stored in Amazon Fraud Detector.
+Deletes a model version.
+
+You can delete models and model versions in Amazon Fraud Detector, provided that they are
+not associated with a detector version.
+
+ When you delete a model version, Amazon Fraud Detector permanently deletes that model
+version and the data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
+
 - `model_id`: The model ID of the model version to delete.
 - `model_type`: The model type of the model version to delete.
 - `model_version_number`: The model version number of the model version to delete.
-
 """
-function delete_model_version(
-    modelId,
-    modelType,
-    modelVersionNumber;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteModelVersion",
-        Dict{String,Any}(
-            "modelId" => modelId,
-            "modelType" => modelType,
-            "modelVersionNumber" => modelVersionNumber,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_model_version(
-    modelId,
-    modelType,
-    modelVersionNumber,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DeleteModelVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                    "modelVersionNumber" => modelVersionNumber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_model_version(modelId, modelType, modelVersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteModelVersion", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_model_version(modelId, modelType, modelVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_outcome(name)
     delete_outcome(name, params::Dict{String,<:Any})
 
-Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you
-delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is
-no longer stored in Amazon Fraud Detector.
+Deletes an outcome.
+
+You cannot delete an outcome that is used in a rule version.
+
+When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the
+data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `name`: The name of the outcome to delete.
 
+- `name`: The name of the outcome to delete.
 """
-function delete_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteOutcome",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_outcome(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteOutcome",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_outcome(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteOutcome", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_outcome(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteOutcome", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_rule(rule)
     delete_rule(rule, params::Dict{String,<:Any})
 
-Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector
-version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and
-the data is no longer stored in Amazon Fraud Detector.
+Deletes the rule. You cannot delete a rule if it is used by an `ACTIVE` or `INACTIVE`
+detector version.
+
+When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is
+no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `rule`:
 
+- `rule`:
 """
-function delete_rule(rule; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteRule",
-        Dict{String,Any}("rule" => rule);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_rule(
-    rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteRule",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("rule" => rule), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_rule(rule; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteRule", Dict{String, Any}("rule"=>rule); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_rule(rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_variable(name)
     delete_variable(name, params::Dict{String,<:Any})
 
-Deletes a variable. You can't delete variables that are included in an event type in Amazon
-Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and
-SageMaker model output variables when you delete the model. You can't delete these
-variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes
-that variable and the data is no longer stored in Amazon Fraud Detector.
+Deletes a variable.
+
+You can't delete variables that are included in an event type in Amazon Fraud Detector.
+
+Amazon Fraud Detector automatically deletes model output variables and SageMaker model
+output variables when you delete the model. You can't delete these variables manually.
+
+When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the
+data is no longer stored in Amazon Fraud Detector.
 
 # Arguments
-- `name`: The name of the variable to delete.
 
+- `name`: The name of the variable to delete.
 """
-function delete_variable(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DeleteVariable",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_variable(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DeleteVariable",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_variable(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteVariable", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_variable(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DeleteVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_detector(detector_id)
@@ -1223,35 +589,18 @@ end
 Gets all versions for a specified detector.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return for the request.
 - `"nextToken"`: The next token from the previous response.
 """
-function describe_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DescribeDetector",
-        Dict{String,Any}("detectorId" => detectorId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_detector(
-    detectorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "DescribeDetector",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("detectorId" => detectorId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DescribeDetector", Dict{String, Any}("detectorId"=>detectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_detector(detectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DescribeDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_model_versions()
@@ -1261,57 +610,38 @@ Gets all of the model versions for the specified model type or for the specified
 and model ID. You can also get details for a single, specified model version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"modelId"`: The model ID.
 - `"modelType"`: The model type.
 - `"modelVersionNumber"`: The model version number.
 - `"nextToken"`: The next token from the previous results.
 """
-function describe_model_versions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "DescribeModelVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_model_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "DescribeModelVersions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_model_versions(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DescribeModelVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_model_versions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("DescribeModelVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_batch_import_jobs()
     get_batch_import_jobs(params::Dict{String,<:Any})
 
 Gets all batch import jobs or a specific job of the specified ID. This is a paginated API.
-If you provide a null maxResults, this action retrieves a maximum of 50 records per page.
-If you provide a maxResults, the value must be between 1 and 50. To get the next page
-results, provide the pagination token from the GetBatchImportJobsResponse as part of your
+If you provide a null `maxResults`, this action retrieves a maximum of 50 records per page.
+If you provide a `maxResults`, the value must be between 1 and 50. To get the next page
+results, provide the pagination token from the `GetBatchImportJobsResponse` as part of your
 request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobId"`: The ID of the batch import job to get.
 - `"maxResults"`: The maximum number of objects to return for request.
 - `"nextToken"`: The next token from the previous request.
 """
-function get_batch_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_batch_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetBatchImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_batch_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetBatchImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_batch_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetBatchImportJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_batch_prediction_jobs()
@@ -1324,61 +654,28 @@ the next page results, provide the pagination token from the GetBatchPredictionJ
 as part of your request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobId"`: The batch prediction job for which to get the details.
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"nextToken"`: The next token from the previous request.
 """
-function get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetBatchPredictionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_batch_prediction_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetBatchPredictionJobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_batch_prediction_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetBatchPredictionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_batch_prediction_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetBatchPredictionJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_delete_events_by_event_type_status(event_type_name)
     get_delete_events_by_event_type_status(event_type_name, params::Dict{String,<:Any})
 
-Retrieves the status of a DeleteEventsByEventType action.
+Retrieves the status of a `DeleteEventsByEventType` action.
 
 # Arguments
-- `event_type_name`: Name of event type for which to get the deletion status.
 
+- `event_type_name`: Name of event type for which to get the deletion status.
 """
-function get_delete_events_by_event_type_status(
-    eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetDeleteEventsByEventTypeStatus",
-        Dict{String,Any}("eventTypeName" => eventTypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_delete_events_by_event_type_status(
-    eventTypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetDeleteEventsByEventTypeStatus",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("eventTypeName" => eventTypeName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_delete_events_by_event_type_status(eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDeleteEventsByEventTypeStatus", Dict{String, Any}("eventTypeName"=>eventTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_delete_events_by_event_type_status(eventTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDeleteEventsByEventTypeStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_detector_version(detector_id, detector_version_id)
@@ -1387,101 +684,54 @@ end
 Gets a particular detector version.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 - `detector_version_id`: The detector version ID.
-
 """
-function get_detector_version(
-    detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetDetectorVersion",
-        Dict{String,Any}(
-            "detectorId" => detectorId, "detectorVersionId" => detectorVersionId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_detector_version(
-    detectorId,
-    detectorVersionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetDetectorVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId, "detectorVersionId" => detectorVersionId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_detector_version(detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_detector_version(detectorId, detectorVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_detectors()
     get_detectors(params::Dict{String,<:Any})
 
-Gets all detectors or a single detector if a detectorId is specified. This is a paginated
-API. If you provide a null maxResults, this action retrieves a maximum of 10 records per
-page. If you provide a maxResults, the value must be between 5 and 10. To get the next page
-results, provide the pagination token from the GetDetectorsResponse as part of your
+Gets all detectors or a single detector if a `detectorId` is specified. This is a paginated
+API. If you provide a null `maxResults`, this action retrieves a maximum of 10 records per
+page. If you provide a `maxResults`, the value must be between 5 and 10. To get the next
+page results, provide the pagination token from the `GetDetectorsResponse` as part of your
 request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"detectorId"`: The detector ID.
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_detectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_detectors(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDetectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_detectors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetDetectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_entity_types()
     get_entity_types(params::Dict{String,<:Any})
 
 Gets all entity types or a specific entity type if a name is specified. This is a paginated
-API. If you provide a null maxResults, this action retrieves a maximum of 10 records per
-page. If you provide a maxResults, the value must be between 5 and 10. To get the next page
-results, provide the pagination token from the GetEntityTypesResponse as part of your
-request. A null pagination token fetches the records from the beginning.
+API. If you provide a null `maxResults`, this action retrieves a maximum of 10 records per
+page. If you provide a `maxResults`, the value must be between 5 and 10. To get the next
+page results, provide the pagination token from the `GetEntityTypesResponse` as part of
+your request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"name"`: The name.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_entity_types(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_entity_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetEntityTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_entity_types(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_entity_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEntityTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_event(event_id, event_type_name)
@@ -1491,52 +741,26 @@ Retrieves details of events stored with Amazon Fraud Detector. This action does 
 retrieve prediction results.
 
 # Arguments
+
 - `event_id`: The ID of the event to retrieve.
 - `event_type_name`: The event type of the event to retrieve.
-
 """
-function get_event(
-    eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetEvent",
-        Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_event(
-    eventId,
-    eventTypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetEvent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("eventId" => eventId, "eventTypeName" => eventTypeName),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_event(eventId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEvent", Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event(eventId, eventTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventId"=>eventId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_event_prediction(detector_id, entities, event_id, event_timestamp, event_type_name, event_variables)
     get_event_prediction(detector_id, entities, event_id, event_timestamp, event_type_name, event_variables, params::Dict{String,<:Any})
 
 Evaluates an event against a detector version. If a version ID is not provided, the
-detector’s (ACTIVE) version is used.
+detector’s (`ACTIVE`) version is used.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 - `entities`: The entity type (associated with the detector's event type) and specific
   entity ID representing who performed the event. If an entity id is not available, use
-  \"UNKNOWN.\"
+  "UNKNOWN."
 - `event_id`: The unique ID used to identify the event.
 - `event_timestamp`: Timestamp that defines when the event under evaluation occurred. The
   timestamp must be specified using ISO 8601 standard in UTC.
@@ -1544,75 +768,36 @@ detector’s (ACTIVE) version is used.
   prediction.
 - `event_variables`: Names of the event type's variables you defined in Amazon Fraud
   Detector to represent data elements and their corresponding values for the event you are
-  sending for evaluation.  You must provide at least one eventVariable  To ensure most
-  accurate fraud prediction and to simplify your data preparation, Amazon Fraud Detector will
-  replace all missing variables or values as follows:  For Amazon Fraud Detector trained
-  models:  If a null value is provided explicitly for a variable or if a variable is missing,
-  model will replace the null value or the missing variable (no variable name in the
+  sending for evaluation.</p>
+
+  !!! important
+      You must provide at least one eventVariableTo ensure most accurate fraud prediction
+  and to simplify your data preparation, Amazon Fraud Detector will replace all missing
+  variables or values as follows:
+
+   **For Amazon Fraud Detector trained models:**
+
+  If a null value is provided explicitly for a variable or if a variable is missing, model
+  will replace the null value or the missing variable (no variable name in the
   eventVariables map) with calculated default mean/medians for numeric variables and with
-  special values for categorical variables.  For imported SageMaker models:  If a null value
-  is provided explicitly for a variable, the model and rules will use “null” as the
-  value. If a variable is not provided (no variable name in the eventVariables map), model
-  and rules will use the default value that is provided for the variable.
+  special values for categorical variables.
+
+   **For imported SageMaker models:**
+
+   <p>If a null value is provided explicitly for a variable, the model and rules will use
+  “null” as the value. If a variable is not provided (no variable name in the
+  eventVariables map), model and rules will use the default value that is provided for the
+  variable.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"detectorVersionId"`: The detector version ID.
 - `"externalModelEndpointDataBlobs"`: The Amazon SageMaker model endpoint input data blobs.
 """
-function get_event_prediction(
-    detectorId,
-    entities,
-    eventId,
-    eventTimestamp,
-    eventTypeName,
-    eventVariables;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetEventPrediction",
-        Dict{String,Any}(
-            "detectorId" => detectorId,
-            "entities" => entities,
-            "eventId" => eventId,
-            "eventTimestamp" => eventTimestamp,
-            "eventTypeName" => eventTypeName,
-            "eventVariables" => eventVariables,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_event_prediction(
-    detectorId,
-    entities,
-    eventId,
-    eventTimestamp,
-    eventTypeName,
-    eventVariables,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetEventPrediction",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId,
-                    "entities" => entities,
-                    "eventId" => eventId,
-                    "eventTimestamp" => eventTimestamp,
-                    "eventTypeName" => eventTypeName,
-                    "eventVariables" => eventVariables,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_event_prediction(detectorId, entities, eventId, eventTimestamp, eventTypeName, eventVariables; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventPrediction", Dict{String, Any}("detectorId"=>detectorId, "entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_prediction(detectorId, entities, eventId, eventTimestamp, eventTypeName, eventVariables, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_event_prediction_metadata(detector_id, detector_version_id, event_id, event_type_name, prediction_timestamp)
@@ -1622,125 +807,64 @@ end
 detector ID, and detector version ID that was generated in the specified time period.
 
 # Arguments
+
 - `detector_id`:  The detector ID.
 - `detector_version_id`:  The detector version ID.
 - `event_id`:  The event ID.
 - `event_type_name`:  The event type associated with the detector specified for the
   prediction.
 - `prediction_timestamp`:  The timestamp that defines when the prediction was generated.
-  The timestamp must be specified using ISO 8601 standard in UTC. We recommend calling
-  ListEventPredictions first, and using the predictionTimestamp value in the response to
-  provide an accurate prediction timestamp value.
+  The timestamp must be specified using ISO 8601 standard in UTC.
 
+  We recommend calling [ListEventPredictions](https://docs.aws.amazon.com/frauddetector/latest/api/API_ListEventPredictions.html)
+  first, and using the `predictionTimestamp` value in the response to provide an accurate
+  prediction timestamp value.
 """
-function get_event_prediction_metadata(
-    detectorId,
-    detectorVersionId,
-    eventId,
-    eventTypeName,
-    predictionTimestamp;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetEventPredictionMetadata",
-        Dict{String,Any}(
-            "detectorId" => detectorId,
-            "detectorVersionId" => detectorVersionId,
-            "eventId" => eventId,
-            "eventTypeName" => eventTypeName,
-            "predictionTimestamp" => predictionTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_event_prediction_metadata(
-    detectorId,
-    detectorVersionId,
-    eventId,
-    eventTypeName,
-    predictionTimestamp,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetEventPredictionMetadata",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId,
-                    "detectorVersionId" => detectorVersionId,
-                    "eventId" => eventId,
-                    "eventTypeName" => eventTypeName,
-                    "predictionTimestamp" => predictionTimestamp,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_event_prediction_metadata(detectorId, detectorVersionId, eventId, eventTypeName, predictionTimestamp; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventPredictionMetadata", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "eventId"=>eventId, "eventTypeName"=>eventTypeName, "predictionTimestamp"=>predictionTimestamp); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_prediction_metadata(detectorId, detectorVersionId, eventId, eventTypeName, predictionTimestamp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventPredictionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "eventId"=>eventId, "eventTypeName"=>eventTypeName, "predictionTimestamp"=>predictionTimestamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_event_types()
     get_event_types(params::Dict{String,<:Any})
 
 Gets all event types or a specific event type if name is provided. This is a paginated API.
-If you provide a null maxResults, this action retrieves a maximum of 10 records per page.
-If you provide a maxResults, the value must be between 5 and 10. To get the next page
-results, provide the pagination token from the GetEventTypesResponse as part of your
+If you provide a null `maxResults`, this action retrieves a maximum of 10 records per page.
+If you provide a `maxResults`, the value must be between 5 and 10. To get the next page
+results, provide the pagination token from the `GetEventTypesResponse` as part of your
 request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"name"`: The name.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_event_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_event_types(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_types(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_external_models()
     get_external_models(params::Dict{String,<:Any})
 
 Gets the details for one or more Amazon SageMaker models that have been imported into the
-service. This is a paginated API. If you provide a null maxResults, this actions retrieves
-a maximum of 10 records per page. If you provide a maxResults, the value must be between 5
-and 10. To get the next page results, provide the pagination token from the
-GetExternalModelsResult as part of your request. A null pagination token fetches the
+service. This is a paginated API. If you provide a null `maxResults`, this actions
+retrieves a maximum of 10 records per page. If you provide a `maxResults`, the value must
+be between 5 and 10. To get the next page results, provide the pagination token from the
+`GetExternalModelsResult` as part of your request. A null pagination token fetches the
 records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"modelEndpoint"`: The Amazon SageMaker model endpoint.
 - `"nextToken"`: The next page token for the request.
 """
-function get_external_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetExternalModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_external_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetExternalModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_external_models(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetExternalModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_external_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetExternalModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_kmsencryption_key()
@@ -1748,52 +872,30 @@ end
 
 Gets the encryption key if a KMS key has been specified to be used to encrypt content in
 Amazon Fraud Detector.
-
 """
-function get_kmsencryption_key(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetKMSEncryptionKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_kmsencryption_key(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetKMSEncryptionKey",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_kmsencryption_key(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetKMSEncryptionKey"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_kmsencryption_key(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetKMSEncryptionKey", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_labels()
     get_labels(params::Dict{String,<:Any})
 
 Gets all labels or a specific label if name is provided. This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 50 records per page. If you
-provide a maxResults, the value must be between 10 and 50. To get the next page results,
-provide the pagination token from the GetGetLabelsResponse as part of your request. A null
-pagination token fetches the records from the beginning.
+provide a null `maxResults`, this action retrieves a maximum of 50 records per page. If you
+provide a `maxResults`, the value must be between 10 and 50. To get the next page results,
+provide the pagination token from the `GetGetLabelsResponse` as part of your request. A
+null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"name"`: The name of the label or labels to get.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_labels(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_labels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_labels(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetLabels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_labels(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetLabels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_list_elements(name)
@@ -1802,31 +904,18 @@ end
  Gets all the elements in the specified list.
 
 # Arguments
+
 - `name`:  The name of the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of objects to return for the request.
 - `"nextToken"`:  The next token for the subsequent request.
 """
-function get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetListElements",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_list_elements(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetListElements",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_list_elements(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetListElements", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_list_elements(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetListElements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_lists_metadata()
@@ -1835,23 +924,15 @@ end
  Gets the metadata of either all the lists under the account or the specified list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of objects to return for the request.
 - `"name"`:  The name of the list.
 - `"nextToken"`:  The next token for the subsequent request.
 """
-function get_lists_metadata(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_lists_metadata(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetListsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_lists_metadata(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lists_metadata(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetListsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_model_version(model_id, model_type, model_version_number)
@@ -1860,52 +941,13 @@ end
 Gets the details of the specified model version.
 
 # Arguments
+
 - `model_id`: The model ID.
 - `model_type`: The model type.
 - `model_version_number`: The model version number.
-
 """
-function get_model_version(
-    modelId,
-    modelType,
-    modelVersionNumber;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetModelVersion",
-        Dict{String,Any}(
-            "modelId" => modelId,
-            "modelType" => modelType,
-            "modelVersionNumber" => modelVersionNumber,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_model_version(
-    modelId,
-    modelType,
-    modelVersionNumber,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetModelVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                    "modelVersionNumber" => modelVersionNumber,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_model_version(modelId, modelType, modelVersionNumber; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetModelVersion", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_model_version(modelId, modelType, modelVersionNumber, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_models()
@@ -1914,134 +956,95 @@ end
 Gets one or more models. Gets all models for the Amazon Web Services account if no model
 type and no model id provided. Gets all models for the Amazon Web Services account and
 model type, if the model type is specified but model id is not provided. Gets a specific
-model if (model type, model id) tuple is specified.  This is a paginated API. If you
-provide a null maxResults, this action retrieves a maximum of 10 records per page. If you
-provide a maxResults, the value must be between 1 and 10. To get the next page results,
-provide the pagination token from the response as part of your request. A null pagination
-token fetches the records from the beginning.
+model if (model type, model id) tuple is specified.
+
+This is a paginated API. If you provide a null `maxResults`, this action retrieves a
+maximum of 10 records per page. If you provide a `maxResults`, the value must be between 1
+and 10. To get the next page results, provide the pagination token from the response as
+part of your request. A null pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"modelId"`: The model ID.
 - `"modelType"`: The model type.
 - `"nextToken"`: The next token for the subsequent request.
 """
-function get_models(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_models(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_models(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_outcomes()
     get_outcomes(params::Dict{String,<:Any})
 
-Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this
-actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value
-must be between 50 and 100. To get the next page results, provide the pagination token from
-the GetOutcomesResult as part of your request. A null pagination token fetches the records
-from the beginning.
+Gets one or more outcomes. This is a paginated API. If you provide a null `maxResults`,
+this actions retrieves a maximum of 100 records per page. If you provide a `maxResults`,
+the value must be between 50 and 100. To get the next page results, provide the pagination
+token from the `GetOutcomesResult` as part of your request. A null pagination token fetches
+the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"name"`: The name of the outcome or outcomes to get.
 - `"nextToken"`: The next page token for the request.
 """
-function get_outcomes(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetOutcomes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_outcomes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetOutcomes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_outcomes(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetOutcomes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_outcomes(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetOutcomes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_rules(detector_id)
     get_rules(detector_id, params::Dict{String,<:Any})
 
-Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets
-all rules for the detector and the ruleId if present (paginated). Gets a specific rule if
-both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null
-maxResults results in retrieving maximum of 100 records per page. If you provide maxResults
-the value must be between 50 and 100. To get the next page result, a provide a pagination
-token from GetRulesResult as part of your request. Null pagination token fetches the
-records from the beginning.
+Get all rules for a detector (paginated) if `ruleId` and `ruleVersion` are not specified.
+Gets all rules for the detector and the `ruleId` if present (paginated). Gets a specific
+rule if both the `ruleId` and the `ruleVersion` are specified.
+
+This is a paginated API. Providing null maxResults results in retrieving maximum of 100
+records per page. If you provide maxResults the value must be between 50 and 100. To get
+the next page result, a provide a pagination token from GetRulesResult as part of your
+request. Null pagination token fetches the records from the beginning.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of rules to return for the request.
 - `"nextToken"`: The next page token.
 - `"ruleId"`: The rule ID.
 - `"ruleVersion"`: The rule version.
 """
-function get_rules(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetRules",
-        Dict{String,Any}("detectorId" => detectorId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_rules(
-    detectorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "GetRules",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("detectorId" => detectorId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_rules(detectorId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetRules", Dict{String, Any}("detectorId"=>detectorId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_rules(detectorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_variables()
     get_variables(params::Dict{String,<:Any})
 
 Gets all of the variables or the specific variable. This is a paginated API. Providing null
-maxSizePerPage results in retrieving maximum of 100 records per page. If you provide
-maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide
-a pagination token from GetVariablesResult as part of your request. Null pagination token
-fetches the records from the beginning.
+`maxSizePerPage` results in retrieving maximum of 100 records per page. If you provide
+`maxSizePerPage` the value must be between 50 and 100. To get the next page result, a
+provide a pagination token from `GetVariablesResult` as part of your request. Null
+pagination token fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The max size per page determined for the get variable request.
 - `"name"`: The name of the variable.
 - `"nextToken"`: The next page token of the get variable request.
 """
-function get_variables(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "GetVariables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_variables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "GetVariables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_variables(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetVariables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_variables(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("GetVariables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_event_predictions()
@@ -2049,15 +1052,20 @@ end
 
 Gets a list of past predictions. The list can be filtered by detector ID, detector version
 ID, event ID, event type, or by specifying a time period. If filter is not specified, the
-most recent prediction is returned. For example, the following filter lists all past
-predictions for xyz event type - { \"eventType\":{ \"value\": \"xyz\" }” }   This is a
-paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10
-records per page. If you provide a maxResults, the value must be between 50 and 100. To get
-the next page results, provide the nextToken from the response as part of your request. A
-null nextToken fetches the records from the beginning.
+most recent prediction is returned.
+
+For example, the following filter lists all past predictions for `xyz` event type - `{
+"eventType":{ "value": "xyz" }” } `
+
+This is a paginated API. If you provide a null `maxResults`, this action will retrieve a
+maximum of 10 records per page. If you provide a `maxResults`, the value must be between 50
+and 100. To get the next page results, provide the `nextToken` from the response as part of
+your request. A null `nextToken` fetches the records from the beginning.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"detectorId"`:  The detector ID.
 - `"detectorVersionId"`:  The detector version ID.
 - `"eventId"`:  The event ID.
@@ -2068,21 +1076,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token expires after 24 hours.
 - `"predictionTimeRange"`:  The time period for when the predictions were generated.
 """
-function list_event_predictions(; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_event_predictions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "ListEventPredictions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_event_predictions(; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("ListEventPredictions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_event_predictions(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("ListEventPredictions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -2093,37 +1088,18 @@ results, provide the pagination token from the response as part of your request.
 pagination token fetches the records from the beginning.
 
 # Arguments
+
 - `resource_arn`: The ARN that specifies the resource whose tags you want to list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of objects to return for the request.
 - `"nextToken"`: The next token from the previous results.
 """
-function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "ListTagsForResource",
-        Dict{String,Any}("resourceARN" => resourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "ListTagsForResource",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceARN" => resourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("ListTagsForResource", Dict{String, Any}("resourceARN"=>resourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_detector(detector_id, event_type_name)
@@ -2132,45 +1108,19 @@ end
 Creates or updates a detector.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 - `event_type_name`: The name of the event type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the detector.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_detector(
-    detectorId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutDetector",
-        Dict{String,Any}("detectorId" => detectorId, "eventTypeName" => eventTypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_detector(
-    detectorId,
-    eventTypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "PutDetector",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId, "eventTypeName" => eventTypeName
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_detector(detectorId, eventTypeName; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutDetector", Dict{String, Any}("detectorId"=>detectorId, "eventTypeName"=>eventTypeName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_detector(detectorId, eventTypeName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "eventTypeName"=>eventTypeName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_entity_type(name)
@@ -2182,31 +1132,18 @@ performed the event. An entity type classifies the entity. Example classificatio
 customer, merchant, or account.
 
 # Arguments
+
 - `name`: The name of the entity type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "PutEntityType",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_entity_type(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutEntityType",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_entity_type(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutEntityType", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_entity_type(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutEntityType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_event_type(entity_types, event_variables, name)
@@ -2220,13 +1157,16 @@ and the labels that classify the event. Example event types include online payme
 transactions, account registrations, and authentications.
 
 # Arguments
+
 - `entity_types`: The entity type for the event type. Example entity types: customer,
   merchant, account.
 - `event_variables`: The event type variables.
 - `name`: The name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the event type.
 - `"eventIngestion"`: Specifies if ingestion is enabled or disabled.
 - `"eventOrchestration"`: Enables or disables event orchestration. If enabled, you can send
@@ -2234,42 +1174,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"labels"`: The event type labels.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_event_type(
-    entityTypes, eventVariables, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutEventType",
-        Dict{String,Any}(
-            "entityTypes" => entityTypes, "eventVariables" => eventVariables, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_event_type(
-    entityTypes,
-    eventVariables,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "PutEventType",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "entityTypes" => entityTypes,
-                    "eventVariables" => eventVariables,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_event_type(entityTypes, eventVariables, name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutEventType", Dict{String, Any}("entityTypes"=>entityTypes, "eventVariables"=>eventVariables, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_event_type(entityTypes, eventVariables, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutEventType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityTypes"=>entityTypes, "eventVariables"=>eventVariables, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_external_model(input_configuration, invoke_model_endpoint_role_arn, model_endpoint, model_endpoint_status, model_source, output_configuration)
@@ -2280,6 +1186,7 @@ update the configuration of the model endpoint, including the IAM role and/or th
 variables.
 
 # Arguments
+
 - `input_configuration`: The model endpoint input configuration.
 - `invoke_model_endpoint_role_arn`: The IAM role used to invoke the model endpoint.
 - `model_endpoint`: The model endpoints name.
@@ -2288,62 +1195,13 @@ variables.
 - `output_configuration`: The model endpoint output configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A collection of key and value pairs.
 """
-function put_external_model(
-    inputConfiguration,
-    invokeModelEndpointRoleArn,
-    modelEndpoint,
-    modelEndpointStatus,
-    modelSource,
-    outputConfiguration;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "PutExternalModel",
-        Dict{String,Any}(
-            "inputConfiguration" => inputConfiguration,
-            "invokeModelEndpointRoleArn" => invokeModelEndpointRoleArn,
-            "modelEndpoint" => modelEndpoint,
-            "modelEndpointStatus" => modelEndpointStatus,
-            "modelSource" => modelSource,
-            "outputConfiguration" => outputConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_external_model(
-    inputConfiguration,
-    invokeModelEndpointRoleArn,
-    modelEndpoint,
-    modelEndpointStatus,
-    modelSource,
-    outputConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "PutExternalModel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "inputConfiguration" => inputConfiguration,
-                    "invokeModelEndpointRoleArn" => invokeModelEndpointRoleArn,
-                    "modelEndpoint" => modelEndpoint,
-                    "modelEndpointStatus" => modelEndpointStatus,
-                    "modelSource" => modelSource,
-                    "outputConfiguration" => outputConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_external_model(inputConfiguration, invokeModelEndpointRoleArn, modelEndpoint, modelEndpointStatus, modelSource, outputConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutExternalModel", Dict{String, Any}("inputConfiguration"=>inputConfiguration, "invokeModelEndpointRoleArn"=>invokeModelEndpointRoleArn, "modelEndpoint"=>modelEndpoint, "modelEndpointStatus"=>modelEndpointStatus, "modelSource"=>modelSource, "outputConfiguration"=>outputConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_external_model(inputConfiguration, invokeModelEndpointRoleArn, modelEndpoint, modelEndpointStatus, modelSource, outputConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutExternalModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputConfiguration"=>inputConfiguration, "invokeModelEndpointRoleArn"=>invokeModelEndpointRoleArn, "modelEndpoint"=>modelEndpoint, "modelEndpointStatus"=>modelEndpointStatus, "modelSource"=>modelSource, "outputConfiguration"=>outputConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_kmsencryption_key(kms_encryption_key_arn)
@@ -2352,38 +1210,14 @@ end
 Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 # Arguments
-- `kms_encryption_key_arn`: The KMS encryption key ARN. The KMS key must be single-Region
-  key. Amazon Fraud Detector does not support multi-Region KMS key.
 
+- `kms_encryption_key_arn`: The KMS encryption key ARN.
+
+  The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-
+  Region KMS key.
 """
-function put_kmsencryption_key(
-    kmsEncryptionKeyArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutKMSEncryptionKey",
-        Dict{String,Any}("kmsEncryptionKeyArn" => kmsEncryptionKeyArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_kmsencryption_key(
-    kmsEncryptionKeyArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "PutKMSEncryptionKey",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("kmsEncryptionKeyArn" => kmsEncryptionKeyArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_kmsencryption_key(kmsEncryptionKeyArn; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutKMSEncryptionKey", Dict{String, Any}("kmsEncryptionKeyArn"=>kmsEncryptionKeyArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_kmsencryption_key(kmsEncryptionKeyArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutKMSEncryptionKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("kmsEncryptionKeyArn"=>kmsEncryptionKeyArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_label(name)
@@ -2394,31 +1228,18 @@ are associated with event types and used to train supervised machine learning mo
 Amazon Fraud Detector.
 
 # Arguments
+
 - `name`: The label name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The label description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_label(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "PutLabel",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_label(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutLabel",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_label(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutLabel", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_label(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_outcome(name)
@@ -2427,41 +1248,29 @@ end
 Creates or updates an outcome.
 
 # Arguments
+
 - `name`: The name of the outcome.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The outcome description.
 - `"tags"`: A collection of key and value pairs.
 """
-function put_outcome(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "PutOutcome",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_outcome(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "PutOutcome",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_outcome(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutOutcome", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_outcome(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("PutOutcome", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_event(entities, event_id, event_timestamp, event_type_name, event_variables)
     send_event(entities, event_id, event_timestamp, event_type_name, event_variables, params::Dict{String,<:Any})
 
 Stores events in Amazon Fraud Detector without generating fraud predictions for those
-events. For example, you can use SendEvent to upload a historical dataset, which you can
+events. For example, you can use `SendEvent` to upload a historical dataset, which you can
 then later use to train a model.
 
 # Arguments
+
 - `entities`: An array of entities.
 - `event_id`: The event ID to upload.
 - `event_timestamp`: The timestamp that defines when the event under evaluation occurred.
@@ -2472,61 +1281,16 @@ then later use to train a model.
   sending for evaluation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"assignedLabel"`: The label to associate with the event. Required if specifying
-  labelTimestamp.
+  `labelTimestamp`.
 - `"labelTimestamp"`: The timestamp associated with the label. Required if specifying
-  assignedLabel.
+  `assignedLabel`.
 """
-function send_event(
-    entities,
-    eventId,
-    eventTimestamp,
-    eventTypeName,
-    eventVariables;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "SendEvent",
-        Dict{String,Any}(
-            "entities" => entities,
-            "eventId" => eventId,
-            "eventTimestamp" => eventTimestamp,
-            "eventTypeName" => eventTypeName,
-            "eventVariables" => eventVariables,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_event(
-    entities,
-    eventId,
-    eventTimestamp,
-    eventTypeName,
-    eventVariables,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "SendEvent",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "entities" => entities,
-                    "eventId" => eventId,
-                    "eventTimestamp" => eventTimestamp,
-                    "eventTypeName" => eventTypeName,
-                    "eventVariables" => eventVariables,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_event(entities, eventId, eventTimestamp, eventTypeName, eventVariables; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("SendEvent", Dict{String, Any}("entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_event(entities, eventId, eventTimestamp, eventTypeName, eventVariables, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("SendEvent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entities"=>entities, "eventId"=>eventId, "eventTimestamp"=>eventTimestamp, "eventTypeName"=>eventTypeName, "eventVariables"=>eventVariables), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -2535,37 +1299,12 @@ end
 Assigns tags to a resource.
 
 # Arguments
+
 - `resource_arn`: The resource ARN.
 - `tags`: The tags to assign to the resource.
-
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "TagResource",
-        Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceARN,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "TagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("TagResource", Dict{String, Any}("resourceARN"=>resourceARN, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceARN, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2574,39 +1313,12 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource from which to remove the tag.
 - `tag_keys`: The resource ARN.
-
 """
-function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UntagResource",
-        Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceARN,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UntagResource",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UntagResource", Dict{String, Any}("resourceARN"=>resourceARN, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_detector_version(detector_id, detector_version_id, external_model_endpoints, rules)
@@ -2614,9 +1326,10 @@ end
 
  Updates a detector version. The detector version attributes that you can update include
 models, external model endpoints, rules, rule execution mode, and description. You can only
-update a DRAFT detector version.
+update a `DRAFT` detector version.
 
 # Arguments
+
 - `detector_id`: The parent detector ID for the detector version you want to update.
 - `detector_version_id`: The detector version ID.
 - `external_model_endpoints`: The Amazon SageMaker model endpoints to include in the
@@ -2624,172 +1337,60 @@ update a DRAFT detector version.
 - `rules`: The rules to include in the detector version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The detector version description.
 - `"modelVersions"`: The model versions to include in the detector version.
-- `"ruleExecutionMode"`: The rule execution mode to add to the detector. If you specify
-  FIRST_MATCHED, Amazon Fraud Detector evaluates rules sequentially, first to last, stopping
-  at the first matched rule. Amazon Fraud dectector then provides the outcomes for that
-  single rule. If you specifiy ALL_MATCHED, Amazon Fraud Detector evaluates all rules and
-  returns the outcomes for all matched rules. You can define and edit the rule mode at the
-  detector version level, when it is in draft status. The default behavior is FIRST_MATCHED.
+- `"ruleExecutionMode"`: The rule execution mode to add to the detector.
+
+  If you specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules sequentially, first
+  to last, stopping at the first matched rule. Amazon Fraud dectector then provides the
+  outcomes for that single rule.
+
+  If you specifiy `ALL_MATCHED`, Amazon Fraud Detector evaluates all rules and returns the
+  outcomes for all matched rules. You can define and edit the rule mode at the detector
+  version level, when it is in draft status.
+
+The default behavior is `FIRST_MATCHED`.
 """
-function update_detector_version(
-    detectorId,
-    detectorVersionId,
-    externalModelEndpoints,
-    rules;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersion",
-        Dict{String,Any}(
-            "detectorId" => detectorId,
-            "detectorVersionId" => detectorVersionId,
-            "externalModelEndpoints" => externalModelEndpoints,
-            "rules" => rules,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_detector_version(
-    detectorId,
-    detectorVersionId,
-    externalModelEndpoints,
-    rules,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId,
-                    "detectorVersionId" => detectorVersionId,
-                    "externalModelEndpoints" => externalModelEndpoints,
-                    "rules" => rules,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, rules; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersion", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "externalModelEndpoints"=>externalModelEndpoints, "rules"=>rules); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_detector_version(detectorId, detectorVersionId, externalModelEndpoints, rules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "externalModelEndpoints"=>externalModelEndpoints, "rules"=>rules), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_detector_version_metadata(description, detector_id, detector_version_id)
     update_detector_version_metadata(description, detector_id, detector_version_id, params::Dict{String,<:Any})
 
 Updates the detector version's description. You can update the metadata for any detector
-version (DRAFT, ACTIVE, or INACTIVE).
+version (`DRAFT, ACTIVE,` or `INACTIVE`).
 
 # Arguments
+
 - `description`: The description.
 - `detector_id`: The detector ID.
 - `detector_version_id`: The detector version ID.
-
 """
-function update_detector_version_metadata(
-    description,
-    detectorId,
-    detectorVersionId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersionMetadata",
-        Dict{String,Any}(
-            "description" => description,
-            "detectorId" => detectorId,
-            "detectorVersionId" => detectorVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_detector_version_metadata(
-    description,
-    detectorId,
-    detectorVersionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersionMetadata",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "description" => description,
-                    "detectorId" => detectorId,
-                    "detectorVersionId" => detectorVersionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_detector_version_metadata(description, detectorId, detectorVersionId; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersionMetadata", Dict{String, Any}("description"=>description, "detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_detector_version_metadata(description, detectorId, detectorVersionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersionMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_detector_version_status(detector_id, detector_version_id, status)
     update_detector_version_status(detector_id, detector_version_id, status, params::Dict{String,<:Any})
 
 Updates the detector version’s status. You can perform the following promotions or
-demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and
-INACTIVE to ACTIVE.
+demotions using `UpdateDetectorVersionStatus`: `DRAFT` to `ACTIVE`, `ACTIVE` to `INACTIVE`,
+and `INACTIVE` to `ACTIVE`.
 
 # Arguments
+
 - `detector_id`: The detector ID.
 - `detector_version_id`: The detector version ID.
-- `status`: The new status. The only supported values are ACTIVE and INACTIVE
+- `status`: The new status.
 
+The only supported values are `ACTIVE` and `INACTIVE`
 """
-function update_detector_version_status(
-    detectorId,
-    detectorVersionId,
-    status;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersionStatus",
-        Dict{String,Any}(
-            "detectorId" => detectorId,
-            "detectorVersionId" => detectorVersionId,
-            "status" => status,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_detector_version_status(
-    detectorId,
-    detectorVersionId,
-    status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateDetectorVersionStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "detectorId" => detectorId,
-                    "detectorVersionId" => detectorVersionId,
-                    "status" => status,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_detector_version_status(detectorId, detectorVersionId, status; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersionStatus", Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_detector_version_status(detectorId, detectorVersionId, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateDetectorVersionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorId"=>detectorId, "detectorVersionId"=>detectorVersionId, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_event_label(assigned_label, event_id, event_type_name, label_timestamp)
@@ -2798,58 +1399,15 @@ end
 Updates the specified event with a new label.
 
 # Arguments
+
 - `assigned_label`: The new label to assign to the event.
 - `event_id`: The ID of the event associated with the label to update.
 - `event_type_name`: The event type of the event associated with the label to update.
 - `label_timestamp`: The timestamp associated with the label. The timestamp must be
   specified using ISO 8601 standard in UTC.
-
 """
-function update_event_label(
-    assignedLabel,
-    eventId,
-    eventTypeName,
-    labelTimestamp;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateEventLabel",
-        Dict{String,Any}(
-            "assignedLabel" => assignedLabel,
-            "eventId" => eventId,
-            "eventTypeName" => eventTypeName,
-            "labelTimestamp" => labelTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_event_label(
-    assignedLabel,
-    eventId,
-    eventTypeName,
-    labelTimestamp,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateEventLabel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assignedLabel" => assignedLabel,
-                    "eventId" => eventId,
-                    "eventTypeName" => eventTypeName,
-                    "labelTimestamp" => labelTimestamp,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_event_label(assignedLabel, eventId, eventTypeName, labelTimestamp; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateEventLabel", Dict{String, Any}("assignedLabel"=>assignedLabel, "eventId"=>eventId, "eventTypeName"=>eventTypeName, "labelTimestamp"=>labelTimestamp); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_event_label(assignedLabel, eventId, eventTypeName, labelTimestamp, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateEventLabel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assignedLabel"=>assignedLabel, "eventId"=>eventId, "eventTypeName"=>eventTypeName, "labelTimestamp"=>labelTimestamp), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_list(name)
@@ -2858,39 +1416,32 @@ end
  Updates a list.
 
 # Arguments
+
 - `name`:  The name of the list to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The new description.
 - `"elements"`:  One or more list elements to add or replace. If you are providing the
-  elements, make sure to specify the updateMode to use.  If you are deleting all elements
-  from the list, use REPLACE for the updateMode and provide an empty list (0 elements).
-- `"updateMode"`:  The update mode (type).    Use APPEND if you are adding elements to the
-  list.   Use REPLACE if you replacing existing elements in the list.   Use REMOVE if you are
-  removing elements from the list.
-- `"variableType"`:  The variable type you want to assign to the list.   You cannot update
-  a variable type of a list that already has a variable type assigned to it. You can assign a
-  variable type to a list only if the list does not already have a variable type.
+  elements, make sure to specify the `updateMode` to use.
+
+  If you are deleting all elements from the list, use `REPLACE` for the `updateMode` and
+  provide an empty list (0 elements).
+- `"updateMode"`:  The update mode (type).  - Use `APPEND` if you are adding elements to
+  the list.
+   - Use `REPLACE` if you replacing existing elements in the list.
+   - Use `REMOVE` if you are removing elements from the list.
+- `"variableType"`:  The variable type you want to assign to the list.
+
+  !!! note
+      You cannot update a variable type of a list that already has a variable type assigned
+  to it. You can assign a variable type to a list only if the list does not already have a
+  variable type.
 """
-function update_list(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "UpdateList",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_list(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UpdateList",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_list(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateList", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_list(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_model(model_id, model_type)
@@ -2899,42 +1450,18 @@ end
 Updates model description.
 
 # Arguments
+
 - `model_id`: The model ID.
 - `model_type`: The model type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The new model description.
 """
-function update_model(
-    modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UpdateModel",
-        Dict{String,Any}("modelId" => modelId, "modelType" => modelType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_model(
-    modelId,
-    modelType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateModel",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("modelId" => modelId, "modelType" => modelType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_model(modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModel", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_model(modelId, modelType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_model_version(major_version_number, model_id, model_type)
@@ -2946,120 +1473,44 @@ training data set location and data access role attributes using this action. Th
 creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
 
 # Arguments
+
 - `major_version_number`: The major version number.
 - `model_id`: The model ID.
 - `model_type`: The model type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"externalEventsDetail"`: The details of the external events data used for training the
-  model version. Required if trainingDataSource is EXTERNAL_EVENTS.
+  model version. Required if `trainingDataSource` is `EXTERNAL_EVENTS`.
 - `"ingestedEventsDetail"`: The details of the ingested event used for training the model
-  version. Required if your trainingDataSource is INGESTED_EVENTS.
+  version. Required if your `trainingDataSource` is `INGESTED_EVENTS`.
 - `"tags"`: A collection of key and value pairs.
 """
-function update_model_version(
-    majorVersionNumber,
-    modelId,
-    modelType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateModelVersion",
-        Dict{String,Any}(
-            "majorVersionNumber" => majorVersionNumber,
-            "modelId" => modelId,
-            "modelType" => modelType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_model_version(
-    majorVersionNumber,
-    modelId,
-    modelType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateModelVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "majorVersionNumber" => majorVersionNumber,
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_model_version(majorVersionNumber, modelId, modelType; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModelVersion", Dict{String, Any}("majorVersionNumber"=>majorVersionNumber, "modelId"=>modelId, "modelType"=>modelType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_model_version(majorVersionNumber, modelId, modelType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModelVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("majorVersionNumber"=>majorVersionNumber, "modelId"=>modelId, "modelType"=>modelType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_model_version_status(model_id, model_type, model_version_number, status)
     update_model_version_status(model_id, model_type, model_version_number, status, params::Dict{String,<:Any})
 
-Updates the status of a model version. You can perform the following status updates:
-Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED.   Change the
-TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
+Updates the status of a model version.
+
+You can perform the following status updates: 1. Change the `TRAINING_IN_PROGRESS` status
+to `TRAINING_CANCELLED`.
+ 2. Change the `TRAINING_COMPLETE` status to `ACTIVE`.
+ 3. Change `ACTIVE` to `INACTIVE`.
 
 # Arguments
+
 - `model_id`: The model ID of the model version to update.
 - `model_type`: The model type.
 - `model_version_number`: The model version number.
 - `status`: The model version status.
-
 """
-function update_model_version_status(
-    modelId,
-    modelType,
-    modelVersionNumber,
-    status;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateModelVersionStatus",
-        Dict{String,Any}(
-            "modelId" => modelId,
-            "modelType" => modelType,
-            "modelVersionNumber" => modelVersionNumber,
-            "status" => status,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_model_version_status(
-    modelId,
-    modelType,
-    modelVersionNumber,
-    status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateModelVersionStatus",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "modelId" => modelId,
-                    "modelType" => modelType,
-                    "modelVersionNumber" => modelVersionNumber,
-                    "status" => status,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_model_version_status(modelId, modelType, modelVersionNumber, status; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModelVersionStatus", Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber, "status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_model_version_status(modelId, modelType, modelVersionNumber, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateModelVersionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("modelId"=>modelId, "modelType"=>modelType, "modelVersionNumber"=>modelVersionNumber, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_rule_metadata(description, rule)
@@ -3068,39 +1519,12 @@ end
 Updates a rule's metadata. The description attribute can be updated.
 
 # Arguments
+
 - `description`: The rule description.
 - `rule`: The rule to update.
-
 """
-function update_rule_metadata(
-    description, rule; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UpdateRuleMetadata",
-        Dict{String,Any}("description" => description, "rule" => rule);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_rule_metadata(
-    description,
-    rule,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateRuleMetadata",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("description" => description, "rule" => rule),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_rule_metadata(description, rule; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateRuleMetadata", Dict{String, Any}("description"=>description, "rule"=>rule); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule_metadata(description, rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateRuleMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_rule_version(expression, language, outcomes, rule)
@@ -3110,57 +1534,21 @@ Updates a rule version resulting in a new rule version. Updates a rule version r
 a new rule version (version 1, 2, 3 ...).
 
 # Arguments
+
 - `expression`: The rule expression.
 - `language`: The language.
 - `outcomes`: The outcomes.
 - `rule`: The rule to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description.
 - `"tags"`: The tags to assign to the rule version.
 """
-function update_rule_version(
-    expression, language, outcomes, rule; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UpdateRuleVersion",
-        Dict{String,Any}(
-            "expression" => expression,
-            "language" => language,
-            "outcomes" => outcomes,
-            "rule" => rule,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_rule_version(
-    expression,
-    language,
-    outcomes,
-    rule,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return frauddetector(
-        "UpdateRuleVersion",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "expression" => expression,
-                    "language" => language,
-                    "outcomes" => outcomes,
-                    "rule" => rule,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_rule_version(expression, language, outcomes, rule; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateRuleVersion", Dict{String, Any}("expression"=>expression, "language"=>language, "outcomes"=>outcomes, "rule"=>rule); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_rule_version(expression, language, outcomes, rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateRuleVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "language"=>language, "outcomes"=>outcomes, "rule"=>rule), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_variable(name)
@@ -3169,29 +1557,16 @@ end
 Updates a variable.
 
 # Arguments
+
 - `name`: The name of the variable.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"defaultValue"`: The new default value of the variable.
 - `"description"`: The new description.
-- `"variableType"`: The variable type. For more information see Variable types.
+- `"variableType"`: The variable type. For more information see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
 """
-function update_variable(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return frauddetector(
-        "UpdateVariable",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_variable(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return frauddetector(
-        "UpdateVariable",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_variable(name; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateVariable", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_variable(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = frauddetector("UpdateVariable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

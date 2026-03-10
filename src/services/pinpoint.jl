@@ -8,42 +8,14 @@ using AWS.UUIDs
     create_app(create_application_request)
     create_app(create_application_request, params::Dict{String,<:Any})
 
- Creates an application.
+Creates an application.
 
 # Arguments
-- `create_application_request`:
 
+- `create_application_request`:
 """
-function create_app(
-    CreateApplicationRequest; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps",
-        Dict{String,Any}("CreateApplicationRequest" => CreateApplicationRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_app(
-    CreateApplicationRequest,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("CreateApplicationRequest" => CreateApplicationRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_app(CreateApplicationRequest; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps", Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_app(CreateApplicationRequest, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_campaign(write_campaign_request, application-id)
@@ -53,42 +25,13 @@ Creates a new campaign for an application or updates the settings of an existing
 for an application.
 
 # Arguments
+
 - `write_campaign_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function create_campaign(
-    WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/campaigns",
-        Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_campaign(
-    WriteCampaignRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/campaigns",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_campaign(WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_campaign(WriteCampaignRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_email_template(email_template_request, template-name)
@@ -97,43 +40,15 @@ end
 Creates a message template for messages that are sent through the email channel.
 
 # Arguments
+
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
-function create_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_email_template(
-    EmailTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_email_template(EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_email_template(EmailTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_export_job(export_job_request, application-id)
@@ -142,40 +57,13 @@ end
 Creates an export job for an application.
 
 # Arguments
+
 - `export_job_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function create_export_job(
-    ExportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/export",
-        Dict{String,Any}("ExportJobRequest" => ExportJobRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_export_job(
-    ExportJobRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/export",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ExportJobRequest" => ExportJobRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_export_job(ExportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}("ExportJobRequest"=>ExportJobRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_export_job(ExportJobRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportJobRequest"=>ExportJobRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_import_job(import_job_request, application-id)
@@ -184,40 +72,13 @@ end
 Creates an import job for an application.
 
 # Arguments
+
 - `import_job_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function create_import_job(
-    ImportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/import",
-        Dict{String,Any}("ImportJobRequest" => ImportJobRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_import_job(
-    ImportJobRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/import",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ImportJobRequest" => ImportJobRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_import_job(ImportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}("ImportJobRequest"=>ImportJobRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_import_job(ImportJobRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportJobRequest"=>ImportJobRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_in_app_template(in_app_template_request, template-name)
@@ -226,43 +87,15 @@ end
 Creates a new message template for messages using the in-app message channel.
 
 # Arguments
+
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
-function create_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_in_app_template(
-    InAppTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_in_app_template(InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/inapp", Dict{String, Any}("InAppTemplateRequest"=>InAppTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_in_app_template(InAppTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/inapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InAppTemplateRequest"=>InAppTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_journey(write_journey_request, application-id)
@@ -271,42 +104,13 @@ end
 Creates a journey for an application.
 
 # Arguments
+
 - `write_journey_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function create_journey(
-    WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/journeys",
-        Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_journey(
-    WriteJourneyRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/journeys",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_journey(WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_journey(WriteJourneyRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_push_template(push_notification_template_request, template-name)
@@ -315,49 +119,15 @@ end
 Creates a message template for messages that are sent through a push notification channel.
 
 # Arguments
+
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
-function create_push_template(
-    PushNotificationTemplateRequest,
-    template_name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_push_template(
-    PushNotificationTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_push_template(PushNotificationTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_push_template(PushNotificationTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_recommender_configuration(create_recommender_configuration)
@@ -366,43 +136,11 @@ end
 Creates an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `create_recommender_configuration`:
 
+- `create_recommender_configuration`:
 """
-function create_recommender_configuration(
-    CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/recommenders",
-        Dict{String,Any}(
-            "CreateRecommenderConfiguration" => CreateRecommenderConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_recommender_configuration(
-    CreateRecommenderConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/recommenders",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "CreateRecommenderConfiguration" => CreateRecommenderConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_recommender_configuration(CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_recommender_configuration(CreateRecommenderConfiguration, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_segment(write_segment_request, application-id)
@@ -412,42 +150,13 @@ Creates a new segment for an application or updates the configuration, dimension
 settings for an existing segment that's associated with an application.
 
 # Arguments
+
 - `write_segment_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function create_segment(
-    WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/segments",
-        Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_segment(
-    WriteSegmentRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/segments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_segment(WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_segment(WriteSegmentRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_sms_template(smstemplate_request, template-name)
@@ -456,41 +165,15 @@ end
 Creates a message template for messages that are sent through the SMS channel.
 
 # Arguments
+
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
-function create_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_sms_template(
-    SMSTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_sms_template(SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_sms_template(SMSTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_voice_template(voice_template_request, template-name)
@@ -499,43 +182,15 @@ end
 Creates a message template for messages that are sent through the voice channel.
 
 # Arguments
+
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
-function create_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_voice_template(
-    VoiceTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_voice_template(VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_voice_template(VoiceTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_adm_channel(application-id)
@@ -545,33 +200,12 @@ Disables the ADM channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_adm_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/adm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_adm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/adm",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_adm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_adm_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_apns_channel(application-id)
@@ -581,33 +215,12 @@ Disables the APNs channel for an application and deletes any existing settings f
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_apns_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_apns_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_apns_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_apns_sandbox_channel(application-id)
@@ -617,33 +230,12 @@ Disables the APNs sandbox channel for an application and deletes any existing se
 the channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_sandbox",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_apns_sandbox_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_apns_sandbox_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_apns_voip_channel(application-id)
@@ -653,33 +245,12 @@ Disables the APNs VoIP channel for an application and deletes any existing setti
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_voip_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_apns_voip_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_apns_voip_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_apns_voip_sandbox_channel(application-id)
@@ -689,33 +260,12 @@ Disables the APNs VoIP sandbox channel for an application and deletes any existi
 for the channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_voip_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_apns_voip_sandbox_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_apns_voip_sandbox_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_app(application-id)
@@ -724,31 +274,12 @@ end
 Deletes an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_app(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_app(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_baidu_channel(application-id)
@@ -758,33 +289,12 @@ Disables the Baidu channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/baidu";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_baidu_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/baidu",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_baidu_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_baidu_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_campaign(application-id, campaign-id)
@@ -793,35 +303,13 @@ end
 Deletes a campaign from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `campaign-id`: The unique identifier for the campaign.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `campaign-id`: The unique identifier for the campaign.
 """
-function delete_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_campaign(
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_campaign(application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_campaign(application_id, campaign_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_email_channel(application-id)
@@ -831,33 +319,12 @@ Disables the email channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_email_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_email_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/email",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_email_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_email_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_email_template(template-name)
@@ -866,47 +333,34 @@ end
 Deletes a message template for messages that were sent through the email channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function delete_email_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_email_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/email",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_email_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/email"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_email_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/email", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_endpoint(application-id, endpoint-id)
@@ -915,36 +369,14 @@ end
 Deletes an endpoint from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain `$`, `{` or `}`.
 """
-function delete_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_endpoint(
-    application_id,
-    endpoint_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_endpoint(application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_endpoint(application_id, endpoint_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_event_stream(application-id)
@@ -953,33 +385,12 @@ end
 Deletes the event stream for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_event_stream(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/eventstream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_event_stream(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/eventstream",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_event_stream(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_event_stream(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_gcm_channel(application-id)
@@ -989,33 +400,12 @@ Disables the GCM channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_gcm_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/gcm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_gcm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/gcm",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_gcm_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_in_app_template(template-name)
@@ -1024,47 +414,34 @@ end
 Deletes a message template for messages sent using the in-app message channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function delete_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/inapp";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_in_app_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/inapp",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_in_app_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/inapp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_in_app_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/inapp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_journey(application-id, journey-id)
@@ -1073,35 +450,13 @@ end
 Deletes a journey from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `journey-id`: The unique identifier for the journey.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
 """
-function delete_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_journey(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_journey(application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_journey(application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_push_template(template-name)
@@ -1110,47 +465,34 @@ end
 Deletes a message template for messages that were sent through a push notification channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function delete_push_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/push";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_push_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/push",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_push_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/push"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_push_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/push", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_recommender_configuration(recommender-id)
@@ -1159,33 +501,12 @@ end
 Deletes an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
+- `recommender-id`: The unique identifier for the recommender model configuration. This
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
-function delete_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/recommenders/$(recommender-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recommender_configuration(
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/recommenders/$(recommender-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_recommender_configuration(recommender_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_recommender_configuration(recommender_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_segment(application-id, segment-id)
@@ -1194,35 +515,13 @@ end
 Deletes a segment from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `segment-id`: The unique identifier for the segment.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `segment-id`: The unique identifier for the segment.
 """
-function delete_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/segments/$(segment-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_segment(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/segments/$(segment-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_segment(application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_segment(application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_sms_channel(application-id)
@@ -1232,33 +531,12 @@ Disables the SMS channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_sms_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sms_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/sms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sms_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_sms_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_sms_template(template-name)
@@ -1267,47 +545,34 @@ end
 Deletes a message template for messages that were sent through the SMS channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function delete_sms_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sms_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/sms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_sms_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_user_endpoints(application-id, user-id)
@@ -1316,35 +581,13 @@ end
 Deletes all the endpoints that are associated with a specific user ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `user-id`: The unique identifier for the user.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `user-id`: The unique identifier for the user.
 """
-function delete_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/users/$(user-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_user_endpoints(
-    application_id,
-    user_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/users/$(user-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_user_endpoints(application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_user_endpoints(application_id, user_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_voice_channel(application-id)
@@ -1354,33 +597,12 @@ Disables the voice channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function delete_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_voice_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/voice",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_voice_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_voice_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_voice_template(template-name)
@@ -1389,47 +611,34 @@ end
 Deletes a message template for messages that were sent through the voice channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function delete_voice_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_voice_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/voice",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_voice_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_voice_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_adm_channel(application-id)
@@ -1438,31 +647,12 @@ end
 Retrieves information about the status and settings of the ADM channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/adm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_adm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/adm",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_adm_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_apns_channel(application-id)
@@ -1471,33 +661,12 @@ end
 Retrieves information about the status and settings of the APNs channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_apns_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_apns_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_apns_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_apns_sandbox_channel(application-id)
@@ -1507,33 +676,12 @@ Retrieves information about the status and settings of the APNs sandbox channel 
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_sandbox",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_apns_sandbox_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_apns_sandbox_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_apns_voip_channel(application-id)
@@ -1543,33 +691,12 @@ Retrieves information about the status and settings of the APNs VoIP channel for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_voip_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_apns_voip_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_apns_voip_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_apns_voip_sandbox_channel(application-id)
@@ -1579,33 +706,12 @@ Retrieves information about the status and settings of the APNs VoIP sandbox cha
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_voip_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_apns_voip_sandbox_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_apns_voip_sandbox_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_app(application-id)
@@ -1614,31 +720,12 @@ end
 Retrieves information about an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_app(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_app(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_app(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_application_date_range_kpi(application-id, kpi-name)
@@ -1648,53 +735,35 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to an
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+  as the **Project ID** on the Amazon Pinpoint console.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
-function get_application_date_range_kpi(
-    application_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_application_date_range_kpi(
-    application_id,
-    kpi_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_application_date_range_kpi(application_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_date_range_kpi(application_id, kpi_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_application_settings(application-id)
@@ -1703,33 +772,12 @@ end
 Retrieves information about the settings for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_application_settings(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_application_settings(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_application_settings(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_application_settings(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_apps()
@@ -1739,24 +787,16 @@ Retrieves information about all the applications that are associated with your A
 Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_apps(; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_apps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_apps(; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_apps(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_baidu_channel(application-id)
@@ -1765,33 +805,12 @@ end
 Retrieves information about the status and settings of the Baidu channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/baidu";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_baidu_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/baidu",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_baidu_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_baidu_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign(application-id, campaign-id)
@@ -1800,35 +819,13 @@ end
 Retrieves information about the status, configuration, and other settings for a campaign.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `campaign-id`: The unique identifier for the campaign.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `campaign-id`: The unique identifier for the campaign.
 """
-function get_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign(
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign(application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign(application_id, campaign_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_activities(application-id, campaign-id)
@@ -1837,41 +834,22 @@ end
 Retrieves information about all the activities for a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_campaign_activities(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_activities(
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_activities(application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_activities(application_id, campaign_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_date_range_kpi(application-id, campaign-id, kpi-name)
@@ -1880,58 +858,36 @@ end
 Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
-function get_campaign_date_range_kpi(
-    application_id,
-    campaign_id,
-    kpi_name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_date_range_kpi(
-    application_id,
-    campaign_id,
-    kpi_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_date_range_kpi(application_id, campaign_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_date_range_kpi(application_id, campaign_id, kpi_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_version(application-id, campaign-id, version)
@@ -1941,37 +897,14 @@ Retrieves information about the status, configuration, and other settings for a 
 version of a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 - `version`: The unique version number (Version property) for the campaign version.
-
 """
-function get_campaign_version(
-    application_id, campaign_id, version; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_version(
-    application_id,
-    campaign_id,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_version(application_id, campaign_id, version; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_version(application_id, campaign_id, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaign_versions(application-id, campaign-id)
@@ -1981,41 +914,22 @@ Retrieves information about the status, configuration, and other settings for al
 of a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_campaign_versions(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_versions(
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaign_versions(application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaign_versions(application_id, campaign_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_campaigns(application-id)
@@ -2025,37 +939,21 @@ Retrieves information about the status, configuration, and other settings for al
 campaigns that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaigns(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_campaigns(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_channels(application-id)
@@ -2064,31 +962,12 @@ end
 Retrieves information about the history and status of each channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_channels(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_channels(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_email_channel(application-id)
@@ -2097,33 +976,12 @@ end
 Retrieves information about the status and settings of the email channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_email_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_email_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/email",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_email_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_email_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_email_template(template-name)
@@ -2133,47 +991,34 @@ Retrieves the content and settings of a message template for messages that are s
 the email channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function get_email_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_email_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/email",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_email_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/email"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_email_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/email", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_endpoint(application-id, endpoint-id)
@@ -2183,36 +1028,14 @@ Retrieves information about the settings and attributes of a specific endpoint f
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain `$`, `{` or `}`.
 """
-function get_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_endpoint(
-    application_id,
-    endpoint_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_endpoint(application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_endpoint(application_id, endpoint_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_event_stream(application-id)
@@ -2221,33 +1044,12 @@ end
 Retrieves information about the event stream settings for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_event_stream(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/eventstream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_event_stream(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/eventstream",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_event_stream(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_event_stream(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_export_job(application-id, job-id)
@@ -2257,35 +1059,13 @@ Retrieves information about the status and settings of a specific export job for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `job-id`: The unique identifier for the job.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `job-id`: The unique identifier for the job.
 """
-function get_export_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export/$(job-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_export_job(
-    application_id,
-    job_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export/$(job-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_export_job(application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_export_job(application_id, job_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_export_jobs(application-id)
@@ -2295,37 +1075,21 @@ Retrieves information about the status and settings of all the export jobs for a
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_export_jobs(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_export_jobs(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_gcm_channel(application-id)
@@ -2334,31 +1098,12 @@ end
 Retrieves information about the status and settings of the GCM channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/gcm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_gcm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/gcm",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_gcm_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_import_job(application-id, job-id)
@@ -2368,35 +1113,13 @@ Retrieves information about the status and settings of a specific import job for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `job-id`: The unique identifier for the job.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `job-id`: The unique identifier for the job.
 """
-function get_import_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import/$(job-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_import_job(
-    application_id,
-    job_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import/$(job-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_import_job(application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_import_job(application_id, job_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_import_jobs(application-id)
@@ -2406,37 +1129,21 @@ Retrieves information about the status and settings of all the import jobs for a
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_import_jobs(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_import_jobs(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_in_app_messages(application-id, endpoint-id)
@@ -2445,85 +1152,50 @@ end
 Retrieves the in-app messages targeted for the provided endpoint ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The unique identifier for the endpoint.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The unique identifier for the endpoint.
 """
-function get_in_app_messages(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_in_app_messages(
-    application_id,
-    endpoint_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_in_app_messages(application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_in_app_messages(application_id, endpoint_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_in_app_template(template-name)
     get_in_app_template(template-name, params::Dict{String,<:Any})
 
-Retrieves the content and settings of a message template for messages sent through the
-in-app channel.
+Retrieves the content and settings of a message template for messages sent through the in-
+app channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function get_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/inapp";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_in_app_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/inapp",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_in_app_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/inapp"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_in_app_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/inapp", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey(application-id, journey-id)
@@ -2532,35 +1204,13 @@ end
 Retrieves information about the status, configuration, and other settings for a journey.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `journey-id`: The unique identifier for the journey.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
 """
-function get_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey(application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey(application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_date_range_kpi(application-id, journey-id, kpi-name)
@@ -2570,55 +1220,36 @@ Retrieves (queries) pre-aggregated data for a standard engagement metric that ap
 journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
-function get_journey_date_range_kpi(
-    application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_date_range_kpi(
-    application_id,
-    journey_id,
-    kpi_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_date_range_kpi(application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_date_range_kpi(application_id, journey_id, kpi_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_execution_activity_metrics(application-id, journey-activity-id, journey-id)
@@ -2628,46 +1259,24 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 journey activity.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-activity-id`: The unique identifier for the journey activity.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
-function get_journey_execution_activity_metrics(
-    application_id,
-    journey_activity_id,
-    journey_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_execution_activity_metrics(
-    application_id,
-    journey_activity_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_execution_activity_metrics(application_id, journey_activity_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_execution_activity_metrics(application_id, journey_activity_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_execution_metrics(application-id, journey-id)
@@ -2677,41 +1286,23 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
-function get_journey_execution_metrics(
-    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_execution_metrics(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_execution_metrics(application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_execution_metrics(application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_run_execution_activity_metrics(application-id, journey-activity-id, journey-id, run-id)
@@ -2721,49 +1312,25 @@ Retrieves (queries) pre-aggregated data for a standard run execution metric that
 a journey activity.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-activity-id`: The unique identifier for the journey activity.
 - `journey-id`: The unique identifier for the journey.
 - `run-id`: The unique identifier for the journey run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
-function get_journey_run_execution_activity_metrics(
-    application_id,
-    journey_activity_id,
-    journey_id,
-    run_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_run_execution_activity_metrics(
-    application_id,
-    journey_activity_id,
-    journey_id,
-    run_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_run_execution_activity_metrics(application_id, journey_activity_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_run_execution_activity_metrics(application_id, journey_activity_id, journey_id, run_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_run_execution_metrics(application-id, journey-id, run-id)
@@ -2773,43 +1340,24 @@ Retrieves (queries) pre-aggregated data for a standard run execution metric that
 a journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 - `run-id`: The unique identifier for the journey run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
-function get_journey_run_execution_metrics(
-    application_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_run_execution_metrics(
-    application_id,
-    journey_id,
-    run_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_run_execution_metrics(application_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_run_execution_metrics(application_id, journey_id, run_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_journey_runs(application-id, journey-id)
@@ -2818,41 +1366,22 @@ end
 Provides information about the runs of a journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_journey_runs(
-    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_runs(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_journey_runs(application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_journey_runs(application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/runs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_push_template(template-name)
@@ -2862,47 +1391,34 @@ Retrieves the content and settings of a message template for messages that are s
 a push notification channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function get_push_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/push";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_push_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/push",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_push_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/push"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_push_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/push", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_recommender_configuration(recommender-id)
@@ -2911,33 +1427,12 @@ end
 Retrieves information about an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
+- `recommender-id`: The unique identifier for the recommender model configuration. This
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
-function get_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/recommenders/$(recommender-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recommender_configuration(
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/recommenders/$(recommender-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_recommender_configuration(recommender_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/recommenders/$(recommender-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommender_configuration(recommender_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/recommenders/$(recommender-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_recommender_configurations()
@@ -2947,30 +1442,16 @@ Retrieves information about all the recommender model configurations that are as
 with your Amazon Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_recommender_configurations(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_recommender_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/recommenders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_recommender_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_recommender_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/recommenders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment(application-id, segment-id)
@@ -2980,35 +1461,13 @@ Retrieves information about the configuration, dimension, and other settings for
 segment that's associated with an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `segment-id`: The unique identifier for the segment.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `segment-id`: The unique identifier for the segment.
 """
-function get_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment(application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment(application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment_export_jobs(application-id, segment-id)
@@ -3017,41 +1476,22 @@ end
 Retrieves information about the status and settings of the export jobs for a segment.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segment_export_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_export_jobs(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment_export_jobs(application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment_export_jobs(application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment_import_jobs(application-id, segment-id)
@@ -3060,41 +1500,22 @@ end
 Retrieves information about the status and settings of the import jobs for a segment.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segment_import_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_import_jobs(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment_import_jobs(application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment_import_jobs(application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment_version(application-id, segment-id, version)
@@ -3104,37 +1525,14 @@ Retrieves information about the configuration, dimension, and other settings for
 version of a segment that's associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 - `version`: The unique version number (Version property) for the campaign version.
-
 """
-function get_segment_version(
-    application_id, segment_id, version; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_version(
-    application_id,
-    segment_id,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment_version(application_id, segment_id, version; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment_version(application_id, segment_id, version, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segment_versions(application-id, segment-id)
@@ -3144,41 +1542,22 @@ Retrieves information about the configuration, dimension, and other settings for
 versions of a specific segment that's associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segment_versions(
-    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_versions(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segment_versions(application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segment_versions(application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_segments(application-id)
@@ -3188,37 +1567,21 @@ Retrieves information about the configuration, dimension, and other settings for
 segments that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segments(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_segments(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/segments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_sms_channel(application-id)
@@ -3227,31 +1590,12 @@ end
 Retrieves information about the status and settings of the SMS channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_sms_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/sms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sms_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_sms_template(template-name)
@@ -3261,45 +1605,34 @@ Retrieves the content and settings of a message template for messages that are s
 the SMS channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_sms_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/sms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/sms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sms_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/sms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_user_endpoints(application-id, user-id)
@@ -3308,35 +1641,13 @@ end
 Retrieves information about all the endpoints that are associated with a specific user ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `user-id`: The unique identifier for the user.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `user-id`: The unique identifier for the user.
 """
-function get_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/users/$(user-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_user_endpoints(
-    application_id,
-    user_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/users/$(user-id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_user_endpoints(application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_user_endpoints(application_id, user_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_voice_channel(application-id)
@@ -3345,33 +1656,12 @@ end
 Retrieves information about the status and settings of the voice channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function get_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_voice_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/voice",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_voice_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_voice_channel(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_voice_template(template-name)
@@ -3381,47 +1671,34 @@ Retrieves the content and settings of a message template for messages that are s
 the voice channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function get_voice_template(
-    template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_voice_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/voice",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_voice_template(template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/voice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_voice_template(template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/voice", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_journeys(application-id)
@@ -3431,37 +1708,21 @@ Retrieves information about the status, configuration, and other settings for al
 journeys that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_journeys(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_journeys(application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource-arn)
@@ -3471,32 +1732,11 @@ Retrieves all the tags (keys and values) that are associated with an application
 message template, or segment.
 
 # Arguments
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 """
-function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/tags/$(resource-arn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/tags/$(resource-arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/tags/$(resource-arn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_template_versions(template-name, template-type)
@@ -3505,43 +1745,25 @@ end
 Retrieves information about all the versions of a specific message template.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
-function list_template_versions(
-    template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/$(template-type)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_template_versions(
-    template_name,
-    template_type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/$(template-type)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_template_versions(template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_template_versions(template_name, template_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_templates()
@@ -3551,34 +1773,22 @@ Retrieves information about all the message templates that are associated with y
 Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"prefix"`: The substring to match in the names of the message templates to include in
-  the results. If you specify this value, Amazon Pinpoint returns only those templates whose
-  names begin with the value that you specify.
+  the results. If you specify this value, Amazon Pinpoint returns only those templates
+  whose names begin with the value that you specify.
 - `"template-type"`: The type of message template to include in the results. Valid values
   are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't
   include this parameter in your request.
 """
-function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return pinpoint(
-        "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("GET", "/v1/templates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     phone_number_validate(number_validate_request)
@@ -3587,39 +1797,11 @@ end
 Retrieves information about a phone number.
 
 # Arguments
-- `number_validate_request`:
 
+- `number_validate_request`:
 """
-function phone_number_validate(
-    NumberValidateRequest; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/phone/number/validate",
-        Dict{String,Any}("NumberValidateRequest" => NumberValidateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function phone_number_validate(
-    NumberValidateRequest,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/phone/number/validate",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("NumberValidateRequest" => NumberValidateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+phone_number_validate(NumberValidateRequest; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+phone_number_validate(NumberValidateRequest, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_event_stream(write_event_stream, application-id)
@@ -3629,40 +1811,13 @@ Creates a new event stream for an application or updates the settings of an exis
 stream for an application.
 
 # Arguments
+
 - `write_event_stream`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function put_event_stream(
-    WriteEventStream, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/eventstream",
-        Dict{String,Any}("WriteEventStream" => WriteEventStream);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_event_stream(
-    WriteEventStream,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/eventstream",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("WriteEventStream" => WriteEventStream), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_event_stream(WriteEventStream, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}("WriteEventStream"=>WriteEventStream); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_event_stream(WriteEventStream, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteEventStream"=>WriteEventStream), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_events(events_request, application-id)
@@ -3672,38 +1827,13 @@ Creates a new event to record for endpoints, or creates or updates endpoint data
 existing events are associated with.
 
 # Arguments
+
 - `events_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function put_events(
-    EventsRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/events",
-        Dict{String,Any}("EventsRequest" => EventsRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_events(
-    EventsRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/events",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("EventsRequest" => EventsRequest), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_events(EventsRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}("EventsRequest"=>EventsRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_events(EventsRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventsRequest"=>EventsRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     remove_attributes(update_attributes_request, application-id, attribute-type)
@@ -3714,53 +1844,21 @@ Existing endpoints still have the attributes but Amazon Pinpoint will stop captu
 changed values for these attributes.
 
 # Arguments
+
 - `update_attributes_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `attribute-type`:  The type of attribute or attributes to remove. Valid values are:
+  as the **Project ID** on the Amazon Pinpoint console.
+- `attribute-type`: The type of attribute or attributes to remove. Valid values are: -
   endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date
   when an associated user opted in or out of receiving communications from you through a
-  specific type of channel. endpoint-metric-attributes - Custom metrics that your app reports
-  to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items
-  left in a cart. endpoint-user-attributes - Custom attributes that describe users, such as
-  first name, last name, and age.
-
+  specific type of channel.
+   - endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint
+  for endpoints, such as the number of app sessions or the number of items left in a cart.
+   - endpoint-user-attributes - Custom attributes that describe users, such as first name,
+  last name, and age.
 """
-function remove_attributes(
-    UpdateAttributesRequest,
-    application_id,
-    attribute_type;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/attributes/$(attribute-type)",
-        Dict{String,Any}("UpdateAttributesRequest" => UpdateAttributesRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_attributes(
-    UpdateAttributesRequest,
-    application_id,
-    attribute_type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/attributes/$(attribute-type)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("UpdateAttributesRequest" => UpdateAttributesRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+remove_attributes(UpdateAttributesRequest, application_id, attribute_type; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+remove_attributes(UpdateAttributesRequest, application_id, attribute_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_messages(message_request, application-id)
@@ -3769,38 +1867,13 @@ end
 Creates and sends a direct message.
 
 # Arguments
+
 - `message_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function send_messages(
-    MessageRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/messages",
-        Dict{String,Any}("MessageRequest" => MessageRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_messages(
-    MessageRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/messages",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MessageRequest" => MessageRequest), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_messages(MessageRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}("MessageRequest"=>MessageRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_messages(MessageRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageRequest"=>MessageRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_otpmessage(send_otpmessage_request_parameters, application-id)
@@ -3809,47 +1882,12 @@ end
 Send an OTP message
 
 # Arguments
+
 - `send_otpmessage_request_parameters`:
 - `application-id`: The unique ID of your Amazon Pinpoint application.
-
 """
-function send_otpmessage(
-    SendOTPMessageRequestParameters,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/otp",
-        Dict{String,Any}(
-            "SendOTPMessageRequestParameters" => SendOTPMessageRequestParameters
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_otpmessage(
-    SendOTPMessageRequestParameters,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/otp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SendOTPMessageRequestParameters" => SendOTPMessageRequestParameters
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_otpmessage(SendOTPMessageRequestParameters, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/otp", Dict{String, Any}("SendOTPMessageRequestParameters"=>SendOTPMessageRequestParameters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_otpmessage(SendOTPMessageRequestParameters, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/otp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SendOTPMessageRequestParameters"=>SendOTPMessageRequestParameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     send_users_messages(send_users_message_request, application-id)
@@ -3858,44 +1896,13 @@ end
 Creates and sends a message to a list of users.
 
 # Arguments
+
 - `send_users_message_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function send_users_messages(
-    SendUsersMessageRequest,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/users-messages",
-        Dict{String,Any}("SendUsersMessageRequest" => SendUsersMessageRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_users_messages(
-    SendUsersMessageRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/users-messages",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("SendUsersMessageRequest" => SendUsersMessageRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+send_users_messages(SendUsersMessageRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+send_users_messages(SendUsersMessageRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(tags_model, resource-arn)
@@ -3905,37 +1912,12 @@ Adds one or more tags (keys and values) to an application, campaign, message tem
 segment.
 
 # Arguments
+
 - `tags_model`:
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
-
 """
-function tag_resource(
-    TagsModel, resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}("TagsModel" => TagsModel);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    TagsModel,
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TagsModel" => TagsModel), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(TagsModel, resource_arn; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}("TagsModel"=>TagsModel); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(TagsModel, resource_arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagsModel"=>TagsModel), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource-arn, tag_keys)
@@ -3945,37 +1927,14 @@ Removes one or more tags (keys and values) from an application, campaign, messag
 or segment.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The key of the tag to remove from the resource. To remove multiple tags,
   append the tagKeys parameter and argument for each additional tag to remove, separated by
   an ampersand (&amp;).
-
 """
-function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resource_arn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_adm_channel(admchannel_request, application-id)
@@ -3985,40 +1944,13 @@ Enables the ADM channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `admchannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_adm_channel(
-    ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/adm",
-        Dict{String,Any}("ADMChannelRequest" => ADMChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_adm_channel(
-    ADMChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/adm",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ADMChannelRequest" => ADMChannelRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_adm_channel(ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_adm_channel(ADMChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_apns_channel(apnschannel_request, application-id)
@@ -4028,40 +1960,13 @@ Enables the APNs channel for an application or updates the status and settings o
 channel for an application.
 
 # Arguments
+
 - `apnschannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_apns_channel(
-    APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns",
-        Dict{String,Any}("APNSChannelRequest" => APNSChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_channel(
-    APNSChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("APNSChannelRequest" => APNSChannelRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_apns_channel(APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_apns_channel(APNSChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_apns_sandbox_channel(apnssandbox_channel_request, application-id)
@@ -4071,44 +1976,13 @@ Enables the APNs sandbox channel for an application or updates the status and se
 the APNs sandbox channel for an application.
 
 # Arguments
+
 - `apnssandbox_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_apns_sandbox_channel(
-    APNSSandboxChannelRequest,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_sandbox",
-        Dict{String,Any}("APNSSandboxChannelRequest" => APNSSandboxChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_sandbox_channel(
-    APNSSandboxChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_sandbox",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("APNSSandboxChannelRequest" => APNSSandboxChannelRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_apns_sandbox_channel(APNSSandboxChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_apns_sandbox_channel(APNSSandboxChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_apns_voip_channel(apnsvoip_channel_request, application-id)
@@ -4118,44 +1992,13 @@ Enables the APNs VoIP channel for an application or updates the status and setti
 APNs VoIP channel for an application.
 
 # Arguments
+
 - `apnsvoip_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_apns_voip_channel(
-    APNSVoipChannelRequest,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip",
-        Dict{String,Any}("APNSVoipChannelRequest" => APNSVoipChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_voip_channel(
-    APNSVoipChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("APNSVoipChannelRequest" => APNSVoipChannelRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_apns_voip_channel(APNSVoipChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_apns_voip_channel(APNSVoipChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_apns_voip_sandbox_channel(apnsvoip_sandbox_channel_request, application-id)
@@ -4165,46 +2008,13 @@ Enables the APNs VoIP sandbox channel for an application or updates the status a
 of the APNs VoIP sandbox channel for an application.
 
 # Arguments
+
 - `apnsvoip_sandbox_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_apns_voip_sandbox_channel(
-    APNSVoipSandboxChannelRequest,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
-        Dict{String,Any}("APNSVoipSandboxChannelRequest" => APNSVoipSandboxChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_voip_sandbox_channel(
-    APNSVoipSandboxChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "APNSVoipSandboxChannelRequest" => APNSVoipSandboxChannelRequest
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_apns_voip_sandbox_channel(APNSVoipSandboxChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_apns_voip_sandbox_channel(APNSVoipSandboxChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_application_settings(write_application_settings_request, application-id)
@@ -4213,48 +2023,13 @@ end
 Updates the settings for an application.
 
 # Arguments
+
 - `write_application_settings_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_application_settings(
-    WriteApplicationSettingsRequest,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/settings",
-        Dict{String,Any}(
-            "WriteApplicationSettingsRequest" => WriteApplicationSettingsRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application_settings(
-    WriteApplicationSettingsRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/settings",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WriteApplicationSettingsRequest" => WriteApplicationSettingsRequest
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_application_settings(WriteApplicationSettingsRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_application_settings(WriteApplicationSettingsRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_baidu_channel(baidu_channel_request, application-id)
@@ -4264,42 +2039,13 @@ Enables the Baidu channel for an application or updates the status and settings 
 Baidu channel for an application.
 
 # Arguments
+
 - `baidu_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_baidu_channel(
-    BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/baidu",
-        Dict{String,Any}("BaiduChannelRequest" => BaiduChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_baidu_channel(
-    BaiduChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/baidu",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("BaiduChannelRequest" => BaiduChannelRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_baidu_channel(BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_baidu_channel(BaiduChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_campaign(write_campaign_request, application-id, campaign-id)
@@ -4308,47 +2054,14 @@ end
 Updates the configuration and other settings for a campaign.
 
 # Arguments
+
 - `write_campaign_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
-
 """
-function update_campaign(
-    WriteCampaignRequest,
-    application_id,
-    campaign_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
-        Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_campaign(
-    WriteCampaignRequest,
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_campaign(WriteCampaignRequest, application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_campaign(WriteCampaignRequest, application_id, campaign_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_email_channel(email_channel_request, application-id)
@@ -4358,42 +2071,13 @@ Enables the email channel for an application or updates the status and settings 
 email channel for an application.
 
 # Arguments
+
 - `email_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_email_channel(
-    EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/email",
-        Dict{String,Any}("EmailChannelRequest" => EmailChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_email_channel(
-    EmailChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/email",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EmailChannelRequest" => EmailChannelRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_email_channel(EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_email_channel(EmailChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_email_template(email_template_request, template-name)
@@ -4402,62 +2086,43 @@ end
 Updates an existing message template for messages that are sent through the email channel.
 
 # Arguments
+
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function update_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_email_template(
-    EmailTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_email_template(EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_email_template(EmailTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_endpoint(endpoint_request, application-id, endpoint-id)
@@ -4469,46 +2134,15 @@ attributes for an endpoint. If an update includes one or more values for a custo
 attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
 
 # Arguments
+
 - `endpoint_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
-
+  can't contain `$`, `{` or `}`.
 """
-function update_endpoint(
-    EndpointRequest,
-    application_id,
-    endpoint_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
-        Dict{String,Any}("EndpointRequest" => EndpointRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_endpoint(
-    EndpointRequest,
-    application_id,
-    endpoint_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("EndpointRequest" => EndpointRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_endpoint(EndpointRequest, application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}("EndpointRequest"=>EndpointRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_endpoint(EndpointRequest, application_id, endpoint_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointRequest"=>EndpointRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_endpoints_batch(endpoint_batch_request, application-id)
@@ -4521,42 +2155,13 @@ for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing value
 new values.
 
 # Arguments
+
 - `endpoint_batch_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_endpoints_batch(
-    EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints",
-        Dict{String,Any}("EndpointBatchRequest" => EndpointBatchRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_endpoints_batch(
-    EndpointBatchRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("EndpointBatchRequest" => EndpointBatchRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_endpoints_batch(EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_endpoints_batch(EndpointBatchRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_gcm_channel(gcmchannel_request, application-id)
@@ -4566,40 +2171,13 @@ Enables the GCM channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `gcmchannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_gcm_channel(
-    GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/gcm",
-        Dict{String,Any}("GCMChannelRequest" => GCMChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_gcm_channel(
-    GCMChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/gcm",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("GCMChannelRequest" => GCMChannelRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_gcm_channel(GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_gcm_channel(GCMChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_in_app_template(in_app_template_request, template-name)
@@ -4608,62 +2186,43 @@ end
 Updates an existing message template for messages sent through the in-app message channel.
 
 # Arguments
+
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function update_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_in_app_template(
-    InAppTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_in_app_template(InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/inapp", Dict{String, Any}("InAppTemplateRequest"=>InAppTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_in_app_template(InAppTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/inapp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InAppTemplateRequest"=>InAppTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_journey(write_journey_request, application-id, journey-id)
@@ -4672,47 +2231,14 @@ end
 Updates the configuration and other settings for a journey.
 
 # Arguments
+
 - `write_journey_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-
 """
-function update_journey(
-    WriteJourneyRequest,
-    application_id,
-    journey_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)",
-        Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_journey(
-    WriteJourneyRequest,
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_journey(WriteJourneyRequest, application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_journey(WriteJourneyRequest, application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_journey_state(journey_state_request, application-id, journey-id)
@@ -4721,47 +2247,14 @@ end
 Cancels (stops) an active journey.
 
 # Arguments
+
 - `journey_state_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-
 """
-function update_journey_state(
-    JourneyStateRequest,
-    application_id,
-    journey_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/state",
-        Dict{String,Any}("JourneyStateRequest" => JourneyStateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_journey_state(
-    JourneyStateRequest,
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/state",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("JourneyStateRequest" => JourneyStateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_journey_state(JourneyStateRequest, application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_journey_state(JourneyStateRequest, application_id, journey_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_push_template(push_notification_template_request, template-name)
@@ -4771,68 +2264,43 @@ Updates an existing message template for messages that are sent through a push n
 channel.
 
 # Arguments
+
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function update_push_template(
-    PushNotificationTemplateRequest,
-    template_name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_push_template(
-    PushNotificationTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_push_template(PushNotificationTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_push_template(PushNotificationTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_recommender_configuration(update_recommender_configuration, recommender-id)
@@ -4841,48 +2309,13 @@ end
 Updates an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
+
 - `update_recommender_configuration`:
 - `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
-
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
-function update_recommender_configuration(
-    UpdateRecommenderConfiguration,
-    recommender_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/recommenders/$(recommender-id)",
-        Dict{String,Any}(
-            "UpdateRecommenderConfiguration" => UpdateRecommenderConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_recommender_configuration(
-    UpdateRecommenderConfiguration,
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/recommenders/$(recommender-id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "UpdateRecommenderConfiguration" => UpdateRecommenderConfiguration
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_recommender_configuration(UpdateRecommenderConfiguration, recommender_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_recommender_configuration(UpdateRecommenderConfiguration, recommender_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_segment(write_segment_request, application-id, segment-id)
@@ -4892,47 +2325,14 @@ Creates a new segment for an application or updates the configuration, dimension
 settings for an existing segment that's associated with an application.
 
 # Arguments
+
 - `write_segment_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
-
 """
-function update_segment(
-    WriteSegmentRequest,
-    application_id,
-    segment_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/segments/$(segment-id)",
-        Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_segment(
-    WriteSegmentRequest,
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/segments/$(segment-id)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_segment(WriteSegmentRequest, application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_segment(WriteSegmentRequest, application_id, segment_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_sms_channel(smschannel_request, application-id)
@@ -4942,40 +2342,13 @@ Enables the SMS channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `smschannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_sms_channel(
-    SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/sms",
-        Dict{String,Any}("SMSChannelRequest" => SMSChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_sms_channel(
-    SMSChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/sms",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SMSChannelRequest" => SMSChannelRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_sms_channel(SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_sms_channel(SMSChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_sms_template(smstemplate_request, template-name)
@@ -4984,113 +2357,62 @@ end
 Updates an existing message template for messages that are sent through the SMS channel.
 
 # Arguments
+
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function update_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_sms_template(
-    SMSTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_sms_template(SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_sms_template(SMSTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_template_active_version(template_active_version_request, template-name, template-type)
     update_template_active_version(template_active_version_request, template-name, template-type, params::Dict{String,<:Any})
 
-Changes the status of a specific version of a message template to active.
+Changes the status of a specific version of a message template to *active*.
 
 # Arguments
+
 - `template_active_version_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
-
 """
-function update_template_active_version(
-    TemplateActiveVersionRequest,
-    template_name,
-    template_type;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/$(template-type)/active-version",
-        Dict{String,Any}("TemplateActiveVersionRequest" => TemplateActiveVersionRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_template_active_version(
-    TemplateActiveVersionRequest,
-    template_name,
-    template_type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/$(template-type)/active-version",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "TemplateActiveVersionRequest" => TemplateActiveVersionRequest
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_template_active_version(TemplateActiveVersionRequest, template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_template_active_version(TemplateActiveVersionRequest, template_name, template_type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_voice_channel(voice_channel_request, application-id)
@@ -5100,42 +2422,13 @@ Enables the voice channel for an application or updates the status and settings 
 voice channel for an application.
 
 # Arguments
+
 - `voice_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
-function update_voice_channel(
-    VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/voice",
-        Dict{String,Any}("VoiceChannelRequest" => VoiceChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_voice_channel(
-    VoiceChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/voice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("VoiceChannelRequest" => VoiceChannelRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_voice_channel(VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_voice_channel(VoiceChannelRequest, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_voice_template(voice_template_request, template-name)
@@ -5144,62 +2437,43 @@ end
 Updates an existing message template for messages that are sent through the voice channel.
 
 # Arguments
+
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
-function update_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_voice_template(
-    VoiceTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_voice_template(VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_voice_template(VoiceTemplateRequest, template_name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     verify_otpmessage(verify_otpmessage_request_parameters, application-id)
@@ -5208,44 +2482,9 @@ end
 Verify an OTP
 
 # Arguments
+
 - `verify_otpmessage_request_parameters`:
 - `application-id`: The unique ID of your Amazon Pinpoint application.
-
 """
-function verify_otpmessage(
-    VerifyOTPMessageRequestParameters,
-    application_id;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/verify-otp",
-        Dict{String,Any}(
-            "VerifyOTPMessageRequestParameters" => VerifyOTPMessageRequestParameters
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function verify_otpmessage(
-    VerifyOTPMessageRequestParameters,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/verify-otp",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "VerifyOTPMessageRequestParameters" => VerifyOTPMessageRequestParameters
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+verify_otpmessage(VerifyOTPMessageRequestParameters, application_id; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/verify-otp", Dict{String, Any}("VerifyOTPMessageRequestParameters"=>VerifyOTPMessageRequestParameters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+verify_otpmessage(VerifyOTPMessageRequestParameters, application_id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = pinpoint("POST", "/v1/apps/$(application-id)/verify-otp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VerifyOTPMessageRequestParameters"=>VerifyOTPMessageRequestParameters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

@@ -11,34 +11,12 @@ using AWS.UUIDs
 Stops a multipart upload.
 
 # Arguments
+
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
-function abort_multipart_read_set_upload(
-    sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function abort_multipart_read_set_upload(
-    sequenceStoreId,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "DELETE",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+abort_multipart_read_set_upload(sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+abort_multipart_read_set_upload(sequenceStoreId, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     accept_share(share_id)
@@ -47,27 +25,11 @@ end
 Accept a resource share request.
 
 # Arguments
-- `share_id`: The ID of the resource share.
 
+- `share_id`: The ID of the resource share.
 """
-function accept_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function accept_share(
-    shareId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/share/$(shareId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+accept_share(shareId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+accept_share(shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/share/$(shareId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_delete_read_set(ids, sequence_store_id)
@@ -76,35 +38,12 @@ end
 Deletes one or more read sets.
 
 # Arguments
+
 - `ids`: The read sets' IDs.
 - `sequence_store_id`: The read sets' sequence store ID.
-
 """
-function batch_delete_read_set(
-    ids, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/readset/batch/delete",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_read_set(
-    ids,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/readset/batch/delete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_delete_read_set(ids, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/readset/batch/delete", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_read_set(ids, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/readset/batch/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_annotation_import_job(job_id)
@@ -113,30 +52,11 @@ end
 Cancels an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
-function cancel_annotation_import_job(
-    jobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/import/annotation/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_annotation_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/import/annotation/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_annotation_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/import/annotation/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_annotation_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/import/annotation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_run(id)
@@ -145,25 +65,11 @@ end
 Cancels a run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
-function cancel_run(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/run/$(id)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function cancel_run(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/run/$(id)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_run(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/run/$(id)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_run(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/run/$(id)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_variant_import_job(job_id)
@@ -172,30 +78,11 @@ end
 Cancels a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
-function cancel_variant_import_job(
-    jobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/import/variant/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_variant_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/import/variant/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/import/variant/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_variant_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/import/variant/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     complete_multipart_read_set_upload(parts, sequence_store_id, upload_id)
@@ -204,37 +91,13 @@ end
 Concludes a multipart upload once you have uploaded all the components.
 
 # Arguments
+
 - `parts`: The individual uploads or parts of a multipart upload.
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
-function complete_multipart_read_set_upload(
-    parts, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
-        Dict{String,Any}("parts" => parts);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function complete_multipart_read_set_upload(
-    parts,
-    sequenceStoreId,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("parts" => parts), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+complete_multipart_read_set_upload(parts, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete", Dict{String, Any}("parts"=>parts); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+complete_multipart_read_set_upload(parts, sequenceStoreId, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("parts"=>parts), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_annotation_store(store_format)
@@ -243,10 +106,13 @@ end
 Creates an annotation store.
 
 # Arguments
+
 - `store_format`: The annotation file format of the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"reference"`: The genome reference for the store's annotations.
@@ -256,32 +122,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionName"`:  The name given to an annotation store version to distinguish it from
   other versions.
 """
-function create_annotation_store(
-    storeFormat; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore",
-        Dict{String,Any}("storeFormat" => storeFormat);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_annotation_store(
-    storeFormat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/annotationStore",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("storeFormat" => storeFormat), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_annotation_store(storeFormat; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore", Dict{String, Any}("storeFormat"=>storeFormat); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_annotation_store(storeFormat, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("storeFormat"=>storeFormat), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_annotation_store_version(name, version_name)
@@ -290,43 +132,21 @@ end
  Creates a new version of an annotation store.
 
 # Arguments
+
 - `name`:  The name of an annotation store version from which versions are being created.
 - `version_name`:  The name given to an annotation store version to distinguish it from
   other versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of an annotation store version.
 - `"tags"`:  Any tags added to annotation store version.
 - `"versionOptions"`:  The options for an annotation store version.
 """
-function create_annotation_store_version(
-    name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/version",
-        Dict{String,Any}("versionName" => versionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_annotation_store_version(
-    name,
-    versionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/version",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("versionName" => versionName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_annotation_store_version(name, versionName; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/version", Dict{String, Any}("versionName"=>versionName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_annotation_store_version(name, versionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("versionName"=>versionName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_multipart_read_set_upload(name, sample_id, sequence_store_id, source_file_type, subject_id)
@@ -335,6 +155,7 @@ end
 Begins a multipart read set upload.
 
 # Arguments
+
 - `name`: The name of the read set.
 - `sample_id`: The source's sample ID.
 - `sequence_store_id`: The sequence store ID for the store that is the destination of the
@@ -343,7 +164,9 @@ Begins a multipart read set upload.
 - `subject_id`: The source's subject ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: An idempotency token that can be used to avoid triggering multiple
   multipart uploads.
 - `"description"`: The description of the read set.
@@ -351,55 +174,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"referenceArn"`: The ARN of the reference.
 - `"tags"`: Any tags to add to the read set.
 """
-function create_multipart_read_set_upload(
-    name,
-    sampleId,
-    sequenceStoreId,
-    sourceFileType,
-    subjectId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload",
-        Dict{String,Any}(
-            "name" => name,
-            "sampleId" => sampleId,
-            "sourceFileType" => sourceFileType,
-            "subjectId" => subjectId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_multipart_read_set_upload(
-    name,
-    sampleId,
-    sequenceStoreId,
-    sourceFileType,
-    subjectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "sampleId" => sampleId,
-                    "sourceFileType" => sourceFileType,
-                    "subjectId" => subjectId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_multipart_read_set_upload(name, sampleId, sequenceStoreId, sourceFileType, subjectId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload", Dict{String, Any}("name"=>name, "sampleId"=>sampleId, "sourceFileType"=>sourceFileType, "subjectId"=>subjectId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_multipart_read_set_upload(name, sampleId, sequenceStoreId, sourceFileType, subjectId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "sampleId"=>sampleId, "sourceFileType"=>sourceFileType, "subjectId"=>subjectId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_reference_store(name)
@@ -408,80 +184,50 @@ end
 Creates a reference store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
 """
-function create_reference_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/referencestore",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_reference_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/referencestore",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_reference_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_reference_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_run_group(request_id)
     create_run_group(request_id, params::Dict{String,<:Any})
 
-Creates a run group.
+You can optionally create a run group to limit the compute resources for the runs that you
+add to the group.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxCpus"`: The maximum number of CPUs to use in the group.
-- `"maxDuration"`: A maximum run time for the group in minutes.
-- `"maxGpus"`: The maximum GPUs that can be used by a run group.
-- `"maxRuns"`: The maximum number of concurrent runs for the group.
+
+- `"maxCpus"`: The maximum number of CPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxDuration"`: The maximum time for each run (in minutes). If a run exceeds the maximum
+  run time, the run fails automatically.
+- `"maxGpus"`: The maximum number of GPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxRuns"`: The maximum number of runs that can be running at the same time.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
 """
-function create_run_group(requestId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/runGroup",
-        Dict{String,Any}("requestId" => requestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_run_group(
-    requestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/runGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestId" => requestId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_run_group(requestId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/runGroup", Dict{String, Any}("requestId"=>requestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_run_group(requestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/runGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_sequence_store(name)
@@ -490,10 +236,13 @@ end
 Creates a sequence store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
@@ -503,26 +252,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
 """
-function create_sequence_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/sequencestore",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_sequence_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_sequence_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_sequence_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_share(principal_subscriber, resource_arn)
@@ -530,54 +261,26 @@ end
 
 Creates a cross-account shared resource. The resource owner makes an offer to share the
 resource with the principal subscriber (an AWS user with a different account than the
-resource owner). The following resources support cross-account sharing:   Healthomics
-variant stores   Healthomics annotation stores   Private workflows
+resource owner).
+
+The following resources support cross-account sharing: - HealthOmics variant stores
+ - HealthOmics annotation stores
+ - Private workflows
 
 # Arguments
+
 - `principal_subscriber`: The principal subscriber is the account being offered shared
   access to the resource.
 - `resource_arn`: The ARN of the resource to be shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"shareName"`: A name that the owner defines for the share.
 """
-function create_share(
-    principalSubscriber, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/share",
-        Dict{String,Any}(
-            "principalSubscriber" => principalSubscriber, "resourceArn" => resourceArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_share(
-    principalSubscriber,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/share",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "principalSubscriber" => principalSubscriber,
-                    "resourceArn" => resourceArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_share(principalSubscriber, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/share", Dict{String, Any}("principalSubscriber"=>principalSubscriber, "resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_share(principalSubscriber, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/share", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("principalSubscriber"=>principalSubscriber, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_variant_store(reference)
@@ -586,39 +289,20 @@ end
 Creates a variant store.
 
 # Arguments
+
 - `reference`: The genome reference for the store's variants.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
 """
-function create_variant_store(reference; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/variantStore",
-        Dict{String,Any}("reference" => reference);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_variant_store(
-    reference,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/variantStore",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reference" => reference), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_variant_store(reference; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStore", Dict{String, Any}("reference"=>reference); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_variant_store(reference, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStore", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reference"=>reference), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_workflow(request_id)
@@ -627,11 +311,14 @@ end
 Creates a workflow.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerators"`: The computational accelerator specified to run the workflow.
 - `"definitionUri"`: The URI of a definition for the workflow.
 - `"definitionZip"`: A ZIP archive for the workflow.
@@ -640,33 +327,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: The storage capacity for the workflow in gibibytes.
+- `"storageCapacity"`: The default storage capacity for the workflow runs, in gibibytes.
 - `"tags"`: Tags for the workflow.
 """
-function create_workflow(requestId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/workflow",
-        Dict{String,Any}("requestId" => requestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workflow(
-    requestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/workflow",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestId" => requestId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workflow(requestId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/workflow", Dict{String, Any}("requestId"=>requestId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workflow(requestId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/workflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>requestId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_annotation_store(name)
@@ -675,31 +340,17 @@ end
 Deletes an annotation store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
-function delete_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE",
-        "/annotationStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_annotation_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/annotationStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/annotationStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_annotation_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/annotationStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_annotation_store_versions(name, versions)
@@ -708,41 +359,19 @@ end
  Deletes one or multiple versions of an annotation store.
 
 # Arguments
+
 - `name`:  The name of the annotation store from which versions are being deleted.
 - `versions`:  The versions of an annotation store to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`:  Forces the deletion of an annotation store version when imports are
-  in-progress..
+
+- `"force"`:  Forces the deletion of an annotation store version when imports are in-
+  progress..
 """
-function delete_annotation_store_versions(
-    name, versions; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/versions/delete",
-        Dict{String,Any}("versions" => versions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_annotation_store_versions(
-    name,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/versions/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("versions" => versions), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_annotation_store_versions(name, versions; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/versions/delete", Dict{String, Any}("versions"=>versions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_annotation_store_versions(name, versions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("versions"=>versions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_reference(id, reference_store_id)
@@ -751,34 +380,12 @@ end
 Deletes a genome reference.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's store ID.
-
 """
-function delete_reference(
-    id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/referencestore/$(referenceStoreId)/reference/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_reference(
-    id,
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "DELETE",
-        "/referencestore/$(referenceStoreId)/reference/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_reference(id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/referencestore/$(referenceStoreId)/reference/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_reference(id, referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/referencestore/$(referenceStoreId)/reference/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_reference_store(id)
@@ -787,28 +394,11 @@ end
 Deletes a genome reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
-function delete_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE",
-        "/referencestore/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_reference_store(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/referencestore/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/referencestore/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_reference_store(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/referencestore/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_run(id)
@@ -817,25 +407,11 @@ end
 Deletes a workflow run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
-function delete_run(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_run(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/run/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_run(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_run(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/run/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_run_group(id)
@@ -844,25 +420,11 @@ end
 Deletes a workflow run group.
 
 # Arguments
-- `id`: The run group's ID.
 
+- `id`: The run group's ID.
 """
-function delete_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_run_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/runGroup/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_run_group(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/runGroup/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_sequence_store(id)
@@ -871,28 +433,11 @@ end
 Deletes a sequence store.
 
 # Arguments
-- `id`: The sequence store's ID.
 
+- `id`: The sequence store's ID.
 """
-function delete_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE",
-        "/sequencestore/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sequence_store(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/sequencestore/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/sequencestore/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_sequence_store(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/sequencestore/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_share(share_id)
@@ -903,30 +448,11 @@ access to the shared resource. If you are the subscriber, this operation deletes
 access to the share.
 
 # Arguments
-- `share_id`: The ID for the resource share to be deleted.
 
+- `share_id`: The ID for the resource share to be deleted.
 """
-function delete_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE",
-        "/share/$(shareId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_share(
-    shareId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "DELETE",
-        "/share/$(shareId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_share(shareId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_share(shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/share/$(shareId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_variant_store(name)
@@ -935,31 +461,17 @@ end
 Deletes a variant store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
-function delete_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE",
-        "/variantStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_variant_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/variantStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/variantStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_variant_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/variantStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_workflow(id)
@@ -968,25 +480,11 @@ end
 Deletes a workflow.
 
 # Arguments
-- `id`: The workflow's ID.
 
+- `id`: The workflow's ID.
 """
-function delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "DELETE", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_workflow(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/workflow/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/workflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_annotation_import_job(job_id)
@@ -995,30 +493,11 @@ end
 Gets information about an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
-function get_annotation_import_job(
-    jobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/import/annotation/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_annotation_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/import/annotation/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_annotation_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/import/annotation/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_annotation_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/import/annotation/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_annotation_store(name)
@@ -1027,28 +506,11 @@ end
 Gets information about an annotation store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
-function get_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/annotationStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_annotation_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/annotationStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/annotationStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_annotation_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/annotationStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_annotation_store_version(name, version_name)
@@ -1057,35 +519,13 @@ end
  Retrieves the metadata for an annotation store version.
 
 # Arguments
+
 - `name`:  The name given to an annotation store version to distinguish it from others.
 - `version_name`:  The name given to an annotation store version to distinguish it from
   others.
-
 """
-function get_annotation_store_version(
-    name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/annotationStore/$(name)/version/$(versionName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_annotation_store_version(
-    name,
-    versionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/annotationStore/$(name)/version/$(versionName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_annotation_store_version(name, versionName; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/annotationStore/$(name)/version/$(versionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_annotation_store_version(name, versionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/annotationStore/$(name)/version/$(versionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_read_set(id, part_number, sequence_store_id)
@@ -1094,42 +534,19 @@ end
 Gets a file from a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `part_number`: The part number to retrieve.
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"file"`: The file to retrieve.
 """
-function get_read_set(
-    id, partNumber, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/readset/$(id)",
-        Dict{String,Any}("partNumber" => partNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_read_set(
-    id,
-    partNumber,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/readset/$(id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("partNumber" => partNumber), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_read_set(id, partNumber, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/readset/$(id)", Dict{String, Any}("partNumber"=>partNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_read_set(id, partNumber, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/readset/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_read_set_activation_job(id, sequence_store_id)
@@ -1138,34 +555,12 @@ end
 Gets information about a read set activation job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
-function get_read_set_activation_job(
-    id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/activationjob/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_read_set_activation_job(
-    id,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/activationjob/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_read_set_activation_job(id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/activationjob/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_read_set_activation_job(id, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/activationjob/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_read_set_export_job(id, sequence_store_id)
@@ -1174,34 +569,12 @@ end
 Gets information about a read set export job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
-function get_read_set_export_job(
-    id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/exportjob/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_read_set_export_job(
-    id,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/exportjob/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_read_set_export_job(id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/exportjob/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_read_set_export_job(id, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/exportjob/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_read_set_import_job(id, sequence_store_id)
@@ -1210,34 +583,12 @@ end
 Gets information about a read set import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
-function get_read_set_import_job(
-    id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/importjob/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_read_set_import_job(
-    id,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/importjob/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_read_set_import_job(id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/importjob/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_read_set_import_job(id, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/importjob/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_read_set_metadata(id, sequence_store_id)
@@ -1246,34 +597,12 @@ end
 Gets details about a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `sequence_store_id`: The read set's sequence store ID.
-
 """
-function get_read_set_metadata(
-    id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_read_set_metadata(
-    id,
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_read_set_metadata(id, sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_read_set_metadata(id, sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(sequenceStoreId)/readset/$(id)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_reference(id, part_number, reference_store_id)
@@ -1282,43 +611,20 @@ end
 Gets a reference file.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `part_number`: The part number to retrieve.
 - `reference_store_id`: The reference's store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Range"`: The range to retrieve.
 - `"file"`: The file to retrieve.
 """
-function get_reference(
-    id, partNumber, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/reference/$(id)",
-        Dict{String,Any}("partNumber" => partNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_reference(
-    id,
-    partNumber,
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/reference/$(id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("partNumber" => partNumber), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_reference(id, partNumber, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/reference/$(id)", Dict{String, Any}("partNumber"=>partNumber); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reference(id, partNumber, referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/reference/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_reference_import_job(id, reference_store_id)
@@ -1327,34 +633,12 @@ end
 Gets information about a reference import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `reference_store_id`: The job's reference store ID.
-
 """
-function get_reference_import_job(
-    id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/importjob/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_reference_import_job(
-    id,
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/importjob/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_reference_import_job(id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/importjob/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reference_import_job(id, referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/importjob/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_reference_metadata(id, reference_store_id)
@@ -1363,34 +647,12 @@ end
 Gets information about a genome reference's metadata.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's reference store ID.
-
 """
-function get_reference_metadata(
-    id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/reference/$(id)/metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_reference_metadata(
-    id,
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/referencestore/$(referenceStoreId)/reference/$(id)/metadata",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_reference_metadata(id, referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/reference/$(id)/metadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reference_metadata(id, referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(referenceStoreId)/reference/$(id)/metadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_reference_store(id)
@@ -1399,55 +661,32 @@ end
 Gets information about a reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
-function get_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/referencestore/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_reference_store(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/referencestore/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_reference_store(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_reference_store(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/referencestore/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_run(id)
     get_run(id, params::Dict{String,<:Any})
 
-Gets information about a workflow run. If a workflow is shared with you, you cannot export
-information about the run.
+Gets information about a workflow run.
+
+If a workflow is shared with you, you cannot export information about the run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The run's export format.
 """
-function get_run(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_run(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET", "/run/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_run(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_run(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_run_group(id)
@@ -1456,25 +695,11 @@ end
 Gets information about a workflow run group.
 
 # Arguments
-- `id`: The group's ID.
 
+- `id`: The group's ID.
 """
-function get_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_run_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/runGroup/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_run_group(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/runGroup/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_run_task(id, task_id)
@@ -1483,32 +708,12 @@ end
 Gets information about a workflow run task.
 
 # Arguments
+
 - `id`: The workflow run ID.
 - `task_id`: The task's ID.
-
 """
-function get_run_task(id, taskId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/run/$(id)/task/$(taskId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_run_task(
-    id,
-    taskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/run/$(id)/task/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_run_task(id, taskId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)/task/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_run_task(id, taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)/task/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_sequence_store(id)
@@ -1517,28 +722,11 @@ end
 Gets information about a sequence store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
-function get_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/sequencestore/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_sequence_store(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/sequencestore/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sequence_store(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sequence_store(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/sequencestore/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_share(share_id)
@@ -1547,27 +735,11 @@ end
 Retrieves the metadata for the specified resource share.
 
 # Arguments
-- `share_id`: The ID of the share.
 
+- `share_id`: The ID of the share.
 """
-function get_share(shareId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_share(
-    shareId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/share/$(shareId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_share(shareId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_share(shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/share/$(shareId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_variant_import_job(job_id)
@@ -1576,28 +748,11 @@ end
 Gets information about a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
-function get_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/import/variant/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_variant_import_job(
-    jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/import/variant/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_variant_import_job(jobId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/import/variant/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_variant_import_job(jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/import/variant/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_variant_store(name)
@@ -1606,61 +761,34 @@ end
 Gets information about a variant store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
-function get_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET",
-        "/variantStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_variant_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/variantStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/variantStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_variant_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/variantStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_workflow(id)
     get_workflow(id, params::Dict{String,<:Any})
 
-Gets information about a workflow. If a workflow is shared with you, you cannot export the
-workflow.
+Gets information about a workflow.
+
+If a workflow is shared with you, you cannot export the workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The export format for the workflow.
 - `"type"`: The workflow's type.
 - `"workflowOwnerId"`: The ID of the workflow owner.
 """
-function get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_workflow(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/workflow/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/workflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_annotation_import_jobs()
@@ -1669,32 +797,17 @@ end
 Retrieves a list of annotation import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of annotation import jobs to retrieve.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
   next page of results.
 """
-function list_annotation_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/import/annotations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_annotation_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/import/annotations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_annotation_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/annotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_annotation_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/annotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_annotation_store_versions(name)
@@ -1703,37 +816,21 @@ end
  Lists the versions of an annotation store.
 
 # Arguments
+
 - `name`:  The name of an annotation store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`:  A filter to apply to the list of annotation store versions.
 - `"maxResults"`:  The maximum number of annotation store versions to return in one page of
   results.
 - `"nextToken"`:  Specifies the pagination token from a previous request to retrieve the
   next page of results.
 """
-function list_annotation_store_versions(
-    name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_annotation_store_versions(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/versions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_annotation_store_versions(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_annotation_store_versions(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_annotation_stores()
@@ -1742,29 +839,17 @@ end
 Retrieves a list of annotation stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of stores to list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_annotation_stores(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/annotationStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_annotation_stores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStores",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_annotation_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_annotation_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_multipart_read_set_uploads(sequence_store_id)
@@ -1774,37 +859,19 @@ Lists multipart read set uploads and for in progress uploads. Once the upload is
 a read set is created and the upload will no longer be returned in the response.
 
 # Arguments
+
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of multipart uploads returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
   ListMultipartReadSetUploads call. Used to get the next page of results.
 """
-function list_multipart_read_set_uploads(
-    sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/uploads";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_multipart_read_set_uploads(
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/uploads",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_multipart_read_set_uploads(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_multipart_read_set_uploads(sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/uploads", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_read_set_activation_jobs(sequence_store_id)
@@ -1813,39 +880,21 @@ end
 Retrieves a list of read set activation jobs.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read set activation jobs to return in one page of
   results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_read_set_activation_jobs(
-    sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/activationjobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_read_set_activation_jobs(
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/activationjobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_read_set_activation_jobs(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/activationjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_read_set_activation_jobs(sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/activationjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_read_set_export_jobs(sequence_store_id)
@@ -1854,38 +903,20 @@ end
 Retrieves a list of read set export jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_read_set_export_jobs(
-    sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/exportjobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_read_set_export_jobs(
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/exportjobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_read_set_export_jobs(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/exportjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_read_set_export_jobs(sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/exportjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_read_set_import_jobs(sequence_store_id)
@@ -1894,38 +925,20 @@ end
 Retrieves a list of read set import jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_read_set_import_jobs(
-    sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/importjobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_read_set_import_jobs(
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/importjobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_read_set_import_jobs(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/importjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_read_set_import_jobs(sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/importjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_read_set_upload_parts(part_source, sequence_store_id, upload_id)
@@ -1934,48 +947,22 @@ end
 This operation will list all parts in a requested multipart upload for a sequence store.
 
 # Arguments
+
 - `part_source`: The source file for the upload part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 - `upload_id`: The ID for the initiated multipart upload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes used to filter for a specific subset of read set part uploads.
 - `"maxResults"`: The maximum number of read set upload parts returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
   ListReadSetUploadPartsRequest call. Used to get the next page of results.
 """
-function list_read_set_upload_parts(
-    partSource,
-    sequenceStoreId,
-    uploadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts",
-        Dict{String,Any}("partSource" => partSource);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_read_set_upload_parts(
-    partSource,
-    sequenceStoreId,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("partSource" => partSource), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_read_set_upload_parts(partSource, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts", Dict{String, Any}("partSource"=>partSource); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_read_set_upload_parts(partSource, sequenceStoreId, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partSource"=>partSource), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_read_sets(sequence_store_id)
@@ -1984,36 +971,20 @@ end
 Retrieves a list of read sets.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read sets to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_read_sets(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/readsets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_read_sets(
-    sequenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/readsets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_read_sets(sequenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/readsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_read_sets(sequenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/readsets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_reference_import_jobs(reference_store_id)
@@ -2022,38 +993,20 @@ end
 Retrieves a list of reference import jobs.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_reference_import_jobs(
-    referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/importjobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_reference_import_jobs(
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/importjobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_reference_import_jobs(referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/importjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reference_import_jobs(referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/importjobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_reference_stores()
@@ -2062,28 +1015,16 @@ end
 Retrieves a list of reference stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_reference_stores(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_reference_stores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/referencestores",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_reference_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reference_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_references(reference_store_id)
@@ -2092,38 +1033,20 @@ end
 Retrieves a list of references.
 
 # Arguments
+
 - `reference_store_id`: The references' reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of references to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_references(
-    referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/references";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_references(
-    referenceStoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/references",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_references(referenceStoreId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/references"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_references(referenceStoreId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/references", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_run_groups()
@@ -2132,22 +1055,16 @@ end
 Retrieves a list of run groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run groups to return in one page of results.
 - `"name"`: The run groups' name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
 """
-function list_run_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics("GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_run_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET", "/runGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_run_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/runGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_run_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/runGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_run_tasks(id)
@@ -2156,31 +1073,20 @@ end
 Retrieves a list of tasks for a run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run tasks to return in one page of results.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
 - `"status"`: Filter the list by status.
 """
-function list_run_tasks(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_run_tasks(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/run/$(id)/task",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_run_tasks(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)/task"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_run_tasks(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run/$(id)/task", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_runs()
@@ -2189,7 +1095,9 @@ end
 Retrieves a list of runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of runs to return in one page of results.
 - `"name"`: Filter the list by run name.
 - `"runGroupId"`: Filter the list by run group ID.
@@ -2197,16 +1105,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results.
 - `"status"`: The status of a run.
 """
-function list_runs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_runs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET", "/run", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_runs(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/run", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sequence_stores()
@@ -2215,28 +1115,16 @@ end
 Retrieves a list of sequence stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_sequence_stores(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_sequence_stores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestores",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sequence_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sequence_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_shares(resource_owner)
@@ -2246,39 +1134,20 @@ Retrieves the resource shares associated with an account. Use the filter paramet
 retrieve a specific subset of the shares.
 
 # Arguments
+
 - `resource_owner`: The account that owns the resource shares.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes that you use to filter for a specific subset of resource shares.
 - `"maxResults"`: The maximum number of shares to return in one page of results.
 - `"nextToken"`: Next token returned in the response of a previous
   ListReadSetUploadPartsRequest call. Used to get the next page of results.
 """
-function list_shares(resourceOwner; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/shares",
-        Dict{String,Any}("resourceOwner" => resourceOwner);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_shares(
-    resourceOwner,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/shares",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_shares(resourceOwner; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/shares", Dict{String, Any}("resourceOwner"=>resourceOwner); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_shares(resourceOwner, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/shares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -2287,32 +1156,11 @@ end
 Retrieves a list of tags for a resource.
 
 # Arguments
-- `resource_arn`: The resource's ARN.
 
+- `resource_arn`: The resource's ARN.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_variant_import_jobs()
@@ -2321,29 +1169,17 @@ end
 Retrieves a list of variant import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of job IDs.
 - `"maxResults"`: The maximum number of import jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_variant_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_variant_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/import/variants",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_variant_import_jobs(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/variants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_variant_import_jobs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/variants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_variant_stores()
@@ -2352,29 +1188,17 @@ end
 Retrieves a list of variant stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of store IDs.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_variant_stores(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_variant_stores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/variantStores",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_variant_stores(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_variant_stores(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workflows()
@@ -2383,23 +1207,17 @@ end
 Retrieves a list of workflows.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of workflows to return in one page of results.
 - `"name"`: Filter the list by workflow name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
 - `"type"`: Filter the list by workflow type.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_workflows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "GET", "/workflow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_workflows(; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workflows(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("GET", "/workflow", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_annotation_import_job(destination_name, items, role_arn)
@@ -2408,55 +1226,22 @@ end
 Starts an annotation import job.
 
 # Arguments
+
 - `destination_name`: A destination annotation store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
 - `"versionName"`:  The name of the annotation store version.
 """
-function start_annotation_import_job(
-    destinationName, items, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/import/annotation",
-        Dict{String,Any}(
-            "destinationName" => destinationName, "items" => items, "roleArn" => roleArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_annotation_import_job(
-    destinationName,
-    items,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/import/annotation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationName" => destinationName,
-                    "items" => items,
-                    "roleArn" => roleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_annotation_import_job(destinationName, items, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/annotation", Dict{String, Any}("destinationName"=>destinationName, "items"=>items, "roleArn"=>roleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_annotation_import_job(destinationName, items, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/annotation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName, "items"=>items, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_read_set_activation_job(sequence_store_id, sources)
@@ -2466,39 +1251,19 @@ Activates an archived read set. To reduce storage charges, Amazon Omics archives
 read sets after 30 days.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
-function start_read_set_activation_job(
-    sequenceStoreId, sources; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/activationjob",
-        Dict{String,Any}("sources" => sources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_read_set_activation_job(
-    sequenceStoreId,
-    sources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/activationjob",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_read_set_activation_job(sequenceStoreId, sources; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/activationjob", Dict{String, Any}("sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_read_set_activation_job(sequenceStoreId, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/activationjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_read_set_export_job(destination, role_arn, sequence_store_id, sources)
@@ -2507,57 +1272,21 @@ end
 Exports a read set to Amazon S3.
 
 # Arguments
+
 - `destination`: A location for exported files in Amazon S3.
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
-function start_read_set_export_job(
-    destination,
-    roleArn,
-    sequenceStoreId,
-    sources;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/exportjob",
-        Dict{String,Any}(
-            "destination" => destination, "roleArn" => roleArn, "sources" => sources
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_read_set_export_job(
-    destination,
-    roleArn,
-    sequenceStoreId,
-    sources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/exportjob",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destination" => destination, "roleArn" => roleArn, "sources" => sources
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_read_set_export_job(destination, roleArn, sequenceStoreId, sources; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/exportjob", Dict{String, Any}("destination"=>destination, "roleArn"=>roleArn, "sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_read_set_export_job(destination, roleArn, sequenceStoreId, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/exportjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "roleArn"=>roleArn, "sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_read_set_import_job(role_arn, sequence_store_id, sources)
@@ -2566,45 +1295,20 @@ end
 Starts a read set import job.
 
 # Arguments
+
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
-function start_read_set_import_job(
-    roleArn, sequenceStoreId, sources; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/importjob",
-        Dict{String,Any}("roleArn" => roleArn, "sources" => sources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_read_set_import_job(
-    roleArn,
-    sequenceStoreId,
-    sources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/sequencestore/$(sequenceStoreId)/importjob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("roleArn" => roleArn, "sources" => sources), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_read_set_import_job(roleArn, sequenceStoreId, sources; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/importjob", Dict{String, Any}("roleArn"=>roleArn, "sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_read_set_import_job(roleArn, sequenceStoreId, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/sequencestore/$(sequenceStoreId)/importjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn, "sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_reference_import_job(reference_store_id, role_arn, sources)
@@ -2613,68 +1317,50 @@ end
 Starts a reference import job.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 - `role_arn`: A service role for the job.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
-function start_reference_import_job(
-    referenceStoreId, roleArn, sources; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/importjob",
-        Dict{String,Any}("roleArn" => roleArn, "sources" => sources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_reference_import_job(
-    referenceStoreId,
-    roleArn,
-    sources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/referencestore/$(referenceStoreId)/importjob",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("roleArn" => roleArn, "sources" => sources), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_reference_import_job(referenceStoreId, roleArn, sources; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/importjob", Dict{String, Any}("roleArn"=>roleArn, "sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_reference_import_job(referenceStoreId, roleArn, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/referencestore/$(referenceStoreId)/importjob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("roleArn"=>roleArn, "sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_run(request_id, role_arn)
     start_run(request_id, role_arn, params::Dict{String,<:Any})
 
 Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The
-remaining parameters are copied from the previous run. StartRun will not support re-run for
-a workflow that is shared with you. The total number of runs in your account is subject to
-a quota per Region. To avoid needing to delete runs manually, you can set the retention
-mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is
-exceeded. By default, the run uses STATIC storage. For STATIC storage, set the
-storageCapacity field. You can set the storage type to DYNAMIC. You do not set
-storageCapacity, because HealthOmics dynamically scales the storage up or down as required.
-For more information about static and dynamic storage, see Running workflows in the AWS
-HealthOmics User Guide.
+remaining parameters are copied from the previous run.
+
+StartRun will not support re-run for a workflow that is shared with you.
+
+The total number of runs in your account is subject to a quota per Region. To avoid needing
+to delete runs manually, you can set the retention mode to `REMOVE`. Runs with this setting
+are deleted automatically when the run quoata is exceeded.
+
+By default, the run uses STATIC storage. For STATIC storage, set the `storageCapacity`
+field. You can set the storage type to DYNAMIC. You do not set `storageCapacity`, because
+HealthOmics dynamically scales the storage up or down as required. For more information
+about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html)
+in the *AWS HealthOmics User Guide*.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 - `role_arn`: A service role for the run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"logLevel"`: A log level for the run.
 - `"name"`: A name for the run.
 - `"outputUri"`: An output URI for the run.
@@ -2693,35 +1379,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"workflowOwnerId"`: The ID of the workflow owner.
 - `"workflowType"`: The run's workflow type.
 """
-function start_run(requestId, roleArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/run",
-        Dict{String,Any}("requestId" => requestId, "roleArn" => roleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_run(
-    requestId,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/run",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("requestId" => requestId, "roleArn" => roleArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_run(requestId, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/run", Dict{String, Any}("requestId"=>requestId, "roleArn"=>roleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_run(requestId, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/run", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>requestId, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_variant_import_job(destination_name, items, role_arn)
@@ -2730,53 +1389,20 @@ end
 Starts a variant import job.
 
 # Arguments
+
 - `destination_name`: The destination variant store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
-function start_variant_import_job(
-    destinationName, items, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/import/variant",
-        Dict{String,Any}(
-            "destinationName" => destinationName, "items" => items, "roleArn" => roleArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_variant_import_job(
-    destinationName,
-    items,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/import/variant",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationName" => destinationName,
-                    "items" => items,
-                    "roleArn" => roleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_variant_import_job(destinationName, items, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/variant", Dict{String, Any}("destinationName"=>destinationName, "items"=>items, "roleArn"=>roleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_variant_import_job(destinationName, items, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/import/variant", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationName"=>destinationName, "items"=>items, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -2785,33 +1411,12 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tags`: Tags for the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2820,35 +1425,12 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tag_keys`: Keys of tags to remove.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_annotation_store(name)
@@ -2857,31 +1439,17 @@ end
 Updates an annotation store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
-function update_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/annotationStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_annotation_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_annotation_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_annotation_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_annotation_store_version(name, version_name)
@@ -2890,37 +1458,18 @@ end
  Updates the description of an annotation store version.
 
 # Arguments
+
 - `name`:  The name of an annotation store.
 - `version_name`:  The name of an annotation store version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of an annotation store.
 """
-function update_annotation_store_version(
-    name, versionName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/version/$(versionName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_annotation_store_version(
-    name,
-    versionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "POST",
-        "/annotationStore/$(name)/version/$(versionName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_annotation_store_version(name, versionName; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/version/$(versionName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_annotation_store_version(name, versionName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/annotationStore/$(name)/version/$(versionName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_run_group(id)
@@ -2929,32 +1478,21 @@ end
 Updates a run group.
 
 # Arguments
+
 - `id`: The group's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxCpus"`: The maximum number of CPUs to use.
 - `"maxDuration"`: A maximum run time for the group in minutes.
 - `"maxGpus"`: The maximum GPUs that can be used by a run group.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 """
-function update_run_group(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_run_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/runGroup/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_run_group(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/runGroup/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_run_group(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/runGroup/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_variant_store(name)
@@ -2963,31 +1501,17 @@ end
 Updates a variant store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
-function update_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST",
-        "/variantStore/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_variant_store(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/variantStore/$(name)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_variant_store(name; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStore/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_variant_store(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/variantStore/$(name)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_workflow(id)
@@ -2996,29 +1520,18 @@ end
 Updates a workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the workflow.
 - `"name"`: A name for the workflow.
 """
-function update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return omics(
-        "POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_workflow(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return omics(
-        "POST",
-        "/workflow/$(id)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workflow(id; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/workflow/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workflow(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("POST", "/workflow/$(id)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     upload_read_set_part(part_number, part_source, payload, sequence_store_id, upload_id)
@@ -3028,55 +1541,12 @@ This operation uploads a specific part of a read set. If you upload a new part u
 previously used part number, the previously uploaded part will be overwritten.
 
 # Arguments
+
 - `part_number`: The number of the part being uploaded.
 - `part_source`: The source file for an upload part.
 - `payload`: The read set data to upload for a part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart upload.
 - `upload_id`: The ID for the initiated multipart upload.
-
 """
-function upload_read_set_part(
-    partNumber,
-    partSource,
-    payload,
-    sequenceStoreId,
-    uploadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "PUT",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part",
-        Dict{String,Any}(
-            "partNumber" => partNumber, "partSource" => partSource, "payload" => payload
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upload_read_set_part(
-    partNumber,
-    partSource,
-    payload,
-    sequenceStoreId,
-    uploadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return omics(
-        "PUT",
-        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "partNumber" => partNumber,
-                    "partSource" => partSource,
-                    "payload" => payload,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+upload_read_set_part(partNumber, partSource, payload, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=current_aws_config()) = omics("PUT", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part", Dict{String, Any}("partNumber"=>partNumber, "partSource"=>partSource, "payload"=>payload); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upload_read_set_part(partNumber, partSource, payload, sequenceStoreId, uploadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = omics("PUT", "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "partSource"=>partSource, "payload"=>payload), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

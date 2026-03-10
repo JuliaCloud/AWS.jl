@@ -12,141 +12,83 @@ Creates a new accessor for use with Amazon Managed Blockchain service that suppo
 based access. The accessor contains information required for token based access.
 
 # Arguments
-- `accessor_type`: The type of accessor.  Currently, accessor type is restricted to
-  BILLING_TOKEN.
+
+- `accessor_type`: The type of accessor.
+
+!!! note
+    Currently, accessor type is restricted to `BILLING_TOKEN`.
 - `client_request_token`: This is a unique, case-sensitive identifier that you provide to
   ensure the idempotency of the operation. An idempotent operation completes no more than
-  once. This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon
-  Web Services CLI.
+  once. This identifier is required only if you make a service request directly using an
+  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
+  Amazon Web Services CLI.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NetworkType"`: The blockchain network that the Accessor token is created for.    Use
-  the actual networkType value for the blockchain network that you are creating the Accessor
-  token for.   With the shut down of the Ethereum Goerli and Polygon Mumbai Testnet networks
-  the following networkType values are no longer available for selection and use.
-  ETHEREUM_MAINNET_AND_GOERLI     ETHEREUM_GOERLI     POLYGON_MUMBAI    However, your
-  existing Accessor tokens with these networkType values will remain unchanged.
-- `"Tags"`: Tags to assign to the Accessor.  Each tag consists of a key and an optional
-  value. You can specify multiple key-value pairs in a single request with an overall maximum
-  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
-  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
-  Managed Blockchain Hyperledger Fabric Developer Guide.
+
+- `"NetworkType"`: The blockchain network that the `Accessor` token is created for.
+
+  !!! note
+      - Use the actual `networkType` value for the blockchain network that you are creating
+  the `Accessor` token for.
+   - With the shut down of the *Ethereum Goerli* and *Polygon Mumbai Testnet* networks the
+  following `networkType` values are no longer available for selection and use. <ul> <li>
+  `ETHEREUM_MAINNET_AND_GOERLI`
+   - `ETHEREUM_GOERLI`
+   - `POLYGON_MUMBAI`
+  However, your existing `Accessor` tokens with these `networkType` values will remain
+  unchanged. </li> </ul>
+- `"Tags"`: Tags to assign to the Accessor.
+
+   Each tag consists of a key and an optional value. You can specify multiple key-value
+  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+
+  For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 """
-function create_accessor(
-    AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "POST",
-        "/accessors",
-        Dict{String,Any}(
-            "AccessorType" => AccessorType, "ClientRequestToken" => ClientRequestToken
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_accessor(
-    AccessorType,
-    ClientRequestToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/accessors",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccessorType" => AccessorType,
-                    "ClientRequestToken" => ClientRequestToken,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_accessor(AccessorType, ClientRequestToken; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/accessors", Dict{String, Any}("AccessorType"=>AccessorType, "ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_accessor(AccessorType, ClientRequestToken, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/accessors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessorType"=>AccessorType, "ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_member(client_request_token, invitation_id, member_configuration, network_id)
     create_member(client_request_token, invitation_id, member_configuration, network_id, params::Dict{String,<:Any})
 
-Creates a member within a Managed Blockchain network. Applies only to Hyperledger Fabric.
+Creates a member within a Managed Blockchain network.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
-  This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
+  the idempotency of the operation. An idempotent operation completes no more than one
+  time. This identifier is required only if you make a service request directly using an
+  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
+  CLI.
 - `invitation_id`: The unique identifier of the invitation that is sent to the member to
   join the network.
 - `member_configuration`: Member configuration parameters.
 - `network_id`: The unique identifier of the network in which the member is created.
-
 """
-function create_member(
-    ClientRequestToken,
-    InvitationId,
-    MemberConfiguration,
-    networkId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/members",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "InvitationId" => InvitationId,
-            "MemberConfiguration" => MemberConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_member(
-    ClientRequestToken,
-    InvitationId,
-    MemberConfiguration,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/members",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "InvitationId" => InvitationId,
-                    "MemberConfiguration" => MemberConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_member(ClientRequestToken, InvitationId, MemberConfiguration, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_network(client_request_token, framework, framework_version, member_configuration, name, voting_policy)
     create_network(client_request_token, framework, framework_version, member_configuration, name, voting_policy, params::Dict{String,<:Any})
 
-Creates a new blockchain network using Amazon Managed Blockchain. Applies only to
-Hyperledger Fabric.
+Creates a new blockchain network using Amazon Managed Blockchain.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `client_request_token`: This is a unique, case-sensitive identifier that you provide to
   ensure the idempotency of the operation. An idempotent operation completes no more than
-  once. This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an Amazon Web Services SDK or the Amazon
-  Web Services CLI.
+  once. This identifier is required only if you make a service request directly using an
+  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
+  Amazon Web Services CLI.
 - `framework`: The blockchain framework that the network uses.
 - `framework_version`: The version of the blockchain framework that the network uses.
 - `member_configuration`: Configuration properties for the first member within the network.
@@ -155,139 +97,62 @@ Hyperledger Fabric.
   approved.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: An optional description for the network.
 - `"FrameworkConfiguration"`:  Configuration properties of the blockchain framework
   relevant to the network configuration.
-- `"Tags"`: Tags to assign to the network.  Each tag consists of a key and an optional
-  value. You can specify multiple key-value pairs in a single request with an overall maximum
-  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
-  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
-  Managed Blockchain Hyperledger Fabric Developer Guide.
+- `"Tags"`: Tags to assign to the network.
+
+   Each tag consists of a key and an optional value. You can specify multiple key-value
+  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+
+  For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 """
-function create_network(
-    ClientRequestToken,
-    Framework,
-    FrameworkVersion,
-    MemberConfiguration,
-    Name,
-    VotingPolicy;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Framework" => Framework,
-            "FrameworkVersion" => FrameworkVersion,
-            "MemberConfiguration" => MemberConfiguration,
-            "Name" => Name,
-            "VotingPolicy" => VotingPolicy,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_network(
-    ClientRequestToken,
-    Framework,
-    FrameworkVersion,
-    MemberConfiguration,
-    Name,
-    VotingPolicy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Framework" => Framework,
-                    "FrameworkVersion" => FrameworkVersion,
-                    "MemberConfiguration" => MemberConfiguration,
-                    "Name" => Name,
-                    "VotingPolicy" => VotingPolicy,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_network(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_node(client_request_token, node_configuration, network_id)
     create_node(client_request_token, node_configuration, network_id, params::Dict{String,<:Any})
 
-Creates a node on the specified blockchain network. Applies to Hyperledger Fabric and
-Ethereum.
+Creates a node on the specified blockchain network.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
+
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
-  This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
+  the idempotency of the operation. An idempotent operation completes no more than one
+  time. This identifier is required only if you make a service request directly using an
+  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
+  CLI.
 - `node_configuration`: The properties of a node configuration.
-- `network_id`: The unique identifier of the network for the node. Ethereum public networks
-  have the following NetworkIds:    n-ethereum-mainnet
+- `network_id`: The unique identifier of the network for the node.
+
+Ethereum public networks have the following `NetworkId`s: - `n-ethereum-mainnet`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MemberId"`: The unique identifier of the member that owns this node. Applies only to
-  Hyperledger Fabric.
-- `"Tags"`: Tags to assign to the node.  Each tag consists of a key and an optional value.
-  You can specify multiple key-value pairs in a single request with an overall maximum of 50
-  tags allowed per resource. For more information about tags, see Tagging Resources in the
-  Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
-  Managed Blockchain Hyperledger Fabric Developer Guide.
+
+- `"MemberId"`: The unique identifier of the member that owns this node.
+
+Applies only to Hyperledger Fabric.
+- `"Tags"`: Tags to assign to the node.
+
+   Each tag consists of a key and an optional value. You can specify multiple key-value
+  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+
+  For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 """
-function create_node(
-    ClientRequestToken,
-    NodeConfiguration,
-    networkId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/nodes",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "NodeConfiguration" => NodeConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_node(
-    ClientRequestToken,
-    NodeConfiguration,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/nodes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "NodeConfiguration" => NodeConfiguration,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_node(ClientRequestToken, NodeConfiguration, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_node(ClientRequestToken, NodeConfiguration, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_proposal(actions, client_request_token, member_id, network_id)
@@ -295,76 +160,42 @@ end
 
 Creates a proposal for a change to the network that other members of the network can vote
 on, for example, a proposal to add a new member to the network. Any member can create a
-proposal. Applies only to Hyperledger Fabric.
+proposal.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `actions`: The type of actions proposed, such as inviting a member or removing a member.
-  The types of Actions in a proposal are mutually exclusive. For example, a proposal with
-  Invitations actions cannot also contain Removals actions.
+  The types of `Actions` in a proposal are mutually exclusive. For example, a proposal with
+  `Invitations` actions cannot also contain `Removals` actions.
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
-  the idempotency of the operation. An idempotent operation completes no more than one time.
-  This identifier is required only if you make a service request directly using an HTTP
-  client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
+  the idempotency of the operation. An idempotent operation completes no more than one
+  time. This identifier is required only if you make a service request directly using an
+  HTTP client. It is generated automatically if you use an Amazon Web Services SDK or the
+  CLI.
 - `member_id`: The unique identifier of the member that is creating the proposal. This
   identifier is especially useful for identifying the member making the proposal when
   multiple members exist in a single Amazon Web Services account.
 - `network_id`:  The unique identifier of the network for which the proposal is made.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the proposal that is visible to voting members, for
-  example, \"Proposal to add Example Corp. as member.\"
-- `"Tags"`: Tags to assign to the proposal.  Each tag consists of a key and an optional
-  value. You can specify multiple key-value pairs in a single request with an overall maximum
-  of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
-  the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon
-  Managed Blockchain Hyperledger Fabric Developer Guide.
+  example, "Proposal to add Example Corp. as member."
+- `"Tags"`: Tags to assign to the proposal.
+
+   Each tag consists of a key and an optional value. You can specify multiple key-value
+  pairs in a single request with an overall maximum of 50 tags allowed per resource.
+
+  For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+  in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 """
-function create_proposal(
-    Actions,
-    ClientRequestToken,
-    MemberId,
-    networkId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/proposals",
-        Dict{String,Any}(
-            "Actions" => Actions,
-            "ClientRequestToken" => ClientRequestToken,
-            "MemberId" => MemberId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_proposal(
-    Actions,
-    ClientRequestToken,
-    MemberId,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/proposals",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "Actions" => Actions,
-                    "ClientRequestToken" => ClientRequestToken,
-                    "MemberId" => MemberId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_proposal(Actions, ClientRequestToken, MemberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_proposal(Actions, ClientRequestToken, MemberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_accessor(accessor_id)
@@ -372,119 +203,66 @@ end
 
 Deletes an accessor that your Amazon Web Services account owns. An accessor object is a
 container that has the information required for token based access to your Ethereum nodes
-including, the BILLING_TOKEN. After an accessor is deleted, the status of the accessor
-changes from AVAILABLE to PENDING_DELETION. An accessor in the PENDING_DELETION state
+including, the `BILLING_TOKEN`. After an accessor is deleted, the status of the accessor
+changes from `AVAILABLE` to `PENDING_DELETION`. An accessor in the `PENDING_DELETION` state
 can’t be used for new WebSocket requests or HTTP requests. However, WebSocket connections
-that were initiated while the accessor was in the AVAILABLE state remain open until they
+that were initiated while the accessor was in the `AVAILABLE` state remain open until they
 expire (up to 2 hours).
 
 # Arguments
-- `accessor_id`: The unique identifier of the accessor.
 
+- `accessor_id`: The unique identifier of the accessor.
 """
-function delete_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "DELETE",
-        "/accessors/$(AccessorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_accessor(
-    AccessorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "DELETE",
-        "/accessors/$(AccessorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/accessors/$(AccessorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_accessor(AccessorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/accessors/$(AccessorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_member(member_id, network_id)
     delete_member(member_id, network_id, params::Dict{String,<:Any})
 
 Deletes a member. Deleting a member removes the member and all associated resources from
-the network. DeleteMember can only be called for a specified MemberId if the principal
+the network. `DeleteMember` can only be called for a specified `MemberId` if the principal
 performing the action is associated with the Amazon Web Services account that owns the
-member. In all other cases, the DeleteMember action is carried out as the result of an
-approved proposal to remove a member. If MemberId is the last member in a network specified
-by the last Amazon Web Services account, the network is deleted also. Applies only to
-Hyperledger Fabric.
+member. In all other cases, the `DeleteMember` action is carried out as the result of an
+approved proposal to remove a member. If `MemberId` is the last member in a network
+specified by the last Amazon Web Services account, the network is deleted also.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `member_id`: The unique identifier of the member to remove.
 - `network_id`: The unique identifier of the network from which the member is removed.
-
 """
-function delete_member(
-    memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "DELETE",
-        "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_member(
-    memberId,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "DELETE",
-        "/networks/$(networkId)/members/$(memberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_member(memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_node(network_id, node_id)
     delete_node(network_id, node_id, params::Dict{String,<:Any})
 
 Deletes a node that your Amazon Web Services account owns. All data on the node is lost and
-cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
+cannot be recovered.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
-- `network_id`: The unique identifier of the network that the node is on. Ethereum public
-  networks have the following NetworkIds:    n-ethereum-mainnet
+
+- `network_id`: The unique identifier of the network that the node is on.
+
+Ethereum public networks have the following `NetworkId`s: - `n-ethereum-mainnet`
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"memberId"`: The unique identifier of the member that owns this node. Applies only to
-  Hyperledger Fabric and is required for Hyperledger Fabric.
+
+- `"memberId"`: The unique identifier of the member that owns this node.
+
+Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-function delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "DELETE",
-        "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_node(
-    networkId,
-    nodeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "DELETE",
-        "/networks/$(networkId)/nodes/$(nodeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_accessor(accessor_id)
@@ -494,170 +272,82 @@ Returns detailed information about an accessor. An accessor object is a containe
 the information required for token based access to your Ethereum nodes.
 
 # Arguments
-- `accessor_id`: The unique identifier of the accessor.
 
+- `accessor_id`: The unique identifier of the accessor.
 """
-function get_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/accessors/$(AccessorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_accessor(
-    AccessorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/accessors/$(AccessorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_accessor(AccessorId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/accessors/$(AccessorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_accessor(AccessorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/accessors/$(AccessorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_member(member_id, network_id)
     get_member(member_id, network_id, params::Dict{String,<:Any})
 
-Returns detailed information about a member. Applies only to Hyperledger Fabric.
+Returns detailed information about a member.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `member_id`: The unique identifier of the member.
 - `network_id`: The unique identifier of the network to which the member belongs.
-
 """
-function get_member(memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_member(
-    memberId,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/members/$(memberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_member(memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_network(network_id)
     get_network(network_id, params::Dict{String,<:Any})
 
-Returns detailed information about a network. Applies to Hyperledger Fabric and Ethereum.
+Returns detailed information about a network.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
-- `network_id`: The unique identifier of the network to get information about.
 
+- `network_id`: The unique identifier of the network to get information about.
 """
-function get_network(networkId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_network(
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_network(networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_network(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_node(network_id, node_id)
     get_node(network_id, node_id, params::Dict{String,<:Any})
 
-Returns detailed information about a node. Applies to Hyperledger Fabric and Ethereum.
+Returns detailed information about a node.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
+
 - `network_id`: The unique identifier of the network that the node is on.
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"memberId"`: The unique identifier of the member that owns the node. Applies only to
-  Hyperledger Fabric and is required for Hyperledger Fabric.
+
+- `"memberId"`: The unique identifier of the member that owns the node.
+
+Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 """
-function get_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_node(
-    networkId,
-    nodeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/nodes/$(nodeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_proposal(network_id, proposal_id)
     get_proposal(network_id, proposal_id, params::Dict{String,<:Any})
 
-Returns detailed information about a proposal. Applies only to Hyperledger Fabric.
+Returns detailed information about a proposal.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `network_id`: The unique identifier of the network for which the proposal is made.
 - `proposal_id`: The unique identifier of the proposal.
-
 """
-function get_proposal(
-    networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals/$(proposalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_proposal(
-    networkId,
-    proposalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals/$(proposalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_proposal(networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_proposal(networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_accessors()
@@ -667,284 +357,184 @@ Returns a list of the accessors and their properties. Accessor objects are conta
 have the information required for token based access to your Ethereum nodes.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of accessors to list.
-- `"networkType"`: The blockchain network that the Accessor token is created for.  Use the
-  value ETHEREUM_MAINNET_AND_GOERLI for all existing Accessors tokens that were created
-  before the networkType property was introduced.
+- `"networkType"`: The blockchain network that the `Accessor` token is created for.
+
+  !!! note
+      Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing `Accessors` tokens that
+  were created before the `networkType` property was introduced.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-function list_accessors(; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_accessors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET", "/accessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_accessors(; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/accessors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_accessors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/accessors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_invitations()
     list_invitations(params::Dict{String,<:Any})
 
-Returns a list of all invitations for the current Amazon Web Services account. Applies only
-to Hyperledger Fabric.
+Returns a list of all invitations for the current Amazon Web Services account.
+
+Applies only to Hyperledger Fabric.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of invitations to return.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET",
-        "/invitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_invitations(; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/invitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/invitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_members(network_id)
     list_members(network_id, params::Dict{String,<:Any})
 
-Returns a list of the members in a network and properties of their configurations. Applies
-only to Hyperledger Fabric.
+Returns a list of the members in a network and properties of their configurations.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `network_id`: The unique identifier of the network for which to list members.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isOwned"`: An optional Boolean value. If provided, the request is limited either to
-  members that the current Amazon Web Services account owns (true) or that other Amazon Web
-  Services accountsn own (false). If omitted, all members are listed.
+  members that the current Amazon Web Services account owns (`true`) or that other Amazon
+  Web Services accountsn own (`false`). If omitted, all members are listed.
 - `"maxResults"`: The maximum number of members to return in the request.
 - `"name"`: The optional name of the member to list.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"status"`: An optional status specifier. If provided, only members currently in this
   status are listed.
 """
-function list_members(networkId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_members(
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_members(networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_members(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_networks()
     list_networks(params::Dict{String,<:Any})
 
 Returns information about the networks in which the current Amazon Web Services account
-participates. Applies to Hyperledger Fabric and Ethereum.
+participates.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"framework"`: An optional framework specifier. If provided, only networks of this
   framework type are listed.
 - `"maxResults"`: The maximum number of networks to list.
 - `"name"`: The name of the network.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"status"`: An optional status specifier. If provided, only networks currently in this
-  status are listed. Applies only to Hyperledger Fabric.
+  status are listed.
+
+Applies only to Hyperledger Fabric.
 """
-function list_networks(; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET", "/networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_networks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET", "/networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_networks(; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_networks(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_nodes(network_id)
     list_nodes(network_id, params::Dict{String,<:Any})
 
-Returns information about the nodes within a network. Applies to Hyperledger Fabric and
-Ethereum.
+Returns information about the nodes within a network.
+
+Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
+
 - `network_id`: The unique identifier of the network for which to list nodes.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of nodes to list.
-- `"memberId"`: The unique identifier of the member who owns the nodes to list. Applies
-  only to Hyperledger Fabric and is required for Hyperledger Fabric.
+- `"memberId"`: The unique identifier of the member who owns the nodes to list.
+
+Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
 - `"nextToken"`: The pagination token that indicates the next set of results to retrieve.
 - `"status"`: An optional status specifier. If provided, only nodes currently in this
   status are listed.
 """
-function list_nodes(networkId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/nodes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_nodes(
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/nodes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_nodes(networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_nodes(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_proposal_votes(network_id, proposal_id)
     list_proposal_votes(network_id, proposal_id, params::Dict{String,<:Any})
 
 Returns the list of votes for a specified proposal, including the value of each vote and
-the unique identifier of the member that cast the vote. Applies only to Hyperledger Fabric.
+the unique identifier of the member that cast the vote.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `network_id`:  The unique identifier of the network.
 - `proposal_id`:  The unique identifier of the proposal.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of votes to return.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-function list_proposal_votes(
-    networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals/$(proposalId)/votes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_proposal_votes(
-    networkId,
-    proposalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals/$(proposalId)/votes",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_proposal_votes(networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_proposal_votes(networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_proposals(network_id)
     list_proposals(network_id, params::Dict{String,<:Any})
 
-Returns a list of proposals for the network. Applies only to Hyperledger Fabric.
+Returns a list of proposals for the network.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `network_id`:  The unique identifier of the network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of proposals to return.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
-function list_proposals(networkId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_proposals(
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/networks/$(networkId)/proposals",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_proposals(networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_proposals(networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/networks/$(networkId)/proposals", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Returns a list of tags for the specified resource. Each tag consists of a key and optional
-value. For more information about tags, see Tagging Resources in the Amazon Managed
-Blockchain Ethereum Developer Guide, or Tagging Resources in the Amazon Managed Blockchain
-Hyperledger Fabric Developer Guide.
+value.
+
+For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
+  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     reject_invitation(invitation_id)
@@ -952,251 +542,132 @@ end
 
 Rejects an invitation to join a network. This action can be called by a principal in an
 Amazon Web Services account that has received an invitation to create a member and join a
-network. Applies only to Hyperledger Fabric.
+network.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
-- `invitation_id`: The unique identifier of the invitation to reject.
 
+- `invitation_id`: The unique identifier of the invitation to reject.
 """
-function reject_invitation(invitationId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "DELETE",
-        "/invitations/$(invitationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reject_invitation(
-    invitationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "DELETE",
-        "/invitations/$(invitationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reject_invitation(invitationId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+reject_invitation(invitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/invitations/$(invitationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(tags, resource_arn)
     tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
 Adds or overwrites the specified tags for the specified Amazon Managed Blockchain resource.
-Each tag consists of a key and optional value. When you specify a tag key that already
-exists, the tag value is overwritten with the new value. Use UntagResource to remove tag
-keys. A resource can have up to 50 tags. If you try to create more than 50 tags for a
-resource, your request fails and returns an error. For more information about tags, see
-Tagging Resources in the Amazon Managed Blockchain Ethereum Developer Guide, or Tagging
-Resources in the Amazon Managed Blockchain Hyperledger Fabric Developer Guide.
+Each tag consists of a key and optional value.
+
+When you specify a tag key that already exists, the tag value is overwritten with the new
+value. Use `UntagResource` to remove tag keys.
+
+A resource can have up to 50 tags. If you try to create more than 50 tags for a resource,
+your request fails and returns an error.
+
+For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 
 # Arguments
+
 - `tags`: The tags to assign to the specified resource. Tag values can be empty, for
-  example, \"MyTagKey\" : \"\". You can specify multiple key-value pairs in a single request,
+  example, `"MyTagKey" : ""`. You can specify multiple key-value pairs in a single request,
   with an overall maximum of 50 tags added to each resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference.
-
+  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    Tags,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags from the Amazon Managed Blockchain resource. For more
-information about tags, see Tagging Resources in the Amazon Managed Blockchain Ethereum
-Developer Guide, or Tagging Resources in the Amazon Managed Blockchain Hyperledger Fabric
-Developer Guide.
+Removes the specified tags from the Amazon Managed Blockchain resource.
+
+For more information about tags, see [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging Resources](https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html)
+in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services
-  General Reference.
-- `tag_keys`: The tag keys.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
+  about ARNs and their format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
+- `tag_keys`: The tag keys.
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_member(member_id, network_id)
     update_member(member_id, network_id, params::Dict{String,<:Any})
 
-Updates a member configuration with new parameters. Applies only to Hyperledger Fabric.
+Updates a member configuration with new parameters.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `member_id`: The unique identifier of the member.
 - `network_id`: The unique identifier of the Managed Blockchain network to which the member
   belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LogPublishingConfiguration"`: Configuration properties for publishing to Amazon
   CloudWatch Logs.
 """
-function update_member(
-    memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return managedblockchain(
-        "PATCH",
-        "/networks/$(networkId)/members/$(memberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_member(
-    memberId,
-    networkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "PATCH",
-        "/networks/$(networkId)/members/$(memberId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_member(memberId, networkId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_member(memberId, networkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_node(network_id, node_id)
     update_node(network_id, node_id, params::Dict{String,<:Any})
 
-Updates a node configuration with new parameters. Applies only to Hyperledger Fabric.
+Updates a node configuration with new parameters.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `network_id`: The unique identifier of the network that the node is on.
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LogPublishingConfiguration"`: Configuration properties for publishing to Amazon
   CloudWatch Logs.
-- `"MemberId"`: The unique identifier of the member that owns the node. Applies only to
-  Hyperledger Fabric.
+- `"MemberId"`: The unique identifier of the member that owns the node.
+
+Applies only to Hyperledger Fabric.
 """
-function update_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config())
-    return managedblockchain(
-        "PATCH",
-        "/networks/$(networkId)/nodes/$(nodeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_node(
-    networkId,
-    nodeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "PATCH",
-        "/networks/$(networkId)/nodes/$(nodeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_node(networkId, nodeId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_node(networkId, nodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("PATCH", "/networks/$(networkId)/nodes/$(nodeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     vote_on_proposal(vote, voter_member_id, network_id, proposal_id)
     vote_on_proposal(vote, voter_member_id, network_id, proposal_id, params::Dict{String,<:Any})
 
-Casts a vote for a specified ProposalId on behalf of a member. The member to vote as,
-specified by VoterMemberId, must be in the same Amazon Web Services account as the
-principal that calls the action. Applies only to Hyperledger Fabric.
+Casts a vote for a specified `ProposalId` on behalf of a member. The member to vote as,
+specified by `VoterMemberId`, must be in the same Amazon Web Services account as the
+principal that calls the action.
+
+Applies only to Hyperledger Fabric.
 
 # Arguments
+
 - `vote`:  The value of the vote.
 - `voter_member_id`: The unique identifier of the member casting the vote.
 - `network_id`:  The unique identifier of the network.
 - `proposal_id`:  The unique identifier of the proposal.
-
 """
-function vote_on_proposal(
-    Vote,
-    VoterMemberId,
-    networkId,
-    proposalId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/proposals/$(proposalId)/votes",
-        Dict{String,Any}("Vote" => Vote, "VoterMemberId" => VoterMemberId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function vote_on_proposal(
-    Vote,
-    VoterMemberId,
-    networkId,
-    proposalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return managedblockchain(
-        "POST",
-        "/networks/$(networkId)/proposals/$(proposalId)/votes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Vote" => Vote, "VoterMemberId" => VoterMemberId),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+vote_on_proposal(Vote, VoterMemberId, networkId, proposalId; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+vote_on_proposal(Vote, VoterMemberId, networkId, proposalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

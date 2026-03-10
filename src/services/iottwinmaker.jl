@@ -11,36 +11,13 @@ using AWS.UUIDs
 Sets values for multiple time series properties.
 
 # Arguments
+
 - `entries`: An object that maps strings to the property value entries to set. Each string
   in the mapping must be unique to this object.
 - `workspace_id`: The ID of the workspace that contains the properties to set.
-
 """
-function batch_put_property_values(
-    entries, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties",
-        Dict{String,Any}("entries" => entries);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_put_property_values(
-    entries,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("entries" => entries), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_put_property_values(entries, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties", Dict{String, Any}("entries"=>entries); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_put_property_values(entries, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entries"=>entries), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_metadata_transfer_job(metadata_transfer_job_id)
@@ -49,32 +26,11 @@ end
 Cancels the metadata transfer job.
 
 # Arguments
-- `metadata_transfer_job_id`: The metadata transfer job Id.
 
+- `metadata_transfer_job_id`: The metadata transfer job Id.
 """
-function cancel_metadata_transfer_job(
-    metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "PUT",
-        "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_metadata_transfer_job(
-    metadataTransferJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "PUT",
-        "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_metadata_transfer_job(metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_metadata_transfer_job(metadataTransferJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_component_type(component_type_id, workspace_id)
@@ -83,15 +39,18 @@ end
 Creates a component type.
 
 # Arguments
+
 - `component_type_id`: The ID of the component type.
 - `workspace_id`: The ID of the workspace that contains the component type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentTypeName"`: A friendly name for the component type.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  compositeComponentTypes of the componentType. CompositeComponentType is referenced by
-  componentTypeId.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
+  by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the parent component type to extend.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -100,33 +59,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component of this type.
 - `"propertyDefinitions"`: An object that maps strings to the property definitions in the
   component type. Each string in the mapping must be unique to this object.
-- `"propertyGroups"`:
+- `"propertyGroups"`: <p/>
 - `"tags"`: Metadata that you can use to manage the component type.
 """
-function create_component_type(
-    componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_component_type(
-    componentTypeId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_component_type(componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_component_type(componentTypeId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_entity(entity_name, workspace_id)
@@ -135,48 +72,26 @@ end
 Creates an entity.
 
 # Arguments
+
 - `entity_name`: The name of the entity.
 - `workspace_id`: The ID of the workspace that contains the entity.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"components"`: An object that maps strings to the components in the entity. Each string
   in the mapping must be unique to this object.
-- `"compositeComponents"`: This is an object that maps strings to compositeComponent
-  updates in the request. Each key of the map represents the componentPath of the
-  compositeComponent.
+- `"compositeComponents"`: This is an object that maps strings to `compositeComponent`
+  updates in the request. Each key of the map represents the `componentPath` of the
+  `compositeComponent`.
 - `"description"`: The description of the entity.
 - `"entityId"`: The ID of the entity.
 - `"parentEntityId"`: The ID of the entity's parent entity.
 - `"tags"`: Metadata that you can use to manage the entity.
 """
-function create_entity(
-    entityName, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities",
-        Dict{String,Any}("entityName" => entityName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_entity(
-    entityName,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("entityName" => entityName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_entity(entityName, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities", Dict{String, Any}("entityName"=>entityName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_entity(entityName, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityName"=>entityName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_metadata_transfer_job(destination, sources)
@@ -185,45 +100,19 @@ end
 Creates a new metadata transfer job.
 
 # Arguments
+
 - `destination`: The metadata transfer job destination.
 - `sources`: The metadata transfer job sources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The metadata transfer job description.
 - `"metadataTransferJobId"`: The metadata transfer job Id.
 """
-function create_metadata_transfer_job(
-    destination, sources; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/metadata-transfer-jobs",
-        Dict{String,Any}("destination" => destination, "sources" => sources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_metadata_transfer_job(
-    destination,
-    sources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/metadata-transfer-jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("destination" => destination, "sources" => sources),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_metadata_transfer_job(destination, sources; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/metadata-transfer-jobs", Dict{String, Any}("destination"=>destination, "sources"=>sources); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_metadata_transfer_job(destination, sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/metadata-transfer-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination"=>destination, "sources"=>sources), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_scene(content_location, scene_id, workspace_id)
@@ -232,55 +121,23 @@ end
 Creates a scene.
 
 # Arguments
+
 - `content_location`: The relative path that specifies the location of the content
   definition file.
 - `scene_id`: The ID of the scene.
 - `workspace_id`: The ID of the workspace that contains the scene.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capabilities"`: A list of capabilities that the scene uses to render itself.
 - `"description"`: The description for this scene.
 - `"sceneMetadata"`: The request metadata.
 - `"tags"`: Metadata that you can use to manage the scene.
 """
-function create_scene(
-    contentLocation,
-    sceneId,
-    workspaceId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/scenes",
-        Dict{String,Any}("contentLocation" => contentLocation, "sceneId" => sceneId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_scene(
-    contentLocation,
-    sceneId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/scenes",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "contentLocation" => contentLocation, "sceneId" => sceneId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_scene(contentLocation, sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/scenes", Dict{String, Any}("contentLocation"=>contentLocation, "sceneId"=>sceneId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_scene(contentLocation, sceneId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/scenes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("contentLocation"=>contentLocation, "sceneId"=>sceneId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_sync_job(sync_role, sync_source, workspace_id)
@@ -289,43 +146,23 @@ end
 This action creates a SyncJob.
 
 # Arguments
+
 - `sync_role`: The SyncJob IAM role. This IAM role is used by the SyncJob to read from the
   syncSource, and create, update, or delete the corresponding resources.
-- `sync_source`: The sync source.  Currently the only supported syncSoource is SITEWISE .
+- `sync_source`: The sync source.
+
+!!! note
+    Currently the only supported syncSoource is `SITEWISE `.
 - `workspace_id`: The workspace ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The SyncJob tags.
 """
-function create_sync_job(
-    syncRole, syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
-        Dict{String,Any}("syncRole" => syncRole);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_sync_job(
-    syncRole,
-    syncSource,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("syncRole" => syncRole), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_sync_job(syncRole, syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)", Dict{String, Any}("syncRole"=>syncRole); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_sync_job(syncRole, syncSource, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("syncRole"=>syncRole), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_workspace(workspace_id)
@@ -334,37 +171,21 @@ end
 Creates a workplace.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the workspace.
 - `"role"`: The ARN of the execution role associated with the workspace.
 - `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
   are stored.
 - `"tags"`: Metadata that you can use to manage the workspace
 """
-function create_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_component_type(component_type_id, workspace_id)
@@ -373,34 +194,12 @@ end
 Deletes a component type.
 
 # Arguments
+
 - `component_type_id`: The ID of the component type to delete.
 - `workspace_id`: The ID of the workspace that contains the component type.
-
 """
-function delete_component_type(
-    componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_component_type(
-    componentTypeId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_component_type(componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_component_type(componentTypeId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_entity(entity_id, workspace_id)
@@ -409,38 +208,19 @@ end
 Deletes an entity.
 
 # Arguments
+
 - `entity_id`: The ID of the entity to delete.
 - `workspace_id`: The ID of the workspace that contains the entity to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isRecursive"`: A Boolean value that specifies whether the operation deletes child
   entities.
 """
-function delete_entity(
-    entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/entities/$(entityId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_entity(
-    entityId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/entities/$(entityId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_entity(entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/entities/$(entityId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_entity(entityId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/entities/$(entityId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_scene(scene_id, workspace_id)
@@ -449,34 +229,12 @@ end
 Deletes a scene.
 
 # Arguments
+
 - `scene_id`: The ID of the scene to delete.
 - `workspace_id`: The ID of the workspace.
-
 """
-function delete_scene(
-    sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_scene(
-    sceneId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/scenes/$(sceneId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_scene(sceneId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/scenes/$(sceneId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_sync_job(sync_source, workspace_id)
@@ -485,34 +243,15 @@ end
 Delete the SyncJob.
 
 # Arguments
-- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
-- `workspace_id`: The workspace ID.
 
+- `sync_source`: The sync source.
+
+!!! note
+    Currently the only supported syncSource is `SITEWISE `.
+- `workspace_id`: The workspace ID.
 """
-function delete_sync_job(
-    syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sync_job(
-    syncSource,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sync_job(syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_sync_job(syncSource, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_workspace(workspace_id)
@@ -521,81 +260,37 @@ end
 Deletes a workspace.
 
 # Arguments
-- `workspace_id`: The ID of the workspace to delete.
 
+- `workspace_id`: The ID of the workspace to delete.
 """
-function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/workspaces/$(workspaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     execute_query(query_statement, workspace_id)
     execute_query(query_statement, workspace_id, params::Dict{String,<:Any})
 
 Run queries to access information from your knowledge graph of entities within individual
-workspaces.  The ExecuteQuery action only works with Amazon Web Services Java SDK2.
+workspaces.
+
+!!! note
+    The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html).
 ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
 
 # Arguments
+
 - `query_statement`: The query statement.
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function execute_query(
-    queryStatement, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/queries/execution",
-        Dict{String,Any}("queryStatement" => queryStatement, "workspaceId" => workspaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function execute_query(
-    queryStatement,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/queries/execution",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "queryStatement" => queryStatement, "workspaceId" => workspaceId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+execute_query(queryStatement, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/queries/execution", Dict{String, Any}("queryStatement"=>queryStatement, "workspaceId"=>workspaceId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+execute_query(queryStatement, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/queries/execution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queryStatement"=>queryStatement, "workspaceId"=>workspaceId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_component_type(component_type_id, workspace_id)
@@ -604,34 +299,12 @@ end
 Retrieves information about a component type.
 
 # Arguments
+
 - `component_type_id`: The ID of the component type.
 - `workspace_id`: The ID of the workspace that contains the component type.
-
 """
-function get_component_type(
-    componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_component_type(
-    componentTypeId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_component_type(componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_component_type(componentTypeId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_entity(entity_id, workspace_id)
@@ -640,34 +313,12 @@ end
 Retrieves information about an entity.
 
 # Arguments
+
 - `entity_id`: The ID of the entity.
 - `workspace_id`: The ID of the workspace.
-
 """
-function get_entity(
-    entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/entities/$(entityId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_entity(
-    entityId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/entities/$(entityId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_entity(entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/entities/$(entityId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_entity(entityId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/entities/$(entityId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_metadata_transfer_job(metadata_transfer_job_id)
@@ -676,70 +327,39 @@ end
 Gets a nmetadata transfer job.
 
 # Arguments
-- `metadata_transfer_job_id`: The metadata transfer job Id.
 
+- `metadata_transfer_job_id`: The metadata transfer job Id.
 """
-function get_metadata_transfer_job(
-    metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "GET",
-        "/metadata-transfer-jobs/$(metadataTransferJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_metadata_transfer_job(
-    metadataTransferJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/metadata-transfer-jobs/$(metadataTransferJobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_metadata_transfer_job(metadataTransferJobId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/metadata-transfer-jobs/$(metadataTransferJobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_metadata_transfer_job(metadataTransferJobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/metadata-transfer-jobs/$(metadataTransferJobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_pricing_plan()
     get_pricing_plan(params::Dict{String,<:Any})
 
 Gets the pricing plan.
-
 """
-function get_pricing_plan(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_pricing_plan(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "GET",
-        "/pricingplan",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_pricing_plan(; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_pricing_plan(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/pricingplan", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_property_value(selected_properties, workspace_id)
     get_property_value(selected_properties, workspace_id, params::Dict{String,<:Any})
 
-Gets the property values for a component, component type, entity, or workspace. You must
-specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+Gets the property values for a component, component type, entity, or workspace.
+
+You must specify a value for either `componentName`, `componentTypeId`, `entityId`, or
+`workspaceId`.
 
 # Arguments
+
 - `selected_properties`: The properties whose values the operation returns.
 - `workspace_id`: The ID of the workspace whose values the operation returns.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentName"`: The name of the component whose property values the operation returns.
 - `"componentPath"`: This string specifies the path to the composite component, starting
   from the top-level component.
@@ -747,104 +367,59 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns.
 - `"entityId"`: The ID of the entity whose property values the operation returns.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 - `"propertyGroupName"`: The property group name.
 - `"tabularConditions"`: The tabular conditions.
 """
-function get_property_value(
-    selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties/value",
-        Dict{String,Any}("selectedProperties" => selectedProperties);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_property_value(
-    selectedProperties,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties/value",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("selectedProperties" => selectedProperties), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_property_value(selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties/value", Dict{String, Any}("selectedProperties"=>selectedProperties); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_property_value(selectedProperties, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties/value", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("selectedProperties"=>selectedProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_property_value_history(selected_properties, workspace_id)
     get_property_value_history(selected_properties, workspace_id, params::Dict{String,<:Any})
 
 Retrieves information about the history of a time series property value for a component,
-component type, entity, or workspace. You must specify a value for workspaceId. For
-entity-specific queries, specify values for componentName and entityId. For cross-entity
-quries, specify a value for componentTypeId.
+component type, entity, or workspace.
+
+You must specify a value for `workspaceId`. For entity-specific queries, specify values for
+`componentName` and `entityId`. For cross-entity quries, specify a value for
+`componentTypeId`.
 
 # Arguments
+
 - `selected_properties`: A list of properties whose value histories the request retrieves.
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentName"`: The name of the component.
 - `"componentPath"`: This string specifies the path to the composite component, starting
   from the top-level component.
 - `"componentTypeId"`: The ID of the component type.
 - `"endDateTime"`: The date and time of the latest property value to return.
-- `"endTime"`: The ISO8601 DateTime of the latest property value to return. For more
-  information about the ISO8601 DateTime format, see the data type PropertyValue.
+- `"endTime"`: The ISO8601 DateTime of the latest property value to return.
+
+  For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
 - `"entityId"`: The ID of the entity.
 - `"interpolation"`: An object that specifies the interpolation type and the interval over
   which to interpolate data.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 - `"orderByTime"`: The time direction to use in the result order.
 - `"propertyFilters"`: A list of objects that filter the property value history request.
 - `"startDateTime"`: The date and time of the earliest property value to return.
-- `"startTime"`: The ISO8601 DateTime of the earliest property value to return. For more
-  information about the ISO8601 DateTime format, see the data type PropertyValue.
+- `"startTime"`: The ISO8601 DateTime of the earliest property value to return.
+
+  For more information about the ISO8601 DateTime format, see the data type [PropertyValue](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyValue.html).
 """
-function get_property_value_history(
-    selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties/history",
-        Dict{String,Any}("selectedProperties" => selectedProperties);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_property_value_history(
-    selectedProperties,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entity-properties/history",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("selectedProperties" => selectedProperties), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_property_value_history(selectedProperties, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties/history", Dict{String, Any}("selectedProperties"=>selectedProperties); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_property_value_history(selectedProperties, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entity-properties/history", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("selectedProperties"=>selectedProperties), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_scene(scene_id, workspace_id)
@@ -853,32 +428,12 @@ end
 Retrieves information about a scene.
 
 # Arguments
+
 - `scene_id`: The ID of the scene.
 - `workspace_id`: The ID of the workspace that contains the scene.
-
 """
-function get_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_scene(
-    sceneId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/scenes/$(sceneId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_scene(sceneId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)/scenes/$(sceneId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_sync_job(sync_source)
@@ -887,33 +442,20 @@ end
 Gets the SyncJob.
 
 # Arguments
-- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
+
+- `sync_source`: The sync source.
+
+!!! note
+    Currently the only supported syncSource is `SITEWISE `.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"workspace"`: The workspace ID.
 """
-function get_sync_job(syncSource; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "GET",
-        "/sync-jobs/$(syncSource)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_sync_job(
-    syncSource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/sync-jobs/$(syncSource)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sync_job(syncSource; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/sync-jobs/$(syncSource)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sync_job(syncSource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/sync-jobs/$(syncSource)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_workspace(workspace_id)
@@ -922,30 +464,11 @@ end
 Retrieves information about a workspace.
 
 # Arguments
-- `workspace_id`: The ID of the workspace.
 
+- `workspace_id`: The ID of the workspace.
 """
-function get_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "GET",
-        "/workspaces/$(workspaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("GET", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_component_types(workspace_id)
@@ -954,38 +477,21 @@ end
 Lists all component types in a workspace.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: A list of objects that filter the request.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_component_types(
-    workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/component-types-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_component_types(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/component-types-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_component_types(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/component-types-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_component_types(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/component-types-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_components(entity_id, workspace_id)
@@ -994,41 +500,22 @@ end
 This API lists the components of an entity.
 
 # Arguments
+
 - `entity_id`: The ID for the entity whose metadata (component/properties) is returned by
   the operation.
 - `workspace_id`: The workspace ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentPath"`: This string specifies the path to the composite component, starting
   from the top-level component.
 - `"maxResults"`: The maximum number of results returned at one time. The default is 25.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_components(
-    entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities/$(entityId)/components-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_components(
-    entityId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities/$(entityId)/components-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_components(entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities/$(entityId)/components-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_components(entityId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities/$(entityId)/components-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_entities(workspace_id)
@@ -1037,37 +524,24 @@ end
 Lists all entities in a workspace.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: A list of objects that filter the request.  Only one object is accepted as a
-  valid input.
+
+- `"filters"`: A list of objects that filter the request.
+
+!!! note
+    Only one object is accepted as a valid input.
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_entities(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_entities(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/entities-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_entities(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_entities(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/entities-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_metadata_transfer_jobs(destination_type, source_type)
@@ -1076,48 +550,20 @@ end
 Lists the metadata transfer jobs.
 
 # Arguments
+
 - `destination_type`: The metadata transfer job's destination type.
 - `source_type`: The metadata transfer job's source type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`: An object that filters metadata transfer jobs.
 - `"maxResults"`: The maximum number of results to return at one time.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_metadata_transfer_jobs(
-    destinationType, sourceType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/metadata-transfer-jobs-list",
-        Dict{String,Any}("destinationType" => destinationType, "sourceType" => sourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_metadata_transfer_jobs(
-    destinationType,
-    sourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/metadata-transfer-jobs-list",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationType" => destinationType, "sourceType" => sourceType
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_metadata_transfer_jobs(destinationType, sourceType; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/metadata-transfer-jobs-list", Dict{String, Any}("destinationType"=>destinationType, "sourceType"=>sourceType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_metadata_transfer_jobs(destinationType, sourceType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/metadata-transfer-jobs-list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationType"=>destinationType, "sourceType"=>sourceType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_properties(entity_id, workspace_id)
@@ -1126,12 +572,15 @@ end
 This API lists the properties of a component.
 
 # Arguments
+
 - `entity_id`: The ID for the entity whose metadata (component/properties) is returned by
   the operation.
 - `workspace_id`: The workspace ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentName"`: The name of the component whose properties are returned by the
   operation.
 - `"componentPath"`: This string specifies the path to the composite component, starting
@@ -1139,33 +588,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results returned at one time. The default is 25.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_properties(
-    entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/properties-list",
-        Dict{String,Any}("entityId" => entityId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_properties(
-    entityId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/properties-list",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_properties(entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/properties-list", Dict{String, Any}("entityId"=>entityId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_properties(entityId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/properties-list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entityId"=>entityId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_scenes(workspace_id)
@@ -1174,34 +598,18 @@ end
 Lists all scenes in a workspace.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace that contains the scenes.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Specifies the maximum number of results to display.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_scenes(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/scenes-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_scenes(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/scenes-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_scenes(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/scenes-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_scenes(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/scenes-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sync_jobs(workspace_id)
@@ -1210,35 +618,20 @@ end
 List all SyncJobs.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace that contains the sync job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
-  Valid Range: Minimum value of 0. Maximum value of 200.
+
+Valid Range: Minimum value of 0. Maximum value of 200.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sync_jobs(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sync_jobs(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sync_resources(sync_source, workspace_id)
@@ -1247,42 +640,29 @@ end
 Lists the sync resources.
 
 # Arguments
-- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
+
+- `sync_source`: The sync source.
+
+!!! note
+    Currently the only supported syncSource is `SITEWISE `.
 - `workspace_id`: The ID of the workspace that contains the sync job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: A list of objects that filter the request. The following filter combinations
-  are supported:   Filter with state   Filter with ResourceType and ResourceId   Filter with
-  ResourceType and ExternalId
+
+- `"filters"`: A list of objects that filter the request.
+
+  The following filter combinations are supported: - Filter with state
+   - Filter with ResourceType and ResourceId
+ - Filter with ResourceType and ExternalId
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
-  Valid Range: Minimum value of 0. Maximum value of 200.
+
+Valid Range: Minimum value of 0. Maximum value of 200.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_sync_resources(
-    syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sync_resources(
-    syncSource,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sync_resources(syncSource, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sync_resources(syncSource, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1291,40 +671,20 @@ end
 Lists all tags associated with a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/tags-list",
-        Dict{String,Any}("resourceARN" => resourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/tags-list",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceARN" => resourceARN), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceARN; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/tags-list", Dict{String, Any}("resourceARN"=>resourceARN); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceARN, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/tags-list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workspaces()
@@ -1333,27 +693,16 @@ end
 Retrieves information about workspaces in the current account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+
+Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
-function list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_workspaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/workspaces-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_workspaces(; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workspaces(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/workspaces-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -1362,39 +711,12 @@ end
 Adds tags to a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tags`: Metadata to add to this resource.
-
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "POST",
-        "/tags",
-        Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceARN,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceARN" => resourceARN, "tags" => tags),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/tags", Dict{String, Any}("resourceARN"=>resourceARN, "tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceARN, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -1403,42 +725,13 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: A list of tag key names to remove from the resource. You don't specify the
   value. Both the key and its associated value are removed.
-
 """
-function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "DELETE",
-        "/tags",
-        Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceARN,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "DELETE",
-        "/tags",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceARN" => resourceARN, "tagKeys" => tagKeys),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/tags", Dict{String, Any}("resourceARN"=>resourceARN, "tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceARN, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceARN"=>resourceARN, "tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_component_type(component_type_id, workspace_id)
@@ -1447,15 +740,18 @@ end
 Updates information in a component type.
 
 # Arguments
+
 - `component_type_id`: The ID of the component type.
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentTypeName"`: The component type name.
 - `"compositeComponentTypes"`: This is an object that maps strings to
-  compositeComponentTypes of the componentType. CompositeComponentType is referenced by
-  componentTypeId.
+  `compositeComponentTypes` of the `componentType`. `CompositeComponentType` is referenced
+  by `componentTypeId`.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the component type that this component type extends.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -1466,30 +762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component type. Each string in the mapping must be unique to this object.
 - `"propertyGroups"`: The property groups.
 """
-function update_component_type(
-    componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_component_type(
-    componentTypeId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/component-types/$(componentTypeId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_component_type(componentTypeId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_component_type(componentTypeId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/component-types/$(componentTypeId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_entity(entity_id, workspace_id)
@@ -1498,44 +772,25 @@ end
 Updates an entity.
 
 # Arguments
+
 - `entity_id`: The ID of the entity.
 - `workspace_id`: The ID of the workspace that contains the entity.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"componentUpdates"`: An object that maps strings to the component updates in the
   request. Each string in the mapping must be unique to this object.
-- `"compositeComponentUpdates"`: This is an object that maps strings to compositeComponent
-  updates in the request. Each key of the map represents the componentPath of the
-  compositeComponent.
+- `"compositeComponentUpdates"`: This is an object that maps strings to
+  `compositeComponent` updates in the request. Each key of the map represents the
+  `componentPath` of the `compositeComponent`.
 - `"description"`: The description of the entity.
 - `"entityName"`: The name of the entity.
 - `"parentEntityUpdate"`: An object that describes the update request for a parent entity.
 """
-function update_entity(
-    entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/entities/$(entityId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_entity(
-    entityId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/entities/$(entityId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_entity(entityId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/entities/$(entityId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_entity(entityId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/entities/$(entityId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_pricing_plan(pricing_mode)
@@ -1544,38 +799,17 @@ end
 Update the pricing plan.
 
 # Arguments
+
 - `pricing_mode`: The pricing mode.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"bundleNames"`: The bundle names.
 """
-function update_pricing_plan(
-    pricingMode; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "POST",
-        "/pricingplan",
-        Dict{String,Any}("pricingMode" => pricingMode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pricing_plan(
-    pricingMode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "POST",
-        "/pricingplan",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("pricingMode" => pricingMode), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_pricing_plan(pricingMode; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/pricingplan", Dict{String, Any}("pricingMode"=>pricingMode); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_pricing_plan(pricingMode, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("POST", "/pricingplan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pricingMode"=>pricingMode), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_scene(scene_id, workspace_id)
@@ -1584,41 +818,22 @@ end
 Updates a scene.
 
 # Arguments
+
 - `scene_id`: The ID of the scene.
 - `workspace_id`: The ID of the workspace that contains the scene.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capabilities"`: A list of capabilities that the scene uses to render.
 - `"contentLocation"`: The relative path that specifies the location of the content
   definition file.
 - `"description"`: The description of this scene.
 - `"sceneMetadata"`: The scene metadata.
 """
-function update_scene(
-    sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_scene(
-    sceneId,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)/scenes/$(sceneId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_scene(sceneId, workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/scenes/$(sceneId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_scene(sceneId, workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)/scenes/$(sceneId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_workspace(workspace_id)
@@ -1627,33 +842,17 @@ end
 Updates a workspace.
 
 # Arguments
+
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the workspace.
 - `"role"`: The ARN of the execution role associated with the workspace.
 - `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
   are stored.
 """
-function update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config())
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return iottwinmaker(
-        "PUT",
-        "/workspaces/$(workspaceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workspace(workspaceId; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workspace(workspaceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = iottwinmaker("PUT", "/workspaces/$(workspaceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

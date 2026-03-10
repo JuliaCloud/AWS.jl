@@ -11,39 +11,12 @@ using AWS.UUIDs
  Associates an evidence folder to an assessment report in an Audit Manager assessment.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
-
 """
-function associate_assessment_report_evidence_folder(
-    assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/associateToAssessmentReport",
-        Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_assessment_report_evidence_folder(
-    assessmentId,
-    evidenceFolderId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/associateToAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/associateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_associate_assessment_report_evidence(assessment_id, evidence_folder_id, evidence_ids)
@@ -52,50 +25,13 @@ end
  Associates a list of evidence to an assessment report in an Audit Manager assessment.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 - `evidence_ids`:  The list of evidence identifiers.
-
 """
-function batch_associate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchAssociateToAssessmentReport",
-        Dict{String,Any}(
-            "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_associate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchAssociateToAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_associate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchAssociateToAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_create_delegation_by_assessment(assessment_id, create_delegation_requests)
@@ -104,44 +40,13 @@ end
  Creates a batch of delegations for an assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `create_delegation_requests`:  The API request to batch create delegations in Audit
   Manager.
-
 """
-function batch_create_delegation_by_assessment(
-    assessmentId,
-    createDelegationRequests;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}("createDelegationRequests" => createDelegationRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_create_delegation_by_assessment(
-    assessmentId,
-    createDelegationRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("createDelegationRequests" => createDelegationRequests),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_create_delegation_by_assessment(assessmentId, createDelegationRequests; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("createDelegationRequests"=>createDelegationRequests); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_create_delegation_by_assessment(assessmentId, createDelegationRequests, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createDelegationRequests"=>createDelegationRequests), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_delete_delegation_by_assessment(assessment_id, delegation_ids)
@@ -150,37 +55,12 @@ end
  Deletes a batch of delegations for an assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `delegation_ids`:  The identifiers for the delegations.
-
 """
-function batch_delete_delegation_by_assessment(
-    assessmentId, delegationIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}("delegationIds" => delegationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_delegation_by_assessment(
-    assessmentId,
-    delegationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/delegations",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("delegationIds" => delegationIds), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_delete_delegation_by_assessment(assessmentId, delegationIds; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}("delegationIds"=>delegationIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_delegation_by_assessment(assessmentId, delegationIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/delegations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("delegationIds"=>delegationIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_disassociate_assessment_report_evidence(assessment_id, evidence_folder_id, evidence_ids)
@@ -189,105 +69,41 @@ end
  Disassociates a list of evidence from an assessment report in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `evidence_folder_id`:  The identifier for the folder that the evidence is stored in.
 - `evidence_ids`:  The list of evidence identifiers.
-
 """
-function batch_disassociate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport",
-        Dict{String,Any}(
-            "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_disassociate_assessment_report_evidence(
-    assessmentId,
-    evidenceFolderId,
-    evidenceIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "evidenceFolderId" => evidenceFolderId, "evidenceIds" => evidenceIds
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_disassociate_assessment_report_evidence(assessmentId, evidenceFolderId, evidenceIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/batchDisassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId, "evidenceIds"=>evidenceIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_import_evidence_to_assessment_control(assessment_id, control_id, control_set_id, manual_evidence)
     batch_import_evidence_to_assessment_control(assessment_id, control_id, control_set_id, manual_evidence, params::Dict{String,<:Any})
 
-Adds one or more pieces of evidence to a control in an Audit Manager assessment.  You can
-import manual evidence from any S3 bucket by specifying the S3 URI of the object. You can
-also upload a file from your browser, or enter plain text in response to a risk assessment
-question.  The following restrictions apply to this action:    manualEvidence can be only
-one of the following: evidenceFileName, s3ResourcePath, or textResponse    Maximum size of
-an individual evidence file: 100 MB   Number of daily manual evidence uploads per control:
-100   Supported file formats: See Supported file types for manual evidence in the Audit
-Manager User Guide    For more information about Audit Manager service restrictions, see
-Quotas and restrictions for Audit Manager.
+Adds one or more pieces of evidence to a control in an Audit Manager assessment.
+
+You can import manual evidence from any S3 bucket by specifying the S3 URI of the object.
+You can also upload a file from your browser, or enter plain text in response to a risk
+assessment question.
+
+The following restrictions apply to this action: - `manualEvidence` can be only one of the
+following: `evidenceFileName`, `s3ResourcePath`, or `textResponse`
+ - Maximum size of an individual evidence file: 100 MB
+ - Number of daily manual evidence uploads per control: 100
+ - Supported file formats: See [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files)
+in the *Audit Manager User Guide*
+For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `control_id`:  The identifier for the control.
 - `control_set_id`:  The identifier for the control set.
 - `manual_evidence`:  The list of manual evidence objects.
-
 """
-function batch_import_evidence_to_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId,
-    manualEvidence;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
-        Dict{String,Any}("manualEvidence" => manualEvidence);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_import_evidence_to_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId,
-    manualEvidence,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("manualEvidence" => manualEvidence), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}("manualEvidence"=>manualEvidence); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_import_evidence_to_assessment_control(assessmentId, controlId, controlSetId, manualEvidence, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)/evidence", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("manualEvidence"=>manualEvidence), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_assessment(assessment_reports_destination, framework_id, name, roles, scope)
@@ -296,6 +112,7 @@ end
  Creates an assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_reports_destination`:  The assessment report storage destination for the
   assessment that's being created.
 - `framework_id`:  The identifier for the framework that the assessment will be created
@@ -305,61 +122,14 @@ end
 - `scope`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The optional description of the assessment to be created.
 - `"tags"`:  The tags that are associated with the assessment.
 """
-function create_assessment(
-    assessmentReportsDestination,
-    frameworkId,
-    name,
-    roles,
-    scope;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments",
-        Dict{String,Any}(
-            "assessmentReportsDestination" => assessmentReportsDestination,
-            "frameworkId" => frameworkId,
-            "name" => name,
-            "roles" => roles,
-            "scope" => scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assessment(
-    assessmentReportsDestination,
-    frameworkId,
-    name,
-    roles,
-    scope,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assessmentReportsDestination" => assessmentReportsDestination,
-                    "frameworkId" => frameworkId,
-                    "name" => name,
-                    "roles" => roles,
-                    "scope" => scope,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_assessment(assessmentReportsDestination, frameworkId, name, roles, scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentReportsDestination"=>assessmentReportsDestination, "frameworkId"=>frameworkId, "name"=>name, "roles"=>roles, "scope"=>scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_assessment_framework(control_sets, name)
@@ -368,47 +138,21 @@ end
  Creates a custom framework in Audit Manager.
 
 # Arguments
+
 - `control_sets`:  The control sets that are associated with the framework.
 - `name`:  The name of the new custom framework.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"complianceType"`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
 - `"description"`:  An optional description for the new custom framework.
 - `"tags"`:  The tags that are associated with the framework.
 """
-function create_assessment_framework(
-    controlSets, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks",
-        Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assessment_framework(
-    controlSets,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("controlSets" => controlSets, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_assessment_framework(controlSets, name; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_assessment_framework(controlSets, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_assessment_report(assessment_id, name)
@@ -417,47 +161,32 @@ end
  Creates an assessment report for the specified assessment.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `name`:  The name of the new assessment report.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of the assessment report.
-- `"queryStatement"`: A SQL statement that represents an evidence finder query. Provide
-  this parameter when you want to generate an assessment report from the results of an
-  evidence finder search query. When you use this parameter, Audit Manager generates a
-  one-time report using only the evidence from the query output. This report does not include
-  any assessment evidence that was manually added to a report using the console, or
-  associated with a report using the API.  To use this parameter, the enablementStatus of
-  evidence finder must be ENABLED.   For examples and help resolving queryStatement
-  validation exceptions, see Troubleshooting evidence finder issues in the Audit Manager User
-  Guide.
+- `"queryStatement"`: A SQL statement that represents an evidence finder query.
+
+  Provide this parameter when you want to generate an assessment report from the results of
+  an evidence finder search query. When you use this parameter, Audit Manager generates a
+  one-time report using only the evidence from the query output. This report does not
+  include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence),
+  or [associated with a report using the API](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_BatchAssociateAssessmentReportEvidence.html).
+
+
+  To use this parameter, the [enablementStatus](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_EvidenceFinderEnablement.html#auditmanager-Type-EvidenceFinderEnablement-enablementStatus)
+  of evidence finder must be `ENABLED`.
+
+   For examples and help resolving `queryStatement` validation exceptions, see [Troubleshooting evidence finder issues](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-finder-issues.html#querystatement-exceptions)
+  in the *Audit Manager User Guide.*
 """
-function create_assessment_report(
-    assessmentId, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/reports",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assessment_report(
-    assessmentId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessments/$(assessmentId)/reports",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_assessment_report(assessmentId, name; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_assessment_report(assessmentId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessments/$(assessmentId)/reports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_control(control_mapping_sources, name)
@@ -466,11 +195,14 @@ end
  Creates a new custom control in Audit Manager.
 
 # Arguments
+
 - `control_mapping_sources`:  The data mapping sources for the control.
 - `name`:  The name of the control.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionPlanInstructions"`:  The recommended actions to carry out if the control isn't
   fulfilled.
 - `"actionPlanTitle"`:  The title of the action plan for remediating the control.
@@ -478,39 +210,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tags that are associated with the control.
 - `"testingInformation"`:  The steps to follow to determine if the control is satisfied.
 """
-function create_control(
-    controlMappingSources, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/controls",
-        Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_control(
-    controlMappingSources,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/controls",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlMappingSources" => controlMappingSources, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_control(controlMappingSources, name; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_control(controlMappingSources, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assessment(assessment_id)
@@ -519,30 +220,11 @@ end
  Deletes an assessment in Audit Manager.
 
 # Arguments
-- `assessment_id`:  The identifier for the assessment.
 
+- `assessment_id`:  The identifier for the assessment.
 """
-function delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assessment(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assessment(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assessment_framework(framework_id)
@@ -551,32 +233,11 @@ end
  Deletes a custom framework in Audit Manager.
 
 # Arguments
-- `framework_id`:  The identifier for the custom framework.
 
+- `framework_id`:  The identifier for the custom framework.
 """
-function delete_assessment_framework(
-    frameworkId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworks/$(frameworkId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assessment_framework(
-    frameworkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworks/$(frameworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assessment_framework(frameworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessmentFrameworks/$(frameworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assessment_framework_share(request_id, request_type)
@@ -585,216 +246,142 @@ end
  Deletes a share request for a custom framework in Audit Manager.
 
 # Arguments
+
 - `request_id`: The unique identifier for the share request to be deleted.
 - `request_type`: Specifies whether the share request is a sent request or a received
   request.
-
 """
-function delete_assessment_framework_share(
-    requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assessment_framework_share(
-    requestId,
-    requestType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assessment_framework_share(requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}("requestType"=>requestType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assessment_framework_share(requestId, requestType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_assessment_report(assessment_id, assessment_report_id)
     delete_assessment_report(assessment_id, assessment_report_id, params::Dict{String,<:Any})
 
-Deletes an assessment report in Audit Manager.  When you run the DeleteAssessmentReport
-operation, Audit Manager attempts to delete the following data:   The specified assessment
-report that’s stored in your S3 bucket   The associated metadata that’s stored in Audit
-Manager   If Audit Manager can’t access the assessment report in your S3 bucket, the
-report isn’t deleted. In this event, the DeleteAssessmentReport operation doesn’t fail.
-Instead, it proceeds to delete the associated metadata only. You must then delete the
-assessment report from the S3 bucket yourself.  This scenario happens when Audit Manager
-receives a 403 (Forbidden) or 404 (Not Found) error from Amazon S3. To avoid this, make
-sure that your S3 bucket is available, and that you configured the correct permissions for
-Audit Manager to delete resources in your S3 bucket. For an example permissions policy that
-you can use, see Assessment report destination permissions in the Audit Manager User Guide.
-For information about the issues that could cause a 403 (Forbidden) or 404 (Not Found)
-error from Amazon S3, see List of Error Codes in the Amazon Simple Storage Service API
-Reference.
+Deletes an assessment report in Audit Manager.
+
+When you run the `DeleteAssessmentReport` operation, Audit Manager attempts to delete the
+following data:</p> 1. The specified assessment report that’s stored in your S3 bucket
+ 2. The associated metadata that’s stored in Audit Manager
+If Audit Manager can’t access the assessment report in your S3 bucket, the report isn’t
+deleted. In this event, the `DeleteAssessmentReport` operation doesn’t fail. Instead, it
+proceeds to delete the associated metadata only. You must then delete the assessment report
+from the S3 bucket yourself.
+
+ <p>This scenario happens when Audit Manager receives a `403 (Forbidden)` or `404 (Not
+Found)` error from Amazon S3. To avoid this, make sure that your S3 bucket is available,
+and that you configured the correct permissions for Audit Manager to delete resources in
+your S3 bucket. For an example permissions policy that you can use, see [Assessment report destination permissions](https://docs.aws.amazon.com/audit-manager/latest/userguide/security_iam_id-based-policy-examples.html#full-administrator-access-assessment-report-destination)
+in the *Audit Manager User Guide*. For information about the issues that could cause a `403
+(Forbidden)` or `404 (Not Found`) error from Amazon S3, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList)
+in the *Amazon Simple Storage Service API Reference*.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `assessment_report_id`:  The unique identifier for the assessment report.
-
 """
-function delete_assessment_report(
-    assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assessment_report(
-    assessmentId,
-    assessmentReportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_assessment_report(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_assessment_report(assessmentId, assessmentReportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/assessments/$(assessmentId)/reports/$(assessmentReportId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_control(control_id)
     delete_control(control_id, params::Dict{String,<:Any})
 
- Deletes a custom control in Audit Manager.   When you invoke this operation, the custom
-control is deleted from any frameworks or assessments that it’s currently part of. As a
-result, Audit Manager will stop collecting evidence for that custom control in all of your
-assessments. This includes assessments that you previously created before you deleted the
-custom control.
+ Deletes a custom control in Audit Manager.
+
+!!! important
+    When you invoke this operation, the custom control is deleted from any frameworks or
+assessments that it’s currently part of. As a result, Audit Manager will stop collecting
+evidence for that custom control in all of your assessments. This includes assessments that
+you previously created before you deleted the custom control.
 
 # Arguments
-- `control_id`:  The unique identifier for the control.
 
+- `control_id`:  The unique identifier for the control.
 """
-function delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "DELETE",
-        "/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_control(
-    controlId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_control(controlId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_control(controlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     deregister_account()
     deregister_account(params::Dict{String,<:Any})
 
- Deregisters an account in Audit Manager.   Before you deregister, you can use the
-UpdateSettings API operation to set your preferred data retention policy. By default, Audit
-Manager retains your data. If you want to delete your data, you can use the
-DeregistrationPolicy attribute to request the deletion of your data.  For more information
-about data retention, see Data Protection in the Audit Manager User Guide.
+ Deregisters an account in Audit Manager. </p>
 
+!!! note
+    Before you deregister, you can use the [UpdateSettings](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_UpdateSettings.html)
+API operation to set your preferred data retention policy. By default, Audit Manager
+retains your data. If you want to delete your data, you can use the `DeregistrationPolicy`
+attribute to request the deletion of your data.
+
+ <p>For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html)
+in the *Audit Manager User Guide*.
 """
-function deregister_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "POST",
-        "/account/deregisterAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/account/deregisterAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deregister_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/deregisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/deregisterAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     deregister_organization_admin_account()
     deregister_organization_admin_account(params::Dict{String,<:Any})
 
 Removes the specified Amazon Web Services account as a delegated administrator for Audit
-Manager.  When you remove a delegated administrator from your Audit Manager settings, you
-continue to have access to the evidence that you previously collected under that account.
-This is also the case when you deregister a delegated administrator from Organizations.
-However, Audit Manager stops collecting and attaching evidence to that delegated
-administrator account moving forward.  Keep in mind the following cleanup task if you use
-evidence finder: Before you use your management account to remove a delegated
-administrator, make sure that the current delegated administrator account signs in to Audit
-Manager and disables evidence finder first. Disabling evidence finder automatically deletes
-the event data store that was created in their account when they enabled evidence finder.
-If this task isn’t completed, the event data store remains in their account. In this
-case, we recommend that the original delegated administrator goes to CloudTrail Lake and
-manually deletes the event data store. This cleanup task is necessary to ensure that you
-don't end up with multiple event data stores. Audit Manager ignores an unused event data
-store after you remove or change a delegated administrator account. However, the unused
-event data store continues to incur storage costs from CloudTrail Lake if you don't delete
-it.  When you deregister a delegated administrator account for Audit Manager, the data for
-that account isn’t deleted. If you want to delete resource data for a delegated
-administrator account, you must perform that task separately before you deregister the
-account. Either, you can do this in the Audit Manager console. Or, you can use one of the
-delete API operations that are provided by Audit Manager.  To delete your Audit Manager
-resource data, see the following instructions:     DeleteAssessment (see also: Deleting an
-assessment in the Audit Manager User Guide)    DeleteAssessmentFramework (see also:
-Deleting a custom framework in the Audit Manager User Guide)
-DeleteAssessmentFrameworkShare (see also: Deleting a share request in the Audit Manager
-User Guide)    DeleteAssessmentReport (see also: Deleting an assessment report in the Audit
-Manager User Guide)    DeleteControl (see also: Deleting a custom control in the Audit
-Manager User Guide)   At this time, Audit Manager doesn't provide an option to delete
-evidence for a specific delegated administrator. Instead, when your management account
-deregisters Audit Manager, we perform a cleanup for the current delegated administrator
-account at the time of deregistration.
+Manager.
+
+When you remove a delegated administrator from your Audit Manager settings, you continue to
+have access to the evidence that you previously collected under that account. This is also
+the case when you deregister a delegated administrator from Organizations. However, Audit
+Manager stops collecting and attaching evidence to that delegated administrator account
+moving forward.</p>
+
+!!! important
+    Keep in mind the following cleanup task if you use evidence finder:
+
+Before you use your management account to remove a delegated administrator, make sure that
+the current delegated administrator account signs in to Audit Manager and disables evidence
+finder first. Disabling evidence finder automatically deletes the event data store that was
+created in their account when they enabled evidence finder. If this task isn’t completed,
+the event data store remains in their account. In this case, we recommend that the original
+delegated administrator goes to CloudTrail Lake and manually [deletes the event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-eds-disable-termination.html).
+
+This cleanup task is necessary to ensure that you don't end up with multiple event data
+stores. Audit Manager ignores an unused event data store after you remove or change a
+delegated administrator account. However, the unused event data store continues to incur
+storage costs from CloudTrail Lake if you don't delete it.When you deregister a delegated
+administrator account for Audit Manager, the data for that account isn’t deleted. If you
+want to delete resource data for a delegated administrator account, you must perform that
+task separately before you deregister the account. Either, you can do this in the Audit
+Manager console. Or, you can use one of the delete API operations that are provided by
+Audit Manager.
+
+ <p>To delete your Audit Manager resource data, see the following instructions:  - [DeleteAssessment](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessment.html)
+(see also: [Deleting an assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-assessment.html)
+in the *Audit Manager User Guide*)
+ - [DeleteAssessmentFramework](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFramework.html)
+(see also: [Deleting a custom framework](https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-custom-framework.html)
+in the *Audit Manager User Guide*)
+ - [DeleteAssessmentFrameworkShare](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentFrameworkShare.html)
+(see also: [Deleting a share request](https://docs.aws.amazon.com/audit-manager/latest/userguide/deleting-shared-framework-requests.html)
+in the *Audit Manager User Guide*)
+ - [DeleteAssessmentReport](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteAssessmentReport.html)
+(see also: [Deleting an assessment report](https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#delete-assessment-report-steps)
+in the *Audit Manager User Guide*)
+ - [DeleteControl](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeleteControl.html)
+(see also: [Deleting a custom control](https://docs.aws.amazon.com/audit-manager/latest/userguide/delete-controls.html)
+in the *Audit Manager User Guide*)
+At this time, Audit Manager doesn't provide an option to delete evidence for a specific
+delegated administrator. Instead, when your management account deregisters Audit Manager,
+we perform a cleanup for the current delegated administrator account at the time of
+deregistration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"adminAccountId"`:  The identifier for the administrator account.
 """
-function deregister_organization_admin_account(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/account/deregisterOrganizationAdminAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_organization_admin_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/account/deregisterOrganizationAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deregister_organization_admin_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+deregister_organization_admin_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/deregisterOrganizationAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_assessment_report_evidence_folder(assessment_id, evidence_folder_id)
@@ -803,64 +390,22 @@ end
  Disassociates an evidence folder from the specified assessment report in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
   in.
-
 """
-function disassociate_assessment_report_evidence_folder(
-    assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
-        Dict{String,Any}("evidenceFolderId" => evidenceFolderId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_assessment_report_evidence_folder(
-    assessmentId,
-    evidenceFolderId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/disassociateFromAssessmentReport",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("evidenceFolderId" => evidenceFolderId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}("evidenceFolderId"=>evidenceFolderId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_assessment_report_evidence_folder(assessmentId, evidenceFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/disassociateFromAssessmentReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("evidenceFolderId"=>evidenceFolderId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_account_status()
     get_account_status(params::Dict{String,<:Any})
 
  Gets the registration status of an account in Audit Manager.
-
 """
-function get_account_status(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_account_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/account/status",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_account_status(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/account/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_status(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/account/status", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_assessment(assessment_id)
@@ -869,30 +414,11 @@ end
 Gets information about a specified assessment.
 
 # Arguments
-- `assessment_id`: The unique identifier for the assessment.
 
+- `assessment_id`: The unique identifier for the assessment.
 """
-function get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assessment(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_assessment(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_assessment_framework(framework_id)
@@ -901,32 +427,11 @@ end
 Gets information about a specified framework.
 
 # Arguments
-- `framework_id`:  The identifier for the framework.
 
+- `framework_id`:  The identifier for the framework.
 """
-function get_assessment_framework(
-    frameworkId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks/$(frameworkId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assessment_framework(
-    frameworkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks/$(frameworkId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_assessment_framework(frameworkId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_assessment_framework(frameworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworks/$(frameworkId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_assessment_report_url(assessment_id, assessment_report_id)
@@ -935,34 +440,12 @@ end
  Gets the URL of an assessment report in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `assessment_report_id`:  The unique identifier for the assessment report.
-
 """
-function get_assessment_report_url(
-    assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assessment_report_url(
-    assessmentId,
-    assessmentReportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_assessment_report_url(assessmentId, assessmentReportId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_assessment_report_url(assessmentId, assessmentReportId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/reports/$(assessmentReportId)/url", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_change_logs(assessment_id)
@@ -971,37 +454,21 @@ end
  Gets a list of changelogs from Audit Manager.
 
 # Arguments
+
 - `assessment_id`: The unique identifier for the assessment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"controlId"`:  The unique identifier for the control.
 - `"controlSetId"`:  The unique identifier for the control set.
 - `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/changelogs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_change_logs(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/changelogs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_change_logs(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_change_logs(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/changelogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_control(control_id)
@@ -1010,30 +477,11 @@ end
  Gets information about a specified control.
 
 # Arguments
-- `control_id`:  The identifier for the control.
 
+- `control_id`:  The identifier for the control.
 """
-function get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_control(
-    controlId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_control(controlId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/controls/$(controlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_control(controlId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_delegations()
@@ -1042,27 +490,15 @@ end
  Gets a list of delegations from an audit owner to a delegate.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_delegations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_delegations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/delegations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_delegations(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/delegations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_delegations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/delegations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence(assessment_id, control_set_id, evidence_folder_id, evidence_id)
@@ -1071,43 +507,15 @@ end
  Gets information about a specified evidence item.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `control_set_id`:  The unique identifier for the control set.
 - `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
   in.
 - `evidence_id`:  The unique identifier for the evidence.
-
 """
-function get_evidence(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId,
-    evidenceId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId,
-    evidenceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence(assessmentId, controlSetId, evidenceFolderId, evidenceId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence/$(evidenceId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence_by_evidence_folder(assessment_id, control_set_id, evidence_folder_id)
@@ -1116,89 +524,45 @@ end
  Gets all evidence from a specified evidence folder in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `control_set_id`:  The identifier for the control set.
 - `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
   in.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_by_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence_by_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence_by_evidence_folder(assessmentId, controlSetId, evidenceFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)/evidence", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence_file_upload_url(file_name)
     get_evidence_file_upload_url(file_name, params::Dict{String,<:Any})
 
 Creates a presigned Amazon S3 URL that can be used to upload a file as manual evidence. For
-instructions on how to use this operation, see Upload a file from your browser  in the
-Audit Manager User Guide. The following restrictions apply to this operation:   Maximum
-size of an individual evidence file: 100 MB   Number of daily manual evidence uploads per
-control: 100   Supported file formats: See Supported file types for manual evidence in the
-Audit Manager User Guide    For more information about Audit Manager service restrictions,
-see Quotas and restrictions for Audit Manager.
+instructions on how to use this operation, see [Upload a file from your browser ](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files)
+in the *Audit Manager User Guide*.
+
+The following restrictions apply to this operation: - Maximum size of an individual
+evidence file: 100 MB
+ - Number of daily manual evidence uploads per control: 100
+ - Supported file formats: See [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files)
+in the *Audit Manager User Guide*
+For more information about Audit Manager service restrictions, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
 
 # Arguments
-- `file_name`: The file that you want to upload. For a list of supported file formats, see
-  Supported file types for manual evidence in the Audit Manager User Guide.
 
+- `file_name`: The file that you want to upload. For a list of supported file formats, see [Supported file types for manual evidence](https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files)
+  in the *Audit Manager User Guide*.
 """
-function get_evidence_file_upload_url(
-    fileName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/evidenceFileUploadUrl",
-        Dict{String,Any}("fileName" => fileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence_file_upload_url(
-    fileName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/evidenceFileUploadUrl",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("fileName" => fileName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence_file_upload_url(fileName; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/evidenceFileUploadUrl", Dict{String, Any}("fileName"=>fileName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence_file_upload_url(fileName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/evidenceFileUploadUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fileName"=>fileName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence_folder(assessment_id, control_set_id, evidence_folder_id)
@@ -1207,40 +571,14 @@ end
  Gets an evidence folder from a specified assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `control_set_id`:  The unique identifier for the control set.
 - `evidence_folder_id`:  The unique identifier for the folder that the evidence is stored
   in.
-
 """
-function get_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence_folder(
-    assessmentId,
-    controlSetId,
-    evidenceFolderId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence_folder(assessmentId, controlSetId, evidenceFolderId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence_folder(assessmentId, controlSetId, evidenceFolderId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/evidenceFolders/$(evidenceFolderId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence_folders_by_assessment(assessment_id)
@@ -1249,37 +587,19 @@ end
  Gets the evidence folders from a specified assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence_folders_by_assessment(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence_folders_by_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence_folders_by_assessment(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_evidence_folders_by_assessment_control(assessment_id, control_id, control_set_id)
@@ -1289,64 +609,30 @@ end
 Manager assessment.
 
 # Arguments
+
 - `assessment_id`:  The identifier for the assessment.
 - `control_id`:  The identifier for the control.
 - `control_set_id`:  The identifier for the control set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function get_evidence_folders_by_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_evidence_folders_by_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_evidence_folders_by_assessment_control(assessmentId, controlId, controlSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments/$(assessmentId)/evidenceFolders-by-assessment-control/$(controlSetId)/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_insights()
     get_insights(params::Dict{String,<:Any})
 
 Gets the latest analytics data for all your current active assessments.
-
 """
-function get_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_insights(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET", "/insights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_insights(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_insights(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_insights_by_assessment(assessment_id)
@@ -1355,32 +641,11 @@ end
 Gets the latest analytics data for a specific active assessment.
 
 # Arguments
-- `assessment_id`: The unique identifier for the assessment.
 
+- `assessment_id`: The unique identifier for the assessment.
 """
-function get_insights_by_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/insights/assessments/$(assessmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_insights_by_assessment(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/insights/assessments/$(assessmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_insights_by_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/assessments/$(assessmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_insights_by_assessment(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/assessments/$(assessmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_organization_admin_account()
@@ -1388,55 +653,28 @@ end
 
  Gets the name of the delegated Amazon Web Services administrator account for a specified
 organization.
-
 """
-function get_organization_admin_account(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/account/organizationAdminAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_organization_admin_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/account/organizationAdminAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_organization_admin_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_organization_admin_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/account/organizationAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_services_in_scope()
     get_services_in_scope(params::Dict{String,<:Any})
 
 Gets a list of the Amazon Web Services from which Audit Manager can collect evidence.
+
 Audit Manager defines which Amazon Web Services are in scope for an assessment. Audit
 Manager infers this scope by examining the assessment’s controls and their data sources,
 and then mapping this information to one or more of the corresponding Amazon Web Services
-that are in this list.  For information about why it's no longer possible to specify
-services in scope manually, see I can't edit the services in scope for my assessment in the
-Troubleshooting section of the Audit Manager user guide.
+that are in this list.
 
+!!! note
+    For information about why it's no longer possible to specify services in scope
+manually, see [I can't edit the services in scope for my assessment](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services)
+in the *Troubleshooting* section of the Audit Manager user guide.
 """
-function get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_services_in_scope(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_services_in_scope(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_services_in_scope(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/services", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_settings(attribute)
@@ -1445,89 +683,45 @@ end
  Gets the settings for a specified Amazon Web Services account.
 
 # Arguments
-- `attribute`:  The list of setting attribute enum values.
 
+- `attribute`:  The list of setting attribute enum values.
 """
-function get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/settings/$(attribute)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_settings(
-    attribute,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/settings/$(attribute)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_settings(attribute; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/settings/$(attribute)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_settings(attribute, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/settings/$(attribute)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id)
     list_assessment_control_insights_by_control_domain(assessment_id, control_domain_id, params::Dict{String,<:Any})
 
 Lists the latest analytics data for controls within a specific control domain and a
-specific active assessment.  Control insights are listed only if the control belongs to the
-control domain and assessment that was specified. Moreover, the control must have collected
-evidence on the lastUpdated date of controlInsightsByAssessment. If neither of these
-conditions are met, no data is listed for that control.
+specific active assessment.
+
+!!! note
+    Control insights are listed only if the control belongs to the control domain and
+assessment that was specified. Moreover, the control must have collected evidence on the
+`lastUpdated` date of `controlInsightsByAssessment`. If neither of these conditions are
+met, no data is listed for that control.
 
 # Arguments
+
 - `assessment_id`: The unique identifier for the active assessment.
-- `control_domain_id`: The unique identifier for the control domain.  Audit Manager
-  supports the control domains that are provided by Amazon Web Services Control Catalog. For
-  information about how to find a list of available control domains, see  ListDomains  in the
-  Amazon Web Services Control Catalog API Reference.
+- `control_domain_id`: The unique identifier for the control domain.
+
+  Audit Manager supports the control domains that are provided by Amazon Web Services
+  Control Catalog. For information about how to find a list of available control domains,
+  see [ `ListDomains` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html)
+  in the Amazon Web Services Control Catalog API Reference.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_control_insights_by_control_domain(
-    assessmentId, controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/insights/controls-by-assessment",
-        Dict{String,Any}(
-            "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_assessment_control_insights_by_control_domain(
-    assessmentId,
-    controlDomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/insights/controls-by-assessment",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "assessmentId" => assessmentId, "controlDomainId" => controlDomainId
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assessment_control_insights_by_control_domain(assessmentId, controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/controls-by-assessment", Dict{String, Any}("assessmentId"=>assessmentId, "controlDomainId"=>controlDomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assessment_control_insights_by_control_domain(assessmentId, controlDomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/controls-by-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId, "controlDomainId"=>controlDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assessment_framework_share_requests(request_type)
@@ -1536,41 +730,20 @@ end
  Returns a list of sent or received share requests for custom frameworks in Audit Manager.
 
 # Arguments
+
 - `request_type`:  Specifies whether the share request is a sent request or a received
   request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_framework_share_requests(
-    requestType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworkShareRequests",
-        Dict{String,Any}("requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_assessment_framework_share_requests(
-    requestType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworkShareRequests",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestType" => requestType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assessment_framework_share_requests(requestType; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworkShareRequests", Dict{String, Any}("requestType"=>requestType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assessment_framework_share_requests(requestType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworkShareRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assessment_frameworks(framework_type)
@@ -1580,41 +753,20 @@ end
 library.
 
 # Arguments
+
 - `framework_type`:  The type of framework, such as a standard framework or a custom
   framework.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_frameworks(
-    frameworkType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks",
-        Dict{String,Any}("frameworkType" => frameworkType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_assessment_frameworks(
-    frameworkType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/assessmentFrameworks",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("frameworkType" => frameworkType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assessment_frameworks(frameworkType; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}("frameworkType"=>frameworkType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assessment_frameworks(frameworkType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentFrameworks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("frameworkType"=>frameworkType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assessment_reports()
@@ -1623,27 +775,15 @@ end
  Returns a list of assessment reports created in Audit Manager.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/assessmentReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_assessment_reports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessmentReports",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assessment_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assessment_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessmentReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_assessments()
@@ -1652,165 +792,105 @@ end
  Returns a list of current and past assessments from Audit Manager.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 - `"status"`:  The current status of the assessment.
 """
-function list_assessments(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_assessments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/assessments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_assessments(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_assessments(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/assessments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_control_domain_insights()
     list_control_domain_insights(params::Dict{String,<:Any})
 
 Lists the latest analytics data for control domains across all of your active assessments.
+
 Audit Manager supports the control domains that are provided by Amazon Web Services Control
-Catalog. For information about how to find a list of available control domains, see
-ListDomains  in the Amazon Web Services Control Catalog API Reference.  A control domain is
-listed only if at least one of the controls within that domain collected evidence on the
-lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed
-for that control domain.
+Catalog. For information about how to find a list of available control domains, see [ `ListDomains` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html)
+in the Amazon Web Services Control Catalog API Reference.
+
+!!! note
+    A control domain is listed only if at least one of the controls within that domain
+collected evidence on the `lastUpdated` date of `controlDomainInsights`. If this condition
+isn’t met, no data is listed for that control domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/insights/control-domains";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_control_domain_insights(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/insights/control-domains",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_control_domain_insights(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/control-domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_control_domain_insights(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/control-domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_control_domain_insights_by_assessment(assessment_id)
     list_control_domain_insights_by_assessment(assessment_id, params::Dict{String,<:Any})
 
-Lists analytics data for control domains within a specified active assessment. Audit
-Manager supports the control domains that are provided by Amazon Web Services Control
-Catalog. For information about how to find a list of available control domains, see
-ListDomains  in the Amazon Web Services Control Catalog API Reference.  A control domain is
-listed only if at least one of the controls within that domain collected evidence on the
-lastUpdated date of controlDomainInsights. If this condition isn’t met, no data is listed
-for that domain.
+Lists analytics data for control domains within a specified active assessment.
+
+Audit Manager supports the control domains that are provided by Amazon Web Services Control
+Catalog. For information about how to find a list of available control domains, see [ `ListDomains` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html)
+in the Amazon Web Services Control Catalog API Reference.
+
+!!! note
+    A control domain is listed only if at least one of the controls within that domain
+collected evidence on the `lastUpdated` date of `controlDomainInsights`. If this condition
+isn’t met, no data is listed for that domain.
 
 # Arguments
+
 - `assessment_id`: The unique identifier for the active assessment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_domain_insights_by_assessment(
-    assessmentId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/insights/control-domains-by-assessment",
-        Dict{String,Any}("assessmentId" => assessmentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_control_domain_insights_by_assessment(
-    assessmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/insights/control-domains-by-assessment",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("assessmentId" => assessmentId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_control_domain_insights_by_assessment(assessmentId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/control-domains-by-assessment", Dict{String, Any}("assessmentId"=>assessmentId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_control_domain_insights_by_assessment(assessmentId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/control-domains-by-assessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assessmentId"=>assessmentId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_control_insights_by_control_domain(control_domain_id)
     list_control_insights_by_control_domain(control_domain_id, params::Dict{String,<:Any})
 
 Lists the latest analytics data for controls within a specific control domain across all
-active assessments.  Control insights are listed only if the control belongs to the control
-domain that was specified and the control collected evidence on the lastUpdated date of
-controlInsightsMetadata. If neither of these conditions are met, no data is listed for that
-control.
+active assessments.
+
+!!! note
+    Control insights are listed only if the control belongs to the control domain that was
+specified and the control collected evidence on the `lastUpdated` date of
+`controlInsightsMetadata`. If neither of these conditions are met, no data is listed for
+that control.
 
 # Arguments
-- `control_domain_id`: The unique identifier for the control domain.  Audit Manager
-  supports the control domains that are provided by Amazon Web Services Control Catalog. For
-  information about how to find a list of available control domains, see  ListDomains  in the
-  Amazon Web Services Control Catalog API Reference.
+
+- `control_domain_id`: The unique identifier for the control domain.
+
+  Audit Manager supports the control domains that are provided by Amazon Web Services
+  Control Catalog. For information about how to find a list of available control domains,
+  see [ `ListDomains` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html)
+  in the Amazon Web Services Control Catalog API Reference.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_control_insights_by_control_domain(
-    controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/insights/controls",
-        Dict{String,Any}("controlDomainId" => controlDomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_control_insights_by_control_domain(
-    controlDomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/insights/controls",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("controlDomainId" => controlDomainId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_control_insights_by_control_domain(controlDomainId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/controls", Dict{String, Any}("controlDomainId"=>controlDomainId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_control_insights_by_control_domain(controlDomainId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/insights/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlDomainId"=>controlDomainId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_controls(control_type)
@@ -1819,48 +899,34 @@ end
  Returns a list of controls from Audit Manager.
 
 # Arguments
+
 - `control_type`: A filter that narrows the list of controls to a specific type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"controlCatalogId"`: A filter that narrows the list of controls to a specific resource
-  from the Amazon Web Services Control Catalog.  To use this parameter, specify the ARN of
-  the Control Catalog resource. You can specify either a control domain, a control objective,
-  or a common control. For information about how to find the ARNs for these resources, see
-  ListDomains ,  ListObjectives , and  ListCommonControls .  You can only filter by one
-  Control Catalog resource at a time. Specifying multiple resource ARNs isn’t currently
-  supported. If you want to filter by more than one ARN, we recommend that you run the
-  ListControls operation separately for each ARN.   Alternatively, specify UNCATEGORIZED to
-  list controls that aren't mapped to a Control Catalog resource. For example, this operation
-  might return a list of custom controls that don't belong to any control domain or control
-  objective.
+  from the Amazon Web Services Control Catalog.
+
+  To use this parameter, specify the ARN of the Control Catalog resource. You can specify
+  either a control domain, a control objective, or a common control. For information about
+  how to find the ARNs for these resources, see [ `ListDomains` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html),
+  [ `ListObjectives` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html),
+  and [ `ListCommonControls` ](https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html).
+
+  !!! note
+      You can only filter by one Control Catalog resource at a time. Specifying multiple
+  resource ARNs isn’t currently supported. If you want to filter by more than one ARN, we
+  recommend that you run the `ListControls` operation separately for each
+  ARN.Alternatively, specify `UNCATEGORIZED` to list controls that aren't mapped to a
+  Control Catalog resource. For example, this operation might return a list of custom
+  controls that don't belong to any control domain or control objective.
 - `"maxResults"`: The maximum number of results on a page or for an API request call.
 - `"nextToken"`: The pagination token that's used to fetch the next set of results.
 """
-function list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET",
-        "/controls",
-        Dict{String,Any}("controlType" => controlType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_controls(
-    controlType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/controls",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("controlType" => controlType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_controls(controlType; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}("controlType"=>controlType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_controls(controlType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/controls", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlType"=>controlType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_keywords_for_data_source(source)
@@ -1869,36 +935,19 @@ end
 Returns a list of keywords that are pre-mapped to the specified control data source.
 
 # Arguments
+
 - `source`: The control mapping data source that the keywords apply to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_keywords_for_data_source(
-    source; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/dataSourceKeywords",
-        Dict{String,Any}("source" => source);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_keywords_for_data_source(
-    source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/dataSourceKeywords",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("source" => source), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_keywords_for_data_source(source; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}("source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_keywords_for_data_source(source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/dataSourceKeywords", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_notifications()
@@ -1907,27 +956,15 @@ end
  Returns a list of all Audit Manager notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  Represents the maximum number of results on a page or for an API request
   call.
 - `"nextToken"`:  The pagination token that's used to fetch the next set of results.
 """
-function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_notifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/notifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/notifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -1936,32 +973,11 @@ end
  Returns a list of tags for the specified resource in Audit Manager.
 
 # Arguments
-- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     register_account()
@@ -1970,29 +986,14 @@ end
  Enables Audit Manager for the specified Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"delegatedAdminAccount"`:  The delegated administrator account for Audit Manager.
 - `"kmsKey"`:  The KMS key details.
 """
-function register_account(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "POST",
-        "/account/registerAccount";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/account/registerAccount",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+register_account(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/registerAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_account(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/registerAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     register_organization_admin_account(admin_account_id)
@@ -2002,111 +1003,62 @@ end
 administrator for Audit Manager.
 
 # Arguments
-- `admin_account_id`:  The identifier for the delegated administrator account.
 
+- `admin_account_id`:  The identifier for the delegated administrator account.
 """
-function register_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/account/registerOrganizationAdminAccount",
-        Dict{String,Any}("adminAccountId" => adminAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_organization_admin_account(
-    adminAccountId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/account/registerOrganizationAdminAccount",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("adminAccountId" => adminAccountId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+register_organization_admin_account(adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}("adminAccountId"=>adminAccountId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+register_organization_admin_account(adminAccountId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/account/registerOrganizationAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("adminAccountId"=>adminAccountId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_assessment_framework_share(destination_account, destination_region, framework_id)
     start_assessment_framework_share(destination_account, destination_region, framework_id, params::Dict{String,<:Any})
 
- Creates a share request for a custom framework in Audit Manager.  The share request
-specifies a recipient and notifies them that a custom framework is available. Recipients
-have 120 days to accept or decline the request. If no action is taken, the share request
-expires. When you create a share request, Audit Manager stores a snapshot of your custom
-framework in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also
-stores a backup of the same snapshot in the US West (Oregon) Amazon Web Services Region.
+ Creates a share request for a custom framework in Audit Manager.
+
+The share request specifies a recipient and notifies them that a custom framework is
+available. Recipients have 120 days to accept or decline the request. If no action is
+taken, the share request expires.
+
+When you create a share request, Audit Manager stores a snapshot of your custom framework
+in the US East (N. Virginia) Amazon Web Services Region. Audit Manager also stores a backup
+of the same snapshot in the US West (Oregon) Amazon Web Services Region.
+
 Audit Manager deletes the snapshot and the backup snapshot when one of the following events
-occurs:   The sender revokes the share request.   The recipient declines the share request.
-  The recipient encounters an error and doesn't successfully accept the share request.
-The share request expires before the recipient responds to the request.   When a sender
-resends a share request, the snapshot is replaced with an updated version that corresponds
-with the latest version of the custom framework.  When a recipient accepts a share request,
-the snapshot is replicated into their Amazon Web Services account under the Amazon Web
-Services Region that was specified in the share request.   When you invoke the
-StartAssessmentFrameworkShare API, you are about to share a custom framework with another
-Amazon Web Services account. You may not share a custom framework that is derived from a
-standard framework if the standard framework is designated as not eligible for sharing by
-Amazon Web Services, unless you have obtained permission to do so from the owner of the
-standard framework. To learn more about which standard frameworks are eligible for sharing,
-see Framework sharing eligibility in the Audit Manager User Guide.
+occurs:</p> - The sender revokes the share request.
+ - The recipient declines the share request.
+ - The recipient encounters an error and doesn't successfully accept the share request.
+ - The share request expires before the recipient responds to the request.
+When a sender [resends a share request](https://docs.aws.amazon.com/audit-manager/latest/userguide/framework-sharing.html#framework-sharing-resend),
+the snapshot is replaced with an updated version that corresponds with the latest version
+of the custom framework.
+
+ <p>When a recipient accepts a share request, the snapshot is replicated into their Amazon
+Web Services account under the Amazon Web Services Region that was specified in the share
+request.
+
+!!! important
+    When you invoke the `StartAssessmentFrameworkShare` API, you are about to share a
+custom framework with another Amazon Web Services account. You may not share a custom
+framework that is derived from a standard framework if the standard framework is designated
+as not eligible for sharing by Amazon Web Services, unless you have obtained permission to
+do so from the owner of the standard framework. To learn more about which standard
+frameworks are eligible for sharing, see [Framework sharing eligibility](https://docs.aws.amazon.com/audit-manager/latest/userguide/share-custom-framework-concepts-and-terminology.html#eligibility)
+in the *Audit Manager User Guide*.
 
 # Arguments
+
 - `destination_account`:  The Amazon Web Services account of the recipient.
 - `destination_region`:  The Amazon Web Services Region of the recipient.
 - `framework_id`:  The unique identifier for the custom framework to be shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"comment"`:  An optional comment from the sender about the share request.
 """
-function start_assessment_framework_share(
-    destinationAccount,
-    destinationRegion,
-    frameworkId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks/$(frameworkId)/shareRequests",
-        Dict{String,Any}(
-            "destinationAccount" => destinationAccount,
-            "destinationRegion" => destinationRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_assessment_framework_share(
-    destinationAccount,
-    destinationRegion,
-    frameworkId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessmentFrameworks/$(frameworkId)/shareRequests",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "destinationAccount" => destinationAccount,
-                    "destinationRegion" => destinationRegion,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_assessment_framework_share(destinationAccount, destinationRegion, frameworkId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentFrameworks/$(frameworkId)/shareRequests", Dict{String, Any}("destinationAccount"=>destinationAccount, "destinationRegion"=>destinationRegion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_assessment_framework_share(destinationAccount, destinationRegion, frameworkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentFrameworks/$(frameworkId)/shareRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationAccount"=>destinationAccount, "destinationRegion"=>destinationRegion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -2115,33 +1067,12 @@ end
  Tags the specified resource in Audit Manager.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource.
 - `tags`:  The tags that are associated with the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -2150,35 +1081,12 @@ end
  Removes a tag from a resource in Audit Manager.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) of the specified resource.
 - `tag_keys`:  The name or key of the tag.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment(assessment_id, scope)
@@ -2187,42 +1095,22 @@ end
  Edits an Audit Manager assessment.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `scope`:  The scope of the assessment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"assessmentDescription"`:  The description of the assessment.
 - `"assessmentName"`:  The name of the assessment to be updated.
 - `"assessmentReportsDestination"`:  The assessment report storage destination for the
   assessment that's being updated.
 - `"roles"`:  The list of roles for the assessment.
 """
-function update_assessment(
-    assessmentId, scope; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)",
-        Dict{String,Any}("scope" => scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment(
-    assessmentId,
-    scope,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scope" => scope), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment(assessmentId, scope; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}("scope"=>scope); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment(assessmentId, scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("scope"=>scope), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment_control(assessment_id, control_id, control_set_id)
@@ -2231,43 +1119,20 @@ end
  Updates a control within an assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `control_id`:  The unique identifier for the control.
 - `control_set_id`:  The unique identifier for the control set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"commentBody"`:  The comment body text for the control.
 - `"controlStatus"`:  The status of the control.
 """
-function update_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment_control(
-    assessmentId,
-    controlId,
-    controlSetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment_control(assessmentId, controlId, controlSetId; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment_control(assessmentId, controlId, controlSetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/controls/$(controlId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment_control_set_status(assessment_id, comment, control_set_id, status)
@@ -2276,47 +1141,14 @@ end
  Updates the status of a control set in an Audit Manager assessment.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `comment`:  The comment that's related to the status update.
 - `control_set_id`:  The unique identifier for the control set.
 - `status`:  The status of the control set that's being updated.
-
 """
-function update_assessment_control_set_status(
-    assessmentId,
-    comment,
-    controlSetId,
-    status;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
-        Dict{String,Any}("comment" => comment, "status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment_control_set_status(
-    assessmentId,
-    comment,
-    controlSetId,
-    status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("comment" => comment, "status" => status), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment_control_set_status(assessmentId, comment, controlSetId, status; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}("comment"=>comment, "status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment_control_set_status(assessmentId, comment, controlSetId, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/controlSets/$(controlSetId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("comment"=>comment, "status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment_framework(control_sets, framework_id, name)
@@ -2325,48 +1157,21 @@ end
  Updates a custom framework in Audit Manager.
 
 # Arguments
+
 - `control_sets`:  The control sets that are associated with the framework.
 - `framework_id`:  The unique identifier for the framework.
 - `name`:  The name of the framework to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"complianceType"`:  The compliance type that the new custom framework supports, such as
   CIS or HIPAA.
 - `"description"`:  The description of the updated framework.
 """
-function update_assessment_framework(
-    controlSets, frameworkId, name; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworks/$(frameworkId)",
-        Dict{String,Any}("controlSets" => controlSets, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment_framework(
-    controlSets,
-    frameworkId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworks/$(frameworkId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("controlSets" => controlSets, "name" => name),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment_framework(controlSets, frameworkId, name; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}("controlSets"=>controlSets, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment_framework(controlSets, frameworkId, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessmentFrameworks/$(frameworkId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlSets"=>controlSets, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment_framework_share(action, request_id, request_type)
@@ -2375,44 +1180,14 @@ end
  Updates a share request for a custom framework in Audit Manager.
 
 # Arguments
+
 - `action`: Specifies the update action for the share request.
 - `request_id`:  The unique identifier for the share request.
 - `request_type`: Specifies whether the share request is a sent request or a received
   request.
-
 """
-function update_assessment_framework_share(
-    action, requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}("action" => action, "requestType" => requestType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment_framework_share(
-    action,
-    requestId,
-    requestType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessmentFrameworkShareRequests/$(requestId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("action" => action, "requestType" => requestType),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment_framework_share(action, requestId, requestType; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}("action"=>action, "requestType"=>requestType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment_framework_share(action, requestId, requestType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessmentFrameworkShareRequests/$(requestId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "requestType"=>requestType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_assessment_status(assessment_id, status)
@@ -2421,35 +1196,12 @@ end
  Updates the status of an assessment in Audit Manager.
 
 # Arguments
+
 - `assessment_id`:  The unique identifier for the assessment.
 - `status`:  The current status of the assessment.
-
 """
-function update_assessment_status(
-    assessmentId, status; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/status",
-        Dict{String,Any}("status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_assessment_status(
-    assessmentId,
-    status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/assessments/$(assessmentId)/status",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_assessment_status(assessmentId, status; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_assessment_status(assessmentId, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/assessments/$(assessmentId)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_control(control_id, control_mapping_sources, name)
@@ -2458,12 +1210,15 @@ end
  Updates a custom control in Audit Manager.
 
 # Arguments
+
 - `control_id`:  The identifier for the control.
 - `control_mapping_sources`:  The data mapping sources for the control.
 - `name`:  The name of the updated control.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"actionPlanInstructions"`:  The recommended actions to carry out if the control isn't
   fulfilled.
 - `"actionPlanTitle"`:  The title of the action plan for remediating the control.
@@ -2471,43 +1226,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"testingInformation"`:  The steps that you should follow to determine if the control is
   met.
 """
-function update_control(
-    controlId,
-    controlMappingSources,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/controls/$(controlId)",
-        Dict{String,Any}("controlMappingSources" => controlMappingSources, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_control(
-    controlId,
-    controlMappingSources,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "PUT",
-        "/controls/$(controlId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "controlMappingSources" => controlMappingSources, "name" => name
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_control(controlId, controlMappingSources, name; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_control(controlId, controlMappingSources, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/controls/$(controlId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("controlMappingSources"=>controlMappingSources, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_settings()
@@ -2516,35 +1236,32 @@ end
  Updates Audit Manager settings for the current account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"defaultAssessmentReportsDestination"`:  The default S3 destination bucket for storing
   assessment reports.
 - `"defaultExportDestination"`:  The default S3 destination bucket for storing evidence
   finder exports.
 - `"defaultProcessOwners"`:  A list of the default audit owners.
 - `"deregistrationPolicy"`: The deregistration policy for your Audit Manager data. You can
-  use this attribute to determine how your data is handled when you deregister Audit Manager.
+  use this attribute to determine how your data is handled when you deregister Audit
+  Manager.
 - `"evidenceFinderEnabled"`: Specifies whether the evidence finder feature is enabled.
-  Change this attribute to enable or disable evidence finder.  When you use this attribute to
-  disable evidence finder, Audit Manager deletes the event data store that’s used to query
-  your evidence data. As a result, you can’t re-enable evidence finder and use the feature
-  again. Your only alternative is to deregister and then re-register Audit Manager.
+  Change this attribute to enable or disable evidence finder.
+
+  !!! important
+      When you use this attribute to disable evidence finder, Audit Manager deletes the
+  event data store that’s used to query your evidence data. As a result, you can’t re-
+  enable evidence finder and use the feature again. Your only alternative is to [deregister](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html)
+  and then [re-register](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html)
+  Audit Manager.
 - `"kmsKey"`:  The KMS key details.
 - `"snsTopic"`:  The Amazon Simple Notification Service (Amazon SNS) topic that Audit
   Manager sends notifications to.
 """
-function update_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return auditmanager(
-        "PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("PUT", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     validate_assessment_report_integrity(s3_relative_path)
@@ -2553,33 +1270,9 @@ end
  Validates the integrity of an assessment report in Audit Manager.
 
 # Arguments
+
 - `s3_relative_path`:  The relative path of the Amazon S3 bucket that the assessment report
   is stored in.
-
 """
-function validate_assessment_report_integrity(
-    s3RelativePath; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return auditmanager(
-        "POST",
-        "/assessmentReports/integrity",
-        Dict{String,Any}("s3RelativePath" => s3RelativePath);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function validate_assessment_report_integrity(
-    s3RelativePath,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return auditmanager(
-        "POST",
-        "/assessmentReports/integrity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("s3RelativePath" => s3RelativePath), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+validate_assessment_report_integrity(s3RelativePath; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}("s3RelativePath"=>s3RelativePath); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+validate_assessment_report_integrity(s3RelativePath, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = auditmanager("POST", "/assessmentReports/integrity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3RelativePath"=>s3RelativePath), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

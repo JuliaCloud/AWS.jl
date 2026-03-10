@@ -8,45 +8,25 @@ using AWS.UUIDs
     associate_lenses(lens_aliases, workload_id)
     associate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a
-single API operation. A maximum of 20 lenses can be associated with a workload.
-Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web
-Services user or account, you acknowledge that custom lenses created by other users and
-shared with you are Third Party Content as defined in the Amazon Web Services Customer
-Agreement.
+Associate a lens to a workload.
+
+Up to 10 lenses can be associated with a workload in a single API operation. A maximum of
+20 lenses can be associated with a workload.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By accessing and/or applying custom lenses created by another Amazon Web Services user
+or account, you acknowledge that custom lenses created by other users and shared with you
+are Third Party Content as defined in the Amazon Web Services Customer Agreement.
 
 # Arguments
+
 - `lens_aliases`:
 - `workload_id`:
-
 """
-function associate_lenses(
-    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/associateLenses",
-        Dict{String,Any}("LensAliases" => LensAliases);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_lenses(
-    LensAliases,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/associateLenses",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_lenses(LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateLenses", Dict{String, Any}("LensAliases"=>LensAliases); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_lenses(LensAliases, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateLenses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LensAliases"=>LensAliases), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     associate_profiles(profile_arns, workload_id)
@@ -55,158 +35,76 @@ end
 Associate a profile with a workload.
 
 # Arguments
+
 - `profile_arns`: The list of profile ARNs to associate with the workload.
 - `workload_id`:
-
 """
-function associate_profiles(
-    ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/associateProfiles",
-        Dict{String,Any}("ProfileArns" => ProfileArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_profiles(
-    ProfileArns,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/associateProfiles",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_profiles(ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateProfiles", Dict{String, Any}("ProfileArns"=>ProfileArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_profiles(ProfileArns, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/associateProfiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileArns"=>ProfileArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_lens_share(client_request_token, lens_alias, shared_with)
     create_lens_share(client_request_token, lens_alias, shared_with, params::Dict{String,<:Any})
 
-Create a lens share. The owner of a lens can share it with other Amazon Web Services
-accounts, users, an organization, and organizational units (OUs) in the same Amazon Web
-Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official
-Content) cannot be shared.  Shared access to a lens is not removed until the lens
-invitation is deleted. If you share a lens with an organization or OU, all accounts in the
-organization or OU are granted access to the lens. For more information, see Sharing a
-custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom
-lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services
-will make your custom lenses available to those other accounts. Those other accounts may
-continue to access and use your shared custom lenses even if you delete the custom lenses
-from your own Amazon Web Services account or terminate your Amazon Web Services account.
+Create a lens share.
+
+The owner of a lens can share it with other Amazon Web Services accounts, users, an
+organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses
+provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
+
+ Shared access to a lens is not removed until the lens invitation is deleted.
+
+If you share a lens with an organization or OU, all accounts in the organization or OU are
+granted access to the lens.
+
+For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `shared_with`:
-
 """
-function create_lens_share(
-    ClientRequestToken,
-    LensAlias,
-    SharedWith;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/lenses/$(LensAlias)/shares",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_lens_share(
-    ClientRequestToken,
-    LensAlias,
-    SharedWith,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/lenses/$(LensAlias)/shares",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_lens_share(ClientRequestToken, LensAlias, SharedWith; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/lenses/$(LensAlias)/shares", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_lens_share(ClientRequestToken, LensAlias, SharedWith, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/lenses/$(LensAlias)/shares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_lens_version(client_request_token, lens_alias, lens_version)
     create_lens_version(client_request_token, lens_alias, lens_version, params::Dict{String,<:Any})
 
-Create a new lens version. A lens can have up to 100 versions. Use this operation to
-publish a new lens version after you have imported a lens. The LensAlias is used to
-identify the lens to be published. The owner of a lens can share the lens with other Amazon
-Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a
-lens can delete it.
+Create a new lens version.
+
+A lens can have up to 100 versions.
+
+Use this operation to publish a new lens version after you have imported a lens. The
+`LensAlias` is used to identify the lens to be published. The owner of a lens can share the
+lens with other Amazon Web Services accounts and users in the same Amazon Web Services
+Region. Only the owner of a lens can delete it.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `lens_version`: The version of the lens being created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IsMajorVersion"`: Set to true if this new major lens version.
 """
-function create_lens_version(
-    ClientRequestToken,
-    LensAlias,
-    LensVersion;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/lenses/$(LensAlias)/versions",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "LensVersion" => LensVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_lens_version(
-    ClientRequestToken,
-    LensAlias,
-    LensVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/lenses/$(LensAlias)/versions",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "LensVersion" => LensVersion
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_lens_version(ClientRequestToken, LensAlias, LensVersion; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/lenses/$(LensAlias)/versions", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "LensVersion"=>LensVersion); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_lens_version(ClientRequestToken, LensAlias, LensVersion, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/lenses/$(LensAlias)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "LensVersion"=>LensVersion), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_milestone(client_request_token, milestone_name, workload_id)
@@ -215,51 +113,13 @@ end
 Create a milestone for an existing workload.
 
 # Arguments
+
 - `client_request_token`:
 - `milestone_name`:
 - `workload_id`:
-
 """
-function create_milestone(
-    ClientRequestToken,
-    MilestoneName,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestones",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "MilestoneName" => MilestoneName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_milestone(
-    ClientRequestToken,
-    MilestoneName,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestones",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "MilestoneName" => MilestoneName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_milestone(ClientRequestToken, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestones", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "MilestoneName"=>MilestoneName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_milestone(ClientRequestToken, MilestoneName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestones", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "MilestoneName"=>MilestoneName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_profile(client_request_token, profile_description, profile_name, profile_questions)
@@ -268,62 +128,20 @@ end
 Create a profile.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_description`: The profile description.
 - `profile_name`: Name of the profile.
 - `profile_questions`: The profile questions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags assigned to the profile.
 """
-function create_profile(
-    ClientRequestToken,
-    ProfileDescription,
-    ProfileName,
-    ProfileQuestions;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/profiles",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "ProfileDescription" => ProfileDescription,
-            "ProfileName" => ProfileName,
-            "ProfileQuestions" => ProfileQuestions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_profile(
-    ClientRequestToken,
-    ProfileDescription,
-    ProfileName,
-    ProfileQuestions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/profiles",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "ProfileDescription" => ProfileDescription,
-                    "ProfileName" => ProfileName,
-                    "ProfileQuestions" => ProfileQuestions,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_profile(ClientRequestToken, ProfileDescription, ProfileName, ProfileQuestions; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/profiles", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "ProfileDescription"=>ProfileDescription, "ProfileName"=>ProfileName, "ProfileQuestions"=>ProfileQuestions); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_profile(ClientRequestToken, ProfileDescription, ProfileName, ProfileQuestions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "ProfileDescription"=>ProfileDescription, "ProfileName"=>ProfileName, "ProfileQuestions"=>ProfileQuestions), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_profile_share(client_request_token, profile_arn, shared_with)
@@ -332,196 +150,103 @@ end
 Create a profile share.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
 - `shared_with`:
-
 """
-function create_profile_share(
-    ClientRequestToken,
-    ProfileArn,
-    SharedWith;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/profiles/$(ProfileArn)/shares",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_profile_share(
-    ClientRequestToken,
-    ProfileArn,
-    SharedWith,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/profiles/$(ProfileArn)/shares",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_profile_share(ClientRequestToken, ProfileArn, SharedWith; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/profiles/$(ProfileArn)/shares", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_profile_share(ClientRequestToken, ProfileArn, SharedWith, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/profiles/$(ProfileArn)/shares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_review_template(client_request_token, description, lenses, template_name)
     create_review_template(client_request_token, description, lenses, template_name, params::Dict{String,<:Any})
 
-Create a review template.   Disclaimer  Do not include or gather personal identifiable
-information (PII) of end users or other identifiable individuals in or via your review
-templates. If your review template or those shared with you and used in your account do
-include or collect PII you are responsible for: ensuring that the included PII is processed
-in accordance with applicable law, providing adequate privacy notices, and obtaining
-necessary consents for processing such data.
+Create a review template.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your review templates. If your review template or those
+shared with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `client_request_token`:
 - `description`: The review template description.
 - `lenses`: Lenses applied to the review template.
 - `template_name`: Name of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Notes"`:
 - `"Tags"`: The tags assigned to the review template.
 """
-function create_review_template(
-    ClientRequestToken,
-    Description,
-    Lenses,
-    TemplateName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/reviewTemplates",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Description" => Description,
-            "Lenses" => Lenses,
-            "TemplateName" => TemplateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_review_template(
-    ClientRequestToken,
-    Description,
-    Lenses,
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/reviewTemplates",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Description" => Description,
-                    "Lenses" => Lenses,
-                    "TemplateName" => TemplateName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_review_template(ClientRequestToken, Description, Lenses, TemplateName; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/reviewTemplates", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Lenses"=>Lenses, "TemplateName"=>TemplateName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_review_template(ClientRequestToken, Description, Lenses, TemplateName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/reviewTemplates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Lenses"=>Lenses, "TemplateName"=>TemplateName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_template_share(client_request_token, shared_with, template_arn)
     create_template_share(client_request_token, shared_with, template_arn, params::Dict{String,<:Any})
 
-Create a review template share. The owner of a review template can share it with other
-Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the
-same Amazon Web Services Region.   Shared access to a review template is not removed until
-the review template share invitation is deleted. If you share a review template with an
-organization or OU, all accounts in the organization or OU are granted access to the review
-template.   Disclaimer  By sharing your review template with other Amazon Web Services
-accounts, you acknowledge that Amazon Web Services will make your review template available
-to those other accounts.
+Create a review template share.
+
+The owner of a review template can share it with other Amazon Web Services accounts, users,
+an organization, and organizational units (OUs) in the same Amazon Web Services Region.
+
+ Shared access to a review template is not removed until the review template share
+invitation is deleted.
+
+If you share a review template with an organization or OU, all accounts in the organization
+or OU are granted access to the review template.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your review template with other Amazon Web Services accounts, you
+acknowledge that Amazon Web Services will make your review template available to those
+other accounts.
 
 # Arguments
+
 - `client_request_token`:
 - `shared_with`:
 - `template_arn`: The review template ARN.
-
 """
-function create_template_share(
-    ClientRequestToken,
-    SharedWith,
-    TemplateArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/templates/shares/$(TemplateArn)",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_template_share(
-    ClientRequestToken,
-    SharedWith,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/templates/shares/$(TemplateArn)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_template_share(ClientRequestToken, SharedWith, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/templates/shares/$(TemplateArn)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_template_share(ClientRequestToken, SharedWith, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/templates/shares/$(TemplateArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "SharedWith"=>SharedWith), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_workload(client_request_token, description, environment, lenses, workload_name)
     create_workload(client_request_token, description, environment, lenses, workload_name, params::Dict{String,<:Any})
 
-Create a new workload. The owner of a workload can share the workload with other Amazon Web
-Services accounts, users, an organization, and organizational units (OUs) in the same
-Amazon Web Services Region. Only the owner of a workload can delete it. For more
-information, see Defining a Workload in the Well-Architected Tool User Guide.  Either
-AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also
-must specify ReviewOwner, even though the parameter is listed as not being required in the
-following section.   When creating a workload using a review template, you must have the
-following IAM permissions:    wellarchitected:GetReviewTemplate
-wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers
-wellarchitected:GetReviewTemplateLensReview
+Create a new workload.
+
+The owner of a workload can share the workload with other Amazon Web Services accounts,
+users, an organization, and organizational units (OUs) in the same Amazon Web Services
+Region. Only the owner of a workload can delete it.
+
+For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! important
+    Either `AwsRegions`, `NonAwsRegions`, or both must be specified when creating a
+workload.
+
+ <p>You also must specify `ReviewOwner`, even though the parameter is listed as not being
+required in the following section.When creating a workload using a review template, you
+must have the following IAM permissions: - `wellarchitected:GetReviewTemplate`
+ - `wellarchitected:GetReviewTemplateAnswer`
+ - `wellarchitected:ListReviewTemplateAnswers`
+ - `wellarchitected:GetReviewTemplateLensReview`
 
 # Arguments
+
 - `client_request_token`:
 - `description`:
 - `environment`:
@@ -529,7 +254,9 @@ wellarchitected:GetReviewTemplateLensReview
 - `workload_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountIds"`:
 - `"Applications"`: List of AppRegistry application ARNs associated to the workload.
 - `"ArchitecturalDesign"`:
@@ -547,278 +274,112 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReviewTemplateArns"`: The list of review template ARNs to associate with the workload.
 - `"Tags"`: The tags to be associated with the workload.
 """
-function create_workload(
-    ClientRequestToken,
-    Description,
-    Environment,
-    Lenses,
-    WorkloadName;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Description" => Description,
-            "Environment" => Environment,
-            "Lenses" => Lenses,
-            "WorkloadName" => WorkloadName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workload(
-    ClientRequestToken,
-    Description,
-    Environment,
-    Lenses,
-    WorkloadName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "Description" => Description,
-                    "Environment" => Environment,
-                    "Lenses" => Lenses,
-                    "WorkloadName" => WorkloadName,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workload(ClientRequestToken, Description, Environment, Lenses, WorkloadName; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Environment"=>Environment, "Lenses"=>Lenses, "WorkloadName"=>WorkloadName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workload(ClientRequestToken, Description, Environment, Lenses, WorkloadName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Description"=>Description, "Environment"=>Environment, "Lenses"=>Lenses, "WorkloadName"=>WorkloadName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_workload_share(client_request_token, permission_type, shared_with, workload_id)
     create_workload_share(client_request_token, permission_type, shared_with, workload_id, params::Dict{String,<:Any})
 
-Create a workload share. The owner of a workload can share it with other Amazon Web
-Services accounts and users in the same Amazon Web Services Region. Shared access to a
-workload is not removed until the workload invitation is deleted. If you share a workload
-with an organization or OU, all accounts in the organization or OU are granted access to
-the workload. For more information, see Sharing a workload in the Well-Architected Tool
-User Guide.
+Create a workload share.
+
+The owner of a workload can share it with other Amazon Web Services accounts and users in
+the same Amazon Web Services Region. Shared access to a workload is not removed until the
+workload invitation is deleted.
+
+If you share a workload with an organization or OU, all accounts in the organization or OU
+are granted access to the workload.
+
+For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html)
+in the *Well-Architected Tool User Guide*.
 
 # Arguments
+
 - `client_request_token`:
 - `permission_type`:
 - `shared_with`:
 - `workload_id`:
-
 """
-function create_workload_share(
-    ClientRequestToken,
-    PermissionType,
-    SharedWith,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/shares",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "PermissionType" => PermissionType,
-            "SharedWith" => SharedWith,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workload_share(
-    ClientRequestToken,
-    PermissionType,
-    SharedWith,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/shares",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "PermissionType" => PermissionType,
-                    "SharedWith" => SharedWith,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workload_share(ClientRequestToken, PermissionType, SharedWith, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/shares", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "PermissionType"=>PermissionType, "SharedWith"=>SharedWith); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_workload_share(ClientRequestToken, PermissionType, SharedWith, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/shares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "PermissionType"=>PermissionType, "SharedWith"=>SharedWith), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_lens(client_request_token, lens_alias, lens_status)
     delete_lens(client_request_token, lens_alias, lens_status, params::Dict{String,<:Any})
 
-Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted,
-Amazon Web Services accounts and users that you shared the lens with can continue to use
-it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing
-your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web
-Services will make your custom lenses available to those other accounts. Those other
-accounts may continue to access and use your shared custom lenses even if you delete the
-custom lenses from your own Amazon Web Services account or terminate your Amazon Web
-Services account.
+Delete an existing lens.
+
+Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services
+accounts and users that you shared the lens with can continue to use it, but they will no
+longer be able to apply it to new workloads. </p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `lens_status`: The status of the lens to be deleted.
-
 """
-function delete_lens(
-    ClientRequestToken,
-    LensAlias,
-    LensStatus;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/lenses/$(LensAlias)",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "LensStatus" => LensStatus
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_lens(
-    ClientRequestToken,
-    LensAlias,
-    LensStatus,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/lenses/$(LensAlias)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "LensStatus" => LensStatus
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_lens(ClientRequestToken, LensAlias, LensStatus; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/lenses/$(LensAlias)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "LensStatus"=>LensStatus); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_lens(ClientRequestToken, LensAlias, LensStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/lenses/$(LensAlias)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "LensStatus"=>LensStatus), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_lens_share(client_request_token, lens_alias, share_id)
     delete_lens_share(client_request_token, lens_alias, share_id, params::Dict{String,<:Any})
 
-Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users,
-organizations, and organizational units (OUs) that you shared the lens with can continue to
-use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By
-sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that
-Amazon Web Services will make your custom lenses available to those other accounts. Those
-other accounts may continue to access and use your shared custom lenses even if you delete
-the custom lenses from your own Amazon Web Services account or terminate your Amazon Web
-Services account.
+Delete a lens share.
+
+After the lens share is deleted, Amazon Web Services accounts, users, organizations, and
+organizational units (OUs) that you shared the lens with can continue to use it, but they
+will no longer be able to apply it to new workloads.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `share_id`:
-
 """
-function delete_lens_share(
-    ClientRequestToken,
-    LensAlias,
-    ShareId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/lenses/$(LensAlias)/shares/$(ShareId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_lens_share(
-    ClientRequestToken,
-    LensAlias,
-    ShareId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/lenses/$(LensAlias)/shares/$(ShareId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_lens_share(ClientRequestToken, LensAlias, ShareId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/lenses/$(LensAlias)/shares/$(ShareId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_lens_share(ClientRequestToken, LensAlias, ShareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/lenses/$(LensAlias)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_profile(client_request_token, profile_arn)
     delete_profile(client_request_token, profile_arn, params::Dict{String,<:Any})
 
-Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services
-accounts, you acknowledge that Amazon Web Services will make your profile available to
-those other accounts. Those other accounts may continue to access and use your shared
-profile even if you delete the profile from your own Amazon Web Services account or
-terminate your Amazon Web Services account.
+Delete a profile.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your profile with other Amazon Web Services accounts, you acknowledge that
+Amazon Web Services will make your profile available to those other accounts. Those other
+accounts may continue to access and use your shared profile even if you delete the profile
+from your own Amazon Web Services account or terminate your Amazon Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
-
 """
-function delete_profile(
-    ClientRequestToken, ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "DELETE",
-        "/profiles/$(ProfileArn)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_profile(
-    ClientRequestToken,
-    ProfileArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/profiles/$(ProfileArn)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_profile(ClientRequestToken, ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/profiles/$(ProfileArn)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile(ClientRequestToken, ProfileArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/profiles/$(ProfileArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_profile_share(client_request_token, profile_arn, share_id)
@@ -827,136 +388,52 @@ end
 Delete a profile share.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
 - `share_id`:
-
 """
-function delete_profile_share(
-    ClientRequestToken,
-    ProfileArn,
-    ShareId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/profiles/$(ProfileArn)/shares/$(ShareId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_profile_share(
-    ClientRequestToken,
-    ProfileArn,
-    ShareId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/profiles/$(ProfileArn)/shares/$(ShareId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_profile_share(ClientRequestToken, ProfileArn, ShareId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/profiles/$(ProfileArn)/shares/$(ShareId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_profile_share(ClientRequestToken, ProfileArn, ShareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/profiles/$(ProfileArn)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_review_template(client_request_token, template_arn)
     delete_review_template(client_request_token, template_arn, params::Dict{String,<:Any})
 
-Delete a review template. Only the owner of a review template can delete it. After the
-review template is deleted, Amazon Web Services accounts, users, organizations, and
-organizational units (OUs) that you shared the review template with will no longer be able
-to apply it to new workloads.
+Delete a review template.
+
+Only the owner of a review template can delete it.
+
+After the review template is deleted, Amazon Web Services accounts, users, organizations,
+and organizational units (OUs) that you shared the review template with will no longer be
+able to apply it to new workloads.
 
 # Arguments
+
 - `client_request_token`:
 - `template_arn`: The review template ARN.
-
 """
-function delete_review_template(
-    ClientRequestToken, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "DELETE",
-        "/reviewTemplates/$(TemplateArn)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_review_template(
-    ClientRequestToken,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/reviewTemplates/$(TemplateArn)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_review_template(ClientRequestToken, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/reviewTemplates/$(TemplateArn)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_review_template(ClientRequestToken, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/reviewTemplates/$(TemplateArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_template_share(client_request_token, share_id, template_arn)
     delete_template_share(client_request_token, share_id, template_arn, params::Dict{String,<:Any})
 
-Delete a review template share. After the review template share is deleted, Amazon Web
-Services accounts, users, organizations, and organizational units (OUs) that you shared the
-review template with will no longer be able to apply it to new workloads.
+Delete a review template share.
+
+After the review template share is deleted, Amazon Web Services accounts, users,
+organizations, and organizational units (OUs) that you shared the review template with will
+no longer be able to apply it to new workloads.
 
 # Arguments
+
 - `client_request_token`:
 - `share_id`:
 - `template_arn`: The review template ARN.
-
 """
-function delete_template_share(
-    ClientRequestToken,
-    ShareId,
-    TemplateArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/templates/shares/$(TemplateArn)/$(ShareId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_template_share(
-    ClientRequestToken,
-    ShareId,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/templates/shares/$(TemplateArn)/$(ShareId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_template_share(ClientRequestToken, ShareId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/templates/shares/$(TemplateArn)/$(ShareId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_template_share(ClientRequestToken, ShareId, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/templates/shares/$(TemplateArn)/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_workload(client_request_token, workload_id)
@@ -965,39 +442,12 @@ end
 Delete an existing workload.
 
 # Arguments
+
 - `client_request_token`:
 - `workload_id`:
-
 """
-function delete_workload(
-    ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_workload(
-    ClientRequestToken,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workload(ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workload(ClientRequestToken, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_workload_share(client_request_token, share_id, workload_id)
@@ -1006,85 +456,33 @@ end
 Delete a workload share.
 
 # Arguments
+
 - `client_request_token`:
 - `share_id`:
 - `workload_id`:
-
 """
-function delete_workload_share(
-    ClientRequestToken,
-    ShareId,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_workload_share(
-    ClientRequestToken,
-    ShareId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workload_share(ClientRequestToken, ShareId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_workload_share(ClientRequestToken, ShareId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_lenses(lens_aliases, workload_id)
     disassociate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload
-in a single API operation.  The Amazon Web Services Well-Architected Framework lens
-(wellarchitected) cannot be removed from a workload.
+Disassociate a lens from a workload.
+
+Up to 10 lenses can be disassociated from a workload in a single API operation.
+
+!!! note
+    The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
+removed from a workload.
 
 # Arguments
+
 - `lens_aliases`:
 - `workload_id`:
-
 """
-function disassociate_lenses(
-    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/disassociateLenses",
-        Dict{String,Any}("LensAliases" => LensAliases);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_lenses(
-    LensAliases,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/disassociateLenses",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_lenses(LensAliases, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateLenses", Dict{String, Any}("LensAliases"=>LensAliases); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_lenses(LensAliases, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateLenses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LensAliases"=>LensAliases), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_profiles(profile_arns, workload_id)
@@ -1093,80 +491,46 @@ end
 Disassociate a profile from a workload.
 
 # Arguments
+
 - `profile_arns`: The list of profile ARNs to disassociate from the workload.
 - `workload_id`:
-
 """
-function disassociate_profiles(
-    ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/disassociateProfiles",
-        Dict{String,Any}("ProfileArns" => ProfileArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_profiles(
-    ProfileArns,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/disassociateProfiles",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_profiles(ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateProfiles", Dict{String, Any}("ProfileArns"=>ProfileArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_profiles(ProfileArns, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/disassociateProfiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProfileArns"=>ProfileArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     export_lens(lens_alias)
     export_lens(lens_alias, params::Dict{String,<:Any})
 
-Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon
-Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined
-in JSON. For more information, see JSON format specification in the Well-Architected Tool
-User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII)
-of end users or other identifiable individuals in or via your custom lenses. If your custom
-lens or those shared with you and used in your account do include or collect PII you are
-responsible for: ensuring that the included PII is processed in accordance with applicable
-law, providing adequate privacy notices, and obtaining necessary consents for processing
-such data.
+Export an existing lens.
+
+Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web
+Services Official Content) cannot be exported.
+
+Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your custom lenses. If your custom lens or those shared
+with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensVersion"`: The lens version to be exported.
 """
-function export_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/export";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_lens(
-    LensAlias,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/export",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+export_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/export"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+export_lens(LensAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/export", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_answer(lens_alias, question_id, workload_id)
@@ -1175,101 +539,53 @@ end
 Get the answer to a specific question in a workload review.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
-function get_answer(
-    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_answer(
-    LensAlias,
-    QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_answer(LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_answer(LensAlias, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_consolidated_report(format)
     get_consolidated_report(format, params::Dict{String,<:Any})
 
-Get a consolidated report of your workloads. You can optionally choose to include workloads
-that have been shared with you.
+Get a consolidated report of your workloads.
+
+You can optionally choose to include workloads that have been shared with you.
 
 # Arguments
-- `format`: The format of the consolidated report. For PDF, Base64String is returned. For
-  JSON, Metrics is returned.
+
+- `format`: The format of the consolidated report.
+
+For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeSharedResources"`: Set to true to have shared resources included in the report.
+
+- `"IncludeSharedResources"`: Set to `true` to have shared resources included in the report.
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 """
-function get_consolidated_report(Format; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/consolidatedReport",
-        Dict{String,Any}("Format" => Format);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_consolidated_report(
-    Format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/consolidatedReport",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Format" => Format), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_consolidated_report(Format; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/consolidatedReport", Dict{String, Any}("Format"=>Format); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_consolidated_report(Format, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/consolidatedReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Format"=>Format), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_global_settings()
     get_global_settings(params::Dict{String,<:Any})
 
 Global settings for all workloads.
-
 """
-function get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_global_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/global-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_global_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_global_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/global-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_lens(lens_alias)
@@ -1278,33 +594,17 @@ end
 Get an existing lens.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensVersion"`: The lens version to be retrieved.
 """
-function get_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens(
-    LensAlias,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lens(LensAlias; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lens(LensAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_lens_review(lens_alias, workload_id)
@@ -1313,37 +613,18 @@ end
 Get lens review.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
-function get_lens_review(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_review(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lens_review(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lens_review(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_lens_review_report(lens_alias, workload_id)
@@ -1352,37 +633,18 @@ end
 Get lens review report.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
-function get_lens_review_report(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_review_report(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lens_review_report(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lens_review_report(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_lens_version_difference(lens_alias)
@@ -1391,36 +653,18 @@ end
 Get lens version differences.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BaseLensVersion"`: The base version of the lens.
 - `"TargetLensVersion"`: The lens version to target a difference for.
 """
-function get_lens_version_difference(
-    LensAlias; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/versionDifference";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_version_difference(
-    LensAlias,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/versionDifference",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lens_version_difference(LensAlias; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/versionDifference"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_lens_version_difference(LensAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/versionDifference", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_milestone(milestone_number, workload_id)
@@ -1429,34 +673,12 @@ end
 Get a milestone for an existing workload.
 
 # Arguments
+
 - `milestone_number`:
 - `workload_id`:
-
 """
-function get_milestone(
-    MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_milestone(
-    MilestoneNumber,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_milestone(MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_milestone(MilestoneNumber, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_profile(profile_arn)
@@ -1465,57 +687,26 @@ end
 Get profile information.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ProfileVersion"`: The profile version.
 """
-function get_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/profiles/$(ProfileArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_profile(
-    ProfileArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/profiles/$(ProfileArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profiles/$(ProfileArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_profile(ProfileArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profiles/$(ProfileArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_profile_template()
     get_profile_template(params::Dict{String,<:Any})
 
 Get profile template.
-
 """
-function get_profile_template(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_profile_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/profileTemplate",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_profile_template(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_profile_template(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileTemplate", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_review_template(template_arn)
@@ -1524,32 +715,11 @@ end
 Get review template.
 
 # Arguments
-- `template_arn`: The review template ARN.
 
+- `template_arn`: The review template ARN.
 """
-function get_review_template(
-    TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_review_template(
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_review_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_review_template(TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_review_template_answer(lens_alias, question_id, template_arn)
@@ -1558,36 +728,13 @@ end
 Get review template answer.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `template_arn`: The review template ARN.
-
 """
-function get_review_template_answer(
-    LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_review_template_answer(
-    LensAlias,
-    QuestionId,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_review_template_answer(LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_review_template_answer(LensAlias, QuestionId, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_review_template_lens_review(lens_alias, template_arn)
@@ -1596,34 +743,12 @@ end
 Get a lens review associated with a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The review template ARN.
-
 """
-function get_review_template_lens_review(
-    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_review_template_lens_review(
-    LensAlias,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_review_template_lens_review(LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_review_template_lens_review(LensAlias, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_workload(workload_id)
@@ -1632,92 +757,53 @@ end
 Get an existing workload.
 
 # Arguments
-- `workload_id`:
 
+- `workload_id`:
 """
-function get_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_workload(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_workload(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     import_lens(client_request_token, jsonstring)
     import_lens(client_request_token, jsonstring, params::Dict{String,<:Any})
 
-Import a new custom lens or update an existing custom lens. To update an existing custom
-lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is
-created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to
+Import a new custom lens or update an existing custom lens.
+
+To update an existing custom lens, specify its ARN as the `LensAlias`. If no ARN is
+specified, a new custom lens is created.
+
+The new or updated lens will have a status of `DRAFT`. The lens cannot be applied to
 workloads or shared with other Amazon Web Services accounts until it's published with
-CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format
-specification in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB
-in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of
-end users or other identifiable individuals in or via your custom lenses. If your custom
-lens or those shared with you and used in your account do include or collect PII you are
-responsible for: ensuring that the included PII is processed in accordance with applicable
-law, providing adequate privacy notices, and obtaining necessary consents for processing
-such data.
+<a>CreateLensVersion</a>.
+
+Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
+in the *Well-Architected Tool User Guide*.
+
+A custom lens cannot exceed 500 KB in size.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your custom lenses. If your custom lens or those shared
+with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `client_request_token`:
 - `jsonstring`: The JSON representation of a lens.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensAlias"`:
 - `"Tags"`: Tags to associate to a lens.
 """
-function import_lens(
-    ClientRequestToken, JSONString; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PUT",
-        "/importLens",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "JSONString" => JSONString
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_lens(
-    ClientRequestToken,
-    JSONString,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PUT",
-        "/importLens",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken, "JSONString" => JSONString
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+import_lens(ClientRequestToken, JSONString; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/importLens", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "JSONString"=>JSONString); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_lens(ClientRequestToken, JSONString, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/importLens", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "JSONString"=>JSONString), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_answers(lens_alias, workload_id)
@@ -1726,41 +812,22 @@ end
 List of answers for a particular workload and lens.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 - `"PillarId"`:
 - `"QuestionPriority"`: The priority of the question.
 """
-function list_answers(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_answers(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_answers(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_answers(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_check_details(choice_id, lens_arn, pillar_id, question_id, workload_id)
@@ -1769,6 +836,7 @@ end
 List of Trusted Advisor check details by account related to the workload.
 
 # Arguments
+
 - `choice_id`:
 - `lens_arn`: Well-Architected Lens ARN.
 - `pillar_id`:
@@ -1776,59 +844,14 @@ List of Trusted Advisor check details by account related to the workload.
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function list_check_details(
-    ChoiceId,
-    LensArn,
-    PillarId,
-    QuestionId,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/checks",
-        Dict{String,Any}(
-            "ChoiceId" => ChoiceId,
-            "LensArn" => LensArn,
-            "PillarId" => PillarId,
-            "QuestionId" => QuestionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_check_details(
-    ChoiceId,
-    LensArn,
-    PillarId,
-    QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/checks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChoiceId" => ChoiceId,
-                    "LensArn" => LensArn,
-                    "PillarId" => PillarId,
-                    "QuestionId" => QuestionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_check_details(ChoiceId, LensArn, PillarId, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/checks", Dict{String, Any}("ChoiceId"=>ChoiceId, "LensArn"=>LensArn, "PillarId"=>PillarId, "QuestionId"=>QuestionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_check_details(ChoiceId, LensArn, PillarId, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/checks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChoiceId"=>ChoiceId, "LensArn"=>LensArn, "PillarId"=>PillarId, "QuestionId"=>QuestionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_check_summaries(choice_id, lens_arn, pillar_id, question_id, workload_id)
@@ -1837,6 +860,7 @@ end
 List of Trusted Advisor checks summarized for all accounts related to the workload.
 
 # Arguments
+
 - `choice_id`:
 - `lens_arn`: Well-Architected Lens ARN.
 - `pillar_id`:
@@ -1844,59 +868,14 @@ List of Trusted Advisor checks summarized for all accounts related to the worklo
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function list_check_summaries(
-    ChoiceId,
-    LensArn,
-    PillarId,
-    QuestionId,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/checkSummaries",
-        Dict{String,Any}(
-            "ChoiceId" => ChoiceId,
-            "LensArn" => LensArn,
-            "PillarId" => PillarId,
-            "QuestionId" => QuestionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_check_summaries(
-    ChoiceId,
-    LensArn,
-    PillarId,
-    QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/checkSummaries",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ChoiceId" => ChoiceId,
-                    "LensArn" => LensArn,
-                    "PillarId" => PillarId,
-                    "QuestionId" => QuestionId,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_check_summaries(ChoiceId, LensArn, PillarId, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/checkSummaries", Dict{String, Any}("ChoiceId"=>ChoiceId, "LensArn"=>LensArn, "PillarId"=>PillarId, "QuestionId"=>QuestionId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_check_summaries(ChoiceId, LensArn, PillarId, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/checkSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChoiceId"=>ChoiceId, "LensArn"=>LensArn, "PillarId"=>PillarId, "QuestionId"=>QuestionId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_lens_review_improvements(lens_alias, workload_id)
@@ -1905,41 +884,22 @@ end
 List the improvements of a particular lens review.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 - `"PillarId"`:
 - `"QuestionPriority"`: The priority of the question.
 """
-function list_lens_review_improvements(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_lens_review_improvements(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_lens_review_improvements(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_lens_review_improvements(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_lens_reviews(workload_id)
@@ -1948,35 +908,19 @@ end
 List lens reviews for a particular workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 """
-function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_lens_reviews(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_lens_reviews(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/lensReviews", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_lens_shares(lens_alias)
@@ -1985,37 +929,21 @@ end
 List the lens shares associated with the lens.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the lens is shared.
 - `"Status"`:
 """
-function list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/shares";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_lens_shares(
-    LensAlias,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/shares",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_lens_shares(LensAlias; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/shares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_lens_shares(LensAlias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses/$(LensAlias)/shares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_lenses()
@@ -2024,25 +952,17 @@ end
 List the available lenses.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensName"`:
 - `"LensStatus"`: The status of lenses to be returned.
 - `"LensType"`: The type of lenses to be returned.
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function list_lenses(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_lenses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET", "/lenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_lenses(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_lenses(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/lenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_milestones(workload_id)
@@ -2051,34 +971,18 @@ end
 List all milestones for an existing workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestonesSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_milestones(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestonesSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_milestones(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestonesSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_milestones(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/milestonesSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_notifications()
@@ -2087,29 +991,19 @@ end
 List lens notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"ResourceArn"`: The ARN for the related resource for the notification.  Only one of
-  WorkloadID or ResourceARN should be specified.
+- `"ResourceArn"`: The ARN for the related resource for the notification.
+
+!!! note
+    Only one of `WorkloadID` or `ResourceARN` should be specified.
 - `"WorkloadId"`:
 """
-function list_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_notifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "POST",
-        "/notifications",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_notifications(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_notifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/notifications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_profile_notifications()
@@ -2118,30 +1012,15 @@ end
 List profile notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"WorkloadId"`:
 """
-function list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/profileNotifications/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_profile_notifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/profileNotifications/",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_profile_notifications(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileNotifications/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_notifications(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileNotifications/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_profile_shares(profile_arn)
@@ -2150,37 +1029,21 @@ end
 List profile shares.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the profile is shared.
 - `"Status"`:
 """
-function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET",
-        "/profiles/$(ProfileArn)/shares";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_profile_shares(
-    ProfileArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/profiles/$(ProfileArn)/shares",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profiles/$(ProfileArn)/shares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profile_shares(ProfileArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profiles/$(ProfileArn)/shares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_profiles()
@@ -2189,29 +1052,17 @@ end
 List profiles.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"ProfileNamePrefix"`: An optional string added to the beginning of each profile name
   returned in the results.
 - `"ProfileOwnerType"`: Profile owner type.
 """
-function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/profileSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_profiles(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_profiles(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/profileSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_review_template_answers(lens_alias, template_arn)
@@ -2220,39 +1071,20 @@ end
 List the answers of a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The ARN of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"PillarId"`:
 """
-function list_review_template_answers(
-    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_review_template_answers(
-    LensAlias,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_review_template_answers(LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_review_template_answers(LensAlias, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_review_templates()
@@ -2261,37 +1093,28 @@ end
 List review templates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function list_review_templates(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_review_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/reviewTemplates",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_review_templates(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_review_templates(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/reviewTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_share_invitations()
     list_share_invitations(params::Dict{String,<:Any})
 
-List the share invitations.  WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and
-TemplateNamePrefix are mutually exclusive. Use the parameter that matches your
-ShareResourceType.
+List the share invitations.
+
+ `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
+mutually exclusive. Use the parameter that matches your `ShareResourceType`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensNamePrefix"`: An optional string added to the beginning of each lens name returned
   in the results.
 - `"MaxResults"`: The maximum number of results to return for this request.
@@ -2303,57 +1126,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name returned in the results.
 - `"WorkloadNamePrefix"`:
 """
-function list_share_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_share_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/shareInvitations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_share_invitations(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_share_invitations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/shareInvitations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(workload_arn)
     list_tags_for_resource(workload_arn, params::Dict{String,<:Any})
 
-List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom
-lens ARN, a profile ARN, or review template ARN.
+List the tags for a resource.
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.
 
 # Arguments
-- `workload_arn`:
 
+- `workload_arn`:
 """
-function list_tags_for_resource(
-    WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/tags/$(WorkloadArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    WorkloadArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/tags/$(WorkloadArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/tags/$(WorkloadArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(WorkloadArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/tags/$(WorkloadArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_template_shares(template_arn)
@@ -2362,39 +1153,21 @@ end
 List review template shares.
 
 # Arguments
+
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the profile is shared.
 - `"Status"`:
 """
-function list_template_shares(
-    TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/templates/shares/$(TemplateArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_template_shares(
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/templates/shares/$(TemplateArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_template_shares(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/templates/shares/$(TemplateArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_template_shares(TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/templates/shares/$(TemplateArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workload_shares(workload_id)
@@ -2403,39 +1176,21 @@ end
 List the workload shares associated with the workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the workload is shared.
 - `"Status"`:
 """
-function list_workload_shares(
-    WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/shares";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_workload_shares(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/shares",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/shares"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workload_shares(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("GET", "/workloads/$(WorkloadId)/shares", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workloads()
@@ -2444,107 +1199,55 @@ end
 Paginated list of workloads.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"WorkloadNamePrefix"`:
 """
-function list_workloads(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "POST",
-        "/workloadsSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_workloads(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "POST",
-        "/workloadsSummaries",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_workloads(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloadsSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workloads(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloadsSummaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(tags, workload_arn)
     tag_resource(tags, workload_arn, params::Dict{String,<:Any})
 
-Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a
-workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
+Adds one or more tags to the specified resource.
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.
 
 # Arguments
+
 - `tags`: The tags for the resource.
 - `workload_arn`:
-
 """
-function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "POST",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    Tags,
-    WorkloadArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/tags/$(WorkloadArn)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(Tags, WorkloadArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/tags/$(WorkloadArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a
-custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use
-separate tagKeys parameters, for example:  DELETE
-/tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
+Deletes specified tags from a resource.</p>
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.To specify multiple tags, use separate **tagKeys** parameters, for
+example:
+
+ <p> `DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
 
 # Arguments
+
 - `workload_arn`:
 - `tag_keys`: A list of tag keys. Existing tags of the resource whose keys are members of
   this list are removed from the resource.
-
 """
-function untag_resource(
-    WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "DELETE",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    WorkloadArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "DELETE",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/tags/$(WorkloadArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(WorkloadArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("DELETE", "/tags/$(WorkloadArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_answer(lens_alias, question_id, workload_id)
@@ -2553,12 +1256,15 @@ end
 Update the answer to a specific question in a workload review.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChoiceUpdates"`: A list of choices to update on a question in your workload. The String
   key corresponds to the choice ID to be updated.
 - `"IsApplicable"`:
@@ -2566,31 +1272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: The reason why a question is not applicable to your workload.
 - `"SelectedChoices"`:
 """
-function update_answer(
-    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_answer(
-    LensAlias,
-    QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_answer(LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_answer(LensAlias, QuestionId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_global_settings()
@@ -2600,27 +1283,15 @@ Update whether the Amazon Web Services account is opted into organization sharin
 discovery integration features.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DiscoveryIntegrationStatus"`: The status of discovery support settings.
 - `"JiraConfiguration"`: The status of Jira integration settings.
 - `"OrganizationSharingStatus"`: The status of organization sharing settings.
 """
-function update_global_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_global_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/global-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_global_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_global_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/global-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_integration(client_request_token, integrating_service, workload_id)
@@ -2629,52 +1300,13 @@ end
 Update integration features.
 
 # Arguments
+
 - `client_request_token`:
 - `integrating_service`: Which integrated service to update.
 - `workload_id`:
-
 """
-function update_integration(
-    ClientRequestToken,
-    IntegratingService,
-    WorkloadId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/updateIntegration",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "IntegratingService" => IntegratingService,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_integration(
-    ClientRequestToken,
-    IntegratingService,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/updateIntegration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClientRequestToken" => ClientRequestToken,
-                    "IntegratingService" => IntegratingService,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_integration(ClientRequestToken, IntegratingService, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/updateIntegration", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "IntegratingService"=>IntegratingService); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_integration(ClientRequestToken, IntegratingService, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("POST", "/workloads/$(WorkloadId)/updateIntegration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "IntegratingService"=>IntegratingService), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_lens_review(lens_alias, workload_id)
@@ -2683,39 +1315,20 @@ end
 Update lens review for a particular workload.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"LensNotes"`:
 - `"PillarNotes"`:
 """
-function update_lens_review(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_lens_review(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_lens_review(LensAlias, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_lens_review(LensAlias, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_profile(profile_arn)
@@ -2724,34 +1337,18 @@ end
 Update a profile.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ProfileDescription"`: The profile description.
 - `"ProfileQuestions"`: Profile questions.
 """
-function update_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "PATCH",
-        "/profiles/$(ProfileArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_profile(
-    ProfileArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/profiles/$(ProfileArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_profile(ProfileArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/profiles/$(ProfileArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_profile(ProfileArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/profiles/$(ProfileArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_review_template(template_arn)
@@ -2760,40 +1357,22 @@ end
 Update a review template.
 
 # Arguments
+
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The review template description.
 - `"LensesToAssociate"`: A list of lens aliases or ARNs to apply to the review template.
 - `"LensesToDisassociate"`: A list of lens aliases or ARNs to unapply to the review
-  template. The wellarchitected lens cannot be unapplied.
+  template. The `wellarchitected` lens cannot be unapplied.
 - `"Notes"`:
 - `"TemplateName"`: The review template name.
 """
-function update_review_template(
-    TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_review_template(
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_review_template(TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_review_template(TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_review_template_answer(lens_alias, question_id, template_arn)
@@ -2802,43 +1381,23 @@ end
 Update a review template answer.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChoiceUpdates"`: A list of choices to be updated.
 - `"IsApplicable"`:
 - `"Notes"`:
 - `"Reason"`: The update reason.
 - `"SelectedChoices"`:
 """
-function update_review_template_answer(
-    LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_review_template_answer(
-    LensAlias,
-    QuestionId,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_review_template_answer(LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_review_template_answer(LensAlias, QuestionId, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_review_template_lens_review(lens_alias, template_arn)
@@ -2847,85 +1406,37 @@ end
 Update a lens review associated with a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensNotes"`:
 - `"PillarNotes"`:
 """
-function update_review_template_lens_review(
-    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_review_template_lens_review(
-    LensAlias,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_review_template_lens_review(LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_review_template_lens_review(LensAlias, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_share_invitation(share_invitation_action, share_invitation_id)
     update_share_invitation(share_invitation_action, share_invitation_id, params::Dict{String,<:Any})
 
-Update a workload or custom lens share invitation.  This API operation can be called
-independently of any resource. Previous documentation implied that a workload ARN must be
-specified.
+Update a workload or custom lens share invitation.
+
+!!! note
+    This API operation can be called independently of any resource. Previous documentation
+implied that a workload ARN must be specified.
 
 # Arguments
+
 - `share_invitation_action`:
 - `share_invitation_id`: The ID assigned to the share invitation.
-
 """
-function update_share_invitation(
-    ShareInvitationAction,
-    ShareInvitationId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/shareInvitations/$(ShareInvitationId)",
-        Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_share_invitation(
-    ShareInvitationAction,
-    ShareInvitationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/shareInvitations/$(ShareInvitationId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_share_invitation(ShareInvitationAction, ShareInvitationId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/shareInvitations/$(ShareInvitationId)", Dict{String, Any}("ShareInvitationAction"=>ShareInvitationAction); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_share_invitation(ShareInvitationAction, ShareInvitationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/shareInvitations/$(ShareInvitationId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ShareInvitationAction"=>ShareInvitationAction), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_workload(workload_id)
@@ -2934,10 +1445,13 @@ end
 Update an existing workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountIds"`:
 - `"Applications"`: List of AppRegistry application ARNs to associate to the workload.
 - `"ArchitecturalDesign"`:
@@ -2950,9 +1464,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Industry"`:
 - `"IndustryType"`:
 - `"IsReviewOwnerUpdateAcknowledged"`: Flag indicating whether the workload owner has
-  acknowledged that the Review owner field is required. If a Review owner is not added to the
-  workload within 60 days of acknowledgement, access to the workload is restricted until an
-  owner is added.
+  acknowledged that the *Review owner* field is required.
+
+  If a **Review owner** is not added to the workload within 60 days of acknowledgement,
+  access to the workload is restricted until an owner is added.
 - `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"NonAwsRegions"`:
 - `"Notes"`:
@@ -2960,27 +1475,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReviewOwner"`:
 - `"WorkloadName"`:
 """
-function update_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config())
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workload(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workload(WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workload(WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_workload_share(permission_type, share_id, workload_id)
@@ -2989,39 +1485,13 @@ end
 Update a workload share.
 
 # Arguments
+
 - `permission_type`:
 - `share_id`:
 - `workload_id`:
-
 """
-function update_workload_share(
-    PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}("PermissionType" => PermissionType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workload_share(
-    PermissionType,
-    ShareId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("PermissionType" => PermissionType), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workload_share(PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}("PermissionType"=>PermissionType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_workload_share(PermissionType, ShareId, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PATCH", "/workloads/$(WorkloadId)/shares/$(ShareId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionType"=>PermissionType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     upgrade_lens_review(lens_alias, milestone_name, workload_id)
@@ -3030,42 +1500,19 @@ end
 Upgrade lens review for a particular workload.
 
 # Arguments
+
 - `lens_alias`:
 - `milestone_name`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 """
-function upgrade_lens_review(
-    LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PUT",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
-        Dict{String,Any}("MilestoneName" => MilestoneName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_lens_review(
-    LensAlias,
-    MilestoneName,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PUT",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("MilestoneName" => MilestoneName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+upgrade_lens_review(LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade", Dict{String, Any}("MilestoneName"=>MilestoneName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upgrade_lens_review(LensAlias, MilestoneName, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MilestoneName"=>MilestoneName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     upgrade_profile_version(profile_arn, workload_id)
@@ -3074,43 +1521,19 @@ end
 Upgrade a profile.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"MilestoneName"`:
 """
-function upgrade_profile_version(
-    ProfileArn, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PUT",
-        "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade",
-        Dict{String,Any}("ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_profile_version(
-    ProfileArn,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PUT",
-        "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+upgrade_profile_version(ProfileArn, WorkloadId; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade", Dict{String, Any}("ClientRequestToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upgrade_profile_version(ProfileArn, WorkloadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     upgrade_review_template_lens_review(lens_alias, template_arn)
@@ -3119,34 +1542,15 @@ end
 Upgrade the lens review of a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The ARN of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 """
-function upgrade_review_template_lens_review(
-    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return wellarchitected(
-        "PUT",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_review_template_lens_review(
-    LensAlias,
-    TemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return wellarchitected(
-        "PUT",
-        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+upgrade_review_template_lens_review(LensAlias, TemplateArn; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+upgrade_review_template_lens_review(LensAlias, TemplateArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = wellarchitected("PUT", "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

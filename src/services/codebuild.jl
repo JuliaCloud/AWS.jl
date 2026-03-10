@@ -11,27 +11,11 @@ using AWS.UUIDs
 Deletes one or more builds.
 
 # Arguments
-- `ids`: The IDs of the builds to delete.
 
+- `ids`: The IDs of the builds to delete.
 """
-function batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchDeleteBuilds",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_builds(
-    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchDeleteBuilds",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_delete_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_delete_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchDeleteBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_build_batches(ids)
@@ -40,27 +24,11 @@ end
 Retrieves information about one or more batch builds.
 
 # Arguments
-- `ids`: An array that contains the batch build identifiers to retrieve.
 
+- `ids`: An array that contains the batch build identifiers to retrieve.
 """
-function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchGetBuildBatches",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_build_batches(
-    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchGetBuildBatches",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_build_batches(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_build_batches(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuildBatches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_builds(ids)
@@ -69,27 +37,11 @@ end
 Gets information about one or more builds.
 
 # Arguments
-- `ids`: The IDs of the builds.
 
+- `ids`: The IDs of the builds.
 """
-function batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchGetBuilds",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_builds(
-    ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchGetBuilds",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ids" => ids), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_builds(ids; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}("ids"=>ids); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_builds(ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetBuilds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ids"=>ids), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_fleets(names)
@@ -98,27 +50,11 @@ end
 Gets information about one or more compute fleets.
 
 # Arguments
-- `names`: The names or ARNs of the compute fleets.
 
+- `names`: The names or ARNs of the compute fleets.
 """
-function batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchGetFleets",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_fleets(
-    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchGetFleets",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_fleets(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetFleets", Dict{String, Any}("names"=>names); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_fleets(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_projects(names)
@@ -127,29 +63,13 @@ end
 Gets information about one or more build projects.
 
 # Arguments
-- `names`: The names or ARNs of the build projects. To get information about a project
-  shared with your Amazon Web Services account, its ARN must be specified. You cannot specify
-  a shared project using its name.
 
+- `names`: The names or ARNs of the build projects. To get information about a project
+  shared with your Amazon Web Services account, its ARN must be specified. You cannot
+  specify a shared project using its name.
 """
-function batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchGetProjects",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_projects(
-    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchGetProjects",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_projects(names; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}("names"=>names); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_projects(names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetProjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("names"=>names), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_report_groups(report_group_arns)
@@ -158,36 +78,12 @@ end
  Returns an array of report groups.
 
 # Arguments
+
 - `report_group_arns`:  An array of report group ARNs that identify the report groups to
   return.
-
 """
-function batch_get_report_groups(
-    reportGroupArns; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "BatchGetReportGroups",
-        Dict{String,Any}("reportGroupArns" => reportGroupArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_report_groups(
-    reportGroupArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "BatchGetReportGroups",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("reportGroupArns" => reportGroupArns), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_report_groups(reportGroupArns; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}("reportGroupArns"=>reportGroupArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_report_groups(reportGroupArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReportGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArns"=>reportGroupArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_reports(report_arns)
@@ -196,31 +92,11 @@ end
  Returns an array of reports.
 
 # Arguments
-- `report_arns`:  An array of ARNs that identify the Report objects to return.
 
+- `report_arns`:  An array of ARNs that identify the `Report` objects to return.
 """
-function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "BatchGetReports",
-        Dict{String,Any}("reportArns" => reportArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_reports(
-    reportArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "BatchGetReports",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reportArns" => reportArns), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_reports(reportArns; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}("reportArns"=>reportArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_reports(reportArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("BatchGetReports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArns"=>reportArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_fleet(base_capacity, compute_type, environment_type, name)
@@ -229,107 +105,85 @@ end
 Creates a compute fleet.
 
 # Arguments
-- `base_capacity`: The initial number of machines allocated to the ﬂeet, which deﬁnes
-  the number of builds that can run in parallel.
+
+- `base_capacity`: The initial number of machines allocated to the ﬂeet, which deﬁnes the
+  number of builds that can run in parallel.
 - `compute_type`: Information about the compute resources the compute fleet uses. Available
-  values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.
-  BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
-  BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your
-  environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds,
-  depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72
-  vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to
-  100 GB uncompressed.    If you use BUILD_GENERAL1_SMALL:     For environment type
-  LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.     For environment
-  type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor
-  Core GPU for builds.    For environment type ARM_CONTAINER, you can use up to 4 GB memory
-  and 2 vCPUs on ARM-based processors for builds.    If you use BUILD_GENERAL1_LARGE:     For
-  environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
-   For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4
-  NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to
-  16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see
-  Build environment compute types in the CodeBuild User Guide.
-- `environment_type`: The environment type of the compute fleet.   The environment type
-  ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West
-  (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
-  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).   The
-  environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US
-  East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia
-  Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
-  (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
-  (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
+  values include: - `BUILD_GENERAL1_SMALL`: Use up to 3 GB memory and 2 vCPUs for builds.
+   - `BUILD_GENERAL1_MEDIUM`: Use up to 7 GB memory and 4 vCPUs for builds.
+   - `BUILD_GENERAL1_LARGE`: Use up to 16 GB memory and 8 vCPUs for builds, depending on
+  your environment type.
+   - `BUILD_GENERAL1_XLARGE`: Use up to 70 GB memory and 36 vCPUs for builds, depending on
+  your environment type.
+   - `BUILD_GENERAL1_2XLARGE`: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage
+  for builds. This compute type supports Docker images up to 100 GB uncompressed.
+   If you use `BUILD_GENERAL1_SMALL`:  - For environment type `LINUX_CONTAINER`, you can
+  use up to 3 GB memory and 2 vCPUs for builds.
+   - For environment type `LINUX_GPU_CONTAINER`, you can use up to 16 GB memory, 4 vCPUs,
+  and 1 NVIDIA A10G Tensor Core GPU for builds.
+   - For environment type `ARM_CONTAINER`, you can use up to 4 GB memory and 2 vCPUs on ARM-
+  based processors for builds.
+   If you use `BUILD_GENERAL1_LARGE`:  - For environment type `LINUX_CONTAINER`, you can
+  use up to 15 GB memory and 8 vCPUs for builds.
+   - For environment type `LINUX_GPU_CONTAINER`, you can use up to 255 GB memory, 32 vCPUs,
+  and 4 NVIDIA Tesla V100 GPUs for builds.
+   - For environment type `ARM_CONTAINER`, you can use up to 16 GB memory and 8 vCPUs on
+  ARM-based processors for builds.
+  For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
+  in the *CodeBuild User Guide.*
+- `environment_type`: The environment type of the compute fleet. - The environment type
+  `ARM_CONTAINER` is available only in regions US East (N. Virginia), US East (Ohio), US
+  West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+   - The environment type `LINUX_CONTAINER` is available only in regions US East (N.
   Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and
+  Asia Pacific (Mumbai).
+   - The environment type `LINUX_GPU_CONTAINER` is available only in regions US East (N.
+  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Tokyo), and Asia Pacific (Sydney).
+   - The environment type `MAC_ARM` is available for Medium fleets only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), and EU
+  (Frankfurt)
+   - The environment type `MAC_ARM` is available for Large fleets only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).
+   - The environment type `WINDOWS_SERVER_2019_CONTAINER` is available only in regions US
+  East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia Pacific
+  (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
+   - The environment type `WINDOWS_SERVER_2022_CONTAINER` is available only in regions US
+  East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia
+  Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São
+  Paulo) and Asia Pacific (Mumbai).
+  For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
+  in the *CodeBuild user guide*.
 - `name`: The name of the compute fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
-  information, see  Allow a user to add a permission policy for a fleet service role in the
-  CodeBuild User Guide.
-- `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
-  your overflow builds need to wait on the existing fleet instance to become available.   For
-  overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
-  choose to set your overflow behavior to on-demand while creating a VPC-connected fleet,
-  make sure that you add the required VPC permissions to your project service role. For more
-  information, see Example policy statement to allow CodeBuild access to Amazon Web Services
-  services required to create a VPC network interface.
+  information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html)
+  in the *CodeBuild User Guide*.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
+- `"overflowBehavior"`: The compute fleet overflow behavior. - For overflow behavior
+  `QUEUE`, your overflow builds need to wait on the existing fleet instance to become
+  available.
+   - For overflow behavior `ON_DEMAND`, your overflow builds run on CodeBuild on-demand.
+
+  !!! note
+      If you choose to set your overflow behavior to on-demand while creating a VPC-
+  connected fleet, make sure that you add the required VPC permissions to your project
+  service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
 - `"scalingConfiguration"`: The scaling configuration of the compute fleet.
-- `"tags"`: A list of tag key and value pairs associated with this compute fleet. These
-  tags are available for use by Amazon Web Services services that support CodeBuild build
-  project tags.
+- `"tags"`: A list of tag key and value pairs associated with this compute fleet.
+
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  build project tags.
 - `"vpcConfig"`:
 """
-function create_fleet(
-    baseCapacity,
-    computeType,
-    environmentType,
-    name;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateFleet",
-        Dict{String,Any}(
-            "baseCapacity" => baseCapacity,
-            "computeType" => computeType,
-            "environmentType" => environmentType,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_fleet(
-    baseCapacity,
-    computeType,
-    environmentType,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateFleet",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "baseCapacity" => baseCapacity,
-                    "computeType" => computeType,
-                    "environmentType" => environmentType,
-                    "name" => name,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_fleet(baseCapacity, computeType, environmentType, name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateFleet", Dict{String, Any}("baseCapacity"=>baseCapacity, "computeType"=>computeType, "environmentType"=>environmentType, "name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet(baseCapacity, computeType, environmentType, name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("baseCapacity"=>baseCapacity, "computeType"=>computeType, "environmentType"=>environmentType, "name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_project(artifacts, environment, name, service_role, source)
@@ -338,6 +192,7 @@ end
 Creates a build project.
 
 # Arguments
+
 - `artifacts`: Information about the build output artifacts for the build project.
 - `environment`: Information about the build environment for the build project.
 - `name`: The name of the build project.
@@ -346,108 +201,76 @@ Creates a build project.
 - `source`: Information about the build input source code for the build project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"badgeEnabled"`: Set this to true to generate a publicly accessible URL for your
   project's build badge.
-- `"buildBatchConfig"`: A ProjectBuildBatchConfig object that defines the batch build
-  options for the project.
+- `"buildBatchConfig"`: A <a>ProjectBuildBatchConfig</a> object that defines the batch
+  build options for the project.
 - `"cache"`: Stores recently used information so that it can be quickly accessed at a later
   time.
 - `"concurrentBuildLimit"`: The maximum number of concurrent builds that are allowed for
-  this project. New builds are only started if the current number of builds is less than or
-  equal to this limit. If the current build count meets this limit, new builds are throttled
-  and are not run.
+  this project.
+
+  New builds are only started if the current number of builds is less than or equal to this
+  limit. If the current build count meets this limit, new builds are throttled and are not
+  run.
 - `"description"`: A description that makes the build project easy to identify.
 - `"encryptionKey"`: The Key Management Service customer master key (CMK) to be used for
-  encrypting the build output artifacts.  You can use a cross-account KMS key to encrypt the
-  build output artifacts if your service role has permission to that key.   You can specify
-  either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using
-  the format alias/&lt;alias-name&gt;).
-- `"fileSystemLocations"`:  An array of ProjectFileSystemLocation objects for a CodeBuild
-  build project. A ProjectFileSystemLocation object specifies the identifier, location,
-  mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
-  System.
+  encrypting the build output artifacts.
+
+  !!! note
+      You can use a cross-account KMS key to encrypt the build output artifacts if your
+  service role has permission to that key.You can specify either the Amazon Resource Name
+  (ARN) of the CMK or, if available, the CMK's alias (using the format `alias/&lt;alias-
+  name&gt;`).
+- `"fileSystemLocations"`:  An array of `ProjectFileSystemLocation` objects for a CodeBuild
+  build project. A `ProjectFileSystemLocation` object specifies the `identifier`,
+  `location`, `mountOptions`, `mountPoint`, and `type` of a file system created using
+  Amazon Elastic File System.
 - `"logsConfig"`: Information about logs for the build project. These can be logs in
   CloudWatch Logs, logs uploaded to a specified S3 bucket, or both.
 - `"queuedTimeoutInMinutes"`: The number of minutes a build is allowed to be queued before
   it times out.
-- `"secondaryArtifacts"`: An array of ProjectArtifacts objects.
-- `"secondarySourceVersions"`: An array of ProjectSourceVersion objects. If
-  secondarySourceVersions is specified at the build level, then they take precedence over
-  these secondarySourceVersions (at the project level).
-- `"secondarySources"`: An array of ProjectSource objects.
+- `"secondaryArtifacts"`: An array of `ProjectArtifacts` objects.
+- `"secondarySourceVersions"`: An array of `ProjectSourceVersion` objects. If
+  `secondarySourceVersions` is specified at the build level, then they take precedence over
+  these `secondarySourceVersions` (at the project level).
+- `"secondarySources"`: An array of `ProjectSource` objects.
 - `"sourceVersion"`: A version of the build input to be built for this project. If not
-  specified, the latest version is used. If specified, it must be one of:    For CodeCommit:
-  the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID,
-  branch name, or tag name that corresponds to the version of the source code you want to
-  build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
-  example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID,
-  branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that
-  corresponds to the version of the source code you want to build. If a branch name is
-  specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD
-  commit ID is used.   For Amazon S3: the version ID of the object that represents the build
-  input ZIP file to use.   If sourceVersion is specified at the build level, then that
-  version takes precedence over this sourceVersion (at the project level).  For more
-  information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
-- `"tags"`: A list of tag key and value pairs associated with this build project. These
-  tags are available for use by Amazon Web Services services that support CodeBuild build
-  project tags.
+  specified, the latest version is used. If specified, it must be one of: </p> - For
+  CodeCommit: the commit ID, branch, or Git tag to use.
+   - For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds
+  to the version of the source code you want to build. If a pull request ID is specified,
+  it must use the format `pr/pull-request-ID` (for example `pr/25`). If a branch name is
+  specified, the branch's HEAD commit ID is used. If not specified, the default branch's
+  HEAD commit ID is used.
+   - For GitLab: the commit ID, branch, or Git tag to use.
+   - For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version
+  of the source code you want to build. If a branch name is specified, the branch's HEAD
+  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+   - For Amazon S3: the version ID of the object that represents the build input ZIP file
+  to use.
+  If `sourceVersion` is specified at the build level, then that version takes precedence
+  over this `sourceVersion` (at the project level).
+
+   <p>For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html)
+  in the *CodeBuild User Guide*.
+- `"tags"`: A list of tag key and value pairs associated with this build project.
+
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  build project tags.
 - `"timeoutInMinutes"`: How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to
-  wait before it times out any build that has not been marked as completed. The default is 60
-  minutes.
-- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If
-  you're using compute fleets during project creation, do not provide vpcConfig.
+  wait before it times out any build that has not been marked as completed. The default is
+  60 minutes.
+- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
+
+  !!! note
+      If you're using compute fleets during project creation, do not provide vpcConfig.
 """
-function create_project(
-    artifacts,
-    environment,
-    name,
-    serviceRole,
-    source;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateProject",
-        Dict{String,Any}(
-            "artifacts" => artifacts,
-            "environment" => environment,
-            "name" => name,
-            "serviceRole" => serviceRole,
-            "source" => source,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_project(
-    artifacts,
-    environment,
-    name,
-    serviceRole,
-    source,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateProject",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "artifacts" => artifacts,
-                    "environment" => environment,
-                    "name" => name,
-                    "serviceRole" => serviceRole,
-                    "source" => source,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_project(artifacts, environment, name, serviceRole, source; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateProject", Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_project(artifacts, environment, name, serviceRole, source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("artifacts"=>artifacts, "environment"=>environment, "name"=>name, "serviceRole"=>serviceRole, "source"=>source), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_report_group(export_config, name, type)
@@ -456,49 +279,23 @@ end
  Creates a report group. A report group contains a collection of reports.
 
 # Arguments
-- `export_config`:  A ReportExportConfig object that contains information about where the
+
+- `export_config`:  A `ReportExportConfig` object that contains information about where the
   report group test results are exported.
 - `name`:  The name of the report group.
 - `type`:  The type of report group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"tags"`:  A list of tag key and value pairs associated with this report group.  These
-  tags are available for use by Amazon Web Services services that support CodeBuild report
-  group tags.
+
+- `"tags"`:  A list of tag key and value pairs associated with this report group.
+
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  report group tags.
 """
-function create_report_group(
-    exportConfig, name, type; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "CreateReportGroup",
-        Dict{String,Any}("exportConfig" => exportConfig, "name" => name, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_report_group(
-    exportConfig,
-    name,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateReportGroup",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "exportConfig" => exportConfig, "name" => name, "type" => type
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_report_group(exportConfig, name, type; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_report_group(exportConfig, name, type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("exportConfig"=>exportConfig, "name"=>name, "type"=>type), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_webhook(project_name)
@@ -506,58 +303,52 @@ end
 
 For an existing CodeBuild build project that has its source code stored in a GitHub or
 Bitbucket repository, enables CodeBuild to start rebuilding the source code every time a
-code change is pushed to the repository.  If you enable webhooks for an CodeBuild project,
-and the project is used as a build step in CodePipeline, then two identical builds are
-created for each commit. One build is triggered through webhooks, and one through
-CodePipeline. Because billing is on a per-build basis, you are billed for both builds.
-Therefore, if you are using CodePipeline, we recommend that you disable webhooks in
-CodeBuild. In the CodeBuild console, clear the Webhook box. For more information, see step
-5 in Change a Build Project's Settings.
+code change is pushed to the repository.
+
+!!! important
+    If you enable webhooks for an CodeBuild project, and the project is used as a build
+step in CodePipeline, then two identical builds are created for each commit. One build is
+triggered through webhooks, and one through CodePipeline. Because billing is on a per-build
+basis, you are billed for both builds. Therefore, if you are using CodePipeline, we
+recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the
+Webhook box. For more information, see step 5 in [Change a Build Project's Settings](https://docs.aws.amazon.com/codebuild/latest/userguide/change-project.html#change-project-console).
 
 # Arguments
+
 - `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"branchFilter"`: A regular expression used to determine which repository branches are
-  built when a webhook is triggered. If the name of a branch matches the regular expression,
-  then it is built. If branchFilter is empty, then all branches are built.  It is recommended
-  that you use filterGroups instead of branchFilter.
+  built when a webhook is triggered. If the name of a branch matches the regular
+  expression, then it is built. If `branchFilter` is empty, then all branches are built.
+
+!!! note
+    It is recommended that you use `filterGroups` instead of `branchFilter`.
 - `"buildType"`: Specifies the type of build this webhook will trigger.
-- `"filterGroups"`: An array of arrays of WebhookFilter objects used to determine which
-  webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its
-  type.  For a build to be triggered, at least one filter group in the filterGroups array
-  must pass. For a filter group to pass, each of its filters must pass.
+- `"filterGroups"`: An array of arrays of `WebhookFilter` objects used to determine which
+  webhooks are triggered. At least one `WebhookFilter` in the array must specify `EVENT` as
+  its `type`.
+
+  For a build to be triggered, at least one filter group in the `filterGroups` array must
+  pass. For a filter group to pass, each of its filters must pass.
 - `"manualCreation"`: If manualCreation is true, CodeBuild doesn't create a webhook in
-  GitHub and instead returns payloadUrl and secret values for the webhook. The payloadUrl and
-  secret values in the output can be used to manually create a webhook within GitHub.
-  manualCreation is only available for GitHub webhooks.
+  GitHub and instead returns `payloadUrl` and `secret` values for the webhook. The
+  `payloadUrl` and `secret` values in the output can be used to manually create a webhook
+  within GitHub.
+
+!!! note
+    `manualCreation` is only available for GitHub webhooks.
 - `"scopeConfiguration"`: The scope configuration for global or organization webhooks.
-  Global or organization webhooks are only available for GitHub and Github Enterprise
+
+  !!! note
+      Global or organization webhooks are only available for GitHub and Github Enterprise
   webhooks.
 """
-function create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "CreateWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_webhook(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "CreateWebhook",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("CreateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_build_batch(id)
@@ -566,27 +357,11 @@ end
 Deletes a batch build.
 
 # Arguments
-- `id`: The identifier of the batch build to delete.
 
+- `id`: The identifier of the batch build to delete.
 """
-function delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteBuildBatch",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_build_batch(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteBuildBatch",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_fleet(arn)
@@ -595,27 +370,11 @@ end
 Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
 
 # Arguments
-- `arn`: The ARN of the compute fleet.
 
+- `arn`: The ARN of the compute fleet.
 """
-function delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteFleet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fleet(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteFleet",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteFleet", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_project(name)
@@ -624,27 +383,11 @@ end
  Deletes a build project. When you delete a project, its builds are not deleted.
 
 # Arguments
-- `name`: The name of the build project.
 
+- `name`: The name of the build project.
 """
-function delete_project(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteProject",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteProject", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_report(arn)
@@ -653,27 +396,11 @@ end
  Deletes a report.
 
 # Arguments
-- `arn`:  The ARN of the report to delete.
 
+- `arn`:  The ARN of the report to delete.
 """
-function delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteReport",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_report(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteReport",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_report(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReport", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_report_group(arn)
@@ -682,34 +409,23 @@ end
 Deletes a report group. Before you delete a report group, you must delete its reports.
 
 # Arguments
+
 - `arn`: The ARN of the report group to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deleteReports"`: If true, deletes any reports that belong to a report group before
-  deleting the report group.  If false, you must delete any reports in the report group. Use
-  ListReportsForReportGroup to get the reports in a report group. Use DeleteReport to delete
-  the reports. If you call DeleteReportGroup for a report group that contains one or more
-  reports, an exception is thrown.
+
+- `"deleteReports"`: If `true`, deletes any reports that belong to a report group before
+  deleting the report group.
+
+  If `false`, you must delete any reports in the report group. Use [ListReportsForReportGroup](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html)
+  to get the reports in a report group. Use [DeleteReport](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html)
+  to delete the reports. If you call `DeleteReportGroup` for a report group that contains
+  one or more reports, an exception is thrown.
 """
-function delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteReportGroup",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_report_group(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteReportGroup",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_resource_policy(resource_arn)
@@ -718,33 +434,11 @@ end
  Deletes a resource policy that is identified by its resource ARN.
 
 # Arguments
-- `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
+- `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 """
-function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteResourcePolicy",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_policy(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "DeleteResourcePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_source_credentials(arn)
@@ -753,27 +447,11 @@ end
  Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
 
 # Arguments
-- `arn`:  The Amazon Resource Name (ARN) of the token.
 
+- `arn`:  The Amazon Resource Name (ARN) of the token.
 """
-function delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteSourceCredentials",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_source_credentials(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DeleteSourceCredentials",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_source_credentials(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_source_credentials(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_webhook(project_name)
@@ -784,31 +462,11 @@ Bitbucket repository, stops CodeBuild from rebuilding the source code every time
 change is pushed to the repository.
 
 # Arguments
-- `project_name`: The name of the CodeBuild project.
 
+- `project_name`: The name of the CodeBuild project.
 """
-function delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DeleteWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_webhook(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "DeleteWebhook",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_code_coverages(report_arn)
@@ -817,45 +475,27 @@ end
 Retrieves one or more code coverage reports.
 
 # Arguments
+
 - `report_arn`:  The ARN of the report for which test cases are returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxLineCoveragePercentage"`: The maximum line coverage percentage to report.
 - `"maxResults"`: The maximum number of results to return.
 - `"minLineCoveragePercentage"`: The minimum line coverage percentage to report.
-- `"nextToken"`: The nextToken value returned from a previous call to
-  DescribeCodeCoverages. This specifies the next item to return. To return the beginning of
-  the list, exclude this parameter.
-- `"sortBy"`: Specifies how the results are sorted. Possible values are:  FILE_PATH  The
-  results are sorted by file path.  LINE_COVERAGE_PERCENTAGE  The results are sorted by the
-  percentage of lines that are covered.
+- `"nextToken"`: The `nextToken` value returned from a previous call to
+  `DescribeCodeCoverages`. This specifies the next item to return. To return the beginning
+  of the list, exclude this parameter.
+- `"sortBy"`: Specifies how the results are sorted. Possible values are: <dl>
+  <dt>FILE_PATH</dt> <dd>The results are sorted by file path. </dd>
+  <dt>LINE_COVERAGE_PERCENTAGE</dt> <dd>The results are sorted by the percentage of lines
+  that are covered. </dd> </dl>
 - `"sortOrder"`: Specifies if the results are sorted in ascending or descending order.
 """
-function describe_code_coverages(
-    reportArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "DescribeCodeCoverages",
-        Dict{String,Any}("reportArn" => reportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_code_coverages(
-    reportArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "DescribeCodeCoverages",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_code_coverages(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeCodeCoverages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     describe_test_cases(report_arn)
@@ -864,43 +504,26 @@ end
  Returns a list of details about test cases for a report.
 
 # Arguments
+
 - `report_arn`:  The ARN of the report for which test cases are returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`:  A TestCaseFilter object used to filter the returned reports.
+
+- `"filter"`:  A `TestCaseFilter` object used to filter the returned reports.
 - `"maxResults"`:  The maximum number of paginated test cases returned per response. Use
-  nextToken to iterate pages in the list of returned TestCase objects. The default value is
-  100.
+  `nextToken` to iterate pages in the list of returned `TestCase` objects. The default
+  value is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 """
-function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "DescribeTestCases",
-        Dict{String,Any}("reportArn" => reportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_test_cases(
-    reportArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "DescribeTestCases",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reportArn" => reportArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_test_cases(reportArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}("reportArn"=>reportArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+describe_test_cases(reportArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("DescribeTestCases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportArn"=>reportArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_report_group_trend(report_group_arn, trend_field)
@@ -909,55 +532,34 @@ end
 Analyzes and accumulates test report values for the specified test reports.
 
 # Arguments
+
 - `report_group_arn`: The ARN of the report group that contains the reports to analyze.
 - `trend_field`: The test report value to accumulate. This must be one of the following
-  values:  Test reports:   DURATION  Accumulate the test run times for the specified reports.
-   PASS_RATE  Accumulate the percentage of tests that passed for the specified test reports.
-  TOTAL  Accumulate the total number of tests for the specified test reports.      Code
-  coverage reports:   BRANCH_COVERAGE  Accumulate the branch coverage percentages for the
-  specified test reports.  BRANCHES_COVERED  Accumulate the branches covered values for the
-  specified test reports.  BRANCHES_MISSED  Accumulate the branches missed values for the
-  specified test reports.  LINE_COVERAGE  Accumulate the line coverage percentages for the
-  specified test reports.  LINES_COVERED  Accumulate the lines covered values for the
-  specified test reports.  LINES_MISSED  Accumulate the lines not covered values for the
-  specified test reports.
+  values: <dl> <dt>Test reports:</dt> <dd> <dl> <dt>DURATION</dt> <dd>Accumulate the test
+  run times for the specified reports. </dd> <dt>PASS_RATE</dt> <dd>Accumulate the
+  percentage of tests that passed for the specified test reports. </dd> <dt>TOTAL</dt>
+  <dd>Accumulate the total number of tests for the specified test reports. </dd> </dl>
+  </dd> </dl> <dl> <dt>Code coverage reports:</dt> <dd> <dl> <dt>BRANCH_COVERAGE</dt>
+  <dd>Accumulate the branch coverage percentages for the specified test reports. </dd>
+  <dt>BRANCHES_COVERED</dt> <dd>Accumulate the branches covered values for the specified
+  test reports. </dd> <dt>BRANCHES_MISSED</dt> <dd>Accumulate the branches missed values
+  for the specified test reports. </dd> <dt>LINE_COVERAGE</dt> <dd>Accumulate the line
+  coverage percentages for the specified test reports. </dd> <dt>LINES_COVERED</dt>
+  <dd>Accumulate the lines covered values for the specified test reports. </dd>
+  <dt>LINES_MISSED</dt> <dd>Accumulate the lines not covered values for the specified test
+  reports. </dd> </dl> </dd> </dl>
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"numOfReports"`: The number of reports to analyze. This operation always retrieves the
-  most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
+  most recent reports.
+
+If this parameter is omitted, the most recent 100 reports are analyzed.
 """
-function get_report_group_trend(
-    reportGroupArn, trendField; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "GetReportGroupTrend",
-        Dict{String,Any}("reportGroupArn" => reportGroupArn, "trendField" => trendField);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_report_group_trend(
-    reportGroupArn,
-    trendField,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "GetReportGroupTrend",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "reportGroupArn" => reportGroupArn, "trendField" => trendField
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_report_group_trend(reportGroupArn, trendField; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_report_group_trend(reportGroupArn, trendField, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetReportGroupTrend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn, "trendField"=>trendField), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_resource_policy(resource_arn)
@@ -966,93 +568,43 @@ end
  Gets a resource policy that is identified by its resource ARN.
 
 # Arguments
-- `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
+- `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 """
-function get_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "GetResourcePolicy",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_policy(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "GetResourcePolicy",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_resource_policy(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     import_source_credentials(auth_type, server_type, token)
     import_source_credentials(auth_type, server_type, token, params::Dict{String,<:Any})
 
  Imports the source repository credentials for an CodeBuild project that has its source
-code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket
+repository.
 
 # Arguments
+
 - `auth_type`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
-  GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported
-  by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is
-  only valid for GitLab and GitLab Self Managed.
+  GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not
+  supported by the API and must be created using the CodeBuild console.
 - `server_type`:  The source provider used for this project.
 - `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
-  Bitbucket, this is either the access token or the app password. For the authType
-  CODECONNECTIONS, this is the connectionArn.
+  Bitbucket, this is either the access token or the app password. For the `authType`
+  CODECONNECTIONS, this is the `connectionArn`. For the `authType` SECRETS_MANAGER, this is
+  the `secretArn`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"shouldOverwrite"`:  Set to false to prevent overwriting the repository source
-  credentials. Set to true to overwrite the repository source credentials. The default value
-  is true.
-- `"username"`:  The Bitbucket username when the authType is BASIC_AUTH. This parameter is
-  not valid for other types of source providers or connections.
+
+- `"shouldOverwrite"`:  Set to `false` to prevent overwriting the repository source
+  credentials. Set to `true` to overwrite the repository source credentials. The default
+  value is `true`.
+- `"username"`:  The Bitbucket username when the `authType` is BASIC_AUTH. This parameter
+  is not valid for other types of source providers or connections.
 """
-function import_source_credentials(
-    authType, serverType, token; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ImportSourceCredentials",
-        Dict{String,Any}(
-            "authType" => authType, "serverType" => serverType, "token" => token
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_source_credentials(
-    authType,
-    serverType,
-    token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "ImportSourceCredentials",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "authType" => authType, "serverType" => serverType, "token" => token
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+import_source_credentials(authType, serverType, token; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+import_source_credentials(authType, serverType, token, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ImportSourceCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("authType"=>authType, "serverType"=>serverType, "token"=>token), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     invalidate_project_cache(project_name)
@@ -1061,33 +613,11 @@ end
 Resets the cache for a project.
 
 # Arguments
-- `project_name`: The name of the CodeBuild build project that the cache is reset for.
 
+- `project_name`: The name of the CodeBuild build project that the cache is reset for.
 """
-function invalidate_project_cache(
-    projectName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "InvalidateProjectCache",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function invalidate_project_cache(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "InvalidateProjectCache",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+invalidate_project_cache(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("InvalidateProjectCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_build_batches()
@@ -1096,28 +626,20 @@ end
 Retrieves the identifiers of your build batches in the current region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: A BuildBatchFilter object that specifies the filters for the search.
+
+- `"filter"`: A `BuildBatchFilter` object that specifies the filters for the search.
 - `"maxResults"`: The maximum number of results to return.
-- `"nextToken"`: The nextToken value returned from a previous call to ListBuildBatches.
+- `"nextToken"`: The `nextToken` value returned from a previous call to `ListBuildBatches`.
   This specifies the next item to return. To return the beginning of the list, exclude this
   parameter.
-- `"sortOrder"`: Specifies the sort order of the returned items. Valid values include:
-  ASCENDING: List the batch build identifiers in ascending order by identifier.
-  DESCENDING: List the batch build identifiers in descending order by identifier.
+- `"sortOrder"`: Specifies the sort order of the returned items. Valid values include: -
+  `ASCENDING`: List the batch build identifiers in ascending order by identifier.
+   - `DESCENDING`: List the batch build identifiers in descending order by identifier.
 """
-function list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_build_batches(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_build_batches(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_build_batches(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatches", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_build_batches_for_project()
@@ -1126,34 +648,21 @@ end
 Retrieves the identifiers of the build batches for a specific project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: A BuildBatchFilter object that specifies the filters for the search.
+
+- `"filter"`: A `BuildBatchFilter` object that specifies the filters for the search.
 - `"maxResults"`: The maximum number of results to return.
-- `"nextToken"`: The nextToken value returned from a previous call to
-  ListBuildBatchesForProject. This specifies the next item to return. To return the beginning
-  of the list, exclude this parameter.
+- `"nextToken"`: The `nextToken` value returned from a previous call to
+  `ListBuildBatchesForProject`. This specifies the next item to return. To return the
+  beginning of the list, exclude this parameter.
 - `"projectName"`: The name of the project.
-- `"sortOrder"`: Specifies the sort order of the returned items. Valid values include:
-  ASCENDING: List the batch build identifiers in ascending order by identifier.
-  DESCENDING: List the batch build identifiers in descending order by identifier.
+- `"sortOrder"`: Specifies the sort order of the returned items. Valid values include: -
+  `ASCENDING`: List the batch build identifiers in ascending order by identifier.
+   - `DESCENDING`: List the batch build identifiers in descending order by identifier.
 """
-function list_build_batches_for_project(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_build_batches_for_project(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListBuildBatchesForProject",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_build_batches_for_project(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_build_batches_for_project(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildBatchesForProject", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_builds()
@@ -1162,26 +671,20 @@ end
 Gets a list of build IDs, with each build ID representing a single build.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: During a previous call, if there are more than 100 items in the list, only
-  the first 100 items are returned, along with a unique string called a nextToken. To get the
-  next batch of items in the list, call this operation again, adding the next token to the
-  call. To get all of the items in the list, keep calling this operation with each subsequent
-  next token that is returned, until no more next tokens are returned.
-- `"sortOrder"`: The order to list build IDs. Valid values include:    ASCENDING: List the
-  build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending
-  order by build ID.
+  the first 100 items are returned, along with a unique string called a *nextToken*. To get
+  the next batch of items in the list, call this operation again, adding the next token to
+  the call. To get all of the items in the list, keep calling this operation with each
+  subsequent next token that is returned, until no more next tokens are returned.
+- `"sortOrder"`: The order to list build IDs. Valid values include: - `ASCENDING`: List the
+  build IDs in ascending order by build ID.
+   - `DESCENDING`: List the build IDs in descending order by build ID.
 """
-function list_builds(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_builds(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_builds(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_builds(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuilds", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_builds_for_project(project_name)
@@ -1191,73 +694,38 @@ Gets a list of build identifiers for the specified build project, with each buil
 identifier representing a single build.
 
 # Arguments
+
 - `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: During a previous call, if there are more than 100 items in the list, only
-  the first 100 items are returned, along with a unique string called a nextToken. To get the
-  next batch of items in the list, call this operation again, adding the next token to the
-  call. To get all of the items in the list, keep calling this operation with each subsequent
-  next token that is returned, until no more next tokens are returned.
+  the first 100 items are returned, along with a unique string called a *nextToken*. To get
+  the next batch of items in the list, call this operation again, adding the next token to
+  the call. To get all of the items in the list, keep calling this operation with each
+  subsequent next token that is returned, until no more next tokens are returned.
 - `"sortOrder"`: The order to sort the results in. The results are sorted by build number,
   not the build identifier. If this is not specified, the results are sorted in descending
-  order. Valid values include:    ASCENDING: List the build identifiers in ascending order,
-  by build number.    DESCENDING: List the build identifiers in descending order, by build
-  number.   If the project has more than 100 builds, setting the sort order will result in an
-  error.
+  order.
+
+  Valid values include: - `ASCENDING`: List the build identifiers in ascending order, by
+  build number.
+   - `DESCENDING`: List the build identifiers in descending order, by build number.
+  If the project has more than 100 builds, setting the sort order will result in an error.
 """
-function list_builds_for_project(
-    projectName; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListBuildsForProject",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_builds_for_project(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "ListBuildsForProject",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_builds_for_project(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_builds_for_project(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListBuildsForProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_curated_environment_images()
     list_curated_environment_images(params::Dict{String,<:Any})
 
 Gets information about Docker images that are managed by CodeBuild.
-
 """
-function list_curated_environment_images(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListCuratedEnvironmentImages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_curated_environment_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListCuratedEnvironmentImages",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_curated_environment_images(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListCuratedEnvironmentImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_curated_environment_images(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListCuratedEnvironmentImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_fleets()
@@ -1267,33 +735,30 @@ Gets a list of compute fleet names with each compute fleet name representing a s
 compute fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of paginated compute fleets returned per response. Use
-  nextToken to iterate pages in the list of returned compute fleets.
+  `nextToken` to iterate pages in the list of returned compute fleets.
 - `"nextToken"`: During a previous call, if there are more than 100 items in the list, only
-  the first 100 items are returned, along with a unique string called a nextToken. To get the
-  next batch of items in the list, call this operation again, adding the next token to the
-  call. To get all of the items in the list, keep calling this operation with each subsequent
-  next token that is returned, until no more next tokens are returned.
-- `"sortBy"`: The criterion to be used to list compute fleet names. Valid values include:
-   CREATED_TIME: List based on when each compute fleet was created.    LAST_MODIFIED_TIME:
-  List based on when information about each compute fleet was last changed.    NAME: List
-  based on each compute fleet's name.   Use sortOrder to specify in what order to list the
-  compute fleet names based on the preceding criteria.
-- `"sortOrder"`: The order in which to list compute fleets. Valid values include:
-  ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
-  to specify the criterion to be used to list compute fleet names.
+  the first 100 items are returned, along with a unique string called a *nextToken*. To get
+  the next batch of items in the list, call this operation again, adding the next token to
+  the call. To get all of the items in the list, keep calling this operation with each
+  subsequent next token that is returned, until no more next tokens are returned.
+- `"sortBy"`: The criterion to be used to list compute fleet names. Valid values include: -
+  `CREATED_TIME`: List based on when each compute fleet was created.
+   - `LAST_MODIFIED_TIME`: List based on when information about each compute fleet was last
+  changed.
+   - `NAME`: List based on each compute fleet's name.
+  Use `sortOrder` to specify in what order to list the compute fleet names based on the
+  preceding criteria.
+- `"sortOrder"`: The order in which to list compute fleets. Valid values include: -
+  `ASCENDING`: List in ascending order.
+   - `DESCENDING`: List in descending order.
+  Use `sortBy` to specify the criterion to be used to list compute fleet names.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_fleets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_fleets(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fleets(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_projects()
@@ -1303,31 +768,28 @@ Gets a list of build project names, with each build project name representing a 
 build project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: During a previous call, if there are more than 100 items in the list, only
-  the first 100 items are returned, along with a unique string called a nextToken. To get the
-  next batch of items in the list, call this operation again, adding the next token to the
-  call. To get all of the items in the list, keep calling this operation with each subsequent
-  next token that is returned, until no more next tokens are returned.
-- `"sortBy"`: The criterion to be used to list build project names. Valid values include:
-   CREATED_TIME: List based on when each build project was created.    LAST_MODIFIED_TIME:
-  List based on when information about each build project was last changed.    NAME: List
-  based on each build project's name.   Use sortOrder to specify in what order to list the
-  build project names based on the preceding criteria.
-- `"sortOrder"`: The order in which to list build projects. Valid values include:
-  ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
-  to specify the criterion to be used to list build project names.
+  the first 100 items are returned, along with a unique string called a *nextToken*. To get
+  the next batch of items in the list, call this operation again, adding the next token to
+  the call. To get all of the items in the list, keep calling this operation with each
+  subsequent next token that is returned, until no more next tokens are returned.
+- `"sortBy"`: The criterion to be used to list build project names. Valid values include: -
+  `CREATED_TIME`: List based on when each build project was created.
+   - `LAST_MODIFIED_TIME`: List based on when information about each build project was last
+  changed.
+   - `NAME`: List based on each build project's name.
+  Use `sortOrder` to specify in what order to list the build project names based on the
+  preceding criteria.
+- `"sortOrder"`: The order in which to list build projects. Valid values include: -
+  `ASCENDING`: List in ascending order.
+   - `DESCENDING`: List in descending order.
+  Use `sortBy` to specify the criterion to be used to list build project names.
 """
-function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_report_groups()
@@ -1336,35 +798,27 @@ end
  Gets a list ARNs for the report groups in the current Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of paginated report groups returned per response. Use
-  nextToken to iterate pages in the list of returned ReportGroup objects. The default value
-  is 100.
+  `nextToken` to iterate pages in the list of returned `ReportGroup` objects. The default
+  value is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 - `"sortBy"`:  The criterion to be used to list build report groups. Valid values include:
-     CREATED_TIME: List based on when each report group was created.    LAST_MODIFIED_TIME:
-  List based on when each report group was last changed.    NAME: List based on each report
-  group's name.
+  - `CREATED_TIME`: List based on when each report group was created.
+   - `LAST_MODIFIED_TIME`: List based on when each report group was last changed.
+   - `NAME`: List based on each report group's name.
 - `"sortOrder"`:  Used to specify the order to sort the list of returned report groups.
-  Valid values are ASCENDING and DESCENDING.
+  Valid values are `ASCENDING` and `DESCENDING`.
 """
-function list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_report_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_reports()
@@ -1373,82 +827,57 @@ end
  Returns a list of ARNs for the reports in the current Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`:  A ReportFilter object used to filter the returned reports.
+
+- `"filter"`:  A `ReportFilter` object used to filter the returned reports.
 - `"maxResults"`:  The maximum number of paginated reports returned per response. Use
-  nextToken to iterate pages in the list of returned Report objects. The default value is
-  100.
+  `nextToken` to iterate pages in the list of returned `Report` objects. The default value
+  is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 - `"sortOrder"`:  Specifies the sort order for the list of returned reports. Valid values
-  are:     ASCENDING: return reports in chronological order based on their creation date.
-  DESCENDING: return reports in the reverse chronological order based on their creation date.
-  
+  are:  - `ASCENDING`: return reports in chronological order based on their creation date.
+   - `DESCENDING`: return reports in the reverse chronological order based on their
+  creation date.
 """
-function list_reports(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_reports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_reports(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reports(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_reports_for_report_group(report_group_arn)
     list_reports_for_report_group(report_group_arn, params::Dict{String,<:Any})
 
- Returns a list of ARNs for the reports that belong to a ReportGroup.
+ Returns a list of ARNs for the reports that belong to a `ReportGroup`.
 
 # Arguments
+
 - `report_group_arn`:  The ARN of the report group for which you want to return report
   ARNs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`:  A ReportFilter object used to filter the returned reports.
+
+- `"filter"`:  A `ReportFilter` object used to filter the returned reports.
 - `"maxResults"`:  The maximum number of paginated reports in this report group returned
-  per response. Use nextToken to iterate pages in the list of returned Report objects. The
-  default value is 100.
+  per response. Use `nextToken` to iterate pages in the list of returned `Report` objects.
+  The default value is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 - `"sortOrder"`:  Use to specify whether the results are returned in ascending or
   descending order.
 """
-function list_reports_for_report_group(
-    reportGroupArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListReportsForReportGroup",
-        Dict{String,Any}("reportGroupArn" => reportGroupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_reports_for_report_group(
-    reportGroupArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "ListReportsForReportGroup",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("reportGroupArn" => reportGroupArn), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_reports_for_report_group(reportGroupArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}("reportGroupArn"=>reportGroupArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_reports_for_report_group(reportGroupArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListReportsForReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("reportGroupArn"=>reportGroupArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_shared_projects()
@@ -1457,35 +886,29 @@ end
  Gets a list of projects that are shared with other Amazon Web Services accounts or users.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of paginated shared build projects returned per
-  response. Use nextToken to iterate pages in the list of returned Project objects. The
+  response. Use `nextToken` to iterate pages in the list of returned `Project` objects. The
   default value is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 - `"sortBy"`:  The criterion to be used to list build projects shared with the current
-  Amazon Web Services account or user. Valid values include:     ARN: List based on the ARN.
-     MODIFIED_TIME: List based on when information about the shared project was last changed.
-  
-- `"sortOrder"`: The order in which to list shared build projects. Valid values include:
-  ASCENDING: List in ascending order.    DESCENDING: List in descending order.
+  Amazon Web Services account or user. Valid values include:  - `ARN`: List based on the
+  ARN.
+   - `MODIFIED_TIME`: List based on when information about the shared project was last
+  changed.
+- `"sortOrder"`: The order in which to list shared build projects. Valid values include: -
+  `ASCENDING`: List in ascending order.
+ - `DESCENDING`: List in descending order.
 """
-function list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_shared_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_shared_projects(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_shared_projects(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_shared_report_groups()
@@ -1495,104 +918,55 @@ end
 users.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of paginated shared report groups per response. Use
-  nextToken to iterate pages in the list of returned ReportGroup objects. The default value
-  is 100.
+  `nextToken` to iterate pages in the list of returned `ReportGroup` objects. The default
+  value is 100.
 - `"nextToken"`:  During a previous call, the maximum number of items that can be returned
-  is the value specified in maxResults. If there more items in the list, then a unique string
-  called a nextToken is returned. To get the next batch of items in the list, call this
-  operation again, adding the next token to the call. To get all of the items in the list,
-  keep calling this operation with each subsequent next token that is returned, until no more
-  next tokens are returned.
+  is the value specified in `maxResults`. If there more items in the list, then a unique
+  string called a *nextToken* is returned. To get the next batch of items in the list, call
+  this operation again, adding the next token to the call. To get all of the items in the
+  list, keep calling this operation with each subsequent next token that is returned, until
+  no more next tokens are returned.
 - `"sortBy"`:  The criterion to be used to list report groups shared with the current
-  Amazon Web Services account or user. Valid values include:     ARN: List based on the ARN.
-     MODIFIED_TIME: List based on when information about the shared report group was last
+  Amazon Web Services account or user. Valid values include:  - `ARN`: List based on the
+  ARN.
+   - `MODIFIED_TIME`: List based on when information about the shared report group was last
   changed.
-- `"sortOrder"`: The order in which to list shared report groups. Valid values include:
-  ASCENDING: List in ascending order.    DESCENDING: List in descending order.
+- `"sortOrder"`: The order in which to list shared report groups. Valid values include: -
+  `ASCENDING`: List in ascending order.
+ - `DESCENDING`: List in descending order.
 """
-function list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_shared_report_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListSharedReportGroups",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_shared_report_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_shared_report_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSharedReportGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_source_credentials()
     list_source_credentials(params::Dict{String,<:Any})
 
- Returns a list of SourceCredentialsInfo objects.
-
+ Returns a list of `SourceCredentialsInfo` objects.
 """
-function list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_source_credentials(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "ListSourceCredentials",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_source_credentials(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_source_credentials(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("ListSourceCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
- Stores a resource policy for the ARN of a Project or ReportGroup object.
+ Stores a resource policy for the ARN of a `Project` or `ReportGroup` object.
 
 # Arguments
-- `policy`:  A JSON-formatted resource policy. For more information, see Sharing a Project
-  and Sharing a Report Group in the CodeBuild User Guide.
-- `resource_arn`:  The ARN of the Project or ReportGroup resource you want to associate
-  with a resource policy.
 
+- `policy`:  A JSON-formatted resource policy. For more information, see [Sharing a Project](https://docs.aws.amazon.com/codebuild/latest/userguide/project-sharing.html#project-sharing-share)
+  and [Sharing a Report Group](https://docs.aws.amazon.com/codebuild/latest/userguide/report-groups-sharing.html#report-groups-sharing-share)
+  in the *CodeBuild User Guide*.
+- `resource_arn`:  The ARN of the `Project` or `ReportGroup` resource you want to associate
+  with a resource policy.
 """
-function put_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "PutResourcePolicy",
-        Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resource_policy(
-    policy,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "PutResourcePolicy",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_resource_policy(policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_resource_policy(policy, resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("policy"=>policy, "resourceArn"=>resourceArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     retry_build()
@@ -1601,23 +975,17 @@ end
 Restarts a build.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"id"`: Specifies the identifier of the build to restart.
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
-  idempotency of the RetryBuild request. The token is included in the RetryBuild request and
-  is valid for five minutes. If you repeat the RetryBuild request with the same token, but
-  change a parameter, CodeBuild returns a parameter mismatch error.
+  idempotency of the `RetryBuild` request. The token is included in the `RetryBuild`
+  request and is valid for five minutes. If you repeat the `RetryBuild` request with the
+  same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 """
-function retry_build(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function retry_build(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+retry_build(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retry_build(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuild", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     retry_build_batch()
@@ -1626,26 +994,19 @@ end
 Restarts a failed batch build. Only batch builds that have failed can be retried.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"id"`: Specifies the identifier of the batch build to restart.
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
-  idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch
-  request and is valid for five minutes. If you repeat the RetryBuildBatch request with the
-  same token, but change a parameter, CodeBuild returns a parameter mismatch error.
+  idempotency of the `RetryBuildBatch` request. The token is included in the
+  `RetryBuildBatch` request and is valid for five minutes. If you repeat the
+  `RetryBuildBatch` request with the same token, but change a parameter, CodeBuild returns
+  a parameter mismatch error.
 - `"retryType"`: Specifies the type of retry to perform.
 """
-function retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function retry_build_batch(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+retry_build_batch(; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+retry_build_batch(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("RetryBuildBatch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_build(project_name)
@@ -1653,33 +1014,43 @@ end
 
 Starts running a build with the settings defined in the project. These setting include: how
 to run a build, where to get the source code, which build environment to use, which build
-commands to run, and where to store the build output. You can also start a build run by
-overriding some of the build settings in the project. The overrides only apply for that
-specific start build request. The settings in the project are unaltered.
+commands to run, and where to store the build output.
+
+You can also start a build run by overriding some of the build settings in the project. The
+overrides only apply for that specific start build request. The settings in the project are
+unaltered.
 
 # Arguments
+
 - `project_name`: The name of the CodeBuild build project to start running a build.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"artifactsOverride"`: Build output artifact settings that override, for this build only,
   the latest ones already defined in the build project.
 - `"buildStatusConfigOverride"`: Contains information that defines how the build project
   reports the build status to the source provider. This option is only used when the source
-  provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
+  provider is `GITHUB`, `GITHUB_ENTERPRISE`, or `BITBUCKET`.
 - `"buildspecOverride"`: A buildspec file declaration that overrides the latest one defined
   in the build project, for this build only. The buildspec defined on the project is not
-  changed. If this value is set, it can be either an inline buildspec definition, the path to
-  an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR
+  changed.
+
+  If this value is set, it can be either an inline buildspec definition, the path to an
+  alternate buildspec file relative to the value of the built-in `CODEBUILD_SRC_DIR`
   environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon
   Web Services Region as the build project. Specify the buildspec file using its ARN (for
-  example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or
-  is set to an empty string, the source code must contain a buildspec file in its root
-  directory. For more information, see Buildspec File Name and Storage Location.  Since this
-  property allows you to change the build commands that will run in the container, you should
-  note that an IAM principal with the ability to call this API and set this parameter can
-  override the default settings. Moreover, we encourage that you use a trustworthy buildspec
-  location like a file in your source repository or a Amazon S3 bucket.
+  example, `arn:aws:s3:::my-codebuild-sample2/buildspec.yml`). If this value is not
+  provided or is set to an empty string, the source code must contain a buildspec file in
+  its root directory. For more information, see [Buildspec File Name and Storage Location](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage).
+
+  !!! note
+      Since this property allows you to change the build commands that will run in the
+  container, you should note that an IAM principal with the ability to call this API and
+  set this parameter can override the default settings. Moreover, we encourage that you use
+  a trustworthy buildspec location like a file in your source repository or a Amazon S3
+  bucket.
 - `"cacheOverride"`: A ProjectCache object specified for this build that overrides the one
   defined in the build project.
 - `"certificateOverride"`: The name of a certificate for this build that overrides the one
@@ -1687,13 +1058,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"computeTypeOverride"`: The name of a compute type for this build that overrides the one
   specified in the build project.
 - `"debugSessionEnabled"`: Specifies if session debugging is enabled for this build. For
-  more information, see Viewing a running build in Session Manager.
+  more information, see [Viewing a running build in Session Manager](https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html).
 - `"encryptionKeyOverride"`: The Key Management Service customer master key (CMK) that
   overrides the one specified in the build project. The CMK key encrypts the build output
-  artifacts.   You can use a cross-account KMS key to encrypt the build output artifacts if
-  your service role has permission to that key.   You can specify either the Amazon Resource
-  Name (ARN) of the CMK or, if available, the CMK's alias (using the format
-  alias/&lt;alias-name&gt;).
+  artifacts.
+
+  !!! note
+      You can use a cross-account KMS key to encrypt the build output artifacts if your
+  service role has permission to that key.You can specify either the Amazon Resource Name
+  (ARN) of the CMK or, if available, the CMK's alias (using the format `alias/&lt;alias-
+  name&gt;`).
 - `"environmentTypeOverride"`: A container type for this build that overrides the one
   specified in the build project.
 - `"environmentVariablesOverride"`: A set of environment variables that overrides, for this
@@ -1706,18 +1080,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"gitSubmodulesConfigOverride"`:  Information about the Git submodules configuration for
   this build of an CodeBuild build project.
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
-  idempotency of the StartBuild request. The token is included in the StartBuild request and
-  is valid for 5 minutes. If you repeat the StartBuild request with the same token, but
+  idempotency of the StartBuild request. The token is included in the StartBuild request
+  and is valid for 5 minutes. If you repeat the StartBuild request with the same token, but
   change a parameter, CodeBuild returns a parameter mismatch error.
 - `"imageOverride"`: The name of an image for this build that overrides the one specified
   in the build project.
 - `"imagePullCredentialsTypeOverride"`: The type of credentials CodeBuild uses to pull
-  images in your build. There are two valid values:   CODEBUILD  Specifies that CodeBuild
-  uses its own credentials. This requires that you modify your ECR repository policy to trust
-  CodeBuild's service principal.  SERVICE_ROLE  Specifies that CodeBuild uses your build
-  project's service role.    When using a cross-account or private registry image, you must
-  use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use CODEBUILD
-  credentials.
+  images in your build. There are two valid values:  <dl> <dt>CODEBUILD</dt> <dd>Specifies
+  that CodeBuild uses its own credentials. This requires that you modify your ECR
+  repository policy to trust CodeBuild's service principal. </dd> <dt>SERVICE_ROLE</dt>
+  <dd>Specifies that CodeBuild uses your build project's service role.  </dd> </dl>When
+  using a cross-account or private registry image, you must use `SERVICE_ROLE` credentials.
+  When using an CodeBuild curated image, you must use `CODEBUILD` credentials.
 - `"insecureSslOverride"`: Enable this flag to override the insecure SSL setting that is
   specified in the build project. The insecure SSL setting determines whether to ignore SSL
   warnings while connecting to the project source code. This override applies only if the
@@ -1730,16 +1104,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   queued before it times out.
 - `"registryCredentialOverride"`:  The credentials for access to a private registry.
 - `"reportBuildStatusOverride"`:  Set to true to report to your source provider the status
-  of a build's start and completion. If you use this option with a source provider other than
-  GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.  To be able to
-  report the build status to the source provider, the user associated with the source
-  provider must have write access to the repo. If the user does not have write access, the
-  build status cannot be updated. For more information, see Source provider access in the
-  CodeBuild User Guide.   The status of a build triggered by a webhook is always reported to
-  your source provider.
-- `"secondaryArtifactsOverride"`:  An array of ProjectArtifacts objects.
-- `"secondarySourcesOverride"`:  An array of ProjectSource objects.
-- `"secondarySourcesVersionOverride"`:  An array of ProjectSourceVersion objects that
+  of a build's start and completion. If you use this option with a source provider other
+  than GitHub, GitHub Enterprise, or Bitbucket, an `invalidInputException` is thrown.
+
+  To be able to report the build status to the source provider, the user associated with
+  the source provider must have write access to the repo. If the user does not have write
+  access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html)
+  in the *CodeBuild User Guide*.
+
+  !!! note
+      The status of a build triggered by a webhook is always reported to your source
+  provider.
+- `"secondaryArtifactsOverride"`:  An array of `ProjectArtifacts` objects.
+- `"secondarySourcesOverride"`:  An array of `ProjectSource` objects.
+- `"secondarySourcesVersionOverride"`:  An array of `ProjectSourceVersion` objects that
   specify one or more versions of the project's secondary sources to be used for this build
   only.
 - `"serviceRoleOverride"`: The name of a service role for this build that overrides the one
@@ -1752,45 +1130,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceTypeOverride"`: A source input type, for this build, that overrides the source
   input defined in the build project.
 - `"sourceVersion"`: The version of the build input to be built, for this build only. If
-  not specified, the latest version is used. If specified, the contents depends on the source
-  provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit ID,
-  pull request ID, branch name, or tag name that corresponds to the version of the source
-  code you want to build. If a pull request ID is specified, it must use the format
-  pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
-  commit ID is used. If not specified, the default branch's HEAD commit ID is used.  GitLab
-  The commit ID, branch, or Git tag to use.  Bitbucket  The commit ID, branch name, or tag
-  name that corresponds to the version of the source code you want to build. If a branch name
-  is specified, the branch's HEAD commit ID is used. If not specified, the default branch's
-  HEAD commit ID is used.  Amazon S3  The version ID of the object that represents the build
-  input ZIP file to use.   If sourceVersion is specified at the project level, then this
-  sourceVersion (at the build level) takes precedence.  For more information, see Source
-  Version Sample with CodeBuild in the CodeBuild User Guide.
+  not specified, the latest version is used. If specified, the contents depends on the
+  source provider:</p> <dl> <dt>CodeCommit</dt> <dd>The commit ID, branch, or Git tag to
+  use. </dd> <dt>GitHub</dt> <dd>The commit ID, pull request ID, branch name, or tag name
+  that corresponds to the version of the source code you want to build. If a pull request
+  ID is specified, it must use the format `pr/pull-request-ID` (for example `pr/25`). If a
+  branch name is specified, the branch's HEAD commit ID is used. If not specified, the
+  default branch's HEAD commit ID is used. </dd> <dt>GitLab</dt> <dd>The commit ID, branch,
+  or Git tag to use. </dd> <dt>Bitbucket</dt> <dd>The commit ID, branch name, or tag name
+  that corresponds to the version of the source code you want to build. If a branch name is
+  specified, the branch's HEAD commit ID is used. If not specified, the default branch's
+  HEAD commit ID is used. </dd> <dt>Amazon S3</dt> <dd>The version ID of the object that
+  represents the build input ZIP file to use. </dd> </dl>If `sourceVersion` is specified at
+  the project level, then this `sourceVersion` (at the build level) takes precedence.
+
+   <p>For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html)
+  in the *CodeBuild User Guide*.
 - `"timeoutInMinutesOverride"`: The number of build timeout minutes, from 5 to 2160 (36
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
 """
-function start_build(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "StartBuild",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_build(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "StartBuild",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_build(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuild", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_build(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_build_batch(project_name)
@@ -1799,87 +1160,98 @@ end
 Starts a batch build for a project.
 
 # Arguments
+
 - `project_name`: The name of the project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"artifactsOverride"`: An array of ProjectArtifacts objects that contains information
+
+- `"artifactsOverride"`: An array of `ProjectArtifacts` objects that contains information
   about the build output artifact overrides for the build project.
-- `"buildBatchConfigOverride"`: A BuildBatchConfigOverride object that contains batch build
-  configuration overrides.
+- `"buildBatchConfigOverride"`: A `BuildBatchConfigOverride` object that contains batch
+  build configuration overrides.
 - `"buildTimeoutInMinutesOverride"`: Overrides the build timeout specified in the batch
   build project.
 - `"buildspecOverride"`: A buildspec file declaration that overrides, for this build only,
-  the latest one already defined in the build project. If this value is set, it can be either
-  an inline buildspec definition, the path to an alternate buildspec file relative to the
-  value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket.
-  The bucket must be in the same Amazon Web Services Region as the build project. Specify the
-  buildspec file using its ARN (for example,
-  arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set
-  to an empty string, the source code must contain a buildspec file in its root directory.
-  For more information, see Buildspec File Name and Storage Location.
-- `"cacheOverride"`: A ProjectCache object that specifies cache overrides.
+  the latest one already defined in the build project.
+
+  If this value is set, it can be either an inline buildspec definition, the path to an
+  alternate buildspec file relative to the value of the built-in `CODEBUILD_SRC_DIR`
+  environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon
+  Web Services Region as the build project. Specify the buildspec file using its ARN (for
+  example, `arn:aws:s3:::my-codebuild-sample2/buildspec.yml`). If this value is not
+  provided or is set to an empty string, the source code must contain a buildspec file in
+  its root directory. For more information, see [Buildspec File Name and Storage Location](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage).
+- `"cacheOverride"`: A `ProjectCache` object that specifies cache overrides.
 - `"certificateOverride"`: The name of a certificate for this batch build that overrides
   the one specified in the batch build project.
 - `"computeTypeOverride"`: The name of a compute type for this batch build that overrides
   the one specified in the batch build project.
 - `"debugSessionEnabled"`: Specifies if session debugging is enabled for this batch build.
-  For more information, see Viewing a running build in Session Manager. Batch session
-  debugging is not supported for matrix batch builds.
+  For more information, see [Viewing a running build in Session Manager](https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html).
+  Batch session debugging is not supported for matrix batch builds.
 - `"encryptionKeyOverride"`: The Key Management Service customer master key (CMK) that
   overrides the one specified in the batch build project. The CMK key encrypts the build
-  output artifacts.  You can use a cross-account KMS key to encrypt the build output
-  artifacts if your service role has permission to that key.   You can specify either the
-  Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using the format
-  alias/&lt;alias-name&gt;).
+  output artifacts.
+
+  !!! note
+      You can use a cross-account KMS key to encrypt the build output artifacts if your
+  service role has permission to that key.You can specify either the Amazon Resource Name
+  (ARN) of the CMK or, if available, the CMK's alias (using the format `alias/&lt;alias-
+  name&gt;`).
 - `"environmentTypeOverride"`: A container type for this batch build that overrides the one
   specified in the batch build project.
-- `"environmentVariablesOverride"`: An array of EnvironmentVariable objects that override,
-  or add to, the environment variables defined in the batch build project.
+- `"environmentVariablesOverride"`: An array of `EnvironmentVariable` objects that
+  override, or add to, the environment variables defined in the batch build project.
 - `"gitCloneDepthOverride"`: The user-defined depth of history, with a minimum value of 0,
   that overrides, for this batch build only, any previous depth of history defined in the
   batch build project.
-- `"gitSubmodulesConfigOverride"`: A GitSubmodulesConfig object that overrides the Git
+- `"gitSubmodulesConfigOverride"`: A `GitSubmodulesConfig` object that overrides the Git
   submodules configuration for this batch build.
 - `"idempotencyToken"`: A unique, case sensitive identifier you provide to ensure the
-  idempotency of the StartBuildBatch request. The token is included in the StartBuildBatch
-  request and is valid for five minutes. If you repeat the StartBuildBatch request with the
-  same token, but change a parameter, CodeBuild returns a parameter mismatch error.
+  idempotency of the `StartBuildBatch` request. The token is included in the
+  `StartBuildBatch` request and is valid for five minutes. If you repeat the
+  `StartBuildBatch` request with the same token, but change a parameter, CodeBuild returns
+  a parameter mismatch error.
 - `"imageOverride"`: The name of an image for this batch build that overrides the one
   specified in the batch build project.
 - `"imagePullCredentialsTypeOverride"`: The type of credentials CodeBuild uses to pull
-  images in your batch build. There are two valid values:   CODEBUILD  Specifies that
-  CodeBuild uses its own credentials. This requires that you modify your ECR repository
-  policy to trust CodeBuild's service principal.  SERVICE_ROLE  Specifies that CodeBuild uses
-  your build project's service role.    When using a cross-account or private registry image,
-  you must use SERVICE_ROLE credentials. When using an CodeBuild curated image, you must use
-  CODEBUILD credentials.
+  images in your batch build. There are two valid values:  <dl> <dt>CODEBUILD</dt>
+  <dd>Specifies that CodeBuild uses its own credentials. This requires that you modify your
+  ECR repository policy to trust CodeBuild's service principal. </dd> <dt>SERVICE_ROLE</dt>
+  <dd>Specifies that CodeBuild uses your build project's service role.  </dd> </dl>When
+  using a cross-account or private registry image, you must use `SERVICE_ROLE` credentials.
+  When using an CodeBuild curated image, you must use `CODEBUILD` credentials.
 - `"insecureSslOverride"`: Enable this flag to override the insecure SSL setting that is
-  specified in the batch build project. The insecure SSL setting determines whether to ignore
-  SSL warnings while connecting to the project source code. This override applies only if the
-  build's source is GitHub Enterprise.
-- `"logsConfigOverride"`: A LogsConfig object that override the log settings defined in the
-  batch build project.
+  specified in the batch build project. The insecure SSL setting determines whether to
+  ignore SSL warnings while connecting to the project source code. This override applies
+  only if the build's source is GitHub Enterprise.
+- `"logsConfigOverride"`: A `LogsConfig` object that override the log settings defined in
+  the batch build project.
 - `"privilegedModeOverride"`: Enable this flag to override privileged mode in the batch
   build project.
 - `"queuedTimeoutInMinutesOverride"`: The number of minutes a batch build is allowed to be
   queued before it times out.
-- `"registryCredentialOverride"`: A RegistryCredential object that overrides credentials
+- `"registryCredentialOverride"`: A `RegistryCredential` object that overrides credentials
   for access to a private registry.
-- `"reportBuildBatchStatusOverride"`: Set to true to report to your source provider the
+- `"reportBuildBatchStatusOverride"`: Set to `true` to report to your source provider the
   status of a batch build's start and completion. If you use this option with a source
-  provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is
-  thrown.   The status of a build triggered by a webhook is always reported to your source
+  provider other than GitHub, GitHub Enterprise, or Bitbucket, an `invalidInputException`
+  is thrown.
+
+  !!! note
+      The status of a build triggered by a webhook is always reported to your source
   provider.
-- `"secondaryArtifactsOverride"`: An array of ProjectArtifacts objects that override the
+- `"secondaryArtifactsOverride"`: An array of `ProjectArtifacts` objects that override the
   secondary artifacts defined in the batch build project.
-- `"secondarySourcesOverride"`: An array of ProjectSource objects that override the
+- `"secondarySourcesOverride"`: An array of `ProjectSource` objects that override the
   secondary sources defined in the batch build project.
-- `"secondarySourcesVersionOverride"`: An array of ProjectSourceVersion objects that
+- `"secondarySourcesVersionOverride"`: An array of `ProjectSourceVersion` objects that
   override the secondary source versions in the batch build project.
 - `"serviceRoleOverride"`: The name of a service role for this batch build that overrides
   the one specified in the batch build project.
-- `"sourceAuthOverride"`: A SourceAuth object that overrides the one defined in the batch
+- `"sourceAuthOverride"`: A `SourceAuth` object that overrides the one defined in the batch
   build project. This override applies only if the build project's source is BitBucket or
   GitHub.
 - `"sourceLocationOverride"`: A location that overrides, for this batch build, the source
@@ -1888,41 +1260,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the batch build project.
 - `"sourceVersion"`: The version of the batch build input to be built, for this build only.
   If not specified, the latest version is used. If specified, the contents depends on the
-  source provider:  CodeCommit  The commit ID, branch, or Git tag to use.  GitHub  The commit
-  ID, pull request ID, branch name, or tag name that corresponds to the version of the source
-  code you want to build. If a pull request ID is specified, it must use the format
-  pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
-  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
-  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the
-  source code you want to build. If a branch name is specified, the branch's HEAD commit ID
-  is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The
-  version ID of the object that represents the build input ZIP file to use.   If
-  sourceVersion is specified at the project level, then this sourceVersion (at the build
-  level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
-  the CodeBuild User Guide.
+  source provider:</p> <dl> <dt>CodeCommit</dt> <dd>The commit ID, branch, or Git tag to
+  use. </dd> <dt>GitHub</dt> <dd>The commit ID, pull request ID, branch name, or tag name
+  that corresponds to the version of the source code you want to build. If a pull request
+  ID is specified, it must use the format `pr/pull-request-ID` (for example `pr/25`). If a
+  branch name is specified, the branch's HEAD commit ID is used. If not specified, the
+  default branch's HEAD commit ID is used. </dd> <dt>Bitbucket</dt> <dd>The commit ID,
+  branch name, or tag name that corresponds to the version of the source code you want to
+  build. If a branch name is specified, the branch's HEAD commit ID is used. If not
+  specified, the default branch's HEAD commit ID is used. </dd> <dt>Amazon S3</dt> <dd>The
+  version ID of the object that represents the build input ZIP file to use. </dd> </dl>If
+  `sourceVersion` is specified at the project level, then this `sourceVersion` (at the
+  build level) takes precedence.
+
+   <p>For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html)
+  in the *CodeBuild User Guide*.
 """
-function start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "StartBuildBatch",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_build_batch(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "StartBuildBatch",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_build_batch(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_build_batch(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StartBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     stop_build(id)
@@ -1931,27 +1286,11 @@ end
 Attempts to stop running a build.
 
 # Arguments
-- `id`: The ID of the build.
 
+- `id`: The ID of the build.
 """
-function stop_build(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "StopBuild",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_build(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "StopBuild",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_build(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuild", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_build(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuild", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     stop_build_batch(id)
@@ -1960,27 +1299,11 @@ end
 Stops a running batch build.
 
 # Arguments
-- `id`: The identifier of the batch build to stop.
 
+- `id`: The identifier of the batch build to stop.
 """
-function stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "StopBuildBatch",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_build_batch(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "StopBuildBatch",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_build_batch(id; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}("id"=>id); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+stop_build_batch(id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("StopBuildBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_fleet(arn)
@@ -1989,80 +1312,86 @@ end
 Updates a compute fleet.
 
 # Arguments
+
 - `arn`: The ARN of the compute fleet.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"baseCapacity"`: The initial number of machines allocated to the compute ﬂeet, which
   deﬁnes the number of builds that can run in parallel.
 - `"computeType"`: Information about the compute resources the compute fleet uses.
-  Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for
-  builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
-  BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your
-  environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds,
-  depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72
-  vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to
-  100 GB uncompressed.    If you use BUILD_GENERAL1_SMALL:     For environment type
-  LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.     For environment
-  type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor
-  Core GPU for builds.    For environment type ARM_CONTAINER, you can use up to 4 GB memory
-  and 2 vCPUs on ARM-based processors for builds.    If you use BUILD_GENERAL1_LARGE:     For
-  environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
-   For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4
-  NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to
-  16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see
-  Build environment compute types in the CodeBuild User Guide.
-- `"environmentType"`: The environment type of the compute fleet.   The environment type
-  ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West
-  (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
-  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).   The
-  environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US
-  East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia
-  Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
-  (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
-  (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
+  Available values include: - `BUILD_GENERAL1_SMALL`: Use up to 3 GB memory and 2 vCPUs for
+  builds.
+   - `BUILD_GENERAL1_MEDIUM`: Use up to 7 GB memory and 4 vCPUs for builds.
+   - `BUILD_GENERAL1_LARGE`: Use up to 16 GB memory and 8 vCPUs for builds, depending on
+  your environment type.
+   - `BUILD_GENERAL1_XLARGE`: Use up to 70 GB memory and 36 vCPUs for builds, depending on
+  your environment type.
+   - `BUILD_GENERAL1_2XLARGE`: Use up to 145 GB memory, 72 vCPUs, and 824 GB of SSD storage
+  for builds. This compute type supports Docker images up to 100 GB uncompressed.
+   If you use `BUILD_GENERAL1_SMALL`:  - For environment type `LINUX_CONTAINER`, you can
+  use up to 3 GB memory and 2 vCPUs for builds.
+   - For environment type `LINUX_GPU_CONTAINER`, you can use up to 16 GB memory, 4 vCPUs,
+  and 1 NVIDIA A10G Tensor Core GPU for builds.
+   - For environment type `ARM_CONTAINER`, you can use up to 4 GB memory and 2 vCPUs on ARM-
+  based processors for builds.
+   If you use `BUILD_GENERAL1_LARGE`:  - For environment type `LINUX_CONTAINER`, you can
+  use up to 15 GB memory and 8 vCPUs for builds.
+   - For environment type `LINUX_GPU_CONTAINER`, you can use up to 255 GB memory, 32 vCPUs,
+  and 4 NVIDIA Tesla V100 GPUs for builds.
+   - For environment type `ARM_CONTAINER`, you can use up to 16 GB memory and 8 vCPUs on
+  ARM-based processors for builds.
+  For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
+  in the *CodeBuild User Guide.*
+- `"environmentType"`: The environment type of the compute fleet. - The environment type
+  `ARM_CONTAINER` is available only in regions US East (N. Virginia), US East (Ohio), US
+  West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).
+   - The environment type `LINUX_CONTAINER` is available only in regions US East (N.
   Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), Asia Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and
+  Asia Pacific (Mumbai).
+   - The environment type `LINUX_GPU_CONTAINER` is available only in regions US East (N.
+  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Tokyo), and Asia Pacific (Sydney).
+   - The environment type `MAC_ARM` is available for Medium fleets only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), and EU
+  (Frankfurt)
+   - The environment type `MAC_ARM` is available for Large fleets only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), and Asia Pacific (Sydney).
+   - The environment type `WINDOWS_SERVER_2019_CONTAINER` is available only in regions US
+  East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney), Asia Pacific
+  (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).
+   - The environment type `WINDOWS_SERVER_2022_CONTAINER` is available only in regions US
+  East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia
+  Pacific (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São
+  Paulo) and Asia Pacific (Mumbai).
+  For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html)
+  in the *CodeBuild user guide*.
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
-  information, see  Allow a user to add a permission policy for a fleet service role in the
-  CodeBuild User Guide.
-- `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
-  your overflow builds need to wait on the existing fleet instance to become available.   For
-  overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
-  choose to set your overflow behavior to on-demand while creating a VPC-connected fleet,
-  make sure that you add the required VPC permissions to your project service role. For more
-  information, see Example policy statement to allow CodeBuild access to Amazon Web Services
-  services required to create a VPC network interface.
+  information, see [ Allow a user to add a permission policy for a fleet service role](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-permission-policy-fleet-service-role.html)
+  in the *CodeBuild User Guide*.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
+- `"overflowBehavior"`: The compute fleet overflow behavior. - For overflow behavior
+  `QUEUE`, your overflow builds need to wait on the existing fleet instance to become
+  available.
+   - For overflow behavior `ON_DEMAND`, your overflow builds run on CodeBuild on-demand.
+
+  !!! note
+      If you choose to set your overflow behavior to on-demand while creating a VPC-
+  connected fleet, make sure that you add the required VPC permissions to your project
+  service role. For more information, see [Example policy statement to allow CodeBuild access to Amazon Web Services services required to create a VPC network interface](https://docs.aws.amazon.com/codebuild/latest/userguide/auth-and-access-control-iam-identity-based-access-control.html#customer-managed-policies-example-create-vpc-network-interface).
 - `"scalingConfiguration"`: The scaling configuration of the compute fleet.
-- `"tags"`: A list of tag key and value pairs associated with this compute fleet. These
-  tags are available for use by Amazon Web Services services that support CodeBuild build
-  project tags.
+- `"tags"`: A list of tag key and value pairs associated with this compute fleet.
+
+  These tags are available for use by Amazon Web Services services that support CodeBuild
+  build project tags.
 - `"vpcConfig"`:
 """
-function update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "UpdateFleet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_fleet(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "UpdateFleet",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_fleet(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateFleet", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_fleet(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_project(name)
@@ -2071,10 +1400,16 @@ end
 Changes the settings of a build project.
 
 # Arguments
-- `name`: The name of the build project.  You cannot change a build project's name.
+
+- `name`: The name of the build project.
+
+!!! note
+    You cannot change a build project's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"artifacts"`: Information to be changed about the build output artifacts for the build
   project.
 - `"badgeEnabled"`: Set this to true to generate a publicly accessible URL for your
@@ -2083,138 +1418,113 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"cache"`: Stores recently used information so that it can be quickly accessed at a later
   time.
 - `"concurrentBuildLimit"`: The maximum number of concurrent builds that are allowed for
-  this project. New builds are only started if the current number of builds is less than or
-  equal to this limit. If the current build count meets this limit, new builds are throttled
-  and are not run. To remove this limit, set this value to -1.
+  this project.
+
+  New builds are only started if the current number of builds is less than or equal to this
+  limit. If the current build count meets this limit, new builds are throttled and are not
+  run.
+
+To remove this limit, set this value to -1.
 - `"description"`: A new or replacement description of the build project.
 - `"encryptionKey"`: The Key Management Service customer master key (CMK) to be used for
-  encrypting the build output artifacts.   You can use a cross-account KMS key to encrypt the
-  build output artifacts if your service role has permission to that key.   You can specify
-  either the Amazon Resource Name (ARN) of the CMK or, if available, the CMK's alias (using
-  the format alias/&lt;alias-name&gt;).
+  encrypting the build output artifacts.
+
+  !!! note
+      You can use a cross-account KMS key to encrypt the build output artifacts if your
+  service role has permission to that key.You can specify either the Amazon Resource Name
+  (ARN) of the CMK or, if available, the CMK's alias (using the format `alias/&lt;alias-
+  name&gt;`).
 - `"environment"`: Information to be changed about the build environment for the build
   project.
-- `"fileSystemLocations"`:  An array of ProjectFileSystemLocation objects for a CodeBuild
-  build project. A ProjectFileSystemLocation object specifies the identifier, location,
-  mountOptions, mountPoint, and type of a file system created using Amazon Elastic File
-  System.
+- `"fileSystemLocations"`:  An array of `ProjectFileSystemLocation` objects for a CodeBuild
+  build project. A `ProjectFileSystemLocation` object specifies the `identifier`,
+  `location`, `mountOptions`, `mountPoint`, and `type` of a file system created using
+  Amazon Elastic File System.
 - `"logsConfig"`:  Information about logs for the build project. A project can create logs
   in CloudWatch Logs, logs in an S3 bucket, or both.
 - `"queuedTimeoutInMinutes"`:  The number of minutes a build is allowed to be queued before
   it times out.
-- `"secondaryArtifacts"`:  An array of ProjectArtifact objects.
-- `"secondarySourceVersions"`:  An array of ProjectSourceVersion objects. If
-  secondarySourceVersions is specified at the build level, then they take over these
-  secondarySourceVersions (at the project level).
-- `"secondarySources"`:  An array of ProjectSource objects.
+- `"secondaryArtifacts"`:  An array of `ProjectArtifact` objects.
+- `"secondarySourceVersions"`:  An array of `ProjectSourceVersion` objects. If
+  `secondarySourceVersions` is specified at the build level, then they take over these
+  `secondarySourceVersions` (at the project level).
+- `"secondarySources"`:  An array of `ProjectSource` objects.
 - `"serviceRole"`: The replacement ARN of the IAM role that enables CodeBuild to interact
   with dependent Amazon Web Services services on behalf of the Amazon Web Services account.
 - `"source"`: Information to be changed about the build input source code for the build
   project.
 - `"sourceVersion"`:  A version of the build input to be built for this project. If not
-  specified, the latest version is used. If specified, it must be one of:    For CodeCommit:
-  the commit ID, branch, or Git tag to use.   For GitHub: the commit ID, pull request ID,
-  branch name, or tag name that corresponds to the version of the source code you want to
-  build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
-  example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID,
-  branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that
-  corresponds to the version of the source code you want to build. If a branch name is
-  specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD
-  commit ID is used.   For Amazon S3: the version ID of the object that represents the build
-  input ZIP file to use.    If sourceVersion is specified at the build level, then that
-  version takes precedence over this sourceVersion (at the project level).   For more
-  information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
+  specified, the latest version is used. If specified, it must be one of: </p> - For
+  CodeCommit: the commit ID, branch, or Git tag to use.
+   - For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds
+  to the version of the source code you want to build. If a pull request ID is specified,
+  it must use the format `pr/pull-request-ID` (for example `pr/25`). If a branch name is
+  specified, the branch's HEAD commit ID is used. If not specified, the default branch's
+  HEAD commit ID is used.
+   - For GitLab: the commit ID, branch, or Git tag to use.
+   - For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version
+  of the source code you want to build. If a branch name is specified, the branch's HEAD
+  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+   - For Amazon S3: the version ID of the object that represents the build input ZIP file
+  to use.
+   If `sourceVersion` is specified at the build level, then that version takes precedence
+  over this `sourceVersion` (at the project level).
+
+   <p> For more information, see [Source Version Sample with CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-source-version.html)
+  in the *CodeBuild User Guide*.
 - `"tags"`: An updated list of tag key and value pairs associated with this build project.
+
   These tags are available for use by Amazon Web Services services that support CodeBuild
   build project tags.
 - `"timeoutInMinutes"`: The replacement value in minutes, from 5 to 2160 (36 hours), for
-  CodeBuild to wait before timing out any related build that did not get marked as completed.
+  CodeBuild to wait before timing out any related build that did not get marked as
+  completed.
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
-function update_project(name; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "UpdateProject",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "UpdateProject",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(name; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProject", Dict{String, Any}("name"=>name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project(name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProject", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_project_visibility(project_arn, project_visibility)
     update_project_visibility(project_arn, project_visibility, params::Dict{String,<:Any})
 
 Changes the public visibility for a project. The project's build results, logs, and
-artifacts are available to the general public. For more information, see Public build
-projects in the CodeBuild User Guide.  The following should be kept in mind when making
-your projects public:   All of a project's build results, logs, and artifacts, including
-builds that were run when the project was private, are available to the general public.
-All build logs and artifacts are available to the public. Environment variables, source
+artifacts are available to the general public. For more information, see [Public build projects](https://docs.aws.amazon.com/codebuild/latest/userguide/public-builds.html)
+in the *CodeBuild User Guide*.
+
+!!! important
+    The following should be kept in mind when making your projects public: - All of a
+project's build results, logs, and artifacts, including builds that were run when the
+project was private, are available to the general public.
+ - All build logs and artifacts are available to the public. Environment variables, source
 code, and other sensitive information may have been output to the build logs and artifacts.
 You must be careful about what information is output to the build logs. Some best practice
-are:   Do not store sensitive values in environment variables. We recommend that you use an
-Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
-Follow Best practices for using webhooks in the CodeBuild User Guide to limit which
-entities can trigger a build, and do not store the buildspec in the project itself, to
-ensure that your webhooks are as secure as possible.     A malicious user can use public
-builds to distribute malicious artifacts. We recommend that you review all pull requests to
-verify that the pull request is a legitimate change. We also recommend that you validate
-any artifacts with their checksums to make sure that the correct artifacts are being
-downloaded.
+are: <ul> <li>Do not store sensitive values in environment variables. We recommend that you
+use an Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive
+values.
+ - Follow [Best practices for using webhooks](https://docs.aws.amazon.com/codebuild/latest/userguide/webhooks.html#webhook-best-practices)
+in the *CodeBuild User Guide* to limit which entities can trigger a build, and do not store
+the buildspec in the project itself, to ensure that your webhooks are as secure as
+possible.
+ </li> <li>A malicious user can use public builds to distribute malicious artifacts. We
+recommend that you review all pull requests to verify that the pull request is a legitimate
+change. We also recommend that you validate any artifacts with their checksums to make sure
+that the correct artifacts are being downloaded. </li> </ul>
 
 # Arguments
+
 - `project_arn`: The Amazon Resource Name (ARN) of the build project.
 - `project_visibility`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceAccessRole"`: The ARN of the IAM role that enables CodeBuild to access the
   CloudWatch Logs and Amazon S3 artifacts for the project's builds.
 """
-function update_project_visibility(
-    projectArn, projectVisibility; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "UpdateProjectVisibility",
-        Dict{String,Any}(
-            "projectArn" => projectArn, "projectVisibility" => projectVisibility
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_project_visibility(
-    projectArn,
-    projectVisibility,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "UpdateProjectVisibility",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "projectArn" => projectArn, "projectVisibility" => projectVisibility
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project_visibility(projectArn, projectVisibility; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_project_visibility(projectArn, projectVisibility, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateProjectVisibility", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectArn"=>projectArn, "projectVisibility"=>projectVisibility), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_report_group(arn)
@@ -2223,79 +1533,54 @@ end
  Updates a report group.
 
 # Arguments
+
 - `arn`:  The ARN of the report group to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"exportConfig"`:  Used to specify an updated export type. Valid values are:     S3: The
-  report results are exported to an S3 bucket.     NO_EXPORT: The report results are not
-  exported.
+
+- `"exportConfig"`:  Used to specify an updated export type. Valid values are:  - `S3`: The
+  report results are exported to an S3 bucket.
+   - `NO_EXPORT`: The report results are not exported.
 - `"tags"`:  An updated list of tag key and value pairs associated with this report group.
+
   These tags are available for use by Amazon Web Services services that support CodeBuild
   report group tags.
 """
-function update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "UpdateReportGroup",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_report_group(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return codebuild(
-        "UpdateReportGroup",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_report_group(arn; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}("arn"=>arn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_report_group(arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateReportGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_webhook(project_name)
     update_webhook(project_name, params::Dict{String,<:Any})
 
- Updates the webhook associated with an CodeBuild build project.    If you use Bitbucket
-for your repository, rotateSecret is ignored.
+ Updates the webhook associated with an CodeBuild build project.
+
+!!! note
+    If you use Bitbucket for your repository, `rotateSecret` is ignored.
 
 # Arguments
+
 - `project_name`: The name of the CodeBuild project.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"branchFilter"`: A regular expression used to determine which repository branches are
-  built when a webhook is triggered. If the name of a branch matches the regular expression,
-  then it is built. If branchFilter is empty, then all branches are built.   It is
-  recommended that you use filterGroups instead of branchFilter.
+  built when a webhook is triggered. If the name of a branch matches the regular
+  expression, then it is built. If `branchFilter` is empty, then all branches are built.
+
+!!! note
+    It is recommended that you use `filterGroups` instead of `branchFilter`.
 - `"buildType"`: Specifies the type of build this webhook will trigger.
-- `"filterGroups"`:  An array of arrays of WebhookFilter objects used to determine if a
-  webhook event can trigger a build. A filter group must contain at least one EVENT
-  WebhookFilter.
+- `"filterGroups"`:  An array of arrays of `WebhookFilter` objects used to determine if a
+  webhook event can trigger a build. A filter group must contain at least one `EVENT`
+  `WebhookFilter`.
 - `"rotateSecret"`:  A boolean value that specifies whether the associated GitHub
   repository's secret token should be updated. If you use Bitbucket for your repository,
-  rotateSecret is ignored.
+  `rotateSecret` is ignored.
 """
-function update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config())
-    return codebuild(
-        "UpdateWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_webhook(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return codebuild(
-        "UpdateWebhook",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("projectName" => projectName), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_webhook(projectName; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}("projectName"=>projectName); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_webhook(projectName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = codebuild("UpdateWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

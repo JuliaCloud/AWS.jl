@@ -10,719 +10,498 @@ using AWS.UUIDs
 
 Creates a resource group with the specified name and description. You can optionally
 include either a resource query or a service configuration. For more information about
-constructing a resource query, see Build queries and groups in Resource Groups in the
-Resource Groups User Guide. For more information about service-linked groups and service
-configurations, see Service configurations for Resource Groups.  Minimum permissions  To
-run this command, you must have the following permissions:    resource-groups:CreateGroup
+constructing a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/getting_started-query.html)
+in the *Resource Groups User Guide*. For more information about service-linked groups and
+service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:CreateGroup`
 
 # Arguments
+
 - `name`: The name of the group, which is the identifier of the group in other operations.
   You can't change the name of a resource group after you create it. A resource group name
   can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start
-  with AWS, aws, or any other possible capitalization; these are reserved. A resource group
-  name must be unique within each Amazon Web Services Region in your Amazon Web Services
-  account.
+  with `AWS`, `aws`, or any other possible capitalization; these are reserved. A resource
+  group name must be unique within each Amazon Web Services Region in your Amazon Web
+  Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Configuration"`: A configuration associates the resource group with an Amazon Web
   Services service and specifies how the service can interact with the resources in the
-  group. A configuration is an array of GroupConfigurationItem elements. For details about
-  the syntax of service configurations, see Service configurations for Resource Groups.  A
-  resource group can contain either a Configuration or a ResourceQuery, but not both.
+  group. A configuration is an array of <a>GroupConfigurationItem</a> elements. For details
+  about the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+
+  !!! note
+      A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
+  both.
 - `"Description"`: The description of the resource group. Descriptions can consist of
   letters, numbers, hyphens, underscores, periods, and spaces.
 - `"ResourceQuery"`: The resource query that determines which Amazon Web Services resources
-  are members of this group. For more information about resource queries, see Create a
-  tag-based group in Resource Groups.   A resource group can contain either a ResourceQuery
-  or a Configuration, but not both.
+  are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
+
+  !!! note
+      A resource group can contain either a `ResourceQuery` or a `Configuration`, but not
+  both.
 - `"Tags"`: The tags to add to the group. A tag is key-value pair string.
 """
-function create_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/groups",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/groups",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_group(Name; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}("Name"=>Name); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_group(Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_group()
     delete_group(params::Dict{String,<:Any})
 
 Deletes the specified resource group. Deleting a resource group does not delete any
-resources that are members of the group; it only deletes the group structure.  Minimum
-permissions  To run this command, you must have the following permissions:
-resource-groups:DeleteGroup
+resources that are members of the group; it only deletes the group structure.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:DeleteGroup`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Group"`: The name or the ARN of the resource group to delete.
-- `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
+- `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
-function delete_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/delete-group",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/delete-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/delete-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_account_settings()
     get_account_settings(params::Dict{String,<:Any})
 
 Retrieves the current status of optional features in Resource Groups.
-
 """
-function get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/get-account-settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/get-account-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-account-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_group()
     get_group(params::Dict{String,<:Any})
 
-Returns information about a specified resource group.  Minimum permissions  To run this
-command, you must have the following permissions:    resource-groups:GetGroup
+Returns information about a specified resource group.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-groups:GetGroup`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Group"`: The name or the ARN of the resource group to retrieve.
-- `"GroupName"`: Deprecated - don't use this parameter. Use Group instead.
+- `"GroupName"`: Deprecated - don't use this parameter. Use `Group` instead.
 """
-function get_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST", "/get-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_group_configuration()
     get_group_configuration(params::Dict{String,<:Any})
 
 Retrieves the service configuration associated with the specified resource group. For
-details about the service configuration syntax, see Service configurations for Resource
-Groups.  Minimum permissions  To run this command, you must have the following permissions:
-   resource-groups:GetGroupConfiguration
+details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:GetGroupConfiguration`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Group"`: The name or the ARN of the resource group for which you want to retrive the
   service configuration.
 """
-function get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/get-group-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_group_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/get-group-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group-configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_group_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_group_query()
     get_group_query(params::Dict{String,<:Any})
 
 Retrieves the resource query associated with the specified resource group. For more
-information about resource queries, see Create a tag-based group in Resource Groups.
-Minimum permissions  To run this command, you must have the following permissions:
-resource-groups:GetGroupQuery
+information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:GetGroupQuery`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Group"`: The name or the ARN of the resource group to query.
-- `"GroupName"`: Don't use this parameter. Use Group instead.
+- `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-function get_group_query(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_group_query(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/get-group-query",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_group_query(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group-query"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_group_query(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/get-group-query", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_tags(arn)
     get_tags(arn, params::Dict{String,<:Any})
 
 Returns a list of tags that are associated with a resource group, specified by an ARN.
-Minimum permissions  To run this command, you must have the following permissions:
-resource-groups:GetTags
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-groups:GetTags`
 
 # Arguments
-- `arn`: The ARN of the resource group whose tags you want to retrieve.
 
+- `arn`: The ARN of the resource group whose tags you want to retrieve.
 """
-function get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "GET",
-        "/resources/$(Arn)/tags";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_tags(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "GET",
-        "/resources/$(Arn)/tags",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_tags(Arn; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_tags(Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("GET", "/resources/$(Arn)/tags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     group_resources(group, resource_arns)
     group_resources(group, resource_arns, params::Dict{String,<:Any})
 
-Adds the specified resources to the specified group.  You can use this operation with only
-resource groups that are configured with the following types:    AWS::EC2::HostManagement
-  AWS::EC2::CapacityReservationPool    Other resource group type and resource types aren't
-currently supported by this operation.   Minimum permissions  To run this command, you must
-have the following permissions:    resource-groups:GroupResources
+Adds the specified resources to the specified group.</p>
+
+!!! important
+    You can use this operation with only resource groups that are configured with the
+following types: - `AWS::EC2::HostManagement`
+ - `AWS::EC2::CapacityReservationPool`
+Other resource group type and resource types aren't currently supported by this operation.
+**Minimum permissions**
+
+ <p>To run this command, you must have the following permissions: - `resource-
+groups:GroupResources`
 
 # Arguments
+
 - `group`: The name or the ARN of the resource group to add resources to.
 - `resource_arns`: The list of ARNs of the resources to be added to the group.
-
 """
-function group_resources(
-    Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/group-resources",
-        Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function group_resources(
-    Group,
-    ResourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "POST",
-        "/group-resources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+group_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+group_resources(Group, ResourceArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/group-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_group_resources()
     list_group_resources(params::Dict{String,<:Any})
 
 Returns a list of ARNs of the resources that are members of a specified resource group.
-Minimum permissions  To run this command, you must have the following permissions:
-resource-groups:ListGroupResources     cloudformation:DescribeStacks
-cloudformation:ListStackResources     tag:GetResources
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:ListGroupResources`
+ - `cloudformation:DescribeStacks`
+ - `cloudformation:ListStackResources`
+ - `tag:GetResources`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters, formatted as ResourceFilter objects, that you want to apply to a
-  ListGroupResources operation. Filters the results to include only those of the specified
-  resource types.    resource-type - Filter resources by their type. Specify up to five
-  resource types in the format AWS::ServiceCode::ResourceType. For example,
-  AWS::EC2::Instance, or AWS::S3::Bucket.    When you specify a resource-type filter for
-  ListGroupResources, Resource Groups validates your filter resource types against the types
-  that are defined in the query associated with the group. For example, if a group contains
-  only S3 buckets because its query specifies only that resource type, but your resource-type
-  filter includes EC2 instances, AWS Resource Groups does not filter for EC2 instances. In
-  this case, a ListGroupResources request returns a BadRequestException error with a message
-  similar to the following:  The resource types specified as filters in the request are not
-  valid.  The error includes a list of resource types that failed the validation because they
-  are not part of the query associated with the group. This validation doesn't occur when the
-  group query specifies AWS::AllSupported, because a group based on such a query can contain
-  any of the allowed resource types for the query type (tag-based or Amazon CloudFront
-  stack-based queries).
+
+- `"Filters"`: Filters, formatted as <a>ResourceFilter</a> objects, that you want to apply
+  to a `ListGroupResources` operation. Filters the results to include only those of the
+  specified resource types.</p> - `resource-type` - Filter resources by their type. Specify
+  up to five resource types in the format `AWS::ServiceCode::ResourceType`. For example,
+  `AWS::EC2::Instance`, or `AWS::S3::Bucket`.
+  When you specify a `resource-type` filter for `ListGroupResources`, Resource Groups
+  validates your filter resource types against the types that are defined in the query
+  associated with the group. For example, if a group contains only S3 buckets because its
+  query specifies only that resource type, but your `resource-type` filter includes EC2
+  instances, AWS Resource Groups does not filter for EC2 instances. In this case, a
+  `ListGroupResources` request returns a `BadRequestException` error with a message similar
+  to the following:
+
+   `The resource types specified as filters in the request are not valid.`
+
+   <p>The error includes a list of resource types that failed the validation because they
+  are not part of the query associated with the group. This validation doesn't occur when
+  the group query specifies `AWS::AllSupported`, because a group based on such a query can
+  contain any of the allowed resource types for the query type (tag-based or Amazon
+  CloudFront stack-based queries).
 - `"Group"`: The name or the ARN of the resource group
-- `"GroupName"`:    Deprecated - don't use this parameter. Use the Group request field
-  instead.
+- `"GroupName"`:
+
+  !!! important
+      * **Deprecated - don't use this parameter. Use the `Group` request field instead.** *
 - `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the NextToken
-  response element is present and has a value (is not null). Include that value as the
-  NextToken request parameter in the next call to the operation to get the next part of the
-  results. Note that the service might return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value provided by a previous call's NextToken response
-  to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific
+  to the operation. If additional items exist beyond the maximum you specify, the
+  `NextToken` response element is present and has a value (is not null). Include that value
+  as the `NextToken` request parameter in the next call to the operation to get the next
+  part of the results. Note that the service might return fewer results than the maximum
+  even when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value provided by a previous call's
+  `NextToken` response to indicate where the output should continue from.
 """
-function list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/list-group-resources";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_group_resources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/list-group-resources",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_group_resources(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/list-group-resources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_group_resources(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/list-group-resources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_groups()
     list_groups(params::Dict{String,<:Any})
 
-Returns a list of existing Resource Groups in your account.  Minimum permissions  To run
-this command, you must have the following permissions:    resource-groups:ListGroups
+Returns a list of existing Resource Groups in your account.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:ListGroups`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters, formatted as GroupFilter objects, that you want to apply to a
-  ListGroups operation.    resource-type - Filter the results to include only those resource
-  groups that have the specified resource type in their ResourceTypeFilter. For example,
-  AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes
-  AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups
-  that have the specified configuration types attached. The current supported values are:
-  AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups
-  AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool
-  AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
+
+- `"Filters"`: Filters, formatted as <a>GroupFilter</a> objects, that you want to apply to
+  a `ListGroups` operation. - `resource-type` - Filter the results to include only those
+  resource groups that have the specified resource type in their `ResourceTypeFilter`. For
+  example, `AWS::EC2::Instance` would return any resource group with a `ResourceTypeFilter`
+  that includes `AWS::EC2::Instance`.
+   - `configuration-type` - Filter the results to include only those groups that have the
+  specified configuration types attached. The current supported values are: <ul> <li>
+  `AWS::AppRegistry::Application`
+   - `AWS::AppRegistry::ApplicationResourceGroups`
+   - `AWS::CloudFormation::Stack`
+   - `AWS::EC2::CapacityReservationPool`
+   - `AWS::EC2::HostManagement`
+ - `AWS::NetworkFirewall::RuleGroup`
+ </li> </ul>
 - `"maxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the NextToken
-  response element is present and has a value (is not null). Include that value as the
-  NextToken request parameter in the next call to the operation to get the next part of the
-  results. Note that the service might return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"nextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value provided by a previous call's NextToken response
-  to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific
+  to the operation. If additional items exist beyond the maximum you specify, the
+  `NextToken` response element is present and has a value (is not null). Include that value
+  as the `NextToken` request parameter in the next call to the operation to get the next
+  part of the results. Note that the service might return fewer results than the maximum
+  even when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+- `"nextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value provided by a previous call's
+  `NextToken` response to indicate where the output should continue from.
 """
-function list_groups(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/groups-list",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_groups(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/groups-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_groups(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/groups-list", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_group_configuration()
     put_group_configuration(params::Dict{String,<:Any})
 
 Attaches a service configuration to the specified group. This occurs asynchronously, and
-can take time to complete. You can use GetGroupConfiguration to check the status of the
-update.  Minimum permissions  To run this command, you must have the following permissions:
-   resource-groups:PutGroupConfiguration
+can take time to complete. You can use <a>GetGroupConfiguration</a> to check the status of
+the update.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:PutGroupConfiguration`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Configuration"`: The new configuration to associate with the specified group. A
   configuration associates the resource group with an Amazon Web Services service and
-  specifies how the service can interact with the resources in the group. A configuration is
-  an array of GroupConfigurationItem elements. For information about the syntax of a service
-  configuration, see Service configurations for Resource Groups.  A resource group can
-  contain either a Configuration or a ResourceQuery, but not both.
+  specifies how the service can interact with the resources in the group. A configuration
+  is an array of <a>GroupConfigurationItem</a> elements.
+
+  For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+
+  !!! note
+      A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
+  both.
 - `"Group"`: The name or ARN of the resource group with the configuration that you want to
   update.
 """
-function put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/put-group-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_group_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/put-group-configuration",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_group_configuration(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/put-group-configuration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_group_configuration(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/put-group-configuration", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_resources(resource_query)
     search_resources(resource_query, params::Dict{String,<:Any})
 
 Returns a list of Amazon Web Services resource identifiers that matches the specified
-query. The query uses the same format as a resource query in a CreateGroup or
-UpdateGroupQuery operation.  Minimum permissions  To run this command, you must have the
-following permissions:    resource-groups:SearchResources     cloudformation:DescribeStacks
-    cloudformation:ListStackResources     tag:GetResources
+query. The query uses the same format as a resource query in a <a>CreateGroup</a> or
+<a>UpdateGroupQuery</a> operation.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:SearchResources`
+ - `cloudformation:DescribeStacks`
+ - `cloudformation:ListStackResources`
+ - `tag:GetResources`
 
 # Arguments
+
 - `resource_query`: The search query, using the same formats that are supported for
-  resource group definition. For more information, see CreateGroup.
+  resource group definition. For more information, see <a>CreateGroup</a>.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The total number of results that you want included on each page of the
-  response. If you do not include this parameter, it defaults to a value that is specific to
-  the operation. If additional items exist beyond the maximum you specify, the NextToken
-  response element is present and has a value (is not null). Include that value as the
-  NextToken request parameter in the next call to the operation to get the next part of the
-  results. Note that the service might return fewer results than the maximum even when there
-  are more results available. You should check NextToken after every operation to ensure that
-  you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
-  response in a previous request. A NextToken response indicates that more output is
-  available. Set this parameter to the value provided by a previous call's NextToken response
-  to indicate where the output should continue from.
+  response. If you do not include this parameter, it defaults to a value that is specific
+  to the operation. If additional items exist beyond the maximum you specify, the
+  `NextToken` response element is present and has a value (is not null). Include that value
+  as the `NextToken` request parameter in the next call to the operation to get the next
+  part of the results. Note that the service might return fewer results than the maximum
+  even when there are more results available. You should check `NextToken` after every
+  operation to ensure that you receive all of the results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a
+  `NextToken` response in a previous request. A `NextToken` response indicates that more
+  output is available. Set this parameter to the value provided by a previous call's
+  `NextToken` response to indicate where the output should continue from.
 """
-function search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/resources/search",
-        Dict{String,Any}("ResourceQuery" => ResourceQuery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_resources(
-    ResourceQuery,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "POST",
-        "/resources/search",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceQuery" => ResourceQuery), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_resources(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_resources(ResourceQuery, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/resources/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag(arn, tags)
     tag(arn, tags, params::Dict{String,<:Any})
 
 Adds tags to a resource group with the specified ARN. Existing tags on a resource group are
-not changed if they are not specified in the request parameters.  Do not store personally
-identifiable information (PII) or other confidential or sensitive information in tags. We
-use tags to provide you with billing and administration services. Tags are not intended to
-be used for private or sensitive data.   Minimum permissions  To run this command, you must
-have the following permissions:    resource-groups:Tag
+not changed if they are not specified in the request parameters.</p>
+
+!!! important
+    Do not store personally identifiable information (PII) or other confidential or
+sensitive information in tags. We use tags to provide you with billing and administration
+services. Tags are not intended to be used for private or sensitive data. **Minimum
+permissions**
+
+ <p>To run this command, you must have the following permissions: - `resource-groups:Tag`
 
 # Arguments
+
 - `arn`: The ARN of the resource group to which to add tags.
 - `tags`: The tags to add to the specified resource group. A tag is a string-to-string map
   of key-value pairs.
-
 """
-function tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "PUT",
-        "/resources/$(Arn)/tags",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag(
-    Arn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "PUT",
-        "/resources/$(Arn)/tags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Tags" => Tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag(Arn, Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("PUT", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     ungroup_resources(group, resource_arns)
     ungroup_resources(group, resource_arns, params::Dict{String,<:Any})
 
 Removes the specified resources from the specified group. This operation works only with
-static groups that you populated using the GroupResources operation. It doesn't work with
-any resource groups that are automatically populated by tag-based or CloudFormation
-stack-based queries.  Minimum permissions  To run this command, you must have the following
-permissions:    resource-groups:UngroupResources
+static groups that you populated using the <a>GroupResources</a> operation. It doesn't work
+with any resource groups that are automatically populated by tag-based or CloudFormation
+stack-based queries.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:UngroupResources`
 
 # Arguments
+
 - `group`: The name or the ARN of the resource group from which to remove the resources.
 - `resource_arns`: The ARNs of the resources to be removed from the group.
-
 """
-function ungroup_resources(
-    Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/ungroup-resources",
-        Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function ungroup_resources(
-    Group,
-    ResourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "POST",
-        "/ungroup-resources",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("Group" => Group, "ResourceArns" => ResourceArns),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+ungroup_resources(Group, ResourceArns; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+ungroup_resources(Group, ResourceArns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/ungroup-resources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Group"=>Group, "ResourceArns"=>ResourceArns), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag(arn, keys)
     untag(arn, keys, params::Dict{String,<:Any})
 
-Deletes tags from a specified resource group.  Minimum permissions  To run this command,
-you must have the following permissions:    resource-groups:Untag
+Deletes tags from a specified resource group.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-groups:Untag`
 
 # Arguments
+
 - `arn`: The ARN of the resource group from which to remove tags. The command removed both
   the specified keys and any values associated with those keys.
 - `keys`: The keys of the tags to be removed.
-
 """
-function untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "PATCH",
-        "/resources/$(Arn)/tags",
-        Dict{String,Any}("Keys" => Keys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag(
-    Arn,
-    Keys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "PATCH",
-        "/resources/$(Arn)/tags",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Keys" => Keys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag(Arn, Keys; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}("Keys"=>Keys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag(Arn, Keys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("PATCH", "/resources/$(Arn)/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Keys"=>Keys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_account_settings()
     update_account_settings(params::Dict{String,<:Any})
 
-Turns on or turns off optional features in Resource Groups. The preceding example shows
-that the request to turn on group lifecycle events is IN_PROGRESS. You can call the
-GetAccountSettings operation to check for completion by looking for
-GroupLifecycleEventsStatus to change to ACTIVE.
+Turns on or turns off optional features in Resource Groups.
+
+The preceding example shows that the request to turn on group lifecycle events is
+`IN_PROGRESS`. You can call the <a>GetAccountSettings</a> operation to check for completion
+by looking for `GroupLifecycleEventsStatus` to change to `ACTIVE`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GroupLifecycleEventsDesiredStatus"`: Specifies whether you want to turn group lifecycle
-  events on or off.
+
+- `"GroupLifecycleEventsDesiredStatus"`: Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html)
+  on or off.
 """
-function update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST",
-        "/update-account-settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_account_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/update-account-settings",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_account_settings(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_account_settings(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-account-settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_group()
     update_group(params::Dict{String,<:Any})
 
 Updates the description for an existing group. You cannot update the name of a resource
-group.  Minimum permissions  To run this command, you must have the following permissions:
-  resource-groups:UpdateGroup
+group.
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:UpdateGroup`
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The new description that you want to update the resource group with.
   Descriptions can contain letters, numbers, hyphens, underscores, periods, and spaces.
 - `"Group"`: The name or the ARN of the resource group to modify.
-- `"GroupName"`: Don't use this parameter. Use Group instead.
+- `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-function update_group(; aws_config::AbstractAWSConfig=current_aws_config())
-    return resource_groups(
-        "POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/update-group",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_group(; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-group"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_group(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-group", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_group_query(resource_query)
     update_group_query(resource_query, params::Dict{String,<:Any})
 
-Updates the resource query of a group. For more information about resource queries, see
-Create a tag-based group in Resource Groups.  Minimum permissions  To run this command, you
-must have the following permissions:    resource-groups:UpdateGroupQuery
+Updates the resource query of a group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
+
+ **Minimum permissions**
+
+To run this command, you must have the following permissions: - `resource-
+groups:UpdateGroupQuery`
 
 # Arguments
+
 - `resource_query`: The resource query to determine which Amazon Web Services resources are
-  members of this resource group.  A resource group can contain either a Configuration or a
-  ResourceQuery, but not both.
+  members of this resource group.
+
+  !!! note
+      A resource group can contain either a `Configuration` or a `ResourceQuery`, but not
+  both.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Group"`: The name or the ARN of the resource group to query.
-- `"GroupName"`: Don't use this parameter. Use Group instead.
+- `"GroupName"`: Don't use this parameter. Use `Group` instead.
 """
-function update_group_query(
-    ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return resource_groups(
-        "POST",
-        "/update-group-query",
-        Dict{String,Any}("ResourceQuery" => ResourceQuery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_group_query(
-    ResourceQuery,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return resource_groups(
-        "POST",
-        "/update-group-query",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ResourceQuery" => ResourceQuery), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_group_query(ResourceQuery; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}("ResourceQuery"=>ResourceQuery); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_group_query(ResourceQuery, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = resource_groups("POST", "/update-group-query", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceQuery"=>ResourceQuery), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

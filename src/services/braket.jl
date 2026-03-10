@@ -11,28 +11,11 @@ using AWS.UUIDs
 Cancels an Amazon Braket job.
 
 # Arguments
-- `job_arn`: The ARN of the Amazon Braket job to cancel.
 
+- `job_arn`: The ARN of the Amazon Braket job to cancel.
 """
-function cancel_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "PUT",
-        "/job/$(jobArn)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_job(
-    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "PUT",
-        "/job/$(jobArn)/cancel",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("PUT", "/job/$(jobArn)/cancel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_job(jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("PUT", "/job/$(jobArn)/cancel", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     cancel_quantum_task(client_token, quantum_task_arn)
@@ -41,37 +24,12 @@ end
 Cancels the specified task.
 
 # Arguments
+
 - `client_token`: The client token associated with the request.
 - `quantum_task_arn`: The ARN of the task to cancel.
-
 """
-function cancel_quantum_task(
-    clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "PUT",
-        "/quantum-task/$(quantumTaskArn)/cancel",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_quantum_task(
-    clientToken,
-    quantumTaskArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "PUT",
-        "/quantum-task/$(quantumTaskArn)/cancel",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_quantum_task(clientToken, quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}("clientToken"=>clientToken); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+cancel_quantum_task(clientToken, quantumTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("PUT", "/quantum-task/$(quantumTaskArn)/cancel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_job(algorithm_specification, client_token, device_config, instance_config, job_name, output_data_config, role_arn)
@@ -80,6 +38,7 @@ end
 Creates an Amazon Braket job.
 
 # Arguments
+
 - `algorithm_specification`: Definition of the Amazon Braket job to be created. Specifies
   the container image the job uses and information about the Python scripts used for entry
   and training.
@@ -96,78 +55,23 @@ Creates an Amazon Braket job.
   job container on behalf of user, and output resources to the users' s3 buckets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associations"`: The list of Amazon Braket resources associated with the hybrid job.
 - `"checkpointConfig"`: Information about the output locations for job checkpoint data.
 - `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket job that
   influence the quality of the training job. The values are set with a string of JSON
-  key:value pairs, where the key is the name of the hyperparameter and the value is the value
-  of th hyperparameter.
+  key:value pairs, where the key is the name of the hyperparameter and the value is the
+  value of th hyperparameter.
 - `"inputDataConfig"`: A list of parameters that specify the name and type of input data
   and where it is located.
 - `"stoppingCondition"`:  The user-defined criteria that specifies when a job stops running.
 - `"tags"`: A tag object that consists of a key and an optional value, used to manage
   metadata for Amazon Braket resources.
 """
-function create_job(
-    algorithmSpecification,
-    clientToken,
-    deviceConfig,
-    instanceConfig,
-    jobName,
-    outputDataConfig,
-    roleArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/job",
-        Dict{String,Any}(
-            "algorithmSpecification" => algorithmSpecification,
-            "clientToken" => clientToken,
-            "deviceConfig" => deviceConfig,
-            "instanceConfig" => instanceConfig,
-            "jobName" => jobName,
-            "outputDataConfig" => outputDataConfig,
-            "roleArn" => roleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_job(
-    algorithmSpecification,
-    clientToken,
-    deviceConfig,
-    instanceConfig,
-    jobName,
-    outputDataConfig,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/job",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "algorithmSpecification" => algorithmSpecification,
-                    "clientToken" => clientToken,
-                    "deviceConfig" => deviceConfig,
-                    "instanceConfig" => instanceConfig,
-                    "jobName" => jobName,
-                    "outputDataConfig" => outputDataConfig,
-                    "roleArn" => roleArn,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_job(algorithmSpecification, clientToken, deviceConfig, instanceConfig, jobName, outputDataConfig, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/job", Dict{String, Any}("algorithmSpecification"=>algorithmSpecification, "clientToken"=>clientToken, "deviceConfig"=>deviceConfig, "instanceConfig"=>instanceConfig, "jobName"=>jobName, "outputDataConfig"=>outputDataConfig, "roleArn"=>roleArn); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job(algorithmSpecification, clientToken, deviceConfig, instanceConfig, jobName, outputDataConfig, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/job", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmSpecification"=>algorithmSpecification, "clientToken"=>clientToken, "deviceConfig"=>deviceConfig, "instanceConfig"=>instanceConfig, "jobName"=>jobName, "outputDataConfig"=>outputDataConfig, "roleArn"=>roleArn), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_quantum_task(action, client_token, device_arn, output_s3_bucket, output_s3_key_prefix, shots)
@@ -176,6 +80,7 @@ end
 Creates a quantum task.
 
 # Arguments
+
 - `action`: The action associated with the task.
 - `client_token`: The client token associated with the request.
 - `device_arn`: The ARN of the device to run the task on.
@@ -185,106 +90,38 @@ Creates a quantum task.
 - `shots`: The number of shots to use for the task.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"associations"`: The list of Amazon Braket resources associated with the quantum task.
 - `"deviceParameters"`: The parameters for the device to run the task on.
 - `"jobToken"`: The token for an Amazon Braket job that associates it with the quantum task.
 - `"tags"`: Tags to be added to the quantum task you're creating.
 """
-function create_quantum_task(
-    action,
-    clientToken,
-    deviceArn,
-    outputS3Bucket,
-    outputS3KeyPrefix,
-    shots;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/quantum-task",
-        Dict{String,Any}(
-            "action" => action,
-            "clientToken" => clientToken,
-            "deviceArn" => deviceArn,
-            "outputS3Bucket" => outputS3Bucket,
-            "outputS3KeyPrefix" => outputS3KeyPrefix,
-            "shots" => shots,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_quantum_task(
-    action,
-    clientToken,
-    deviceArn,
-    outputS3Bucket,
-    outputS3KeyPrefix,
-    shots,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/quantum-task",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "action" => action,
-                    "clientToken" => clientToken,
-                    "deviceArn" => deviceArn,
-                    "outputS3Bucket" => outputS3Bucket,
-                    "outputS3KeyPrefix" => outputS3KeyPrefix,
-                    "shots" => shots,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_quantum_task(action, clientToken, deviceArn, outputS3Bucket, outputS3KeyPrefix, shots, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/quantum-task", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("action"=>action, "clientToken"=>clientToken, "deviceArn"=>deviceArn, "outputS3Bucket"=>outputS3Bucket, "outputS3KeyPrefix"=>outputS3KeyPrefix, "shots"=>shots), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_device(device_arn)
     get_device(device_arn, params::Dict{String,<:Any})
 
-Retrieves the devices available in Amazon Braket.  For backwards compatibility with older
-versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get
-this information the user-agent needs to present a recent version of the BraketSchemas
-(1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see
-OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set
-AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples
-provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and
-JavaScript/TypeScript SDKs.
+Retrieves the devices available in Amazon Braket.
+
+!!! note
+    For backwards compatibility with older versions of BraketSchemas, OpenQASM information
+is omitted from GetDevice API calls. To get this information the user-agent needs to
+present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK
+automatically reports this for you. If you do not see OpenQASM results in the GetDevice
+response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment
+variable to configure user-agent. See the code examples provided below for how to do this
+for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
 
 # Arguments
-- `device_arn`: The ARN of the device to retrieve.
 
+- `device_arn`: The ARN of the device to retrieve.
 """
-function get_device(deviceArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "GET",
-        "/device/$(deviceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_device(
-    deviceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "GET",
-        "/device/$(deviceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_device(deviceArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/device/$(deviceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_device(deviceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/device/$(deviceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_job(job_arn)
@@ -293,28 +130,17 @@ end
 Retrieves the specified Amazon Braket job.
 
 # Arguments
+
 - `job_arn`: The ARN of the job to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
-function get_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_job(
-    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "GET",
-        "/job/$(jobArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job(jobArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/job/$(jobArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_job(jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/job/$(jobArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_quantum_task(quantum_task_arn)
@@ -323,35 +149,17 @@ end
 Retrieves the specified quantum task.
 
 # Arguments
+
 - `quantum_task_arn`: The ARN of the task to retrieve.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalAttributeNames"`: A list of attributes to return information for.
 """
-function get_quantum_task(
-    quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "GET",
-        "/quantum-task/$(quantumTaskArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_quantum_task(
-    quantumTaskArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "GET",
-        "/quantum-task/$(quantumTaskArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_quantum_task(quantumTaskArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/quantum-task/$(quantumTaskArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -360,32 +168,11 @@ end
 Shows the tags associated with this resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn for the resource whose tags to display.
 
+- `resource_arn`: Specify the `resourceArn` for the resource whose tags to display.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_devices(filters)
@@ -394,36 +181,20 @@ end
 Searches for devices using the specified filters.
 
 # Arguments
+
 - `filters`: The filter values to use to search for a device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request ended.
+  token returned from the previous request continue results where the previous request
+  ended.
 """
-function search_devices(filters; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "POST",
-        "/devices",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_devices(
-    filters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/devices",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_devices(filters; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/devices", Dict{String, Any}("filters"=>filters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_devices(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/devices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_jobs(filters)
@@ -432,37 +203,20 @@ end
 Searches for Amazon Braket jobs that match the specified filter values.
 
 # Arguments
+
 - `filters`: The filter values to use when searching for a job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
   token returned from the previous request to continue results where the previous request
   ended.
 """
-function search_jobs(filters; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "POST",
-        "/jobs",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_jobs(
-    filters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/jobs",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_jobs(filters; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/jobs", Dict{String, Any}("filters"=>filters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_jobs(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_quantum_tasks(filters)
@@ -471,36 +225,20 @@ end
 Searches for tasks that match the specified filter values.
 
 # Arguments
-- `filters`: Array of SearchQuantumTasksFilter objects.
+
+- `filters`: Array of `SearchQuantumTasksFilter` objects.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return in the response.
 - `"nextToken"`: A token used for pagination of results returned in the response. Use the
-  token returned from the previous request continue results where the previous request ended.
+  token returned from the previous request continue results where the previous request
+  ended.
 """
-function search_quantum_tasks(filters; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "POST",
-        "/quantum-tasks",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_quantum_tasks(
-    filters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/quantum-tasks",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filters" => filters), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_quantum_tasks(filters; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}("filters"=>filters); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_quantum_tasks(filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/quantum-tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filters"=>filters), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -509,33 +247,12 @@ end
 Add a tag to the specified resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn of the resource to which a tag will be added.
-- `tags`: Specify the tags to add to the resource.
 
+- `resource_arn`: Specify the `resourceArn` of the resource to which a tag will be added.
+- `tags`: Specify the tags to add to the resource.
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return braket(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -544,32 +261,9 @@ end
 Remove tags from a resource.
 
 # Arguments
-- `resource_arn`: Specify the resourceArn for the resource from which to remove the tags.
-- `tag_keys`: Specify the keys for the tags to remove from the resource.
 
+- `resource_arn`: Specify the `resourceArn` for the resource from which to remove the tags.
+- `tag_keys`: Specify the keys for the tags to remove from the resource.
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return braket(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return braket(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = braket("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

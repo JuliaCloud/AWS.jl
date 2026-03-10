@@ -11,60 +11,15 @@ using AWS.UUIDs
 Assigns a farm membership level to a member.
 
 # Arguments
+
 - `farm_id`: The ID of the farm to associate with the member.
 - `identity_store_id`: The identity store ID of the member to associate with the farm.
 - `membership_level`: The principal's membership level for the associated farm.
 - `principal_id`: The member's principal ID to associate with the farm.
 - `principal_type`: The principal type of the member to associate with the farm.
-
 """
-function associate_member_to_farm(
-    farmId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/members/$(principalId)",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "membershipLevel" => membershipLevel,
-            "principalType" => principalType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_member_to_farm(
-    farmId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/members/$(principalId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "identityStoreId" => identityStoreId,
-                    "membershipLevel" => membershipLevel,
-                    "principalType" => principalType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_member_to_farm(farmId, identityStoreId, membershipLevel, principalId, principalType; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/members/$(principalId)", Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_member_to_farm(farmId, identityStoreId, membershipLevel, principalId, principalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/members/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     associate_member_to_fleet(farm_id, fleet_id, identity_store_id, membership_level, principal_id, principal_type)
@@ -73,63 +28,16 @@ end
 Assigns a fleet membership level to a member.
 
 # Arguments
+
 - `farm_id`: The farm ID of the fleet to associate with the member.
 - `fleet_id`: The ID of the fleet to associate with a member.
 - `identity_store_id`: The member's identity store ID to associate with the fleet.
 - `membership_level`: The principal's membership level for the associated fleet.
 - `principal_id`: The member's principal ID to associate with a fleet.
 - `principal_type`: The member's principal type to associate with the fleet.
-
 """
-function associate_member_to_fleet(
-    farmId,
-    fleetId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "membershipLevel" => membershipLevel,
-            "principalType" => principalType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_member_to_fleet(
-    farmId,
-    fleetId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "identityStoreId" => identityStoreId,
-                    "membershipLevel" => membershipLevel,
-                    "principalType" => principalType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_member_to_fleet(farmId, fleetId, identityStoreId, membershipLevel, principalId, principalType; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)", Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_member_to_fleet(farmId, fleetId, identityStoreId, membershipLevel, principalId, principalType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     associate_member_to_job(farm_id, identity_store_id, job_id, membership_level, principal_id, principal_type, queue_id)
@@ -138,6 +46,7 @@ end
 Assigns a job membership level to a member
 
 # Arguments
+
 - `farm_id`: The farm ID of the job to associate with the member.
 - `identity_store_id`: The member's identity store ID to associate with the job.
 - `job_id`: The job ID to associate with the member.
@@ -145,59 +54,9 @@ Assigns a job membership level to a member
 - `principal_id`: The member's principal ID to associate with the job.
 - `principal_type`: The member's principal type to associate with the job.
 - `queue_id`: The queue ID to associate to the member.
-
 """
-function associate_member_to_job(
-    farmId,
-    identityStoreId,
-    jobId,
-    membershipLevel,
-    principalId,
-    principalType,
-    queueId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "membershipLevel" => membershipLevel,
-            "principalType" => principalType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_member_to_job(
-    farmId,
-    identityStoreId,
-    jobId,
-    membershipLevel,
-    principalId,
-    principalType,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "identityStoreId" => identityStoreId,
-                    "membershipLevel" => membershipLevel,
-                    "principalType" => principalType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_member_to_job(farmId, identityStoreId, jobId, membershipLevel, principalId, principalType, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)", Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_member_to_job(farmId, identityStoreId, jobId, membershipLevel, principalId, principalType, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     associate_member_to_queue(farm_id, identity_store_id, membership_level, principal_id, principal_type, queue_id)
@@ -206,63 +65,16 @@ end
 Assigns a queue membership level to a member
 
 # Arguments
+
 - `farm_id`: The farm ID of the queue to associate with the member.
 - `identity_store_id`: The member's identity store ID to associate with the queue.
 - `membership_level`: The principal's membership level for the associated queue.
 - `principal_id`: The member's principal ID to associate with the queue.
 - `principal_type`: The member's principal type to associate with the queue.
 - `queue_id`: The ID of the queue to associate to the member.
-
 """
-function associate_member_to_queue(
-    farmId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType,
-    queueId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "membershipLevel" => membershipLevel,
-            "principalType" => principalType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_member_to_queue(
-    farmId,
-    identityStoreId,
-    membershipLevel,
-    principalId,
-    principalType,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "identityStoreId" => identityStoreId,
-                    "membershipLevel" => membershipLevel,
-                    "principalType" => principalType,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_member_to_queue(farmId, identityStoreId, membershipLevel, principalId, principalType, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)", Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+associate_member_to_queue(farmId, identityStoreId, membershipLevel, principalId, principalType, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identityStoreId"=>identityStoreId, "membershipLevel"=>membershipLevel, "principalType"=>principalType), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     assume_fleet_role_for_read(farm_id, fleet_id)
@@ -272,34 +84,12 @@ Get Amazon Web Services credentials from the fleet role. The IAM permissions of 
 credentials are scoped down to have read-only access.
 
 # Arguments
+
 - `farm_id`: The farm ID for the fleet's farm.
 - `fleet_id`: The fleet ID.
-
 """
-function assume_fleet_role_for_read(
-    farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_fleet_role_for_read(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+assume_fleet_role_for_read(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_fleet_role_for_read(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/read-roles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     assume_fleet_role_for_worker(farm_id, fleet_id, worker_id)
@@ -308,36 +98,13 @@ end
 Get credentials from the fleet role for a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID for the fleet's farm.
 - `fleet_id`: The fleet ID that contains the worker.
 - `worker_id`: The ID of the worker assuming the fleet role.
-
 """
-function assume_fleet_role_for_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_fleet_role_for_worker(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+assume_fleet_role_for_worker(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_fleet_role_for_worker(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/fleet-roles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     assume_queue_role_for_read(farm_id, queue_id)
@@ -347,34 +114,12 @@ Gets Amazon Web Services credentials from the queue role. The IAM permissions of
 credentials are scoped down to have read-only access.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm containing the queue.
 - `queue_id`: The queue ID.
-
 """
-function assume_queue_role_for_read(
-    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_queue_role_for_read(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+assume_queue_role_for_read(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_queue_role_for_read(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/read-roles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     assume_queue_role_for_user(farm_id, queue_id)
@@ -383,34 +128,12 @@ end
 Allows a user to assume a role for a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID of the queue that the user assumes the role for.
 - `queue_id`: The queue ID of the queue that the user assumes the role for.
-
 """
-function assume_queue_role_for_user(
-    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_queue_role_for_user(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+assume_queue_role_for_user(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_queue_role_for_user(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/user-roles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     assume_queue_role_for_worker(farm_id, fleet_id, queue_id, worker_id)
@@ -419,39 +142,14 @@ end
 Allows a worker to assume a queue role.
 
 # Arguments
+
 - `farm_id`: The farm ID of the worker assuming the queue role.
 - `fleet_id`: The fleet ID of the worker assuming the queue role.
 - `queue_id`: The queue ID of the worker assuming the queue role.
 - `worker_id`: The worker ID of the worker assuming the queue role.
-
 """
-function assume_queue_role_for_worker(
-    farmId, fleetId, queueId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles",
-        Dict{String,Any}("queueId" => queueId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_queue_role_for_worker(
-    farmId,
-    fleetId,
-    queueId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("queueId" => queueId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+assume_queue_role_for_worker(farmId, fleetId, queueId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles", Dict{String, Any}("queueId"=>queueId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+assume_queue_role_for_worker(farmId, fleetId, queueId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/queue-roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("queueId"=>queueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     batch_get_job_entity(farm_id, fleet_id, identifiers, worker_id)
@@ -460,47 +158,16 @@ end
 Get batched job details for a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID of the worker that's fetching job details. The worker must have an
   assignment on a job to fetch job details.
 - `fleet_id`: The fleet ID of the worker that's fetching job details. The worker must have
   an assignment on a job to fetch job details.
 - `identifiers`: The job identifiers to include within the job entity batch details.
 - `worker_id`: The worker ID of the worker containing the job details to get.
-
 """
-function batch_get_job_entity(
-    farmId,
-    fleetId,
-    identifiers,
-    workerId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity",
-        Dict{String,Any}("identifiers" => identifiers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_job_entity(
-    farmId,
-    fleetId,
-    identifiers,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("identifiers" => identifiers), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_job_entity(farmId, fleetId, identifiers, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity", Dict{String, Any}("identifiers"=>identifiers); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+batch_get_job_entity(farmId, fleetId, identifiers, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/batchGetJobEntity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("identifiers"=>identifiers), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     copy_job_template(farm_id, job_id, queue_id, target_s3_location)
@@ -509,48 +176,15 @@ end
 Copies a job template to an Amazon S3 bucket.
 
 # Arguments
+
 - `farm_id`: The farm ID to copy.
 - `job_id`: The job ID to copy.
 - `queue_id`: The queue ID to copy.
 - `target_s3_location`: The Amazon S3 bucket name and key where you would like to add a
   copy of the job template.
-
 """
-function copy_job_template(
-    farmId,
-    jobId,
-    queueId,
-    targetS3Location;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/template",
-        Dict{String,Any}("targetS3Location" => targetS3Location);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_job_template(
-    farmId,
-    jobId,
-    queueId,
-    targetS3Location,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/template",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("targetS3Location" => targetS3Location), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+copy_job_template(farmId, jobId, queueId, targetS3Location; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/template", Dict{String, Any}("targetS3Location"=>targetS3Location); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+copy_job_template(farmId, jobId, queueId, targetS3Location, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/template", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetS3Location"=>targetS3Location), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_budget(actions, approximate_dollar_limit, display_name, farm_id, schedule, usage_tracking_resource)
@@ -559,74 +193,32 @@ end
 Creates a budget to set spending thresholds for your rendering activity.
 
 # Arguments
+
 - `actions`: The budget actions to specify what happens when the budget runs out.
 - `approximate_dollar_limit`: The dollar limit based on consumed usage.
 - `display_name`: The display name of the budget.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `farm_id`: The farm ID to include in this budget.
 - `schedule`: The schedule to associate with this budget.
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"description"`: The description of the budget.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 """
-function create_budget(
-    actions,
-    approximateDollarLimit,
-    displayName,
-    farmId,
-    schedule,
-    usageTrackingResource;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/budgets",
-        Dict{String,Any}(
-            "actions" => actions,
-            "approximateDollarLimit" => approximateDollarLimit,
-            "displayName" => displayName,
-            "schedule" => schedule,
-            "usageTrackingResource" => usageTrackingResource,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_budget(
-    actions,
-    approximateDollarLimit,
-    displayName,
-    farmId,
-    schedule,
-    usageTrackingResource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/budgets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "actions" => actions,
-                    "approximateDollarLimit" => approximateDollarLimit,
-                    "displayName" => displayName,
-                    "schedule" => schedule,
-                    "usageTrackingResource" => usageTrackingResource,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_budget(actions, approximateDollarLimit, displayName, farmId, schedule, usageTrackingResource; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/budgets", Dict{String, Any}("actions"=>actions, "approximateDollarLimit"=>approximateDollarLimit, "displayName"=>displayName, "schedule"=>schedule, "usageTrackingResource"=>usageTrackingResource, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_budget(actions, approximateDollarLimit, displayName, farmId, schedule, usageTrackingResource, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/budgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actions"=>actions, "approximateDollarLimit"=>approximateDollarLimit, "displayName"=>displayName, "schedule"=>schedule, "usageTrackingResource"=>usageTrackingResource, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_farm(display_name)
@@ -638,49 +230,30 @@ budgets and allow you to enforce permissions. Deadline Cloud farms are a useful 
 for large projects.
 
 # Arguments
+
 - `display_name`: The display name of the farm.
 
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
+
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"description"`: The description of the farm.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
 """
-function create_farm(displayName; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "POST",
-        "/2023-10-12/farms",
-        Dict{String,Any}(
-            "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_farm(
-    displayName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_farm(displayName; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms", Dict{String, Any}("displayName"=>displayName, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_farm(displayName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_fleet(configuration, display_name, farm_id, max_worker_count, role_arn)
@@ -691,152 +264,72 @@ within your farms. You can choose to manage your own capacity or opt to have fle
 managed by Deadline Cloud.
 
 # Arguments
+
 - `configuration`: The configuration settings for the fleet. Customer managed fleets are
   self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
 - `display_name`: The display name of the fleet.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the fleet.
 - `max_worker_count`: The maximum number of workers for the fleet.
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"description"`: The description of the fleet.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
-function create_fleet(
-    configuration,
-    displayName,
-    farmId,
-    maxWorkerCount,
-    roleArn;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets",
-        Dict{String,Any}(
-            "configuration" => configuration,
-            "displayName" => displayName,
-            "maxWorkerCount" => maxWorkerCount,
-            "roleArn" => roleArn,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_fleet(
-    configuration,
-    displayName,
-    farmId,
-    maxWorkerCount,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "configuration" => configuration,
-                    "displayName" => displayName,
-                    "maxWorkerCount" => maxWorkerCount,
-                    "roleArn" => roleArn,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_fleet(configuration, displayName, farmId, maxWorkerCount, roleArn; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets", Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "maxWorkerCount"=>maxWorkerCount, "roleArn"=>roleArn, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_fleet(configuration, displayName, farmId, maxWorkerCount, roleArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration"=>configuration, "displayName"=>displayName, "maxWorkerCount"=>maxWorkerCount, "roleArn"=>roleArn, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_job(farm_id, priority, queue_id, template, template_type)
     create_job(farm_id, priority, queue_id, template, template_type, params::Dict{String,<:Any})
 
-Creates a job. A job is a render submission submitted by a user. It contains specific job
-properties outlined as steps and tasks.
+Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and
+run work on available workers. For more information, see [Deadline Cloud jobs](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/deadline-cloud-jobs.html).
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm to connect to the job.
-- `priority`: The priority of the job on a scale of 1 to 100. The highest priority is 1.
+- `priority`: The priority of the job on a scale of 0 to 100. The highest priority (first
+  scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled
+  first.
 - `queue_id`: The ID of the queue that the job is submitted to.
 - `template`: The job template to use for this job.
 - `template_type`: The file type for the job template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"attachments"`: The attachments for the job. Attach files required for the job to run to
   a render job.
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
-  marked as FAILED.
-- `"maxRetriesPerTask"`: The maximum number of retries for a job.
+  marked as `FAILED`.
+- `"maxRetriesPerTask"`: The maximum number of retries for each task.
 - `"parameters"`: The parameters for the job.
 - `"storageProfileId"`: The storage profile ID for the storage profile to connect to the
   job.
-- `"targetTaskRunStatus"`: The initial status of the job's tasks when they are created.
-  Tasks that are created with a SUSPENDED status will not run until you update their status.
+- `"targetTaskRunStatus"`: The initial job status when it is created. Jobs that are created
+  with a `SUSPENDED` status will not run until manually requeued.
 """
-function create_job(
-    farmId,
-    priority,
-    queueId,
-    template,
-    templateType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs",
-        Dict{String,Any}(
-            "priority" => priority,
-            "template" => template,
-            "templateType" => templateType,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_job(
-    farmId,
-    priority,
-    queueId,
-    template,
-    templateType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "priority" => priority,
-                    "template" => template,
-                    "templateType" => templateType,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_job(farmId, priority, queueId, template, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs", Dict{String, Any}("priority"=>priority, "template"=>template, "templateType"=>templateType, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_job(farmId, priority, queueId, template, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "template"=>template, "templateType"=>templateType, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_license_endpoint(security_group_ids, subnet_ids, vpc_id)
@@ -846,59 +339,22 @@ Creates a license endpoint to integrate your various licensed software used for 
 on Deadline Cloud.
 
 # Arguments
+
 - `security_group_ids`: The security group IDs.
 - `subnet_ids`: The subnet IDs.
 - `vpc_id`: The VPC (virtual private cloud) ID to use with the license endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
-function create_license_endpoint(
-    securityGroupIds, subnetIds, vpcId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/license-endpoints",
-        Dict{String,Any}(
-            "securityGroupIds" => securityGroupIds,
-            "subnetIds" => subnetIds,
-            "vpcId" => vpcId,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_license_endpoint(
-    securityGroupIds,
-    subnetIds,
-    vpcId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/license-endpoints",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "securityGroupIds" => securityGroupIds,
-                    "subnetIds" => subnetIds,
-                    "vpcId" => vpcId,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_license_endpoint(securityGroupIds, subnetIds, vpcId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/license-endpoints", Dict{String, Any}("securityGroupIds"=>securityGroupIds, "subnetIds"=>subnetIds, "vpcId"=>vpcId, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_license_endpoint(securityGroupIds, subnetIds, vpcId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/license-endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("securityGroupIds"=>securityGroupIds, "subnetIds"=>subnetIds, "vpcId"=>vpcId, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_monitor(display_name, identity_center_instance_arn, role_arn, subdomain)
@@ -909,8 +365,13 @@ queues, and fleets. After you submit a job, you can track the progress of the ta
 steps that make up the job, and then download the job's results.
 
 # Arguments
+
 - `display_name`: The name that you give the monitor that is displayed in the Deadline
   Cloud console.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance that authenticates monitor users.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
@@ -920,59 +381,14 @@ steps that make up the job, and then download the job's results.
   monitor is subdomain.Region.deadlinecloud.amazonaws.com.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function create_monitor(
-    displayName,
-    identityCenterInstanceArn,
-    roleArn,
-    subdomain;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/monitors",
-        Dict{String,Any}(
-            "displayName" => displayName,
-            "identityCenterInstanceArn" => identityCenterInstanceArn,
-            "roleArn" => roleArn,
-            "subdomain" => subdomain,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_monitor(
-    displayName,
-    identityCenterInstanceArn,
-    roleArn,
-    subdomain,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/monitors",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "displayName" => displayName,
-                    "identityCenterInstanceArn" => identityCenterInstanceArn,
-                    "roleArn" => roleArn,
-                    "subdomain" => subdomain,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_monitor(displayName, identityCenterInstanceArn, roleArn, subdomain; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/monitors", Dict{String, Any}("displayName"=>displayName, "identityCenterInstanceArn"=>identityCenterInstanceArn, "roleArn"=>roleArn, "subdomain"=>subdomain, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_monitor(displayName, identityCenterInstanceArn, roleArn, subdomain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/monitors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "identityCenterInstanceArn"=>identityCenterInstanceArn, "roleArn"=>roleArn, "subdomain"=>subdomain, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_queue(display_name, farm_id)
@@ -982,17 +398,28 @@ Creates a queue to coordinate the order in which jobs run on a farm. A queue can
 specify where to pull resources and indicate where to output completed jobs.
 
 # Arguments
+
 - `display_name`: The display name of the queue.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"allowedStorageProfileIds"`: The storage profile IDs to include in the queue.
 - `"defaultBudgetAction"`: The default action to take on a queue if a budget isn't
   configured.
 - `"description"`: The description of the queue.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the
   Amazon S3 bucket name and the Amazon S3 prefix.
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
@@ -1002,41 +429,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
-function create_queue(
-    displayName, farmId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues",
-        Dict{String,Any}(
-            "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_queue(
-    displayName,
-    farmId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "displayName" => displayName, "X-Amz-Client-Token" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_queue(displayName, farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues", Dict{String, Any}("displayName"=>displayName, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_queue(displayName, farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_queue_environment(farm_id, priority, queue_id, template, template_type)
@@ -1045,68 +439,24 @@ end
 Creates an environment for a queue that defines how jobs in the queue run.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm to connect to the environment.
 - `priority`: Sets the priority of the environments in the queue from 0 to 10,000, where 0
-  is the highest priority. If two environments share the same priority value, the environment
-  created first takes higher priority.
+  is the highest priority. If two environments share the same priority value, the
+  environment created first takes higher priority.
 - `queue_id`: The queue ID to connect the queue and environment.
 - `template`: The environment template to use in the queue.
-- `template_type`: The template's file type, JSON or YAML.
+- `template_type`: The template's file type, `JSON` or `YAML`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function create_queue_environment(
-    farmId,
-    priority,
-    queueId,
-    template,
-    templateType;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments",
-        Dict{String,Any}(
-            "priority" => priority,
-            "template" => template,
-            "templateType" => templateType,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_queue_environment(
-    farmId,
-    priority,
-    queueId,
-    template,
-    templateType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "priority" => priority,
-                    "template" => template,
-                    "templateType" => templateType,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_queue_environment(farmId, priority, queueId, template, templateType; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments", Dict{String, Any}("priority"=>priority, "template"=>template, "templateType"=>templateType, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_queue_environment(farmId, priority, queueId, template, templateType, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "template"=>template, "templateType"=>templateType, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_queue_fleet_association(farm_id, fleet_id, queue_id)
@@ -1115,41 +465,13 @@ end
 Creates an association between a queue and a fleet.
 
 # Arguments
+
 - `farm_id`: The ID of the farm that the queue and fleet belong to.
 - `fleet_id`: The fleet ID.
 - `queue_id`: The queue ID.
-
 """
-function create_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations",
-        Dict{String,Any}("fleetId" => fleetId, "queueId" => queueId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_queue_fleet_association(
-    farmId,
-    fleetId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("fleetId" => fleetId, "queueId" => queueId), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_queue_fleet_association(farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queue-fleet-associations", Dict{String, Any}("fleetId"=>fleetId, "queueId"=>queueId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_queue_fleet_association(farmId, fleetId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/farms/$(farmId)/queue-fleet-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleetId"=>fleetId, "queueId"=>queueId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_storage_profile(display_name, farm_id, os_family)
@@ -1159,103 +481,50 @@ Creates a storage profile that specifies the operating system, file type, and fi
 of resources used on a farm.
 
 # Arguments
+
 - `display_name`: The display name of the storage profile.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
 - `os_family`: The type of operating system (OS) for the storage profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"fileSystemLocations"`: File system paths to include in the storage profile.
 """
-function create_storage_profile(
-    displayName, farmId, osFamily; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/storage-profiles",
-        Dict{String,Any}(
-            "displayName" => displayName,
-            "osFamily" => osFamily,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_storage_profile(
-    displayName,
-    farmId,
-    osFamily,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/storage-profiles",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "displayName" => displayName,
-                    "osFamily" => osFamily,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_storage_profile(displayName, farmId, osFamily; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/storage-profiles", Dict{String, Any}("displayName"=>displayName, "osFamily"=>osFamily, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_storage_profile(displayName, farmId, osFamily, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/storage-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("displayName"=>displayName, "osFamily"=>osFamily, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_worker(farm_id, fleet_id)
     create_worker(farm_id, fleet_id, params::Dict{String,<:Any})
 
 Creates a worker. A worker tells your instance how much processing power (vCPU), and memory
-(GiB) you’ll need to assemble the digital assets held within a particular instance. You
-can specify certain instance types to use, or let the worker know which instances types to
+(GiB) you’ll need to assemble the digital assets held within a particular instance. You can
+specify certain instance types to use, or let the worker know which instances types to
 exclude.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm to connect to the worker.
 - `fleet_id`: The fleet ID to connect to the worker.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"hostProperties"`: The IP address and host name of the worker.
 """
-function create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_worker(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_worker(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_worker(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_budget(budget_id, farm_id)
@@ -1264,32 +533,12 @@ end
 Deletes a budget.
 
 # Arguments
+
 - `budget_id`: The budget ID of the budget to delete.
 - `farm_id`: The farm ID of the farm to remove from the budget.
-
 """
-function delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_budget(
-    budgetId,
-    farmId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_budget(budgetId, farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_farm(farm_id)
@@ -1298,28 +547,11 @@ end
 Deletes a farm.
 
 # Arguments
-- `farm_id`: The farm ID of the farm to delete.
 
+- `farm_id`: The farm ID of the farm to delete.
 """
-function delete_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_farm(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_fleet(farm_id, fleet_id)
@@ -1328,41 +560,19 @@ end
 Deletes a fleet.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm to remove from the fleet.
 - `fleet_id`: The fleet ID of the fleet to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fleet(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_fleet(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_license_endpoint(license_endpoint_id)
@@ -1371,32 +581,11 @@ end
 Deletes a license endpoint.
 
 # Arguments
-- `license_endpoint_id`: The license endpoint ID of the license endpoint to delete.
 
+- `license_endpoint_id`: The license endpoint ID of the license endpoint to delete.
 """
-function delete_license_endpoint(
-    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_license_endpoint(
-    licenseEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_license_endpoint(licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/license-endpoints/$(licenseEndpointId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_license_endpoint(licenseEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/license-endpoints/$(licenseEndpointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_metered_product(license_endpoint_id, product_id)
@@ -1405,35 +594,13 @@ end
 Deletes a metered product.
 
 # Arguments
+
 - `license_endpoint_id`: The ID of the license endpoint from which to remove the metered
   product.
 - `product_id`: The product ID to remove from the license endpoint.
-
 """
-function delete_metered_product(
-    licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_metered_product(
-    licenseEndpointId,
-    productId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_metered_product(licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_metered_product(licenseEndpointId, productId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_monitor(monitor_id)
@@ -1443,31 +610,12 @@ Removes a Deadline Cloud monitor. After you delete a monitor, you can create a n
 attach farms to the monitor.
 
 # Arguments
-- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the
-  CreateMonitor operation, and is included in the response to the GetMonitor operation.
 
+- `monitor_id`: The unique identifier of the monitor to delete. This ID is returned by the
+  `CreateMonitor` operation, and is included in the response to the `GetMonitor` operation.
 """
-function delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "DELETE",
-        "/2023-10-12/monitors/$(monitorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_monitor(
-    monitorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/monitors/$(monitorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/monitors/$(monitorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_monitor(monitorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/monitors/$(monitorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_queue(farm_id, queue_id)
@@ -1475,33 +623,17 @@ end
 
 Deletes a queue.
 
+!!! important
+    You can't recover the jobs in a queue if you delete the queue. Deleting the queue also
+deletes the jobs in that queue.
+
 # Arguments
+
 - `farm_id`: The ID of the farm from which to remove the queue.
 - `queue_id`: The queue ID of the queue to delete.
-
 """
-function delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_queue(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queue(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_queue_environment(farm_id, queue_environment_id, queue_id)
@@ -1510,36 +642,13 @@ end
 Deletes a queue environment.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm from which to remove the queue environment.
 - `queue_environment_id`: The queue environment ID of the queue environment to delete.
 - `queue_id`: The queue ID of the queue environment to delete.
-
 """
-function delete_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_queue_environment(
-    farmId,
-    queueEnvironmentId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_queue_environment(farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queue_environment(farmId, queueEnvironmentId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_queue_fleet_association(farm_id, fleet_id, queue_id)
@@ -1548,36 +657,13 @@ end
 Deletes a queue-fleet association.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm that holds the queue-fleet association.
 - `fleet_id`: The fleet ID of the queue-fleet association.
 - `queue_id`: The queue ID of the queue-fleet association.
-
 """
-function delete_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_queue_fleet_association(
-    farmId,
-    fleetId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_queue_fleet_association(farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_queue_fleet_association(farmId, fleetId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_storage_profile(farm_id, storage_profile_id)
@@ -1586,34 +672,12 @@ end
 Deletes a storage profile.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm from which to remove the storage profile.
 - `storage_profile_id`: The storage profile ID of the storage profile to delete.
-
 """
-function delete_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_storage_profile(
-    farmId,
-    storageProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_storage_profile(farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_storage_profile(farmId, storageProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_worker(farm_id, fleet_id, worker_id)
@@ -1622,36 +686,13 @@ end
 Deletes a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID of the worker to delete.
 - `fleet_id`: The fleet ID of the worker to delete.
 - `worker_id`: The worker ID of the worker to delete.
-
 """
-function delete_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_worker(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_worker(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_worker(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_member_from_farm(farm_id, principal_id)
@@ -1660,34 +701,12 @@ end
 Disassociates a member from a farm.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm to disassociate from the member.
 - `principal_id`: A member's principal ID to disassociate from a farm.
-
 """
-function disassociate_member_from_farm(
-    farmId, principalId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/members/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_member_from_farm(
-    farmId,
-    principalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/members/$(principalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_member_from_farm(farmId, principalId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/members/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_member_from_farm(farmId, principalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/members/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_member_from_fleet(farm_id, fleet_id, principal_id)
@@ -1696,36 +715,13 @@ end
 Disassociates a member from a fleet.
 
 # Arguments
+
 - `farm_id`: The farm ID of the fleet to disassociate a member from.
 - `fleet_id`: The fleet ID of the fleet to from which to disassociate a member.
 - `principal_id`: A member's principal ID to disassociate from a fleet.
-
 """
-function disassociate_member_from_fleet(
-    farmId, fleetId, principalId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_member_from_fleet(
-    farmId,
-    fleetId,
-    principalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_member_from_fleet(farmId, fleetId, principalId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_member_from_fleet(farmId, fleetId, principalId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_member_from_job(farm_id, job_id, principal_id, queue_id)
@@ -1734,38 +730,14 @@ end
 Disassociates a member from a job.
 
 # Arguments
+
 - `farm_id`: The farm ID for the job to disassociate from the member.
 - `job_id`: The job ID to disassociate from a member in a job.
 - `principal_id`: A member's principal ID to disassociate from a job.
 - `queue_id`: The queue ID connected to a job for which you're disassociating a member.
-
 """
-function disassociate_member_from_job(
-    farmId, jobId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_member_from_job(
-    farmId,
-    jobId,
-    principalId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_member_from_job(farmId, jobId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_member_from_job(farmId, jobId, principalId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     disassociate_member_from_queue(farm_id, principal_id, queue_id)
@@ -1774,36 +746,13 @@ end
 Disassociates a member from a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue to disassociate from a member.
 - `principal_id`: A member's principal ID to disassociate from a queue.
 - `queue_id`: The queue ID of the queue in which you're disassociating from a member.
-
 """
-function disassociate_member_from_queue(
-    farmId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_member_from_queue(
-    farmId,
-    principalId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disassociate_member_from_queue(farmId, principalId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+disassociate_member_from_queue(farmId, principalId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members/$(principalId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_budget(budget_id, farm_id)
@@ -1812,32 +761,12 @@ end
 Get a budget.
 
 # Arguments
+
 - `budget_id`: The budget ID.
 - `farm_id`: The farm ID of the farm connected to the budget.
-
 """
-function get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_budget(
-    budgetId,
-    farmId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_budget(budgetId, farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_farm(farm_id)
@@ -1846,28 +775,11 @@ end
 Get a farm.
 
 # Arguments
-- `farm_id`: The farm ID of the farm.
 
+- `farm_id`: The farm ID of the farm.
 """
-function get_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_farm(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_fleet(farm_id, fleet_id)
@@ -1876,32 +788,12 @@ end
 Get a fleet.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm in the fleet.
 - `fleet_id`: The fleet ID of the fleet to get.
-
 """
-function get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_fleet(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_fleet(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_job(farm_id, job_id, queue_id)
@@ -1910,34 +802,13 @@ end
 Gets a Deadline Cloud job.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm in the job.
 - `job_id`: The job ID.
 - `queue_id`: The queue ID associated with the job.
-
 """
-function get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_job(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_job(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_license_endpoint(license_endpoint_id)
@@ -1946,32 +817,11 @@ end
 Gets a licence endpoint.
 
 # Arguments
-- `license_endpoint_id`: The license endpoint ID.
 
+- `license_endpoint_id`: The license endpoint ID.
 """
-function get_license_endpoint(
-    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_license_endpoint(
-    licenseEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_license_endpoint(licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints/$(licenseEndpointId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_license_endpoint(licenseEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints/$(licenseEndpointId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_monitor(monitor_id)
@@ -1980,31 +830,12 @@ end
 Gets information about the specified monitor.
 
 # Arguments
-- `monitor_id`: The unique identifier for the monitor. This ID is returned by the
-  CreateMonitor operation.
 
+- `monitor_id`: The unique identifier for the monitor. This ID is returned by the
+  `CreateMonitor` operation.
 """
-function get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/monitors/$(monitorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_monitor(
-    monitorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/monitors/$(monitorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/monitors/$(monitorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_monitor(monitorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/monitors/$(monitorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_queue(farm_id, queue_id)
@@ -2013,32 +844,12 @@ end
 Gets a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm in the queue.
 - `queue_id`: The queue ID for the queue to retrieve.
-
 """
-function get_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_queue(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_queue(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_queue_environment(farm_id, queue_environment_id, queue_id)
@@ -2047,36 +858,13 @@ end
 Gets a queue environment.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue environment.
 - `queue_environment_id`: The queue environment ID.
 - `queue_id`: The queue ID for the queue environment.
-
 """
-function get_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_queue_environment(
-    farmId,
-    queueEnvironmentId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_queue_environment(farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_queue_environment(farmId, queueEnvironmentId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_queue_fleet_association(farm_id, fleet_id, queue_id)
@@ -2085,36 +873,13 @@ end
 Gets a queue-fleet association.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm that contains the queue-fleet association.
 - `fleet_id`: The fleet ID for the queue-fleet association.
 - `queue_id`: The queue ID for the queue-fleet association.
-
 """
-function get_queue_fleet_association(
-    farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_queue_fleet_association(
-    farmId,
-    fleetId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_queue_fleet_association(farmId, fleetId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_queue_fleet_association(farmId, fleetId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_session(farm_id, job_id, queue_id, session_id)
@@ -2123,38 +888,14 @@ end
 Gets a session.
 
 # Arguments
+
 - `farm_id`: The farm ID for the session.
 - `job_id`: The job ID for the session.
 - `queue_id`: The queue ID for the session.
 - `session_id`: The session ID.
-
 """
-function get_session(
-    farmId, jobId, queueId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_session(
-    farmId,
-    jobId,
-    queueId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_session(farmId, jobId, queueId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session(farmId, jobId, queueId, sessionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_session_action(farm_id, job_id, queue_id, session_action_id)
@@ -2163,91 +904,43 @@ end
 Gets a session action for the job.
 
 # Arguments
+
 - `farm_id`: The farm ID for the session action.
 - `job_id`: The job ID for the session.
 - `queue_id`: The queue ID for the session action.
 - `session_action_id`: The session action ID for the session.
-
 """
-function get_session_action(
-    farmId,
-    jobId,
-    queueId,
-    sessionActionId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_session_action(
-    farmId,
-    jobId,
-    queueId,
-    sessionActionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_session_action(farmId, jobId, queueId, sessionActionId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_session_action(farmId, jobId, queueId, sessionActionId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions/$(sessionActionId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_sessions_statistics_aggregation(aggregation_id, farm_id)
     get_sessions_statistics_aggregation(aggregation_id, farm_id, params::Dict{String,<:Any})
 
 Gets a set of statistics for queues or farms. Before you can call the
-GetSessionStatisticsAggregation operation, you must first call the
-StartSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you
-call the StartSessionsStatisticsAggregation operation.
+`GetSessionStatisticsAggregation` operation, you must first call the
+`StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after
+you call the `StartSessionsStatisticsAggregation` operation.
 
 # Arguments
-- `aggregation_id`: The identifier returned by the StartSessionsStatisticsAggregation
+
+- `aggregation_id`: The identifier returned by the `StartSessionsStatisticsAggregation`
   operation that identifies the aggregated statistics.
 - `farm_id`: The identifier of the farm to include in the statistics. This should be the
-  same as the farm ID used in the call to the StartSessionsStatisticsAggregation operation.
+  same as the farm ID used in the call to the `StartSessionsStatisticsAggregation`
+  operation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function get_sessions_statistics_aggregation(
-    aggregationId, farmId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation",
-        Dict{String,Any}("aggregationId" => aggregationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_sessions_statistics_aggregation(
-    aggregationId,
-    farmId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("aggregationId" => aggregationId), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sessions_statistics_aggregation(aggregationId, farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation", Dict{String, Any}("aggregationId"=>aggregationId); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_sessions_statistics_aggregation(aggregationId, farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregationId"=>aggregationId), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_step(farm_id, job_id, queue_id, step_id)
@@ -2256,38 +949,14 @@ end
 Gets a step.
 
 # Arguments
+
 - `farm_id`: The farm ID for the step.
 - `job_id`: The job ID for the step.
 - `queue_id`: The queue ID for the step.
 - `step_id`: The step ID.
-
 """
-function get_step(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_step(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_step(farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_step(farmId, jobId, queueId, stepId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_storage_profile(farm_id, storage_profile_id)
@@ -2296,34 +965,12 @@ end
 Gets a storage profile.
 
 # Arguments
+
 - `farm_id`: The farm ID for the storage profile.
 - `storage_profile_id`: The storage profile ID.
-
 """
-function get_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_storage_profile(
-    farmId,
-    storageProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_storage_profile(farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_storage_profile(farmId, storageProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_storage_profile_for_queue(farm_id, queue_id, storage_profile_id)
@@ -2332,36 +979,13 @@ end
 Gets a storage profile for a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue in storage profile.
 - `queue_id`: The queue ID the queue in the storage profile.
 - `storage_profile_id`: The storage profile ID for the storage profile in the queue.
-
 """
-function get_storage_profile_for_queue(
-    farmId, queueId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_storage_profile_for_queue(
-    farmId,
-    queueId,
-    storageProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_storage_profile_for_queue(farmId, queueId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_storage_profile_for_queue(farmId, queueId, storageProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles/$(storageProfileId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_task(farm_id, job_id, queue_id, step_id, task_id)
@@ -2370,45 +994,15 @@ end
 Gets a task.
 
 # Arguments
+
 - `farm_id`: The farm ID of the farm connected to the task.
 - `job_id`: The job ID of the job connected to the task.
 - `queue_id`: The queue ID for the queue connected to the task.
 - `step_id`: The step ID for the step connected to the task.
 - `task_id`: The task ID.
-
 """
-function get_task(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    taskId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_task(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    taskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_task(farmId, jobId, queueId, stepId, taskId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_task(farmId, jobId, queueId, stepId, taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_worker(farm_id, fleet_id, worker_id)
@@ -2417,36 +1011,13 @@ end
 Gets a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID for the worker.
 - `fleet_id`: The fleet ID of the worker.
 - `worker_id`: The worker ID.
-
 """
-function get_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_worker(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_worker(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_worker(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_available_metered_products()
@@ -2455,32 +1026,16 @@ end
 A list of the available metered products.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_available_metered_products(;
-    aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/metered-products";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_available_metered_products(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/metered-products",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_available_metered_products(; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/metered-products"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_available_metered_products(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/metered-products", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_budgets(farm_id)
@@ -2489,34 +1044,21 @@ end
 A list of budgets in a farm.
 
 # Arguments
+
 - `farm_id`: The farm ID associated with the budgets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"status"`: The status to list for the budgets.
 """
-function list_budgets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/budgets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_budgets(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/budgets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_budgets(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/budgets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_budgets(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/budgets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_farm_members(farm_id)
@@ -2525,33 +1067,20 @@ end
 Lists the members of a farm.
 
 # Arguments
+
 - `farm_id`: The farm ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_farm_members(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_farm_members(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_farm_members(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_farm_members(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_farms()
@@ -2560,28 +1089,17 @@ end
 Lists farms.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"principalId"`: The principal ID of the member to list on the farm.
 """
-function list_farms(; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_farms(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_farms(; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_farms(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_fleet_members(farm_id, fleet_id)
@@ -2590,39 +1108,21 @@ end
 Lists fleet members.
 
 # Arguments
+
 - `farm_id`: The farm ID of the fleet.
 - `fleet_id`: The fleet ID to include on the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_fleet_members(
-    farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fleet_members(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fleet_members(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fleet_members(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_fleets(farm_id)
@@ -2631,36 +1131,27 @@ end
 Lists fleets.
 
 # Arguments
+
 - `farm_id`: The farm ID of the fleets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"displayName"`: The display names of a list of fleets.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"principalId"`: The principal ID of the members to include in the fleet.
 - `"status"`: The status of the fleet.
 """
-function list_fleets(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fleets(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fleets(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_fleets(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_job_members(farm_id, job_id, queue_id)
@@ -2669,41 +1160,22 @@ end
 Lists members on a job.
 
 # Arguments
+
 - `farm_id`: The farm ID of the job to list.
 - `job_id`: The job ID to include on the list.
 - `queue_id`: The queue ID to include on the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_job_members(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_job_members(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_job_members(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_job_members(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_jobs(farm_id, queue_id)
@@ -2712,38 +1184,22 @@ end
 Lists jobs.
 
 # Arguments
+
 - `farm_id`: The farm ID for the jobs.
 - `queue_id`: The queue ID for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"principalId"`: The principal ID of the members on the jobs.
 """
-function list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_jobs(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_jobs(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_jobs(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_license_endpoints()
@@ -2752,30 +1208,16 @@ end
 Lists license endpoints.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_license_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_license_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_license_endpoints(; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_license_endpoints(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_metered_products(license_endpoint_id)
@@ -2784,37 +1226,20 @@ end
 Lists metered products.
 
 # Arguments
+
 - `license_endpoint_id`: The license endpoint ID to include on the list of metered products.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_metered_products(
-    licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_metered_products(
-    licenseEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_metered_products(licenseEndpointId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_metered_products(licenseEndpointId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_monitors()
@@ -2823,30 +1248,16 @@ end
 Gets a list of your monitors in Deadline Cloud.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/monitors";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/monitors",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_monitors(; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_monitors(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/monitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_queue_environments(farm_id, queue_id)
@@ -2855,39 +1266,21 @@ end
 Lists queue environments.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue environment list.
 - `queue_id`: The queue ID for the queue environment list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_queue_environments(
-    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_queue_environments(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queue_environments(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queue_environments(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_queue_fleet_associations(farm_id)
@@ -2896,37 +1289,22 @@ end
 Lists queue-fleet associations.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue-fleet association list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"fleetId"`: The fleet ID for the queue-fleet association list.
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"queueId"`: The queue ID for the queue-fleet association list.
 """
-function list_queue_fleet_associations(
-    farmId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_queue_fleet_associations(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queue_fleet_associations(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queue-fleet-associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queue_fleet_associations(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queue-fleet-associations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_queue_members(farm_id, queue_id)
@@ -2935,39 +1313,21 @@ end
 Lists the members in a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID for the queue.
 - `queue_id`: The queue ID to include on the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_queue_members(
-    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_queue_members(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queue_members(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queue_members(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/members", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_queues(farm_id)
@@ -2976,38 +1336,24 @@ end
 Lists queues.
 
 # Arguments
+
 - `farm_id`: The farm ID of the queue.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
-- `"principalId"`: The principal ID. This filter is only valid when using Nimble Studio
-  credentials and should match the user ID in the credentials of the caller.
-- `"status"`: The status of the queues listed.    ACTIVE–The queues are active.
-  SCHEDULING–The queues are scheduling.    SCHEDULING_BLOCKED–The queue scheduling is
-  blocked for these queues.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
+- `"principalId"`: The principal IDs to include in the list of queues.
+- `"status"`: The status of the queues listed. - `ACTIVE`–The queues are active.
+   - `SCHEDULING`–The queues are scheduling.
+   - `SCHEDULING_BLOCKED`–The queue scheduling is blocked for these queues.
 """
-function list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_queues(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queues(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_queues(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_session_actions(farm_id, job_id, queue_id)
@@ -3016,43 +1362,24 @@ end
 Lists session actions.
 
 # Arguments
+
 - `farm_id`: The farm ID for the session actions list.
 - `job_id`: The job ID for the session actions list.
 - `queue_id`: The queue ID for the session actions list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 - `"sessionId"`: The session ID to include on the sessions action list.
 - `"taskId"`: The task ID for the session actions list.
 """
-function list_session_actions(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_session_actions(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_session_actions(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_session_actions(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/session-actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sessions(farm_id, job_id, queue_id)
@@ -3061,41 +1388,22 @@ end
 Lists sessions.
 
 # Arguments
+
 - `farm_id`: The farm ID for the list of sessions.
 - `job_id`: The job ID for the list of sessions.
 - `queue_id`: The queue ID for the list of sessions
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_sessions(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sessions(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sessions(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sessions(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_sessions_for_worker(farm_id, fleet_id, worker_id)
@@ -3104,41 +1412,22 @@ end
 Lists sessions for a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID for the session.
 - `fleet_id`: The fleet ID for the session.
 - `worker_id`: The worker ID for the session.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_sessions_for_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sessions_for_worker(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sessions_for_worker(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_sessions_for_worker(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/sessions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_step_consumers(farm_id, job_id, queue_id, step_id)
@@ -3147,43 +1436,23 @@ end
 Lists step consumers.
 
 # Arguments
+
 - `farm_id`: The farm ID for the list of step consumers.
 - `job_id`: The job ID for the step consumer.
 - `queue_id`: The queue ID for the step consumer.
 - `step_id`: The step ID to include on the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_step_consumers(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_step_consumers(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_step_consumers(farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_step_consumers(farmId, jobId, queueId, stepId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/consumers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_step_dependencies(farm_id, job_id, queue_id, step_id)
@@ -3192,43 +1461,23 @@ end
 Lists the dependencies for a step.
 
 # Arguments
+
 - `farm_id`: The farm ID for the step dependencies list.
 - `job_id`: The job ID for the step dependencies list.
 - `queue_id`: The queue ID for the step dependencies list.
 - `step_id`: The step ID to include on the list.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_step_dependencies(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_step_dependencies(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_step_dependencies(farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_step_dependencies(farmId, jobId, queueId, stepId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/dependencies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_steps(farm_id, job_id, queue_id)
@@ -3237,41 +1486,22 @@ end
 Lists steps for a job.
 
 # Arguments
+
 - `farm_id`: The farm ID to include on the list of steps.
 - `job_id`: The job ID to include on the list of steps.
 - `queue_id`: The queue ID to include on the list of steps.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_steps(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_steps(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_steps(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_steps(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_storage_profiles(farm_id)
@@ -3280,33 +1510,20 @@ end
 Lists storage profiles.
 
 # Arguments
+
 - `farm_id`: The farm ID of the storage profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_storage_profiles(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/storage-profiles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_storage_profiles(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/storage-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_storage_profiles(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/storage-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_storage_profiles(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/storage-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_storage_profiles_for_queue(farm_id, queue_id)
@@ -3315,39 +1532,21 @@ end
 Lists storage profiles for a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID of the queue's storage profile.
 - `queue_id`: The queue ID for the storage profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_storage_profiles_for_queue(
-    farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_storage_profiles_for_queue(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_storage_profiles_for_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_storage_profiles_for_queue(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/storage-profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -3356,32 +1555,11 @@ end
 Lists tags for a resource.
 
 # Arguments
-- `resource_arn`: The resource ARN to list tags for.
 
+- `resource_arn`: The resource ARN to list tags for.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tasks(farm_id, job_id, queue_id, step_id)
@@ -3390,43 +1568,23 @@ end
 Lists tasks for a job.
 
 # Arguments
+
 - `farm_id`: The farm ID connected to the tasks.
 - `job_id`: The job ID for the tasks.
 - `queue_id`: The queue ID connected to the tasks.
 - `step_id`: The step ID for the tasks.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_tasks(
-    farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tasks(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tasks(farmId, jobId, queueId, stepId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tasks(farmId, jobId, queueId, stepId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_workers(farm_id, fleet_id)
@@ -3435,37 +1593,21 @@ end
 Lists workers.
 
 # Arguments
+
 - `farm_id`: The farm ID connected to the workers.
 - `fleet_id`: The fleet ID of the workers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
-  NextToken to get results as a set of sequential pages.
-- `"nextToken"`: The token for the next set of results, or null to start from the beginning.
+  `NextToken` to get results as a set of sequential pages.
+- `"nextToken"`: The token for the next set of results, or `null` to start from the
+  beginning.
 """
-function list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_workers(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "GET",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_workers(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_workers(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("GET", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     put_metered_product(license_endpoint_id, product_id)
@@ -3474,34 +1616,12 @@ end
 Adds a metered product.
 
 # Arguments
+
 - `license_endpoint_id`: The license endpoint ID to add to the metered product.
 - `product_id`: The product ID to add to the metered product.
-
 """
-function put_metered_product(
-    licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_metered_product(
-    licenseEndpointId,
-    productId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PUT",
-        "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_metered_product(licenseEndpointId, productId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+put_metered_product(licenseEndpointId, productId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PUT", "/2023-10-12/license-endpoints/$(licenseEndpointId)/metered-products/$(productId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_jobs(farm_id, item_offset, queue_ids)
@@ -3510,50 +1630,23 @@ end
 Searches for jobs.
 
 # Arguments
+
 - `farm_id`: The farm ID of the job.
 - `item_offset`: Defines how far into the scrollable list to start the return of results.
 - `queue_ids`: The queue ID to use in the job search.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filterExpressions"`: The filter expression, AND or OR, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis ().
+
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
+  a group of search strings in a resource. <p>You can use two groupings per search each
+  within parenthesis `()`.</p>
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
-function search_jobs(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/jobs",
-        Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_jobs(
-    farmId,
-    itemOffset,
-    queueIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/jobs",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_jobs(farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/jobs", Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_jobs(farmId, itemOffset, queueIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_steps(farm_id, item_offset, queue_ids)
@@ -3562,51 +1655,24 @@ end
 Searches for steps.
 
 # Arguments
+
 - `farm_id`: The farm ID to use for the step search.
 - `item_offset`: Defines how far into the scrollable list to start the return of results.
 - `queue_ids`: The queue IDs in the step search.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filterExpressions"`: The filter expression, AND or OR, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis ().
+
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
+  a group of search strings in a resource. <p>You can use two groupings per search each
+  within parenthesis `()`.</p>
 - `"jobId"`: The job ID to use in the step search.
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
-function search_steps(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/steps",
-        Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_steps(
-    farmId,
-    itemOffset,
-    queueIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/steps",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_steps(farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/steps", Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_steps(farmId, itemOffset, queueIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/steps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_tasks(farm_id, item_offset, queue_ids)
@@ -3615,51 +1681,24 @@ end
 Searches for tasks.
 
 # Arguments
+
 - `farm_id`: The farm ID of the task.
 - `item_offset`: Defines how far into the scrollable list to start the return of results.
 - `queue_ids`: The queue IDs to include in the search.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filterExpressions"`: The filter expression, AND or OR, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis ().
+
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
+  a group of search strings in a resource. <p>You can use two groupings per search each
+  within parenthesis `()`.</p>
 - `"jobId"`: The job ID for the task search.
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
-function search_tasks(
-    farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/tasks",
-        Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_tasks(
-    farmId,
-    itemOffset,
-    queueIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/tasks",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("itemOffset" => itemOffset, "queueIds" => queueIds),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_tasks(farmId, itemOffset, queueIds; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/tasks", Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_tasks(farmId, itemOffset, queueIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/tasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("itemOffset"=>itemOffset, "queueIds"=>queueIds), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     search_workers(farm_id, fleet_ids, item_offset)
@@ -3668,60 +1707,37 @@ end
 Searches for workers.
 
 # Arguments
+
 - `farm_id`: The farm ID in the workers search.
 - `fleet_ids`: The fleet ID of the workers to search for.
 - `item_offset`: Defines how far into the scrollable list to start the return of results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filterExpressions"`: The filter expression, AND or OR, to use when searching among a
-  group of search strings in a resource. You can use two groupings per search each within
-  parenthesis ().
+
+- `"filterExpressions"`: The filter expression, `AND` or `OR`, to use when searching among
+  a group of search strings in a resource. <p>You can use two groupings per search each
+  within parenthesis `()`.</p>
 - `"pageSize"`: Specifies the number of items per page for the resource.
 - `"sortExpressions"`: The search terms for a resource.
 """
-function search_workers(
-    farmId, fleetIds, itemOffset; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/workers",
-        Dict{String,Any}("fleetIds" => fleetIds, "itemOffset" => itemOffset);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_workers(
-    farmId,
-    fleetIds,
-    itemOffset,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/search/workers",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("fleetIds" => fleetIds, "itemOffset" => itemOffset),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_workers(farmId, fleetIds, itemOffset; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/workers", Dict{String, Any}("fleetIds"=>fleetIds, "itemOffset"=>itemOffset); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+search_workers(farmId, fleetIds, itemOffset, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/search/workers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleetIds"=>fleetIds, "itemOffset"=>itemOffset), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics)
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
 Starts an asynchronous request for getting aggregated statistics about queues and farms.
-Get the statistics using the GetSessionsStatisticsAggregation operation. Statistics are
-available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
+Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only
+have one running aggregation for your Deadline Cloud farm. Call the
+`GetSessionsStatisticsAggregation` operation and check the `status` field to see if an
+aggregation is running. Statistics are available for 1 hour after you call the
+`StartSessionsStatisticsAggregation` operation.
 
 # Arguments
+
 - `end_time`: The Linux timestamp of the date and time that the statistics end.
 - `farm_id`: The identifier of the farm that contains queues or fleets to return statistics
   for.
@@ -3731,63 +1747,14 @@ available for 1 hour after you call the StartSessionsStatisticsAggregation opera
 - `statistics`: One to four statistics to return.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"period"`: The period to aggregate the statistics.
-- `"timezone"`: The timezone to use for the statistics. Use UTC notation such as \"UTC+8.\"
+- `"timezone"`: The timezone to use for the statistics. Use UTC notation such as "UTC+8."
 """
-function start_sessions_statistics_aggregation(
-    endTime,
-    farmId,
-    groupBy,
-    resourceIds,
-    startTime,
-    statistics;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "groupBy" => groupBy,
-            "resourceIds" => resourceIds,
-            "startTime" => startTime,
-            "statistics" => statistics,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_sessions_statistics_aggregation(
-    endTime,
-    farmId,
-    groupBy,
-    resourceIds,
-    startTime,
-    statistics,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "endTime" => endTime,
-                    "groupBy" => groupBy,
-                    "resourceIds" => resourceIds,
-                    "startTime" => startTime,
-                    "statistics" => statistics,
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_sessions_statistics_aggregation(endTime, farmId, groupBy, resourceIds, startTime, statistics; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation", Dict{String, Any}("endTime"=>endTime, "groupBy"=>groupBy, "resourceIds"=>resourceIds, "startTime"=>startTime, "statistics"=>statistics); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_sessions_statistics_aggregation(endTime, farmId, groupBy, resourceIds, startTime, statistics, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/farms/$(farmId)/sessions-statistics-aggregation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groupBy"=>groupBy, "resourceIds"=>resourceIds, "startTime"=>startTime, "statistics"=>statistics), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn)
@@ -3796,34 +1763,18 @@ end
 Tags a resource using the resource's ARN and desired tags.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to apply tags to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
 """
-function tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "POST",
-        "/2023-10-12/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "POST",
-        "/2023-10-12/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("POST", "/2023-10-12/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -3832,35 +1783,12 @@ end
 Removes a tag from a resource using the resource's ARN and tag to remove.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to remove the tag from.
 - `tag_keys`: They keys of the tag.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "DELETE",
-        "/2023-10-12/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("DELETE", "/2023-10-12/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_budget(budget_id, farm_id)
@@ -3869,11 +1797,14 @@ end
 Updates a budget that sets spending thresholds for rendering activity.
 
 # Arguments
+
 - `budget_id`: The budget ID to update.
 - `farm_id`: The farm ID of the budget to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"actionsToAdd"`: The budget actions to add. Budget actions specify what happens when the
@@ -3882,39 +1813,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"approximateDollarLimit"`: The dollar limit to update on the budget. Based on consumed
   usage.
 - `"description"`: The description of the budget to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"displayName"`: The display name of the budget to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"schedule"`: The schedule to update.
-- `"status"`: Updates the status of the budget.    ACTIVE–The budget is being evaluated.
-    INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted
-  statuses.
+- `"status"`: Updates the status of the budget. - `ACTIVE`–The budget is being evaluated.
+   - `INACTIVE`–The budget is inactive. This can include Expired, Canceled, or deleted
+  Deleted statuses.
 """
-function update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_budget(
-    budgetId,
-    farmId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_budget(budgetId, farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_budget(budgetId, farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/budgets/$(budgetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_farm(farm_id)
@@ -3923,32 +1837,26 @@ end
 Updates a farm.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the farm to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"displayName"`: The display name of the farm to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 """
-function update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_farm(
-    farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_farm(farmId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_farm(farmId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_fleet(farm_id, fleet_id)
@@ -3957,47 +1865,33 @@ end
 Updates a fleet.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `fleet_id`: The fleet ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"configuration"`: The fleet configuration to update.
 - `"description"`: The description of the fleet to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"displayName"`: The display name of the fleet to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
 """
-function update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_fleet(
-    farmId,
-    fleetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_fleet(farmId, fleetId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_fleet(farmId, fleetId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_job(farm_id, job_id, queue_id)
@@ -4005,90 +1899,65 @@ end
 
 Updates a job.
 
+When you change the status of the job to `ARCHIVED`, the job can't be scheduled or
+archived.
+
+!!! important
+    An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
+recovered.
+
 # Arguments
+
 - `farm_id`: The farm ID of the job to update.
 - `job_id`: The job ID to update.
 - `queue_id`: The queue ID of the job to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"lifecycleStatus"`: The status of a job in its lifecycle.
+- `"lifecycleStatus"`: The status of a job in its lifecycle. When you change the status of
+  the job to `ARCHIVED`, the job can't be scheduled or archived.
+
+  !!! important
+      An archived jobs and its steps and tasks are deleted after 120 days. The job can't be
+  recovered.
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
-  marked as FAILED.
+  marked as `FAILED`.
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
 - `"priority"`: The job priority to update.
 - `"targetTaskRunStatus"`: The task status to update the job's tasks to.
 """
-function update_job(
-    farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_job(
-    farmId,
-    jobId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_job(farmId, jobId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_job(farmId, jobId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_monitor(monitor_id)
     update_monitor(monitor_id, params::Dict{String,<:Any})
 
 Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the
-settings when you call UpdateMonitor.
+settings when you call `UpdateMonitor`.
 
 # Arguments
+
 - `monitor_id`: The unique identifier of the monitor to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"displayName"`: The new value to use for the monitor's display name.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
-function update_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "PATCH",
-        "/2023-10-12/monitors/$(monitorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_monitor(
-    monitorId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/monitors/$(monitorId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_monitor(monitorId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/monitors/$(monitorId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_monitor(monitorId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/monitors/$(monitorId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_queue(farm_id, queue_id)
@@ -4097,18 +1966,29 @@ end
 Updates a queue.
 
 # Arguments
+
 - `farm_id`: The farm ID to update in the queue.
 - `queue_id`: The queue ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The idempotency token to update in the queue.
 - `"allowedStorageProfileIdsToAdd"`: The storage profile IDs to add.
 - `"allowedStorageProfileIdsToRemove"`: The storage profile ID to remove.
 - `"defaultBudgetAction"`: The default action to take for a queue update if a budget isn't
   configured.
 - `"description"`: The description of the queue to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"displayName"`: The display name of the queue to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
@@ -4117,33 +1997,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remove from the queue.
 - `"roleArn"`: The IAM role ARN that's used to run jobs from this queue.
 """
-function update_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config())
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue(
-    farmId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_queue(farmId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_queue(farmId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_queue_environment(farm_id, queue_environment_id, queue_id)
@@ -4152,48 +2007,23 @@ end
 Updates the queue environment.
 
 # Arguments
+
 - `farm_id`: The farm ID of the queue environment to update.
 - `queue_environment_id`: The queue environment ID to update.
 - `queue_id`: The queue ID of the queue environment to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"priority"`: The priority to update.
 - `"template"`: The template to update.
 - `"templateType"`: The template type to update.
 """
-function update_queue_environment(
-    farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_environment(
-    farmId,
-    queueEnvironmentId,
-    queueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_queue_environment(farmId, queueEnvironmentId, queueId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_queue_environment(farmId, queueEnvironmentId, queueId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/environments/$(queueEnvironmentId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_queue_fleet_association(farm_id, fleet_id, queue_id, status)
@@ -4202,39 +2032,14 @@ end
 Updates a queue-fleet association.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `fleet_id`: The fleet ID to update.
 - `queue_id`: The queue ID to update.
 - `status`: The status to update.
-
 """
-function update_queue_fleet_association(
-    farmId, fleetId, queueId, status; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
-        Dict{String,Any}("status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_fleet_association(
-    farmId,
-    fleetId,
-    queueId,
-    status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_queue_fleet_association(farmId, fleetId, queueId, status; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)", Dict{String, Any}("status"=>status); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_queue_fleet_association(farmId, fleetId, queueId, status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queue-fleet-associations/$(queueId)/$(fleetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_session(farm_id, job_id, queue_id, session_id, target_lifecycle_status)
@@ -4243,6 +2048,7 @@ end
 Updates a session.
 
 # Arguments
+
 - `farm_id`: The farm ID to update in the session.
 - `job_id`: The job ID to update in the session.
 - `queue_id`: The queue ID to update in the session.
@@ -4250,55 +2056,14 @@ Updates a session.
 - `target_lifecycle_status`: The life cycle status to update in the session.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function update_session(
-    farmId,
-    jobId,
-    queueId,
-    sessionId,
-    targetLifecycleStatus;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)",
-        Dict{String,Any}(
-            "targetLifecycleStatus" => targetLifecycleStatus,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_session(
-    farmId,
-    jobId,
-    queueId,
-    sessionId,
-    targetLifecycleStatus,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "targetLifecycleStatus" => targetLifecycleStatus,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_session(farmId, jobId, queueId, sessionId, targetLifecycleStatus; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)", Dict{String, Any}("targetLifecycleStatus"=>targetLifecycleStatus, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_session(farmId, jobId, queueId, sessionId, targetLifecycleStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/sessions/$(sessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetLifecycleStatus"=>targetLifecycleStatus, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_step(farm_id, job_id, queue_id, step_id, target_task_run_status)
@@ -4307,6 +2072,7 @@ end
 Updates a step.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `job_id`: The job ID to update.
 - `queue_id`: The queue ID to update.
@@ -4314,55 +2080,14 @@ Updates a step.
 - `target_task_run_status`: The task status to update the step's tasks to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function update_step(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    targetTaskRunStatus;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)",
-        Dict{String,Any}(
-            "targetTaskRunStatus" => targetTaskRunStatus,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_step(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    targetTaskRunStatus,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "targetTaskRunStatus" => targetTaskRunStatus,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_step(farmId, jobId, queueId, stepId, targetTaskRunStatus; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)", Dict{String, Any}("targetTaskRunStatus"=>targetTaskRunStatus, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_step(farmId, jobId, queueId, stepId, targetTaskRunStatus, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetTaskRunStatus"=>targetTaskRunStatus, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_storage_profile(farm_id, storage_profile_id)
@@ -4371,47 +2096,27 @@ end
 Updates a storage profile.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `storage_profile_id`: The storage profile ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"displayName"`: The display name of the storage profile to update.
+
+  !!! important
+      This field can store any content. Escape or encode this content before displaying it
+  on a webpage or any other system that might interpret the content of this field.
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
 - `"osFamily"`: The OS system to update.
 """
-function update_storage_profile(
-    farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_storage_profile(
-    farmId,
-    storageProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_storage_profile(farmId, storageProfileId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)", Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_storage_profile(farmId, storageProfileId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/storage-profiles/$(storageProfileId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_task(farm_id, job_id, queue_id, step_id, target_run_status, task_id)
@@ -4420,6 +2125,7 @@ end
 Updates a task.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `job_id`: The job ID to update.
 - `queue_id`: The queue ID to update.
@@ -4428,56 +2134,14 @@ Updates a task.
 - `task_id`: The task ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 """
-function update_task(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    targetRunStatus,
-    taskId;
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)",
-        Dict{String,Any}(
-            "targetRunStatus" => targetRunStatus, "X-Amz-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_task(
-    farmId,
-    jobId,
-    queueId,
-    stepId,
-    targetRunStatus,
-    taskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "targetRunStatus" => targetRunStatus,
-                    "X-Amz-Client-Token" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_task(farmId, jobId, queueId, stepId, targetRunStatus, taskId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)", Dict{String, Any}("targetRunStatus"=>targetRunStatus, "X-Amz-Client-Token"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_task(farmId, jobId, queueId, stepId, targetRunStatus, taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/queues/$(queueId)/jobs/$(jobId)/steps/$(stepId)/tasks/$(taskId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetRunStatus"=>targetRunStatus, "X-Amz-Client-Token"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_worker(farm_id, fleet_id, worker_id)
@@ -4486,41 +2150,21 @@ end
 Updates a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `fleet_id`: The fleet ID to update.
 - `worker_id`: The worker ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"capabilities"`: The worker capabilities to update.
 - `"hostProperties"`: The host properties to update.
 - `"status"`: The worker status to update.
 """
-function update_worker(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_worker(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_worker(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_worker(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_worker_schedule(farm_id, fleet_id, worker_id)
@@ -4529,37 +2173,17 @@ end
 Updates the schedule for a worker.
 
 # Arguments
+
 - `farm_id`: The farm ID to update.
 - `fleet_id`: The fleet ID to update.
 - `worker_id`: The worker ID to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"updatedSessionActions"`: The session actions associated with the worker schedule to
   update.
 """
-function update_worker_schedule(
-    farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_worker_schedule(
-    farmId,
-    fleetId,
-    workerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return deadline(
-        "PATCH",
-        "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_worker_schedule(farmId, fleetId, workerId; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_worker_schedule(farmId, fleetId, workerId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = deadline("PATCH", "/2023-10-12/farms/$(farmId)/fleets/$(fleetId)/workers/$(workerId)/schedule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)

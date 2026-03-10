@@ -11,48 +11,20 @@ using AWS.UUIDs
 Creates a test case.
 
 # Arguments
+
 - `name`: The name of the test case.
 - `steps`: The steps in the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test case.
 - `"description"`: The description of the test case.
 - `"tags"`: The specified tags of the test case.
 """
-function create_test_case(name, steps; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "POST",
-        "/testcase",
-        Dict{String,Any}(
-            "name" => name, "steps" => steps, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_test_case(
-    name,
-    steps,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "POST",
-        "/testcase",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name, "steps" => steps, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_test_case(name, steps; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testcase", Dict{String, Any}("name"=>name, "steps"=>steps, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_test_case(name, steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testcase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "steps"=>steps, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_test_configuration(name, resources)
@@ -61,54 +33,22 @@ end
 Creates a test configuration.
 
 # Arguments
+
 - `name`: The name of the test configuration.
 - `resources`: The defined resources of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test configuration.
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
 - `"serviceSettings"`: The service settings of the test configuration.
 - `"tags"`: The tags of the test configuration.
 """
-function create_test_configuration(
-    name, resources; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "POST",
-        "/testconfiguration",
-        Dict{String,Any}(
-            "name" => name, "resources" => resources, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_test_configuration(
-    name,
-    resources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "POST",
-        "/testconfiguration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "resources" => resources,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_test_configuration(name, resources; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testconfiguration", Dict{String, Any}("name"=>name, "resources"=>resources, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_test_configuration(name, resources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testconfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "resources"=>resources, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     create_test_suite(name, test_cases)
@@ -117,54 +57,22 @@ end
 Creates a test suite.
 
 # Arguments
+
 - `name`: The name of the test suite.
 - `test_cases`: The test cases in the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps of the test suite.
 - `"clientToken"`: The client token of the test suite.
 - `"description"`: The description of the test suite.
 - `"tags"`: The tags of the test suite.
 """
-function create_test_suite(
-    name, testCases; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "POST",
-        "/testsuite",
-        Dict{String,Any}(
-            "name" => name, "testCases" => testCases, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_test_suite(
-    name,
-    testCases,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "POST",
-        "/testsuite",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "name" => name,
-                    "testCases" => testCases,
-                    "clientToken" => string(uuid4()),
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_test_suite(name, testCases; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testsuite", Dict{String, Any}("name"=>name, "testCases"=>testCases, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+create_test_suite(name, testCases, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testsuite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "testCases"=>testCases, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_test_case(test_case_id)
@@ -173,30 +81,11 @@ end
 Deletes a test case.
 
 # Arguments
-- `test_case_id`: The test case ID of the test case.
 
+- `test_case_id`: The test case ID of the test case.
 """
-function delete_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "DELETE",
-        "/testcases/$(testCaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_test_case(
-    testCaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "DELETE",
-        "/testcases/$(testCaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testcases/$(testCaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_test_case(testCaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testcases/$(testCaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_test_configuration(test_configuration_id)
@@ -205,32 +94,11 @@ end
 Deletes a test configuration.
 
 # Arguments
-- `test_configuration_id`: The test ID of the test configuration.
 
+- `test_configuration_id`: The test ID of the test configuration.
 """
-function delete_test_configuration(
-    testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "DELETE",
-        "/testconfigurations/$(testConfigurationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_test_configuration(
-    testConfigurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "DELETE",
-        "/testconfigurations/$(testConfigurationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_test_configuration(testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testconfigurations/$(testConfigurationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_test_configuration(testConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testconfigurations/$(testConfigurationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_test_run(test_run_id)
@@ -239,30 +107,11 @@ end
 Deletes a test run.
 
 # Arguments
-- `test_run_id`: The run ID of the test run.
 
+- `test_run_id`: The run ID of the test run.
 """
-function delete_test_run(testRunId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "DELETE",
-        "/testruns/$(testRunId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_test_run(
-    testRunId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "DELETE",
-        "/testruns/$(testRunId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_test_run(testRunId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testruns/$(testRunId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_test_run(testRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testruns/$(testRunId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     delete_test_suite(test_suite_id)
@@ -271,30 +120,11 @@ end
 Deletes a test suite.
 
 # Arguments
-- `test_suite_id`: The test ID of the test suite.
 
+- `test_suite_id`: The test ID of the test suite.
 """
-function delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "DELETE",
-        "/testsuites/$(testSuiteId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_test_suite(
-    testSuiteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "DELETE",
-        "/testsuites/$(testSuiteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testsuites/$(testSuiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+delete_test_suite(testSuiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/testsuites/$(testSuiteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_test_case(test_case_id)
@@ -303,33 +133,17 @@ end
 Gets a test case.
 
 # Arguments
+
 - `test_case_id`: The request test ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseVersion"`: The test case version of the test case.
 """
-function get_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET",
-        "/testcases/$(testCaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_test_case(
-    testCaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testcases/$(testCaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testcases/$(testCaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_test_case(testCaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testcases/$(testCaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_test_configuration(test_configuration_id)
@@ -338,35 +152,17 @@ end
 Gets a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The request test configuration ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testConfigurationVersion"`: The test configuration version.
 """
-function get_test_configuration(
-    testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET",
-        "/testconfigurations/$(testConfigurationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_test_configuration(
-    testConfigurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testconfigurations/$(testConfigurationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_test_configuration(testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testconfigurations/$(testConfigurationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_test_configuration(testConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testconfigurations/$(testConfigurationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_test_run_step(step_name, test_run_id)
@@ -375,38 +171,19 @@ end
 Gets a test run step.
 
 # Arguments
+
 - `step_name`: The step name of the test run step.
 - `test_run_id`: The test run ID of the test run step.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testCaseId"`: The test case ID of a test run step.
 - `"testSuiteId"`: The test suite ID of a test run step.
 """
-function get_test_run_step(
-    stepName, testRunId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/steps/$(stepName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_test_run_step(
-    stepName,
-    testRunId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/steps/$(stepName)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_test_run_step(stepName, testRunId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/steps/$(stepName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_test_run_step(stepName, testRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/steps/$(stepName)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     get_test_suite(test_suite_id)
@@ -415,33 +192,17 @@ end
 Gets a test suite.
 
 # Arguments
+
 - `test_suite_id`: The ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"testSuiteVersion"`: The version of the test suite.
 """
-function get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET",
-        "/testsuites/$(testSuiteId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_test_suite(
-    testSuiteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testsuites/$(testSuiteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testsuites/$(testSuiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+get_test_suite(testSuiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testsuites/$(testSuiteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_tags_for_resource(resource_arn)
@@ -450,32 +211,11 @@ end
 Lists tags for a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/tags/$(resourceArn)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/tags/$(resourceArn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_tags_for_resource(resourceArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/tags/$(resourceArn)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_cases()
@@ -484,23 +224,15 @@ end
 Lists test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test case.
 - `"nextToken"`: The next token of the test cases.
 - `"testCaseIds"`: The IDs of the test cases.
 """
-function list_test_cases(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_test_cases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET", "/testcases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_test_cases(; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_cases(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testcases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_configurations()
@@ -509,27 +241,15 @@ end
 Lists test configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum results of the test configuration.
 - `"nextToken"`: The next token for the test configurations.
 - `"testConfigurationIds"`: The configuration IDs of the test configurations.
 """
-function list_test_configurations(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET", "/testconfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_test_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET",
-        "/testconfigurations",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_test_configurations(; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testconfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_configurations(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testconfigurations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_run_steps(test_run_id)
@@ -538,36 +258,20 @@ end
 Lists test run steps.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test run steps.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run steps to return in one page of results.
 - `"nextToken"`: The token from a previous step to retrieve the next page of results.
 - `"testCaseId"`: The test case ID of the test run steps.
 - `"testSuiteId"`: The test suite ID of the test run steps.
 """
-function list_test_run_steps(testRunId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/steps";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_test_run_steps(
-    testRunId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/steps",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_test_run_steps(testRunId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/steps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_run_steps(testRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/steps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_run_test_cases(test_run_id)
@@ -576,37 +280,19 @@ end
 Lists test run test cases.
 
 # Arguments
+
 - `test_run_id`: The test run ID of the test cases.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test run test cases to return in one page of
   results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 """
-function list_test_run_test_cases(
-    testRunId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/testcases";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_test_run_test_cases(
-    testRunId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "GET",
-        "/testruns/$(testRunId)/testcases",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_test_run_test_cases(testRunId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/testcases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_run_test_cases(testRunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns/$(testRunId)/testcases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_runs()
@@ -615,25 +301,17 @@ end
 Lists test runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test runs to return in one page of results.
 - `"nextToken"`: The token from the previous request to retrieve the next page of test run
   results.
 - `"testSuiteId"`: The test suite ID of the test runs.
 - `"testrunIds"`: The test run IDs of the test runs.
 """
-function list_test_runs(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_test_runs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET", "/testruns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_test_runs(; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_runs(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testruns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     list_test_suites()
@@ -642,23 +320,15 @@ end
 Lists test suites.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of test suites to return in one page of results.
 - `"nextToken"`: The token from a previous request to retrieve the next page of results.
 - `"testSuiteIds"`: The suite ID of the test suites.
 """
-function list_test_suites(; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_test_suites(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "GET", "/testsuites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_test_suites(; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testsuites"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+list_test_suites(params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("GET", "/testsuites", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     start_test_run(test_suite_id)
@@ -667,44 +337,19 @@ end
 Starts a test run.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: The client token of the test run.
 - `"tags"`: The tags of the test run.
 - `"testConfigurationId"`: The configuration ID of the test run.
 """
-function start_test_run(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "POST",
-        "/testrun",
-        Dict{String,Any}("testSuiteId" => testSuiteId, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_test_run(
-    testSuiteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "POST",
-        "/testrun",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "testSuiteId" => testSuiteId, "clientToken" => string(uuid4())
-                ),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_test_run(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testrun", Dict{String, Any}("testSuiteId"=>testSuiteId, "clientToken"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+start_test_run(testSuiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/testrun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("testSuiteId"=>testSuiteId, "clientToken"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     tag_resource(resource_arn, tags)
@@ -713,33 +358,12 @@ end
 Specifies tags of a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the tag resource.
 - `tags`: The tags of the resource.
-
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+tag_resource(resourceArn, tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     untag_resource(resource_arn, tag_keys)
@@ -748,35 +372,12 @@ end
 Untags a resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys of the resource.
-
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+untag_resource(resourceArn, tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_test_case(test_case_id)
@@ -785,34 +386,18 @@ end
 Updates a test case.
 
 # Arguments
+
 - `test_case_id`: The test case ID of the test case.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test case.
 - `"steps"`: The steps of the test case.
 """
-function update_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "PATCH",
-        "/testcases/$(testCaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_test_case(
-    testCaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "PATCH",
-        "/testcases/$(testCaseId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_test_case(testCaseId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testcases/$(testCaseId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_test_case(testCaseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testcases/$(testCaseId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_test_configuration(test_configuration_id)
@@ -821,38 +406,20 @@ end
 Updates a test configuration.
 
 # Arguments
+
 - `test_configuration_id`: The test configuration ID of the test configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the test configuration.
 - `"properties"`: The properties of the test configuration.
 - `"resources"`: The resources of the test configuration.
 - `"serviceSettings"`: The service settings of the test configuration.
 """
-function update_test_configuration(
-    testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()
-)
-    return apptest(
-        "PATCH",
-        "/testconfigurations/$(testConfigurationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_test_configuration(
-    testConfigurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "PATCH",
-        "/testconfigurations/$(testConfigurationId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_test_configuration(testConfigurationId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testconfigurations/$(testConfigurationId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_test_configuration(testConfigurationId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testconfigurations/$(testConfigurationId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 
 """
     update_test_suite(test_suite_id)
@@ -861,33 +428,17 @@ end
 Updates a test suite.
 
 # Arguments
+
 - `test_suite_id`: The test suite ID of the test suite.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"afterSteps"`: The after steps of the test suite.
 - `"beforeSteps"`: The before steps for the test suite.
 - `"description"`: The description of the test suite.
 - `"testCases"`: The test cases in the test suite.
 """
-function update_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config())
-    return apptest(
-        "PATCH",
-        "/testsuites/$(testSuiteId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_test_suite(
-    testSuiteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=current_aws_config(),
-)
-    return apptest(
-        "PATCH",
-        "/testsuites/$(testSuiteId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_test_suite(testSuiteId; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testsuites/$(testSuiteId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+update_test_suite(testSuiteId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()) = apptest("PATCH", "/testsuites/$(testSuiteId)", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
