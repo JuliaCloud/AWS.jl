@@ -84,7 +84,7 @@ function _wraplines(str, limit=92; delim="\n")
             delim_suffix_len = 0
             state = :suffix
         elseif state == :prefix
-             delim_prefix_len += 1
+            delim_prefix_len += 1
         elseif state == :suffix
             delim_suffix_len += 1
         end
@@ -97,7 +97,6 @@ function _wraplines(str, limit=92; delim="\n")
             # Overly restrictive for last line
             limit - delim_prefix_len - delim_suffix_len
         end
-
 
         line, str = try
             _splitline(str, line_limit)
@@ -136,7 +135,7 @@ function _splitline(str, limit)
 
     function peek(state)
         isempty(link_state) && return nothing
-        state[end]
+        return state[end]
     end
 
     @inbounds while i <= max_index
@@ -346,7 +345,8 @@ function _clean_documentation(documentation::String)
         documentation, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
     )
 
-    # documentation = replace(documentation, '$' => "")
+    documentation = replace(documentation, r"(?<!\\)\$" => "\\\$")
+    documentation = replace(documentation, "\"\"\"" => "\\\"\\\"\\\"")
     # documentation = replace(documentation, '\\' => "")
     # documentation = replace(documentation, '"' => "\\\"")
     # documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
