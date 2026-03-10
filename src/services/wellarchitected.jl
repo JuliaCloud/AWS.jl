@@ -8,17 +8,22 @@ using AWS.UUIDs
     associate_lenses(lens_aliases, workload_id)
     associate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a
-single API operation. A maximum of 20 lenses can be associated with a workload.
-Disclaimer  By accessing and/or applying custom lenses created by another Amazon Web
-Services user or account, you acknowledge that custom lenses created by other users and
-shared with you are Third Party Content as defined in the Amazon Web Services Customer
-Agreement.
+Associate a lens to a workload.
+
+Up to 10 lenses can be associated with a workload in a single API operation. A maximum of
+20 lenses can be associated with a workload.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By accessing and/or applying custom lenses created by another Amazon Web Services user
+or account, you acknowledge that custom lenses created by other users and shared with you
+are Third Party Content as defined in the Amazon Web Services Customer Agreement.
 
 # Arguments
+
 - `lens_aliases`:
 - `workload_id`:
-
 """
 function associate_lenses end
 
@@ -58,9 +63,9 @@ end
 Associate a profile with a workload.
 
 # Arguments
+
 - `profile_arns`: The list of profile ARNs to associate with the workload.
 - `workload_id`:
-
 """
 function associate_profiles end
 
@@ -97,23 +102,34 @@ end
     create_lens_share(client_request_token, lens_alias, shared_with)
     create_lens_share(client_request_token, lens_alias, shared_with, params::Dict{String,<:Any})
 
-Create a lens share. The owner of a lens can share it with other Amazon Web Services
-accounts, users, an organization, and organizational units (OUs) in the same Amazon Web
-Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official
-Content) cannot be shared.  Shared access to a lens is not removed until the lens
-invitation is deleted. If you share a lens with an organization or OU, all accounts in the
-organization or OU are granted access to the lens. For more information, see Sharing a
-custom lens in the Well-Architected Tool User Guide.   Disclaimer  By sharing your custom
-lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services
-will make your custom lenses available to those other accounts. Those other accounts may
-continue to access and use your shared custom lenses even if you delete the custom lenses
-from your own Amazon Web Services account or terminate your Amazon Web Services account.
+Create a lens share.
+
+The owner of a lens can share it with other Amazon Web Services accounts, users, an
+organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses
+provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared.
+
+ Shared access to a lens is not removed until the lens invitation is deleted.
+
+If you share a lens with an organization or OU, all accounts in the organization or OU are
+granted access to the lens.
+
+For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `shared_with`:
-
 """
 function create_lens_share end
 
@@ -162,19 +178,25 @@ end
     create_lens_version(client_request_token, lens_alias, lens_version)
     create_lens_version(client_request_token, lens_alias, lens_version, params::Dict{String,<:Any})
 
-Create a new lens version. A lens can have up to 100 versions. Use this operation to
-publish a new lens version after you have imported a lens. The LensAlias is used to
-identify the lens to be published. The owner of a lens can share the lens with other Amazon
-Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a
-lens can delete it.
+Create a new lens version.
+
+A lens can have up to 100 versions.
+
+Use this operation to publish a new lens version after you have imported a lens. The
+`LensAlias` is used to identify the lens to be published. The owner of a lens can share the
+lens with other Amazon Web Services accounts and users in the same Amazon Web Services
+Region. Only the owner of a lens can delete it.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `lens_version`: The version of the lens being created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IsMajorVersion"`: Set to true if this new major lens version.
 """
 function create_lens_version end
@@ -227,10 +249,10 @@ end
 Create a milestone for an existing workload.
 
 # Arguments
+
 - `client_request_token`:
 - `milestone_name`:
 - `workload_id`:
-
 """
 function create_milestone end
 
@@ -283,13 +305,16 @@ end
 Create a profile.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_description`: The profile description.
 - `profile_name`: Name of the profile.
 - `profile_questions`: The profile questions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags assigned to the profile.
 """
 function create_profile end
@@ -350,10 +375,10 @@ end
 Create a profile share.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
 - `shared_with`:
-
 """
 function create_profile_share end
 
@@ -402,21 +427,28 @@ end
     create_review_template(client_request_token, description, lenses, template_name)
     create_review_template(client_request_token, description, lenses, template_name, params::Dict{String,<:Any})
 
-Create a review template.   Disclaimer  Do not include or gather personal identifiable
-information (PII) of end users or other identifiable individuals in or via your review
-templates. If your review template or those shared with you and used in your account do
-include or collect PII you are responsible for: ensuring that the included PII is processed
-in accordance with applicable law, providing adequate privacy notices, and obtaining
-necessary consents for processing such data.
+Create a review template.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your review templates. If your review template or those
+shared with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `client_request_token`:
 - `description`: The review template description.
 - `lenses`: Lenses applied to the review template.
 - `template_name`: Name of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Notes"`:
 - `"Tags"`: The tags assigned to the review template.
 """
@@ -475,20 +507,29 @@ end
     create_template_share(client_request_token, shared_with, template_arn)
     create_template_share(client_request_token, shared_with, template_arn, params::Dict{String,<:Any})
 
-Create a review template share. The owner of a review template can share it with other
-Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the
-same Amazon Web Services Region.   Shared access to a review template is not removed until
-the review template share invitation is deleted. If you share a review template with an
-organization or OU, all accounts in the organization or OU are granted access to the review
-template.   Disclaimer  By sharing your review template with other Amazon Web Services
-accounts, you acknowledge that Amazon Web Services will make your review template available
-to those other accounts.
+Create a review template share.
+
+The owner of a review template can share it with other Amazon Web Services accounts, users,
+an organization, and organizational units (OUs) in the same Amazon Web Services Region.
+
+ Shared access to a review template is not removed until the review template share
+invitation is deleted.
+
+If you share a review template with an organization or OU, all accounts in the organization
+or OU are granted access to the review template.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your review template with other Amazon Web Services accounts, you
+acknowledge that Amazon Web Services will make your review template available to those
+other accounts.
 
 # Arguments
+
 - `client_request_token`:
 - `shared_with`:
 - `template_arn`: The review template ARN.
-
 """
 function create_template_share end
 
@@ -537,18 +578,28 @@ end
     create_workload(client_request_token, description, environment, lenses, workload_name)
     create_workload(client_request_token, description, environment, lenses, workload_name, params::Dict{String,<:Any})
 
-Create a new workload. The owner of a workload can share the workload with other Amazon Web
-Services accounts, users, an organization, and organizational units (OUs) in the same
-Amazon Web Services Region. Only the owner of a workload can delete it. For more
-information, see Defining a Workload in the Well-Architected Tool User Guide.  Either
-AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also
-must specify ReviewOwner, even though the parameter is listed as not being required in the
-following section.   When creating a workload using a review template, you must have the
-following IAM permissions:    wellarchitected:GetReviewTemplate
-wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers
-wellarchitected:GetReviewTemplateLensReview
+Create a new workload.
+
+The owner of a workload can share the workload with other Amazon Web Services accounts,
+users, an organization, and organizational units (OUs) in the same Amazon Web Services
+Region. Only the owner of a workload can delete it.
+
+For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! important
+    Either `AwsRegions`, `NonAwsRegions`, or both must be specified when creating a
+workload.
+
+ <p>You also must specify `ReviewOwner`, even though the parameter is listed as not being
+required in the following section.When creating a workload using a review template, you
+must have the following IAM permissions: - `wellarchitected:GetReviewTemplate`
+ - `wellarchitected:GetReviewTemplateAnswer`
+ - `wellarchitected:ListReviewTemplateAnswers`
+ - `wellarchitected:GetReviewTemplateLensReview`
 
 # Arguments
+
 - `client_request_token`:
 - `description`:
 - `environment`:
@@ -556,7 +607,9 @@ wellarchitected:GetReviewTemplateLensReview
 - `workload_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountIds"`:
 - `"Applications"`: List of AppRegistry application ARNs associated to the workload.
 - `"ArchitecturalDesign"`:
@@ -633,19 +686,24 @@ end
     create_workload_share(client_request_token, permission_type, shared_with, workload_id)
     create_workload_share(client_request_token, permission_type, shared_with, workload_id, params::Dict{String,<:Any})
 
-Create a workload share. The owner of a workload can share it with other Amazon Web
-Services accounts and users in the same Amazon Web Services Region. Shared access to a
-workload is not removed until the workload invitation is deleted. If you share a workload
-with an organization or OU, all accounts in the organization or OU are granted access to
-the workload. For more information, see Sharing a workload in the Well-Architected Tool
-User Guide.
+Create a workload share.
+
+The owner of a workload can share it with other Amazon Web Services accounts and users in
+the same Amazon Web Services Region. Shared access to a workload is not removed until the
+workload invitation is deleted.
+
+If you share a workload with an organization or OU, all accounts in the organization or OU
+are granted access to the workload.
+
+For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html)
+in the *Well-Architected Tool User Guide*.
 
 # Arguments
+
 - `client_request_token`:
 - `permission_type`:
 - `shared_with`:
 - `workload_id`:
-
 """
 function create_workload_share end
 
@@ -700,20 +758,26 @@ end
     delete_lens(client_request_token, lens_alias, lens_status)
     delete_lens(client_request_token, lens_alias, lens_status, params::Dict{String,<:Any})
 
-Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted,
-Amazon Web Services accounts and users that you shared the lens with can continue to use
-it, but they will no longer be able to apply it to new workloads.    Disclaimer  By sharing
-your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web
-Services will make your custom lenses available to those other accounts. Those other
-accounts may continue to access and use your shared custom lenses even if you delete the
-custom lenses from your own Amazon Web Services account or terminate your Amazon Web
-Services account.
+Delete an existing lens.
+
+Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services
+accounts and users that you shared the lens with can continue to use it, but they will no
+longer be able to apply it to new workloads. </p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `lens_status`: The status of the lens to be deleted.
-
 """
 function delete_lens end
 
@@ -762,20 +826,26 @@ end
     delete_lens_share(client_request_token, lens_alias, share_id)
     delete_lens_share(client_request_token, lens_alias, share_id, params::Dict{String,<:Any})
 
-Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users,
-organizations, and organizational units (OUs) that you shared the lens with can continue to
-use it, but they will no longer be able to apply it to new workloads.   Disclaimer  By
-sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that
-Amazon Web Services will make your custom lenses available to those other accounts. Those
-other accounts may continue to access and use your shared custom lenses even if you delete
-the custom lenses from your own Amazon Web Services account or terminate your Amazon Web
-Services account.
+Delete a lens share.
+
+After the lens share is deleted, Amazon Web Services accounts, users, organizations, and
+organizational units (OUs) that you shared the lens with can continue to use it, but they
+will no longer be able to apply it to new workloads.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge
+that Amazon Web Services will make your custom lenses available to those other accounts.
+Those other accounts may continue to access and use your shared custom lenses even if you
+delete the custom lenses from your own Amazon Web Services account or terminate your Amazon
+Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `lens_alias`:
 - `share_id`:
-
 """
 function delete_lens_share end
 
@@ -818,16 +888,20 @@ end
     delete_profile(client_request_token, profile_arn)
     delete_profile(client_request_token, profile_arn, params::Dict{String,<:Any})
 
-Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services
-accounts, you acknowledge that Amazon Web Services will make your profile available to
-those other accounts. Those other accounts may continue to access and use your shared
-profile even if you delete the profile from your own Amazon Web Services account or
-terminate your Amazon Web Services account.
+Delete a profile.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>By sharing your profile with other Amazon Web Services accounts, you acknowledge that
+Amazon Web Services will make your profile available to those other accounts. Those other
+accounts may continue to access and use your shared profile even if you delete the profile
+from your own Amazon Web Services account or terminate your Amazon Web Services account.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
-
 """
 function delete_profile end
 
@@ -869,10 +943,10 @@ end
 Delete a profile share.
 
 # Arguments
+
 - `client_request_token`:
 - `profile_arn`: The profile ARN.
 - `share_id`:
-
 """
 function delete_profile_share end
 
@@ -915,15 +989,18 @@ end
     delete_review_template(client_request_token, template_arn)
     delete_review_template(client_request_token, template_arn, params::Dict{String,<:Any})
 
-Delete a review template. Only the owner of a review template can delete it. After the
-review template is deleted, Amazon Web Services accounts, users, organizations, and
-organizational units (OUs) that you shared the review template with will no longer be able
-to apply it to new workloads.
+Delete a review template.
+
+Only the owner of a review template can delete it.
+
+After the review template is deleted, Amazon Web Services accounts, users, organizations,
+and organizational units (OUs) that you shared the review template with will no longer be
+able to apply it to new workloads.
 
 # Arguments
+
 - `client_request_token`:
 - `template_arn`: The review template ARN.
-
 """
 function delete_review_template end
 
@@ -962,15 +1039,17 @@ end
     delete_template_share(client_request_token, share_id, template_arn)
     delete_template_share(client_request_token, share_id, template_arn, params::Dict{String,<:Any})
 
-Delete a review template share. After the review template share is deleted, Amazon Web
-Services accounts, users, organizations, and organizational units (OUs) that you shared the
-review template with will no longer be able to apply it to new workloads.
+Delete a review template share.
+
+After the review template share is deleted, Amazon Web Services accounts, users,
+organizations, and organizational units (OUs) that you shared the review template with will
+no longer be able to apply it to new workloads.
 
 # Arguments
+
 - `client_request_token`:
 - `share_id`:
 - `template_arn`: The review template ARN.
-
 """
 function delete_template_share end
 
@@ -1016,9 +1095,9 @@ end
 Delete an existing workload.
 
 # Arguments
+
 - `client_request_token`:
 - `workload_id`:
-
 """
 function delete_workload end
 
@@ -1060,10 +1139,10 @@ end
 Delete a workload share.
 
 # Arguments
+
 - `client_request_token`:
 - `share_id`:
 - `workload_id`:
-
 """
 function delete_workload_share end
 
@@ -1106,14 +1185,18 @@ end
     disassociate_lenses(lens_aliases, workload_id)
     disassociate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
 
-Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload
-in a single API operation.  The Amazon Web Services Well-Architected Framework lens
-(wellarchitected) cannot be removed from a workload.
+Disassociate a lens from a workload.
+
+Up to 10 lenses can be disassociated from a workload in a single API operation.
+
+!!! note
+    The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
+removed from a workload.
 
 # Arguments
+
 - `lens_aliases`:
 - `workload_id`:
-
 """
 function disassociate_lenses end
 
@@ -1153,9 +1236,9 @@ end
 Disassociate a profile from a workload.
 
 # Arguments
+
 - `profile_arns`: The list of profile ARNs to disassociate from the workload.
 - `workload_id`:
-
 """
 function disassociate_profiles end
 
@@ -1192,21 +1275,31 @@ end
     export_lens(lens_alias)
     export_lens(lens_alias, params::Dict{String,<:Any})
 
-Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon
-Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined
-in JSON. For more information, see JSON format specification in the Well-Architected Tool
-User Guide.   Disclaimer  Do not include or gather personal identifiable information (PII)
-of end users or other identifiable individuals in or via your custom lenses. If your custom
-lens or those shared with you and used in your account do include or collect PII you are
-responsible for: ensuring that the included PII is processed in accordance with applicable
-law, providing adequate privacy notices, and obtaining necessary consents for processing
-such data.
+Export an existing lens.
+
+Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web
+Services Official Content) cannot be exported.
+
+Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
+in the *Well-Architected Tool User Guide*.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your custom lenses. If your custom lens or those shared
+with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensVersion"`: The lens version to be exported.
 """
 function export_lens end
@@ -1241,12 +1334,15 @@ end
 Get the answer to a specific question in a workload review.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
 function get_answer end
@@ -1282,16 +1378,21 @@ end
     get_consolidated_report(format)
     get_consolidated_report(format, params::Dict{String,<:Any})
 
-Get a consolidated report of your workloads. You can optionally choose to include workloads
-that have been shared with you.
+Get a consolidated report of your workloads.
+
+You can optionally choose to include workloads that have been shared with you.
 
 # Arguments
-- `format`: The format of the consolidated report. For PDF, Base64String is returned. For
-  JSON, Metrics is returned.
+
+- `format`: The format of the consolidated report.
+
+For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeSharedResources"`: Set to true to have shared resources included in the report.
+
+- `"IncludeSharedResources"`: Set to `true` to have shared resources included in the report.
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 """
@@ -1324,7 +1425,6 @@ end
     get_global_settings(params::Dict{String,<:Any})
 
 Global settings for all workloads.
-
 """
 function get_global_settings end
 
@@ -1353,10 +1453,13 @@ end
 Get an existing lens.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensVersion"`: The lens version to be retrieved.
 """
 function get_lens end
@@ -1391,11 +1494,14 @@ end
 Get lens review.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
 function get_lens_review end
@@ -1433,11 +1539,14 @@ end
 Get lens review report.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MilestoneNumber"`:
 """
 function get_lens_review_report end
@@ -1475,10 +1584,13 @@ end
 Get lens version differences.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BaseLensVersion"`: The base version of the lens.
 - `"TargetLensVersion"`: The lens version to target a difference for.
 """
@@ -1516,9 +1628,9 @@ end
 Get a milestone for an existing workload.
 
 # Arguments
+
 - `milestone_number`:
 - `workload_id`:
-
 """
 function get_milestone end
 
@@ -1555,10 +1667,13 @@ end
 Get profile information.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ProfileVersion"`: The profile version.
 """
 function get_profile end
@@ -1591,7 +1706,6 @@ end
     get_profile_template(params::Dict{String,<:Any})
 
 Get profile template.
-
 """
 function get_profile_template end
 
@@ -1620,8 +1734,8 @@ end
 Get review template.
 
 # Arguments
-- `template_arn`: The review template ARN.
 
+- `template_arn`: The review template ARN.
 """
 function get_review_template end
 
@@ -1657,10 +1771,10 @@ end
 Get review template answer.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `template_arn`: The review template ARN.
-
 """
 function get_review_template_answer end
 
@@ -1698,9 +1812,9 @@ end
 Get a lens review associated with a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The review template ARN.
-
 """
 function get_review_template_lens_review end
 
@@ -1737,8 +1851,8 @@ end
 Get an existing workload.
 
 # Arguments
-- `workload_id`:
 
+- `workload_id`:
 """
 function get_workload end
 
@@ -1769,25 +1883,38 @@ end
     import_lens(client_request_token, jsonstring)
     import_lens(client_request_token, jsonstring, params::Dict{String,<:Any})
 
-Import a new custom lens or update an existing custom lens. To update an existing custom
-lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is
-created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to
+Import a new custom lens or update an existing custom lens.
+
+To update an existing custom lens, specify its ARN as the `LensAlias`. If no ARN is
+specified, a new custom lens is created.
+
+The new or updated lens will have a status of `DRAFT`. The lens cannot be applied to
 workloads or shared with other Amazon Web Services accounts until it's published with
-CreateLensVersion. Lenses are defined in JSON. For more information, see JSON format
-specification in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB
-in size.   Disclaimer  Do not include or gather personal identifiable information (PII) of
-end users or other identifiable individuals in or via your custom lenses. If your custom
-lens or those shared with you and used in your account do include or collect PII you are
-responsible for: ensuring that the included PII is processed in accordance with applicable
-law, providing adequate privacy notices, and obtaining necessary consents for processing
-such data.
+<a>CreateLensVersion</a>.
+
+Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html)
+in the *Well-Architected Tool User Guide*.
+
+A custom lens cannot exceed 500 KB in size.</p>
+
+!!! note
+    **Disclaimer**
+
+ <p>Do not include or gather personal identifiable information (PII) of end users or other
+identifiable individuals in or via your custom lenses. If your custom lens or those shared
+with you and used in your account do include or collect PII you are responsible for:
+ensuring that the included PII is processed in accordance with applicable law, providing
+adequate privacy notices, and obtaining necessary consents for processing such data.
 
 # Arguments
+
 - `client_request_token`:
 - `jsonstring`: The JSON representation of a lens.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensAlias"`:
 - `"Tags"`: Tags to associate to a lens.
 """
@@ -1837,11 +1964,14 @@ end
 List of answers for a particular workload and lens.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"MilestoneNumber"`:
 - `"NextToken"`:
@@ -1883,6 +2013,7 @@ end
 List of Trusted Advisor check details by account related to the workload.
 
 # Arguments
+
 - `choice_id`:
 - `lens_arn`: Well-Architected Lens ARN.
 - `pillar_id`:
@@ -1890,7 +2021,9 @@ List of Trusted Advisor check details by account related to the workload.
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -1954,6 +2087,7 @@ end
 List of Trusted Advisor checks summarized for all accounts related to the workload.
 
 # Arguments
+
 - `choice_id`:
 - `lens_arn`: Well-Architected Lens ARN.
 - `pillar_id`:
@@ -1961,7 +2095,9 @@ List of Trusted Advisor checks summarized for all accounts related to the worklo
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -2025,11 +2161,14 @@ end
 List the improvements of a particular lens review.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"MilestoneNumber"`:
 - `"NextToken"`:
@@ -2071,10 +2210,13 @@ end
 List lens reviews for a particular workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"MilestoneNumber"`:
 - `"NextToken"`:
@@ -2111,10 +2253,13 @@ end
 List the lens shares associated with the lens.
 
 # Arguments
+
 - `lens_alias`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
@@ -2153,7 +2298,9 @@ end
 List the available lenses.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensName"`:
 - `"LensStatus"`: The status of lenses to be returned.
 - `"LensType"`: The type of lenses to be returned.
@@ -2183,10 +2330,13 @@ end
 List all milestones for an existing workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -2222,11 +2372,15 @@ end
 List lens notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"ResourceArn"`: The ARN for the related resource for the notification.  Only one of
-  WorkloadID or ResourceARN should be specified.
+- `"ResourceArn"`: The ARN for the related resource for the notification.
+
+!!! note
+    Only one of `WorkloadID` or `ResourceARN` should be specified.
 - `"WorkloadId"`:
 """
 function list_notifications end
@@ -2256,7 +2410,9 @@ end
 List profile notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"WorkloadId"`:
@@ -2291,10 +2447,13 @@ end
 List profile shares.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
@@ -2333,7 +2492,9 @@ end
 List profiles.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"ProfileNamePrefix"`: An optional string added to the beginning of each profile name
@@ -2367,11 +2528,14 @@ end
 List the answers of a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The ARN of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"PillarId"`:
@@ -2411,7 +2575,9 @@ end
 List review templates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -2439,12 +2605,15 @@ end
     list_share_invitations()
     list_share_invitations(params::Dict{String,<:Any})
 
-List the share invitations.  WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and
-TemplateNamePrefix are mutually exclusive. Use the parameter that matches your
-ShareResourceType.
+List the share invitations.
+
+ `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and `TemplateNamePrefix` are
+mutually exclusive. Use the parameter that matches your `ShareResourceType`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensNamePrefix"`: An optional string added to the beginning of each lens name returned
   in the results.
 - `"MaxResults"`: The maximum number of results to return for this request.
@@ -2480,12 +2649,15 @@ end
     list_tags_for_resource(workload_arn)
     list_tags_for_resource(workload_arn, params::Dict{String,<:Any})
 
-List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom
-lens ARN, a profile ARN, or review template ARN.
+List the tags for a resource.
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.
 
 # Arguments
-- `workload_arn`:
 
+- `workload_arn`:
 """
 function list_tags_for_resource end
 
@@ -2521,10 +2693,13 @@ end
 List review template shares.
 
 # Arguments
+
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
@@ -2565,10 +2740,13 @@ end
 List the workload shares associated with the workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
@@ -2609,7 +2787,9 @@ end
 Paginated list of workloads.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
 - `"WorkloadNamePrefix"`:
@@ -2641,13 +2821,16 @@ end
     tag_resource(tags, workload_arn)
     tag_resource(tags, workload_arn, params::Dict{String,<:Any})
 
-Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a
-workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
+Adds one or more tags to the specified resource.
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.
 
 # Arguments
+
 - `tags`: The tags for the resource.
 - `workload_arn`:
-
 """
 function tag_resource end
 
@@ -2680,16 +2863,20 @@ end
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a
-custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use
-separate tagKeys parameters, for example:  DELETE
-/tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
+Deletes specified tags from a resource.</p>
+
+!!! note
+    The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or
+review template ARN.To specify multiple tags, use separate **tagKeys** parameters, for
+example:
+
+ <p> `DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2`
 
 # Arguments
+
 - `workload_arn`:
 - `tag_keys`: A list of tag keys. Existing tags of the resource whose keys are members of
   this list are removed from the resource.
-
 """
 function untag_resource end
 
@@ -2727,12 +2914,15 @@ end
 Update the answer to a specific question in a workload review.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChoiceUpdates"`: A list of choices to update on a question in your workload. The String
   key corresponds to the choice ID to be updated.
 - `"IsApplicable"`:
@@ -2777,7 +2967,9 @@ Update whether the Amazon Web Services account is opted into organization sharin
 discovery integration features.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DiscoveryIntegrationStatus"`: The status of discovery support settings.
 - `"JiraConfiguration"`: The status of Jira integration settings.
 - `"OrganizationSharingStatus"`: The status of organization sharing settings.
@@ -2809,10 +3001,10 @@ end
 Update integration features.
 
 # Arguments
+
 - `client_request_token`:
 - `integrating_service`: Which integrated service to update.
 - `workload_id`:
-
 """
 function update_integration end
 
@@ -2866,11 +3058,14 @@ end
 Update lens review for a particular workload.
 
 # Arguments
+
 - `lens_alias`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"LensNotes"`:
 - `"PillarNotes"`:
@@ -2910,10 +3105,13 @@ end
 Update a profile.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ProfileDescription"`: The profile description.
 - `"ProfileQuestions"`: Profile questions.
 """
@@ -2949,14 +3147,17 @@ end
 Update a review template.
 
 # Arguments
+
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The review template description.
 - `"LensesToAssociate"`: A list of lens aliases or ARNs to apply to the review template.
 - `"LensesToDisassociate"`: A list of lens aliases or ARNs to unapply to the review
-  template. The wellarchitected lens cannot be unapplied.
+  template. The `wellarchitected` lens cannot be unapplied.
 - `"Notes"`:
 - `"TemplateName"`: The review template name.
 """
@@ -2994,12 +3195,15 @@ end
 Update a review template answer.
 
 # Arguments
+
 - `lens_alias`:
 - `question_id`:
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ChoiceUpdates"`: A list of choices to be updated.
 - `"IsApplicable"`:
 - `"Notes"`:
@@ -3042,11 +3246,14 @@ end
 Update a lens review associated with a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The review template ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LensNotes"`:
 - `"PillarNotes"`:
 """
@@ -3082,14 +3289,16 @@ end
     update_share_invitation(share_invitation_action, share_invitation_id)
     update_share_invitation(share_invitation_action, share_invitation_id, params::Dict{String,<:Any})
 
-Update a workload or custom lens share invitation.  This API operation can be called
-independently of any resource. Previous documentation implied that a workload ARN must be
-specified.
+Update a workload or custom lens share invitation.
+
+!!! note
+    This API operation can be called independently of any resource. Previous documentation
+implied that a workload ARN must be specified.
 
 # Arguments
+
 - `share_invitation_action`:
 - `share_invitation_id`: The ID assigned to the share invitation.
-
 """
 function update_share_invitation end
 
@@ -3135,10 +3344,13 @@ end
 Update an existing workload.
 
 # Arguments
+
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccountIds"`:
 - `"Applications"`: List of AppRegistry application ARNs to associate to the workload.
 - `"ArchitecturalDesign"`:
@@ -3151,9 +3363,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Industry"`:
 - `"IndustryType"`:
 - `"IsReviewOwnerUpdateAcknowledged"`: Flag indicating whether the workload owner has
-  acknowledged that the Review owner field is required. If a Review owner is not added to the
-  workload within 60 days of acknowledgement, access to the workload is restricted until an
-  owner is added.
+  acknowledged that the *Review owner* field is required.
+
+  If a **Review owner** is not added to the workload within 60 days of acknowledgement,
+  access to the workload is restricted until an owner is added.
 - `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"NonAwsRegions"`:
 - `"Notes"`:
@@ -3193,10 +3406,10 @@ end
 Update a workload share.
 
 # Arguments
+
 - `permission_type`:
 - `share_id`:
 - `workload_id`:
-
 """
 function update_workload_share end
 
@@ -3237,12 +3450,15 @@ end
 Upgrade lens review for a particular workload.
 
 # Arguments
+
 - `lens_alias`:
 - `milestone_name`:
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 """
 function upgrade_lens_review end
@@ -3284,11 +3500,14 @@ end
 Upgrade a profile.
 
 # Arguments
+
 - `profile_arn`: The profile ARN.
 - `workload_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"MilestoneName"`:
 """
@@ -3332,11 +3551,14 @@ end
 Upgrade the lens review of a review template.
 
 # Arguments
+
 - `lens_alias`:
 - `template_arn`: The ARN of the review template.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 """
 function upgrade_review_template_lens_review end

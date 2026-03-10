@@ -9,15 +9,18 @@ using AWS.UUIDs
     batch_update_rule(listener_identifier, rules, service_identifier, params::Dict{String,<:Any})
 
 Updates the listener rules in a batch. You can use this operation to change the priority of
-listener rules. This can be useful when bulk updating or swapping rule priority.  Required
-permissions: vpc-lattice:UpdateRule  For more information, see How Amazon VPC Lattice works
-with IAM in the Amazon VPC Lattice User Guide.
+listener rules. This can be useful when bulk updating or swapping rule priority.
+
+ **Required permissions:** `vpc-lattice:UpdateRule`
+
+For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `rules`: The rules for the specified listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function batch_update_rule end
 
@@ -60,10 +63,11 @@ Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kines
 Firehose. The service network owner can use the access logs to audit the services in the
 network. The service network owner can only see access logs from clients and services that
 are associated with their service network. Access log entries represent traffic originated
-from VPCs associated with that network. For more information, see Access logs in the Amazon
-VPC Lattice User Guide.
+from VPCs associated with that network. For more information, see [Access logs](https://docs.aws.amazon.com/vpc-lattice/latest/ug/monitoring-access-logs.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `destination_arn`: The Amazon Resource Name (ARN) of the destination. The supported
   destination types are CloudWatch Log groups, Kinesis Data Firehose delivery streams, and
   Amazon S3 buckets.
@@ -71,11 +75,13 @@ VPC Lattice User Guide.
   service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the access log subscription.
 """
 function create_access_log_subscription end
@@ -127,24 +133,27 @@ end
 
 Creates a listener for a service. Before you start using your Amazon VPC Lattice service,
 you must add one or more listeners. A listener is a process that checks for connection
-requests to your services. For more information, see Listeners in the Amazon VPC Lattice
-User Guide.
+requests to your services. For more information, see [Listeners](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `default_action`: The action for the default rule. Each listener has a default rule. The
   default rule is used if no other rules match.
 - `name`: The name of the listener. A listener name must be unique within a service. The
-  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
-  character, or immediately after another hyphen.
+  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or
+  last character, or immediately after another hyphen.
 - `protocol`: The listener protocol.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"port"`: The listener port. You can specify a value from 1 to 65535. For HTTP, the
   default is 80. For HTTPS, the default is 443.
 - `"tags"`: The tags for the listener.
@@ -206,10 +215,11 @@ end
 
 Creates a listener rule. Each listener has a default rule for checking connection requests,
 but you can define additional rules. Each rule consists of a priority, one or more actions,
-and one or more conditions. For more information, see Listener rules in the Amazon VPC
-Lattice User Guide.
+and one or more conditions. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `action`: The action for the default rule.
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `match`: The rule match.
@@ -221,11 +231,13 @@ Lattice User Guide.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the rule.
 """
 function create_rule end
@@ -290,24 +302,30 @@ end
     create_service(name, params::Dict{String,<:Any})
 
 Creates a service. A service is any software application that can run on instances
-containers, or serverless functions within an account or virtual private cloud (VPC). For
-more information, see Services in the Amazon VPC Lattice User Guide.
+containers, or serverless functions within an account or virtual private cloud (VPC).
+
+For more information, see [Services](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `name`: The name of the service. The name must be unique within the account. The valid
   characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
   character, or immediately after another hyphen.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authType"`: The type of IAM policy.    NONE: The resource does not use an IAM policy.
-  This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used,
-  auth is enabled and an auth policy is required.
+
+- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
+  This is the default.
+   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+  and an auth policy is required.
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"customDomainName"`: The custom domain name of the service.
 - `"tags"`: The tags for the service.
 """
@@ -346,23 +364,29 @@ end
     create_service_network(name, params::Dict{String,<:Any})
 
 Creates a service network. A service network is a logical boundary for a collection of
-services. You can associate services and VPCs with a service network. For more information,
-see Service networks in the Amazon VPC Lattice User Guide.
+services. You can associate services and VPCs with a service network.
+
+For more information, see [Service networks](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `name`: The name of the service network. The name must be unique to the account. The
-  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
-  character, or immediately after another hyphen.
+  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or
+  last character, or immediately after another hyphen.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authType"`: The type of IAM policy.    NONE: The resource does not use an IAM policy.
-  This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used,
-  auth is enabled and an auth policy is required.
+
+- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
+  This is the default.
+   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+  and an auth policy is required.
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the service network.
 """
 function create_service_network end
@@ -399,27 +423,34 @@ end
     create_service_network_service_association(service_identifier, service_network_identifier)
     create_service_network_service_association(service_identifier, service_network_identifier, params::Dict{String,<:Any})
 
-Associates a service with a service network. For more information, see Manage service
-associations in the Amazon VPC Lattice User Guide. You can't use this operation if the
-service and service network are already associated or if there is a disassociation or
-deletion in progress. If the association fails, you can retry the operation by deleting the
-association and recreating it. You cannot associate a service and service network that are
-shared with a caller. The caller must own either the service or the service network. As a
-result of this operation, the association is created in the service network account and the
-association owner account.
+Associates a service with a service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations)
+in the *Amazon VPC Lattice User Guide*.
+
+You can't use this operation if the service and service network are already associated or
+if there is a disassociation or deletion in progress. If the association fails, you can
+retry the operation by deleting the association and recreating it.
+
+You cannot associate a service and service network that are shared with a caller. The
+caller must own either the service or the service network.
+
+As a result of this operation, the association is created in the service network account
+and the association owner account.
 
 # Arguments
+
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service
-  network. You must use the ARN if the resources specified in the operation are in different
-  accounts.
+  network. You must use the ARN if the resources specified in the operation are in
+  different accounts.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the association.
 """
 function create_service_network_service_association end
@@ -473,32 +504,40 @@ end
 
 Associates a VPC with a service network. When you associate a VPC with the service network,
 it enables all the resources within that VPC to be clients and communicate with other
-services in the service network. For more information, see Manage VPC associations in the
-Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in
-progress. If the association fails, retry by deleting the association and recreating it. As
-a result of this operation, the association gets created in the service network account and
-the VPC owner account. If you add a security group to the service network and VPC
-association, the association must continue to always have at least one security group. You
-can add or edit security groups at any time. However, to remove all security groups, you
-must first delete the association and recreate it without security groups.
+services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations)
+in the *Amazon VPC Lattice User Guide*.
+
+You can't use this operation if there is a disassociation in progress. If the association
+fails, retry by deleting the association and recreating it.
+
+As a result of this operation, the association gets created in the service network account
+and the VPC owner account.
+
+If you add a security group to the service network and VPC association, the association
+must continue to always have at least one security group. You can add or edit security
+groups at any time. However, to remove all security groups, you must first delete the
+association and recreate it without security groups.
 
 # Arguments
+
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service
   network. You must use the ARN when the resources specified in the operation are in
   different accounts.
 - `vpc_identifier`: The ID of the VPC.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"securityGroupIds"`: The IDs of the security groups. Security groups aren't added by
   default. You can add a security group to apply network level controls to control which
   resources in a VPC are allowed to access the service network and its services. For more
-  information, see Control traffic to resources using security groups in the Amazon VPC User
-  Guide.
+  information, see [Control traffic to resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html)
+  in the *Amazon VPC User Guide*.
 - `"tags"`: The tags for the association.
 """
 function create_service_network_vpc_association end
@@ -552,20 +591,25 @@ end
 
 Creates a target group. A target group is a collection of targets, or compute resources,
 that run your application or service. A target group can only be used by a single service.
-For more information, see Target groups in the Amazon VPC Lattice User Guide.
+
+For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `name`: The name of the target group. The name must be unique within the account. The
-  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last
-  character, or immediately after another hyphen.
+  valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or
+  last character, or immediately after another hyphen.
 - `type`: The type of target group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you retry a request that completed successfully using the
-  same client token and parameters, the retry succeeds without performing any actions. If the
-  parameters aren't identical, the retry fails.
+  same client token and parameters, the retry succeeds without performing any actions. If
+  the parameters aren't identical, the retry fails.
 - `"config"`: The target group configuration.
 - `"tags"`: The tags for the target group.
 """
@@ -611,9 +655,9 @@ end
 Deletes the specified access log subscription.
 
 # Arguments
+
 - `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
   log subscription.
-
 """
 function delete_access_log_subscription end
 
@@ -646,14 +690,14 @@ end
     delete_auth_policy(resource_identifier)
     delete_auth_policy(resource_identifier, params::Dict{String,<:Any})
 
-Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is
+Deletes the specified auth policy. If an auth is set to `AWS_IAM` and the auth policy is
 deleted, all requests are denied. If you are trying to remove the auth policy completely,
-you must set the auth type to NONE. If auth is enabled on the resource, but no auth policy
-is set, all requests are denied.
+you must set the auth type to `NONE`. If auth is enabled on the resource, but no auth
+policy is set, all requests are denied.
 
 # Arguments
-- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the resource.
 
+- `resource_identifier`: The ID or Amazon Resource Name (ARN) of the resource.
 """
 function delete_auth_policy end
 
@@ -689,9 +733,9 @@ end
 Deletes the specified listener.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function delete_listener end
 
@@ -730,8 +774,8 @@ end
 Deletes the specified resource policy.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function delete_resource_policy end
 
@@ -767,14 +811,16 @@ end
 Deletes a listener rule. Each listener has a default rule for checking connection requests,
 but you can define additional rules. Each rule consists of a priority, one or more actions,
 and one or more conditions. You can delete additional listener rules, but you cannot delete
-the default rule. For more information, see Listener rules in the Amazon VPC Lattice User
-Guide.
+the default rule.
+
+For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `rule_identifier`: The ID or Amazon Resource Name (ARN) of the rule.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function delete_rule end
 
@@ -815,11 +861,12 @@ end
 Deletes a service. A service can't be deleted if it's associated with a service network. If
 you delete a service, all resources related to the service, such as the resource policy,
 auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For
-more information, see Delete a service in the Amazon VPC Lattice User Guide.
+more information, see [Delete a service](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html#delete-service)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
+- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 """
 function delete_service end
 
@@ -855,12 +902,12 @@ end
 Deletes a service network. You can only delete the service network if there is no service
 or VPC associated with it. If you delete a service network, all resources related to the
 service network, such as the resource policy, auth policy, and access log subscriptions,
-are also deleted. For more information, see Delete a service network in the Amazon VPC
-Lattice User Guide.
+are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
-- `service_network_identifier`: The Amazon Resource Name (ARN) or ID of the service network.
 
+- `service_network_identifier`: The Amazon Resource Name (ARN) or ID of the service network.
 """
 function delete_service_network end
 
@@ -897,9 +944,9 @@ Deletes the association between a specified service and the specific service net
 operation fails if an association is still in progress.
 
 # Arguments
+
 - `service_network_service_association_identifier`: The ID or Amazon Resource Name (ARN) of
   the association.
-
 """
 function delete_service_network_service_association end
 
@@ -937,9 +984,9 @@ Disassociates the VPC from the service network. You can't disassociate the VPC i
 a create or update association in progress.
 
 # Arguments
+
 - `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
   association.
-
 """
 function delete_service_network_vpc_association end
 
@@ -977,8 +1024,8 @@ Deletes a target group. You can't delete a target group if it is used in a liste
 if the target group creation is in progress.
 
 # Arguments
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
+- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 """
 function delete_target_group end
 
@@ -1014,9 +1061,9 @@ end
 Deregisters the specified targets from the specified target group.
 
 # Arguments
+
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 - `targets`: The targets to deregister.
-
 """
 function deregister_targets end
 
@@ -1054,9 +1101,9 @@ end
 Retrieves information about the specified access log subscription.
 
 # Arguments
+
 - `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
   log subscription.
-
 """
 function get_access_log_subscription end
 
@@ -1092,9 +1139,9 @@ end
 Retrieves information about the auth policy for the specified service or service network.
 
 # Arguments
+
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service.
-
 """
 function get_auth_policy end
 
@@ -1130,9 +1177,9 @@ end
 Retrieves information about the specified listener for the specified service.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function get_listener end
 
@@ -1172,8 +1219,8 @@ Retrieves information about the resource policy. The resource policy is an IAM p
 created on behalf of the resource owner when they share a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the service network or service.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the service network or service.
 """
 function get_resource_policy end
 
@@ -1207,14 +1254,14 @@ end
     get_rule(listener_identifier, rule_identifier, service_identifier, params::Dict{String,<:Any})
 
 Retrieves information about listener rules. You can also retrieve information about the
-default listener rule. For more information, see Listener rules in the Amazon VPC Lattice
-User Guide.
+default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `rule_identifier`: The ID or Amazon Resource Name (ARN) of the listener rule.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function get_rule end
 
@@ -1255,8 +1302,8 @@ end
 Retrieves information about the specified service.
 
 # Arguments
-- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
+- `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 """
 function get_service end
 
@@ -1290,8 +1337,8 @@ end
 Retrieves information about the specified service network.
 
 # Arguments
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 
+- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 """
 function get_service_network end
 
@@ -1328,9 +1375,9 @@ Retrieves information about the specified association between a service network 
 service.
 
 # Arguments
+
 - `service_network_service_association_identifier`: The ID or Amazon Resource Name (ARN) of
   the association.
-
 """
 function get_service_network_service_association end
 
@@ -1367,9 +1414,9 @@ end
 Retrieves information about the association between a service network and a VPC.
 
 # Arguments
+
 - `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
   association.
-
 """
 function get_service_network_vpc_association end
 
@@ -1406,8 +1453,8 @@ end
 Retrieves information about the specified target group.
 
 # Arguments
-- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
+- `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 """
 function get_target_group end
 
@@ -1443,11 +1490,14 @@ end
 Lists all access log subscriptions for the specified service network or service.
 
 # Arguments
+
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
@@ -1490,10 +1540,13 @@ end
 Lists the listeners for the specified service.
 
 # Arguments
+
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
@@ -1531,11 +1584,14 @@ end
 Lists the rules for the listener.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
@@ -1575,14 +1631,18 @@ end
 
 Lists the associations between the service network and the service. You can filter the list
 either by service or service network. You must provide either the service network
-identifier or the service identifier. Every association in Amazon VPC Lattice is given a
-unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC
-or when a service is associated with a service network. If the association is for a
-resource that is shared with another account, the association includes the local account ID
-as the prefix in the ARN for each account the resource is shared with.
+identifier or the service identifier.
+
+Every association in Amazon VPC Lattice is given a unique Amazon Resource Name (ARN), such
+as when a service network is associated with a VPC or when a service is associated with a
+service network. If the association is for a resource that is shared with another account,
+the association includes the local account ID as the prefix in the ARN for each account the
+resource is shared with.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 - `"serviceIdentifier"`: The ID or Amazon Resource Name (ARN) of the service.
@@ -1622,7 +1682,9 @@ service network. You must provide either the service network identifier or the V
 identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 - `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
@@ -1661,7 +1723,9 @@ Lists the service networks owned by the caller account or shared with the caller
 Also includes the account ID in the ARN to show which account owns the service network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
@@ -1692,7 +1756,9 @@ end
 Lists the services owned by the caller account or shared with the caller account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
@@ -1719,8 +1785,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -1757,7 +1823,9 @@ Lists your target groups. You can narrow your search by using the filters below 
 request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 - `"targetGroupType"`: The target group type.
@@ -1791,10 +1859,13 @@ Lists the targets for the target group. By default, all targets are included. Yo
 this API to check the health status of targets. You can also ﬁlter the results by target.
 
 # Arguments
+
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 - `"targets"`: The targets.
@@ -1831,14 +1902,17 @@ end
     put_auth_policy(policy, resource_identifier, params::Dict{String,<:Any})
 
 Creates or updates the auth policy. The policy string in JSON must not contain newlines or
-blank lines. For more information, see Auth policies in the Amazon VPC Lattice User Guide.
+blank lines.
+
+For more information, see [Auth policies](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html)
+in the *Amazon VPC Lattice User Guide*.
 
 # Arguments
+
 - `policy`: The auth policy. The policy string in JSON must not contain newlines or blank
   lines.
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the service network or
   service for which the policy is created.
-
 """
 function put_auth_policy end
 
@@ -1878,11 +1952,11 @@ must contain the same actions and condition statements as the Amazon Web Service
 Access Manager permission for sharing services and service networks.
 
 # Arguments
+
 - `policy`: An IAM policy. The policy string in JSON must not contain newlines or blank
   lines.
 - `resource_arn`: The ID or Amazon Resource Name (ARN) of the service network or service
   for which the policy is created.
-
 """
 function put_resource_policy end
 
@@ -1921,9 +1995,9 @@ Registers the targets with the target group. If it's a Lambda target, you can on
 target in a target group.
 
 # Arguments
+
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 - `targets`: The targets.
-
 """
 function register_targets end
 
@@ -1961,9 +2035,9 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags for the resource.
-
 """
 function tag_resource end
 
@@ -1999,9 +2073,9 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys of the tags to remove.
-
 """
 function untag_resource end
 
@@ -2039,10 +2113,10 @@ end
 Updates the specified access log subscription.
 
 # Arguments
+
 - `access_log_subscription_identifier`: The ID or Amazon Resource Name (ARN) of the access
   log subscription.
 - `destination_arn`: The Amazon Resource Name (ARN) of the access log destination.
-
 """
 function update_access_log_subscription end
 
@@ -2084,10 +2158,10 @@ end
 Updates the specified listener for the specified service.
 
 # Arguments
+
 - `default_action`: The action for the default rule.
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
-
 """
 function update_listener end
 
@@ -2129,15 +2203,18 @@ end
     update_rule(listener_identifier, rule_identifier, service_identifier, params::Dict{String,<:Any})
 
 Updates a rule for the listener. You can't modify a default listener rule. To modify a
-default listener rule, use UpdateListener.
+default listener rule, use `UpdateListener`.
 
 # Arguments
+
 - `listener_identifier`: The ID or Amazon Resource Name (ARN) of the listener.
 - `rule_identifier`: The ID or Amazon Resource Name (ARN) of the rule.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"action"`: Information about the action for the specified listener rule.
 - `"match"`: The rule match.
 - `"priority"`: The rule priority. A listener can't have multiple rules with the same
@@ -2182,13 +2259,17 @@ end
 Updates the specified service.
 
 # Arguments
+
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authType"`: The type of IAM policy.    NONE: The resource does not use an IAM policy.
-  This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used,
-  auth is enabled and an auth policy is required.
+
+- `"authType"`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
+  This is the default.
+   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+  and an auth policy is required.
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
 function update_service end
@@ -2225,11 +2306,12 @@ end
 Updates the specified service network.
 
 # Arguments
-- `auth_type`: The type of IAM policy.    NONE: The resource does not use an IAM policy.
-  This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used,
-  auth is enabled and an auth policy is required.
-- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 
+- `auth_type`: The type of IAM policy. - `NONE`: The resource does not use an IAM policy.
+  This is the default.
+   - `AWS_IAM`: The resource uses an IAM policy. When this type is used, auth is enabled
+  and an auth policy is required.
+- `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 """
 function update_service_network end
 
@@ -2273,10 +2355,10 @@ security groups, you must first delete the association and recreate it without s
 groups.
 
 # Arguments
+
 - `security_group_ids`: The IDs of the security groups.
 - `service_network_vpc_association_identifier`: The ID or Amazon Resource Name (ARN) of the
   association.
-
 """
 function update_service_network_vpc_association end
 
@@ -2320,9 +2402,9 @@ end
 Updates the specified target group.
 
 # Arguments
+
 - `health_check`: The health check configuration.
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
-
 """
 function update_target_group end
 

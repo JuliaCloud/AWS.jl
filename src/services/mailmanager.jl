@@ -13,15 +13,18 @@ Amazon Resource Name (ARN) can be used in a conditional statement for a rule set
 policy.
 
 # Arguments
+
 - `addon_subscription_id`: The unique ID of a previously created subscription that an Add
   On instance is created for. You can only have one instance per subscription.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_addon_instance end
 
@@ -69,15 +72,18 @@ additional pricing. The subscription can then be used to create an instance for 
 sets or traffic policies.
 
 # Arguments
+
 - `addon_name`: The name of the Add On to subscribe to. You can only have one subscription
   for each Add On name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_addon_subscription end
 
@@ -120,16 +126,19 @@ end
 Creates a new email archive resource for storing and retaining emails.
 
 # Arguments
+
 - `archive_name`: A unique name for the new archive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token Amazon SES uses to recognize retries of this request.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key for encrypting emails in the
   archive.
 - `"Retention"`: The period for retaining emails in the archive before automatic deletion.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_archive end
 
@@ -170,6 +179,7 @@ end
 Provision a new ingress endpoint resource.
 
 # Arguments
+
 - `ingress_point_name`: A user friendly name for an ingress endpoint resource.
 - `rule_set_id`: The identifier of an existing rule set that you attach to an ingress
   endpoint resource.
@@ -178,13 +188,15 @@ Provision a new ingress endpoint resource.
 - `type`: The type of the ingress endpoint to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"IngressPointConfiguration"`: If you choose an Authenticated ingress endpoint, you must
   configure either an SMTP password or a secret ARN.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_ingress_point end
 
@@ -245,6 +257,7 @@ Creates a relay resource which can be used in rules to relay incoming emails to 
 relay destinations.
 
 # Arguments
+
 - `authentication`: Authentication for the relay destination server—specify the secretARN
   where the SMTP credentials are stored.
 - `relay_name`: The unique name of the relay resource.
@@ -252,11 +265,13 @@ relay destinations.
 - `server_port`: The destination relay server port.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_relay end
 
@@ -316,15 +331,18 @@ end
 Provision a new rule set.
 
 # Arguments
+
 - `rule_set_name`: A user-friendly name for the rule set.
 - `rules`: Conditional rules that are evaluated for determining actions on email.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_rule_set end
 
@@ -372,6 +390,7 @@ end
 Provision a new traffic policy resource.
 
 # Arguments
+
 - `default_action`: Default action instructs the traﬃc policy to either Allow or Deny
   (block) messages that fall outside of (or not addressed by) the conditions of your policy
   statements
@@ -379,13 +398,15 @@ Provision a new traffic policy resource.
 - `traffic_policy_name`: A user-friendly name for the traffic policy resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that Amazon SES uses to recognize subsequent retries of
   the same request.
 - `"MaxMessageSizeBytes"`: The maximum message size in bytes of email which is allowed in
   by this traffic policy—anything larger will be blocked.
 - `"Tags"`: The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_traffic_policy end
 
@@ -441,8 +462,8 @@ end
 Deletes an Add On instance.
 
 # Arguments
-- `addon_instance_id`: The Add On instance ID to delete.
 
+- `addon_instance_id`: The Add On instance ID to delete.
 """
 function delete_addon_instance end
 
@@ -481,8 +502,8 @@ end
 Deletes an Add On subscription.
 
 # Arguments
-- `addon_subscription_id`: The Add On subscription ID to delete.
 
+- `addon_subscription_id`: The Add On subscription ID to delete.
 """
 function delete_addon_subscription end
 
@@ -527,8 +548,8 @@ In this state, no new emails can be added, and existing archived emails become i
 period.
 
 # Arguments
-- `archive_id`: The identifier of the archive to delete.
 
+- `archive_id`: The identifier of the archive to delete.
 """
 function delete_archive end
 
@@ -563,9 +584,9 @@ end
 Delete an ingress endpoint resource.
 
 # Arguments
+
 - `ingress_point_id`: The identifier of the ingress endpoint resource that you want to
   delete.
-
 """
 function delete_ingress_point end
 
@@ -602,8 +623,8 @@ end
 Deletes an existing relay resource.
 
 # Arguments
-- `relay_id`: The unique relay identifier.
 
+- `relay_id`: The unique relay identifier.
 """
 function delete_relay end
 
@@ -636,8 +657,8 @@ end
 Delete a rule set.
 
 # Arguments
-- `rule_set_id`: The identifier of an existing rule set resource to delete.
 
+- `rule_set_id`: The identifier of an existing rule set resource to delete.
 """
 function delete_rule_set end
 
@@ -672,8 +693,8 @@ end
 Delete a traffic policy resource.
 
 # Arguments
-- `traffic_policy_id`: The identifier of the traffic policy that you want to delete.
 
+- `traffic_policy_id`: The identifier of the traffic policy that you want to delete.
 """
 function delete_traffic_policy end
 
@@ -712,8 +733,8 @@ end
 Gets detailed information about an Add On instance.
 
 # Arguments
-- `addon_instance_id`: The Add On instance ID to retrieve information for.
 
+- `addon_instance_id`: The Add On instance ID to retrieve information for.
 """
 function get_addon_instance end
 
@@ -752,8 +773,8 @@ end
 Gets detailed information about an Add On subscription.
 
 # Arguments
-- `addon_subscription_id`: The Add On subscription ID to retrieve information for.
 
+- `addon_subscription_id`: The Add On subscription ID to retrieve information for.
 """
 function get_addon_subscription end
 
@@ -794,8 +815,8 @@ end
 Retrieves the full details and current state of a specified email archive.
 
 # Arguments
-- `archive_id`: The identifier of the archive to retrieve.
 
+- `archive_id`: The identifier of the archive to retrieve.
 """
 function get_archive end
 
@@ -830,8 +851,8 @@ end
 Retrieves the details and current status of a specific email archive export job.
 
 # Arguments
-- `export_id`: The identifier of the export job to get details for.
 
+- `export_id`: The identifier of the export job to get details for.
 """
 function get_archive_export end
 
@@ -867,8 +888,8 @@ Returns a pre-signed URL that provides temporary download access to the specific
 message stored in the archive.
 
 # Arguments
-- `archived_message_id`: The unique identifier of the archived email message.
 
+- `archived_message_id`: The unique identifier of the archived email message.
 """
 function get_archive_message end
 
@@ -908,8 +929,8 @@ Returns the textual content of a specific email message stored in the archive. A
 are not included.
 
 # Arguments
-- `archived_message_id`: The unique identifier of the archived email message.
 
+- `archived_message_id`: The unique identifier of the archived email message.
 """
 function get_archive_message_content end
 
@@ -948,8 +969,8 @@ end
 Retrieves the details and current status of a specific email archive search job.
 
 # Arguments
-- `search_id`: The identifier of the search job to get details for.
 
+- `search_id`: The identifier of the search job to get details for.
 """
 function get_archive_search end
 
@@ -984,8 +1005,8 @@ end
 Returns the results of a completed email archive search job.
 
 # Arguments
-- `search_id`: The identifier of the completed search job.
 
+- `search_id`: The identifier of the completed search job.
 """
 function get_archive_search_results end
 
@@ -1022,8 +1043,8 @@ end
 Fetch ingress endpoint resource attributes.
 
 # Arguments
-- `ingress_point_id`: The identifier of an ingress endpoint.
 
+- `ingress_point_id`: The identifier of an ingress endpoint.
 """
 function get_ingress_point end
 
@@ -1060,8 +1081,8 @@ end
 Fetch the relay resource and it's attributes.
 
 # Arguments
-- `relay_id`: A unique relay identifier.
 
+- `relay_id`: A unique relay identifier.
 """
 function get_relay end
 
@@ -1094,8 +1115,8 @@ end
 Fetch attributes of a rule set.
 
 # Arguments
-- `rule_set_id`: The identifier of an existing rule set to be retrieved.
 
+- `rule_set_id`: The identifier of an existing rule set to be retrieved.
 """
 function get_rule_set end
 
@@ -1130,8 +1151,8 @@ end
 Fetch attributes of a traffic policy resource.
 
 # Arguments
-- `traffic_policy_id`: The identifier of the traffic policy resource.
 
+- `traffic_policy_id`: The identifier of the traffic policy resource.
 """
 function get_traffic_policy end
 
@@ -1170,7 +1191,9 @@ end
 Lists all Add On instances in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
@@ -1199,7 +1222,9 @@ end
 Lists all Add On subscriptions in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
@@ -1231,10 +1256,13 @@ end
 Returns a list of email archive export jobs.
 
 # Arguments
+
 - `archive_id`: The identifier of the archive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page.
@@ -1274,10 +1302,13 @@ end
 Returns a list of email archive search jobs.
 
 # Arguments
+
 - `archive_id`: The identifier of the archive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page.
@@ -1319,7 +1350,9 @@ end
 Returns a list of all email archives in your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page.
@@ -1349,7 +1382,9 @@ end
 List all ingress endpoint resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The maximum number of ingress endpoint resources that are returned per
@@ -1378,7 +1413,9 @@ end
 Lists all the existing relay resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The number of relays to be returned in one request.
@@ -1404,7 +1441,9 @@ end
 List rule sets for this account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The maximum number of rule set resources that are returned per call. You
@@ -1433,8 +1472,8 @@ end
  Retrieves the list of tags (keys and values) assigned to the resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource to retrieve tags from.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to retrieve tags from.
 """
 function list_tags_for_resource end
 
@@ -1471,7 +1510,9 @@ end
 List traffic policy resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If you received a pagination token from a previous call to this API, you
   can provide it here to continue paginating through the next page of results.
 - `"PageSize"`: The maximum number of traffic policy resources that are returned per call.
@@ -1503,13 +1544,16 @@ end
 Initiates an export of emails from the specified archive.
 
 # Arguments
+
 - `archive_id`: The identifier of the archive to export emails from.
 - `export_destination_configuration`: Details on where to deliver the exported email data.
 - `from_timestamp`: The start of the timestamp range to include emails from.
 - `to_timestamp`: The end of the timestamp range to include emails from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Criteria to filter which emails are included in the export.
 - `"MaxResults"`: The maximum number of email items to include in the export.
 """
@@ -1569,13 +1613,16 @@ end
 Initiates a search across emails in the specified archive.
 
 # Arguments
+
 - `archive_id`: The identifier of the archive to search emails in.
 - `from_timestamp`: The start timestamp of the range to search emails from.
 - `max_results`: The maximum number of search results to return.
 - `to_timestamp`: The end timestamp of the range to search emails from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Criteria to filter which emails are included in the search results.
 """
 function start_archive_search end
@@ -1634,8 +1681,8 @@ end
 Stops an in-progress export of emails from an archive.
 
 # Arguments
-- `export_id`: The identifier of the export job to stop.
 
+- `export_id`: The identifier of the export job to stop.
 """
 function stop_archive_export end
 
@@ -1670,8 +1717,8 @@ end
 Stops an in-progress archive search job.
 
 # Arguments
-- `search_id`: The identifier of the search job to stop.
 
+- `search_id`: The identifier of the search job to stop.
 """
 function stop_archive_search end
 
@@ -1706,10 +1753,10 @@ end
  Adds one or more tags (keys and values) to a specified resource.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource that you want to tag.
 - `tags`:  The tags used to organize, track, or control access for the resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
-
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource end
 
@@ -1749,10 +1796,10 @@ end
  Remove one or more tags (keys and values) from a specified resource.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource that you want to untag.
 - `tag_keys`:  The keys of the key-value pairs for the tag or tags you want to remove from
   the specified resource.
-
 """
 function untag_resource end
 
@@ -1794,10 +1841,13 @@ end
 Updates the attributes of an existing email archive.
 
 # Arguments
+
 - `archive_id`: The identifier of the archive to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ArchiveName"`: A new, unique name for the archive.
 - `"Retention"`: A new retention period for emails in the archive.
 """
@@ -1834,10 +1884,13 @@ end
 Update attributes of a provisioned ingress endpoint resource.
 
 # Arguments
+
 - `ingress_point_id`: The identifier for the ingress endpoint you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"IngressPointConfiguration"`: If you choose an Authenticated ingress endpoint, you must
   configure either an SMTP password or a secret ARN.
 - `"IngressPointName"`: A user friendly name for the ingress endpoint resource.
@@ -1882,12 +1935,15 @@ end
 Updates the attributes of an existing relay resource.
 
 # Arguments
+
 - `relay_id`: The unique relay identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Authentication"`: Authentication for the relay destination server—specify the
-  secretARN where the SMTP credentials are stored.
+
+- `"Authentication"`: Authentication for the relay destination server—specify the secretARN
+  where the SMTP credentials are stored.
 - `"RelayName"`: The name of the relay resource.
 - `"ServerName"`: The destination relay server address.
 - `"ServerPort"`: The destination relay server port.
@@ -1923,10 +1979,13 @@ end
 &gt;Update attributes of an already provisioned rule set.
 
 # Arguments
+
 - `rule_set_id`: The identifier of a rule set you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RuleSetName"`: A user-friendly name for the rule set resource.
 - `"Rules"`: A new set of rules to replace the current rules of the rule set—these rules
   will override all the rules of the rule set.
@@ -1964,10 +2023,13 @@ end
 Update attributes of an already provisioned traffic policy resource.
 
 # Arguments
+
 - `traffic_policy_id`: The identifier of the traffic policy that you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DefaultAction"`: Default action instructs the traﬃc policy to either Allow or Deny
   (block) messages that fall outside of (or not addressed by) the conditions of your policy
   statements

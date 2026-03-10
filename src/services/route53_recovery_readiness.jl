@@ -11,10 +11,13 @@ using AWS.UUIDs
 Creates a cell in an account.
 
 # Arguments
+
 - `cell_name`: The name of the cell to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cells"`: A list of cell Amazon Resource Names (ARNs) contained within this cell, for
   use in nested cells. For example, Availability Zones within specific Amazon Web Services
   Regions.
@@ -57,8 +60,8 @@ work with Route 53 Application Recovery Controller, for example, to check the re
 status of resources in a separate account.
 
 # Arguments
-- `cross_account_authorization`: The cross-account authorization.
 
+- `cross_account_authorization`: The cross-account authorization.
 """
 function create_cross_account_authorization end
 
@@ -104,11 +107,14 @@ is auditing recovery readiness for. The audits run once every minute on every re
 that's associated with a readiness check.
 
 # Arguments
+
 - `readiness_check_name`: The name of the readiness check to create.
 - `resource_set_name`: The name of the resource set to check.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`:
 """
 function create_readiness_check end
@@ -159,10 +165,13 @@ Creates a recovery group in an account. A recovery group corresponds to an appli
 includes a list of the cells that make up the application.
 
 # Arguments
+
 - `recovery_group_name`: The name of the recovery group to create.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cells"`: A list of the cell Amazon Resource Names (ARNs) in the recovery group.
 - `"tags"`:
 """
@@ -207,11 +216,14 @@ cells. You can associate a resource set with a readiness check to monitor the re
 failover readiness.
 
 # Arguments
+
 - `resource_set_name`: The name of the resource set to create.
 - `resource_set_type`: The resource type of the resources in the resource set. Enter one of
-  the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage,
-  AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway,
-  AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
+  the following values for resource type:
+
+  AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup,
+  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table,
+  AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
   AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster,
   AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic,
   AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
@@ -219,7 +231,9 @@ failover readiness.
 - `resources`: A list of resource objects in the resource set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A tag to associate with the parameters for a resource set.
 """
 function create_resource_set end
@@ -276,8 +290,8 @@ end
 Delete a cell. When successful, the response code is 204, with no response body.
 
 # Arguments
-- `cell_name`: The name of the cell.
 
+- `cell_name`: The name of the cell.
 """
 function delete_cell end
 
@@ -311,8 +325,8 @@ end
 Deletes cross account readiness authorization.
 
 # Arguments
-- `cross_account_authorization`: The cross-account authorization.
 
+- `cross_account_authorization`: The cross-account authorization.
 """
 function delete_cross_account_authorization end
 
@@ -348,8 +362,8 @@ end
 Deletes a readiness check.
 
 # Arguments
-- `readiness_check_name`: Name of a readiness check.
 
+- `readiness_check_name`: Name of a readiness check.
 """
 function delete_readiness_check end
 
@@ -385,8 +399,8 @@ end
 Deletes a recovery group.
 
 # Arguments
-- `recovery_group_name`: The name of a recovery group.
 
+- `recovery_group_name`: The name of a recovery group.
 """
 function delete_recovery_group end
 
@@ -422,8 +436,8 @@ end
 Deletes a resource set.
 
 # Arguments
-- `resource_set_name`: Name of a resource set.
 
+- `resource_set_name`: Name of a resource set.
 """
 function delete_resource_set end
 
@@ -460,10 +474,13 @@ Gets recommendations about architecture designs for improving resiliency for an
 application, based on a recovery group.
 
 # Arguments
+
 - `recovery_group_name`: The name of a recovery group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -503,8 +520,8 @@ nested cells for this cell, and a list of those cell ARNs with their associated 
 group ARNs.
 
 # Arguments
-- `cell_name`: The name of the cell.
 
+- `cell_name`: The name of the cell.
 """
 function get_cell end
 
@@ -536,10 +553,13 @@ Gets readiness for a cell. Aggregates the readiness of all the resources that ar
 associated with the cell into a single value.
 
 # Arguments
+
 - `cell_name`: The name of the cell.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -577,8 +597,8 @@ end
 Gets details about a readiness check.
 
 # Arguments
-- `readiness_check_name`: Name of a readiness check.
 
+- `readiness_check_name`: Name of a readiness check.
 """
 function get_readiness_check end
 
@@ -616,13 +636,16 @@ for a recovery group, that considers the readiness status for all the readiness 
 the recovery group, use GetRecoveryGroupReadinessSummary.
 
 # Arguments
+
 - `readiness_check_name`: Name of a readiness check.
 - `resource_identifier`: The resource identifier, which is the Amazon Resource Name (ARN)
   or the identifier generated for the resource by Application Recovery Controller (for
   example, for a DNS target resource).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -665,10 +688,13 @@ status for a recovery group, that considers the readiness status for all the rea
 checks in a recovery group, use GetRecoveryGroupReadinessSummary.
 
 # Arguments
+
 - `readiness_check_name`: Name of a readiness check.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -706,8 +732,8 @@ end
 Gets details about a recovery group, including a list of the cells that are included in it.
 
 # Arguments
-- `recovery_group_name`: The name of a recovery group.
 
+- `recovery_group_name`: The name of a recovery group.
 """
 function get_recovery_group end
 
@@ -744,10 +770,13 @@ Displays a summary of information about a recovery group's readiness status. Inc
 readiness checks for resources in the recovery group and the readiness status of each one.
 
 # Arguments
+
 - `recovery_group_name`: The name of a recovery group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -785,8 +814,8 @@ end
 Displays the details about a resource set, including a list of the resources in the set.
 
 # Arguments
-- `resource_set_name`: Name of a resource set.
 
+- `resource_set_name`: Name of a resource set.
 """
 function get_resource_set end
 
@@ -822,7 +851,9 @@ end
 Lists the cells for an account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -849,7 +880,9 @@ end
 Lists the cross-account readiness authorizations that are in place for an account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -885,7 +918,9 @@ end
 Lists the readiness checks for an account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -916,7 +951,9 @@ end
 Lists the recovery groups in an account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -947,7 +984,9 @@ end
 Lists the resource sets in an account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 """
@@ -978,7 +1017,9 @@ end
 Lists all readiness rules, or lists the readiness rules for a specific resource type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The number of objects that you want to return with this call.
 - `"nextToken"`: The token that identifies which batch of results you want to see.
 - `"resourceType"`: The resource type that a readiness rule applies to.
@@ -1006,8 +1047,8 @@ end
 Lists the tags for a resource.
 
 # Arguments
-- `resource-arn`: The Amazon Resource Name (ARN) for a resource.
 
+- `resource-arn`: The Amazon Resource Name (ARN) for a resource.
 """
 function list_tags_for_resources end
 
@@ -1043,9 +1084,9 @@ end
 Adds a tag to a resource.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) for a resource.
 - `tags`:
-
 """
 function tag_resource end
 
@@ -1083,9 +1124,9 @@ end
 Removes a tag from a resource.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) for a resource.
 - `tag_keys`: The keys for tags you add to resources.
-
 """
 function untag_resource end
 
@@ -1123,10 +1164,10 @@ end
 Updates a cell to replace the list of nested cells with a new list of nested cells.
 
 # Arguments
+
 - `cell_name`: The name of the cell.
 - `cells`: A list of cell Amazon Resource Names (ARNs), which completely replaces the
   previous list.
-
 """
 function update_cell end
 
@@ -1162,9 +1203,9 @@ end
 Updates a readiness check.
 
 # Arguments
+
 - `readiness_check_name`: Name of a readiness check.
 - `resource_set_name`: The name of the resource set to be checked.
-
 """
 function update_readiness_check end
 
@@ -1206,10 +1247,10 @@ end
 Updates a recovery group.
 
 # Arguments
+
 - `cells`: A list of cell Amazon Resource Names (ARNs). This list completely replaces the
   previous list.
 - `recovery_group_name`: The name of a recovery group.
-
 """
 function update_recovery_group end
 
@@ -1247,17 +1288,19 @@ end
 Updates a resource set.
 
 # Arguments
+
 - `resource_set_name`: Name of a resource set.
 - `resource_set_type`: The resource type of the resources in the resource set. Enter one of
-  the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage,
-  AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway,
-  AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
+  the following values for resource type:
+
+  AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup,
+  AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table,
+  AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer,
   AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster,
   AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic,
   AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
   AWS::Route53RecoveryReadiness::DNSTargetResource
 - `resources`: A list of resource objects.
-
 """
 function update_resource_set end
 

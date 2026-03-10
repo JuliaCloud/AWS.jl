@@ -12,7 +12,9 @@ Creates an application. An application consists of one or more server groups. Ea
 group contain one or more servers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of application creation.
 - `"description"`: The description of the new application
@@ -43,18 +45,24 @@ replicate your server to Amazon Web Services. Each replication run creates an Am
 Machine Image (AMI).
 
 # Arguments
+
 - `seed_replication_time`: The seed replication time.
 - `server_id`: The ID of the server.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the replication job.
 - `"encrypted"`: Indicates whether the replication job produces encrypted AMIs.
 - `"frequency"`: The time between consecutive replication runs, in hours.
 - `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the
-  KMS key ID   ARN referring to the KMS key alias    If encrypted is true but a KMS key ID is
-  not specified, the customer's default KMS key for Amazon EBS is used.
+  This value can be any of the following: - KMS key ID
+   - KMS key alias
+   - ARN referring to the KMS key ID
+   - ARN referring to the KMS key alias
+   If encrypted is *true* but a KMS key ID is not specified, the customer's default KMS key
+  for Amazon EBS is used.
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
 - `"numberOfRecentAmisToKeep"`: The maximum number of SMS-created AMIs to retain. The
@@ -108,7 +116,9 @@ the application and all Server Migration Service replication jobs for servers in
 application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 - `"forceStopAppReplication"`: Indicates whether to stop all replication jobs corresponding
   to the servers in the application while deleting the application.
@@ -134,7 +144,9 @@ end
 Deletes the launch configuration for the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function delete_app_launch_configuration end
@@ -167,7 +179,9 @@ end
 Deletes the replication configuration for the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function delete_app_replication_configuration end
@@ -200,8 +214,8 @@ end
 Deletes the validation configuration for the specified application.
 
 # Arguments
-- `app_id`: The ID of the application.
 
+- `app_id`: The ID of the application.
 """
 function delete_app_validation_configuration end
 
@@ -231,14 +245,15 @@ end
     delete_replication_job(replication_job_id)
     delete_replication_job(replication_job_id, params::Dict{String,<:Any})
 
-Deletes the specified replication job. After you delete a replication job, there are no
-further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket
-used to store Server Migration Service artifacts. The AMIs created by the replication runs
-are not deleted.
+Deletes the specified replication job.
+
+After you delete a replication job, there are no further replication runs. Amazon Web
+Services deletes the contents of the Amazon S3 bucket used to store Server Migration
+Service artifacts. The AMIs created by the replication runs are not deleted.
 
 # Arguments
-- `replication_job_id`: The ID of the replication job.
 
+- `replication_job_id`: The ID of the replication job.
 """
 function delete_replication_job end
 
@@ -275,7 +290,6 @@ end
     delete_server_catalog(params::Dict{String,<:Any})
 
 Deletes all servers from your server catalog.
-
 """
 function delete_server_catalog end
 
@@ -300,12 +314,13 @@ end
     disassociate_connector(connector_id)
     disassociate_connector(connector_id, params::Dict{String,<:Any})
 
-Disassociates the specified connector from Server Migration Service. After you disassociate
-a connector, it is no longer available to support replication jobs.
+Disassociates the specified connector from Server Migration Service.
+
+After you disassociate a connector, it is no longer available to support replication jobs.
 
 # Arguments
-- `connector_id`: The ID of the connector.
 
+- `connector_id`: The ID of the connector.
 """
 function disassociate_connector end
 
@@ -343,7 +358,9 @@ Generates a target change set for a currently launched stack and writes it to an
 object in the customer’s Amazon S3 bucket.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application associated with the change set.
 - `"changesetFormat"`: The format for the change set.
 """
@@ -369,7 +386,9 @@ Generates an CloudFormation template based on the current launch configuration a
 it to an Amazon S3 object in the customer’s Amazon S3 bucket.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application associated with the CloudFormation template.
 - `"templateFormat"`: The format for generating the CloudFormation template.
 """
@@ -394,7 +413,9 @@ end
 Retrieve information about the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function get_app end
@@ -416,7 +437,9 @@ end
 Retrieves the application launch configuration associated with the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function get_app_launch_configuration end
@@ -446,7 +469,9 @@ Retrieves the application replication configuration associated with the specifie
 application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function get_app_replication_configuration end
@@ -479,8 +504,8 @@ end
 Retrieves information about a configuration for validating an application.
 
 # Arguments
-- `app_id`: The ID of the application.
 
+- `app_id`: The ID of the application.
 """
 function get_app_validation_configuration end
 
@@ -513,8 +538,8 @@ end
 Retrieves output from validating an application.
 
 # Arguments
-- `app_id`: The ID of the application.
 
+- `app_id`: The ID of the application.
 """
 function get_app_validation_output end
 
@@ -547,10 +572,12 @@ end
 Describes the connectors registered with the Server Migration Service.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
-  NextToken value.
+  `NextToken` value.
 - `"nextToken"`: The token for the next set of results.
 """
 function get_connectors end
@@ -574,10 +601,12 @@ end
 Describes the specified replication job or all of your replication jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
-  NextToken value.
+  `NextToken` value.
 - `"nextToken"`: The token for the next set of results.
 - `"replicationJobId"`: The ID of the replication job.
 """
@@ -602,13 +631,16 @@ end
 Describes the replication runs for the specified replication job.
 
 # Arguments
+
 - `replication_job_id`: The ID of the replication job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
-  NextToken value.
+  `NextToken` value.
 - `"nextToken"`: The token for the next set of results.
 """
 function get_replication_runs end
@@ -645,14 +677,17 @@ end
     get_servers()
     get_servers(params::Dict{String,<:Any})
 
-Describes the servers in your server catalog. Before you can describe your servers, you
-must import them using ImportServerCatalog.
+Describes the servers in your server catalog.
+
+Before you can describe your servers, you must import them using <a>ImportServerCatalog</a>.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in a single call. The default
   value is 50. To retrieve the remaining results, make another call with the returned
-  NextToken value.
+  `NextToken` value.
 - `"nextToken"`: The token for the next set of results.
 - `"vmServerAddressList"`: The server addresses.
 """
@@ -675,10 +710,13 @@ end
 Allows application import from Migration Hub.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"roleName"`: The name of the service role. If you omit this parameter, we create a
-  service-linked role for Migration Hub in your account. Otherwise, the role that you provide
-  must have the policy and trust policy described in the Migration Hub User Guide.
+  service-linked role for Migration Hub in your account. Otherwise, the role that you
+  provide must have the [policy and trust policy](https://docs.aws.amazon.com/migrationhub/latest/ug/new-customer-setup.html#sms-managed)
+  described in the *Migration Hub User Guide*.
 """
 function import_app_catalog end
 
@@ -699,9 +737,9 @@ end
     import_server_catalog(params::Dict{String,<:Any})
 
 Gathers a complete list of on-premises servers. Connectors must be installed and monitoring
-all servers to import. This call returns immediately, but might take additional time to
-retrieve all the servers.
+all servers to import.
 
+This call returns immediately, but might take additional time to retrieve all the servers.
 """
 function import_server_catalog end
 
@@ -729,7 +767,9 @@ end
 Launches the specified application as a stack in CloudFormation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function launch_app end
@@ -751,11 +791,13 @@ end
 Retrieves summaries for all applications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appIds"`: The unique application IDs.
 - `"maxResults"`: The maximum number of results to return in a single call. The default
   value is 100. To retrieve the remaining results, make another call with the returned
-  NextToken value.
+  `NextToken` value.
 - `"nextToken"`: The token for the next set of results.
 """
 function list_apps end
@@ -778,10 +820,13 @@ Provides information to Server Migration Service about whether application valid
 successful.
 
 # Arguments
+
 - `app_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"notificationContext"`: The notification information.
 """
 function notify_app_validation_output end
@@ -815,7 +860,9 @@ end
 Creates or updates the launch configuration for the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 - `"autoLaunch"`: Indicates whether the application is configured to launch automatically
   after replication is complete.
@@ -850,7 +897,9 @@ end
 Creates or updates the replication configuration for the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 - `"serverGroupReplicationConfigurations"`: Information about the replication
   configurations for server groups in the application.
@@ -885,10 +934,13 @@ end
 Creates or updates a validation configuration for the specified application.
 
 # Arguments
+
 - `app_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appValidationConfigurations"`: The configuration for application validation.
 - `"serverGroupValidationConfigurations"`: The configuration for instance validation.
 """
@@ -924,7 +976,9 @@ Starts replicating the specified application by creating replication jobs for ea
 in the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function start_app_replication end
@@ -953,10 +1007,13 @@ end
 Starts an on-demand replication run for the specified application.
 
 # Arguments
+
 - `app_id`: The ID of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the replication run.
 """
 function start_on_demand_app_replication end
@@ -989,14 +1046,18 @@ end
 
 Starts an on-demand replication run for the specified replication job. This replication run
 starts immediately. This replication run is in addition to the ones already scheduled.
-There is a limit on the number of on-demand replications runs that you can request in a
-24-hour period.
+
+There is a limit on the number of on-demand replications runs that you can request in a 24-
+hour period.
 
 # Arguments
+
 - `replication_job_id`: The ID of the replication job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the replication run.
 """
 function start_on_demand_replication_run end
@@ -1037,7 +1098,9 @@ Stops replicating the specified application by deleting the replication job for 
 in the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function stop_app_replication end
@@ -1061,7 +1124,9 @@ end
 Terminates the stack for the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 """
 function terminate_app end
@@ -1085,7 +1150,9 @@ end
 Updates the specified application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"appId"`: The ID of the application.
 - `"description"`: The new description of the application.
 - `"name"`: The new name of the application.
@@ -1113,18 +1180,24 @@ end
 Updates the specified settings for the specified replication job.
 
 # Arguments
+
 - `replication_job_id`: The ID of the replication job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the replication job.
 - `"encrypted"`: When true, the replication job produces encrypted AMIs. For more
-  information, KmsKeyId.
+  information, `KmsKeyId`.
 - `"frequency"`: The time between consecutive replication runs, in hours.
 - `"kmsKeyId"`: The ID of the KMS key for replication jobs that produce encrypted AMIs.
-  This value can be any of the following:   KMS key ID   KMS key alias   ARN referring to the
-  KMS key ID   ARN referring to the KMS key alias   If encrypted is enabled but a KMS key ID
-  is not specified, the customer's default KMS key for Amazon EBS is used.
+  This value can be any of the following: - KMS key ID
+   - KMS key alias
+   - ARN referring to the KMS key ID
+   - ARN referring to the KMS key alias
+  If encrypted is enabled but a KMS key ID is not specified, the customer's default KMS key
+  for Amazon EBS is used.
 - `"licenseType"`: The license type to be used for the AMI created by a successful
   replication run.
 - `"nextReplicationRunStartTime"`: The start time of the next replication run.

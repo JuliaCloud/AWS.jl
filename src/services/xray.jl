@@ -9,13 +9,16 @@ using AWS.UUIDs
     batch_get_traces(trace_ids, params::Dict{String,<:Any})
 
 Retrieves a list of traces specified by ID. Each trace is a collection of segment documents
-that originates from a single request. Use GetTraceSummaries to get a list of trace IDs.
+that originates from a single request. Use `GetTraceSummaries` to get a list of trace IDs.
 
 # Arguments
+
 - `trace_ids`: Specify the trace IDs of requests for which to retrieve segments.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Pagination token.
 """
 function batch_get_traces end
@@ -53,25 +56,33 @@ end
 Creates a group resource with a name and a filter expression.
 
 # Arguments
+
 - `group_name`: The case-sensitive name of the new group. Default is a reserved name and
   names must be unique.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FilterExpression"`: The filter expression defining criteria by which to group traces.
-- `"InsightsConfiguration"`: The structure containing configurations related to insights.
+- `"InsightsConfiguration"`: The structure containing configurations related to insights. -
   The InsightsEnabled boolean can be set to true to enable insights for the new group or
-  false to disable insights for the new group.   The NotificationsEnabled boolean can be set
-  to true to enable insights notifications for the new group. Notifications may only be
-  enabled on a group with InsightsEnabled set to true.
+  false to disable insights for the new group.
+   - The NotificationsEnabled boolean can be set to true to enable insights notifications
+  for the new group. Notifications may only be enabled on a group with InsightsEnabled set
+  to true.
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  group. For more information about ways to use tags, see Tagging Amazon Web Services
-  resources in the Amazon Web Services General Reference. The following restrictions apply to
-  tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128
-  Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for
-  key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @
-  Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
-  reserved for Amazon Web Services use.
+  group. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference*.
+
+  The following restrictions apply to tags: - Maximum number of user-applied tags per
+  resource: 50
+   - Maximum tag key length: 128 Unicode characters
+   - Maximum tag value length: 256 Unicode characters
+   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+  . : / = + - and @
+   - Tag keys and values are case sensitive.
+   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
 """
 function create_group end
 
@@ -106,25 +117,33 @@ end
     create_sampling_rule(sampling_rule, params::Dict{String,<:Any})
 
 Creates a rule to control sampling behavior for instrumented applications. Services
-retrieve rules with GetSamplingRules, and evaluate each rule in ascending order of priority
-for each request. If a rule matches, the service records a trace, borrowing it from the
-reservoir size. After 10 seconds, the service reports back to X-Ray with GetSamplingTargets
+retrieve rules with [GetSamplingRules](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingRules.html),
+and evaluate each rule in ascending order of *priority* for each request. If a rule
+matches, the service records a trace, borrowing it from the reservoir size. After 10
+seconds, the service reports back to X-Ray with [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html)
 to get updated versions of each in-use rule. The updated rule contains a trace quota that
 the service can use instead of borrowing from the reservoir.
 
 # Arguments
+
 - `sampling_rule`: The rule definition.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  sampling rule. For more information about ways to use tags, see Tagging Amazon Web Services
-  resources in the Amazon Web Services General Reference. The following restrictions apply to
-  tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128
-  Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for
-  key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @
-  Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
-  reserved for Amazon Web Services use.
+  sampling rule. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference*.
+
+  The following restrictions apply to tags: - Maximum number of user-applied tags per
+  resource: 50
+   - Maximum tag key length: 128 Unicode characters
+   - Maximum tag value length: 256 Unicode characters
+   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+  . : / = + - and @
+   - Tag keys and values are case sensitive.
+   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use.
 """
 function create_sampling_rule end
 
@@ -163,7 +182,9 @@ end
 Deletes a group resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
@@ -194,14 +215,17 @@ end
 Deletes a resource policy from the target Amazon Web Services account.
 
 # Arguments
+
 - `policy_name`: The name of the resource policy to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"PolicyRevisionId"`: Specifies a specific policy revision to delete. Provide a
-  PolicyRevisionId to ensure an atomic delete operation. If the provided revision id does not
-  match the latest policy revision id, an InvalidPolicyRevisionIdException exception is
-  returned.
+  `PolicyRevisionId` to ensure an atomic delete operation. If the provided revision id does
+  not match the latest policy revision id, an `InvalidPolicyRevisionIdException` exception
+  is returned.
 """
 function delete_resource_policy end
 
@@ -240,7 +264,9 @@ end
 Deletes a sampling rule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RuleARN"`: The ARN of the sampling rule. Specify a rule by either name or ARN, but not
   both.
 - `"RuleName"`: The name of the sampling rule. Specify a rule by either name or ARN, but
@@ -274,7 +300,6 @@ end
     get_encryption_config(params::Dict{String,<:Any})
 
 Retrieves the current encryption configuration for X-Ray data.
-
 """
 function get_encryption_config end
 
@@ -303,7 +328,9 @@ end
 Retrieves group resource details.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupARN"`: The ARN of the group that was generated on creation.
 - `"GroupName"`: The case-sensitive name of the group.
 """
@@ -328,7 +355,9 @@ end
 Retrieves all active group details.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Pagination token.
 """
 function get_groups end
@@ -354,9 +383,9 @@ cause services, the top anomalous services, the category, the state of the insig
 start and end time of the insight.
 
 # Arguments
+
 - `insight_id`: The insight's unique identifier. Use the GetInsightSummaries action to
   retrieve an InsightId.
-
 """
 function get_insight end
 
@@ -395,11 +424,14 @@ intermediate state as an event. You can review an insight's events in the Impact
 on the Inspect page in the X-Ray console.
 
 # Arguments
+
 - `insight_id`: The insight's unique identifier. Use the GetInsightSummaries action to
   retrieve an InsightId.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Used to retrieve at most the specified value of events.
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of events.
@@ -441,6 +473,7 @@ limited to only structural information. For a complete service graph, use this A
 GetServiceGraph API.
 
 # Arguments
+
 - `end_time`: The estimated end time of the insight, in Unix time seconds. The EndTime is
   exclusive of the value provided. The time range between the start time and end time can't
   be more than six hours.
@@ -450,7 +483,9 @@ GetServiceGraph API.
   StartTime is inclusive of the value provided and can't be more than 30 days old.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of results.
 """
@@ -502,13 +537,16 @@ Retrieves the summaries of all insights in the specified group matching the prov
 values.
 
 # Arguments
+
 - `end_time`: The end of the time frame in which the insights ended. The end time can't be
   more than 30 days old.
 - `start_time`: The beginning of the time frame in which the insights started. The start
   time can't be more than 30 days old.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupARN"`: The Amazon Resource Name (ARN) of the group. Required if the GroupName
   isn't provided.
 - `"GroupName"`: The name of the group. Required if the GroupARN isn't provided.
@@ -558,7 +596,9 @@ end
 Retrieves all sampling rules.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Pagination token.
 """
 function get_sampling_rules end
@@ -588,7 +628,9 @@ end
 Retrieves information about recent sampling results for all sampling rules.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Pagination token.
 """
 function get_sampling_statistic_summaries end
@@ -623,9 +665,9 @@ end
 Requests a sampling quota for rules that the service is using to sample requests.
 
 # Arguments
+
 - `sampling_statistics_documents`: Information about rules that the service is using to
   sample requests.
-
 """
 function get_sampling_targets end
 
@@ -669,16 +711,19 @@ end
 
 Retrieves a document that describes services that process incoming requests, and downstream
 services that they call as a result. Root services process incoming requests and make calls
-to downstream services. Root services are applications that use the Amazon Web Services
-X-Ray SDK. Downstream services can be other applications, Amazon Web Services resources,
-HTTP web APIs, or SQL databases.
+to downstream services. Root services are applications that use the [Amazon Web Services X-Ray SDK](https://docs.aws.amazon.com/xray/index.html).
+Downstream services can be other applications, Amazon Web Services resources, HTTP web
+APIs, or SQL databases.
 
 # Arguments
+
 - `end_time`: The end of the timeframe for which to generate a graph.
 - `start_time`: The start of the time frame for which to generate a graph.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupARN"`: The Amazon Resource Name (ARN) of a group based on which you want to
   generate a graph.
 - `"GroupName"`: The name of a group based on which you want to generate a graph.
@@ -726,11 +771,14 @@ end
 Get an aggregation of service statistics defined by a specific time range.
 
 # Arguments
+
 - `end_time`: The end of the time frame for which to aggregate statistics.
 - `start_time`: The start of the time frame for which to aggregate statistics.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EntitySelectorExpression"`: A filter expression defining entities that will be
   aggregated for statistics. Supports ID, service, and edge functions. If no selector
   expression is specified, edge statistics are returned.
@@ -784,10 +832,13 @@ end
 Retrieves a service graph for one or more specific trace IDs.
 
 # Arguments
+
 - `trace_ids`: Trace IDs of requests for which to generate a service graph.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Pagination token.
 """
 function get_trace_graph end
@@ -823,26 +874,36 @@ end
     get_trace_summaries(end_time, start_time, params::Dict{String,<:Any})
 
 Retrieves IDs and annotations for traces available for a specified time frame using an
-optional filter. To get the full traces, pass the trace IDs to BatchGetTraces. A filter
-expression can target traced requests that hit specific service nodes or edges, have
-errors, or come from a known user. For example, the following filter expression targets
-traces that pass through api.example.com:  service(\"api.example.com\")  This filter
-expression finds traces that have an annotation named account with the value 12345:
-annotation.account = \"12345\"  For a full list of indexed fields and keywords that you can
-use in filter expressions, see Using Filter Expressions in the Amazon Web Services X-Ray
-Developer Guide.
+optional filter. To get the full traces, pass the trace IDs to `BatchGetTraces`.
+
+A filter expression can target traced requests that hit specific service nodes or edges,
+have errors, or come from a known user. For example, the following filter expression
+targets traces that pass through `api.example.com`:
+
+ `service("api.example.com")`
+
+This filter expression finds traces that have an annotation named `account` with the value
+`12345`:
+
+ `annotation.account = "12345"`
+
+For a full list of indexed fields and keywords that you can use in filter expressions, see [Using Filter Expressions](https://docs.aws.amazon.com/xray/latest/devguide/xray-console-filters.html)
+in the *Amazon Web Services X-Ray Developer Guide*.
 
 # Arguments
+
 - `end_time`: The end of the time frame for which to retrieve traces.
 - `start_time`: The start of the time frame for which to retrieve traces.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FilterExpression"`: Specify a filter expression to retrieve trace summaries for
   services or requests that meet certain requirements.
 - `"NextToken"`: Specify the pagination token returned by a previous request to retrieve
   the next page of results.
-- `"Sampling"`: Set to true to get summaries for only a subset of available traces.
+- `"Sampling"`: Set to `true` to get summaries for only a subset of available traces.
 - `"SamplingStrategy"`: A parameter to indicate whether to enable sampling on trace
   summaries. Input parameters are Name and Value.
 - `"TimeRangeType"`: A parameter to indicate whether to query trace summaries by TraceId,
@@ -890,7 +951,9 @@ end
 Returns the list of resource policies in the target Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: Not currently supported.
 """
 function list_resource_policies end
@@ -924,13 +987,16 @@ Returns a list of tags that are applied to the specified Amazon Web Services X-R
 sampling rule.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: A pagination token. If multiple pages of results are returned, use the
-  NextToken value returned with the current page of results as the value of this parameter to
-  get the next page of results.
+  `NextToken` value returned with the current page of results as the value of this
+  parameter to get the next page of results.
 """
 function list_tags_for_resource end
 
@@ -969,18 +1035,22 @@ end
 Updates the encryption configuration for X-Ray data.
 
 # Arguments
-- `type`: The type of encryption. Set to KMS to use your own key for encryption. Set to
-  NONE for default encryption.
+
+- `type`: The type of encryption. Set to `KMS` to use your own key for encryption. Set to
+  `NONE` for default encryption.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KeyId"`: An Amazon Web Services KMS key in one of the following formats:    Alias - The
-  name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For
-  example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Amazon Web Services X-Ray does not support
-  asymmetric KMS keys.    ARN - The full Amazon Resource Name of the key ID or alias. For
-  example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use
-  this format to specify a key in a different account.   Omit this key if you set Type to
-  NONE.
+
+- `"KeyId"`: An Amazon Web Services KMS key in one of the following formats: - **Alias** -
+  The name of the key. For example, `alias/MyKey`.
+   - **Key ID** - The KMS key ID of the key. For example, `ae4aa6d49-a4d8-9df9-a475-
+  4ff6d7898456`. Amazon Web Services X-Ray does not support asymmetric KMS keys.
+   - **ARN** - The full Amazon Resource Name of the key ID or alias. For example,
+  `arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456`. Use this
+  format to specify a key in a different account.
+Omit this key if you set `Type` to `NONE`.
 """
 function put_encryption_config end
 
@@ -1017,25 +1087,34 @@ policies, and each policy name must be unique within that account. The maximum s
 resource policy is 5KB.
 
 # Arguments
+
 - `policy_document`: The resource policy document, which can be up to 5kb in size.
 - `policy_name`: The name of the resource policy. Must be unique within a specific Amazon
   Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BypassPolicyLockoutCheck"`: A flag to indicate whether to bypass the resource policy
-  lockout safety check.  Setting this value to true increases the risk that the policy
-  becomes unmanageable. Do not set this value to true indiscriminately.  Use this parameter
-  only when you include a policy in the request and you intend to prevent the principal that
-  is making the request from making a subsequent PutResourcePolicy request. The default value
-  is false.
+  lockout safety check.</p>
+
+  !!! important
+      Setting this value to true increases the risk that the policy becomes unmanageable.
+  Do not set this value to true indiscriminately.Use this parameter only when you include a
+  policy in the request and you intend to prevent the principal that is making the request
+  from making a subsequent `PutResourcePolicy` request.
+
+ <p>The default value is false.
 - `"PolicyRevisionId"`: Specifies a specific policy revision, to ensure an atomic create
-  operation. By default the resource policy is created if it does not exist, or updated with
-  an incremented revision id. The revision id is unique to each policy in the account. If the
-  policy revision id does not match the latest revision id, the operation will fail with an
-  InvalidPolicyRevisionIdException exception. You can also provide a PolicyRevisionId of 0.
-  In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if
-  a resource policy with the same name already exists.
+  operation. By default the resource policy is created if it does not exist, or updated
+  with an incremented revision id. The revision id is unique to each policy in the account.
+
+  If the policy revision id does not match the latest revision id, the operation will fail
+  with an `InvalidPolicyRevisionIdException` exception. You can also provide a
+  `PolicyRevisionId` of 0. In this case, the operation will fail with an
+  `InvalidPolicyRevisionIdException` exception if a resource policy with the same name
+  already exists.
 """
 function put_resource_policy end
 
@@ -1081,13 +1160,16 @@ end
 Used by the Amazon Web Services X-Ray daemon to upload telemetry.
 
 # Arguments
-- `telemetry_records`:
+
+- `telemetry_records`: <p/>
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EC2InstanceId"`:
-- `"Hostname"`:
-- `"ResourceARN"`:
+
+- `"EC2InstanceId"`: <p/>
+- `"Hostname"`: <p/>
+- `"ResourceARN"`: <p/>
 """
 function put_telemetry_records end
 
@@ -1125,33 +1207,45 @@ end
     put_trace_segments(trace_segment_documents)
     put_trace_segments(trace_segment_documents, params::Dict{String,<:Any})
 
-Uploads segment documents to Amazon Web Services X-Ray. The X-Ray SDK generates segment
-documents and sends them to the X-Ray daemon, which uploads them in batches. A segment
-document can be a completed segment, an in-progress segment, or an array of subsegments.
-Segments must include the following fields. For the full segment document schema, see
-Amazon Web Services X-Ray Segment Documents in the Amazon Web Services X-Ray Developer
-Guide.  Required segment document fields     name - The name of the service that handled
-the request.    id - A 64-bit identifier for the segment, unique among segments in the same
-trace, in 16 hexadecimal digits.    trace_id - A unique identifier that connects all
-segments and subsegments originating from a single client request.    start_time - Time the
-segment or subsegment was created, in floating point seconds in epoch time, accurate to
-milliseconds. For example, 1480615200.010 or 1.480615200010E9.    end_time - Time the
-segment or subsegment was closed. For example, 1480615200.090 or 1.480615200090E9. Specify
-either an end_time or in_progress.    in_progress - Set to true instead of specifying an
-end_time to record that a segment has been started, but is not complete. Send an
-in-progress segment when your application receives a request that will take a long time to
-serve, to trace that the request was received. When the response is sent, send the complete
-segment to overwrite the in-progress segment.   A trace_id consists of three numbers
-separated by hyphens. For example, 1-58406520-a006649127e371903a2de979. This includes:
-Trace ID Format    The version number, for instance, 1.   The time of the original request,
-in Unix epoch time, in 8 hexadecimal digits. For example, 10:00AM December 2nd, 2016 PST in
-epoch time is 1480615200 seconds, or 58406520 in hexadecimal.   A 96-bit identifier for the
-trace, globally unique, in 24 hexadecimal digits.
+Uploads segment documents to Amazon Web Services X-Ray. The [X-Ray SDK](https://docs.aws.amazon.com/xray/index.html)
+generates segment documents and sends them to the X-Ray daemon, which uploads them in
+batches. A segment document can be a completed segment, an in-progress segment, or an array
+of subsegments.
+
+Segments must include the following fields. For the full segment document schema, see [Amazon Web Services X-Ray Segment Documents](https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
+in the *Amazon Web Services X-Ray Developer Guide*.
+
+## Required segment document fields
+
+- `name` - The name of the service that handled the request.
+ - `id` - A 64-bit identifier for the segment, unique among segments in the same trace, in
+16 hexadecimal digits.
+ - `trace_id` - A unique identifier that connects all segments and subsegments originating
+from a single client request.
+ - `start_time` - Time the segment or subsegment was created, in floating point seconds in
+epoch time, accurate to milliseconds. For example, `1480615200.010` or `1.480615200010E9`.
+ - `end_time` - Time the segment or subsegment was closed. For example, `1480615200.090` or
+`1.480615200090E9`. Specify either an `end_time` or `in_progress`.
+ - `in_progress` - Set to `true` instead of specifying an `end_time` to record that a
+segment has been started, but is not complete. Send an in-progress segment when your
+application receives a request that will take a long time to serve, to trace that the
+request was received. When the response is sent, send the complete segment to overwrite the
+in-progress segment.
+A `trace_id` consists of three numbers separated by hyphens. For example, 1-58406520-
+a006649127e371903a2de979. This includes:
+
+## Trace ID Format
+
+- The version number, for instance, `1`.
+ - The time of the original request, in Unix epoch time, in 8 hexadecimal digits. For
+example, 10:00AM December 2nd, 2016 PST in epoch time is `1480615200` seconds, or
+`58406520` in hexadecimal.
+ - A 96-bit identifier for the trace, globally unique, in 24 hexadecimal digits.
 
 # Arguments
+
 - `trace_segment_documents`: A string containing a JSON document defining one or more
   segments or subsegments.
-
 """
 function put_trace_segments end
 
@@ -1194,16 +1288,21 @@ end
 Applies tags to an existing Amazon Web Services X-Ray group or sampling rule.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
 - `tags`: A map that contains one or more tag keys and tag values to attach to an X-Ray
-  group or sampling rule. For more information about ways to use tags, see Tagging Amazon Web
-  Services resources in the Amazon Web Services General Reference. The following restrictions
-  apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key
-  length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid
-  values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + -
-  and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's
-  reserved for Amazon Web Services use. You cannot edit or delete system tags.
+  group or sampling rule. For more information about ways to use tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference*.
 
+  The following restrictions apply to tags: - Maximum number of user-applied tags per
+  resource: 50
+   - Maximum tag key length: 128 Unicode characters
+   - Maximum tag value length: 256 Unicode characters
+   - Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _
+  . : / = + - and @
+   - Tag keys and values are case sensitive.
+   - Don't use `aws:` as a prefix for keys; it's reserved for Amazon Web Services use. You
+  cannot edit or delete system tags.
 """
 function tag_resource end
 
@@ -1243,13 +1342,13 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes tags from an Amazon Web Services X-Ray group or sampling rule. You cannot edit or
-delete system tags (those with an aws: prefix).
+delete system tags (those with an `aws:` prefix).
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Number (ARN) of an X-Ray group or sampling rule.
 - `tag_keys`: Keys for one or more tags that you want to remove from an X-Ray group or
   sampling rule.
-
 """
 function untag_resource end
 
@@ -1293,16 +1392,19 @@ end
 Updates a group resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"FilterExpression"`: The updated filter expression defining criteria by which to group
   traces.
 - `"GroupARN"`: The ARN that was generated upon creation.
 - `"GroupName"`: The case-sensitive name of the group.
-- `"InsightsConfiguration"`: The structure containing configurations related to insights.
-  The InsightsEnabled boolean can be set to true to enable insights for the group or false to
-  disable insights for the group.   The NotificationsEnabled boolean can be set to true to
-  enable insights notifications for the group. Notifications can only be enabled on a group
-  with InsightsEnabled set to true.
+- `"InsightsConfiguration"`: The structure containing configurations related to insights. -
+  The InsightsEnabled boolean can be set to true to enable insights for the group or false
+  to disable insights for the group.
+   - The NotificationsEnabled boolean can be set to true to enable insights notifications
+  for the group. Notifications can only be enabled on a group with InsightsEnabled set to
+  true.
 """
 function update_group end
 
@@ -1331,8 +1433,8 @@ end
 Modifies a sampling rule's configuration.
 
 # Arguments
-- `sampling_rule_update`: The rule and fields to change.
 
+- `sampling_rule_update`: The rule and fields to change.
 """
 function update_sampling_rule end
 

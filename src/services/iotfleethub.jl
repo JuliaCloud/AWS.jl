@@ -8,20 +8,27 @@ using AWS.UUIDs
     create_application(application_name, role_arn)
     create_application(application_name, role_arn, params::Dict{String,<:Any})
 
-Creates a Fleet Hub for IoT Device Management web application. When creating a Fleet Hub
-application, you must create an organization instance of IAM Identity Center if you don't
-already have one. The Fleet Hub application you create must also be in the same Amazon Web
-Services Region of the organization instance of IAM Identity Center. For more information
-see Enabling IAM Identity Center and Organization instances of IAM Identity Center.
+Creates a Fleet Hub for IoT Device Management web application.
+
+When creating a Fleet Hub application, you must create an organization instance of IAM
+Identity Center if you don't already have one. The Fleet Hub application you create must
+also be in the same Amazon Web Services Region of the organization instance of IAM Identity
+Center. For more information see [Enabling IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-set-up-for-idc.html)
+and [Organization instances of IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/organization-instances-identity-center.html).
 
 # Arguments
+
 - `application_name`: The name of the web application.
 - `role_arn`: The ARN of the role that the web application assumes when it interacts with
-  Amazon Web Services IoT Core.  The name of the role must be in the form
-  AWSIotFleetHub_random_string .
+  Amazon Web Services IoT Core.
+
+!!! note
+    The name of the role must be in the form `AWSIotFleetHub_*random_string* `.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationDescription"`: An optional description of the web application.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
@@ -79,10 +86,13 @@ end
 Deletes a Fleet Hub for IoT Device Management web application.
 
 # Arguments
+
 - `application_id`: The unique Id of the web application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -124,8 +134,8 @@ end
 Gets information about a Fleet Hub for IoT Device Management web application.
 
 # Arguments
-- `application_id`: The unique Id of the web application.
 
+- `application_id`: The unique Id of the web application.
 """
 function describe_application end
 
@@ -161,7 +171,9 @@ end
 Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: A token used to get the next set of results.
 """
 function list_applications end
@@ -191,8 +203,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource.
 
+- `resource_arn`: The ARN of the resource.
 """
 function list_tags_for_resource end
 
@@ -229,9 +241,9 @@ Adds to or modifies the tags of the specified resource. Tags are metadata which 
 to manage a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tags`: The new or modified tags for the resource.
-
 """
 function tag_resource end
 
@@ -267,9 +279,9 @@ end
 Removes the specified tags (metadata) from the resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: A list of the keys of the tags to be removed from the resource.
-
 """
 function untag_resource end
 
@@ -307,10 +319,13 @@ end
 Updates information about a Fleet Hub for IoT Device Management web application.
 
 # Arguments
+
 - `application_id`: The unique Id of the web application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"applicationDescription"`: An optional description of the web application.
 - `"applicationName"`: The name of the web application.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the

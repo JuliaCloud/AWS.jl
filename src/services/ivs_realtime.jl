@@ -11,12 +11,14 @@ using AWS.UUIDs
 Creates an EncoderConfiguration object.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: Optional name to identify the resource.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 - `"video"`: Video configuration. Default: video resolution 1280x720, bitrate 2500 kbps, 30
   fps.
 """
@@ -49,24 +51,28 @@ end
 
 Creates an additional token for a specified stage. This can be done after stage creation or
 when tokens expire. Tokens always are scoped to the stage for which they are created.
+
 Encryption keys are owned by Amazon IVS and never used directly by your application.
 
 # Arguments
+
 - `stage_arn`: ARN of the stage to which this token is scoped.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"attributes"`: Application-provided attributes to encode into the token and attach to a
-  stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field
-  is 1 KB total. This field is exposed to all stage participants and should not be used for
-  personally identifying, confidential, or sensitive information.
+  stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this
+  field is 1 KB total. *This field is exposed to all stage participants and should not be
+  used for personally identifying, confidential, or sensitive information.*
 - `"capabilities"`: Set of capabilities that the user is allowed to perform in the stage.
-  Default: PUBLISH, SUBSCRIBE.
+  Default: `PUBLISH, SUBSCRIBE`.
 - `"duration"`: Duration (in minutes), after which the token expires. Default: 720 (12
   hours).
 - `"userId"`: Name that can be specified to help identify the token. This can be any UTF-8
-  encoded text. This field is exposed to all stage participants and should not be used for
-  personally identifying, confidential, or sensitive information.
+  encoded text. *This field is exposed to all stage participants and should not be used for
+  personally identifying, confidential, or sensitive information.*
 """
 function create_participant_token end
 
@@ -105,16 +111,18 @@ end
 Creates a new stage (and optionally participant tokens).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"autoParticipantRecordingConfiguration"`: Configuration object for individual
   participant recording, to attach to the new stage.
 - `"name"`: Optional name that can be specified for the stage being created.
 - `"participantTokenConfigurations"`: Array of participant token configuration objects to
   attach to the new stage.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
 function create_stage end
 
@@ -146,16 +154,19 @@ bucket. This will ensure that IVS has sufficient permissions to write content to
 provided bucket.
 
 # Arguments
+
 - `s3`: A complex type that contains a storage configuration for where recorded video will
   be stored.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: Storage configuration name. The value does not need to be unique.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
 function create_storage_configuration end
 
@@ -191,8 +202,8 @@ Deletes an EncoderConfiguration resource. Ensures that no Compositions are using
 template; otherwise, returns an error.
 
 # Arguments
-- `arn`: ARN of the EncoderConfiguration.
 
+- `arn`: ARN of the EncoderConfiguration.
 """
 function delete_encoder_configuration end
 
@@ -228,8 +239,8 @@ Deletes the specified public key used to sign stage participant tokens. This inv
 future participant tokens generated using the key pair’s private key.
 
 # Arguments
-- `arn`: ARN of the public key to be deleted.
 
+- `arn`: ARN of the public key to be deleted.
 """
 function delete_public_key end
 
@@ -262,8 +273,8 @@ end
 Shuts down and deletes the specified stage (disconnecting all participants).
 
 # Arguments
-- `arn`: ARN of the stage to be deleted.
 
+- `arn`: ARN of the stage to be deleted.
 """
 function delete_stage end
 
@@ -293,14 +304,16 @@ end
     delete_storage_configuration(arn)
     delete_storage_configuration(arn, params::Dict{String,<:Any})
 
-Deletes the storage configuration for the specified ARN. If you try to delete a storage
-configuration that is used by a Composition, you will get an error (409 ConflictException).
-To avoid this, for all Compositions that reference the storage configuration, first use
-StopComposition and wait for it to complete, then use DeleteStorageConfiguration.
+Deletes the storage configuration for the specified ARN.
+
+If you try to delete a storage configuration that is used by a Composition, you will get an
+error (409 ConflictException). To avoid this, for all Compositions that reference the
+storage configuration, first use <a>StopComposition</a> and wait for it to complete, then
+use DeleteStorageConfiguration.
 
 # Arguments
-- `arn`: ARN of the storage configuration to be deleted.
 
+- `arn`: ARN of the storage configuration to be deleted.
 """
 function delete_storage_configuration end
 
@@ -336,12 +349,15 @@ Disconnects a specified participant and revokes the participant permanently from
 specified stage.
 
 # Arguments
+
 - `participant_id`: Identifier of the participant to be disconnected. This is assigned by
-  IVS and returned by CreateParticipantToken.
+  IVS and returned by <a>CreateParticipantToken</a>.
 - `stage_arn`: ARN of the stage to which the participant is attached.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"reason"`: Description of why this participant is being disconnected.
 """
 function disconnect_participant end
@@ -386,8 +402,8 @@ end
 Get information about the specified Composition resource.
 
 # Arguments
-- `arn`: ARN of the Composition resource.
 
+- `arn`: ARN of the Composition resource.
 """
 function get_composition end
 
@@ -420,8 +436,8 @@ end
 Gets information about the specified EncoderConfiguration resource.
 
 # Arguments
-- `arn`: ARN of the EncoderConfiguration resource.
 
+- `arn`: ARN of the EncoderConfiguration resource.
 """
 function get_encoder_configuration end
 
@@ -454,11 +470,11 @@ end
 Gets information about the specified participant token.
 
 # Arguments
+
 - `participant_id`: Unique identifier for the participant. This is assigned by IVS and
-  returned by CreateParticipantToken.
+  returned by <a>CreateParticipantToken</a>.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
-
 """
 function get_participant end
 
@@ -511,8 +527,8 @@ end
 Gets information for the specified public key.
 
 # Arguments
-- `arn`: ARN of the public key for which the information is to be retrieved.
 
+- `arn`: ARN of the public key for which the information is to be retrieved.
 """
 function get_public_key end
 
@@ -545,8 +561,8 @@ end
 Gets information for the specified stage.
 
 # Arguments
-- `arn`: ARN of the stage for which the information is to be retrieved.
 
+- `arn`: ARN of the stage for which the information is to be retrieved.
 """
 function get_stage end
 
@@ -579,9 +595,9 @@ end
 Gets information for the specified stage session.
 
 # Arguments
+
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: ARN of the stage for which the information is to be retrieved.
-
 """
 function get_stage_session end
 
@@ -625,8 +641,8 @@ end
 Gets the storage configuration for the specified ARN.
 
 # Arguments
-- `arn`: ARN of the storage configuration to be retrieved.
 
+- `arn`: ARN of the storage configuration to be retrieved.
 """
 function get_storage_configuration end
 
@@ -659,15 +675,18 @@ end
 Import a public key to be used for signing stage participant tokens.
 
 # Arguments
+
 - `public_key_material`: The content of the public key to be imported.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"name"`: Name of the public key to be imported.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
 function import_public_key end
 
@@ -709,13 +728,15 @@ Gets summary information about all Compositions in your account, in the AWS regi
 the API request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterByEncoderConfigurationArn"`: Filters the Composition list to match the specified
   EncoderConfiguration attached to at least one of its output.
 - `"filterByStageArn"`: Filters the Composition list to match the specified Stage ARN.
 - `"maxResults"`: Maximum number of results to return. Default: 100.
 - `"nextToken"`: The first Composition to retrieve. This is used for pagination; see the
-  nextToken response field.
+  `nextToken` response field.
 """
 function list_compositions end
 
@@ -745,10 +766,12 @@ Gets summary information about all EncoderConfigurations in your account, in the
 where the API request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return. Default: 100.
 - `"nextToken"`: The first encoder configuration to retrieve. This is used for pagination;
-  see the nextToken response field.
+  see the `nextToken` response field.
 """
 function list_encoder_configurations end
 
@@ -780,16 +803,19 @@ end
 Lists events for a specified participant that occurred during a specified stage session.
 
 # Arguments
+
 - `participant_id`: Unique identifier for this participant. This is assigned by IVS and
-  returned by CreateParticipantToken.
+  returned by <a>CreateParticipantToken</a>.
 - `session_id`: ID of a session within the stage.
 - `stage_arn`: Stage ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first participant event to retrieve. This is used for pagination; see
-  the nextToken response field.
+  the `nextToken` response field.
 """
 function list_participant_events end
 
@@ -842,27 +868,30 @@ end
 Lists all participants in a specified stage session.
 
 # Arguments
+
 - `session_id`: ID of the session within the stage.
 - `stage_arn`: Stage ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filterByPublished"`: Filters the response list to only show participants who published
-  during the stage session. Only one of filterByUserId, filterByPublished, filterByState, or
-  filterByRecordingState can be provided per request.
+  during the stage session. Only one of `filterByUserId`, `filterByPublished`,
+  `filterByState`, or `filterByRecordingState` can be provided per request.
 - `"filterByRecordingState"`: Filters the response list to only show participants with the
-  specified recording state. Only one of filterByUserId, filterByPublished, filterByState, or
-  filterByRecordingState can be provided per request.
+  specified recording state. Only one of `filterByUserId`, `filterByPublished`,
+  `filterByState`, or `filterByRecordingState` can be provided per request.
 - `"filterByState"`: Filters the response list to only show participants in the specified
-  state. Only one of filterByUserId, filterByPublished, filterByState, or
-  filterByRecordingState can be provided per request.
+  state. Only one of `filterByUserId`, `filterByPublished`, `filterByState`, or
+  `filterByRecordingState` can be provided per request.
 - `"filterByUserId"`: Filters the response list to match the specified user ID. Only one of
-  filterByUserId, filterByPublished, filterByState, or filterByRecordingState can be provided
-  per request. A userId is a customer-assigned name to help identify the token; this can be
-  used to link a participant to a user in the customer’s own systems.
+  `filterByUserId`, `filterByPublished`, `filterByState`, or `filterByRecordingState` can
+  be provided per request. A `userId` is a customer-assigned name to help identify the
+  token; this can be used to link a participant to a user in the customer’s own systems.
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first participant to retrieve. This is used for pagination; see the
-  nextToken response field.
+  `nextToken` response field.
 """
 function list_participants end
 
@@ -907,10 +936,12 @@ Gets summary information about all public keys in your account, in the AWS regio
 API request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first public key to retrieve. This is used for pagination; see the
-  nextToken response field.
+  `nextToken` response field.
 """
 function list_public_keys end
 
@@ -939,13 +970,16 @@ end
 Gets all sessions for a specified stage.
 
 # Arguments
+
 - `stage_arn`: Stage ARN.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first stage session to retrieve. This is used for pagination; see the
-  nextToken response field.
+  `nextToken` response field.
 """
 function list_stage_sessions end
 
@@ -983,10 +1017,12 @@ Gets summary information about all stages in your account, in the AWS region whe
 request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of results to return. Default: 50.
 - `"nextToken"`: The first stage to retrieve. This is used for pagination; see the
-  nextToken response field.
+  `nextToken` response field.
 """
 function list_stages end
 
@@ -1016,11 +1052,13 @@ Gets summary information about all storage configurations in your account, in th
 region where the API request is processed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Maximum number of storage configurations to return. Default: your service
   quota or 100, whichever is smaller.
 - `"nextToken"`: The first storage configuration to retrieve. This is used for pagination;
-  see the nextToken response field.
+  see the `nextToken` response field.
 """
 function list_storage_configurations end
 
@@ -1052,8 +1090,8 @@ end
 Gets information about AWS tags for the specified ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 
+- `resource_arn`: The ARN of the resource to be retrieved. The ARN must be URL-encoded.
 """
 function list_tags_for_resource end
 
@@ -1086,26 +1124,32 @@ end
     start_composition(destinations, stage_arn)
     start_composition(destinations, stage_arn, params::Dict{String,<:Any})
 
-Starts a Composition from a stage based on the configuration provided in the request. A
-Composition is an ephemeral resource that exists after this endpoint returns successfully.
-Composition stops and the resource is deleted:   When StopComposition is called.   After a
-1-minute timeout, when all participants are disconnected from the stage.   After a 1-minute
-timeout, if there are no participants in the stage when StartComposition is called.   When
-broadcasting to the IVS channel fails and all retries are exhausted.   When broadcasting is
-disconnected and all attempts to reconnect are exhausted.
+Starts a Composition from a stage based on the configuration provided in the request.
+
+A Composition is an ephemeral resource that exists after this endpoint returns
+successfully. Composition stops and the resource is deleted: - When <a>StopComposition</a>
+is called.
+ - After a 1-minute timeout, when all participants are disconnected from the stage.
+ - After a 1-minute timeout, if there are no participants in the stage when
+StartComposition is called.
+ - When broadcasting to the IVS channel fails and all retries are exhausted.
+ - When broadcasting is disconnected and all attempts to reconnect are exhausted.
 
 # Arguments
+
 - `destinations`: Array of destination configuration.
 - `stage_arn`: ARN of the stage to be used for compositing.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"idempotencyToken"`: Idempotency token.
 - `"layout"`: Layout object to configure composition parameters.
-- `"tags"`: Tags attached to the resource. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints on tags
-  beyond what is documented there.
+- `"tags"`: Tags attached to the resource. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
 """
 function start_composition end
 
@@ -1158,8 +1202,8 @@ Stops and deletes a Composition resource. Any broadcast from the Composition res
 stopped.
 
 # Arguments
-- `arn`: ARN of the Composition.
 
+- `arn`: ARN of the Composition.
 """
 function stop_composition end
 
@@ -1192,12 +1236,12 @@ end
 Adds or updates tags for the AWS resource with the specified ARN.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to be tagged. The ARN must be URL-encoded.
 - `tags`: Array of tags to be added or updated. Array of maps, each of the form
-  string:string (key:value). See Tagging AWS Resources for details, including restrictions
-  that apply to tags and \"Tag naming limits and requirements\"; Amazon IVS has no
-  constraints beyond what is documented there.
-
+  `string:string (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints beyond what is documented there.
 """
 function tag_resource end
 
@@ -1233,12 +1277,12 @@ end
 Removes tags from the resource with the specified ARN.
 
 # Arguments
-- `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. Array of maps, each of the form string:string
-  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
-  tags and \"Tag naming limits and requirements\"; Amazon IVS has no constraints beyond what
-  is documented there.
 
+- `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form `string:string
+  (key:value)`. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  for details, including restrictions that apply to tags and "Tag naming limits and
+  requirements"; Amazon IVS has no constraints beyond what is documented there.
 """
 function untag_resource end
 
@@ -1276,10 +1320,13 @@ end
 Updates a stage’s configuration.
 
 # Arguments
+
 - `arn`: ARN of the stage to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"autoParticipantRecordingConfiguration"`: Configuration object for individual
   participant recording, to attach to the stage. Note that this cannot be updated while
   recording is active.

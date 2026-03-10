@@ -11,8 +11,8 @@ using AWS.UUIDs
 Accepts the specified grant.
 
 # Arguments
-- `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
+- `grant_arn`: Amazon Resource Name (ARN) of the grant.
 """
 function accept_grant end
 
@@ -47,10 +47,13 @@ end
 Checks in the specified license. Check in a license when it is no longer in use.
 
 # Arguments
+
 - `license_consumption_token`: License consumption token.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Beneficiary"`: License beneficiary.
 """
 function check_in_license end
@@ -92,17 +95,19 @@ end
 Checks out the specified license for offline use.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `digital_signature_method`: Digital signature method. The possible value is JSON Web
-  Signature (JWS) algorithm PS384. For more information, see RFC 7518 Digital Signature with
-  RSASSA-PSS.
+  Signature (JWS) algorithm PS384. For more information, see [RFC 7518 Digital Signature with RSASSA-PSS](https://tools.ietf.org/html/rfc7518#section-3.5).
 - `entitlements`: License entitlements. Partial checkouts are not supported.
 - `license_arn`: Amazon Resource Name (ARN) of the license. The license must use the borrow
   consumption configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CheckoutMetadata"`: Information about constraints.
 - `"NodeId"`: Node ID.
 """
@@ -159,10 +164,14 @@ end
     checkout_license(checkout_type, client_token, entitlements, key_fingerprint, product_sku)
     checkout_license(checkout_type, client_token, entitlements, key_fingerprint, product_sku, params::Dict{String,<:Any})
 
-Checks out the specified license.  If the account that created the license is the same that
-is performing the check out, you must specify the account as the beneficiary.
+Checks out the specified license.
+
+!!! note
+    If the account that created the license is the same that is performing the check out,
+you must specify the account as the beneficiary.
 
 # Arguments
+
 - `checkout_type`: Checkout type.
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
@@ -171,7 +180,9 @@ is performing the check out, you must specify the account as the beneficiary.
 - `product_sku`: Product SKU.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Beneficiary"`: License beneficiary.
 - `"NodeId"`: Node ID.
 """
@@ -234,10 +245,11 @@ end
 
 Creates a grant for the specified license. A grant shares the use of license entitlements
 with a specific Amazon Web Services account, an organization, or an organizational unit
-(OU). For more information, see Granted licenses in License Manager in the License Manager
-User Guide.
+(OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html)
+in the *License Manager User Guide*.
 
 # Arguments
+
 - `allowed_operations`: Allowed operations for the grant.
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
@@ -245,10 +257,10 @@ User Guide.
 - `home_region`: Home Region of the grant.
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 - `principals`: The grant principals. You can specify one of the following as an Amazon
-  Resource Name (ARN):   An Amazon Web Services account, which includes only the account
-  specified.     An organizational unit (OU), which includes all accounts in the OU.     An
-  organization, which will include all accounts across your organization.
-
+  Resource Name (ARN): - An Amazon Web Services account, which includes only the account
+  specified.
+   - An organizational unit (OU), which includes all accounts in the OU.
+   - An organization, which will include all accounts across your organization.
 """
 function create_grant end
 
@@ -311,16 +323,19 @@ end
     create_grant_version(client_token, grant_arn)
     create_grant_version(client_token, grant_arn, params::Dict{String,<:Any})
 
-Creates a new version of the specified grant. For more information, see Granted licenses in
-License Manager in the License Manager User Guide.
+Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html)
+in the *License Manager User Guide*.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AllowedOperations"`: Allowed operations for the grant.
 - `"GrantName"`: Grant name.
 - `"Options"`: The options specified for the grant.
@@ -368,6 +383,7 @@ end
 Creates a license.
 
 # Arguments
+
 - `beneficiary`: License beneficiary.
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
@@ -383,7 +399,9 @@ Creates a license.
 - `validity`: Date and time range during which the license is valid, in ISO8601-UTC format.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LicenseMetadata"`: Information about the license.
 """
 function create_license end
@@ -463,19 +481,23 @@ end
     create_license_configuration(license_counting_type, name)
     create_license_configuration(license_counting_type, name, params::Dict{String,<:Any})
 
-Creates a license configuration. A license configuration is an abstraction of a customer
-license agreement that can be consumed and enforced by License Manager. Components include
-specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed
-tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license
-affinity to host (how long a license must be associated with a host), and the number of
-licenses purchased and used.
+Creates a license configuration.
+
+A license configuration is an abstraction of a customer license agreement that can be
+consumed and enforced by License Manager. Components include specifications for the license
+type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,
+Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a
+license must be associated with a host), and the number of licenses purchased and used.
 
 # Arguments
+
 - `license_counting_type`: Dimension used to track the license inventory.
 - `name`: Name of the license configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Description of the license configuration.
 - `"DisassociateWhenNotFound"`: When true, disassociates a resource when software is
   uninstalled.
@@ -483,15 +505,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LicenseCountHardLimit"`: Indicates whether hard or soft license enforcement is used.
   Exceeding a hard limit blocks the launch of new instances.
 - `"LicenseRules"`: License rules. The syntax is #name=value (for example,
-  #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows.
-  Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores
-  Instances dimension: allowedTenancy | maximumCores | minimumCores | maximumSockets |
-  minimumSockets | maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |
-  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy
-  | honorVcpuOptimization | maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost
-  is days and the range is 1 to 180. The possible values for allowedTenancy are EC2-Default,
-  EC2-DedicatedHost, and EC2-DedicatedInstance. The possible values for honorVcpuOptimization
-  are True and False.
+  #allowedTenancy=EC2-DedicatedHost). The available rules vary by dimension, as follows. -
+  `Cores` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumCores` |
+  `minimumCores`
+   - `Instances` dimension: `allowedTenancy` | `maximumCores` | `minimumCores` |
+  `maximumSockets` | `minimumSockets` | `maximumVcpus` | `minimumVcpus`
+   - `Sockets` dimension: `allowedTenancy` | `licenseAffinityToHost` | `maximumSockets` |
+  `minimumSockets`
+   - `vCPUs` dimension: `allowedTenancy` | `honorVcpuOptimization` | `maximumVcpus` |
+  `minimumVcpus`
+  The unit for `licenseAffinityToHost` is days and the range is 1 to 180. The possible
+  values for `allowedTenancy` are `EC2-Default`, `EC2-DedicatedHost`, and `EC2-
+  DedicatedInstance`. The possible values for `honorVcpuOptimization` are `True` and
+  `False`.
 - `"ProductInformationList"`: Product information.
 - `"Tags"`: Tags to add to the license configuration.
 """
@@ -537,15 +563,15 @@ end
 Creates a new license conversion task.
 
 # Arguments
+
 - `destination_license_context`: Information that identifies the license type you are
-  converting to. For the structure of the destination license, see Convert a license type
-  using the CLI  in the License Manager User Guide.
+  converting to. For the structure of the destination license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
+  in the *License Manager User Guide*.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource you are converting the license
   type for.
 - `source_license_context`: Information that identifies the license type you are converting
-  from. For the structure of the source license, see Convert a license type using the CLI  in
-  the License Manager User Guide.
-
+  from. For the structure of the source license, see [Convert a license type using the CLI ](https://docs.aws.amazon.com/license-manager/latest/userguide/conversion-procedures.html#conversion-cli)
+  in the *License Manager User Guide*.
 """
 function create_license_conversion_task_for_resource end
 
@@ -599,19 +625,23 @@ end
 Creates a report generator.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `report_context`: Defines the type of license configuration the report generator tracks.
 - `report_frequency`: Frequency by which reports are generated. Reports can be generated
   daily, monthly, or weekly.
 - `report_generator_name`: Name of the report generator.
-- `type`: Type of reports to generate. The following report types an be generated:
+- `type`: Type of reports to generate. The following report types an be generated: -
   License configuration report - Reports the number and details of consumed licenses for a
-  license configuration.   Resource report - Reports the tracked licenses and resource
-  consumption for a license configuration.
+  license configuration.
+   - Resource report - Reports the tracked licenses and resource consumption for a license
+  configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Description of the report generator.
 - `"Tags"`: Tags to add to the report generator.
 """
@@ -675,6 +705,7 @@ end
 Creates a new version of the specified license.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `consumption_configuration`: Configuration for consumption of the license. Choose a
@@ -690,7 +721,9 @@ Creates a new version of the specified license.
 - `validity`: Date and time range during which the license is valid, in ISO8601-UTC format.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LicenseMetadata"`: Information about the license.
 - `"SourceVersion"`: Current version of the license.
 """
@@ -771,17 +804,22 @@ end
     create_token(client_token, license_arn)
     create_token(client_token, license_arn, params::Dict{String,<:Any})
 
-Creates a long-lived token. A refresh token is a JWT token used to get an access token.
-With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that
-you can use to call License Manager to manage the specified license.
+Creates a long-lived token.
+
+A refresh token is a JWT token used to get an access token. With an access token, you can
+call AssumeRoleWithWebIdentity to get role credentials that you can use to call License
+Manager to manage the specified license.
 
 # Arguments
+
 - `client_token`: Idempotency token, valid for 10 minutes.
 - `license_arn`: Amazon Resource Name (ARN) of the license. The ARN is mapped to the aud
   claim of the JWT token.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ExpirationInDays"`: Token expiration, in days, counted from token creation. The default
   is 365 days.
 - `"RoleArns"`: Amazon Resource Name (ARN) of the IAM roles to embed in the token. License
@@ -829,11 +867,14 @@ end
 Deletes the specified grant.
 
 # Arguments
+
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 - `version`: Current version of the grant.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StatusReason"`: The Status reason for the delete request.
 """
 function delete_grant end
@@ -874,9 +915,9 @@ end
 Deletes the specified license.
 
 # Arguments
+
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 - `source_version`: Current version of the license.
-
 """
 function delete_license end
 
@@ -917,12 +958,13 @@ end
     delete_license_configuration(license_configuration_arn)
     delete_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
-Deletes the specified license configuration. You cannot delete a license configuration that
-is in use.
+Deletes the specified license configuration.
+
+You cannot delete a license configuration that is in use.
 
 # Arguments
-- `license_configuration_arn`: ID of the license configuration.
 
+- `license_configuration_arn`: ID of the license configuration.
 """
 function delete_license_configuration end
 
@@ -960,14 +1002,15 @@ end
     delete_license_manager_report_generator(license_manager_report_generator_arn)
     delete_license_manager_report_generator(license_manager_report_generator_arn, params::Dict{String,<:Any})
 
-Deletes the specified report generator. This action deletes the report generator, which
-stops it from generating future reports. The action cannot be reversed. It has no effect on
-the previous reports from this generator.
+Deletes the specified report generator.
+
+This action deletes the report generator, which stops it from generating future reports.
+The action cannot be reversed. It has no effect on the previous reports from this generator.
 
 # Arguments
+
 - `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
   generator to be deleted.
-
 """
 function delete_license_manager_report_generator end
 
@@ -1012,8 +1055,8 @@ end
 Deletes the specified token. Must be called in the license home Region.
 
 # Arguments
-- `token_id`: Token ID.
 
+- `token_id`: Token ID.
 """
 function delete_token end
 
@@ -1046,10 +1089,13 @@ end
 Extends the expiration date for license consumption.
 
 # Arguments
+
 - `license_consumption_token`: License consumption token.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request. Provides an error response if you do not have the required
   permissions.
@@ -1094,10 +1140,13 @@ Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access toke
 valid for one hour.
 
 # Arguments
+
 - `token`: Refresh token, encoded as a JWT token.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"TokenProperties"`: Token properties to validate against those present in the JWT token.
 """
 function get_access_token end
@@ -1129,10 +1178,13 @@ end
 Gets detailed information about the specified grant.
 
 # Arguments
+
 - `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Version"`: Grant version.
 """
 function get_grant end
@@ -1168,10 +1220,13 @@ end
 Gets detailed information about the specified license.
 
 # Arguments
+
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Version"`: License version.
 """
 function get_license end
@@ -1207,8 +1262,8 @@ end
 Gets detailed information about the specified license configuration.
 
 # Arguments
-- `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
+- `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 """
 function get_license_configuration end
 
@@ -1249,9 +1304,9 @@ end
 Gets information about the specified license type conversion task.
 
 # Arguments
+
 - `license_conversion_task_id`: ID of the license type conversion task to retrieve
   information on.
-
 """
 function get_license_conversion_task end
 
@@ -1292,9 +1347,9 @@ end
 Gets information about the specified report generator.
 
 # Arguments
+
 - `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
   generator.
-
 """
 function get_license_manager_report_generator end
 
@@ -1339,8 +1394,8 @@ end
 Gets detailed information about the usage of the specified license.
 
 # Arguments
-- `license_arn`: Amazon Resource Name (ARN) of the license.
 
+- `license_arn`: Amazon Resource Name (ARN) of the license.
 """
 function get_license_usage end
 
@@ -1373,7 +1428,6 @@ end
     get_service_settings(params::Dict{String,<:Any})
 
 Gets the License Manager settings for the current Region.
-
 """
 function get_service_settings end
 
@@ -1395,15 +1449,19 @@ end
     list_associations_for_license_configuration(license_configuration_arn)
     list_associations_for_license_configuration(license_configuration_arn, params::Dict{String,<:Any})
 
-Lists the resource associations for the specified license configuration. Resource
-associations need not consume licenses from a license configuration. For example, an AMI or
-a stopped instance might not consume a license (depending on the license rules).
+Lists the resource associations for the specified license configuration.
+
+Resource associations need not consume licenses from a license configuration. For example,
+an AMI or a stopped instance might not consume a license (depending on the license rules).
 
 # Arguments
+
 - `license_configuration_arn`: Amazon Resource Name (ARN) of a license configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1446,9 +1504,15 @@ end
 Lists the grants distributed for the specified license.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  LicenseArn     GrantStatus     GranteePrincipalARN     ProductSKU     LicenseIssuerName
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `LicenseArn`
+   - `GrantStatus`
+ - `GranteePrincipalARN`
+ - `ProductSKU`
+ - `LicenseIssuerName`
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1479,10 +1543,13 @@ end
 Lists the license configuration operations that failed.
 
 # Arguments
+
 - `license_configuration_arn`: Amazon Resource Name of the license configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1525,14 +1592,17 @@ end
 Lists the license configurations for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    licenseCountingType - The dimension for which licenses are counted.
-  Possible values are vCPU | Instance | Core | Socket. Logical operators are EQUALS |
-  NOT_EQUALS.    enforceLicenseCount - A Boolean value that indicates whether hard license
-  enforcement is used. Logical operators are EQUALS | NOT_EQUALS.    usagelimitExceeded - A
-  Boolean value that indicates whether the available licenses have been exceeded. Logical
-  operators are EQUALS | NOT_EQUALS.
+  are supported: - `licenseCountingType` - The dimension for which licenses are counted.
+  Possible values are `vCPU` | `Instance` | `Core` | `Socket`. Logical operators are
+  `EQUALS` | `NOT_EQUALS`.
+   - `enforceLicenseCount` - A Boolean value that indicates whether hard license
+  enforcement is used. Logical operators are `EQUALS` | `NOT_EQUALS`.
+   - `usagelimitExceeded` - A Boolean value that indicates whether the available licenses
+  have been exceeded. Logical operators are `EQUALS` | `NOT_EQUALS`.
 - `"LicenseConfigurationArns"`: Amazon Resource Names (ARN) of the license configurations.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1563,8 +1633,11 @@ end
 Lists the license type conversion tasks for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  Filters to scope the results. Valid filters are ResourceArns and Status.
+
+- `"Filters"`:  Filters to scope the results. Valid filters are `ResourceArns` and
+  `Status`.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1594,9 +1667,11 @@ end
 Lists the report generators for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  LicenseConfigurationArn
+
+- `"Filters"`: Filters to scope the results. The following filters are supported:  -
+  `LicenseConfigurationArn`
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1630,11 +1705,14 @@ end
 Describes the license configurations for the specified resource.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of a resource that has an associated license
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1673,10 +1751,13 @@ end
 Lists all versions of the specified license.
 
 # Arguments
+
 - `license_arn`: Amazon Resource Name (ARN) of the license.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1715,9 +1796,14 @@ end
 Lists the licenses for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  Beneficiary     ProductSKU     Fingerprint     Status
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `Beneficiary`
+ - `ProductSKU`
+ - `Fingerprint`
+ - `Status`
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1747,9 +1833,15 @@ recipient as this Amazon Web Services account, your organization, or an organiza
 (OU) to which this member account belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  ProductSKU     LicenseIssuerName     LicenseArn     GrantStatus     GranterAccountId
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `ProductSKU`
+   - `LicenseIssuerName`
+ - `LicenseArn`
+ - `GrantStatus`
+ - `GranterAccountId`
 - `"GrantArns"`: Amazon Resource Names (ARNs) of the grants.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1777,12 +1869,16 @@ end
 Lists the grants received for all accounts in the organization.
 
 # Arguments
+
 - `license_arn`: The Amazon Resource Name (ARN) of the received license.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  ParentArn     GranteePrincipalArn
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `ParentArn`
+ - `GranteePrincipalArn`
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1821,9 +1917,15 @@ end
 Lists received licenses.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  ProductSKU     Status     Fingerprint     IssuerName     Beneficiary
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `ProductSKU`
+ - `Status`
+ - `Fingerprint`
+ - `IssuerName`
+ - `Beneficiary`
 - `"LicenseArns"`: Amazon Resource Names (ARNs) of the licenses.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
@@ -1854,9 +1956,12 @@ end
 Lists the licenses received for all accounts in the organization.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filters are supported:
-  Beneficiary     ProductSKU
+
+- `"Filters"`: Filters to scope the results. The following filters are supported: -
+  `Beneficiary`
+ - `ProductSKU`
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1890,17 +1995,23 @@ end
 Lists resources managed using Systems Manager inventory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    account_id - The ID of the Amazon Web Services account that owns the
-  resource. Logical operators are EQUALS | NOT_EQUALS.    application_name - The name of the
-  application. Logical operators are EQUALS | BEGINS_WITH.    license_included - The type of
-  license included. Logical operators are EQUALS | NOT_EQUALS. Possible values are
-  sql-server-enterprise | sql-server-standard | sql-server-web | windows-server-datacenter.
-   platform - The platform of the resource. Logical operators are EQUALS | BEGINS_WITH.
-  resource_id - The ID of the resource. Logical operators are EQUALS | NOT_EQUALS.
-  tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Logical
-  operators are EQUALS (single account) or EQUALS | NOT_EQUALS (cross account).
+  are supported: - `account_id` - The ID of the Amazon Web Services account that owns the
+  resource. Logical operators are `EQUALS` | `NOT_EQUALS`.
+   - `application_name` - The name of the application. Logical operators are `EQUALS` |
+  `BEGINS_WITH`.
+   - `license_included` - The type of license included. Logical operators are `EQUALS` |
+  `NOT_EQUALS`. Possible values are `sql-server-enterprise` | `sql-server-standard` | `sql-
+  server-web` | `windows-server-datacenter`.
+   - `platform` - The platform of the resource. Logical operators are `EQUALS` |
+  `BEGINS_WITH`.
+   - `resource_id` - The ID of the resource. Logical operators are `EQUALS` | `NOT_EQUALS`.
+   - `tag:&lt;key&gt;` - The key/value combination of a tag assigned to the resource.
+  Logical operators are `EQUALS` (single account) or `EQUALS` | `NOT_EQUALS` (cross
+  account).
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -1930,8 +2041,8 @@ end
 Lists the tags for the specified license configuration.
 
 # Arguments
-- `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
 
+- `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
 """
 function list_tags_for_resource end
 
@@ -1968,9 +2079,11 @@ end
 Lists your tokens.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters to scope the results. The following filter is supported:
-  LicenseArns
+
+- `"Filters"`: Filters to scope the results. The following filter is supported: -
+  `LicenseArns`
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 - `"TokenIds"`: Token IDs.
@@ -2000,16 +2113,20 @@ details by resource at a selected point in time. Use this action to audit the cu
 license consumption for any license inventory and configuration.
 
 # Arguments
+
 - `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Filters to scope the results. The following filters and logical operators
-  are supported:    resourceArn - The ARN of the license configuration resource. Logical
-  operators are EQUALS | NOT_EQUALS.    resourceType - The resource type (EC2_INSTANCE |
-  EC2_HOST | EC2_AMI | SYSTEMS_MANAGER_MANAGED_INSTANCE). Logical operators are EQUALS |
-  NOT_EQUALS.    resourceAccount - The ID of the account that owns the resource. Logical
-  operators are EQUALS | NOT_EQUALS.
+  are supported: - `resourceArn` - The ARN of the license configuration resource. Logical
+  operators are `EQUALS` | `NOT_EQUALS`.
+   - `resourceType` - The resource type (`EC2_INSTANCE` | `EC2_HOST` | `EC2_AMI` |
+  `SYSTEMS_MANAGER_MANAGED_INSTANCE`). Logical operators are `EQUALS` | `NOT_EQUALS`.
+   - `resourceAccount` - The ID of the account that owns the resource. Logical operators
+  are `EQUALS` | `NOT_EQUALS`.
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
@@ -2052,8 +2169,8 @@ end
 Rejects the specified grant.
 
 # Arguments
-- `grant_arn`: Amazon Resource Name (ARN) of the grant.
 
+- `grant_arn`: Amazon Resource Name (ARN) of the grant.
 """
 function reject_grant end
 
@@ -2088,9 +2205,9 @@ end
 Adds the specified tags to the specified license configuration.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
 - `tags`: One or more tags.
-
 """
 function tag_resource end
 
@@ -2130,9 +2247,9 @@ end
 Removes the specified tags from the specified license configuration.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of the license configuration.
 - `tag_keys`: Keys identifying the tags to remove.
-
 """
 function untag_resource end
 
@@ -2174,10 +2291,13 @@ end
 Modifies the attributes of an existing license configuration.
 
 # Arguments
+
 - `license_configuration_arn`: Amazon Resource Name (ARN) of the license configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: New description of the license configuration.
 - `"DisassociateWhenNotFound"`: When true, disassociates a resource when software is
   uninstalled.
@@ -2225,10 +2345,13 @@ end
     update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type)
     update_license_manager_report_generator(client_token, license_manager_report_generator_arn, report_context, report_frequency, report_generator_name, type, params::Dict{String,<:Any})
 
-Updates a report generator. After you make changes to a report generator, it starts
-generating new reports within 60 minutes of being updated.
+Updates a report generator.
+
+After you make changes to a report generator, it starts generating new reports within 60
+minutes of being updated.
 
 # Arguments
+
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `license_manager_report_generator_arn`: Amazon Resource Name (ARN) of the report
@@ -2236,13 +2359,16 @@ generating new reports within 60 minutes of being updated.
 - `report_context`: The report context.
 - `report_frequency`: Frequency by which reports are generated.
 - `report_generator_name`: Name of the report generator.
-- `type`: Type of reports to generate. The following report types are supported:   License
+- `type`: Type of reports to generate. The following report types are supported: - License
   configuration report - Reports the number and details of consumed licenses for a license
-  configuration.   Resource report - Reports the tracked licenses and resource consumption
-  for a license configuration.
+  configuration.
+   - Resource report - Reports the tracked licenses and resource consumption for a license
+  configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: Description of the report generator.
 """
 function update_license_manager_report_generator end
@@ -2307,15 +2433,20 @@ end
     update_license_specifications_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Adds or removes the specified license configurations for the specified Amazon Web Services
-resource. You can update the license specifications of AMIs, instances, and hosts. You
-cannot update the license specifications for launch templates and CloudFormation templates,
-as they send license configurations to the operation that creates the resource.
+resource.
+
+You can update the license specifications of AMIs, instances, and hosts. You cannot update
+the license specifications for launch templates and CloudFormation templates, as they send
+license configurations to the operation that creates the resource.
 
 # Arguments
+
 - `resource_arn`: Amazon Resource Name (ARN) of the Amazon Web Services resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AddLicenseSpecifications"`: ARNs of the license configurations to add.
 - `"RemoveLicenseSpecifications"`: ARNs of the license configurations to remove.
 """
@@ -2354,7 +2485,9 @@ end
 Updates License Manager settings for the current Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EnableCrossAccountsDiscovery"`: Activates cross-account discovery.
 - `"OrganizationConfiguration"`: Enables integration with Organizations for cross-account
   discovery.

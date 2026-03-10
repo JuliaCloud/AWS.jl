@@ -9,28 +9,33 @@ using AWS.UUIDs
     create_rescore_execution_plan(name, params::Dict{String,<:Any})
 
 Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent
-Ranking resource used for provisioning the Rescore API. You set the number of capacity
+Ranking resource used for provisioning the `Rescore` API. You set the number of capacity
 units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search
-service's results. For an example of using the CreateRescoreExecutionPlan API, including
-using the Python and Java SDKs, see Semantically ranking a search service's results.
+service's results.
+
+For an example of using the `CreateRescoreExecutionPlan` API, including using the Python
+and Java SDKs, see [Semantically ranking a search service's results](https://docs.aws.amazon.com/kendra/latest/dg/search-service-rerank.html).
 
 # Arguments
+
 - `name`: A name for the rescore execution plan.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CapacityUnits"`: You can set additional capacity units to meet the needs of your
-  rescore execution plan. You are given a single capacity unit by default. If you want to use
-  the default capacity, you don't set additional capacity units. For more information on the
-  default capacity and additional capacity units, see Adjusting capacity.
+  rescore execution plan. You are given a single capacity unit by default. If you want to
+  use the default capacity, you don't set additional capacity units. For more information
+  on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
 - `"ClientToken"`: A token that you provide to identify the request to create a rescore
-  execution plan. Multiple calls to the CreateRescoreExecutionPlanRequest API with the same
-  client token will create only one rescore execution plan.
+  execution plan. Multiple calls to the `CreateRescoreExecutionPlanRequest` API with the
+  same client token will create only one rescore execution plan.
 - `"Description"`: A description for the rescore execution plan.
 - `"Tags"`: A list of key-value pairs that identify or categorize your rescore execution
-  plan. You can also use tags to help control access to the rescore execution plan. Tag keys
-  and values can consist of Unicode letters, digits, white space, and any of the following
-  symbols: _ . : / = + - @.
+  plan. You can also use tags to help control access to the rescore execution plan. Tag
+  keys and values can consist of Unicode letters, digits, white space, and any of the
+  following symbols: _ . : / = + - @.
 """
 function create_rescore_execution_plan end
 
@@ -67,11 +72,11 @@ end
     delete_rescore_execution_plan(id, params::Dict{String,<:Any})
 
 Deletes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent
-Ranking resource used for provisioning the Rescore API.
+Ranking resource used for provisioning the `Rescore` API.
 
 # Arguments
-- `id`: The identifier of the rescore execution plan that you want to delete.
 
+- `id`: The identifier of the rescore execution plan that you want to delete.
 """
 function delete_rescore_execution_plan end
 
@@ -102,11 +107,11 @@ end
     describe_rescore_execution_plan(id, params::Dict{String,<:Any})
 
 Gets information about a rescore execution plan. A rescore execution plan is an Amazon
-Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+Kendra Intelligent Ranking resource used for provisioning the `Rescore` API.
 
 # Arguments
-- `id`: The identifier of the rescore execution plan that you want to get information on.
 
+- `id`: The identifier of the rescore execution plan that you want to get information on.
 """
 function describe_rescore_execution_plan end
 
@@ -137,10 +142,12 @@ end
     list_rescore_execution_plans(params::Dict{String,<:Any})
 
 Lists your rescore execution plans. A rescore execution plan is an Amazon Kendra
-Intelligent Ranking resource used for provisioning the Rescore API.
+Intelligent Ranking resource used for provisioning the `Rescore` API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of rescore execution plans to return.
 - `"NextToken"`: If the response is truncated, Amazon Kendra Intelligent Ranking returns a
   pagination token in the response. You can use this pagination token to retrieve the next
@@ -173,9 +180,9 @@ Gets a list of tags associated with a specified resource. A rescore execution pl
 example of a resource that can have tags associated with it.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the rescore execution plan to get a
   list of tags for.
-
 """
 function list_tags_for_resource end
 
@@ -214,13 +221,13 @@ managed). You use the semantic search capabilities of Amazon Kendra Intelligent 
 improve the search service's results.
 
 # Arguments
+
 - `documents`: The list of documents for Amazon Kendra Intelligent Ranking to rescore or
   rank on.
 - `rescore_execution_plan_id`: The identifier of the rescore execution plan. A rescore
   execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the
-  Rescore API.
+  `Rescore` API.
 - `search_query`: The input query from the search service.
-
 """
 function rescore end
 
@@ -272,14 +279,14 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an
-Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the
+Amazon Kendra Intelligent Ranking resource used for provisioning the `Rescore` API. If the
 tag already exists, the existing value is replaced with the new value.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the rescore execution plan to tag.
 - `tags`: A list of tag keys to add to a rescore execution plan. If a tag already exists,
   the existing value is replaced with the new value.
-
 """
 function tag_resource end
 
@@ -317,14 +324,14 @@ end
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra
-Intelligent Ranking resource used for provisioning the Rescore operation.
+Intelligent Ranking resource used for provisioning the `Rescore` operation.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the rescore execution plan to remove
   the tag.
 - `tag_keys`: A list of tag keys to remove from the rescore execution plan. If a tag key
   does not exist on the resource, it is ignored.
-
 """
 function untag_resource end
 
@@ -364,19 +371,22 @@ end
     update_rescore_execution_plan(id, params::Dict{String,<:Any})
 
 Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent
-Ranking resource used for provisioning the Rescore API. You can update the number of
+Ranking resource used for provisioning the `Rescore` API. You can update the number of
 capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a
 search service's results.
 
 # Arguments
+
 - `id`: The identifier of the rescore execution plan that you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CapacityUnits"`: You can set additional capacity units to meet the needs of your
-  rescore execution plan. You are given a single capacity unit by default. If you want to use
-  the default capacity, you don't set additional capacity units. For more information on the
-  default capacity and additional capacity units, see Adjusting capacity.
+  rescore execution plan. You are given a single capacity unit by default. If you want to
+  use the default capacity, you don't set additional capacity units. For more information
+  on the default capacity and additional capacity units, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
 - `"Description"`: A new description for the rescore execution plan.
 - `"Name"`: A new name for the rescore execution plan.
 """

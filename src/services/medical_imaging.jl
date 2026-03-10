@@ -11,15 +11,18 @@ using AWS.UUIDs
 Copy an image set.
 
 # Arguments
+
 - `copy_image_set_information`: Copy image set information.
 - `datastore_id`: The data store identifier.
 - `source_image_set_id`: The source image set identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`: Setting this flag will force the CopyImageSet operation, even if Patient,
-  Study, or Series level metadata are mismatched across the sourceImageSet and
-  destinationImageSet.
+
+- `"force"`: Setting this flag will force the `CopyImageSet` operation, even if Patient,
+  Study, or Series level metadata are mismatched across the `sourceImageSet` and
+  `destinationImageSet`.
 """
 function copy_image_set end
 
@@ -67,10 +70,13 @@ end
 Create a data store.
 
 # Arguments
+
 - `client_token`: A unique identifier for API idempotency.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"datastoreName"`: The data store name.
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) assigned to the Key Management Service
   (KMS) key for accessing encrypted data.
@@ -108,12 +114,14 @@ end
     delete_datastore(datastore_id)
     delete_datastore(datastore_id, params::Dict{String,<:Any})
 
-Delete a data store.  Before a data store can be deleted, you must first delete all image
-sets within it.
+Delete a data store.
+
+!!! note
+    Before a data store can be deleted, you must first delete all image sets within it.
 
 # Arguments
-- `datastore_id`: The data store identifier.
 
+- `datastore_id`: The data store identifier.
 """
 function delete_datastore end
 
@@ -147,9 +155,9 @@ end
 Delete an image set.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_set_id`: The image set identifier.
-
 """
 function delete_image_set end
 
@@ -186,8 +194,8 @@ end
 Get data store properties.
 
 # Arguments
-- `datastore_id`: The data store identifier.
 
+- `datastore_id`: The data store identifier.
 """
 function get_datastore end
 
@@ -218,16 +226,19 @@ end
     get_dicomimport_job(datastore_id, job_id)
     get_dicomimport_job(datastore_id, job_id, params::Dict{String,<:Any})
 
-Get the import job properties to learn more about the job or job progress.  The jobStatus
-refers to the execution of the import job. Therefore, an import job can return a jobStatus
-as COMPLETED even if validation issues are discovered during the import process. If a
-jobStatus returns as COMPLETED, we still recommend you review the output manifests written
-to S3, as they provide details on the success or failure of individual P10 object imports.
+Get the import job properties to learn more about the job or job progress.
+
+!!! note
+    The `jobStatus` refers to the execution of the import job. Therefore, an import job can
+return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the
+import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the
+output manifests written to S3, as they provide details on the success or failure of
+individual P10 object imports.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `job_id`: The import job identifier.
-
 """
 function get_dicomimport_job end
 
@@ -264,10 +275,10 @@ end
 Get an image frame (pixel data) for an image set.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_frame_information`: Information about the image frame (pixel data) identifier.
 - `image_set_id`: The image set identifier.
-
 """
 function get_image_frame end
 
@@ -315,11 +326,14 @@ end
 Get image set properties.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_set_id`: The image set identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The image set version identifier.
 """
 function get_image_set end
@@ -357,11 +371,14 @@ end
 Get metadata attributes for an image set.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_set_id`: The image set identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The image set version identifier.
 """
 function get_image_set_metadata end
@@ -399,7 +416,9 @@ end
 List data stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"datastoreStatus"`: The data store status.
 - `"maxResults"`: Valid Range: Minimum value of 1. Maximum value of 50.
 - `"nextToken"`: The pagination token used to request the list of data stores on the next
@@ -428,10 +447,13 @@ end
 List import jobs created for a specific data store.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobStatus"`: The filters for listing import jobs based on status.
 - `"maxResults"`: The max results count. The upper bound is determined by load testing.
 - `"nextToken"`: The pagination token used to request the list of import jobs on the next
@@ -471,11 +493,14 @@ end
 List image set versions.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_set_id`: The image set identifier.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The max results count.
 - `"nextToken"`: The pagination token used to request the list of image set versions on the
   next page.
@@ -515,9 +540,9 @@ end
 Lists all tags associated with a medical imaging resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the medical imaging resource to list
   tags for.
-
 """
 function list_tags_for_resource end
 
@@ -550,23 +575,30 @@ end
     search_image_sets(datastore_id)
     search_image_sets(datastore_id, params::Dict{String,<:Any})
 
-Search image sets based on defined input attributes.   SearchImageSets accepts a single
-search query parameter and returns a paginated response of all image sets that have the
-matching criteria. All date range queries must be input as (lowerBound, upperBound). By
-default, SearchImageSets uses the updatedAt field for sorting in descending order from
-newest to oldest.
+Search image sets based on defined input attributes.</p>
+
+!!! note
+    `SearchImageSets` accepts a single search query parameter and returns a paginated
+response of all image sets that have the matching criteria. All date range queries must be
+input as `(lowerBound, upperBound)`.
+
+ <p>By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending
+order from newest to oldest.
 
 # Arguments
+
 - `datastore_id`: The identifier of the data store where the image sets reside.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results that can be returned in a search.
 - `"nextToken"`: The token used for pagination of results returned in the response. Use the
   token returned from the previous request to continue results where the previous request
   ended.
 - `"searchCriteria"`: The search criteria that filters by applying a maximum of 1 item to
-  SearchByAttribute.
+  `SearchByAttribute`.
 """
 function search_image_sets end
 
@@ -597,11 +629,12 @@ end
     start_dicomimport_job(client_token, data_access_role_arn, datastore_id, input_s3_uri, output_s3_uri)
     start_dicomimport_job(client_token, data_access_role_arn, datastore_id, input_s3_uri, output_s3_uri, params::Dict{String,<:Any})
 
-Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files
-found in the S3 prefix specified by the inputS3Uri parameter. The import job stores
-processing results in the file specified by the outputS3Uri parameter.
+Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10
+files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores
+processing results in the file specified by the `outputS3Uri` parameter.
 
 # Arguments
+
 - `client_token`: A unique identifier for API idempotency.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants
   permission to access medical imaging resources.
@@ -612,7 +645,9 @@ processing results in the file specified by the outputS3Uri parameter.
   import job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"inputOwnerAccountId"`: The account ID of the source S3 bucket owner.
 - `"jobName"`: The import job name.
 """
@@ -676,10 +711,10 @@ end
 Adds a user-specifed key and value tag to a medical imaging resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the medical imaging resource that tags
   are being added to.
 - `tags`: The user-specified key and value tag pairs added to a medical imaging resource.
-
 """
 function tag_resource end
 
@@ -715,10 +750,10 @@ end
 Removes tags from a medical imaging resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the medical imaging resource that tags
   are being removed from.
 - `tag_keys`: The keys for the tags to be removed from the medical imaging resource.
-
 """
 function untag_resource end
 
@@ -756,17 +791,20 @@ end
 Update image set metadata attributes.
 
 # Arguments
+
 - `datastore_id`: The data store identifier.
 - `image_set_id`: The image set identifier.
 - `latest_version`: The latest image set version identifier.
 - `update_image_set_metadata_updates`: Update image set metadata updates.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`: Setting this flag will force the UpdateImageSetMetadata operation for the
-  following attributes:    Tag.StudyInstanceUID, Tag.SeriesInstanceUID, Tag.SOPInstanceUID,
-  and Tag.StudyID    Adding, removing, or updating private tags for an individual SOP
-  Instance
+
+- `"force"`: Setting this flag will force the `UpdateImageSetMetadata` operation for the
+  following attributes: - `Tag.StudyInstanceUID`, `Tag.SeriesInstanceUID`,
+  `Tag.SOPInstanceUID`, and `Tag.StudyID`
+   - Adding, removing, or updating private tags for an individual SOP Instance
 """
 function update_image_set_metadata end
 

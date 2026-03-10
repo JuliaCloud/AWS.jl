@@ -8,26 +8,30 @@ using AWS.UUIDs
     create_challenge(connector_arn)
     create_challenge(connector_arn, params::Dict{String,<:Any})
 
-For general-purpose connectors. Creates a challenge password for the specified connector.
+For general-purpose connectors. Creates a *challenge password* for the specified connector.
 The SCEP protocol uses a challenge password to authenticate a request before issuing a
 certificate from a certificate authority (CA). Your SCEP clients include the challenge
 password as part of their certificate request to Connector for SCEP. To retrieve the
-connector Amazon Resource Names (ARNs) for the connectors in your account, call
-ListConnectors. To create additional challenge passwords for the connector, call
-CreateChallenge again. We recommend frequently rotating your challenge passwords.
+connector Amazon Resource Names (ARNs) for the connectors in your account, call [ListConnectors](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_ListConnectors.html).
+
+To create additional challenge passwords for the connector, call `CreateChallenge` again.
+We recommend frequently rotating your challenge passwords.
 
 # Arguments
+
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to create
   a challenge for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Custom string that can be used to distinguish between calls to the
-  CreateChallenge action. Client tokens for CreateChallenge time out after five minutes.
-  Therefore, if you call CreateChallenge multiple times with the same client token within
-  five minutes, Connector for SCEP recognizes that you are requesting only one challenge and
-  will only respond with one. If you change the client token for each call, Connector for
-  SCEP recognizes that you are requesting multiple challenge passwords.
+
+- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
+  action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
+  you call `CreateChallenge` multiple times with the same client token within five minutes,
+  Connector for SCEP recognizes that you are requesting only one challenge and will only
+  respond with one. If you change the client token for each call, Connector for SCEP
+  recognizes that you are requesting multiple challenge passwords.
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_challenge end
@@ -72,33 +76,38 @@ Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Cer
 Authority to your SCEP-compatible devices and mobile device management (MDM) systems.
 Before you create a connector, you must complete a set of prerequisites, including creation
 of a private certificate authority (CA) to use with this connector. For more information,
-see Connector for SCEP prerequisites.
+see [Connector for SCEP prerequisites](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-prerequisites.html).
 
 # Arguments
+
 - `certificate_authority_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services
   Private Certificate Authority certificate authority to use with this connector. Due to
   security vulnerabilities present in the SCEP protocol, we recommend using a private CA
-  that's dedicated for use with the connector. To retrieve the private CAs associated with
-  your account, you can call ListCertificateAuthorities using the Amazon Web Services Private
-  CA API.
+  that's dedicated for use with the connector.
+
+  To retrieve the private CAs associated with your account, you can call [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html)
+  using the Amazon Web Services Private CA API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Custom string that can be used to distinguish between calls to the
-  CreateChallenge action. Client tokens for CreateChallenge time out after five minutes.
-  Therefore, if you call CreateChallenge multiple times with the same client token within
-  five minutes, Connector for SCEP recognizes that you are requesting only one challenge and
-  will only respond with one. If you change the client token for each call, Connector for
-  SCEP recognizes that you are requesting multiple challenge passwords.
+
+- `"ClientToken"`: Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html)
+  action. Client tokens for `CreateChallenge` time out after five minutes. Therefore, if
+  you call `CreateChallenge` multiple times with the same client token within five minutes,
+  Connector for SCEP recognizes that you are requesting only one challenge and will only
+  respond with one. If you change the client token for each call, Connector for SCEP
+  recognizes that you are requesting multiple challenge passwords.
 - `"MobileDeviceManagement"`: If you don't supply a value, by default Connector for SCEP
   creates a connector for general-purpose use. A general-purpose connector is designed to
   work with clients or endpoints that support the SCEP protocol, except Connector for SCEP
   for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge
   passwords using Connector for SCEP. For information about considerations and limitations
-  with using Connector for SCEP, see Considerations and Limitations. If you provide an
-  IntuneConfiguration, Connector for SCEP creates a connector for use with Microsoft Intune,
-  and you manage the challenge passwords using Microsoft Intune. For more information, see
-  Using Connector for SCEP for Microsoft Intune.
+  with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html).
+
+  If you provide an `IntuneConfiguration`, Connector for SCEP creates a connector for use
+  with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For
+  more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
 - `"Tags"`: The key-value pairs to associate with the resource.
 """
 function create_connector end
@@ -145,11 +154,11 @@ end
     delete_challenge(challenge_arn)
     delete_challenge(challenge_arn, params::Dict{String,<:Any})
 
-Deletes the specified Challenge.
+Deletes the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
-- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge password to delete.
 
+- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge password to delete.
 """
 function delete_challenge end
 
@@ -180,12 +189,12 @@ end
     delete_connector(connector_arn)
     delete_connector(connector_arn, params::Dict{String,<:Any})
 
-Deletes the specified Connector. This operation also deletes any challenges associated with
-the connector.
+Deletes the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html).
+This operation also deletes any challenges associated with the connector.
 
 # Arguments
-- `connector_arn`: The Amazon Resource Name (ARN) of the connector to delete.
 
+- `connector_arn`: The Amazon Resource Name (ARN) of the connector to delete.
 """
 function delete_connector end
 
@@ -216,11 +225,11 @@ end
     get_challenge_metadata(challenge_arn)
     get_challenge_metadata(challenge_arn, params::Dict{String,<:Any})
 
-Retrieves the metadata for the specified Challenge.
+Retrieves the metadata for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
-- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 
+- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 """
 function get_challenge_metadata end
 
@@ -253,11 +262,11 @@ end
     get_challenge_password(challenge_arn)
     get_challenge_password(challenge_arn, params::Dict{String,<:Any})
 
-Retrieves the challenge password for the specified Challenge.
+Retrieves the challenge password for the specified [Challenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Challenge.html).
 
 # Arguments
-- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 
+- `challenge_arn`: The Amazon Resource Name (ARN) of the challenge.
 """
 function get_challenge_password end
 
@@ -290,13 +299,13 @@ end
     get_connector(connector_arn)
     get_connector(connector_arn, params::Dict{String,<:Any})
 
-Retrieves details about the specified Connector. Calling this action returns important
-details about the connector, such as the public SCEP URL where your clients can request
-certificates.
+Retrieves details about the specified [Connector](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_Connector.html).
+Calling this action returns important details about the connector, such as the public SCEP
+URL where your clients can request certificates.
 
 # Arguments
-- `connector_arn`: The Amazon Resource Name (ARN) of the connector.
 
+- `connector_arn`: The Amazon Resource Name (ARN) of the connector.
 """
 function get_connector end
 
@@ -330,18 +339,22 @@ end
 Retrieves the challenge metadata for the specified ARN.
 
 # Arguments
+
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a NextToken value that you can use in a subsequent call to get the next batch of
-  objects.
-- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
-  number of objects that are still available for retrieval exceeds the maximum you requested,
-  Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of
-  objects, use the token returned from the prior request in your next request.
+  provides a `NextToken` value that you can use in a subsequent call to get the next batch
+  of objects.
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 """
 function list_challenge_metadata end
 
@@ -380,15 +393,18 @@ end
 Lists the connectors belonging to your Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of objects that you want Connector for SCEP to return
   for this request. If more objects are available, in the response, Connector for SCEP
-  provides a NextToken value that you can use in a subsequent call to get the next batch of
-  objects.
-- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
-  number of objects that are still available for retrieval exceeds the maximum you requested,
-  Connector for SCEP returns a NextToken value in the response. To retrieve the next batch of
-  objects, use the token returned from the prior request in your next request.
+  provides a `NextToken` value that you can use in a subsequent call to get the next batch
+  of objects.
+- `"NextToken"`: When you request a list of objects with a `MaxResults` setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you
+  requested, Connector for SCEP returns a `NextToken` value in the response. To retrieve
+  the next batch of objects, use the token returned from the prior request in your next
+  request.
 """
 function list_connectors end
 
@@ -412,13 +428,13 @@ end
 
 Retrieves the tags associated with the specified resource. Tags are key-value pairs that
 you can use to categorize and manage your resources, for purposes like billing. For
-example, you might set the tag key to \"customer\" and the value to the customer name or
-ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50
-tags for a resource.
+example, you might set the tag key to "customer" and the value to the customer name or ID.
+You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags
+for a resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -454,9 +470,9 @@ end
 Adds one or more tags to your resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The key-value pairs to associate with the resource.
-
 """
 function tag_resource end
 
@@ -492,10 +508,10 @@ end
 Removes one or more tags from your resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Specifies a list of tag keys that you want to remove from the specified
   resources.
-
 """
 function untag_resource end
 

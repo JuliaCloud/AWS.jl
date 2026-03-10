@@ -12,10 +12,13 @@ This operation cancels a specified job. Only the job owner can cancel it. The op
 fails if the job has already started or is complete.
 
 # Arguments
+
 - `job_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 """
 function cancel_job end
@@ -51,12 +54,15 @@ you use to identify your storage device, and the address where you should ship y
 device.
 
 # Arguments
+
 - `job_type`:
 - `manifest`:
 - `validate_only`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 - `"ManifestAddendum"`:
 """
@@ -108,10 +114,13 @@ This operation generates a pre-paid UPS shipping label that you will use to ship
 device to AWS for processing.
 
 # Arguments
+
 - `job_ids`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 - `"city"`:
 - `"company"`:
@@ -155,10 +164,13 @@ processing pipeline, the status of the results, and the signature value associat
 job. You can only return information about jobs you own.
 
 # Arguments
+
 - `job_id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 """
 function get_status end
@@ -193,7 +205,9 @@ was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation wo
 Test2 followed by Test1.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 - `"Marker"`:
 - `"MaxJobs"`:
@@ -222,13 +236,16 @@ original manifest file. You can only use the operation after a CreateJob request
 the data transfer starts and you can only use it on jobs you own.
 
 # Arguments
+
 - `job_id`:
 - `job_type`:
 - `manifest`:
 - `validate_only`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"APIVersion"`:
 """
 function update_job end

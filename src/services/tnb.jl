@@ -8,12 +8,14 @@ using AWS.UUIDs
     cancel_sol_network_operation(ns_lcm_op_occ_id)
     cancel_sol_network_operation(ns_lcm_op_occ_id, params::Dict{String,<:Any})
 
-Cancels a network operation. A network operation is any operation that is done to your
-network, such as network instance instantiation or termination.
+Cancels a network operation.
+
+A network operation is any operation that is done to your network, such as network instance
+instantiation or termination.
 
 # Arguments
-- `ns_lcm_op_occ_id`: The identifier of the network operation.
 
+- `ns_lcm_op_occ_id`: The identifier of the network operation.
 """
 function cancel_sol_network_operation end
 
@@ -46,17 +48,22 @@ end
     create_sol_function_package()
     create_sol_function_package(params::Dict{String,<:Any})
 
-Creates a function package. A function package is a .zip file in CSAR (Cloud Service
-Archive) format that contains a network function (an ETSI standard telecommunication
-application) and function package descriptor that uses the TOSCA standard to describe how
-the network functions should run on your network. For more information, see Function
-packages in the Amazon Web Services Telco Network Builder User Guide.  Creating a function
-package is the first step for creating a network in AWS TNB. This request creates an empty
-container with an ID. The next step is to upload the actual CSAR zip file into that empty
-container. To upload function package content, see PutSolFunctionPackageContent.
+Creates a function package.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html)
+in the *Amazon Web Services Telco Network Builder User Guide*.
+
+Creating a function package is the first step for creating a network in AWS TNB. This
+request creates an empty container with an ID. The next step is to upload the actual CSAR
+zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
@@ -88,20 +95,25 @@ end
     create_sol_network_instance(ns_name, nsd_info_id)
     create_sol_network_instance(ns_name, nsd_info_id, params::Dict{String,<:Any})
 
-Creates a network instance. A network instance is a single network created in Amazon Web
-Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed. Creating a network instance is the third step after
-creating a network package. For more information about network instances, Network instances
-in the Amazon Web Services Telco Network Builder User Guide. Once you create a network
-instance, you can instantiate it. To instantiate a network, see
-InstantiateSolNetworkInstance.
+Creates a network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed. Creating a network instance is the third step after creating a network package.
+For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html)
+in the *Amazon Web Services Telco Network Builder User Guide*.
+
+Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html).
 
 # Arguments
+
 - `ns_name`: Network instance name.
 - `nsd_info_id`: ID for network service descriptor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nsDescription"`: Network instance description.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. You can use tags to search and filter your
@@ -146,19 +158,25 @@ end
     create_sol_network_package()
     create_sol_network_package(params::Dict{String,<:Any})
 
-Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive)
-format defines the function packages you want to deploy and the Amazon Web Services
-infrastructure you want to deploy them on. For more information, see Network instances in
-the Amazon Web Services Telco Network Builder User Guide.  A network package consists of a
-network service descriptor (NSD) file (required) and any additional files (optional), such
-as scripts specific to your needs. For example, if you have multiple function packages in
-your network package, you can use the NSD to define which network functions should run in
-certain VPCs, subnets, or EKS clusters. This request creates an empty network package
-container with an ID. Once you create a network package, you can upload the network package
-content using PutSolNetworkPackageContent.
+Creates a network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html)
+in the *Amazon Web Services Telco Network Builder User Guide*.
+
+A network package consists of a network service descriptor (NSD) file (required) and any
+additional files (optional), such as scripts specific to your needs. For example, if you
+have multiple function packages in your network package, you can use the NSD to define
+which network functions should run in certain VPCs, subnets, or EKS clusters.
+
+This request creates an empty network package container with an ID. Once you create a
+network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
@@ -190,15 +208,19 @@ end
     delete_sol_function_package(vnf_pkg_id)
     delete_sol_function_package(vnf_pkg_id, params::Dict{String,<:Any})
 
-Deletes a function package. A function package is a .zip file in CSAR (Cloud Service
-Archive) format that contains a network function (an ETSI standard telecommunication
-application) and function package descriptor that uses the TOSCA standard to describe how
-the network functions should run on your network. To delete a function package, the package
-must be in a disabled state. To disable a function package, see UpdateSolFunctionPackage.
+Deletes a function package.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
+
+To delete a function package, the package must be in a disabled state. To disable a
+function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
 
 # Arguments
-- `vnf_pkg_id`: ID of the function package.
 
+- `vnf_pkg_id`: ID of the function package.
 """
 function delete_sol_function_package end
 
@@ -231,15 +253,18 @@ end
     delete_sol_network_instance(ns_instance_id)
     delete_sol_network_instance(ns_instance_id, params::Dict{String,<:Any})
 
-Deletes a network instance. A network instance is a single network created in Amazon Web
-Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed. To delete a network instance, the instance must be in
-a stopped or terminated state. To terminate a network instance, see
-TerminateSolNetworkInstance.
+Deletes a network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
+
+To delete a network instance, the instance must be in a stopped or terminated state. To
+terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html).
 
 # Arguments
-- `ns_instance_id`: Network instance ID.
 
+- `ns_instance_id`: Network instance ID.
 """
 function delete_sol_network_instance end
 
@@ -272,14 +297,18 @@ end
     delete_sol_network_package(nsd_info_id)
     delete_sol_network_package(nsd_info_id, params::Dict{String,<:Any})
 
-Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive)
-format defines the function packages you want to deploy and the Amazon Web Services
-infrastructure you want to deploy them on. To delete a network package, the package must be
-in a disable state. To disable a network package, see UpdateSolNetworkPackage.
+Deletes network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
+
+To delete a network package, the package must be in a disable state. To disable a network
+package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
 
 # Arguments
-- `nsd_info_id`: ID of the network service descriptor in the network package.
 
+- `nsd_info_id`: ID of the network service descriptor in the network package.
 """
 function delete_sol_network_package end
 
@@ -313,12 +342,13 @@ end
     get_sol_function_instance(vnf_instance_id, params::Dict{String,<:Any})
 
 Gets the details of a network function instance, including the instantiation state and
-metadata from the function package descriptor in the network function package. A network
-function instance is a function in a function package .
+metadata from the function package descriptor in the network function package.
+
+A network function instance is a function in a function package .
 
 # Arguments
-- `vnf_instance_id`: ID of the network function.
 
+- `vnf_instance_id`: ID of the network function.
 """
 function get_sol_function_instance end
 
@@ -352,14 +382,16 @@ end
     get_sol_function_package(vnf_pkg_id, params::Dict{String,<:Any})
 
 Gets the details of an individual function package, such as the operational state and
-whether the package is in use. A function package is a .zip file in CSAR (Cloud Service
-Archive) format that contains a network function (an ETSI standard telecommunication
-application) and function package descriptor that uses the TOSCA standard to describe how
-the network functions should run on your network..
+whether the package is in use.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network..
 
 # Arguments
-- `vnf_pkg_id`: ID of the function package.
 
+- `vnf_pkg_id`: ID of the function package.
 """
 function get_sol_function_package end
 
@@ -392,15 +424,17 @@ end
     get_sol_function_package_content(accept, vnf_pkg_id)
     get_sol_function_package_content(accept, vnf_pkg_id, params::Dict{String,<:Any})
 
-Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud
-Service Archive) format that contains a network function (an ETSI standard
-telecommunication application) and function package descriptor that uses the TOSCA standard
-to describe how the network functions should run on your network.
+Gets the contents of a function package.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Arguments
+
 - `accept`: The format of the package that you want to download from the function packages.
 - `vnf_pkg_id`: ID of the function package.
-
 """
 function get_sol_function_package_content end
 
@@ -441,18 +475,22 @@ end
     get_sol_function_package_descriptor(accept, vnf_pkg_id)
     get_sol_function_package_descriptor(accept, vnf_pkg_id, params::Dict{String,<:Any})
 
-Gets a function package descriptor in a function package. A function package descriptor is
-a .yaml file in a function package that uses the TOSCA standard to describe how the network
-function in the function package should run on your network. A function package is a .zip
-file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI
-standard telecommunication application) and function package descriptor that uses the TOSCA
-standard to describe how the network functions should run on your network.
+Gets a function package descriptor in a function package.
+
+A function package descriptor is a .yaml file in a function package that uses the TOSCA
+standard to describe how the network function in the function package should run on your
+network.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Arguments
+
 - `accept`: Indicates which content types, expressed as MIME types, the client is able to
   understand.
 - `vnf_pkg_id`: ID of the function package.
-
 """
 function get_sol_function_package_descriptor end
 
@@ -493,13 +531,15 @@ end
     get_sol_network_instance(ns_instance_id)
     get_sol_network_instance(ns_instance_id, params::Dict{String,<:Any})
 
-Gets the details of the network instance. A network instance is a single network created in
-Amazon Web Services TNB that can be deployed and on which life-cycle operations (like
-terminate, update, and delete) can be performed.
+Gets the details of the network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
 
 # Arguments
-- `ns_instance_id`: ID of the network instance.
 
+- `ns_instance_id`: ID of the network instance.
 """
 function get_sol_network_instance end
 
@@ -533,12 +573,14 @@ end
     get_sol_network_operation(ns_lcm_op_occ_id, params::Dict{String,<:Any})
 
 Gets the details of a network operation, including the tasks involved in the network
-operation and the status of the tasks. A network operation is any operation that is done to
-your network, such as network instance instantiation or termination.
+operation and the status of the tasks.
+
+A network operation is any operation that is done to your network, such as network instance
+instantiation or termination.
 
 # Arguments
-- `ns_lcm_op_occ_id`: The identifier of the network operation.
 
+- `ns_lcm_op_occ_id`: The identifier of the network operation.
 """
 function get_sol_network_operation end
 
@@ -571,13 +613,15 @@ end
     get_sol_network_package(nsd_info_id)
     get_sol_network_package(nsd_info_id, params::Dict{String,<:Any})
 
-Gets the details of a network package. A network package is a .zip file in CSAR (Cloud
-Service Archive) format defines the function packages you want to deploy and the Amazon Web
-Services infrastructure you want to deploy them on.
+Gets the details of a network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
 
 # Arguments
-- `nsd_info_id`: ID of the network service descriptor in the network package.
 
+- `nsd_info_id`: ID of the network service descriptor in the network package.
 """
 function get_sol_network_package end
 
@@ -610,14 +654,16 @@ end
     get_sol_network_package_content(accept, nsd_info_id)
     get_sol_network_package_content(accept, nsd_info_id, params::Dict{String,<:Any})
 
-Gets the contents of a network package. A network package is a .zip file in CSAR (Cloud
-Service Archive) format defines the function packages you want to deploy and the Amazon Web
-Services infrastructure you want to deploy them on.
+Gets the contents of a network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
 
 # Arguments
+
 - `accept`: The format of the package you want to download from the network package.
 - `nsd_info_id`: ID of the network service descriptor in the network package.
-
 """
 function get_sol_network_package_content end
 
@@ -658,14 +704,15 @@ end
     get_sol_network_package_descriptor(nsd_info_id)
     get_sol_network_package_descriptor(nsd_info_id, params::Dict{String,<:Any})
 
-Gets the content of the network service descriptor. A network service descriptor is a .yaml
-file in a network package that uses the TOSCA standard to describe the network functions
-you want to deploy and the Amazon Web Services infrastructure you want to deploy the
-network functions on.
+Gets the content of the network service descriptor.
+
+A network service descriptor is a .yaml file in a network package that uses the TOSCA
+standard to describe the network functions you want to deploy and the Amazon Web Services
+infrastructure you want to deploy the network functions on.
 
 # Arguments
-- `nsd_info_id`: ID of the network service descriptor in the network package.
 
+- `nsd_info_id`: ID of the network service descriptor in the network package.
 """
 function get_sol_network_package_descriptor end
 
@@ -698,20 +745,28 @@ end
     instantiate_sol_network_instance(ns_instance_id)
     instantiate_sol_network_instance(ns_instance_id, params::Dict{String,<:Any})
 
-Instantiates a network instance. A network instance is a single network created in Amazon
-Web Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed. Before you can instantiate a network instance, you
-have to create a network instance. For more information, see CreateSolNetworkInstance.
+Instantiates a network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
+
+Before you can instantiate a network instance, you have to create a network instance. For
+more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html).
 
 # Arguments
+
 - `ns_instance_id`: ID of the network instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"additionalParamsForNs"`: Provides values for the configurable properties.
 - `"dry_run"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
-  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+  permissions, the error response is `DryRunOperation`. Otherwise, it is
+  `UnauthorizedOperation`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. When you use this API, the tags are only applied
   to the network operation that is created. These tags are not applied to the network
@@ -749,11 +804,14 @@ end
     list_sol_function_instances()
     list_sol_function_instances(params::Dict{String,<:Any})
 
-Lists network function instances. A network function instance is a function in a function
-package .
+Lists network function instances.
+
+A network function instance is a function in a function package .
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
@@ -784,13 +842,17 @@ end
     list_sol_function_packages()
     list_sol_function_packages(params::Dict{String,<:Any})
 
-Lists information about function packages. A function package is a .zip file in CSAR (Cloud
-Service Archive) format that contains a network function (an ETSI standard
-telecommunication application) and function package descriptor that uses the TOSCA standard
-to describe how the network functions should run on your network.
+Lists information about function packages.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
@@ -821,12 +883,16 @@ end
     list_sol_network_instances()
     list_sol_network_instances(params::Dict{String,<:Any})
 
-Lists your network instances. A network instance is a single network created in Amazon Web
-Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed.
+Lists your network instances.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
@@ -858,11 +924,15 @@ end
     list_sol_network_operations(params::Dict{String,<:Any})
 
 Lists details for a network operation, including when the operation started and the status
-of the operation. A network operation is any operation that is done to your network, such
-as network instance instantiation or termination.
+of the operation.
+
+A network operation is any operation that is done to your network, such as network instance
+instantiation or termination.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 - `"nsInstanceId"`: Network instance id filter, to retrieve network operations associated
@@ -895,12 +965,16 @@ end
     list_sol_network_packages()
     list_sol_network_packages(params::Dict{String,<:Any})
 
-Lists network packages. A network package is a .zip file in CSAR (Cloud Service Archive)
-format defines the function packages you want to deploy and the Amazon Web Services
-infrastructure you want to deploy them on.
+Lists network packages.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"max_results"`: The maximum number of results to include in the response.
 - `"nextpage_opaque_marker"`: The token for the next page of results.
 """
@@ -934,8 +1008,8 @@ end
 Lists tags for AWS TNB resources.
 
 # Arguments
-- `resource_arn`: Resource ARN.
 
+- `resource_arn`: Resource ARN.
 """
 function list_tags_for_resource end
 
@@ -968,17 +1042,22 @@ end
     put_sol_function_package_content(file, vnf_pkg_id)
     put_sol_function_package_content(file, vnf_pkg_id, params::Dict{String,<:Any})
 
-Uploads the contents of a function package. A function package is a .zip file in CSAR
-(Cloud Service Archive) format that contains a network function (an ETSI standard
-telecommunication application) and function package descriptor that uses the TOSCA standard
-to describe how the network functions should run on your network.
+Uploads the contents of a function package.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Arguments
+
 - `file`: Function package file.
 - `vnf_pkg_id`: Function package ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Content-Type"`: Function package content type.
 """
 function put_sol_function_package_content end
@@ -1014,16 +1093,21 @@ end
     put_sol_network_package_content(file, nsd_info_id)
     put_sol_network_package_content(file, nsd_info_id, params::Dict{String,<:Any})
 
-Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud
-Service Archive) format defines the function packages you want to deploy and the Amazon Web
-Services infrastructure you want to deploy them on.
+Uploads the contents of a network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
 
 # Arguments
+
 - `file`: Network package file.
 - `nsd_info_id`: Network service descriptor info ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Content-Type"`: Network package content type.
 """
 function put_sol_network_package_content end
@@ -1059,16 +1143,18 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Tags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services
-resource. Each tag consists of a key and an optional value. You can use tags to search and
-filter your resources or track your Amazon Web Services costs.
+Tags an AWS TNB resource.
+
+A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a
+key and an optional value. You can use tags to search and filter your resources or track
+your Amazon Web Services costs.
 
 # Arguments
+
 - `resource_arn`: Resource ARN.
 - `tags`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. You can use tags to search and filter your
   resources or track your Amazon Web Services costs.
-
 """
 function tag_resource end
 
@@ -1101,16 +1187,22 @@ end
     terminate_sol_network_instance(ns_instance_id)
     terminate_sol_network_instance(ns_instance_id, params::Dict{String,<:Any})
 
-Terminates a network instance. A network instance is a single network created in Amazon Web
-Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed. You must terminate a network instance before you can
-delete it.
+Terminates a network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
+
+You must terminate a network instance before you can delete it.
 
 # Arguments
+
 - `ns_instance_id`: ID of the network instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. When you use this API, the tags are only applied
   to the network operation that is created. These tags are not applied to the network
@@ -1148,14 +1240,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Untags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services
-resource. Each tag consists of a key and an optional value. You can use tags to search and
-filter your resources or track your Amazon Web Services costs.
+Untags an AWS TNB resource.
+
+A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a
+key and an optional value. You can use tags to search and filter your resources or track
+your Amazon Web Services costs.
 
 # Arguments
+
 - `resource_arn`: Resource ARN.
 - `tag_keys`: Tag keys.
-
 """
 function untag_resource end
 
@@ -1190,15 +1284,17 @@ end
     update_sol_function_package(operational_state, vnf_pkg_id)
     update_sol_function_package(operational_state, vnf_pkg_id, params::Dict{String,<:Any})
 
-Updates the operational state of function package. A function package is a .zip file in
-CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard
-telecommunication application) and function package descriptor that uses the TOSCA standard
-to describe how the network functions should run on your network.
+Updates the operational state of function package.
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Arguments
+
 - `operational_state`: Operational state of the function package.
 - `vnf_pkg_id`: ID of the function package.
-
 """
 function update_sol_function_package end
 
@@ -1237,30 +1333,39 @@ end
     update_sol_network_instance(ns_instance_id, update_type)
     update_sol_network_instance(ns_instance_id, update_type, params::Dict{String,<:Any})
 
-Update a network instance. A network instance is a single network created in Amazon Web
-Services TNB that can be deployed and on which life-cycle operations (like terminate,
-update, and delete) can be performed. Choose the updateType parameter to target the
-necessary update of the network instance.
+Update a network instance.
+
+A network instance is a single network created in Amazon Web Services TNB that can be
+deployed and on which life-cycle operations (like terminate, update, and delete) can be
+performed.
+
+Choose the *updateType* parameter to target the necessary update of the network instance.
 
 # Arguments
+
 - `ns_instance_id`: ID of the network instance.
-- `update_type`: The type of update.   Use the MODIFY_VNF_INFORMATION update type, to
-  update a specific network function configuration, in the network instance.   Use the
-  UPDATE_NS update type, to update the network instance to a new network service descriptor.
+- `update_type`: The type of update. - Use the `MODIFY_VNF_INFORMATION` update type, to
+  update a specific network function configuration, in the network instance.
+   - Use the `UPDATE_NS` update type, to update the network instance to a new network
+  service descriptor.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"modifyVnfInfoData"`: Identifies the network function information parameters and/or the
-  configurable properties of the network function to be modified. Include this property only
-  if the update type is MODIFY_VNF_INFORMATION.
+  configurable properties of the network function to be modified.
+
+Include this property only if the update type is `MODIFY_VNF_INFORMATION`.
 - `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
   consists of a key and an optional value. When you use this API, the tags are only applied
   to the network operation that is created. These tags are not applied to the network
   instance. Use tags to search and filter your resources or track your Amazon Web Services
   costs.
 - `"updateNs"`: Identifies the network service descriptor and the configurable properties
-  of the descriptor, to be used for the update. Include this property only if the update type
-  is UPDATE_NS.
+  of the descriptor, to be used for the update.
+
+Include this property only if the update type is `UPDATE_NS`.
 """
 function update_sol_network_instance end
 
@@ -1297,18 +1402,21 @@ end
     update_sol_network_package(nsd_info_id, nsd_operational_state)
     update_sol_network_package(nsd_info_id, nsd_operational_state, params::Dict{String,<:Any})
 
-Updates the operational state of a network package. A network package is a .zip file in
-CSAR (Cloud Service Archive) format defines the function packages you want to deploy and
-the Amazon Web Services infrastructure you want to deploy them on. A network service
-descriptor is a .yaml file in a network package that uses the TOSCA standard to describe
-the network functions you want to deploy and the Amazon Web Services infrastructure you
-want to deploy the network functions on.
+Updates the operational state of a network package.
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
+
+A network service descriptor is a .yaml file in a network package that uses the TOSCA
+standard to describe the network functions you want to deploy and the Amazon Web Services
+infrastructure you want to deploy the network functions on.
 
 # Arguments
+
 - `nsd_info_id`: ID of the network service descriptor in the network package.
 - `nsd_operational_state`: Operational state of the network service descriptor in the
   network package.
-
 """
 function update_sol_network_package end
 
@@ -1350,17 +1458,22 @@ end
     validate_sol_function_package_content(file, vnf_pkg_id, params::Dict{String,<:Any})
 
 Validates function package content. This can be used as a dry run before uploading function
-package content with PutSolFunctionPackageContent. A function package is a .zip file in
-CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard
-telecommunication application) and function package descriptor that uses the TOSCA standard
-to describe how the network functions should run on your network.
+package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
+
+A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a
+network function (an ETSI standard telecommunication application) and function package
+descriptor that uses the TOSCA standard to describe how the network functions should run on
+your network.
 
 # Arguments
+
 - `file`: Function package file.
 - `vnf_pkg_id`: Function package ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Content-Type"`: Function package content type.
 """
 function validate_sol_function_package_content end
@@ -1397,16 +1510,21 @@ end
     validate_sol_network_package_content(file, nsd_info_id, params::Dict{String,<:Any})
 
 Validates network package content. This can be used as a dry run before uploading network
-package content with PutSolNetworkPackageContent. A network package is a .zip file in CSAR
-(Cloud Service Archive) format defines the function packages you want to deploy and the
-Amazon Web Services infrastructure you want to deploy them on.
+package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
+
+A network package is a .zip file in CSAR (Cloud Service Archive) format defines the
+function packages you want to deploy and the Amazon Web Services infrastructure you want to
+deploy them on.
 
 # Arguments
+
 - `file`: Network package file.
 - `nsd_info_id`: Network service descriptor file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Content-Type"`: Network package content type.
 """
 function validate_sol_network_package_content end

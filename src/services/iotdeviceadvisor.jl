@@ -8,15 +8,20 @@ using AWS.UUIDs
     create_suite_definition(suite_definition_configuration)
     create_suite_definition(suite_definition_configuration, params::Dict{String,<:Any})
 
-Creates a Device Advisor test suite. Requires permission to access the
-CreateSuiteDefinition action.
+Creates a Device Advisor test suite.
+
+Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_configuration`: Creates a Device Advisor test suite with suite
   definition configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`: The tags to be attached to the suite definition.
 """
 function create_suite_definition end
@@ -59,12 +64,14 @@ end
     delete_suite_definition(suite_definition_id)
     delete_suite_definition(suite_definition_id, params::Dict{String,<:Any})
 
-Deletes a Device Advisor test suite. Requires permission to access the
-DeleteSuiteDefinition action.
+Deletes a Device Advisor test suite.
+
+Requires permission to access the [DeleteSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
-- `suite_definition_id`: Suite definition ID of the test suite to be deleted.
 
+- `suite_definition_id`: Suite definition ID of the test suite to be deleted.
 """
 function delete_suite_definition end
 
@@ -100,7 +107,9 @@ end
 Gets information about an Device Advisor endpoint.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"authenticationMethod"`: The authentication method used during the device connection.
 - `"certificateArn"`: The certificate ARN of the device. This is an optional parameter.
 - `"deviceRoleArn"`: The device role ARN of the device. This is an optional parameter.
@@ -126,14 +135,19 @@ end
     get_suite_definition(suite_definition_id)
     get_suite_definition(suite_definition_id, params::Dict{String,<:Any})
 
-Gets information about a Device Advisor test suite. Requires permission to access the
-GetSuiteDefinition action.
+Gets information about a Device Advisor test suite.
+
+Requires permission to access the [GetSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_id`: Suite definition ID of the test suite to get.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
 """
 function get_suite_definition end
@@ -167,13 +181,15 @@ end
     get_suite_run(suite_definition_id, suite_run_id)
     get_suite_run(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
 
-Gets information about a Device Advisor test suite run. Requires permission to access the
-GetSuiteRun action.
+Gets information about a Device Advisor test suite run.
+
+Requires permission to access the [GetSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_id`: Suite definition ID for the test suite run.
 - `suite_run_id`: Suite run ID for the test suite run.
-
 """
 function get_suite_run end
 
@@ -208,12 +224,14 @@ end
     get_suite_run_report(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
 
 Gets a report download link for a successful Device Advisor qualifying test suite run.
-Requires permission to access the GetSuiteRunReport action.
+
+Requires permission to access the [GetSuiteRunReport](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_id`: Suite definition ID of the test suite.
 - `suite_run_id`: Suite run ID of the test suite run.
-
 """
 function get_suite_run_report end
 
@@ -247,11 +265,15 @@ end
     list_suite_definitions()
     list_suite_definitions(params::Dict{String,<:Any})
 
-Lists the Device Advisor test suites you have created. Requires permission to access the
-ListSuiteDefinitions action.
+Lists the Device Advisor test suites you have created.
+
+Requires permission to access the [ListSuiteDefinitions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at once.
 - `"nextToken"`: A token used to get the next set of results.
 """
@@ -280,16 +302,20 @@ end
     list_suite_runs(params::Dict{String,<:Any})
 
 Lists runs of the specified Device Advisor test suite. You can list all runs of the test
-suite, or the runs of a specific version of the test suite. Requires permission to access
-the ListSuiteRuns action.
+suite, or the runs of a specific version of the test suite.
+
+Requires permission to access the [ListSuiteRuns](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return at once.
 - `"nextToken"`: A token to retrieve the next set of results.
 - `"suiteDefinitionId"`: Lists the test suite runs of the specified test suite based on
   suite definition ID.
-- `"suiteDefinitionVersion"`: Must be passed along with suiteDefinitionId. Lists the test
+- `"suiteDefinitionVersion"`: Must be passed along with `suiteDefinitionId`. Lists the test
   suite runs of the specified test suite based on suite definition version.
 """
 function list_suite_runs end
@@ -312,13 +338,15 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags attached to an IoT Device Advisor resource. Requires permission to access
-the ListTagsForResource action.
+Lists the tags attached to an IoT Device Advisor resource.
+
+Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `resource_arn`: The resource ARN of the IoT Device Advisor resource. This can be
   SuiteDefinition ARN or SuiteRun ARN.
-
 """
 function list_tags_for_resource end
 
@@ -351,15 +379,20 @@ end
     start_suite_run(suite_definition_id, suite_run_configuration)
     start_suite_run(suite_definition_id, suite_run_configuration, params::Dict{String,<:Any})
 
-Starts a Device Advisor test suite run. Requires permission to access the StartSuiteRun
+Starts a Device Advisor test suite run.
+
+Requires permission to access the [StartSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
 action.
 
 # Arguments
+
 - `suite_definition_id`: Suite definition ID of the test suite.
 - `suite_run_configuration`: Suite run configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite.
 - `"tags"`: The tags to be attached to the suite run.
 """
@@ -404,13 +437,15 @@ end
     stop_suite_run(suite_definition_id, suite_run_id)
     stop_suite_run(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
 
-Stops a Device Advisor test suite run that is currently running. Requires permission to
-access the StopSuiteRun action.
+Stops a Device Advisor test suite run that is currently running.
+
+Requires permission to access the [StopSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_id`: Suite definition ID of the test suite run to be stopped.
 - `suite_run_id`: Suite run ID of the test suite run to be stopped.
-
 """
 function stop_suite_run end
 
@@ -444,14 +479,16 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission
-to access the TagResource action.
+Adds to and modifies existing tags of an IoT Device Advisor resource.
+
+Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `resource_arn`: The resource ARN of an IoT Device Advisor resource. This can be
   SuiteDefinition ARN or SuiteRun ARN.
 - `tags`: The tags to be attached to the IoT Device Advisor resource.
-
 """
 function tag_resource end
 
@@ -484,14 +521,16 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from an IoT Device Advisor resource. Requires permission to access the
-UntagResource action.
+Removes tags from an IoT Device Advisor resource.
+
+Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `resource_arn`: The resource ARN of an IoT Device Advisor resource. This can be
   SuiteDefinition ARN or SuiteRun ARN.
 - `tag_keys`: List of tag keys to remove from the IoT Device Advisor resource.
-
 """
 function untag_resource end
 
@@ -526,14 +565,16 @@ end
     update_suite_definition(suite_definition_configuration, suite_definition_id)
     update_suite_definition(suite_definition_configuration, suite_definition_id, params::Dict{String,<:Any})
 
-Updates a Device Advisor test suite. Requires permission to access the
-UpdateSuiteDefinition action.
+Updates a Device Advisor test suite.
+
+Requires permission to access the [UpdateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions)
+action.
 
 # Arguments
+
 - `suite_definition_configuration`: Updates a Device Advisor test suite with suite
   definition configuration.
 - `suite_definition_id`: Suite definition ID of the test suite to be updated.
-
 """
 function update_suite_definition end
 

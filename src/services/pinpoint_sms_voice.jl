@@ -12,7 +12,9 @@ Create a new configuration set. After you create the configuration set, you can 
 more event destinations to it.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConfigurationSetName"`: The name that you want to give the configuration set.
 """
 function create_configuration_set end
@@ -45,10 +47,13 @@ end
 Create a new event destination in a configuration set.
 
 # Arguments
+
 - `configuration_set_name`: ConfigurationSetName
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EventDestination"`:
 - `"EventDestinationName"`: A name that identifies the event destination.
 """
@@ -86,8 +91,8 @@ end
 Deletes an existing configuration set.
 
 # Arguments
-- `configuration_set_name`: ConfigurationSetName
 
+- `configuration_set_name`: ConfigurationSetName
 """
 function delete_configuration_set end
 
@@ -123,9 +128,9 @@ end
 Deletes an event destination in a configuration set.
 
 # Arguments
+
 - `configuration_set_name`: ConfigurationSetName
 - `event_destination_name`: EventDestinationName
-
 """
 function delete_configuration_set_event_destination end
 
@@ -165,8 +170,8 @@ Obtain information about an event destination, including the types of events it 
 the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
 
 # Arguments
-- `configuration_set_name`: ConfigurationSetName
 
+- `configuration_set_name`: ConfigurationSetName
 """
 function get_configuration_set_event_destinations end
 
@@ -203,7 +208,9 @@ List all of the configuration sets associated with your Amazon Pinpoint account 
 current region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: A token returned from a previous call to the API that indicates the
   position in the list of results.
 - `"PageSize"`: Used to specify the number of items that should be returned in the response.
@@ -238,7 +245,9 @@ end
 Create a new voice message and send it to a recipient's phone number.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CallerId"`: The phone number that appears on recipients' devices when they receive the
   message.
 - `"ConfigurationSetName"`: The name of the configuration set that you want to use to send
@@ -246,8 +255,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content"`:
 - `"DestinationPhoneNumber"`: The phone number that you want to send the voice message to.
 - `"OriginationPhoneNumber"`: The phone number that Amazon Pinpoint should use to send the
-  voice message. This isn't necessarily the phone number that appears on recipients' devices
-  when they receive the message, because you can specify a CallerId parameter in the request.
+  voice message. This isn't necessarily the phone number that appears on recipients'
+  devices when they receive the message, because you can specify a CallerId parameter in
+  the request.
 """
 function send_voice_message end
 
@@ -281,11 +291,14 @@ you publish information about your voice calls to. For example, you can log an e
 Amazon CloudWatch destination when a call fails.
 
 # Arguments
+
 - `configuration_set_name`: ConfigurationSetName
 - `event_destination_name`: EventDestinationName
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EventDestination"`:
 """
 function update_configuration_set_event_destination end

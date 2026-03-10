@@ -12,13 +12,16 @@ Creates a connector between Amazon Web Services Private CA and an Active Directo
 must specify the private CA, directory ID, and security groups.
 
 # Arguments
+
 - `certificate_authority_arn`:  The Amazon Resource Name (ARN) of the certificate authority
   being used.
 - `directory_id`: The identifier of the Active Directory.
 - `vpc_information`: Security group IDs that describe the inbound and outbound rules.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a connector consisting of a key-value pair.
 """
@@ -79,10 +82,13 @@ Creates a directory registration that authorizes communication between Amazon We
 Private CA and an Active Directory
 
 # Arguments
+
 - `directory_id`:  The identifier of the Active Directory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a directory registration consisting of a key-value pair.
 """
@@ -131,13 +137,15 @@ Kerberos authentication uses SPNs to associate a service instance with a service
 account.
 
 # Arguments
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
+
+- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency token.
 """
 function create_service_principal_name end
@@ -182,15 +190,17 @@ certificates using these templates based on the requester’s Active Directory g
 membership.
 
 # Arguments
-- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
+
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 - `definition`: Template configuration to define the information included in certificates.
   Define certificate validity and renewal periods, certificate request handling and
   enrollment options, key usage extensions, application policies, and cryptography settings.
 - `name`: Name of the template. The template name must be unique.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency token.
 - `"Tags"`: Metadata assigned to a template consisting of a key-value pair.
 """
@@ -248,17 +258,19 @@ Create a group access control entry. Allow or deny Active Directory groups from 
 and/or autoenrolling with the template based on the group security identifiers (SIDs).
 
 # Arguments
+
 - `access_rights`:  Allow or deny permissions for an Active Directory group to enroll or
   autoenroll certificates for a template.
 - `group_display_name`: Name of the Active Directory group. This name does not need to
   match the group name in Active Directory.
 - `group_security_identifier`: Security identifier (SID) of the group object from Active
-  Directory. The SID starts with \"S-\".
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
+  Directory. The SID starts with "S-".
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency token.
 """
 function create_template_group_access_control_entry end
@@ -317,17 +329,14 @@ end
     delete_connector(connector_arn, params::Dict{String,<:Any})
 
 Deletes a connector for Active Directory. You must provide the Amazon Resource Name (ARN)
-of the connector that you want to delete. You can find the ARN by calling the
-https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors action.
-Deleting a connector does not deregister your directory with Amazon Web Services Private
-CA. You can deregister your directory by calling the
-https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistra
-tion action.
+of the connector that you want to delete. You can find the ARN by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_ListConnectors)
+action. Deleting a connector does not deregister your directory with Amazon Web Services
+Private CA. You can deregister your directory by calling the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration)
+action.
 
 # Arguments
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
 
+- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
 function delete_connector end
 
@@ -362,9 +371,9 @@ Deletes a directory registration. Deleting a directory registration deauthorizes
 Services Private CA with the directory.
 
 # Arguments
-- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
 
+- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
 function delete_directory_registration end
 
@@ -401,11 +410,10 @@ Deletes the service principal name (SPN) used by a connector to authenticate wit
 Active Directory.
 
 # Arguments
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
-- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
 
+- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
 function delete_service_principal_name end
 
@@ -445,9 +453,8 @@ Deletes a template. Certificates issued using the template are still valid until
 revoked or expired.
 
 # Arguments
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
 
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
 function delete_template end
 
@@ -481,11 +488,10 @@ end
 Deletes a group access control entry.
 
 # Arguments
-- `group_security_identifier`: Security identifier (SID) of the group object from Active
-  Directory. The SID starts with \"S-\".
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
 
+- `group_security_identifier`: Security identifier (SID) of the group object from Active
+  Directory. The SID starts with "S-".
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
 function delete_template_group_access_control_entry end
 
@@ -523,9 +529,8 @@ Lists information about your connector. You specify the connector on input by it
 (Amazon Resource Name).
 
 # Arguments
-- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
 
+- `connector_arn`:  The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 """
 function get_connector end
 
@@ -559,9 +564,9 @@ end
 A structure that contains information about your directory registration.
 
 # Arguments
-- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
 
+- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
 function get_directory_registration end
 
@@ -598,11 +603,10 @@ Lists the service principal name that the connector uses to authenticate with Ac
 Directory.
 
 # Arguments
-- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
-- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
 
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
+- `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 """
 function get_service_principal_name end
 
@@ -642,9 +646,8 @@ Retrieves a certificate template that the connector uses to issue certificates f
 private CA.
 
 # Arguments
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
 
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
 function get_template end
 
@@ -678,11 +681,10 @@ end
 Retrieves the group access control entries for a template.
 
 # Arguments
-- `group_security_identifier`: Security identifier (SID) of the group object from Active
-  Directory. The SID starts with \"S-\".
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
 
+- `group_security_identifier`: Security identifier (SID) of the group object from Active
+  Directory. The SID starts with "S-".
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 """
 function get_template_group_access_control_entry end
 
@@ -716,17 +718,19 @@ end
     list_connectors()
     list_connectors(params::Dict{String,<:Any})
 
-Lists the connectors that you created by using the
-https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
+Lists the connectors that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
-  you receive a response with truncated results. Set it to the value of the NextToken
+  you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
 function list_connectors end
@@ -749,18 +753,19 @@ end
     list_directory_registrations()
     list_directory_registrations(params::Dict{String,<:Any})
 
-Lists the directory registrations that you created by using the
-https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistra
-tion action.
+Lists the directory registrations that you created by using the [https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration)
+action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
-  you receive a response with truncated results. Set it to the value of the NextToken
+  you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
 function list_directory_registrations end
@@ -794,17 +799,20 @@ Lists the service principal names that the connector uses to authenticate with A
 Directory.
 
 # Arguments
+
 - `directory_registration_arn`: The Amazon Resource Name (ARN) that was returned when you
-  called CreateDirectoryRegistration.
+  called [CreateDirectoryRegistration](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
-  you receive a response with truncated results. Set it to the value of the NextToken
+  you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
 function list_service_principal_names end
@@ -841,9 +849,9 @@ end
 Lists the tags, if any, that are associated with your resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that was returned when you created the
   resource.
-
 """
 function list_tags_for_resource end
 
@@ -879,17 +887,19 @@ end
 Lists group access control entries you created.
 
 # Arguments
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
+
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
-  you receive a response with truncated results. Set it to the value of the NextToken
+  you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
 function list_template_group_access_control_entries end
@@ -926,17 +936,19 @@ end
 Lists the templates, if any, that are associated with a connector.
 
 # Arguments
-- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateConnector.
+
+- `connector_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateConnector](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
-  number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  number you specify, the `NextToken` element is sent in the response. Use this `NextToken`
+  value in a subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
-  you receive a response with truncated results. Set it to the value of the NextToken
+  you receive a response with truncated results. Set it to the value of the `NextToken`
   parameter from the response you just received.
 """
 function list_templates end
@@ -974,10 +986,10 @@ end
 Adds one or more tags to your resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that was returned when you created the
   resource.
 - `tags`: Metadata assigned to a directory registration consisting of a key-value pair.
-
 """
 function tag_resource end
 
@@ -1013,11 +1025,11 @@ end
 Removes one or more tags from your resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) that was returned when you created the
   resource.
 - `tag_keys`: Specifies a list of tag keys that you want to remove from the specified
   resources.
-
 """
 function untag_resource end
 
@@ -1055,15 +1067,17 @@ end
 Update template configuration to define the information included in certificates.
 
 # Arguments
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
+
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Definition"`: Template configuration to define the information included in
-  certificates. Define certificate validity and renewal periods, certificate request handling
-  and enrollment options, key usage extensions, application policies, and cryptography
-  settings.
+  certificates. Define certificate validity and renewal periods, certificate request
+  handling and enrollment options, key usage extensions, application policies, and
+  cryptography settings.
 - `"ReenrollAllCertificateHolders"`: This setting allows the major version of a template to
   be increased automatically. All members of Active Directory groups that are allowed to
   enroll with a template will receive a new certificate issued using that template.
@@ -1097,17 +1111,18 @@ end
     update_template_group_access_control_entry(group_security_identifier, template_arn)
     update_template_group_access_control_entry(group_security_identifier, template_arn, params::Dict{String,<:Any})
 
-Update a group access control entry you created using
-CreateTemplateGroupAccessControlEntry.
+Update a group access control entry you created using [CreateTemplateGroupAccessControlEntry](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplateGroupAccessControlEntry.html).
 
 # Arguments
+
 - `group_security_identifier`: Security identifier (SID) of the group object from Active
-  Directory. The SID starts with \"S-\".
-- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called
-  CreateTemplate.
+  Directory. The SID starts with "S-".
+- `template_arn`: The Amazon Resource Name (ARN) that was returned when you called [CreateTemplate](https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateTemplate.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AccessRights"`: Allow or deny permissions for an Active Directory group to enroll or
   autoenroll certificates for a template.
 - `"GroupDisplayName"`: Name of the Active Directory group. This name does not need to

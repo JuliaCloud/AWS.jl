@@ -13,12 +13,13 @@ notifications about and the targets (such as Chatbot topics or Chatbot clients c
 for Slack) where you want to receive them.
 
 # Arguments
+
 - `detail_type`: The level of detail to include in the notifications for this resource.
-  BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
-  FULL will include any supplemental information provided by AWS CodeStar Notifications
-  and/or the service for the resource for which the notification is created.
+  `BASIC` will include only the contents of the event as it would appear in Amazon
+  CloudWatch. `FULL` will include any supplemental information provided by AWS CodeStar
+  Notifications and/or the service for the resource for which the notification is created.
 - `event_type_ids`: A list of event types associated with this notification rule. For a
-  list of allowed events, see EventTypeSummary.
+  list of allowed events, see <a>EventTypeSummary</a>.
 - `name`: The name for the notification rule. Notification rule names must be unique in
   your Amazon Web Services account.
 - `resource`: The Amazon Resource Name (ARN) of the resource to associate with the
@@ -28,17 +29,21 @@ for Slack) where you want to receive them.
   topics and Chatbot clients to associate with the notification rule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique, client-generated idempotency token that, when provided
-  in a request, ensures the request cannot be repeated with a changed parameter. If a request
-  with the same parameters is received and a token is included, the request returns
-  information about the initial request that used that token.  The Amazon Web Services SDKs
-  prepopulate client request tokens. If you are using an Amazon Web Services SDK, an
-  idempotency token is created for you.
-- `"Status"`: The status of the notification rule. The default value is ENABLED. If the
-  status is set to DISABLED, notifications aren't sent for the notification rule.
+  in a request, ensures the request cannot be repeated with a changed parameter. If a
+  request with the same parameters is received and a token is included, the request returns
+  information about the initial request that used that token.
+
+  !!! note
+      The Amazon Web Services SDKs prepopulate client request tokens. If you are using an
+  Amazon Web Services SDK, an idempotency token is created for you.
+- `"Status"`: The status of the notification rule. The default value is `ENABLED`. If the
+  status is set to `DISABLED`, notifications aren't sent for the notification rule.
 - `"Tags"`: A list of tags to apply to this notification rule. Key names cannot start with
-  \"aws\".
+  "`aws`".
 """
 function create_notification_rule end
 
@@ -104,8 +109,8 @@ end
 Deletes a notification rule for a resource.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 
+- `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 """
 function delete_notification_rule end
 
@@ -138,11 +143,14 @@ end
 Deletes a specified target for notifications.
 
 # Arguments
+
 - `target_address`: The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client
   to delete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ForceUnsubscribeAll"`: A Boolean value that can be used to delete all associations with
   this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
   that target and every notification rule in your Amazon Web Services account are deleted.
@@ -182,8 +190,8 @@ end
 Returns information about a specified notification rule.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
+- `arn`: The Amazon Resource Name (ARN) of the notification rule.
 """
 function describe_notification_rule end
 
@@ -216,7 +224,9 @@ end
 Returns information about the event types available for configuring notifications.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filters to use to return information by service or resource type.
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   default number is 50. The maximum number of results that can be returned is 100.
@@ -250,11 +260,15 @@ end
 Returns a list of the notification rules for an Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filters to use to return information by service or resource type. For
-  valid values, see ListNotificationRulesFilter.  A filter with the same name can appear more
-  than once when used with OR statements. Filters with different names should be applied with
-  AND statements.
+  valid values, see <a>ListNotificationRulesFilter</a>.
+
+  !!! note
+      A filter with the same name can appear more than once when used with OR statements.
+  Filters with different names should be applied with AND statements.
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
@@ -290,8 +304,8 @@ end
 Returns a list of the tags associated with a notification rule.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) for the notification rule.
 
+- `arn`: The Amazon Resource Name (ARN) for the notification rule.
 """
 function list_tags_for_resource end
 
@@ -324,11 +338,15 @@ end
 Returns a list of the notification rule targets for an Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filters to use to return information by service or resource type. Valid
-  filters include target type, target address, and target status.  A filter with the same
-  name can appear more than once when used with OR statements. Filters with different names
-  should be applied with AND statements.
+  filters include target type, target address, and target status.
+
+  !!! note
+      A filter with the same name can appear more than once when used with OR statements.
+  Filters with different names should be applied with AND statements.
 - `"MaxResults"`: A non-negative integer used to limit the number of returned results. The
   maximum number of results that can be returned is 100.
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
@@ -363,12 +381,15 @@ so that the associated target can receive notifications when the events describe
 rule are triggered.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the notification rule for which you want to
   create the association.
 - `target`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns
   the next batch of the results.
 """
@@ -408,10 +429,10 @@ end
 Associates a set of provided tags with a notification rule.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the notification rule to tag.
 - `tags`: The list of tags to associate with the resource. Tag key names cannot start with
-  \"aws\".
-
+  "`aws`".
 """
 function tag_resource end
 
@@ -451,9 +472,9 @@ to that topic stop receiving notifications when the events described in the rule
 triggered.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 - `target_address`: The ARN of the Chatbot topic to unsubscribe from the notification rule.
-
 """
 function unsubscribe end
 
@@ -495,10 +516,10 @@ end
 Removes the association between one or more provided tags and a notification rule.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the notification rule from which to
   remove the tags.
 - `tag_keys`: The key names of the tags to remove.
-
 """
 function untag_resource end
 
@@ -535,20 +556,26 @@ end
 
 Updates a notification rule for a resource. You can change the events that trigger the
 notification rule, the status of the rule, and the targets that receive the notifications.
-To add or remove tags for a notification rule, you must use TagResource and UntagResource.
+
+!!! note
+    To add or remove tags for a notification rule, you must use <a>TagResource</a> and
+<a>UntagResource</a>.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DetailType"`: The level of detail to include in the notifications for this resource.
-  BASIC will include only the contents of the event as it would appear in Amazon CloudWatch.
-  FULL will include any supplemental information provided by AWS CodeStar Notifications
-  and/or the service for the resource for which the notification is created.
+  BASIC will include only the contents of the event as it would appear in Amazon
+  CloudWatch. FULL will include any supplemental information provided by AWS CodeStar
+  Notifications and/or the service for the resource for which the notification is created.
 - `"EventTypeIds"`: A list of event types associated with this notification rule. For a
-  complete list of event types and IDs, see Notification concepts in the Developer Tools
-  Console User Guide.
+  complete list of event types and IDs, see [Notification concepts](https://docs.aws.amazon.com/codestar-notifications/latest/userguide/concepts.html#concepts-api)
+  in the *Developer Tools Console User Guide*.
 - `"Name"`: The name of the notification rule.
 - `"Status"`: The status of the notification rule. Valid statuses include enabled (sending
   notifications) or disabled (not sending notifications).

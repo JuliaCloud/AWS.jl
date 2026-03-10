@@ -11,22 +11,28 @@ using AWS.UUIDs
 Adds cross-account permissions to a signing profile.
 
 # Arguments
+
 - `action`: For cross-account signing. Grant a designated account permission to perform one
   or more of the following actions. Each action is associated with a specific API's
-  operations. For more information about cross-account signing, see Using cross-account
-  signing with signing profiles in the AWS Signer Developer Guide. You can designate the
-  following actions to an account.    signer:StartSigningJob. This action isn't supported for
-  container image workflows. For details, see StartSigningJob.    signer:SignPayload. This
-  action isn't supported for AWS Lambda workflows. For details, see SignPayload
-  signer:GetSigningProfile. For details, see GetSigningProfile.    signer:RevokeSignature.
-  For details, see RevokeSignature.
+  operations. For more information about cross-account signing, see [Using cross-account signing with signing profiles](https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html)
+  in the *AWS Signer Developer Guide*.
+
+  You can designate the following actions to an account. - `signer:StartSigningJob`. This
+  action isn't supported for container image workflows. For details, see
+  <a>StartSigningJob</a>.
+   - `signer:SignPayload`. This action isn't supported for AWS Lambda workflows. For
+  details, see <a>SignPayload</a>
+   - `signer:GetSigningProfile`. For details, see <a>GetSigningProfile</a>.
+   - `signer:RevokeSignature`. For details, see <a>RevokeSignature</a>.
 - `principal`: The AWS principal receiving cross-account permissions. This may be an IAM
   role or another AWS account ID.
 - `profile_name`: The human-readable name of the signing profile.
 - `statement_id`: A unique identifier for the cross-account permission statement.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"profileVersion"`: The version of the signing profile.
 - `"revisionId"`: A unique identifier for the current profile revision.
 """
@@ -81,13 +87,13 @@ end
     cancel_signing_profile(profile_name)
     cancel_signing_profile(profile_name, params::Dict{String,<:Any})
 
-Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still
-viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs,
+Changes the state of an `ACTIVE` signing profile to `CANCELED`. A canceled profile is still
+viewable with the `ListSigningProfiles` operation, but it cannot perform new signing jobs,
 and is deleted two years after cancelation.
 
 # Arguments
-- `profile_name`: The name of the signing profile to be canceled.
 
+- `profile_name`: The name of the signing profile to be canceled.
 """
 function cancel_signing_profile end
 
@@ -121,11 +127,11 @@ end
     describe_signing_job(job_id, params::Dict{String,<:Any})
 
 Returns information about a specific code signing job. You specify the job by using the
-jobId value that is returned by the StartSigningJob operation.
+`jobId` value that is returned by the <a>StartSigningJob</a> operation.
 
 # Arguments
-- `job_id`: The ID of the signing job on input.
 
+- `job_id`: The ID of the signing job on input.
 """
 function describe_signing_job end
 
@@ -158,21 +164,31 @@ Retrieves the revocation status of one or more of the signing profile, signing j
 signing certificate.
 
 # Arguments
-- `certificate_hashes`: A list of composite signed hashes that identify certificates. A
-  certificate identifier consists of a subject certificate TBS hash (signed by the parent CA)
-  combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are
-  defined as their own CA. The following example shows how to calculate a hash for this
-  parameter using OpenSSL commands:   openssl asn1parse -in childCert.pem -strparse 4 -out
-  childCert.tbs   openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash   openssl
-  asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs   openssl sha384 &lt;
-  parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt;
-  certificateHash.hex xxd -p parentCertTbsHash &gt;&gt; certificateHash.hex   cat
-  certificateHash.hex | tr -d 'n'
+
+- `certificate_hashes`: A list of composite signed hashes that identify certificates.
+
+  A certificate identifier consists of a subject certificate TBS hash (signed by the parent
+  CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates
+  are defined as their own CA.
+
+  The following example shows how to calculate a hash for this parameter using OpenSSL
+  commands:
+
+   `openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs`
+
+   `openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash`
+
+   `openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs`
+
+   `openssl sha384 &lt; parentCert.tbs -binary &gt; parentCertTbsHash xxd -p
+  childCertTbsHash &gt; certificateHash.hex xxd -p parentCertTbsHash &gt;&gt;
+  certificateHash.hex`
+
+ `cat certificateHash.hex | tr -d '\\n'`
 - `job_arn`: The ARN of a signing job.
 - `platform_id`: The ID of a signing platform.
 - `profile_version_arn`: The version of a signing profile.
 - `signature_timestamp`: The timestamp of the signature that validates the profile or job.
-
 """
 function get_revocation_status end
 
@@ -236,8 +252,8 @@ end
 Returns information on a specific signing platform.
 
 # Arguments
-- `platform_id`: The ID of the target signing platform.
 
+- `platform_id`: The ID of the target signing platform.
 """
 function get_signing_platform end
 
@@ -273,10 +289,13 @@ end
 Returns information on a specific signing profile.
 
 # Arguments
+
 - `profile_name`: The name of the target signing profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
 function get_signing_profile end
@@ -313,10 +332,13 @@ end
 Lists the cross-account permissions associated with a signing profile.
 
 # Arguments
+
 - `profile_name`: Name of the signing profile containing the cross-account permissions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: String for specifying the next set of paginated results.
 """
 function list_profile_permissions end
@@ -350,25 +372,27 @@ end
     list_signing_jobs()
     list_signing_jobs(params::Dict{String,<:Any})
 
-Lists all your signing jobs. You can use the maxResults parameter to limit the number of
+Lists all your signing jobs. You can use the `maxResults` parameter to limit the number of
 signing jobs that are returned in the response. If additional jobs remain to be listed, AWS
-Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to
-fetch the remaining values. You can continue calling ListSigningJobs with your maxResults
-parameter and with new values that Signer returns in the nextToken parameter until all of
-your signing jobs have been returned.
+Signer returns a `nextToken` value. Use this value in subsequent calls to `ListSigningJobs`
+to fetch the remaining values. You can continue calling `ListSigningJobs` with your
+`maxResults` parameter and with new values that Signer returns in the `nextToken` parameter
+until all of your signing jobs have been returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"isRevoked"`: Filters results to return only signing jobs with revoked signatures.
 - `"jobInvoker"`: Filters results to return only signing jobs initiated by a specified IAM
   entity.
 - `"maxResults"`: Specifies the maximum number of items to return in the response. Use this
-  parameter when paginating results. If additional items exist beyond the number you specify,
-  the nextToken element is set in the response. Use the nextToken value in a subsequent
-  request to retrieve additional items.
+  parameter when paginating results. If additional items exist beyond the number you
+  specify, the `nextToken` element is set in the response. Use the `nextToken` value in a
+  subsequent request to retrieve additional items.
 - `"nextToken"`: String for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent request.
-  Set it to the value of nextToken from the response that you just received.
+  you receive a response with truncated results, use this parameter in a subsequent
+  request. Set it to the value of `nextToken` from the response that you just received.
 - `"platformId"`: The ID of microcontroller platform that you specified for the
   distribution of your code image.
 - `"requestedBy"`: The IAM principal that requested the signing job.
@@ -403,18 +427,20 @@ end
     list_signing_platforms(params::Dict{String,<:Any})
 
 Lists all signing platforms available in AWS Signer that match the request parameters. If
-additional jobs remain to be listed, Signer returns a nextToken value. Use this value in
-subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling
-ListSigningJobs with your maxResults parameter and with new values that Signer returns in
-the nextToken parameter until all of your signing jobs have been returned.
+additional jobs remain to be listed, Signer returns a `nextToken` value. Use this value in
+subsequent calls to `ListSigningJobs` to fetch the remaining values. You can continue
+calling `ListSigningJobs` with your `maxResults` parameter and with new values that Signer
+returns in the `nextToken` parameter until all of your signing jobs have been returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: The category type of a signing platform.
 - `"maxResults"`: The maximum number of results to be returned by this operation.
 - `"nextToken"`: Value for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent request.
-  Set it to the value of nextToken from the response that you just received.
+  you receive a response with truncated results, use this parameter in a subsequent
+  request. Set it to the value of `nextToken` from the response that you just received.
 - `"partner"`: Any partner entities connected to a signing platform.
 - `"target"`: The validation template that is used by the target signing platform.
 """
@@ -443,19 +469,21 @@ end
     list_signing_profiles(params::Dict{String,<:Any})
 
 Lists all available signing profiles in your AWS account. Returns only profiles with an
-ACTIVE status unless the includeCanceled request field is set to true. If additional jobs
-remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent
-calls to ListSigningJobs to fetch the remaining values. You can continue calling
-ListSigningJobs with your maxResults parameter and with new values that Signer returns in
-the nextToken parameter until all of your signing jobs have been returned.
+`ACTIVE` status unless the `includeCanceled` request field is set to `true`. If additional
+jobs remain to be listed, AWS Signer returns a `nextToken` value. Use this value in
+subsequent calls to `ListSigningJobs` to fetch the remaining values. You can continue
+calling `ListSigningJobs` with your `maxResults` parameter and with new values that Signer
+returns in the `nextToken` parameter until all of your signing jobs have been returned.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeCanceled"`: Designates whether to include profiles with the status of CANCELED.
+
+- `"includeCanceled"`: Designates whether to include profiles with the status of `CANCELED`.
 - `"maxResults"`: The maximum number of profiles to be returned.
 - `"nextToken"`: Value for specifying the next set of paginated results to return. After
-  you receive a response with truncated results, use this parameter in a subsequent request.
-  Set it to the value of nextToken from the response that you just received.
+  you receive a response with truncated results, use this parameter in a subsequent
+  request. Set it to the value of `nextToken` from the response that you just received.
 - `"platformId"`: Filters results to return only signing jobs initiated for a specified
   signing platform.
 - `"statuses"`: Filters results to return only signing jobs with statuses in the specified
@@ -488,8 +516,8 @@ end
 Returns a list of the tags associated with a signing profile resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 
+- `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 """
 function list_tags_for_resource end
 
@@ -526,14 +554,17 @@ Creates a signing profile. A signing profile is a code-signing template that can
 carry out a pre-defined signing job.
 
 # Arguments
+
 - `platform_id`: The ID of the signing platform to be created.
 - `profile_name`: The name of the signing profile to be created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"overrides"`: A subfield of platform. This specifies any different configuration options
-  that you want to apply to the chosen platform (such as a different hash-algorithm or
-  signing-algorithm).
+
+- `"overrides"`: A subfield of `platform`. This specifies any different configuration
+  options that you want to apply to the chosen platform (such as a different `hash-
+  algorithm` or `signing-algorithm`).
 - `"signatureValidityPeriod"`: The default validity period override for any signature
   generated using this signing profile. If unspecified, the default is 135 months.
 - `"signingMaterial"`: The AWS Certificate Manager certificate that will be used to sign
@@ -580,11 +611,11 @@ end
 Removes cross-account permissions from a signing profile.
 
 # Arguments
+
 - `profile_name`: A human-readable name for the signing profile with permissions to be
   removed.
 - `revision_id`: An identifier for the current revision of the signing profile permissions.
 - `statement_id`: A unique identifier for the cross-account permissions statement.
-
 """
 function remove_profile_permission end
 
@@ -626,11 +657,14 @@ Changes the state of a signing job to REVOKED. This indicates that the signature
 longer valid.
 
 # Arguments
+
 - `job_id`: ID of the signing job to be revoked.
 - `reason`: The reason for revoking the signing job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"jobOwner"`: AWS account ID of the job owner.
 """
 function revoke_signature end
@@ -668,13 +702,13 @@ Changes the state of a signing profile to REVOKED. This indicates that signature
 using the signing profile after an effective start date are no longer valid.
 
 # Arguments
+
 - `effective_time`: A timestamp for when revocation of a Signing Profile should become
   effective. Signatures generated using the signing profile after this timestamp are not
   trusted.
 - `profile_name`: The name of the signing profile to be revoked.
 - `profile_version`: The version of the signing profile to be revoked.
 - `reason`: The reason for revoking a signing profile.
-
 """
 function revoke_signing_profile end
 
@@ -732,13 +766,16 @@ end
 Signs a binary payload and returns a signature envelope.
 
 # Arguments
+
 - `payload`: Specifies the object digest (hash) to sign.
 - `payload_format`: Payload content type. The single valid type is
-  application/vnd.cncf.notary.payload.v1+json.
+  `application/vnd.cncf.notary.payload.v1+json`.
 - `profile_name`: The name of the signing profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
 function sign_payload end
@@ -790,18 +827,24 @@ end
     start_signing_job(client_request_token, destination, profile_name, source, params::Dict{String,<:Any})
 
 Initiates a signing job to be performed on the code provided. Signing jobs are viewable by
-the ListSigningJobs operation for two years after they are performed. Note the following
-requirements:     You must create an Amazon S3 source bucket. For more information, see
-Creating a Bucket in the Amazon S3 Getting Started Guide.    Your S3 source bucket must be
-version enabled.   You must create an S3 destination bucket. AWS Signer uses your S3
-destination bucket to write your signed code.   You specify the name of the source and
-destination buckets when calling the StartSigningJob operation.   You must ensure the S3
-buckets are from the same Region as the signing profile. Cross-Region signing isn't
-supported.   You must also specify a request token that identifies your request to Signer.
- You can call the DescribeSigningJob and the ListSigningJobs actions after you call
-StartSigningJob. For a Java example that shows how to use this action, see StartSigningJob.
+the `ListSigningJobs` operation for two years after they are performed. Note the following
+requirements: </p> - You must create an Amazon S3 source bucket. For more information, see [Creating a Bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html)
+in the *Amazon S3 Getting Started Guide*.
+ - Your S3 source bucket must be version enabled.
+ - You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
+write your signed code.
+ - You specify the name of the source and destination buckets when calling the
+`StartSigningJob` operation.
+ - You must ensure the S3 buckets are from the same Region as the signing profile. Cross-
+Region signing isn't supported.
+ - You must also specify a request token that identifies your request to Signer.
+You can call the [`describe_signing_job</a> and the <a>_list_signing_jobs`](@ref) actions
+after you call `StartSigningJob`.
+
+ <p>For a Java example that shows how to use this action, see [StartSigningJob](https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html).
 
 # Arguments
+
 - `client_request_token`: String that identifies the signing request. All calls after the
   first that use this token return the same response as the first call.
 - `destination`: The S3 bucket in which to save your signed object. The destination
@@ -811,7 +854,9 @@ StartSigningJob. For a Java example that shows how to use this action, see Start
   code.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"profileOwner"`: The AWS account ID of the signing profile owner.
 """
 function start_signing_job end
@@ -875,9 +920,9 @@ specify the signing profile, use its Amazon Resource Name (ARN). To specify the 
 key-value pair.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 - `tags`: One or more tags to be associated with the signing profile.
-
 """
 function tag_resource end
 
@@ -914,9 +959,9 @@ Removes one or more tags from a signing profile. To remove the tags, specify a l
 keys.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 - `tag_keys`: A list of tag keys to be removed from the signing profile.
-
 """
 function untag_resource end
 

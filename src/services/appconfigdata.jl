@@ -10,23 +10,29 @@ using AWS.UUIDs
 
 Retrieves the latest deployed configuration. This API may return empty configuration data
 if the client already has the latest version. For more information about this API action
-and to view example CLI commands that show how to use it with the StartConfigurationSession
-API action, see Retrieving the configuration in the AppConfig User Guide.   Note the
-following important information.   Each configuration token is only valid for one call to
-GetLatestConfiguration. The GetLatestConfiguration response includes a
-NextPollConfigurationToken that should always replace the token used for the just-completed
-call in preparation for the next one.     GetLatestConfiguration is a priced call. For more
-information, see Pricing.
+and to view example CLI commands that show how to use it with the
+<a>StartConfigurationSession</a> API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration)
+in the *AppConfig User Guide*.
+
+!!! important
+    Note the following important information. - Each configuration token is only valid for
+one call to `GetLatestConfiguration`. The `GetLatestConfiguration` response includes a
+`NextPollConfigurationToken` that should always replace the token used for the just-
+completed call in preparation for the next one.
+ - `GetLatestConfiguration` is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
 
 # Arguments
-- `configuration_token`: Token describing the current state of the configuration session.
-  To obtain a token, first call the StartConfigurationSession API. Note that every call to
-  GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in
-  the response) and must be provided to subsequent GetLatestConfiguration API calls.  This
-  token should only be used once. To support long poll use cases, the token is valid for up
-  to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns
-  BadRequestException.
 
+- `configuration_token`: Token describing the current state of the configuration session.
+  To obtain a token, first call the <a>StartConfigurationSession</a> API. Note that every
+  call to `GetLatestConfiguration` will return a new `ConfigurationToken`
+  (`NextPollConfigurationToken` in the response) and *must* be provided to subsequent
+  `GetLatestConfiguration` API calls.
+
+  !!! important
+      This token should only be used once. To support long poll use cases, the token is
+  valid for up to 24 hours. If a `GetLatestConfiguration` call uses an expired token, the
+  system returns `BadRequestException`.
 """
 function get_latest_configuration end
 
@@ -68,20 +74,23 @@ end
 
 Starts a configuration session used to retrieve a deployed configuration. For more
 information about this API action and to view example CLI commands that show how to use it
-with the GetLatestConfiguration API action, see Retrieving the configuration in the
-AppConfig User Guide.
+with the <a>GetLatestConfiguration</a> API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration)
+in the *AppConfig User Guide*.
 
 # Arguments
+
 - `application_identifier`: The application ID or the application name.
 - `configuration_profile_identifier`: The configuration profile ID or the configuration
   profile name.
 - `environment_identifier`: The environment ID or the environment name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RequiredMinimumPollIntervalInSeconds"`: Sets a constraint on a session. If you specify
   a value of, for example, 60 seconds, then the client that established the session can't
-  call GetLatestConfiguration more frequently than every 60 seconds.
+  call <a>GetLatestConfiguration</a> more frequently than every 60 seconds.
 """
 function start_configuration_session end
 

@@ -11,9 +11,9 @@ using AWS.UUIDs
 Stops a multipart upload.
 
 # Arguments
+
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
 function abort_multipart_read_set_upload end
 
@@ -50,8 +50,8 @@ end
 Accept a resource share request.
 
 # Arguments
-- `share_id`: The ID of the resource share.
 
+- `share_id`: The ID of the resource share.
 """
 function accept_share end
 
@@ -82,9 +82,9 @@ end
 Deletes one or more read sets.
 
 # Arguments
+
 - `ids`: The read sets' IDs.
 - `sequence_store_id`: The read sets' sequence store ID.
-
 """
 function batch_delete_read_set end
 
@@ -122,8 +122,8 @@ end
 Cancels an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function cancel_annotation_import_job end
 
@@ -157,8 +157,8 @@ end
 Cancels a run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
 function cancel_run end
 
@@ -187,8 +187,8 @@ end
 Cancels a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function cancel_variant_import_job end
 
@@ -222,10 +222,10 @@ end
 Concludes a multipart upload once you have uploaded all the components.
 
 # Arguments
+
 - `parts`: The individual uploads or parts of a multipart upload.
 - `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
 - `upload_id`: The ID for the multipart upload.
-
 """
 function complete_multipart_read_set_upload end
 
@@ -264,10 +264,13 @@ end
 Creates an annotation store.
 
 # Arguments
+
 - `store_format`: The annotation file format of the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"reference"`: The genome reference for the store's annotations.
@@ -314,12 +317,15 @@ end
  Creates a new version of an annotation store.
 
 # Arguments
+
 - `name`:  The name of an annotation store version from which versions are being created.
 - `version_name`:  The name given to an annotation store version to distinguish it from
   other versions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of an annotation store version.
 - `"tags"`:  Any tags added to annotation store version.
 - `"versionOptions"`:  The options for an annotation store version.
@@ -362,6 +368,7 @@ end
 Begins a multipart read set upload.
 
 # Arguments
+
 - `name`: The name of the read set.
 - `sample_id`: The source's sample ID.
 - `sequence_store_id`: The sequence store ID for the store that is the destination of the
@@ -370,7 +377,9 @@ Begins a multipart read set upload.
 - `subject_id`: The source's subject ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: An idempotency token that can be used to avoid triggering multiple
   multipart uploads.
 - `"description"`: The description of the read set.
@@ -438,10 +447,13 @@ end
 Creates a reference store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
@@ -480,11 +492,14 @@ You can optionally create a run group to limit the compute resources for the run
 add to the group.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxCpus"`: The maximum number of CPUs that can run concurrently across all active runs
   in the run group.
 - `"maxDuration"`: The maximum time for each run (in minutes). If a run exceeds the maximum
@@ -530,10 +545,13 @@ end
 Creates a sequence store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
@@ -573,16 +591,22 @@ end
 
 Creates a cross-account shared resource. The resource owner makes an offer to share the
 resource with the principal subscriber (an AWS user with a different account than the
-resource owner). The following resources support cross-account sharing:   HealthOmics
-variant stores   HealthOmics annotation stores   Private workflows
+resource owner).
+
+The following resources support cross-account sharing: - HealthOmics variant stores
+ - HealthOmics annotation stores
+ - Private workflows
 
 # Arguments
+
 - `principal_subscriber`: The principal subscriber is the account being offered shared
   access to the resource.
 - `resource_arn`: The ARN of the resource to be shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"shareName"`: A name that the owner defines for the share.
 """
 function create_share end
@@ -632,10 +656,13 @@ end
 Creates a variant store.
 
 # Arguments
+
 - `reference`: The genome reference for the store's variants.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 - `"name"`: A name for the store.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
@@ -676,11 +703,14 @@ end
 Creates a workflow.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"accelerators"`: The computational accelerator specified to run the workflow.
 - `"definitionUri"`: The URI of a definition for the workflow.
 - `"definitionZip"`: A ZIP archive for the workflow.
@@ -727,10 +757,13 @@ end
 Deletes an annotation store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
 function delete_annotation_store end
@@ -763,13 +796,16 @@ end
  Deletes one or multiple versions of an annotation store.
 
 # Arguments
+
 - `name`:  The name of the annotation store from which versions are being deleted.
 - `versions`:  The versions of an annotation store to be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`:  Forces the deletion of an annotation store version when imports are
-  in-progress..
+
+- `"force"`:  Forces the deletion of an annotation store version when imports are in-
+  progress..
 """
 function delete_annotation_store_versions end
 
@@ -809,9 +845,9 @@ end
 Deletes a genome reference.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's store ID.
-
 """
 function delete_reference end
 
@@ -848,8 +884,8 @@ end
 Deletes a genome reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function delete_reference_store end
 
@@ -881,8 +917,8 @@ end
 Deletes a workflow run.
 
 # Arguments
-- `id`: The run's ID.
 
+- `id`: The run's ID.
 """
 function delete_run end
 
@@ -911,8 +947,8 @@ end
 Deletes a workflow run group.
 
 # Arguments
-- `id`: The run group's ID.
 
+- `id`: The run group's ID.
 """
 function delete_run_group end
 
@@ -941,8 +977,8 @@ end
 Deletes a sequence store.
 
 # Arguments
-- `id`: The sequence store's ID.
 
+- `id`: The sequence store's ID.
 """
 function delete_sequence_store end
 
@@ -976,8 +1012,8 @@ access to the shared resource. If you are the subscriber, this operation deletes
 access to the share.
 
 # Arguments
-- `share_id`: The ID for the resource share to be deleted.
 
+- `share_id`: The ID for the resource share to be deleted.
 """
 function delete_share end
 
@@ -1011,10 +1047,13 @@ end
 Deletes a variant store.
 
 # Arguments
+
 - `name`: The store's name.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"force"`: Whether to force deletion.
 """
 function delete_variant_store end
@@ -1047,8 +1086,8 @@ end
 Deletes a workflow.
 
 # Arguments
-- `id`: The workflow's ID.
 
+- `id`: The workflow's ID.
 """
 function delete_workflow end
 
@@ -1077,8 +1116,8 @@ end
 Gets information about an annotation import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function get_annotation_import_job end
 
@@ -1112,8 +1151,8 @@ end
 Gets information about an annotation store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
 function get_annotation_store end
 
@@ -1145,10 +1184,10 @@ end
  Retrieves the metadata for an annotation store version.
 
 # Arguments
+
 - `name`:  The name given to an annotation store version to distinguish it from others.
 - `version_name`:  The name given to an annotation store version to distinguish it from
   others.
-
 """
 function get_annotation_store_version end
 
@@ -1185,12 +1224,15 @@ end
 Gets a file from a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `part_number`: The part number to retrieve.
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"file"`: The file to retrieve.
 """
 function get_read_set end
@@ -1232,9 +1274,9 @@ end
 Gets information about a read set activation job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_activation_job end
 
@@ -1271,9 +1313,9 @@ end
 Gets information about a read set export job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_export_job end
 
@@ -1310,9 +1352,9 @@ end
 Gets information about a read set import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `sequence_store_id`: The job's sequence store ID.
-
 """
 function get_read_set_import_job end
 
@@ -1349,9 +1391,9 @@ end
 Gets details about a read set.
 
 # Arguments
+
 - `id`: The read set's ID.
 - `sequence_store_id`: The read set's sequence store ID.
-
 """
 function get_read_set_metadata end
 
@@ -1388,12 +1430,15 @@ end
 Gets a reference file.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `part_number`: The part number to retrieve.
 - `reference_store_id`: The reference's store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Range"`: The range to retrieve.
 - `"file"`: The file to retrieve.
 """
@@ -1436,9 +1481,9 @@ end
 Gets information about a reference import job.
 
 # Arguments
+
 - `id`: The job's ID.
 - `reference_store_id`: The job's reference store ID.
-
 """
 function get_reference_import_job end
 
@@ -1475,9 +1520,9 @@ end
 Gets information about a genome reference's metadata.
 
 # Arguments
+
 - `id`: The reference's ID.
 - `reference_store_id`: The reference's reference store ID.
-
 """
 function get_reference_metadata end
 
@@ -1514,8 +1559,8 @@ end
 Gets information about a reference store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function get_reference_store end
 
@@ -1544,14 +1589,18 @@ end
     get_run(id)
     get_run(id, params::Dict{String,<:Any})
 
-Gets information about a workflow run. If a workflow is shared with you, you cannot export
-information about the run.
+Gets information about a workflow run.
+
+If a workflow is shared with you, you cannot export information about the run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The run's export format.
 """
 function get_run end
@@ -1577,8 +1626,8 @@ end
 Gets information about a workflow run group.
 
 # Arguments
-- `id`: The group's ID.
 
+- `id`: The group's ID.
 """
 function get_run_group end
 
@@ -1607,9 +1656,9 @@ end
 Gets information about a workflow run task.
 
 # Arguments
+
 - `id`: The workflow run ID.
 - `task_id`: The task's ID.
-
 """
 function get_run_task end
 
@@ -1644,8 +1693,8 @@ end
 Gets information about a sequence store.
 
 # Arguments
-- `id`: The store's ID.
 
+- `id`: The store's ID.
 """
 function get_sequence_store end
 
@@ -1677,8 +1726,8 @@ end
 Retrieves the metadata for the specified resource share.
 
 # Arguments
-- `share_id`: The ID of the share.
 
+- `share_id`: The ID of the share.
 """
 function get_share end
 
@@ -1709,8 +1758,8 @@ end
 Gets information about a variant import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function get_variant_import_job end
 
@@ -1742,8 +1791,8 @@ end
 Gets information about a variant store.
 
 # Arguments
-- `name`: The store's name.
 
+- `name`: The store's name.
 """
 function get_variant_store end
 
@@ -1772,14 +1821,18 @@ end
     get_workflow(id)
     get_workflow(id, params::Dict{String,<:Any})
 
-Gets information about a workflow. If a workflow is shared with you, you cannot export the
-workflow.
+Gets information about a workflow.
+
+If a workflow is shared with you, you cannot export the workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"export"`: The export format for the workflow.
 - `"type"`: The workflow's type.
 - `"workflowOwnerId"`: The ID of the workflow owner.
@@ -1811,7 +1864,9 @@ end
 Retrieves a list of annotation import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of annotation import jobs to retrieve.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
@@ -1848,10 +1903,13 @@ end
  Lists the versions of an annotation store.
 
 # Arguments
+
 - `name`:  The name of an annotation store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`:  A filter to apply to the list of annotation store versions.
 - `"maxResults"`:  The maximum number of annotation store versions to return in one page of
   results.
@@ -1890,7 +1948,9 @@ end
 Retrieves a list of annotation stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of stores to list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
@@ -1925,10 +1985,13 @@ Lists multipart read set uploads and for in progress uploads. Once the upload is
 a read set is created and the upload will no longer be returned in the response.
 
 # Arguments
+
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of multipart uploads returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
   ListMultipartReadSetUploads call. Used to get the next page of results.
@@ -1967,10 +2030,13 @@ end
 Retrieves a list of read set activation jobs.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read set activation jobs to return in one page of
   results.
@@ -2011,10 +2077,13 @@ end
 Retrieves a list of read set export jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2054,10 +2123,13 @@ end
 Retrieves a list of read set import jobs.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2097,12 +2169,15 @@ end
 This operation will list all parts in a requested multipart upload for a sequence store.
 
 # Arguments
+
 - `part_source`: The source file for the upload part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 - `upload_id`: The ID for the initiated multipart upload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes used to filter for a specific subset of read set part uploads.
 - `"maxResults"`: The maximum number of read set upload parts returned in a page.
 - `"nextToken"`: Next token returned in the response of a previous
@@ -2150,10 +2225,13 @@ end
 Retrieves a list of read sets.
 
 # Arguments
+
 - `sequence_store_id`: The jobs' sequence store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of read sets to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2191,10 +2269,13 @@ end
 Retrieves a list of reference import jobs.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2234,7 +2315,9 @@ end
 Retrieves a list of reference stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2267,10 +2350,13 @@ end
 Retrieves a list of references.
 
 # Arguments
+
 - `reference_store_id`: The references' reference store ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of references to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2310,7 +2396,9 @@ end
 Retrieves a list of run groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run groups to return in one page of results.
 - `"name"`: The run groups' name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
@@ -2337,10 +2425,13 @@ end
 Retrieves a list of tasks for a run.
 
 # Arguments
+
 - `id`: The run's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of run tasks to return in one page of results.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
@@ -2373,7 +2464,9 @@ end
 Retrieves a list of runs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of runs to return in one page of results.
 - `"name"`: Filter the list by run name.
 - `"runGroupId"`: Filter the list by run group ID.
@@ -2402,7 +2495,9 @@ end
 Retrieves a list of sequence stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -2436,10 +2531,13 @@ Retrieves the resource shares associated with an account. Use the filter paramet
 retrieve a specific subset of the shares.
 
 # Arguments
+
 - `resource_owner`: The account that owns the resource shares.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: Attributes that you use to filter for a specific subset of resource shares.
 - `"maxResults"`: The maximum number of shares to return in one page of results.
 - `"nextToken"`: Next token returned in the response of a previous
@@ -2480,8 +2578,8 @@ end
 Retrieves a list of tags for a resource.
 
 # Arguments
-- `resource_arn`: The resource's ARN.
 
+- `resource_arn`: The resource's ARN.
 """
 function list_tags_for_resource end
 
@@ -2517,7 +2615,9 @@ end
 Retrieves a list of variant import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of job IDs.
 - `"maxResults"`: The maximum number of import jobs to return in one page of results.
@@ -2551,7 +2651,9 @@ end
 Retrieves a list of variant stores.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: A list of store IDs.
 - `"maxResults"`: The maximum number of stores to return in one page of results.
@@ -2585,7 +2687,9 @@ end
 Retrieves a list of workflows.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of workflows to return in one page of results.
 - `"name"`: Filter the list by workflow name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
@@ -2613,12 +2717,15 @@ end
 Starts an annotation import job.
 
 # Arguments
+
 - `destination_name`: A destination annotation store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
@@ -2674,11 +2781,14 @@ Activates an archived read set. To reduce storage charges, Amazon Omics archives
 read sets after 30 days.
 
 # Arguments
+
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2718,13 +2828,16 @@ end
 Exports a read set to Amazon S3.
 
 # Arguments
+
 - `destination`: A location for exported files in Amazon S3.
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2780,12 +2893,15 @@ end
 Starts a read set import job.
 
 # Arguments
+
 - `role_arn`: A service role for the job.
 - `sequence_store_id`: The read set's sequence store ID.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2830,12 +2946,15 @@ end
 Starts a reference import job.
 
 # Arguments
+
 - `reference_store_id`: The job's reference store ID.
 - `role_arn`: A service role for the job.
 - `sources`: The job's source files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"clientToken"`: To ensure that jobs don't run multiple times, specify a unique token for
   each job.
 """
@@ -2878,23 +2997,30 @@ end
     start_run(request_id, role_arn, params::Dict{String,<:Any})
 
 Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The
-remaining parameters are copied from the previous run. StartRun will not support re-run for
-a workflow that is shared with you. The total number of runs in your account is subject to
-a quota per Region. To avoid needing to delete runs manually, you can set the retention
-mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is
-exceeded. By default, the run uses STATIC storage. For STATIC storage, set the
-storageCapacity field. You can set the storage type to DYNAMIC. You do not set
-storageCapacity, because HealthOmics dynamically scales the storage up or down as required.
-For more information about static and dynamic storage, see Running workflows in the AWS
-HealthOmics User Guide.
+remaining parameters are copied from the previous run.
+
+StartRun will not support re-run for a workflow that is shared with you.
+
+The total number of runs in your account is subject to a quota per Region. To avoid needing
+to delete runs manually, you can set the retention mode to `REMOVE`. Runs with this setting
+are deleted automatically when the run quoata is exceeded.
+
+By default, the run uses STATIC storage. For STATIC storage, set the `storageCapacity`
+field. You can set the storage type to DYNAMIC. You do not set `storageCapacity`, because
+HealthOmics dynamically scales the storage up or down as required. For more information
+about static and dynamic storage, see [Running workflows](https://docs.aws.amazon.com/omics/latest/dev/Using-workflows.html)
+in the *AWS HealthOmics User Guide*.
 
 # Arguments
+
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
   each request.
 - `role_arn`: A service role for the run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"logLevel"`: A log level for the run.
 - `"name"`: A name for the run.
 - `"outputUri"`: An output URI for the run.
@@ -2953,12 +3079,15 @@ end
 Starts a variant import job.
 
 # Arguments
+
 - `destination_name`: The destination variant store for the job.
 - `items`: Items to import.
 - `role_arn`: A service role for the job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
@@ -3011,9 +3140,9 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tags`: Tags for the resource.
-
 """
 function tag_resource end
 
@@ -3049,9 +3178,9 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tag_keys`: Keys of tags to remove.
-
 """
 function untag_resource end
 
@@ -3089,10 +3218,13 @@ end
 Updates an annotation store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
 function update_annotation_store end
@@ -3125,11 +3257,14 @@ end
  Updates the description of an annotation store version.
 
 # Arguments
+
 - `name`:  The name of an annotation store.
 - `version_name`:  The name of an annotation store version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`:  The description of an annotation store.
 """
 function update_annotation_store_version end
@@ -3167,10 +3302,13 @@ end
 Updates a run group.
 
 # Arguments
+
 - `id`: The group's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxCpus"`: The maximum number of CPUs to use.
 - `"maxDuration"`: A maximum run time for the group in minutes.
 - `"maxGpus"`: The maximum GPUs that can be used by a run group.
@@ -3204,10 +3342,13 @@ end
 Updates a variant store.
 
 # Arguments
+
 - `name`: A name for the store.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the store.
 """
 function update_variant_store end
@@ -3240,10 +3381,13 @@ end
 Updates a workflow.
 
 # Arguments
+
 - `id`: The workflow's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the workflow.
 - `"name"`: A name for the workflow.
 """
@@ -3275,12 +3419,12 @@ This operation uploads a specific part of a read set. If you upload a new part u
 previously used part number, the previously uploaded part will be overwritten.
 
 # Arguments
+
 - `part_number`: The number of the part being uploaded.
 - `part_source`: The source file for an upload part.
 - `payload`: The read set data to upload for a part.
 - `sequence_store_id`: The Sequence Store ID used for the multipart upload.
 - `upload_id`: The ID for the initiated multipart upload.
-
 """
 function upload_read_set_part end
 

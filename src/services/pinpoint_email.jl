@@ -8,17 +8,20 @@ using AWS.UUIDs
     create_configuration_set(configuration_set_name)
     create_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
-Create a configuration set. Configuration sets are groups of rules that you can apply to
+Create a configuration set. *Configuration sets* are groups of rules that you can apply to
 the emails you send using Amazon Pinpoint. You apply a configuration set to an email by
 including a reference to the configuration set in the headers of the email. When you apply
 a configuration set to an email, all of the rules in that configuration set are applied to
 the email.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeliveryOptions"`: An object that defines the dedicated IP pool that is used to send
   emails that you send using the configuration set.
 - `"ReputationOptions"`: An object that defines whether or not Amazon Pinpoint collects
@@ -68,20 +71,21 @@ end
     create_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name)
     create_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name, params::Dict{String,<:Any})
 
-Create an event destination. In Amazon Pinpoint, events include message sends, deliveries,
-opens, clicks, bounces, and complaints. Event destinations are places that you can send
-information about these events to. For example, you can send event data to Amazon SNS to
-receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis
-Data Firehose to stream data to Amazon S3 for long-term storage. A single configuration set
-can include more than one event destination.
+Create an event destination. In Amazon Pinpoint, *events* include message sends,
+deliveries, opens, clicks, bounces, and complaints. *Event destinations* are places that
+you can send information about these events to. For example, you can send event data to
+Amazon SNS to receive notifications when you receive bounces or complaints, or you can use
+Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+
+A single configuration set can include more than one event destination.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to add an event
   destination to.
 - `event_destination`: An object that defines the event destination.
 - `event_destination_name`: A name that identifies the event destination within the
   configuration set.
-
 """
 function create_configuration_set_event_destination end
 
@@ -138,10 +142,13 @@ with a configuration set. When you send an email that uses that configuration se
 Pinpoint sends it using only the IP addresses in the associated pool.
 
 # Arguments
+
 - `pool_name`: The name of the dedicated IP pool.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: An object that defines the tags (keys and values) that you want to associate
   with the pool.
 """
@@ -184,17 +191,20 @@ predict how your messages will be handled by various email providers around the 
 you perform a predictive inbox placement test, you provide a sample message that contains
 the content that you plan to send to your customers. Amazon Pinpoint then sends that
 message to special email addresses spread across several major email providers. After about
-24 hours, the test is complete, and you can use the GetDeliverabilityTestReport operation
+24 hours, the test is complete, and you can use the `GetDeliverabilityTestReport` operation
 to view the results of the test.
 
 # Arguments
+
 - `content`: The HTML body of the message that you sent when you performed the predictive
   inbox placement test.
 - `from_email_address`: The email address that the predictive inbox placement test email
   was sent from.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ReportName"`: A unique name that helps you to identify the predictive inbox placement
   test when you retrieve the results.
 - `"Tags"`: An array of objects that define the tags (keys and values) that you want to
@@ -245,19 +255,25 @@ Verifies an email identity for use with Amazon Pinpoint. In Amazon Pinpoint, an 
 an email address or domain that you use when you send email. Before you can use an identity
 to send email with Amazon Pinpoint, you first have to verify it. By verifying an address,
 you demonstrate that you're the owner of the address, and that you've given Amazon Pinpoint
-permission to send email from the address. When you verify an email address, Amazon
-Pinpoint sends an email to the address. Your email address is verified as soon as you
-follow the link in the verification email.  When you verify a domain, this operation
-provides a set of DKIM tokens, which you can convert into CNAME tokens. You add these CNAME
-tokens to the DNS configuration for your domain. Your domain is verified when Amazon
-Pinpoint detects these records in the DNS configuration for your domain. It usually takes
-around 72 hours to complete the domain verification process.
+permission to send email from the address.
+
+When you verify an email address, Amazon Pinpoint sends an email to the address. Your email
+address is verified as soon as you follow the link in the verification email.
+
+When you verify a domain, this operation provides a set of DKIM tokens, which you can
+convert into CNAME tokens. You add these CNAME tokens to the DNS configuration for your
+domain. Your domain is verified when Amazon Pinpoint detects these records in the DNS
+configuration for your domain. It usually takes around 72 hours to complete the domain
+verification process.
 
 # Arguments
+
 - `email_identity`: The email address or domain that you want to verify.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: An array of objects that define the tags (keys and values) that you want to
   associate with the email identity.
 """
@@ -295,15 +311,16 @@ end
     delete_configuration_set(configuration_set_name)
     delete_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
-Delete an existing configuration set. In Amazon Pinpoint, configuration sets are groups of
-rules that you can apply to the emails you send. You apply a configuration set to an email
-by including a reference to the configuration set in the headers of the email. When you
-apply a configuration set to an email, all of the rules in that configuration set are
-applied to the email.
+Delete an existing configuration set.
+
+In Amazon Pinpoint, *configuration sets* are groups of rules that you can apply to the
+emails you send. You apply a configuration set to an email by including a reference to the
+configuration set in the headers of the email. When you apply a configuration set to an
+email, all of the rules in that configuration set are applied to the email.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to delete.
 
+- `configuration_set_name`: The name of the configuration set that you want to delete.
 """
 function delete_configuration_set end
 
@@ -336,17 +353,19 @@ end
     delete_configuration_set_event_destination(configuration_set_name, event_destination_name)
     delete_configuration_set_event_destination(configuration_set_name, event_destination_name, params::Dict{String,<:Any})
 
-Delete an event destination. In Amazon Pinpoint, events include message sends, deliveries,
-opens, clicks, bounces, and complaints. Event destinations are places that you can send
-information about these events to. For example, you can send event data to Amazon SNS to
-receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis
-Data Firehose to stream data to Amazon S3 for long-term storage.
+Delete an event destination.
+
+In Amazon Pinpoint, *events* include message sends, deliveries, opens, clicks, bounces, and
+complaints. *Event destinations* are places that you can send information about these
+events to. For example, you can send event data to Amazon SNS to receive notifications when
+you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream
+data to Amazon S3 for long-term storage.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that contains the event
   destination that you want to delete.
 - `event_destination_name`: The name of the event destination that you want to delete.
-
 """
 function delete_configuration_set_event_destination end
 
@@ -385,8 +404,8 @@ end
 Delete a dedicated IP pool.
 
 # Arguments
-- `pool_name`: The name of the dedicated IP pool that you want to delete.
 
+- `pool_name`: The name of the dedicated IP pool that you want to delete.
 """
 function delete_dedicated_ip_pool end
 
@@ -423,9 +442,9 @@ Deletes an email identity that you previously verified for use with Amazon Pinpo
 identity can be either an email address or a domain name.
 
 # Arguments
+
 - `email_identity`: The identity (that is, the email address or domain) that you want to
   delete from your Amazon Pinpoint account.
-
 """
 function delete_email_identity end
 
@@ -460,7 +479,6 @@ end
 
 Obtain information about the email-sending status and capabilities of your Amazon Pinpoint
 account in the current AWS Region.
-
 """
 function get_account end
 
@@ -489,10 +507,10 @@ end
 Retrieve a list of the blacklists that your dedicated IP addresses appear on.
 
 # Arguments
+
 - `blacklist_item_names`: A list of IP addresses that you want to retrieve blacklist
   information about. You can only specify the dedicated IP addresses that you use to send
   email using Amazon Pinpoint or Amazon SES.
-
 """
 function get_blacklist_reports end
 
@@ -531,16 +549,17 @@ end
     get_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
 Get information about an existing configuration set, including the dedicated IP pool that
-it's associated with, whether or not it's enabled for sending email, and more. In Amazon
-Pinpoint, configuration sets are groups of rules that you can apply to the emails you send.
-You apply a configuration set to an email by including a reference to the configuration set
-in the headers of the email. When you apply a configuration set to an email, all of the
-rules in that configuration set are applied to the email.
+it's associated with, whether or not it's enabled for sending email, and more.
+
+In Amazon Pinpoint, *configuration sets* are groups of rules that you can apply to the
+emails you send. You apply a configuration set to an email by including a reference to the
+configuration set in the headers of the email. When you apply a configuration set to an
+email, all of the rules in that configuration set are applied to the email.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to obtain more
   information about.
-
 """
 function get_configuration_set end
 
@@ -573,17 +592,18 @@ end
     get_configuration_set_event_destinations(configuration_set_name)
     get_configuration_set_event_destinations(configuration_set_name, params::Dict{String,<:Any})
 
-Retrieve a list of event destinations that are associated with a configuration set. In
-Amazon Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and
-complaints. Event destinations are places that you can send information about these events
-to. For example, you can send event data to Amazon SNS to receive notifications when you
-receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data
-to Amazon S3 for long-term storage.
+Retrieve a list of event destinations that are associated with a configuration set.
+
+In Amazon Pinpoint, *events* include message sends, deliveries, opens, clicks, bounces, and
+complaints. *Event destinations* are places that you can send information about these
+events to. For example, you can send event data to Amazon SNS to receive notifications when
+you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream
+data to Amazon S3 for long-term storage.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that contains the event
   destination.
-
 """
 function get_configuration_set_event_destinations end
 
@@ -621,10 +641,10 @@ that it's associated with, as well information about the automatic warm-up proce
 address.
 
 # Arguments
+
 - `ip`: The IP address that you want to obtain more information about. The value you
   specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint
   account.
-
 """
 function get_dedicated_ip end
 
@@ -656,12 +676,15 @@ end
 List the dedicated IP addresses that are associated with your Amazon Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to GetDedicatedIps to indicate the
+
+- `"NextToken"`: A token returned from a previous call to `GetDedicatedIps` to indicate the
   position of the dedicated IP pool in the list of IP pools.
-- `"PageSize"`: The number of results to show in a single call to GetDedicatedIpsRequest.
+- `"PageSize"`: The number of results to show in a single call to `GetDedicatedIpsRequest`.
   If the number of results is larger than the number you specified in this parameter, then
-  the response includes a NextToken element, which you can use to obtain additional results.
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 - `"PoolName"`: The name of the IP pool that the dedicated IP address is associated with.
 """
 function get_dedicated_ips end
@@ -695,11 +718,11 @@ Retrieve information about the status of the Deliverability dashboard for your A
 Pinpoint account. When the Deliverability dashboard is enabled, you gain access to
 reputation, deliverability, and other metrics for the domains that you use to send email
 using Amazon Pinpoint. You also gain the ability to perform predictive inbox placement
-tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in
-addition to any other fees that you accrue by using Amazon Pinpoint. For more information
-about the features and cost of a Deliverability dashboard subscription, see Amazon Pinpoint
-Pricing.
+tests.
 
+When you use the Deliverability dashboard, you pay a monthly subscription charge, in
+addition to any other fees that you accrue by using Amazon Pinpoint. For more information
+about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
 """
 function get_deliverability_dashboard_options end
 
@@ -733,8 +756,8 @@ end
 Retrieve the results of a predictive inbox placement test.
 
 # Arguments
-- `report_id`: A unique string that identifies the predictive inbox placement test.
 
+- `report_id`: A unique string that identifies the predictive inbox placement test.
 """
 function get_deliverability_test_report end
 
@@ -769,14 +792,14 @@ end
 
 Retrieve all the deliverability data for a specific campaign. This data is available for a
 campaign only if the campaign sent email by using a domain that the Deliverability
-dashboard is enabled for (PutDeliverabilityDashboardOption operation).
+dashboard is enabled for (`PutDeliverabilityDashboardOption` operation).
 
 # Arguments
+
 - `campaign_id`: The unique identifier for the campaign. Amazon Pinpoint automatically
   generates and assigns this identifier to a campaign. This value is not the same as the
-  campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by
-  using the Amazon Pinpoint API or the Amazon Pinpoint console.
-
+  campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage
+  by using the Amazon Pinpoint API or the Amazon Pinpoint console.
 """
 function get_domain_deliverability_campaign end
 
@@ -812,13 +835,13 @@ end
 Retrieve inbox placement and engagement rates for the domains that you use to send email.
 
 # Arguments
+
 - `domain`: The domain that you want to obtain deliverability metrics for.
 - `end_date`: The last day (in Unix time) that you want to obtain domain deliverability
-  metrics for. The EndDate that you specify has to be less than or equal to 30 days after the
-  StartDate.
+  metrics for. The `EndDate` that you specify has to be less than or equal to 30 days after
+  the `StartDate`.
 - `start_date`: The first day (in Unix time) that you want to obtain domain deliverability
   metrics for.
-
 """
 function get_domain_statistics_report end
 
@@ -865,8 +888,8 @@ account, including the identity's verification status, its DKIM authentication s
 its custom Mail-From settings.
 
 # Arguments
-- `email_identity`: The email identity that you want to retrieve details for.
 
+- `email_identity`: The email identity that you want to retrieve details for.
 """
 function get_email_identity end
 
@@ -900,19 +923,23 @@ end
     list_configuration_sets(params::Dict{String,<:Any})
 
 List all of the configuration sets associated with your Amazon Pinpoint account in the
-current region. In Amazon Pinpoint, configuration sets are groups of rules that you can
-apply to the emails you send. You apply a configuration set to an email by including a
-reference to the configuration set in the headers of the email. When you apply a
-configuration set to an email, all of the rules in that configuration set are applied to
-the email.
+current region.
+
+In Amazon Pinpoint, *configuration sets* are groups of rules that you can apply to the
+emails you send. You apply a configuration set to an email by including a reference to the
+configuration set in the headers of the email. When you apply a configuration set to an
+email, all of the rules in that configuration set are applied to the email.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to ListConfigurationSets to indicate
-  the position in the list of configuration sets.
-- `"PageSize"`: The number of results to show in a single call to ListConfigurationSets. If
-  the number of results is larger than the number you specified in this parameter, then the
-  response includes a NextToken element, which you can use to obtain additional results.
+
+- `"NextToken"`: A token returned from a previous call to `ListConfigurationSets` to
+  indicate the position in the list of configuration sets.
+- `"PageSize"`: The number of results to show in a single call to `ListConfigurationSets`.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 """
 function list_configuration_sets end
 
@@ -945,12 +972,15 @@ List all of the dedicated IP pools that exist in your Amazon Pinpoint account in
 current AWS Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to ListDedicatedIpPools to indicate
-  the position in the list of dedicated IP pools.
-- `"PageSize"`: The number of results to show in a single call to ListDedicatedIpPools. If
-  the number of results is larger than the number you specified in this parameter, then the
-  response includes a NextToken element, which you can use to obtain additional results.
+
+- `"NextToken"`: A token returned from a previous call to `ListDedicatedIpPools` to
+  indicate the position in the list of dedicated IP pools.
+- `"PageSize"`: The number of results to show in a single call to `ListDedicatedIpPools`.
+  If the number of results is larger than the number you specified in this parameter, then
+  the response includes a `NextToken` element, which you can use to obtain additional
+  results.
 """
 function list_dedicated_ip_pools end
 
@@ -981,17 +1011,20 @@ end
 
 Show a list of the predictive inbox placement tests that you've performed, regardless of
 their statuses. For predictive inbox placement tests that are complete, you can use the
-GetDeliverabilityTestReport operation to view the results.
+`GetDeliverabilityTestReport` operation to view the results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to ListDeliverabilityTestReports to
-  indicate the position in the list of predictive inbox placement tests.
+
+- `"NextToken"`: A token returned from a previous call to `ListDeliverabilityTestReports`
+  to indicate the position in the list of predictive inbox placement tests.
 - `"PageSize"`: The number of results to show in a single call to
-  ListDeliverabilityTestReports. If the number of results is larger than the number you
-  specified in this parameter, then the response includes a NextToken element, which you can
-  use to obtain additional results. The value you specify has to be at least 0, and can be no
-  more than 1000.
+  `ListDeliverabilityTestReports`. If the number of results is larger than the number you
+  specified in this parameter, then the response includes a `NextToken` element, which you
+  can use to obtain additional results.
+
+The value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_deliverability_test_reports end
 
@@ -1024,26 +1057,29 @@ end
 
 Retrieve deliverability data for all the campaigns that used a specific domain to send
 email during a specified time range. This data is available for a domain only if you
-enabled the Deliverability dashboard (PutDeliverabilityDashboardOption operation) for the
+enabled the Deliverability dashboard (`PutDeliverabilityDashboardOption` operation) for the
 domain.
 
 # Arguments
+
 - `end_date`: The last day, in Unix time format, that you want to obtain deliverability
   data for. This value has to be less than or equal to 30 days after the value of the
-  StartDate parameter.
+  `StartDate` parameter.
 - `start_date`: The first day, in Unix time format, that you want to obtain deliverability
   data for.
 - `subscribed_domain`: The domain to obtain deliverability data for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: A token that’s returned from a previous call to the
-  ListDomainDeliverabilityCampaigns operation. This token indicates the position of a
+  `ListDomainDeliverabilityCampaigns` operation. This token indicates the position of a
   campaign in the list of campaigns.
 - `"PageSize"`: The maximum number of results to include in response to a single call to
-  the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than
-  the number that you specify in this parameter, the response includes a NextToken element,
-  which you can use to obtain additional results.
+  the `ListDomainDeliverabilityCampaigns` operation. If the number of results is larger
+  than the number that you specify in this parameter, the response includes a `NextToken`
+  element, which you can use to obtain additional results.
 """
 function list_domain_deliverability_campaigns end
 
@@ -1090,13 +1126,16 @@ account. An identity can be either an email address or a domain. This operation 
 identities that are verified as well as those that aren't.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to ListEmailIdentities to indicate
+
+- `"NextToken"`: A token returned from a previous call to `ListEmailIdentities` to indicate
   the position in the list of identities.
-- `"PageSize"`: The number of results to show in a single call to ListEmailIdentities. If
+- `"PageSize"`: The number of results to show in a single call to `ListEmailIdentities`. If
   the number of results is larger than the number you specified in this parameter, then the
-  response includes a NextToken element, which you can use to obtain additional results. The
-  value you specify has to be at least 0, and can be no more than 1000.
+  response includes a `NextToken` element, which you can use to obtain additional results.
+
+The value you specify has to be at least 0, and can be no more than 1000.
 """
 function list_email_identities end
 
@@ -1126,15 +1165,15 @@ end
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Retrieve a list of the tags (keys and values) that are associated with a specified
-resource. A tag is a label that you optionally define and associate with a resource in
-Amazon Pinpoint. Each tag consists of a required tag key and an optional associated tag
-value. A tag key is a general label that acts as a category for more specific tag values. A
-tag value acts as a descriptor within a tag key.
+resource. A *tag* is a label that you optionally define and associate with a resource in
+Amazon Pinpoint. Each tag consists of a required *tag key* and an optional associated *tag
+value*. A tag key is a general label that acts as a category for more specific tag values.
+A tag value acts as a descriptor within a tag key.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to retrieve
   tag information for.
-
 """
 function list_tags_for_resource end
 
@@ -1173,10 +1212,13 @@ end
 Enable or disable the automatic warm-up feature for dedicated IP addresses.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AutoWarmupEnabled"`: Enables or disables the automatic warm-up feature for dedicated IP
-  addresses that are associated with your Amazon Pinpoint account in the current AWS Region.
-  Set to true to enable the automatic warm-up feature, or set to false to disable it.
+  addresses that are associated with your Amazon Pinpoint account in the current AWS
+  Region. Set to `true` to enable the automatic warm-up feature, or set to `false` to
+  disable it.
 """
 function put_account_dedicated_ip_warmup_attributes end
 
@@ -1210,11 +1252,15 @@ end
 Enable or disable the ability of your account to send email.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SendingEnabled"`: Enables or disables your account's ability to send email. Set to true
-  to enable email sending, or set to false to disable email sending.  If AWS paused your
-  account's ability to send email, you can't use this operation to resume your account's
-  ability to send email.
+
+- `"SendingEnabled"`: Enables or disables your account's ability to send email. Set to
+  `true` to enable email sending, or set to `false` to disable email sending.
+
+  !!! note
+      If AWS paused your account's ability to send email, you can't use this operation to
+  resume your account's ability to send email.
 """
 function put_account_sending_attributes end
 
@@ -1249,17 +1295,20 @@ Associate a configuration set with a dedicated IP pool. You can use dedicated IP
 create groups of dedicated IP addresses for sending specific types of email.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to associate
   with a dedicated IP pool.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SendingPoolName"`: The name of the dedicated IP pool that you want to associate with
   the configuration set.
 - `"TlsPolicy"`: Specifies whether messages that use the configuration set are required to
-  use Transport Layer Security (TLS). If the value is Require, messages are only delivered if
-  a TLS connection can be established. If the value is Optional, messages can be delivered in
-  plain text if a TLS connection can't be established.
+  use Transport Layer Security (TLS). If the value is `Require`, messages are only
+  delivered if a TLS connection can be established. If the value is `Optional`, messages
+  can be delivered in plain text if a TLS connection can't be established.
 """
 function put_configuration_set_delivery_options end
 
@@ -1296,13 +1345,16 @@ Enable or disable collection of reputation metrics for emails that you send usin
 particular configuration set in a specific AWS Region.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to enable or
   disable reputation metric tracking for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ReputationMetricsEnabled"`: If true, tracking of reputation metrics is enabled for the
-  configuration set. If false, tracking of reputation metrics is disabled for the
+
+- `"ReputationMetricsEnabled"`: If `true`, tracking of reputation metrics is enabled for
+  the configuration set. If `false`, tracking of reputation metrics is disabled for the
   configuration set.
 """
 function put_configuration_set_reputation_options end
@@ -1340,13 +1392,16 @@ Enable or disable email sending for messages that use a particular configuration
 specific AWS Region.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to enable or
   disable email sending for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SendingEnabled"`: If true, email sending is enabled for the configuration set. If
-  false, email sending is disabled for the configuration set.
+
+- `"SendingEnabled"`: If `true`, email sending is enabled for the configuration set. If
+  `false`, email sending is disabled for the configuration set.
 """
 function put_configuration_set_sending_options end
 
@@ -1383,11 +1438,14 @@ Specify a custom domain to use for open and click tracking elements in email tha
 using Amazon Pinpoint.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that you want to add a custom
   tracking domain to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CustomRedirectDomain"`: The domain that you want to use to track open and click events.
 """
 function put_configuration_set_tracking_options end
@@ -1421,18 +1479,22 @@ end
     put_dedicated_ip_in_pool(destination_pool_name, ip)
     put_dedicated_ip_in_pool(destination_pool_name, ip, params::Dict{String,<:Any})
 
-Move a dedicated IP address to an existing dedicated IP pool.  The dedicated IP address
-that you specify must already exist, and must be associated with your Amazon Pinpoint
-account.  The dedicated IP pool you specify must already exist. You can create a new pool
-by using the CreateDedicatedIpPool operation.
+Move a dedicated IP address to an existing dedicated IP pool.</p>
+
+!!! note
+    The dedicated IP address that you specify must already exist, and must be associated
+with your Amazon Pinpoint account.
+
+ <p>The dedicated IP pool you specify must already exist. You can create a new pool by
+using the `CreateDedicatedIpPool` operation.
 
 # Arguments
+
 - `destination_pool_name`: The name of the IP pool that you want to add the dedicated IP
   address to. You have to specify an IP pool that already exists.
 - `ip`: The IP address that you want to move to the dedicated IP pool. The value you
   specify has to be a dedicated IP address that's associated with your Amazon Pinpoint
   account.
-
 """
 function put_dedicated_ip_in_pool end
 
@@ -1473,13 +1535,13 @@ end
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage)
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage, params::Dict{String,<:Any})
 
-
+<p/>
 
 # Arguments
+
 - `ip`: The dedicated IP address that you want to update the warm-up attributes for.
 - `warmup_percentage`: The warm-up percentage that you want to associate with the dedicated
   IP address.
-
 """
 function put_dedicated_ip_warmup_attributes end
 
@@ -1521,17 +1583,21 @@ end
 Enable or disable the Deliverability dashboard for your Amazon Pinpoint account. When you
 enable the Deliverability dashboard, you gain access to reputation, deliverability, and
 other metrics for the domains that you use to send email using Amazon Pinpoint. You also
-gain the ability to perform predictive inbox placement tests. When you use the
-Deliverability dashboard, you pay a monthly subscription charge, in addition to any other
-fees that you accrue by using Amazon Pinpoint. For more information about the features and
-cost of a Deliverability dashboard subscription, see Amazon Pinpoint Pricing.
+gain the ability to perform predictive inbox placement tests.
+
+When you use the Deliverability dashboard, you pay a monthly subscription charge, in
+addition to any other fees that you accrue by using Amazon Pinpoint. For more information
+about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
 
 # Arguments
+
 - `dashboard_enabled`: Specifies whether to enable the Deliverability dashboard for your
-  Amazon Pinpoint account. To enable the dashboard, set this value to true.
+  Amazon Pinpoint account. To enable the dashboard, set this value to `true`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SubscribedDomains"`: An array of objects, one for each verified domain that you use to
   send email and enabled the Deliverability dashboard for.
 """
@@ -1574,14 +1640,18 @@ end
 Used to enable or disable DKIM authentication for an email identity.
 
 # Arguments
+
 - `email_identity`: The email identity that you want to change the DKIM settings for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SigningEnabled"`: Sets the DKIM signing configuration for the identity. When you set
-  this value true, then the messages that Amazon Pinpoint sends from the identity are
-  DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends
-  from the identity aren't DKIM-signed.
+
+- `"SigningEnabled"`: Sets the DKIM signing configuration for the identity.
+
+  When you set this value `true`, then the messages that Amazon Pinpoint sends from the
+  identity are DKIM-signed. When you set this value to `false`, then the messages that
+  Amazon Pinpoint sends from the identity aren't DKIM-signed.
 """
 function put_email_identity_dkim_attributes end
 
@@ -1616,30 +1686,38 @@ end
 
 Used to enable or disable feedback forwarding for an identity. This setting determines what
 happens when an identity is used to send an email that results in a bounce or complaint
-event. When you enable feedback forwarding, Amazon Pinpoint sends you email notifications
-when bounce or complaint events occur. Amazon Pinpoint sends this notification to the
-address that you specified in the Return-Path header of the original email. When you
-disable feedback forwarding, Amazon Pinpoint sends notifications through other mechanisms,
-such as by notifying an Amazon SNS topic. You're required to have a method of tracking
-bounces and complaints. If you haven't set up another mechanism for receiving bounce or
-complaint notifications, Amazon Pinpoint sends an email notification when these events
-occur (even if this setting is disabled).
+event.
+
+When you enable feedback forwarding, Amazon Pinpoint sends you email notifications when
+bounce or complaint events occur. Amazon Pinpoint sends this notification to the address
+that you specified in the Return-Path header of the original email.
+
+When you disable feedback forwarding, Amazon Pinpoint sends notifications through other
+mechanisms, such as by notifying an Amazon SNS topic. You're required to have a method of
+tracking bounces and complaints. If you haven't set up another mechanism for receiving
+bounce or complaint notifications, Amazon Pinpoint sends an email notification when these
+events occur (even if this setting is disabled).
 
 # Arguments
+
 - `email_identity`: The email identity that you want to configure bounce and complaint
   feedback forwarding for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"EmailForwardingEnabled"`: Sets the feedback forwarding configuration for the identity.
-  If the value is true, Amazon Pinpoint sends you email notifications when bounce or
+
+  If the value is `true`, Amazon Pinpoint sends you email notifications when bounce or
   complaint events occur. Amazon Pinpoint sends this notification to the address that you
-  specified in the Return-Path header of the original email. When you set this value to
-  false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying
-  an Amazon SNS topic or another event destination. You're required to have a method of
-  tracking bounces and complaints. If you haven't set up another mechanism for receiving
-  bounce or complaint notifications, Amazon Pinpoint sends an email notification when these
-  events occur (even if this setting is disabled).
+  specified in the Return-Path header of the original email.
+
+  When you set this value to `false`, Amazon Pinpoint sends notifications through other
+  mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're
+  required to have a method of tracking bounces and complaints. If you haven't set up
+  another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends
+  an email notification when these events occur (even if this setting is disabled).
 """
 function put_email_identity_feedback_attributes end
 
@@ -1675,21 +1753,28 @@ end
 Used to enable or disable the custom Mail-From domain configuration for an email identity.
 
 # Arguments
+
 - `email_identity`: The verified email identity that you want to set up the custom MAIL
   FROM domain for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BehaviorOnMxFailure"`: The action that you want Amazon Pinpoint to take if it can't
   read the required MX record when you send an email. When you set this value to
-  UseDefaultValue, Amazon Pinpoint uses amazonses.com as the MAIL FROM domain. When you set
-  this value to RejectMessage, Amazon Pinpoint returns a MailFromDomainNotVerified error, and
-  doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM
-  domain configuration is in the Pending, Failed, and TemporaryFailure states.
+  `UseDefaultValue`, Amazon Pinpoint uses *amazonses.com* as the MAIL FROM domain. When you
+  set this value to `RejectMessage`, Amazon Pinpoint returns a `MailFromDomainNotVerified`
+  error, and doesn't attempt to deliver the email.
+
+  These behaviors are taken when the custom MAIL FROM domain configuration is in the
+  `Pending`, `Failed`, and `TemporaryFailure` states.
 - `"MailFromDomain"`:  The custom MAIL FROM domain that you want the verified identity to
-  use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of
-  the verified identity.   It can't be used to receive email.   It can't be used in a
-  \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.
+  use. The MAIL FROM domain must meet the following criteria: - It has to be a subdomain of
+  the verified identity.
+   - It can't be used to receive email.
+   - It can't be used in a "From" address if the MAIL FROM domain is a destination for
+  feedback forwarding emails.
 """
 function put_email_identity_mail_from_attributes end
 
@@ -1723,31 +1808,35 @@ end
     send_email(content, destination, params::Dict{String,<:Any})
 
 Sends an email message. You can use the Amazon Pinpoint Email API to send two types of
-messages:    Simple – A standard email message. When you create this type of message, you
-specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles the
-message for you.    Raw – A raw, MIME-formatted email message. When you send this type of
-email, you have to specify all of the message headers, as well as the message body. You can
-use this message type to send messages that contain attachments. The message that you
-specify has to be a valid MIME message.
+messages: - **Simple** – A standard email message. When you create this type of message,
+you specify the sender, the recipient, and the message body, and Amazon Pinpoint assembles
+the message for you.
+ - **Raw** – A raw, MIME-formatted email message. When you send this type of email, you
+have to specify all of the message headers, as well as the message body. You can use this
+message type to send messages that contain attachments. The message that you specify has to
+be a valid MIME message.
 
 # Arguments
+
 - `content`: An object that contains the body of the message. You can send either a Simple
   message or a Raw message.
 - `destination`: An object that contains the recipients of the email message.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConfigurationSetName"`: The name of the configuration set that you want to use when
   sending the email.
 - `"EmailTags"`: A list of tags, in the form of name/value pairs, to apply to an email that
-  you send using the SendEmail operation. Tags correspond to characteristics of the email
+  you send using the `SendEmail` operation. Tags correspond to characteristics of the email
   that you define, so that you can publish email sending events.
 - `"FeedbackForwardingEmailAddress"`: The address that Amazon Pinpoint should send bounce
   and complaint notifications to.
-- `"FromEmailAddress"`: The email address that you want to use as the \"From\" address for
+- `"FromEmailAddress"`: The email address that you want to use as the "From" address for
   the email. The address that you specify has to be verified.
-- `"ReplyToAddresses"`: The \"Reply-to\" email addresses for the message. When the
-  recipient replies to the message, each Reply-to address receives the reply.
+- `"ReplyToAddresses"`: The "Reply-to" email addresses for the message. When the recipient
+  replies to the message, each Reply-to address receives the reply.
 """
 function send_email end
 
@@ -1788,21 +1877,22 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Add one or more tags (keys and values) to a specified resource. A tag is a label that you
+Add one or more tags (keys and values) to a specified resource. A *tag* is a label that you
 optionally define and associate with a resource in Amazon Pinpoint. Tags can help you
 categorize and manage resources in different ways, such as by purpose, owner, environment,
-or other criteria. A resource can have as many as 50 tags. Each tag consists of a
-required tag key and an associated tag value, both of which you define. A tag key is a
-general label that acts as a category for more specific tag values. A tag value acts as a
-descriptor within a tag key.
+or other criteria. A resource can have as many as 50 tags.
+
+Each tag consists of a required *tag key* and an associated *tag value*, both of which you
+define. A tag key is a general label that acts as a category for more specific tag values.
+A tag value acts as a descriptor within a tag key.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add one
   or more tags to.
 - `tags`: A list of the tags that you want to add to the resource. A tag consists of a
-  required tag key (Key) and an associated tag value (Value). The maximum length of a tag key
-  is 128 characters. The maximum length of a tag value is 256 characters.
-
+  required tag key (`Key`) and an associated tag value (`Value`). The maximum length of a
+  tag key is 128 characters. The maximum length of a tag value is 256 characters.
 """
 function tag_resource end
 
@@ -1844,14 +1934,15 @@ end
 Remove one or more tags (keys and values) from a specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
   one or more tags from.
 - `tag_keys`: The tags (tag keys) that you want to remove from the resource. When you
-  specify a tag key, the action removes both that key and its associated tag value. To remove
-  more than one tag from the resource, append the TagKeys parameter and argument for each
-  additional tag to remove, separated by an ampersand. For example:
-  /v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2
+  specify a tag key, the action removes both that key and its associated tag value.
 
+  To remove more than one tag from the resource, append the `TagKeys` parameter and
+  argument for each additional tag to remove, separated by an ampersand. For example:
+  `/v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2`
 """
 function untag_resource end
 
@@ -1892,19 +1983,20 @@ end
     update_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name)
     update_configuration_set_event_destination(configuration_set_name, event_destination, event_destination_name, params::Dict{String,<:Any})
 
-Update the configuration of an event destination for a configuration set. In Amazon
-Pinpoint, events include message sends, deliveries, opens, clicks, bounces, and complaints.
-Event destinations are places that you can send information about these events to. For
-example, you can send event data to Amazon SNS to receive notifications when you receive
-bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon
-S3 for long-term storage.
+Update the configuration of an event destination for a configuration set.
+
+In Amazon Pinpoint, *events* include message sends, deliveries, opens, clicks, bounces, and
+complaints. *Event destinations* are places that you can send information about these
+events to. For example, you can send event data to Amazon SNS to receive notifications when
+you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream
+data to Amazon S3 for long-term storage.
 
 # Arguments
+
 - `configuration_set_name`: The name of the configuration set that contains the event
   destination that you want to modify.
 - `event_destination`: An object that defines the event destination.
 - `event_destination_name`: The name of the event destination that you want to modify.
-
 """
 function update_configuration_set_event_destination end
 

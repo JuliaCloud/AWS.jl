@@ -9,25 +9,32 @@ using AWS.UUIDs
     add_tags_to_certificate(certificate_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to an ACM certificate. Tags are labels that you can use to identify
-and organize your Amazon Web Services resources. Each tag consists of a key and an optional
-value. You specify the certificate on input by its Amazon Resource Name (ARN). You specify
-the tag by using a key-value pair.  You can apply a tag to just one certificate if you want
-to identify a specific characteristic of that certificate, or you can apply the same tag to
-multiple certificates if you want to filter for a common relationship among those
-certificates. Similarly, you can apply the same tag to multiple resources if you want to
-specify a relationship among those resources. For example, you can add the same tag to an
-ACM certificate and an Elastic Load Balancing load balancer to indicate that they are both
-used by the same website. For more information, see Tagging ACM certificates.  To remove
-one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that
-have been applied to the certificate, use the ListTagsForCertificate action.
+and organize your Amazon Web Services resources. Each tag consists of a `key` and an
+optional `value`. You specify the certificate on input by its Amazon Resource Name (ARN).
+You specify the tag by using a key-value pair.
+
+You can apply a tag to just one certificate if you want to identify a specific
+characteristic of that certificate, or you can apply the same tag to multiple certificates
+if you want to filter for a common relationship among those certificates. Similarly, you
+can apply the same tag to multiple resources if you want to specify a relationship among
+those resources. For example, you can add the same tag to an ACM certificate and an Elastic
+Load Balancing load balancer to indicate that they are both used by the same website. For
+more information, see [Tagging ACM certificates](https://docs.aws.amazon.com/acm/latest/userguide/tags.html).
+
+
+To remove one or more tags, use the [`remove_tags_from_certificate`](@ref) action. To view
+all of the tags that have been applied to the certificate, use the [`list_tags_for_certificate`](@ref)
+action.
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the ACM certificate to which the tag
   is to be applied. This must be of the form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
-- `tags`: The key-value pair that defines the tag. The tag value is optional.
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+- `tags`: The key-value pair that defines the tag. The tag value is optional.
 """
 function add_tags_to_certificate end
 
@@ -67,19 +74,23 @@ end
     delete_certificate(certificate_arn, params::Dict{String,<:Any})
 
 Deletes a certificate and its associated private key. If this action succeeds, the
-certificate no longer appears in the list that can be displayed by calling the
-ListCertificates action or be retrieved by calling the GetCertificate action. The
-certificate will not be available for use by Amazon Web Services services integrated with
-ACM.   You cannot delete an ACM certificate that is being used by another Amazon Web
-Services service. To delete a certificate that is in use, the certificate association must
-first be removed.
+certificate no longer appears in the list that can be displayed by calling the [`list_certificates`](@ref)
+action or be retrieved by calling the [`get_certificate`](@ref) action. The certificate
+will not be available for use by Amazon Web Services services integrated with ACM.
+
+!!! note
+    You cannot delete an ACM certificate that is being used by another Amazon Web Services
+service. To delete a certificate that is in use, the certificate association must first be
+removed.
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the ACM certificate to be deleted.
   This must be of the form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
 function delete_certificate end
 
@@ -113,16 +124,19 @@ end
     describe_certificate(certificate_arn)
     describe_certificate(certificate_arn, params::Dict{String,<:Any})
 
-Returns detailed metadata about the specified ACM certificate. If you have just created a
-certificate using the RequestCertificate action, there is a delay of several seconds before
-you can retrieve information about it.
+Returns detailed metadata about the specified ACM certificate.
+
+If you have just created a certificate using the `RequestCertificate` action, there is a
+delay of several seconds before you can retrieve information about it.
 
 # Arguments
+
 - `certificate_arn`: The Amazon Resource Name (ARN) of the ACM certificate. The ARN must
   have the following form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
 function describe_certificate end
 
@@ -160,18 +174,26 @@ Exports a private certificate issued by a private certificate authority (CA) for
 anywhere. The exported file contains the certificate, the certificate chain, and the
 encrypted private 2048-bit RSA key associated with the public key that is embedded in the
 certificate. For security, you must assign a passphrase for the private key when exporting
-it.  For information about exporting and formatting a certificate using the ACM console or
-CLI, see Export a Private Certificate.
+it.
+
+For information about exporting and formatting a certificate using the ACM console or CLI,
+see [Export a Private Certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-export-private.html).
 
 # Arguments
-- `certificate_arn`: An Amazon Resource Name (ARN) of the issued certificate. This must be
-  of the form:  arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
-- `passphrase`: Passphrase to associate with the encrypted exported private key.   When
-  creating your passphrase, you can use any ASCII character except #, , or %.  If you want to
-  later decrypt the private key, you must have the passphrase. You can use the following
-  OpenSSL command to decrypt a private key. After entering the command, you are prompted for
-  the passphrase.  openssl rsa -in encrypted_key.pem -out decrypted_key.pem
 
+- `certificate_arn`: An Amazon Resource Name (ARN) of the issued certificate. This must be
+  of the form:
+
+ `arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012`
+- `passphrase`: Passphrase to associate with the encrypted exported private key. </p>
+
+  !!! note
+      When creating your passphrase, you can use any ASCII character except #, \$, or %.If
+  you want to later decrypt the private key, you must have the passphrase. You can use the
+  following OpenSSL command to decrypt a private key. After entering the command, you are
+  prompted for the passphrase.
+
+ <p> `openssl rsa -in encrypted_key.pem -out decrypted_key.pem`
 """
 function export_certificate end
 
@@ -213,7 +235,6 @@ end
     get_account_configuration(params::Dict{String,<:Any})
 
 Returns the account configuration options associated with an Amazon Web Services account.
-
 """
 function get_account_configuration end
 
@@ -239,17 +260,19 @@ end
     get_certificate(certificate_arn, params::Dict{String,<:Any})
 
 Retrieves a certificate and its certificate chain. The certificate may be either a public
-or private certificate issued using the ACM RequestCertificate action, or a certificate
-imported into ACM using the ImportCertificate action. The chain consists of the certificate
-of the issuing CA and the intermediate certificates of any other subordinate CAs. All of
-the certificates are base64 encoded. You can use OpenSSL to decode the certificates and
-inspect individual fields.
+or private certificate issued using the ACM `RequestCertificate` action, or a certificate
+imported into ACM using the `ImportCertificate` action. The chain consists of the
+certificate of the issuing CA and the intermediate certificates of any other subordinate
+CAs. All of the certificates are base64 encoded. You can use [OpenSSL](https://wiki.openssl.org/index.php/Command_Line_Utilities)
+to decode the certificates and inspect individual fields.
 
 # Arguments
-- `certificate_arn`: String that contains a certificate ARN in the following format:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
 
+- `certificate_arn`: String that contains a certificate ARN in the following format:
+
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
 function get_certificate end
 
@@ -282,42 +305,56 @@ end
     import_certificate(certificate, private_key, params::Dict{String,<:Any})
 
 Imports a certificate into Certificate Manager (ACM) to use with services that are
-integrated with ACM. Note that integrated services allow only certificate types and keys
-they support to be associated with their resources. Further, their support differs
-depending on whether the certificate is imported into IAM or into ACM. For more
-information, see the documentation for each service. For more information about importing
-certificates into ACM, see Importing Certificates in the Certificate Manager User Guide.
-ACM does not provide managed renewal for certificates that you import.  Note the following
-guidelines when importing third party certificates:   You must enter the private key that
-matches the certificate you are importing.   The private key must be unencrypted. You
-cannot import a private key that is protected by a password or a passphrase.   The private
-key must be no larger than 5 KB (5,120 bytes).   The certificate, private key, and
-certificate chain must be PEM-encoded.   The current time must be between the Not Before
-and Not After certificate fields.   The Issuer field must not be empty.   The OCSP
-authority URL, if present, must not exceed 1000 characters.   To import a new certificate,
-omit the CertificateArn argument. Include this argument only when you want to replace a
-previously imported certificate.   When you import a certificate by using the CLI, you must
-specify the certificate, the certificate chain, and the private key by their file names
-preceded by fileb://. For example, you can specify a certificate saved in the C:temp folder
-as fileb://C:tempcertificate_to_import.pem. If you are making an HTTP or HTTPS Query
-request, include these arguments as BLOBs.    When you import a certificate by using an
-SDK, you must specify the certificate, the certificate chain, and the private key files in
-the manner required by the programming language you're using.    The cryptographic
-algorithm of an imported certificate must match the algorithm of the signing CA. For
-example, if the signing CA key type is RSA, then the certificate key type must also be RSA.
-  This operation returns the Amazon Resource Name (ARN) of the imported certificate.
+integrated with ACM. Note that [integrated services](https://docs.aws.amazon.com/acm/latest/userguide/acm-services.html)
+allow only certificate types and keys they support to be associated with their resources.
+Further, their support differs depending on whether the certificate is imported into IAM or
+into ACM. For more information, see the documentation for each service. For more
+information about importing certificates into ACM, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
+in the *Certificate Manager User Guide*.
+
+!!! note
+    ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html)
+for certificates that you import.Note the following guidelines when importing third party
+certificates: - You must enter the private key that matches the certificate you are
+importing.
+ - The private key must be unencrypted. You cannot import a private key that is protected
+by a password or a passphrase.
+ - The private key must be no larger than 5 KB (5,120 bytes).
+ - The certificate, private key, and certificate chain must be PEM-encoded.
+ - The current time must be between the `Not Before` and `Not After` certificate fields.
+ - The `Issuer` field must not be empty.
+ - The OCSP authority URL, if present, must not exceed 1000 characters.
+ - To import a new certificate, omit the `CertificateArn` argument. Include this argument
+only when you want to replace a previously imported certificate.
+ - When you import a certificate by using the CLI, you must specify the certificate, the
+certificate chain, and the private key by their file names preceded by `fileb://`. For
+example, you can specify a certificate saved in the `C:\\temp` folder as
+`fileb://C:\\temp\\certificate_to_import.pem`. If you are making an HTTP or HTTPS Query
+request, include these arguments as BLOBs.
+ - When you import a certificate by using an SDK, you must specify the certificate, the
+certificate chain, and the private key files in the manner required by the programming
+language you're using.
+ - The cryptographic algorithm of an imported certificate must match the algorithm of the
+signing CA. For example, if the signing CA key type is RSA, then the certificate key type
+must also be RSA.
+This operation returns the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+of the imported certificate.
 
 # Arguments
+
 - `certificate`: The certificate to import.
 - `private_key`: The private key that matches the public key in the certificate.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CertificateArn"`: The Amazon Resource Name (ARN) of an imported certificate to replace.
-  To import a new certificate, omit this field.
+
+- `"CertificateArn"`: The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  of an imported certificate to replace. To import a new certificate, omit this field.
 - `"CertificateChain"`: The PEM encoded certificate chain.
-- `"Tags"`: One or more resource tags to associate with the imported certificate.  Note:
-  You cannot apply tags when reimporting a certificate.
+- `"Tags"`: One or more resource tags to associate with the imported certificate.
+
+Note: You cannot apply tags when reimporting a certificate.
 """
 function import_certificate end
 
@@ -357,28 +394,29 @@ end
     list_certificates(params::Dict{String,<:Any})
 
 Retrieves a list of certificate ARNs and domain names. By default, the API returns RSA_2048
-certificates. To return all certificates in the account, include the keyType filter with
-the values [RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1,
-EC_secp521r1]. In addition to keyType, you can also filter by the CertificateStatuses,
-keyUsage, and extendedKeyUsage attributes on the certificate. For more information, see
-Filters.
+certificates. To return all certificates in the account, include the `keyType` filter with
+the values `[RSA_1024, RSA_2048, RSA_3072, RSA_4096, EC_prime256v1, EC_secp384r1, EC_secp521r1]`.
+
+In addition to `keyType`, you can also filter by the `CertificateStatuses`, `keyUsage`, and `extendedKeyUsage` attributes on the certificate. For more information, see <a>Filters</a>.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateStatuses"`: Filter the certificate list by status value.
-- `"Includes"`: Filter the certificate list. For more information, see the Filters
+- `"Includes"`: Filter the certificate list. For more information, see the <a>Filters</a>
   structure.
 - `"MaxItems"`: Use this parameter when paginating results to specify the maximum number of
   items to return in the response. If additional items exist beyond the number you specify,
-  the NextToken element is sent in the response. Use this NextToken value in a subsequent
-  request to retrieve additional items.
+  the `NextToken` element is sent in the response. Use this `NextToken` value in a
+  subsequent request to retrieve additional items.
 - `"NextToken"`: Use this parameter only when paginating results and only in a subsequent
   request after you receive a response with truncated results. Set it to the value of
-  NextToken from the response you just received.
-- `"SortBy"`: Specifies the field to sort results by. If you specify SortBy, you must also
-  specify SortOrder.
-- `"SortOrder"`: Specifies the order of sorted results. If you specify SortOrder, you must
-  also specify SortBy.
+  `NextToken` from the response you just received.
+- `"SortBy"`: Specifies the field to sort results by. If you specify `SortBy`, you must
+  also specify `SortOrder`.
+- `"SortOrder"`: Specifies the order of sorted results. If you specify `SortOrder`, you
+  must also specify `SortBy`.
 """
 function list_certificates end
 
@@ -400,14 +438,17 @@ end
 
 Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon
 Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the
-AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
+[`add_tags_to_certificate`](@ref) action. To delete a tag, use the [`remove_tags_from_certificate`](@ref)
+action.
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the ACM certificate for which you want
   to list the tags. This must have the following form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
 function list_tags_for_certificate end
 
@@ -441,21 +482,25 @@ end
     put_account_configuration(idempotency_token)
     put_account_configuration(idempotency_token, params::Dict{String,<:Any})
 
-Adds or modifies account-level configurations in ACM.  The supported configuration option
-is DaysBeforeExpiry. This option specifies the number of days prior to certificate
-expiration when ACM starts generating EventBridge events. ACM sends one event per day per
-certificate until the certificate expires. By default, accounts receive events starting 45
-days before certificate expiration.
+Adds or modifies account-level configurations in ACM.
+
+The supported configuration option is `DaysBeforeExpiry`. This option specifies the number
+of days prior to certificate expiration when ACM starts generating `EventBridge` events.
+ACM sends one event per day per certificate until the certificate expires. By default,
+accounts receive events starting 45 days before certificate expiration.
 
 # Arguments
+
 - `idempotency_token`: Customer-chosen string used to distinguish between calls to
-  PutAccountConfiguration. Idempotency tokens time out after one hour. If you call
-  PutAccountConfiguration multiple times with the same unexpired idempotency token, ACM
+  `PutAccountConfiguration`. Idempotency tokens time out after one hour. If you call
+  `PutAccountConfiguration` multiple times with the same unexpired idempotency token, ACM
   treats it as the same request and returns the original result. If you change the
   idempotency token for each call, ACM treats each call as a new request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ExpiryEvents"`: Specifies expiration events associated with an account.
 """
 function put_account_configuration end
@@ -495,17 +540,21 @@ end
 Remove one or more tags from an ACM certificate. A tag consists of a key-value pair. If you
 do not specify the value portion of the tag when calling this function, the tag will be
 removed regardless of value. If you specify a value, the tag is removed only if it is
-associated with the specified value.  To add tags to a certificate, use the
-AddTagsToCertificate action. To view all of the tags that have been applied to a specific
-ACM certificate, use the ListTagsForCertificate action.
+associated with the specified value.
+
+To add tags to a certificate, use the [`add_tags_to_certificate`](@ref) action. To view all
+of the tags that have been applied to a specific ACM certificate, use the [`list_tags_for_certificate`](@ref)
+action.
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the ACM Certificate with one or more
   tags that you want to remove. This must be of the form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
-- `tags`: The key-value pair that defines the tag to remove.
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
+- `tags`: The key-value pair that defines the tag to remove.
 """
 function remove_tags_from_certificate end
 
@@ -546,15 +595,18 @@ end
 
 Renews an eligible ACM certificate. At this time, only exported private certificates can be
 renewed with this operation. In order to renew your Amazon Web Services Private CA
-certificates with ACM, you must first grant the ACM service principal permission to do so.
-For more information, see Testing Managed Renewal in the ACM User Guide.
+certificates with ACM, you must first [grant the ACM service principal permission to do so](https://docs.aws.amazon.com/privateca/latest/userguide/PcaPermissions.html).
+For more information, see [Testing Managed Renewal](https://docs.aws.amazon.com/acm/latest/userguide/manual-renewal.html)
+in the ACM User Guide.
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the ACM certificate to be renewed.
   This must be of the form:
-  arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012  For more
-  information about ARNs, see Amazon Resource Names (ARNs).
 
+   `arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012`
+
+  For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
 """
 function renew_certificate end
 
@@ -589,43 +641,56 @@ end
     request_certificate(domain_name, params::Dict{String,<:Any})
 
 Requests an ACM certificate for use with other Amazon Web Services services. To request an
-ACM certificate, you must specify a fully qualified domain name (FQDN) in the DomainName
-parameter. You can also specify additional FQDNs in the SubjectAlternativeNames parameter.
+ACM certificate, you must specify a fully qualified domain name (FQDN) in the `DomainName`
+parameter. You can also specify additional FQDNs in the `SubjectAlternativeNames`
+parameter.
+
 If you are requesting a private certificate, domain validation is not required. If you are
 requesting a public certificate, each domain name that you specify must be validated to
-verify that you own or control the domain. You can use DNS validation or email validation.
+verify that you own or control the domain. You can use [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html)
+or [email validation](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html).
 We recommend that you use DNS validation. ACM issues public certificates after receiving
-approval from the domain owner.   ACM behavior differs from the RFC 6125 specification of
-the certificate validation process. ACM first checks for a Subject Alternative Name, and,
-if it finds one, ignores the common name (CN).  After successful completion of the
-RequestCertificate action, there is a delay of several seconds before you can retrieve
-information about the new certificate.
+approval from the domain owner.
+
+!!! note
+    ACM behavior differs from the [RFC 6125](https://datatracker.ietf.org/doc/html/rfc6125#appendix-B.2)
+specification of the certificate validation process. ACM first checks for a Subject
+Alternative Name, and, if it finds one, ignores the common name (CN).After successful
+completion of the `RequestCertificate` action, there is a delay of several seconds before
+you can retrieve information about the new certificate.
 
 # Arguments
+
 - `domain_name`: Fully qualified domain name (FQDN), such as www.example.com, that you want
   to secure with an ACM certificate. Use an asterisk (*) to create a wildcard certificate
   that protects several sites in the same domain. For example, *.example.com protects
-  www.example.com, site.example.com, and images.example.com.  In compliance with RFC 5280,
-  the length of the domain name (technically, the Common Name) that you provide cannot exceed
-  64 octets (characters), including periods. To add a longer domain name, specify it in the
+  www.example.com, site.example.com, and images.example.com.
+
+  In compliance with [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280), the length
+  of the domain name (technically, the Common Name) that you provide cannot exceed 64
+  octets (characters), including periods. To add a longer domain name, specify it in the
   Subject Alternative Name field, which supports names up to 253 octets in length.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateAuthorityArn"`: The Amazon Resource Name (ARN) of the private certificate
-  authority (CA) that will be used to issue the certificate. If you do not provide an ARN and
-  you are trying to request a private certificate, ACM will attempt to issue a public
-  certificate. For more information about private CAs, see the Amazon Web Services Private
-  Certificate Authority user guide. The ARN must have the following form:
-  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+  authority (CA) that will be used to issue the certificate. If you do not provide an ARN
+  and you are trying to request a private certificate, ACM will attempt to issue a public
+  certificate. For more information about private CAs, see the [Amazon Web Services Private Certificate Authority](https://docs.aws.amazon.com/privateca/latest/userguide/PcaWelcome.html)
+  user guide. The ARN must have the following form:
+
+   `arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-
+  123456789012`
 - `"DomainValidationOptions"`: The domain name that you want ACM to use to send you emails
   so that you can validate domain ownership.
 - `"IdempotencyToken"`: Customer chosen string that can be used to distinguish between
-  calls to RequestCertificate. Idempotency tokens time out after one hour. Therefore, if you
-  call RequestCertificate multiple times with the same idempotency token within one hour, ACM
-  recognizes that you are requesting only one certificate and will issue only one. If you
-  change the idempotency token for each call, ACM recognizes that you are requesting multiple
-  certificates.
+  calls to `RequestCertificate`. Idempotency tokens time out after one hour. Therefore, if
+  you call `RequestCertificate` multiple times with the same idempotency token within one
+  hour, ACM recognizes that you are requesting only one certificate and will issue only
+  one. If you change the idempotency token for each call, ACM recognizes that you are
+  requesting multiple certificates.
 - `"KeyAlgorithm"`: Specifies the algorithm of the public and private key pair that your
   certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates.
   Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security
@@ -633,36 +698,44 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supported by all network clients. Some Amazon Web Services services may require RSA keys,
   or only support ECDSA keys of a particular size, while others allow the use of either RSA
   and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the
-  Amazon Web Services service where you plan to deploy your certificate. For more information
-  about selecting an algorithm, see Key algorithms.  Algorithms supported for an ACM
-  certificate request include:     RSA_2048     EC_prime256v1     EC_secp384r1    Other
-  listed algorithms are for imported certificates only.    When you request a private PKI
-  certificate signed by a CA from Amazon Web Services Private CA, the specified signing
-  algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.
-  Default: RSA_2048
+  Amazon Web Services service where you plan to deploy your certificate. For more
+  information about selecting an algorithm, see [Key algorithms](https://docs.aws.amazon.com/acm/latest/userguide/acm-certificate.html#algorithms).
+
+  !!! note
+      Algorithms supported for an ACM certificate request include:  - `RSA_2048`
+   - `EC_prime256v1`
+   - `EC_secp384r1`
+  Other listed algorithms are for imported certificates only.
+
+  !!! note
+      When you request a private PKI certificate signed by a CA from Amazon Web Services
+  Private CA, the specified signing algorithm family (RSA or ECDSA) must match the
+  algorithm family of the CA's secret key.Default: RSA_2048
 - `"Options"`: Currently, you can use this parameter to specify whether to add the
   certificate to a certificate transparency log. Certificate transparency makes it possible
   to detect SSL/TLS certificates that have been mistakenly or maliciously issued.
-  Certificates that have not been logged typically produce an error message in a browser. For
-  more information, see Opting Out of Certificate Transparency Logging.
+  Certificates that have not been logged typically produce an error message in a browser.
+  For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
 - `"SubjectAlternativeNames"`: Additional FQDNs to be included in the Subject Alternative
   Name extension of the ACM certificate. For example, add the name www.example.net to a
-  certificate for which the DomainName field is www.example.com if users can reach your site
-  by using either name. The maximum number of domain names that you can add to an ACM
-  certificate is 100. However, the initial quota is 10 domain names. If you need more than 10
-  names, you must request a quota increase. For more information, see Quotas.  The maximum
-  length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by
-  periods. No label can be longer than 63 octets. Consider the following examples:     (63
-  octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets
-  (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63
-  octets).(61 octets) is not legal because the total length exceeds 253 octets
-  (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63
-  octets).(62 octets) is not legal because the total length of the DNS name
-  (63+1+63+1+63+1+62) exceeds 253 octets.
+  certificate for which the `DomainName` field is www.example.com if users can reach your
+  site by using either name. The maximum number of domain names that you can add to an ACM
+  certificate is 100. However, the initial quota is 10 domain names. If you need more than
+  10 names, you must request a quota increase. For more information, see [Quotas](https://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html).
+
+   The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple
+  labels separated by periods. No label can be longer than 63 octets. Consider the
+  following examples:  - `(63 octets).(63 octets).(63 octets).(61 octets)` is legal because
+  the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.
+   - `(64 octets).(63 octets).(63 octets).(61 octets)` is not legal because the total
+  length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.
+   - `(63 octets).(63 octets).(63 octets).(62 octets)` is not legal because the total
+  length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
 - `"Tags"`: One or more resource tags to associate with the certificate.
 - `"ValidationMethod"`: The method you want to use if you are requesting a public
-  certificate to validate that you own or control domain. You can validate with DNS or
-  validate with email. We recommend that you use DNS validation.
+  certificate to validate that you own or control domain. You can [validate with DNS](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html)
+  or [validate with email](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html).
+  We recommend that you use DNS validation.
 """
 function request_certificate end
 
@@ -697,30 +770,35 @@ end
 Resends the email that requests domain ownership validation. The domain owner or an
 authorized representative must approve the ACM certificate before it can be issued. The
 certificate can be approved by clicking a link in the mail to navigate to the Amazon
-certificate approval website and then clicking I Approve. However, the validation email can
-be blocked by spam filters. Therefore, if you do not receive the original mail, you can
+certificate approval website and then clicking **I Approve**. However, the validation email
+can be blocked by spam filters. Therefore, if you do not receive the original mail, you can
 request that the mail be resent within 72 hours of requesting the ACM certificate. If more
 than 72 hours have elapsed since your original request or since your last attempt to resend
 validation mail, you must request a new certificate. For more information about setting up
-your contact email addresses, see Configure Email for your Domain.
+your contact email addresses, see [Configure Email for your Domain](https://docs.aws.amazon.com/acm/latest/userguide/setup-email.html).
 
 # Arguments
+
 - `certificate_arn`: String that contains the ARN of the requested certificate. The
-  certificate ARN is generated and returned by the RequestCertificate action as soon as the
-  request is made. By default, using this parameter causes email to be sent to all top-level
-  domains you specified in the certificate request. The ARN must be of the form:
-  arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012
+  certificate ARN is generated and returned by the [`request_certificate`](@ref) action as
+  soon as the request is made. By default, using this parameter causes email to be sent to
+  all top-level domains you specified in the certificate request. The ARN must be of the
+  form:
+
+ `arn:aws:acm:us-east-1:123456789012:certificate/12345678-1234-1234-1234-123456789012`
 - `domain`: The fully qualified domain name (FQDN) of the certificate that needs to be
   validated.
 - `validation_domain`: The base validation domain that will act as the suffix of the email
-  addresses that are used to send the emails. This must be the same as the Domain value or a
-  superdomain of the Domain value. For example, if you requested a certificate for
-  site.subdomain.example.com and specify a ValidationDomain of subdomain.example.com, ACM
-  sends email to the domain registrant, technical contact, and administrative contact in
-  WHOIS and the following five addresses:   admin@subdomain.example.com
-  administrator@subdomain.example.com   hostmaster@subdomain.example.com
-  postmaster@subdomain.example.com   webmaster@subdomain.example.com
-
+  addresses that are used to send the emails. This must be the same as the `Domain` value
+  or a superdomain of the `Domain` value. For example, if you requested a certificate for
+  `site.subdomain.example.com` and specify a **ValidationDomain** of
+  `subdomain.example.com`, ACM sends email to the domain registrant, technical contact, and
+  administrative contact in WHOIS and the following five addresses: -
+  admin@subdomain.example.com
+   - administrator@subdomain.example.com
+   - hostmaster@subdomain.example.com
+   - postmaster@subdomain.example.com
+ - webmaster@subdomain.example.com
 """
 function resend_validation_email end
 
@@ -773,16 +851,17 @@ end
 
 Updates a certificate. Currently, you can use this function to specify whether to opt in to
 or out of recording your certificate in a certificate transparency log. For more
-information, see  Opting Out of Certificate Transparency Logging.
+information, see [ Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
 
 # Arguments
+
 - `certificate_arn`: ARN of the requested certificate to update. This must be of the form:
-  arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
+
+ `arn:aws:acm:us-east-1:*account*:certificate/*12345678-1234-1234-1234-123456789012* `
 - `options`: Use to update the options for your certificate. Currently, you can specify
   whether to add your certificate to a transparency log. Certificate transparency makes it
   possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued.
   Certificates that have not been logged typically produce an error message in a browser.
-
 """
 function update_certificate_options end
 

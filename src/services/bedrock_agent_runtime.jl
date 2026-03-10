@@ -11,11 +11,14 @@ using AWS.UUIDs
 Deletes memory from the specified memory identifier.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of an alias of an agent.
 - `agent_id`: The unique identifier of the agent to which the alias belongs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"memoryId"`: The unique identifier of the memory.
 """
 function delete_agent_memory end
@@ -53,18 +56,21 @@ end
 Gets the sessions stored in the memory of the agent.
 
 # Arguments
+
 - `agent_alias_id`: The unique identifier of an alias of an agent.
 - `agent_id`: The unique identifier of the agent to which the alias belongs.
 - `memory_id`: The unique identifier of the memory.
 - `memory_type`: The type of memory.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxItems"`: The maximum number of items to return in the response. If the total number
   of results is greater than this value, use the token returned in the response in the
-  nextToken field when making another request to return the next batch of results.
+  `nextToken` field when making another request to return the next batch of results.
 - `"nextToken"`: If the total number of results is greater than the maxItems value provided
-  in the request, enter the token returned in the nextToken field in the response in this
+  in the request, enter the token returned in the `nextToken` field in the response in this
   field to return the next batch of results.
 """
 function get_agent_memory end
@@ -112,41 +118,54 @@ end
     invoke_agent(agent_alias_id, agent_id, session_id)
     invoke_agent(agent_alias_id, agent_id, session_id, params::Dict{String,<:Any})
 
- The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.
-Sends a prompt for the agent to process and respond to. Note the following fields for the
-request:   To continue the same conversation with an agent, use the same sessionId value in
-the request.   To activate trace enablement, turn enableTrace to true. Trace enablement
-helps you follow the agent's reasoning process that led it to the information it processed,
-the actions it took, and the final result it yielded. For more information, see Trace
-enablement.   End a conversation by setting endSession to true.   In the sessionState
-object, you can include attributes for the session or prompt or, if you configured an
-action group to return control, results from invocation of the action group.   The response
-is returned in the bytes field of the chunk object.   The attribution object contains
-citations for parts of the response.   If you set enableTrace to true in the request, you
-can trace the agent's steps and reasoning process that led it to the response.   If the
-action predicted was configured to return control, the response returns parameters for the
-action, elicited from the user, in the returnControl field.   Errors are also surfaced in
-the response.
+
+
+!!! note
+    The CLI doesn't support streaming operations in Amazon Bedrock, including
+`InvokeAgent`.Sends a prompt for the agent to process and respond to. Note the following
+fields for the request: - To continue the same conversation with an agent, use the same
+`sessionId` value in the request.
+ - To activate trace enablement, turn `enableTrace` to `true`. Trace enablement helps you
+follow the agent's reasoning process that led it to the information it processed, the
+actions it took, and the final result it yielded. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
+ - End a conversation by setting `endSession` to `true`.
+ - In the `sessionState` object, you can include attributes for the session or prompt or,
+if you configured an action group to return control, results from invocation of the action
+group.
+The response is returned in the `bytes` field of the `chunk` object. - The `attribution`
+object contains citations for parts of the response.
+ - If you set `enableTrace` to `true` in the request, you can trace the agent's steps and
+reasoning process that led it to the response.
+ - If the action predicted was configured to return control, the response returns
+parameters for the action, elicited from the user, in the `returnControl` field.
+ - Errors are also surfaced in the response.
 
 # Arguments
+
 - `agent_alias_id`: The alias of the agent to use.
 - `agent_id`: The unique identifier of the agent to use.
 - `session_id`: The unique identifier of the session. Use the same value across requests to
   continue the same conversation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"enableTrace"`: Specifies whether to turn on the trace or not to track the agent's
-  reasoning process. For more information, see Trace enablement.
+  reasoning process. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
 - `"endSession"`: Specifies whether to end the session with the agent or not.
-- `"inputText"`: The prompt text to send the agent.  If you include
-  returnControlInvocationResults in the sessionState field, the inputText field will be
-  ignored.
+- `"inputText"`: The prompt text to send the agent.
+
+  !!! note
+      If you include `returnControlInvocationResults` in the `sessionState` field, the
+  `inputText` field will be ignored.
 - `"memoryId"`: The unique identifier of the agent memory.
 - `"sessionState"`: Contains parameters that specify various attributes of the session. For
-  more information, see Control session context.  If you include
-  returnControlInvocationResults in the sessionState field, the inputText field will be
-  ignored.
+  more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
+
+  !!! note
+      If you include `returnControlInvocationResults` in the `sessionState` field, the
+  `inputText` field will be ignored.
 """
 function invoke_agent end
 
@@ -182,15 +201,17 @@ end
     invoke_flow(flow_alias_identifier, flow_identifier, inputs, params::Dict{String,<:Any})
 
 Invokes an alias of a flow to run the inputs that you specify and return the output of each
-node as a stream. If there's an error, the error is returned. For more information, see
-Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.  The CLI doesn't support
-streaming operations in Amazon Bedrock, including InvokeFlow.
+node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html)
+in the Amazon Bedrock User Guide.
+
+!!! note
+    The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
 
 # Arguments
+
 - `flow_alias_identifier`: The unique identifier of the flow alias.
 - `flow_identifier`: The unique identifier of the flow.
 - `inputs`: A list of objects, each containing information about an input into the flow.
-
 """
 function invoke_flow end
 
@@ -232,16 +253,19 @@ end
 Queries a knowledge base and retrieves information from it.
 
 # Arguments
+
 - `knowledge_base_id`: The unique identifier of the knowledge base to query.
 - `retrieval_query`: Contains the query to send the knowledge base.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"nextToken"`: If there are more results than can fit in the response, the response
-  returns a nextToken. Use this token in the nextToken field of another request to retrieve
-  the next batch of results.
+  returns a `nextToken`. Use this token in the `nextToken` field of another request to
+  retrieve the next batch of results.
 - `"retrievalConfiguration"`: Contains configurations for the knowledge base query and
-  retrieval process. For more information, see Query configurations.
+  retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
 """
 function retrieve end
 
@@ -282,18 +306,21 @@ Queries a knowledge base and generates responses based on the retrieved results.
 response only cites sources that are relevant to the query.
 
 # Arguments
+
 - `input`: Contains the query to be made to the knowledge base.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"retrieveAndGenerateConfiguration"`: Contains configurations for the knowledge base
-  query and retrieval process. For more information, see Query configurations.
+  query and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
 - `"sessionConfiguration"`: Contains details about the session with the knowledge base.
 - `"sessionId"`: The unique identifier of the session. When you first make a
-  RetrieveAndGenerate request, Amazon Bedrock automatically generates this value. You must
-  reuse this value for all subsequent requests in the same conversational session. This value
-  allows Amazon Bedrock to maintain context and knowledge from previous interactions. You
-  can't explicitly set the sessionId yourself.
+  `RetrieveAndGenerate` request, Amazon Bedrock automatically generates this value. You
+  must reuse this value for all subsequent requests in the same conversational session.
+  This value allows Amazon Bedrock to maintain context and knowledge from previous
+  interactions. You can't explicitly set the `sessionId` yourself.
 """
 function retrieve_and_generate end
 

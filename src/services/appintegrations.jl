@@ -11,23 +11,26 @@ using AWS.UUIDs
 Creates and persists an Application resource.
 
 # Arguments
+
 - `application_source_config`: The configuration for where the application should be loaded
   from.
 - `name`: The name of the application.
 - `namespace`: The namespace of the application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: The description of the application.
 - `"Permissions"`: The configuration of events or requests that the application has access
   to.
 - `"Publications"`: The events that the application publishes.
 - `"Subscriptions"`: The events that the application subscribes.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_application end
 
@@ -82,19 +85,25 @@ end
     create_data_integration(kms_key, name)
     create_data_integration(kms_key, name, params::Dict{String,<:Any})
 
-Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Creates and persists a DataIntegration resource.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the `CreateDataIntegration` API.
 
 # Arguments
+
 - `kms_key`: The KMS key ARN for the DataIntegration.
 - `name`: The name of the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A description of the DataIntegration.
 - `"FileConfiguration"`: The configuration for what files should be pulled from the source.
 - `"ObjectConfiguration"`: The configuration for what data should be pulled from the source.
@@ -102,7 +111,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source.
 - `"SourceURI"`: The URI of the data source.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_data_integration end
 
@@ -150,16 +159,19 @@ end
 Creates and persists a DataIntegrationAssociation resource.
 
 # Arguments
+
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientAssociationMetadata"`: The mapping of metadata to be extracted from the data.
 - `"ClientId"`: The identifier for the client that is associated with the DataIntegration
   association.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"DestinationURI"`: The URI of the data destination.
 - `"ExecutionConfiguration"`: The configuration for how the files should be pulled from the
   source.
@@ -205,18 +217,21 @@ that bus. No objects are created in the your account, only metadata that is pers
 the EventIntegration control plane.
 
 # Arguments
+
 - `event_bridge_bus`: The EventBridge bus.
 - `event_filter`: The event filter.
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: The description of the event integration.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function create_event_integration end
 
@@ -272,8 +287,8 @@ Deletes the Application. Only Applications that don't have any Application Assoc
 be deleted.
 
 # Arguments
-- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 """
 function delete_application end
 
@@ -308,14 +323,17 @@ end
 
 Deletes the DataIntegration. Only DataIntegrations that don't have any
 DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
-underlying Amazon AppFlow flow and service linked role.   You cannot create a
-DataIntegration association for a DataIntegration that has been previously associated. Use
-a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+underlying Amazon AppFlow flow and service linked role.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+API.
 
 # Arguments
-- `identifier`: A unique identifier for the DataIntegration.
 
+- `identifier`: A unique identifier for the DataIntegration.
 """
 function delete_data_integration end
 
@@ -352,8 +370,8 @@ Deletes the specified existing event integration. If the event integration is as
 with clients, the request is rejected.
 
 # Arguments
-- `name`: The name of the event integration.
 
+- `name`: The name of the event integration.
 """
 function delete_event_integration end
 
@@ -385,8 +403,8 @@ end
 Get an Application resource.
 
 # Arguments
-- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 """
 function get_application end
 
@@ -419,13 +437,17 @@ end
     get_data_integration(identifier)
     get_data_integration(identifier, params::Dict{String,<:Any})
 
-Returns information about the DataIntegration.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Returns information about the DataIntegration.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+API.
 
 # Arguments
-- `identifier`: A unique identifier.
 
+- `identifier`: A unique identifier.
 """
 function get_data_integration end
 
@@ -461,8 +483,8 @@ end
 Returns information about the event integration.
 
 # Arguments
-- `name`: The name of the event integration.
 
+- `name`: The name of the event integration.
 """
 function get_event_integration end
 
@@ -494,10 +516,13 @@ end
 Returns a paginated list of application associations for an application.
 
 # Arguments
+
 - `application_identifier`: A unique identifier for the Application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -536,7 +561,9 @@ end
 Lists applications in the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -565,16 +592,22 @@ end
     list_data_integration_associations(identifier)
     list_data_integration_associations(identifier, params::Dict{String,<:Any})
 
-Returns a paginated list of DataIntegration associations in the account.  You cannot create
-a DataIntegration association for a DataIntegration that has been previously associated.
-Use a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+Returns a paginated list of DataIntegration associations in the account.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+API.
 
 # Arguments
+
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -610,13 +643,18 @@ end
     list_data_integrations()
     list_data_integrations(params::Dict{String,<:Any})
 
-Returns a paginated list of DataIntegrations in the account.  You cannot create a
-DataIntegration association for a DataIntegration that has been previously associated. Use
-a different DataIntegration, or recreate the DataIntegration using the
-CreateDataIntegration API.
+Returns a paginated list of DataIntegrations in the account.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+API.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -648,10 +686,13 @@ end
 Returns a paginated list of event integration associations in the account.
 
 # Arguments
+
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -688,7 +729,9 @@ end
 Returns a paginated list of event integrations in the account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
@@ -720,8 +763,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -757,10 +800,10 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: The tags used to organize, track, or control access for this resource. For
-  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
-
+  example, { "tags": {"key1":"value1", "key2":"value2"} }.
 """
 function tag_resource end
 
@@ -796,9 +839,9 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource end
 
@@ -836,10 +879,13 @@ end
 Updates and persists an Application resource.
 
 # Arguments
+
 - `application_identifier`: The Amazon Resource Name (ARN) of the Application.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationSourceConfig"`: The configuration for where the application should be loaded
   from.
 - `"Description"`: The description of the application.
@@ -880,15 +926,22 @@ end
     update_data_integration(identifier)
     update_data_integration(identifier, params::Dict{String,<:Any})
 
-Updates the description of a DataIntegration.  You cannot create a DataIntegration
-association for a DataIntegration that has been previously associated. Use a different
-DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
+Updates the description of a DataIntegration.
+
+!!! note
+    You cannot create a DataIntegration association for a DataIntegration that has been
+previously associated. Use a different DataIntegration, or recreate the DataIntegration
+using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html)
+API.
 
 # Arguments
+
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the DataIntegration.
 - `"Name"`: The name of the DataIntegration.
 """
@@ -923,16 +976,19 @@ end
     update_data_integration_association(data_integration_association_identifier, execution_configuration, identifier)
     update_data_integration_association(data_integration_association_identifier, execution_configuration, identifier, params::Dict{String,<:Any})
 
-Updates and persists a DataIntegrationAssociation resource.   Updating a
-DataIntegrationAssociation with ExecutionConfiguration will rerun the on-demand job.
+Updates and persists a DataIntegrationAssociation resource.
+
+!!! note
+    Updating a DataIntegrationAssociation with ExecutionConfiguration will rerun the on-
+demand job.
 
 # Arguments
+
 - `data_integration_association_identifier`: A unique identifier. of the
   DataIntegrationAssociation resource
 - `execution_configuration`: The configuration for how the files should be pulled from the
   source.
 - `identifier`: A unique identifier for the DataIntegration.
-
 """
 function update_data_integration_association end
 
@@ -980,10 +1036,13 @@ end
 Updates the description of an event integration.
 
 # Arguments
+
 - `name`: The name of the event integration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description of the event integration.
 """
 function update_event_integration end

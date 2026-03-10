@@ -11,8 +11,8 @@ using AWS.UUIDs
 Activates an anomaly detector.
 
 # Arguments
-- `anomaly_detector_arn`: The ARN of the anomaly detector.
 
+- `anomaly_detector_arn`: The ARN of the anomaly detector.
 """
 function activate_anomaly_detector end
 
@@ -53,8 +53,8 @@ end
 Runs a backtest for anomaly detection for the specified resource.
 
 # Arguments
-- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 
+- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 """
 function back_test_anomaly_detector end
 
@@ -95,18 +95,22 @@ end
 Creates an alert for an anomaly detector.
 
 # Arguments
+
 - `action`: Action that will be triggered when there is an alert.
 - `alert_name`: The name of the alert.
 - `anomaly_detector_arn`: The ARN of the detector to which the alert is attached.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AlertDescription"`: A description of the alert.
 - `"AlertFilters"`: The configuration of the alert filters, containing MetricList and
   DimensionFilterList.
 - `"AlertSensitivityThreshold"`: An integer from 0 to 100 specifying the alert sensitivity
   threshold.
-- `"Tags"`: A list of tags to apply to the alert.
+- `"Tags"`: A list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html)
+  to apply to the alert.
 """
 function create_alert end
 
@@ -162,15 +166,19 @@ end
 Creates an anomaly detector.
 
 # Arguments
+
 - `anomaly_detector_config`: Contains information about the configuration of the anomaly
   detector.
 - `anomaly_detector_name`: The name of the detector.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AnomalyDetectorDescription"`: A description of the detector.
 - `"KmsKeyArn"`: The ARN of the KMS key to use to encrypt your data.
-- `"Tags"`: A list of tags to apply to the anomaly detector.
+- `"Tags"`: A list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html)
+  to apply to the anomaly detector.
 """
 function create_anomaly_detector end
 
@@ -222,13 +230,16 @@ end
 Creates a dataset.
 
 # Arguments
+
 - `anomaly_detector_arn`: The ARN of the anomaly detector that will use the dataset.
 - `metric_list`: A list of metrics that the dataset will contain.
 - `metric_set_name`: The name of the dataset.
 - `metric_source`: Contains information about how the source data should be interpreted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DimensionFilterList"`: A list of filters that specify which data is kept for anomaly
   detection.
 - `"DimensionList"`: A list of the fields you want to treat as dimensions.
@@ -237,7 +248,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   anomalies.
 - `"Offset"`: After an interval ends, the amount of seconds that the detector waits before
   importing data. Offset is only supported for S3, Redshift, Athena and datasources.
-- `"Tags"`: A list of tags to apply to the dataset.
+- `"Tags"`: A list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html)
+  to apply to the dataset.
 - `"TimestampColumn"`: Contains information about the column used for tracking time in your
   source data.
 - `"Timezone"`: The time zone in which your source data was recorded.
@@ -300,8 +312,8 @@ end
 Deactivates an anomaly detector.
 
 # Arguments
-- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 
+- `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 """
 function deactivate_anomaly_detector end
 
@@ -342,8 +354,8 @@ end
 Deletes an alert.
 
 # Arguments
-- `alert_arn`: The ARN of the alert to delete.
 
+- `alert_arn`: The ARN of the alert to delete.
 """
 function delete_alert end
 
@@ -381,8 +393,8 @@ Deletes a detector. Deleting an anomaly detector will delete all of its correspo
 resources including any configured datasets and alerts.
 
 # Arguments
-- `anomaly_detector_arn`: The ARN of the detector to delete.
 
+- `anomaly_detector_arn`: The ARN of the detector to delete.
 """
 function delete_anomaly_detector end
 
@@ -420,13 +432,15 @@ end
     describe_alert(alert_arn)
     describe_alert(alert_arn, params::Dict{String,<:Any})
 
-Describes an alert. Amazon Lookout for Metrics API actions are eventually consistent. If
-you do a read operation on a resource immediately after creating or modifying it, use
-retries to allow time for the write operation to complete.
+Describes an alert.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Arguments
-- `alert_arn`: The ARN of the alert to describe.
 
+- `alert_arn`: The ARN of the alert to describe.
 """
 function describe_alert end
 
@@ -463,10 +477,13 @@ end
 Returns information about the status of the specified anomaly detection jobs.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The number of items to return in the response.
 - `"NextToken"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
@@ -508,13 +525,15 @@ end
     describe_anomaly_detector(anomaly_detector_arn)
     describe_anomaly_detector(anomaly_detector_arn, params::Dict{String,<:Any})
 
-Describes a detector. Amazon Lookout for Metrics API actions are eventually consistent. If
-you do a read operation on a resource immediately after creating or modifying it, use
-retries to allow time for the write operation to complete.
+Describes a detector.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Arguments
-- `anomaly_detector_arn`: The ARN of the detector to describe.
 
+- `anomaly_detector_arn`: The ARN of the detector to describe.
 """
 function describe_anomaly_detector end
 
@@ -552,13 +571,15 @@ end
     describe_metric_set(metric_set_arn)
     describe_metric_set(metric_set_arn, params::Dict{String,<:Any})
 
-Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If
-you do a read operation on a resource immediately after creating or modifying it, use
-retries to allow time for the write operation to complete.
+Describes a dataset.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Arguments
-- `metric_set_arn`: The ARN of the dataset.
 
+- `metric_set_arn`: The ARN of the dataset.
 """
 function describe_metric_set end
 
@@ -597,9 +618,9 @@ end
 Detects an Amazon S3 dataset's file format, interval, and offset.
 
 # Arguments
+
 - `anomaly_detector_arn`: An anomaly detector ARN.
 - `auto_detection_metric_source`: A data source.
-
 """
 function detect_metric_set_config end
 
@@ -651,9 +672,9 @@ end
 Returns details about a group of anomalous metrics.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_id`: The ID of the anomaly group.
-
 """
 function get_anomaly_group end
 
@@ -702,11 +723,14 @@ end
 Returns details about the requested data quality metrics.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector that you
   want to investigate.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MetricSetArn"`: The Amazon Resource Name (ARN) of a specific data quality metric set.
 """
 function get_data_quality_metrics end
@@ -748,11 +772,14 @@ end
 Get feedback for an anomaly group.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_time_series_feedback`: The anomalous metric and group ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
@@ -807,7 +834,9 @@ end
 Returns a selection of sample records from an Amazon S3 datasource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"S3SourceConfig"`: A datasource bucket in Amazon S3.
 """
 function get_sample_data end
@@ -834,17 +863,21 @@ end
     list_alerts()
     list_alerts(params::Dict{String,<:Any})
 
-Lists the alerts attached to a detector. Amazon Lookout for Metrics API actions are
-eventually consistent. If you do a read operation on a resource immediately after creating
-or modifying it, use retries to allow time for the write operation to complete.
+Lists the alerts attached to a detector.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AnomalyDetectorArn"`: The ARN of the alert's detector.
 - `"MaxResults"`: The maximum number of results that will be displayed by the request.
 - `"NextToken"`: If the result of the previous request is truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+  Tokens expire after 24 hours.
 """
 function list_alerts end
 
@@ -870,16 +903,20 @@ end
     list_anomaly_detectors()
     list_anomaly_detectors(params::Dict{String,<:Any})
 
-Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are
-eventually consistent. If you do a read operation on a resource immediately after creating
-or modifying it, use retries to allow time for the write operation to complete.
+Lists the detectors in the current AWS Region.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+  Tokens expire after 24 hours.
 """
 function list_anomaly_detectors end
 
@@ -911,16 +948,19 @@ end
 Returns a list of measures that are potential causes or effects of an anomaly group.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_id`: The ID of the anomaly group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
-- `"RelationshipTypeFilter"`: Filter for potential causes (CAUSE_OF_INPUT_ANOMALY_GROUP) or
-  downstream effects (EFFECT_OF_INPUT_ANOMALY_GROUP) of the anomaly group.
+- `"RelationshipTypeFilter"`: Filter for potential causes (`CAUSE_OF_INPUT_ANOMALY_GROUP`)
+  or downstream effects (`EFFECT_OF_INPUT_ANOMALY_GROUP`) of the anomaly group.
 """
 function list_anomaly_group_related_metrics end
 
@@ -969,11 +1009,14 @@ end
 Returns a list of anomaly groups.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `sensitivity_threshold`: The minimum severity score for inclusion in the output.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
@@ -1028,12 +1071,15 @@ end
 Gets a list of anomalous metrics for a measure in an anomaly group.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_id`: The ID of the anomaly group.
 - `metric_name`: The name of the measure field.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: Specify the pagination token that's returned by a previous request to
   retrieve the next page of results.
@@ -1089,18 +1135,22 @@ end
     list_metric_sets()
     list_metric_sets(params::Dict{String,<:Any})
 
-Lists the datasets in the current AWS Region. Amazon Lookout for Metrics API actions are
-eventually consistent. If you do a read operation on a resource immediately after creating
-or modifying it, use retries to allow time for the write operation to complete.
+Lists the datasets in the current AWS Region.
+
+Amazon Lookout for Metrics API actions are eventually consistent. If you do a read
+operation on a resource immediately after creating or modifying it, use retries to allow
+time for the write operation to complete.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AnomalyDetectorArn"`: The ARN of the anomaly detector containing the metrics sets to
   list.
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+  a `NextToken`. To retrieve the next set of results, use the token in the next request.
+  Tokens expire after 24 hours.
 """
 function list_metric_sets end
 
@@ -1126,11 +1176,12 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets a list of tags for a detector, dataset, or alert.
+Gets a list of [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html)
+for a detector, dataset, or alert.
 
 # Arguments
-- `resource_arn`: The resource's Amazon Resource Name (ARN).
 
+- `resource_arn`: The resource's Amazon Resource Name (ARN).
 """
 function list_tags_for_resource end
 
@@ -1166,9 +1217,9 @@ end
 Add feedback for an anomalous metric.
 
 # Arguments
+
 - `anomaly_detector_arn`: The Amazon Resource Name (ARN) of the anomaly detector.
 - `anomaly_group_time_series_feedback`: Feedback for an anomalous metric.
-
 """
 function put_feedback end
 
@@ -1217,13 +1268,14 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds tags to a detector, dataset, or alert.
+Adds [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html) to a
+detector, dataset, or alert.
 
 # Arguments
+
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 - `tags`: Tags to apply to the resource. Tag keys and values can contain letters, numbers,
-  spaces, and the following symbols: _.:/=+@-
-
+  spaces, and the following symbols: `_.:/=+@-`
 """
 function tag_resource end
 
@@ -1256,12 +1308,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a detector, dataset, or alert.
+Removes [tags](https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html)
+from a detector, dataset, or alert.
 
 # Arguments
+
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 - `tag_keys`: Keys to remove from the resource's tags.
-
 """
 function untag_resource end
 
@@ -1299,10 +1352,13 @@ end
 Make changes to an existing alert.
 
 # Arguments
+
 - `alert_arn`: The ARN of the alert to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Action"`: Action that will be triggered when there is an alert.
 - `"AlertDescription"`: A description of the alert.
 - `"AlertFilters"`: The configuration of the alert filters, containing MetricList and
@@ -1346,10 +1402,13 @@ Updates a detector. After activation, you can only change a detector's ingestion
 description.
 
 # Arguments
+
 - `anomaly_detector_arn`: The ARN of the detector to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AnomalyDetectorConfig"`: Contains information about the configuration to which the
   detector will be updated.
 - `"AnomalyDetectorDescription"`: The updated detector description.
@@ -1394,14 +1453,17 @@ end
 Updates a dataset.
 
 # Arguments
+
 - `metric_set_arn`: The ARN of the dataset to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DimensionFilterList"`: Describes a list of filters for choosing specific dimensions and
-  specific values. Each filter consists of the dimension and one of its values that you want
-  to include. When multiple dimensions or values are specified, the dimensions are joined
-  with an AND operation and the values are joined with an OR operation.
+  specific values. Each filter consists of the dimension and one of its values that you
+  want to include. When multiple dimensions or values are specified, the dimensions are
+  joined with an AND operation and the values are joined with an OR operation.
 - `"DimensionList"`: The dimension list.
 - `"MetricList"`: The metric list.
 - `"MetricSetDescription"`: The dataset's description.

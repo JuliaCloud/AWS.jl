@@ -11,8 +11,8 @@ using AWS.UUIDs
 This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
 
 # Arguments
-- `job_id`: The unique identifier for a job.
 
+- `job_id`: The unique identifier for a job.
 """
 function cancel_job end
 
@@ -44,17 +44,20 @@ end
 This operation creates a data set.
 
 # Arguments
+
 - `asset_type`: The type of asset that is added to a data set.
 - `description`: A description for the data set. This value can be up to 16,348 characters
   long.
 - `name`: The name of the data set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: A data set tag is an optional label that you can assign to a data set when you
-  create it. Each tag consists of a key and an optional value, both of which you define. When
-  you use tagging, you can also use tag-based access control in IAM policies to control
-  access to these data sets and revisions.
+  create it. Each tag consists of a key and an optional value, both of which you define.
+  When you use tagging, you can also use tag-based access control in IAM policies to
+  control access to these data sets and revisions.
 """
 function create_data_set end
 
@@ -103,9 +106,9 @@ end
 This operation creates an event action.
 
 # Arguments
+
 - `action`: What occurs after a certain event.
 - `event`: What occurs to start an action.
-
 """
 function create_event_action end
 
@@ -147,9 +150,9 @@ end
 This operation creates a job.
 
 # Arguments
+
 - `details`: The details for the CreateJob request.
 - `type`: The type of job to be created.
-
 """
 function create_job end
 
@@ -189,15 +192,18 @@ end
 This operation creates a revision for a data set.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Comment"`: An optional comment about the revision.
 - `"Tags"`: A revision tag is an optional label that you can assign to a revision when you
-  create it. Each tag consists of a key and an optional value, both of which you define. When
-  you use tagging, you can also use tag-based access control in IAM policies to control
-  access to these data sets and revisions.
+  create it. Each tag consists of a key and an optional value, both of which you define.
+  When you use tagging, you can also use tag-based access control in IAM policies to
+  control access to these data sets and revisions.
 """
 function create_revision end
 
@@ -231,10 +237,10 @@ end
 This operation deletes an asset.
 
 # Arguments
+
 - `asset_id`: The unique identifier for an asset.
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
-
 """
 function delete_asset end
 
@@ -272,8 +278,8 @@ end
 This operation deletes a data set.
 
 # Arguments
-- `data_set_id`: The unique identifier for a data set.
 
+- `data_set_id`: The unique identifier for a data set.
 """
 function delete_data_set end
 
@@ -307,8 +313,8 @@ end
 This operation deletes the event action.
 
 # Arguments
-- `event_action_id`: The unique identifier for the event action.
 
+- `event_action_id`: The unique identifier for the event action.
 """
 function delete_event_action end
 
@@ -344,9 +350,9 @@ end
 This operation deletes a revision.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
-
 """
 function delete_revision end
 
@@ -383,10 +389,10 @@ end
 This operation returns information about an asset.
 
 # Arguments
+
 - `asset_id`: The unique identifier for an asset.
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
-
 """
 function get_asset end
 
@@ -424,8 +430,8 @@ end
 This operation returns information about a data set.
 
 # Arguments
-- `data_set_id`: The unique identifier for a data set.
 
+- `data_set_id`: The unique identifier for a data set.
 """
 function get_data_set end
 
@@ -459,8 +465,8 @@ end
 This operation retrieves information about an event action.
 
 # Arguments
-- `event_action_id`: The unique identifier for the event action.
 
+- `event_action_id`: The unique identifier for the event action.
 """
 function get_event_action end
 
@@ -494,8 +500,8 @@ end
 This operation returns information about a job.
 
 # Arguments
-- `job_id`: The unique identifier for a job.
 
+- `job_id`: The unique identifier for a job.
 """
 function get_job end
 
@@ -524,9 +530,9 @@ end
 This operation returns information about a revision.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
-
 """
 function get_revision end
 
@@ -563,10 +569,13 @@ end
 This operation lists a data set's revisions sorted by CreatedAt in descending order.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results returned by a single call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -607,7 +616,9 @@ CreatedAt in descending order. When listing by origin ENTITLED, there is no orde
 maxResults parameter is ignored.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results returned by a single call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -641,7 +652,9 @@ end
 This operation lists your event actions.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"eventSourceId"`: The unique identifier for the event source.
 - `"maxResults"`: The maximum number of results returned by a single call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
@@ -674,7 +687,9 @@ end
 This operation lists your jobs sorted by CreatedAt in descending order.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dataSetId"`: The unique identifier for a data set.
 - `"maxResults"`: The maximum number of results returned by a single call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
@@ -704,11 +719,14 @@ end
 This operation lists a revision's assets sorted alphabetically in descending order.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results returned by a single call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -748,8 +766,8 @@ end
 This operation lists the tags on the resource.
 
 # Arguments
-- `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 
+- `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 """
 function list_tags_for_resource end
 
@@ -785,11 +803,11 @@ end
 This operation revokes subscribers' access to a revision.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
 - `revocation_comment`: A required comment to inform subscribers of the reason their access
   to the revision was revoked.
-
 """
 function revoke_revision end
 
@@ -836,19 +854,22 @@ This operation invokes an API Gateway API asset. The request is proxied to the p
 API Gateway API.
 
 # Arguments
+
 - `x-amzn-dataexchange-asset-id`: Asset ID value for the API request.
 - `x-amzn-dataexchange-data-set-id`: Data set ID value for the API request.
 - `x-amzn-dataexchange-revision-id`: Revision ID value for the API request.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Body"`: The request body.
 - `"QueryStringParameters"`: Attach query string parameters to the end of the URI (for
   example, /v1/examplePath?exampleParam=exampleValue).
-- `"x-amzn-dataexchange-header-"`: Any header value prefixed with
-  x-amzn-dataexchange-header- will have that stripped before sending the Asset API request.
-  Use this when you want to override a header that AWS Data Exchange uses. Alternatively, you
-  can use the header without a prefix to the HTTP request.
+- `"x-amzn-dataexchange-header-"`: Any header value prefixed with x-amzn-dataexchange-
+  header- will have that stripped before sending the Asset API request. Use this when you
+  want to override a header that AWS Data Exchange uses. Alternatively, you can use the
+  header without a prefix to the HTTP request.
 - `"x-amzn-dataexchange-http-method"`: HTTP method value for the API request.
   Alternatively, you can use the appropriate verb in your request.
 - `"x-amzn-dataexchange-path"`: URI path value for the API request. Alternatively, you can
@@ -914,12 +935,15 @@ end
 The type of event associated with the data set.
 
 # Arguments
+
 - `data_set_id`: Affected data set of the notification.
 - `type`: The type of the notification. Describing the kind of event the notification is
   alerting you to.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: Idempotency key for the notification, this key allows us to deduplicate
   notifications that are sent in quick succession erroneously.
 - `"Comment"`: Free-form text field for providers to add information about their
@@ -970,8 +994,8 @@ end
 This operation starts a job.
 
 # Arguments
-- `job_id`: The unique identifier for a job.
 
+- `job_id`: The unique identifier for a job.
 """
 function start_job end
 
@@ -1000,9 +1024,9 @@ end
 This operation tags a resource.
 
 # Arguments
+
 - `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 - `tags`: A label that consists of a customer-defined key and an optional value.
-
 """
 function tag_resource end
 
@@ -1038,9 +1062,9 @@ end
 This operation removes one or more tags from a resource.
 
 # Arguments
+
 - `resource_arn`: An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.
 - `tag_keys`: The key tags.
-
 """
 function untag_resource end
 
@@ -1078,17 +1102,17 @@ end
 This operation updates an asset.
 
 # Arguments
+
 - `asset_id`: The unique identifier for an asset.
 - `data_set_id`: The unique identifier for a data set.
 - `name`: The name of the asset. When importing from Amazon S3, the Amazon S3 object key is
   used as the asset name. When exporting to Amazon S3, the asset name is used as default
   target Amazon S3 object key. When importing from Amazon API Gateway API, the API name is
-  used as the asset name. When importing from Amazon Redshift, the datashare name is used as
-  the asset name. When importing from AWS Lake Formation, the static values of \"Database(s)
-  included in the LF-tag policy\" or \"Table(s) included in LF-tag policy\" are used as the
-  name.
+  used as the asset name. When importing from Amazon Redshift, the datashare name is used
+  as the asset name. When importing from AWS Lake Formation, the static values of
+  "Database(s) included in the LF-tag policy" or "Table(s) included in LF-tag policy" are
+  used as the name.
 - `revision_id`: The unique identifier for a revision.
-
 """
 function update_asset end
 
@@ -1128,10 +1152,13 @@ end
 This operation updates a data set.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: The description for the data set.
 - `"Name"`: The name of the data set.
 """
@@ -1167,10 +1194,13 @@ end
 This operation updates the event action.
 
 # Arguments
+
 - `event_action_id`: The unique identifier for the event action.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Action"`: What occurs after a certain event.
 """
 function update_event_action end
@@ -1207,11 +1237,14 @@ end
 This operation updates a revision.
 
 # Arguments
+
 - `data_set_id`: The unique identifier for a data set.
 - `revision_id`: The unique identifier for a revision.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Comment"`: An optional comment about the revision.
 - `"Finalized"`: Finalizing a revision tells AWS Data Exchange that your changes to the
   assets in the revision are complete. After it's in this read-only state, you can publish

@@ -12,22 +12,30 @@ Creates a snapshot of the specified simulation. A snapshot is a file that contai
 simulation state data at a specific time. The state data saved in a snapshot includes
 entity data from the State Fabric, the simulation configuration specified in the schema,
 and the clock tick number. You can use the snapshot to initialize a new simulation. For
-more information about snapshots, see Snapshots in the SimSpace Weaver User Guide.  You
-specify a Destination when you create a snapshot. The Destination is the name of an Amazon
-S3 bucket and an optional ObjectKeyPrefix. The ObjectKeyPrefix is usually the name of a
-folder in the bucket. SimSpace Weaver creates a snapshot folder inside the Destination and
-places the snapshot file there. The snapshot file is an Amazon S3 object. It has an object
-key with the form:  object-key-prefix/snapshot/simulation-name-YYMMdd-HHmm-ss.zip, where:
-   YY  is the 2-digit year     MM  is the 2-digit month     dd  is the 2-digit day of the
-month     HH  is the 2-digit hour (24-hour clock)     mm  is the 2-digit minutes     ss  is
-the 2-digit seconds
+more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html)
+in the *SimSpace Weaver User Guide*.
+
+You specify a `Destination` when you create a snapshot. The `Destination` is the name of an
+Amazon S3 bucket and an optional `ObjectKeyPrefix`. The `ObjectKeyPrefix` is usually the
+name of a folder in the bucket. SimSpace Weaver creates a `snapshot` folder inside the
+`Destination` and places the snapshot file there.
+
+The snapshot file is an Amazon S3 object. It has an object key with the form: ` *object-key-
+prefix*/snapshot/*simulation-name*-*YYMMdd*-*HHmm*-*ss*.zip`, where:  - ` *YY* ` is the 2-
+digit year
+ - ` *MM* ` is the 2-digit month
+ - ` *dd* ` is the 2-digit day of the month
+ - ` *HH* ` is the 2-digit hour (24-hour clock)
+ - ` *mm* ` is the 2-digit minutes
+ - ` *ss* ` is the 2-digit seconds
 
 # Arguments
-- `destination`: The Amazon S3 bucket and optional folder (object key prefix) where
-  SimSpace Weaver creates the snapshot file. The Amazon S3 bucket must be in the same Amazon
-  Web Services Region as the simulation.
-- `simulation`: The name of the simulation.
 
+- `destination`: The Amazon S3 bucket and optional folder (object key prefix) where
+  SimSpace Weaver creates the snapshot file.
+
+The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
+- `simulation`: The name of the simulation.
 """
 function create_snapshot end
 
@@ -71,10 +79,10 @@ end
 Deletes the instance of the given custom app.
 
 # Arguments
+
 - `app`: The name of the app.
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
-
 """
 function delete_app end
 
@@ -118,13 +126,15 @@ end
     delete_simulation(simulation)
     delete_simulation(simulation, params::Dict{String,<:Any})
 
-Deletes all SimSpace Weaver resources assigned to the given simulation.  Your simulation
-uses resources in other Amazon Web Services. This API operation doesn't delete resources in
-other Amazon Web Services.
+Deletes all SimSpace Weaver resources assigned to the given simulation.
+
+!!! note
+    Your simulation uses resources in other Amazon Web Services. This API operation doesn't
+delete resources in other Amazon Web Services.
 
 # Arguments
-- `simulation`: The name of the simulation.
 
+- `simulation`: The name of the simulation.
 """
 function delete_simulation end
 
@@ -161,10 +171,10 @@ end
 Returns the state of the given custom app.
 
 # Arguments
+
 - `app`: The name of the app.
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
-
 """
 function describe_app end
 
@@ -211,8 +221,8 @@ end
 Returns the current state of the given simulation.
 
 # Arguments
-- `simulation`: The name of the simulation.
 
+- `simulation`: The name of the simulation.
 """
 function describe_simulation end
 
@@ -249,18 +259,21 @@ end
 Lists all custom apps or service apps for the given simulation and domain.
 
 # Arguments
+
 - `simulation`: The name of the simulation that you want to list apps for.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"domain"`: The name of the domain that you want to list apps for.
 - `"maxResults"`: The maximum number of apps to list.
-- `"nextToken"`: If SimSpace Weaver returns nextToken, then there are more results
-  available. The value of nextToken is a unique pagination token for each page. To retrieve
-  the next page, call the operation again using the returned token. Keep all other arguments
-  unchanged. If no results remain, then nextToken is set to null. Each pagination token
-  expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
-  400 ValidationException error.
+- `"nextToken"`: If SimSpace Weaver returns `nextToken`, then there are more results
+  available. The value of `nextToken` is a unique pagination token for each page. To
+  retrieve the next page, call the operation again using the returned token. Keep all other
+  arguments unchanged. If no results remain, then `nextToken` is set to `null`. Each
+  pagination token expires after 24 hours. If you provide a token that isn't valid, then
+  you receive an *HTTP 400 ValidationException* error.
 """
 function list_apps end
 
@@ -298,14 +311,16 @@ Lists the SimSpace Weaver simulations in the Amazon Web Services account used to
 API call.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of simulations to list.
-- `"nextToken"`: If SimSpace Weaver returns nextToken, then there are more results
-  available. The value of nextToken is a unique pagination token for each page. To retrieve
-  the next page, call the operation again using the returned token. Keep all other arguments
-  unchanged. If no results remain, then nextToken is set to null. Each pagination token
-  expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP
-  400 ValidationException error.
+- `"nextToken"`: If SimSpace Weaver returns `nextToken`, then there are more results
+  available. The value of `nextToken` is a unique pagination token for each page. To
+  retrieve the next page, call the operation again using the returned token. Keep all other
+  arguments unchanged. If no results remain, then `nextToken` is set to `null`. Each
+  pagination token expires after 24 hours. If you provide a token that isn't valid, then
+  you receive an *HTTP 400 ValidationException* error.
 """
 function list_simulations end
 
@@ -334,9 +349,10 @@ end
 Lists all tags on a SimSpace Weaver resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
-  about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource. For more information
+  about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
 """
 function list_tags_for_resource end
 
@@ -372,15 +388,18 @@ end
 Starts a custom app with the configuration specified in the simulation schema.
 
 # Arguments
+
 - `domain`: The name of the domain of the app.
 - `name`: The name of the app.
 - `simulation`: The name of the simulation of the app.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A value that you provide to ensure that repeated calls to this API
-  operation using the same parameters complete only once. A ClientToken is also known as an
-  idempotency token. A ClientToken expires after 24 hours.
+  operation using the same parameters complete only once. A `ClientToken` is also known as
+  an *idempotency token*. A `ClientToken` expires after 24 hours.
 - `"Description"`: The description of the app.
 - `"LaunchOverrides"`:
 """
@@ -437,8 +456,8 @@ end
 Starts the simulation clock.
 
 # Arguments
-- `simulation`: The name of the simulation.
 
+- `simulation`: The name of the simulation.
 """
 function start_clock end
 
@@ -473,39 +492,49 @@ end
     start_simulation(name, role_arn, params::Dict{String,<:Any})
 
 Starts a simulation with the given name. You must choose to start your simulation from a
-schema or from a snapshot. For more information about the schema, see the schema reference
-in the SimSpace Weaver User Guide. For more information about snapshots, see Snapshots in
-the SimSpace Weaver User Guide.
+schema or from a snapshot. For more information about the schema, see the [schema reference](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/schema-reference.html)
+in the *SimSpace Weaver User Guide*. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html)
+in the *SimSpace Weaver User Guide*.
 
 # Arguments
+
 - `name`: The name of the simulation.
 - `role_arn`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   role that the simulation assumes to perform actions. For more information about ARNs, see
-  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference. For more
-  information about IAM roles, see IAM roles in the Identity and Access Management User Guide.
+  [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*. For more information about IAM roles, see
+  [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the
+  *Identity and Access Management User Guide*.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A value that you provide to ensure that repeated calls to this API
-  operation using the same parameters complete only once. A ClientToken is also known as an
-  idempotency token. A ClientToken expires after 24 hours.
+  operation using the same parameters complete only once. A `ClientToken` is also known as
+  an *idempotency token*. A `ClientToken` expires after 24 hours.
 - `"Description"`: The description of the simulation.
 - `"MaximumDuration"`: The maximum running time of the simulation, specified as a number of
   minutes (m or M), hours (h or H), or days (d or D). The simulation stops when it reaches
-  this limit. The maximum value is 14D, or its equivalent in the other units. The default
-  value is 14D. A value equivalent to 0 makes the simulation immediately transition to
-  Stopping as soon as it reaches Started.
+  this limit. The maximum value is `14D`, or its equivalent in the other units. The default
+  value is `14D`. A value equivalent to `0` makes the simulation immediately transition to
+  `Stopping` as soon as it reaches `Started`.
 - `"SchemaS3Location"`: The location of the simulation schema in Amazon Simple Storage
-  Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage
-  Service User Guide . Provide a SchemaS3Location to start your simulation from a schema. If
-  you provide a SchemaS3Location then you can't provide a SnapshotS3Location.
+  Service (Amazon S3). For more information about Amazon S3, see the [ *Amazon Simple Storage Service User Guide* ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
+
+  Provide a `SchemaS3Location` to start your simulation from a schema.
+
+If you provide a `SchemaS3Location` then you can't provide a `SnapshotS3Location`.
 - `"SnapshotS3Location"`: The location of the snapshot .zip file in Amazon Simple Storage
-  Service (Amazon S3). For more information about Amazon S3, see the  Amazon Simple Storage
-  Service User Guide . Provide a SnapshotS3Location to start your simulation from a snapshot.
-  The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation. If
-  you provide a SnapshotS3Location then you can't provide a SchemaS3Location.
-- `"Tags"`: A list of tags for the simulation. For more information about tags, see Tagging
-  Amazon Web Services resources in the Amazon Web Services General Reference.
+  Service (Amazon S3). For more information about Amazon S3, see the [ *Amazon Simple Storage Service User Guide* ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
+
+  Provide a `SnapshotS3Location` to start your simulation from a snapshot.
+
+  The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
+
+If you provide a `SnapshotS3Location` then you can't provide a `SchemaS3Location`.
+- `"Tags"`: A list of tags for the simulation. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+  in the *Amazon Web Services General Reference*.
 """
 function start_simulation end
 
@@ -551,10 +580,10 @@ end
 Stops the given custom app and shuts down all of its allocated compute resources.
 
 # Arguments
+
 - `app`: The name of the app.
 - `domain`: The name of the domain of the app.
 - `simulation`: The name of the simulation of the app.
-
 """
 function stop_app end
 
@@ -601,8 +630,8 @@ end
 Stops the simulation clock.
 
 # Arguments
-- `simulation`: The name of the simulation.
 
+- `simulation`: The name of the simulation.
 """
 function stop_clock end
 
@@ -636,12 +665,15 @@ end
     stop_simulation(simulation)
     stop_simulation(simulation, params::Dict{String,<:Any})
 
-Stops the given simulation.  You can't restart a simulation after you stop it. If you want
-to restart a simulation, then you must stop it, delete it, and start a new instance of it.
+Stops the given simulation.
+
+!!! important
+    You can't restart a simulation after you stop it. If you want to restart a simulation,
+then you must stop it, delete it, and start a new instance of it.
 
 # Arguments
-- `simulation`: The name of the simulation.
 
+- `simulation`: The name of the simulation.
 """
 function stop_simulation end
 
@@ -675,15 +707,15 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds tags to a SimSpace Weaver resource. For more information about tags, see Tagging
-Amazon Web Services resources in the Amazon Web Services General Reference.
+Adds tags to a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+in the *Amazon Web Services General Reference*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add tags
-  to. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web
-  Services General Reference.
-- `tags`: A list of tags to apply to the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to add tags
+  to. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
+- `tags`: A list of tags to apply to the resource.
 """
 function tag_resource end
 
@@ -716,15 +748,15 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging
-Amazon Web Services resources in the Amazon Web Services General Reference.
+Removes tags from a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+in the *Amazon Web Services General Reference*.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
-  tags from. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon
-  Web Services General Reference.
-- `tag_keys`: A list of tag keys to remove from the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
+  tags from. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+  in the *Amazon Web Services General Reference*.
+- `tag_keys`: A list of tag keys to remove from the resource.
 """
 function untag_resource end
 

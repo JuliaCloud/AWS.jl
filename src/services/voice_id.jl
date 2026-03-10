@@ -11,10 +11,10 @@ using AWS.UUIDs
 Associates the fraudsters with the watchlist specified in the same domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster to be associated with the watchlist.
 - `watchlist_id`: The identifier of the watchlist you want to associate with the fraudster.
-
 """
 function associate_fraudster end
 
@@ -67,16 +67,19 @@ fraudsters, customer audio, and voiceprints. Every domain is created with a defa
 watchlist that fraudsters can be a part of.
 
 # Arguments
+
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
-  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to
-  Amazon Connect Voice ID encryption at rest for more details on how the KMS key is used.
+  identifier, to be used by Voice ID for the server-side encryption of your data. Refer to [ Amazon Connect Voice ID encryption at rest](https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid)
+  for more details on how the KMS key is used.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A brief description of this domain.
 - `"Tags"`: A list of tags you want added to the domain.
 """
@@ -131,14 +134,17 @@ end
 Creates a watchlist that fraudsters can be a part of.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `name`: The name of the watchlist.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"Description"`: A brief description of this watchlist.
 """
 function create_watchlist end
@@ -185,8 +191,8 @@ end
 Deletes the specified domain from Voice ID.
 
 # Arguments
-- `domain_id`: The identifier of the domain you want to delete.
 
+- `domain_id`: The identifier of the domain you want to delete.
 """
 function delete_domain end
 
@@ -222,9 +228,9 @@ Deletes the specified fraudster from Voice ID. This action disassociates the fra
 any watchlists it is a part of.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster you want to delete.
-
 """
 function delete_fraudster end
 
@@ -266,9 +272,9 @@ end
 Deletes the specified speaker from Voice ID.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you want to delete.
-
 """
 function delete_speaker end
 
@@ -313,9 +319,9 @@ and then delete the watchlist. Every domain has a default watchlist which cannot
 deleted.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist to be deleted.
-
 """
 function delete_watchlist end
 
@@ -357,8 +363,8 @@ end
 Describes the specified domain.
 
 # Arguments
-- `domain_id`: The identifier of the domain that you are describing.
 
+- `domain_id`: The identifier of the domain that you are describing.
 """
 function describe_domain end
 
@@ -393,9 +399,9 @@ end
 Describes the specified fraudster.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster you are describing.
-
 """
 function describe_fraudster end
 
@@ -437,9 +443,9 @@ end
 Describes the specified fraudster registration job.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster registration job.
 - `job_id`: The identifier of the fraudster registration job you are describing.
-
 """
 function describe_fraudster_registration_job end
 
@@ -479,9 +485,9 @@ end
 Describes the specified speaker.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you are describing.
-
 """
 function describe_speaker end
 
@@ -523,9 +529,9 @@ end
 Describes the specified speaker enrollment job.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker enrollment job.
 - `job_id`: The identifier of the speaker enrollment job you are describing.
-
 """
 function describe_speaker_enrollment_job end
 
@@ -565,9 +571,9 @@ end
 Describes the specified watchlist.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist that you are describing.
-
 """
 function describe_watchlist end
 
@@ -608,14 +614,14 @@ end
 
 Disassociates the fraudsters from the watchlist specified. Voice ID always expects a
 fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster
-from its only watchlist, a ValidationException is thrown.
+from its only watchlist, a `ValidationException` is thrown.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster.
 - `fraudster_id`: The identifier of the fraudster to be disassociated from the watchlist.
 - `watchlist_id`: The identifier of the watchlist that you want to disassociate from the
   fraudster.
-
 """
 function disassociate_fraudster end
 
@@ -667,10 +673,10 @@ Evaluates a specified session based on audio data accumulated during a streaming
 Connect Voice ID call.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain where the session started.
 - `session_name_or_id`: The session identifier, or name of the session, that you want to
   evaluate. In Voice ID integration, this is the Contact-Id.
-
 """
 function evaluate_session end
 
@@ -714,12 +720,14 @@ end
 Lists all the domains in the Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
@@ -741,20 +749,24 @@ end
     list_fraudster_registration_jobs(domain_id)
     list_fraudster_registration_jobs(domain_id, params::Dict{String,<:Any})
 
-Lists all the fraudster registration jobs in the domain with the given JobStatus. If
-JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
+Lists all the fraudster registration jobs in the domain with the given `JobStatus`. If
+`JobStatus` is not provided, this lists all fraudster registration jobs in the given
+domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the fraudster registration Jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobStatus"`: Provides the status of your fraudster registration job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
@@ -793,15 +805,18 @@ end
 Lists all fraudsters in a specified watchlist or domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 - `"WatchlistId"`: The identifier of the watchlist. If provided, all fraudsters in the
@@ -837,21 +852,24 @@ end
     list_speaker_enrollment_jobs(domain_id)
     list_speaker_enrollment_jobs(domain_id, params::Dict{String,<:Any})
 
-Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If
-JobStatus is not provided, this lists all jobs with all possible speaker enrollment job
+Lists all the speaker enrollment jobs in the domain with the specified `JobStatus`. If
+`JobStatus` is not provided, this lists all jobs with all possible speaker enrollment job
 statuses.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker enrollment jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobStatus"`: Provides the status of your speaker enrollment Job.
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
@@ -890,15 +908,18 @@ end
 Lists all speakers in a specified domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
@@ -935,9 +956,9 @@ end
 Lists all tags associated with a specified Voice ID resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource for which you
   want to list the tags.
-
 """
 function list_tags_for_resource end
 
@@ -974,15 +995,18 @@ end
 Lists all watchlists in a specified domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results that are returned per call. You can use
-  NextToken to obtain more pages of results. The default is 100; the maximum allowed page
+  `NextToken` to obtain more pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
-  NextToken is a unique pagination token for each page. Make the call again using the
+- `"NextToken"`: If `NextToken` is returned, there are more results available. The value of
+  `NextToken` is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
@@ -1023,9 +1047,9 @@ opted out. Enrollment and evaluation authentication requests are rejected for op
 speakers, and opted out speakers have no voice embeddings stored in Voice ID.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the speaker.
 - `speaker_id`: The identifier of the speaker you want opted-out.
-
 """
 function opt_out_speaker end
 
@@ -1067,10 +1091,11 @@ end
 Starts a new batch fraudster registration job using provided details.
 
 # Arguments
+
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the Job
-  output file. Refer to the Create and edit a fraudster watchlist documentation for the
-  permissions needed in this role.
+  permissions to access customer's buckets to read the input manifest file and write the
+  Job output file. Refer to the [Create and edit a fraudster watchlist](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-fraudster-watchlist.html)
+  documentation for the permissions needed in this role.
 - `domain_id`: The identifier of the domain that contains the fraudster registration job
   and in which the fraudsters are registered.
 - `input_data_config`: The input data config containing an S3 URI for the input manifest
@@ -1079,10 +1104,12 @@ Starts a new batch fraudster registration job using provided details.
   writes the job output file; you must also include a KMS key ID to encrypt the file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"JobName"`: The name of the new fraudster registration job.
 - `"RegistrationConfig"`: The registration config containing details such as the action to
   take when a duplicate fraudster is detected, and the similarity threshold to use for
@@ -1146,10 +1173,11 @@ end
 Starts a new batch speaker enrollment job using specified details.
 
 # Arguments
+
 - `data_access_role_arn`: The IAM role Amazon Resource Name (ARN) that grants Voice ID
-  permissions to access customer's buckets to read the input manifest file and write the job
-  output file. Refer to Batch enrollment using audio data from prior calls for the
-  permissions needed in this role.
+  permissions to access customer's buckets to read the input manifest file and write the
+  job output file. Refer to [Batch enrollment using audio data from prior calls](https://docs.aws.amazon.com/connect/latest/adminguide/voiceid-batch-enrollment.html)
+  for the permissions needed in this role.
 - `domain_id`: The identifier of the domain that contains the speaker enrollment job and in
   which the speakers are enrolled.
 - `input_data_config`: The input data config containing the S3 location for the input
@@ -1158,10 +1186,12 @@ Starts a new batch speaker enrollment job using specified details.
   writes the job output file; you must also include a KMS key ID to encrypt the file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
-  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+  field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 - `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
   take when a speaker is already enrolled in Voice ID or when a speaker is identified as a
   fraudster.
@@ -1225,9 +1255,9 @@ end
 Tags a Voice ID resource with the provided list of tags.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to tag.
 - `tags`: The list of tags to assign to the specified resource.
-
 """
 function tag_resource end
 
@@ -1267,10 +1297,10 @@ end
 Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the Voice ID resource you want to
   remove tags from.
 - `tag_keys`: The list of tag keys you want to remove from the specified resource.
-
 """
 function untag_resource end
 
@@ -1314,17 +1344,20 @@ attributes. If an optional field, such as 'Description' is not provided, it is r
 the domain.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain to be updated.
 - `name`: The name of the domain.
 - `server_side_encryption_configuration`: The configuration, containing the KMS key
   identifier, to be used by Voice ID for the server-side encryption of your data. Changing
   the domain's associated KMS key immediately triggers an asynchronous process to remove
   dependency on the old KMS key, such that the domain's data can only be accessed using the
-  new KMS key. The domain's ServerSideEncryptionUpdateDetails contains the details for this
-  process.
+  new KMS key. The domain's `ServerSideEncryptionUpdateDetails` contains the details for
+  this process.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A brief description about this domain.
 """
 function update_domain end
@@ -1381,11 +1414,14 @@ Updates the specified watchlist. Every domain has a default watchlist which cann
 updated.
 
 # Arguments
+
 - `domain_id`: The identifier of the domain that contains the watchlist.
 - `watchlist_id`: The identifier of the watchlist to be updated.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A brief description about this watchlist.
 - `"Name"`: The name of the watchlist.
 """

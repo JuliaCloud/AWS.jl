@@ -11,11 +11,14 @@ using AWS.UUIDs
 Creates an application instance and deploys it to a device.
 
 # Arguments
+
 - `default_runtime_context_device`: A device's ID.
 - `manifest_payload`: The application's manifest document.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationInstanceIdToReplace"`: The ID of an application instance to replace with the
   new instance.
 - `"Description"`: A description for the application instance.
@@ -74,11 +77,14 @@ end
 Creates a job to run on a device. A job can update a device's software or reboot it.
 
 # Arguments
+
 - `device_ids`: ID of target device.
 - `job_type`: The type of job to run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeviceJobConfig"`: Configuration settings for a software update job.
 """
 function create_job_for_devices end
@@ -123,6 +129,7 @@ end
 Creates a camera stream node.
 
 # Arguments
+
 - `node_name`: A name for the node.
 - `output_package_name`: An output package name for the node.
 - `output_package_version`: An output package version for the node.
@@ -130,7 +137,9 @@ Creates a camera stream node.
 - `template_type`: The type of node.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobTags"`: Tags for the job.
 - `"NodeDescription"`: A description for the node.
 """
@@ -196,10 +205,13 @@ end
 Creates a package and storage location in an Amazon S3 access point.
 
 # Arguments
+
 - `package_name`: A name for the package.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: Tags for the package.
 """
 function create_package end
@@ -237,13 +249,16 @@ end
 Imports a node package.
 
 # Arguments
+
 - `client_token`: A client token for the package import job.
 - `input_config`: An input config for the package import job.
 - `job_type`: A job type for the package import job.
 - `output_config`: An output config for the package import job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"JobTags"`: Tags for the package import job.
 """
 function create_package_import_job end
@@ -304,8 +319,8 @@ end
 Deletes a device.
 
 # Arguments
-- `device_id`: The device's ID.
 
+- `device_id`: The device's ID.
 """
 function delete_device end
 
@@ -336,14 +351,20 @@ end
     delete_package(package_id)
     delete_package(package_id, params::Dict{String,<:Any})
 
-Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in
-addition to permissions for the AWS Panorama API.
+Deletes a package.
+
+!!! note
+    To delete a package, you need permission to call `s3:DeleteObject` in addition to
+permissions for the AWS Panorama API.
 
 # Arguments
+
 - `package_id`: The package's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ForceDelete"`: Delete the package even if it has artifacts stored in its access point.
   Deletes the package's artifacts from Amazon S3.
 """
@@ -379,12 +400,15 @@ end
 Deregisters a package version.
 
 # Arguments
+
 - `package_id`: A package ID.
 - `package_version`: A package version.
 - `patch_version`: A patch version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"OwnerAccount"`: An owner account.
 - `"UpdatedLatestPatchVersion"`: If the version was marked latest, the new version to maker
   as latest.
@@ -428,8 +452,8 @@ end
 Returns information about an application instance on a device.
 
 # Arguments
-- `application_instance_id`: The application instance's ID.
 
+- `application_instance_id`: The application instance's ID.
 """
 function describe_application_instance end
 
@@ -465,8 +489,8 @@ end
 Returns information about an application instance's configuration manifest.
 
 # Arguments
-- `application_instance_id`: The application instance's ID.
 
+- `application_instance_id`: The application instance's ID.
 """
 function describe_application_instance_details end
 
@@ -502,8 +526,8 @@ end
 Returns information about a device.
 
 # Arguments
-- `device_id`: The device's ID.
 
+- `device_id`: The device's ID.
 """
 function describe_device end
 
@@ -537,8 +561,8 @@ end
 Returns information about a device job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function describe_device_job end
 
@@ -567,10 +591,13 @@ end
 Returns information about a node.
 
 # Arguments
+
 - `node_id`: The node's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"OwnerAccount"`: The account ID of the node's owner.
 """
 function describe_node end
@@ -600,8 +627,8 @@ end
 Returns information about a job to create a camera stream node.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function describe_node_from_template_job end
 
@@ -635,8 +662,8 @@ end
 Returns information about a package.
 
 # Arguments
-- `package_id`: The package's ID.
 
+- `package_id`: The package's ID.
 """
 function describe_package end
 
@@ -670,8 +697,8 @@ end
 Returns information about a package import job.
 
 # Arguments
-- `job_id`: The job's ID.
 
+- `job_id`: The job's ID.
 """
 function describe_package_import_job end
 
@@ -705,11 +732,14 @@ end
 Returns information about a package version.
 
 # Arguments
+
 - `package_id`: The version's ID.
 - `package_version`: The version's version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"OwnerAccount"`: The version's owner account.
 - `"PatchVersion"`: The version's patch version.
 """
@@ -748,10 +778,13 @@ end
 Returns a list of application instance dependencies.
 
 # Arguments
+
 - `application_instance_id`: The application instance's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of application instance dependencies to return in one
   page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -791,10 +824,13 @@ end
 Returns a list of application node instances.
 
 # Arguments
+
 - `application_instance_id`: The node instances' application instance ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of node instances to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
@@ -833,7 +869,9 @@ end
 Returns a list of application instances.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deviceId"`: The application instances' device ID.
 - `"maxResults"`: The maximum number of application instances to return in one page of
   results.
@@ -871,7 +909,9 @@ end
 Returns a list of devices.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeviceAggregatedStatusFilter"`: Filter based on a device's status.
 - `"MaxResults"`: The maximum number of devices to return in one page of results.
 - `"NameFilter"`: Filter based on device's name. Prefixes supported.
@@ -904,7 +944,9 @@ end
 Returns a list of jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeviceId"`: Filter results by the job's target device ID.
 - `"MaxResults"`: The maximum number of device jobs to return in one page of results.
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -931,7 +973,9 @@ end
 Returns a list of camera stream node jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of node from template jobs to return in one page of
   results.
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -967,7 +1011,9 @@ end
 Returns a list of nodes.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"category"`: Search for nodes by category.
 - `"maxResults"`: The maximum number of nodes to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -998,7 +1044,9 @@ end
 Returns a list of package import jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of package import jobs to return in one page of
   results.
 - `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
@@ -1034,7 +1082,9 @@ end
 Returns a list of packages.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of packages to return in one page of results.
 - `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
@@ -1062,8 +1112,8 @@ end
 Returns a list of tags for a resource.
 
 # Arguments
-- `resource_arn`: The resource's ARN.
 
+- `resource_arn`: The resource's ARN.
 """
 function list_tags_for_resource end
 
@@ -1098,15 +1148,18 @@ end
 
 Creates a device and returns a configuration archive. The configuration archive is a ZIP
 file that contains a provisioning certificate that is valid for 5 minutes. Name the
-configuration archive certificates-omni_device-name.zip and transfer it to the device
+configuration archive `certificates-omni_*device-name*.zip` and transfer it to the device
 within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port
 next to the HDMI output.
 
 # Arguments
+
 - `name`: A name for the device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the device.
 - `"NetworkingConfiguration"`: A networking configuration for the device.
 - `"Tags"`: Tags for the device.
@@ -1142,12 +1195,15 @@ end
 Registers a package version.
 
 # Arguments
+
 - `package_id`: A package ID.
 - `package_version`: A package version.
 - `patch_version`: A patch version.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MarkLatest"`: Whether to mark the new version as the latest version.
 - `"OwnerAccount"`: An owner account.
 """
@@ -1190,8 +1246,8 @@ end
 Removes an application instance.
 
 # Arguments
-- `application_instance_id`: An application instance ID.
 
+- `application_instance_id`: An application instance ID.
 """
 function remove_application_instance end
 
@@ -1227,9 +1283,9 @@ end
 Signal camera nodes to stop or resume.
 
 # Arguments
+
 - `application_instance_id`: An application instance ID.
 - `node_signals`: A list of signals.
-
 """
 function signal_application_instance_node_instances end
 
@@ -1269,9 +1325,9 @@ end
 Tags a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tags`: Tags for the resource.
-
 """
 function tag_resource end
 
@@ -1307,9 +1363,9 @@ end
 Removes tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The resource's ARN.
 - `tag_keys`: Tag keys to remove.
-
 """
 function untag_resource end
 
@@ -1347,10 +1403,13 @@ end
 Updates a device's metadata.
 
 # Arguments
+
 - `device_id`: The device's ID.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description for the device.
 """
 function update_device_metadata end

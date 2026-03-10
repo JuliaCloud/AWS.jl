@@ -8,14 +8,20 @@ using AWS.UUIDs
     accept_account_link_invitation(link_id)
     accept_account_link_invitation(link_id, params::Dict{String,<:Any})
 
-Accepts the account link invitation.  There's currently no unlinking capability after you
-accept the account linking invitation.
+Accepts the account link invitation.
+
+!!! important
+    There's currently no unlinking capability after you accept the account linking
+invitation.
 
 # Arguments
+
 - `link_id`: The identifier of the account link.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
   idempotent creation.
 """
@@ -47,15 +53,17 @@ end
     associate_connection_alias(alias_id, resource_id)
     associate_connection_alias(alias_id, resource_id, params::Dict{String,<:Any})
 
-Associates the specified connection alias with the specified directory to enable
-cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon
-WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure
-that the current state of the connection alias is CREATED.
+Associates the specified connection alias with the specified directory to enable cross-
+Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
+
+!!! note
+    Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html)
+to make sure that the current state of the connection alias is `CREATED`.
 
 # Arguments
+
 - `alias_id`: The identifier of the connection alias.
 - `resource_id`: The identifier of the directory to associate the connection alias with.
-
 """
 function associate_connection_alias end
 
@@ -97,9 +105,9 @@ end
 Associates the specified IP access control group with the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory.
 - `group_ids`: The identifiers of one or more IP access control groups.
-
 """
 function associate_ip_groups end
 
@@ -141,9 +149,9 @@ end
 Associates the specified application to the specified WorkSpace.
 
 # Arguments
+
 - `application_id`: The identifier of the application.
 - `workspace_id`: The identifier of the WorkSpace.
-
 """
 function associate_workspace_application end
 
@@ -184,13 +192,15 @@ end
     authorize_ip_rules(group_id, user_rules)
     authorize_ip_rules(group_id, user_rules, params::Dict{String,<:Any})
 
-Adds one or more rules to the specified IP access control group. This action gives users
-permission to access their WorkSpaces from the CIDR address ranges specified in the rules.
+Adds one or more rules to the specified IP access control group.
+
+This action gives users permission to access their WorkSpaces from the CIDR address ranges
+specified in the rules.
 
 # Arguments
+
 - `group_id`: The identifier of the group.
 - `user_rules`: The rules to add to the group.
-
 """
 function authorize_ip_rules end
 
@@ -230,21 +240,30 @@ end
     copy_workspace_image(name, source_image_id, source_region, params::Dict{String,<:Any})
 
 Copies the specified image from the specified Region to the current Region. For more
-information about copying images, see  Copy a Custom WorkSpaces Image. In the China
-(Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services
-GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services
-Support.  Before copying a shared image, be sure to verify that it has been shared from the
+information about copying images, see [ Copy a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html).
+
+In the China (Ningxia) Region, you can copy images only within the same Region.
+
+In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact
+Amazon Web Services Support.
+
+!!! important
+    Before copying a shared image, be sure to verify that it has been shared from the
 correct Amazon Web Services account. To determine if an image has been shared and to see
-the ID of the Amazon Web Services account that owns an image, use the
-DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
+the ID of the Amazon Web Services account that owns an image, use the [DescribeWorkSpaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html)
+and [DescribeWorkspaceImagePermissions](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html)
+API operations.
 
 # Arguments
+
 - `name`: The name of the image.
 - `source_image_id`: The identifier of the source image.
 - `source_region`: The identifier of the source Region.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the image.
 - `"Tags"`: The tags for the image.
 """
@@ -295,10 +314,13 @@ end
 Creates the account link invitation.
 
 # Arguments
+
 - `target_account_id`: The identifier of the target account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
   idempotent creation.
 """
@@ -337,14 +359,15 @@ end
     create_connect_client_add_in(name, resource_id, url, params::Dict{String,<:Any})
 
 Creates a client-add-in for Amazon Connect within a directory. You can create only one
-Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users
-to seamlessly connect to Amazon Connect.
+Amazon Connect client add-in within a directory.
+
+This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
 
 # Arguments
+
 - `name`: The name of the client add-in.
 - `resource_id`: The directory identifier for which to configure the client add-in.
 - `url`: The endpoint URL of the Amazon Connect client add-in.
-
 """
 function create_connect_client_add_in end
 
@@ -385,17 +408,23 @@ end
     create_connection_alias(connection_string, params::Dict{String,<:Any})
 
 Creates the specified connection alias for use with cross-Region redirection. For more
-information, see  Cross-Region Redirection for Amazon WorkSpaces.
+information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
 
 # Arguments
+
 - `connection_string`: A connection string in the form of a fully qualified domain name
-  (FQDN), such as www.example.com.  After you create a connection string, it is always
-  associated to your Amazon Web Services account. You cannot recreate the same connection
-  string with a different account, even if you delete all instances of it from the original
-  account. The connection string is globally reserved for your account.
+  (FQDN), such as `www.example.com`.
+
+  !!! important
+      After you create a connection string, it is always associated to your Amazon Web
+  Services account. You cannot recreate the same connection string with a different
+  account, even if you delete all instances of it from the original account. The connection
+  string is globally reserved for your account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags to associate with the connection alias.
 """
 function create_connection_alias end
@@ -432,21 +461,26 @@ end
     create_ip_group(group_name)
     create_ip_group(group_name, params::Dict{String,<:Any})
 
-Creates an IP access control group. An IP access control group provides you with the
-ability to control the IP addresses from which users are allowed to access their
-WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group
-and then associate the group with your directory. You can add rules when you create the
-group or at any time using AuthorizeIpRules. There is a default IP access control group
-associated with your directory. If you don't associate an IP access control group with your
-directory, the default group is used. The default group includes a default rule that allows
-users to access their WorkSpaces from anywhere. You cannot modify the default IP access
-control group for your directory.
+Creates an IP access control group.
+
+An IP access control group provides you with the ability to control the IP addresses from
+which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add
+rules to your IP access control group and then associate the group with your directory. You
+can add rules when you create the group or at any time using <a>AuthorizeIpRules</a>.
+
+There is a default IP access control group associated with your directory. If you don't
+associate an IP access control group with your directory, the default group is used. The
+default group includes a default rule that allows users to access their WorkSpaces from
+anywhere. You cannot modify the default IP access control group for your directory.
 
 # Arguments
+
 - `group_name`: The name of the group.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupDesc"`: The description of the group.
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 - `"UserRules"`: The rules to add to the group.
@@ -484,9 +518,9 @@ end
 Creates a standby WorkSpace in a secondary Region.
 
 # Arguments
+
 - `primary_region`: The Region of the primary WorkSpace.
 - `standby_workspaces`: Information about the standby WorkSpace to be created.
-
 """
 function create_standby_workspaces end
 
@@ -533,11 +567,11 @@ end
 Creates the specified tags for the specified WorkSpaces resource.
 
 # Arguments
+
 - `resource_id`: The identifier of the WorkSpaces resource. The supported resource types
   are WorkSpaces, registered directories, images, custom bundles, IP access control groups,
   and connection aliases.
 - `tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
-
 """
 function create_tags end
 
@@ -574,23 +608,34 @@ end
 
 Creates a new updated WorkSpace image based on the specified source image. The new updated
 WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces
-components. To determine which WorkSpace images need to be updated with the latest Amazon
-WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Server
-2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this
-time.   Microsoft Windows updates and other application updates are not included in the
-update process.   The source WorkSpace image is not deleted. You can delete the source
-image after you've verified your new updated image and created a new bundle.
+components.
+
+To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces
+requirements, use [ DescribeWorkspaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html).
+
+!!! note
+    - Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be
+programmatically updated at this time.
+ - Microsoft Windows updates and other application updates are not included in the update
+process.
+ - The source WorkSpace image is not deleted. You can delete the source image after you've
+verified your new updated image and created a new bundle.
 
 # Arguments
+
 - `description`: A description of whether updates for the WorkSpace image are available.
 - `name`: The name of the new updated WorkSpace image.
 - `source_image_id`: The identifier of the source WorkSpace image.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The tags that you want to add to the new updated WorkSpace image.  To add tags
-  at the same time when you're creating the updated image, you must create an IAM policy that
-  grants your IAM user permissions to use workspaces:CreateTags.
+
+- `"Tags"`: The tags that you want to add to the new updated WorkSpace image.
+
+  !!! note
+      To add tags at the same time when you're creating the updated image, you must create
+  an IAM policy that grants your IAM user permissions to use `workspaces:CreateTags`.
 """
 function create_updated_workspace_image end
 
@@ -637,9 +682,10 @@ end
     create_workspace_bundle(bundle_description, bundle_name, compute_type, image_id, user_storage, params::Dict{String,<:Any})
 
 Creates the specified WorkSpace bundle. For more information about creating WorkSpace
-bundles, see  Create a Custom WorkSpaces Image and Bundle.
+bundles, see [ Create a Custom WorkSpaces Image and Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html).
 
 # Arguments
+
 - `bundle_description`: The description of the bundle.
 - `bundle_name`: The name of the bundle.
 - `compute_type`:
@@ -647,11 +693,15 @@ bundles, see  Create a Custom WorkSpaces Image and Bundle.
 - `user_storage`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"RootStorage"`:
-- `"Tags"`: The tags associated with the bundle.  To add tags at the same time when you're
-  creating the bundle, you must create an IAM policy that grants your IAM user permissions to
-  use workspaces:CreateTags.
+- `"Tags"`: The tags associated with the bundle.
+
+  !!! note
+      To add tags at the same time when you're creating the bundle, you must create an IAM
+  policy that grants your IAM user permissions to use `workspaces:CreateTags`.
 """
 function create_workspace_bundle end
 
@@ -713,15 +763,18 @@ end
 Creates a new WorkSpace image from an existing WorkSpace.
 
 # Arguments
+
 - `description`: The description of the new WorkSpace image.
 - `name`: The name of the new WorkSpace image.
 - `workspace_id`: The identifier of the source WorkSpace
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags that you want to add to the new WorkSpace image. To add tags when
   you're creating the image, you must create an IAM policy that grants your IAM user
-  permission to use workspaces:CreateTags.
+  permission to use `workspaces:CreateTags`.
 """
 function create_workspace_image end
 
@@ -767,18 +820,22 @@ end
     create_workspaces(workspaces)
     create_workspaces(workspaces, params::Dict{String,<:Any})
 
-Creates one or more WorkSpaces. This operation is asynchronous and returns before the
-WorkSpaces are created.    The MANUAL running mode value is only supported by Amazon
-WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more
-information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for
-Linux bundles because WSP is the default protocol for those bundles.   User-decoupled
-WorkSpaces are only supported by Amazon WorkSpaces Core.   Review your running mode to
-ensure you are using one that is optimal for your needs and budget. For more information on
-switching running modes, see  Can I switch between hourly and monthly billing?
+Creates one or more WorkSpaces.
+
+This operation is asynchronous and returns before the WorkSpaces are created.
+
+!!! note
+    - The `MANUAL` running mode value is only supported by Amazon WorkSpaces Core. Contact
+your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
+ - You don't need to specify the `PCOIP` protocol for Linux bundles because `WSP` is the
+default protocol for those bundles.
+ - User-decoupled WorkSpaces are only supported by Amazon WorkSpaces Core.
+ - Review your running mode to ensure you are using one that is optimal for your needs and
+budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F)
 
 # Arguments
-- `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 
+- `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 """
 function create_workspaces end
 
@@ -813,6 +870,7 @@ end
 Creates a pool of WorkSpaces.
 
 # Arguments
+
 - `bundle_id`: The identifier of the bundle for the pool.
 - `capacity`: The user capacity of the pool.
 - `description`: The pool description.
@@ -820,7 +878,9 @@ Creates a pool of WorkSpaces.
 - `pool_name`: The name of the pool.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationSettings"`: Indicates the application settings of the pool.
 - `"Tags"`: The tags for the pool.
 - `"TimeoutSettings"`: Indicates the timeout settings of the pool.
@@ -885,10 +945,13 @@ end
 Deletes the account link invitation.
 
 # Arguments
+
 - `link_id`: The identifier of the account link.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
   idempotent creation.
 """
@@ -923,14 +986,16 @@ end
 Deletes customized client branding. Client branding allows you to customize your
 WorkSpace's client login portal. You can tailor your login portal company logo, the support
 email address, support link, link to reset password, and a custom message for users trying
-to sign in. After you delete your customized client branding, your login portal reverts to
-the default client branding.
+to sign in.
+
+After you delete your customized client branding, your login portal reverts to the default
+client branding.
 
 # Arguments
+
 - `platforms`: The device type for which you want to delete client branding.
 - `resource_id`: The directory identifier of the WorkSpace for which you want to delete
   client branding.
-
 """
 function delete_client_branding end
 
@@ -972,9 +1037,9 @@ end
 Deletes a client-add-in for Amazon Connect that is configured within a directory.
 
 # Arguments
+
 - `add_in_id`: The identifier of the client add-in to delete.
 - `resource_id`: The directory identifier for which the client add-in is configured.
-
 """
 function delete_connect_client_add_in end
 
@@ -1013,19 +1078,23 @@ end
     delete_connection_alias(alias_id)
     delete_connection_alias(alias_id, params::Dict{String,<:Any})
 
-Deletes the specified connection alias. For more information, see  Cross-Region Redirection
-for Amazon WorkSpaces.   If you will no longer be using a fully qualified domain name
-(FQDN) as the registration code for your WorkSpaces users, you must take certain
-precautions to prevent potential security issues. For more information, see  Security
-Considerations if You Stop Using Cross-Region Redirection.   To delete a connection alias
-that has been shared, the shared account must first disassociate the connection alias from
-any directories it has been associated with. Then you must unshare the connection alias
-from the account it has been shared with. You can delete a connection alias only after it
-is no longer shared with any accounts or associated with any directories.
+Deletes the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
+
+!!! important
+    **If you will no longer be using a fully qualified domain name (FQDN) as the
+registration code for your WorkSpaces users, you must take certain precautions to prevent
+potential security issues.** For more information, see [ Security Considerations if You Stop Using Cross-Region Redirection](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html#cross-region-redirection-security-considerations).
+
+!!! note
+    To delete a connection alias that has been shared, the shared account must first
+disassociate the connection alias from any directories it has been associated with. Then
+you must unshare the connection alias from the account it has been shared with. You can
+delete a connection alias only after it is no longer shared with any accounts or associated
+with any directories.
 
 # Arguments
-- `alias_id`: The identifier of the connection alias to delete.
 
+- `alias_id`: The identifier of the connection alias to delete.
 """
 function delete_connection_alias end
 
@@ -1057,12 +1126,13 @@ end
     delete_ip_group(group_id)
     delete_ip_group(group_id, params::Dict{String,<:Any})
 
-Deletes the specified IP access control group. You cannot delete an IP access control group
-that is associated with a directory.
+Deletes the specified IP access control group.
+
+You cannot delete an IP access control group that is associated with a directory.
 
 # Arguments
-- `group_id`: The identifier of the IP access control group.
 
+- `group_id`: The identifier of the IP access control group.
 """
 function delete_ip_group end
 
@@ -1095,11 +1165,11 @@ end
 Deletes the specified tags from the specified WorkSpaces resource.
 
 # Arguments
+
 - `resource_id`: The identifier of the WorkSpaces resource. The supported resource types
   are WorkSpaces, registered directories, images, custom bundles, IP access control groups,
   and connection aliases.
 - `tag_keys`: The tag keys.
-
 """
 function delete_tags end
 
@@ -1139,10 +1209,12 @@ end
     delete_workspace_bundle(params::Dict{String,<:Any})
 
 Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace
-bundles, see  Delete a Custom WorkSpaces Bundle or Image.
+bundles, see [ Delete a Custom WorkSpaces Bundle or Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete_bundle.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BundleId"`: The identifier of the bundle.
 """
 function delete_workspace_bundle end
@@ -1173,8 +1245,8 @@ any bundles that are associated with the image and unshare the image if it is sh
 other accounts.
 
 # Arguments
-- `image_id`: The identifier of the image.
 
+- `image_id`: The identifier of the image.
 """
 function delete_workspace_image end
 
@@ -1207,10 +1279,13 @@ end
 Deploys associated applications to the specified WorkSpace
 
 # Arguments
+
 - `workspace_id`: The identifier of the WorkSpace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Force"`: Indicates whether the force flag is applied for the specified WorkSpace. When
   the force flag is enabled, it allows previously failed deployments to be retried.
 """
@@ -1248,20 +1323,23 @@ end
 
 Deregisters the specified directory. This operation is asynchronous and returns before the
 WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory,
-you must remove them before you can deregister the directory.  Simple AD and AD Connector
-are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces
-being used with your Simple AD or AD Connector directory for 30 consecutive days, this
-directory will be automatically deregistered for use with Amazon WorkSpaces, and you will
-be charged for this directory as per the Directory Service pricing terms. To delete empty
-directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or
-AD Connector directory, you can always create a new one when you want to start using
-WorkSpaces again.
+you must remove them before you can deregister the directory.</p>
+
+!!! note
+    Simple AD and AD Connector are made available to you free of charge to use with
+WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector
+directory for 30 consecutive days, this directory will be automatically deregistered for
+use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/).
+
+ <p>To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html).
+If you delete your Simple AD or AD Connector directory, you can always create a new one
+when you want to start using WorkSpaces again.
 
 # Arguments
-- `directory_id`: The identifier of the directory. If any WorkSpaces are registered to this
-  directory, you must remove them before you deregister the directory, or you will receive an
-  OperationNotSupportedException error.
 
+- `directory_id`: The identifier of the directory. If any WorkSpaces are registered to this
+  directory, you must remove them before you deregister the directory, or you will receive
+  an OperationNotSupportedException error.
 """
 function deregister_workspace_directory end
 
@@ -1297,7 +1375,6 @@ end
 
 Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the
 specified account.
-
 """
 function describe_account end
 
@@ -1323,8 +1400,10 @@ Retrieves a list that describes modifications to the configuration of Bring Your
 License (BYOL) for the specified account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_account_modifications end
@@ -1357,13 +1436,16 @@ end
 Describes the associations between the application and the specified associated resources.
 
 # Arguments
+
 - `application_id`: The identifier of the specified application.
 - `associated_resource_types`: The resource type of the associated resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of associations to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_application_associations end
@@ -1415,12 +1497,14 @@ Describes the specified applications by filtering based on their compute types, 
 availability, operating systems, and owners.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationIds"`: The identifiers of one or more applications.
 - `"ComputeTypeNames"`: The compute types supported by the applications.
 - `"LicenseType"`: The license availability for the applications.
 - `"MaxResults"`: The maximum number of applications to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"OperatingSystemNames"`: The operating systems supported by the applications.
 - `"Owner"`: The owner of the applications.
@@ -1451,9 +1535,9 @@ end
 Describes the associations between the applications and the specified bundle.
 
 # Arguments
+
 - `associated_resource_types`: The resource types of the associated resource.
 - `bundle_id`: The identifier of the bundle.
-
 """
 function describe_bundle_associations end
 
@@ -1500,13 +1584,16 @@ end
 Describes the specified client branding. Client branding allows you to customize the log in
 page of various device types for your users. You can add your company logo, the support
 email address, support link, link to reset password, and a custom message for users trying
-to sign in.  Only device types that have branding information configured will be shown in
-the response.
+to sign in.
+
+!!! note
+    Only device types that have branding information configured will be shown in the
+response.
 
 # Arguments
+
 - `resource_id`: The directory identifier of the WorkSpace for which you want to view
   client branding information.
-
 """
 function describe_client_branding end
 
@@ -1543,8 +1630,8 @@ end
 Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
 
 # Arguments
-- `resource_ids`: The resource identifier, in the form of directory IDs.
 
+- `resource_ids`: The resource identifier, in the form of directory IDs.
 """
 function describe_client_properties end
 
@@ -1581,12 +1668,15 @@ end
 Retrieves a list of Amazon Connect client add-ins that have been created.
 
 # Arguments
+
 - `resource_id`: The directory identifier for which the client add-in is configured.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_connect_client_add_ins end
@@ -1622,16 +1712,18 @@ end
     describe_connection_alias_permissions(alias_id, params::Dict{String,<:Any})
 
 Describes the permissions that the owner of a connection alias has granted to another
-Amazon Web Services account for the specified connection alias. For more information, see
-Cross-Region Redirection for Amazon WorkSpaces.
+Amazon Web Services account for the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
 
 # Arguments
+
 - `alias_id`: The identifier of the connection alias.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_connection_alias_permissions end
@@ -1665,13 +1757,15 @@ end
     describe_connection_aliases(params::Dict{String,<:Any})
 
 Retrieves a list that describes the connection aliases used for cross-Region redirection.
-For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"AliasIds"`: The identifiers of the connection aliases to describe.
 - `"Limit"`: The maximum number of connection aliases to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"ResourceId"`: The identifier of the directory associated with the connection alias.
 """
@@ -1701,9 +1795,9 @@ end
 Describes the associations between the applications and the specified image.
 
 # Arguments
+
 - `associated_resource_types`: The resource types of the associated resource.
 - `image_id`: The identifier of the image.
-
 """
 function describe_image_associations end
 
@@ -1750,10 +1844,12 @@ end
 Describes one or more of your IP access control groups.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GroupIds"`: The identifiers of one or more IP access control groups.
 - `"MaxResults"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_ip_groups end
@@ -1779,10 +1875,10 @@ end
 Describes the specified tags for the specified WorkSpaces resource.
 
 # Arguments
+
 - `resource_id`: The identifier of the WorkSpaces resource. The supported resource types
   are WorkSpaces, registered directories, images, custom bundles, IP access control groups,
   and connection aliases.
-
 """
 function describe_tags end
 
@@ -1817,9 +1913,9 @@ end
 Describes the associations betweens applications and the specified WorkSpace.
 
 # Arguments
+
 - `associated_resource_types`: The resource types of the associated resources.
 - `workspace_id`: The identifier of the WorkSpace.
-
 """
 function describe_workspace_associations end
 
@@ -1864,18 +1960,23 @@ end
     describe_workspace_bundles()
     describe_workspace_bundles(params::Dict{String,<:Any})
 
-Retrieves a list that describes the available WorkSpace bundles. You can filter the results
-using either bundle ID or owner, but not both.
+Retrieves a list that describes the available WorkSpace bundles.
+
+You can filter the results using either bundle ID or owner, but not both.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BundleIds"`: The identifiers of the bundles. You cannot combine this parameter with any
   other filter.
 - `"NextToken"`: The token for the next set of results. (You received this token from a
   previous call.)
 - `"Owner"`: The owner of the bundles. You cannot combine this parameter with any other
-  filter. To describe the bundles provided by Amazon Web Services, specify AMAZON. To
-  describe the bundles that belong to your account, don't specify a value.
+  filter.
+
+  To describe the bundles provided by Amazon Web Services, specify `AMAZON`. To describe
+  the bundles that belong to your account, don't specify a value.
 """
 function describe_workspace_bundles end
 
@@ -1903,12 +2004,14 @@ end
 Describes the available directories that are registered with Amazon WorkSpaces.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DirectoryIds"`: The identifiers of the directories. If the value is null, all
   directories are retrieved.
 - `"Filters"`: The filter condition for the WorkSpaces.
 - `"Limit"`: The maximum number of directories to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"WorkspaceDirectoryNames"`: The names of the WorkSpace directories.
 """
@@ -1943,12 +2046,15 @@ Describes the permissions that the owner of an image has granted to other Amazon
 Services accounts for an image.
 
 # Arguments
+
 - `image_id`: The identifier of the image.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_workspace_image_permissions end
@@ -1985,11 +2091,13 @@ Retrieves a list that describes one or more specified images, if the image ident
 provided. Otherwise, all images in the account are described.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ImageIds"`: The identifier of the image.
 - `"ImageType"`: The type (owned or shared) of the image.
 - `"MaxResults"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function describe_workspace_images end
@@ -2018,8 +2126,8 @@ end
 Describes the snapshots for the specified WorkSpace.
 
 # Arguments
-- `workspace_id`: The identifier of the WorkSpace.
 
+- `workspace_id`: The identifier of the WorkSpace.
 """
 function describe_workspace_snapshots end
 
@@ -2053,25 +2161,31 @@ end
     describe_workspaces()
     describe_workspaces(params::Dict{String,<:Any})
 
-Describes the specified WorkSpaces. You can filter the results by using the bundle
-identifier, directory identifier, or owner, but you can specify only one filter at a time.
+Describes the specified WorkSpaces.
+
+You can filter the results by using the bundle identifier, directory identifier, or owner,
+but you can specify only one filter at a time.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BundleId"`: The identifier of the bundle. All WorkSpaces that are created from this
   bundle are retrieved. You cannot combine this parameter with any other filter.
 - `"DirectoryId"`: The identifier of the directory. In addition, you can optionally specify
-  a specific directory user (see UserName). You cannot combine this parameter with any other
-  filter.
+  a specific directory user (see `UserName`). You cannot combine this parameter with any
+  other filter.
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"UserName"`: The name of the directory user. You must specify this parameter with
-  DirectoryId.
+  `DirectoryId`.
 - `"WorkspaceIds"`: The identifiers of the WorkSpaces. You cannot combine this parameter
-  with any other filter. Because the CreateWorkspaces operation is asynchronous, the
-  identifier it returns is not immediately available. If you immediately call
-  DescribeWorkspaces with this identifier, no information is returned.
+  with any other filter.
+
+  Because the <a>CreateWorkspaces</a> operation is asynchronous, the identifier it returns
+  is not immediately available. If you immediately call <a>DescribeWorkspaces</a> with this
+  identifier, no information is returned.
 - `"WorkspaceName"`: The name of the user-decoupled WorkSpace.
 """
 function describe_workspaces end
@@ -2097,8 +2211,10 @@ end
 Describes the connection status of the specified WorkSpaces.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"WorkspaceIds"`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
 """
@@ -2132,12 +2248,15 @@ end
 Retrieves a list that describes the streaming sessions for a specified pool.
 
 # Arguments
+
 - `pool_id`: The identifier of the pool.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"UserId"`: The identifier of the user.
 """
@@ -2172,10 +2291,12 @@ end
 Describes the specified WorkSpaces Pools.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: The filter conditions for the WorkSpaces Pool to return.
 - `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 - `"PoolIds"`: The identifier of the WorkSpaces Pools.
 """
@@ -2204,13 +2325,15 @@ end
 
 Disassociates a connection alias from a directory. Disassociating a connection alias
 disables cross-Region redirection between two directories in different Regions. For more
-information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this
-operation, call  DescribeConnectionAliases to make sure that the current state of the
-connection alias is CREATED.
+information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
+
+!!! note
+    Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html)
+to make sure that the current state of the connection alias is `CREATED`.
 
 # Arguments
-- `alias_id`: The identifier of the connection alias to disassociate.
 
+- `alias_id`: The identifier of the connection alias to disassociate.
 """
 function disassociate_connection_alias end
 
@@ -2245,9 +2368,9 @@ end
 Disassociates the specified IP access control group from the specified directory.
 
 # Arguments
+
 - `directory_id`: The identifier of the directory.
 - `group_ids`: The identifiers of one or more IP access control groups.
-
 """
 function disassociate_ip_groups end
 
@@ -2289,9 +2412,9 @@ end
 Disassociates the specified application from a WorkSpace.
 
 # Arguments
+
 - `application_id`: The identifier of the application.
 - `workspace_id`: The identifier of the WorkSpace.
-
 """
 function disassociate_workspace_application end
 
@@ -2335,7 +2458,9 @@ end
 Retrieves account link information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkId"`: The identifier of the account to link.
 - `"LinkedAccountId"`: The identifier of the account link
 """
@@ -2362,21 +2487,27 @@ end
 Imports client branding. Client branding allows you to customize your WorkSpace's client
 login portal. You can tailor your login portal company logo, the support email address,
 support link, link to reset password, and a custom message for users trying to sign in.
+
 After you import client branding, the default branding experience for the specified
-platform type is replaced with the imported experience    You must specify at least one
-platform type when importing client branding.   You can import up to 6 MB of data with each
-request. If your request exceeds this limit, you can import client branding for different
-platform types using separate requests.   In each platform type, the SupportEmail and
-SupportLink parameters are mutually exclusive. You can specify only one parameter for each
-platform type, but not both.   Imported data can take up to a minute to appear in the
-WorkSpaces client.
+platform type is replaced with the imported experience
+
+!!! note
+    - You must specify at least one platform type when importing client branding.
+ - You can import up to 6 MB of data with each request. If your request exceeds this limit,
+you can import client branding for different platform types using separate requests.
+ - In each platform type, the `SupportEmail` and `SupportLink` parameters are mutually
+exclusive. You can specify only one parameter for each platform type, but not both.
+ - Imported data can take up to a minute to appear in the WorkSpaces client.
 
 # Arguments
+
 - `resource_id`: The directory identifier of the WorkSpace for which you want to import
   client branding.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DeviceTypeAndroid"`: The branding information to import for Android devices.
 - `"DeviceTypeIos"`: The branding information to import for iOS devices.
 - `"DeviceTypeLinux"`: The branding information to import for Linux devices.
@@ -2419,30 +2550,40 @@ end
 Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon
 WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon
 Web Services account, and you must own the image. For more information about creating BYOL
-images, see  Bring Your Own Windows Desktop Licenses.
+images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
 
 # Arguments
+
 - `ec2_image_id`: The identifier of the EC2 image.
 - `image_description`: The description of the WorkSpace image.
 - `image_name`: The name of the WorkSpace image.
 - `ingestion_process`: The ingestion process to be used when importing the image, depending
   on which protocol you want to use for your BYOL Workspace image, either PCoIP, WorkSpaces
   Streaming Protocol (WSP), or bring your own protocol (BYOP). To use WSP, specify a value
-  that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP. To use BYOP,
-  specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than
-  Graphics or GraphicsPro), specify BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP,
-  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are
-  only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to
-  use these values. For more information, see Amazon WorkSpaces Core.
+  that ends in `_WSP`. To use PCoIP, specify a value that does not end in `_WSP`. To use
+  BYOP, specify a value that ends in `_BYOP`.
+
+  For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify
+  `BYOL_REGULAR`, `BYOL_REGULAR_WSP`, or `BYOL_REGULAR_BYOP`, depending on the protocol.
+
+  !!! note
+      The `BYOL_REGULAR_BYOP` and `BYOL_GRAPHICS_G4DN_BYOP` values are only supported by
+  Amazon WorkSpaces Core. Contact your account team to be allow-listed to use these values.
+  For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Applications"`: If specified, the version of Microsoft Office to subscribe to. Valid
   only for Windows 10 and 11 BYOL images. For more information about subscribing to Office
-  for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter
-  is an array, only one item is allowed at this time.   During the image import process,
-  non-GPU WSP WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU WSP
-  WorkSpaces with Windows 11 do not support Office installation.
+  for BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+
+  !!! note
+      - Although this parameter is an array, only one item is allowed at this time.
+   - During the image import process, non-GPU WSP WorkSpaces with Windows 11 support only
+  `Microsoft_Office_2019`. GPU WSP WorkSpaces with Windows 11 do not support Office
+  installation.
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
 function import_workspace_image end
@@ -2501,7 +2642,9 @@ end
 Lists all account links.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LinkStatusFilter"`: Filters the account based on their link status.
 - `"MaxResults"`: The maximum number of accounts to return.
 - `"NextToken"`: The token to use to retrieve the next page of results. This value is null
@@ -2528,22 +2671,27 @@ end
     list_available_management_cidr_ranges(management_cidr_range_constraint, params::Dict{String,<:Any})
 
 Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for
-the network management interface when you enable Bring Your Own License (BYOL).  This
-operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If
-your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The
-management network interface is connected to a secure Amazon WorkSpaces management network.
-It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients,
-and to allow Amazon WorkSpaces to manage the WorkSpace.
+the network management interface when you enable Bring Your Own License (BYOL).
+
+This operation can be run only by Amazon Web Services accounts that are enabled for BYOL.
+If your account isn't enabled for BYOL, you'll receive an `AccessDeniedException` error.
+
+The management network interface is connected to a secure Amazon WorkSpaces management
+network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces
+clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
 
 # Arguments
+
 - `management_cidr_range_constraint`: The IP address range to search. Specify an IP address
-  range that is compatible with your network and in CIDR notation (that is, specify the range
-  as an IPv4 CIDR block).
+  range that is compatible with your network and in CIDR notation (that is, specify the
+  range as an IPv4 CIDR block).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of items to return.
-- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+- `"NextToken"`: If you received a `NextToken` from a previous call that was paginated,
   provide this token to receive the next set of results.
 """
 function list_available_management_cidr_ranges end
@@ -2585,18 +2733,22 @@ end
     migrate_workspace(bundle_id, source_workspace_id, params::Dict{String,<:Any})
 
 Migrates a WorkSpace from one operating system or bundle type to another, while retaining
-the data on the user volume. The migration process recreates the WorkSpace by using a new
-root volume from the target bundle image and the user volume from the last available
-snapshot of the original WorkSpace. During migration, the original D:Users%USERNAME% user
-profile folder is renamed to D:Users%USERNAME%MMddyyTHHmmss%.NotMigrated. A new
-D:Users%USERNAME% folder is generated by the new OS. Certain files in the old user profile
-are moved to the new user profile. For available migration scenarios, details about what
-happens during migration, and best practices, see Migrate a WorkSpace.
+the data on the user volume.
+
+The migration process recreates the WorkSpace by using a new root volume from the target
+bundle image and the user volume from the last available snapshot of the original
+WorkSpace. During migration, the original `D:\\Users\\%USERNAME%` user profile folder is
+renamed to `D:\\Users\\%USERNAME%MMddyyTHHmmss%.NotMigrated`. A new
+`D:\\Users\\%USERNAME%\\` folder is generated by the new OS. Certain files in the old user
+profile are moved to the new user profile.
+
+For available migration scenarios, details about what happens during migration, and best
+practices, see [Migrate a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/migrate-workspaces.html).
 
 # Arguments
+
 - `bundle_id`: The identifier of the target bundle type to migrate the WorkSpace to.
 - `source_workspace_id`: The identifier of the WorkSpace to migrate from.
-
 """
 function migrate_workspace end
 
@@ -2640,12 +2792,14 @@ end
 Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DedicatedTenancyManagementCidrRange"`: The IP address range, specified as an IPv4 CIDR
-  block, for the management network interface. Specify an IP address range that is compatible
-  with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
-  The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified
-  as available by the ListAvailableManagementCidrRanges operation.
+  block, for the management network interface. Specify an IP address range that is
+  compatible with your network and in CIDR notation (that is, specify the range as an IPv4
+  CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also
+  be specified as available by the `ListAvailableManagementCidrRanges` operation.
 - `"DedicatedTenancySupport"`: The status of BYOL.
 """
 function modify_account end
@@ -2672,10 +2826,13 @@ Modifies the properties of the certificate-based authentication you want to use 
 WorkSpaces.
 
 # Arguments
+
 - `resource_id`: The resource identifiers, in the form of directory IDs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CertificateBasedAuthProperties"`: The properties of the certificate-based
   authentication.
 - `"PropertiesToDelete"`: The properties of the certificate-based authentication you want
@@ -2716,9 +2873,9 @@ end
 Modifies the properties of the specified Amazon WorkSpaces clients.
 
 # Arguments
+
 - `client_properties`: Information about the Amazon WorkSpaces client.
 - `resource_id`: The resource identifiers, in the form of directory IDs.
-
 """
 function modify_client_properties end
 
@@ -2766,14 +2923,18 @@ status, user access URL, and relay state parameter name that are used for config
 federation with an SAML 2.0 identity provider.
 
 # Arguments
+
 - `resource_id`: The directory identifier for which you want to configure SAML properties.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PropertiesToDelete"`: The SAML properties to delete as part of your request. Specify
-  one of the following options:    SAML_PROPERTIES_USER_ACCESS_URL to delete the user access
-  URL.    SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME to delete the relay state parameter
-  name.
+
+- `"PropertiesToDelete"`: The SAML properties to delete as part of your request.
+
+  Specify one of the following options: - `SAML_PROPERTIES_USER_ACCESS_URL` to delete the
+  user access URL.
+   - `SAML_PROPERTIES_RELAY_STATE_PARAMETER_NAME` to delete the relay state parameter name.
 - `"SamlProperties"`: The properties for configuring SAML 2.0 authentication.
 """
 function modify_saml_properties end
@@ -2809,12 +2970,12 @@ end
     modify_selfservice_permissions(resource_id, selfservice_permissions, params::Dict{String,<:Any})
 
 Modifies the self-service WorkSpace management capabilities for your users. For more
-information, see Enable Self-Service WorkSpace Management Capabilities for Your Users.
+information, see [Enable Self-Service WorkSpace Management Capabilities for Your Users](https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html).
 
 # Arguments
+
 - `resource_id`: The identifier of the directory.
 - `selfservice_permissions`: The permissions to enable or disable self-service capabilities.
-
 """
 function modify_selfservice_permissions end
 
@@ -2861,10 +3022,13 @@ end
 Modifies the specified streaming properties.
 
 # Arguments
+
 - `resource_id`: The identifier of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"StreamingProperties"`: The streaming properties to configure.
 """
 function modify_streaming_properties end
@@ -2900,13 +3064,13 @@ end
     modify_workspace_access_properties(resource_id, workspace_access_properties, params::Dict{String,<:Any})
 
 Specifies which devices and operating systems users can use to access their WorkSpaces. For
-more information, see  Control Device Access.
+more information, see [ Control Device Access](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html#control-device-access).
 
 # Arguments
+
 - `resource_id`: The identifier of the directory.
 - `workspace_access_properties`: The device types and operating systems to enable or
   disable for access.
-
 """
 function modify_workspace_access_properties end
 
@@ -2956,9 +3120,9 @@ end
 Modify the default properties used to create WorkSpaces.
 
 # Arguments
+
 - `resource_id`: The identifier of the directory.
 - `workspace_creation_properties`: The default properties for creating WorkSpaces.
-
 """
 function modify_workspace_creation_properties end
 
@@ -3006,15 +3170,20 @@ end
     modify_workspace_properties(workspace_id, params::Dict{String,<:Any})
 
 Modifies the specified WorkSpace properties. For important information about how to modify
-the size of the root and user volumes, see  Modify a WorkSpace.   The MANUAL running mode
-value is only supported by Amazon WorkSpaces Core. Contact your account team to be
-allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
+the size of the root and user volumes, see [ Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html).
+
+!!! note
+    The `MANUAL` running mode value is only supported by Amazon WorkSpaces Core. Contact
+your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
 
 # Arguments
+
 - `workspace_id`: The identifier of the WorkSpace.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DataReplication"`: Indicates the data replication status.
 - `"WorkspaceProperties"`: The properties of the WorkSpace.
 """
@@ -3050,15 +3219,17 @@ end
     modify_workspace_state(workspace_id, workspace_state)
     modify_workspace_state(workspace_id, workspace_state, params::Dict{String,<:Any})
 
-Sets the state of the specified WorkSpace. To maintain a WorkSpace without being
-interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not
-respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in
-this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state.
+Sets the state of the specified WorkSpace.
+
+To maintain a WorkSpace without being interrupted, set the WorkSpace state to
+`ADMIN_MAINTENANCE`. WorkSpaces in this state do not respond to requests to reboot, stop,
+start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users
+cannot log into a WorkSpace in the `ADMIN_MAINTENANCE` state.
 
 # Arguments
+
 - `workspace_id`: The identifier of the WorkSpace.
 - `workspace_state`: The WorkSpace state.
-
 """
 function modify_workspace_state end
 
@@ -3099,15 +3270,18 @@ end
     reboot_workspaces(reboot_workspace_requests)
     reboot_workspaces(reboot_workspace_requests, params::Dict{String,<:Any})
 
-Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is
-AVAILABLE, UNHEALTHY, or REBOOTING. Reboot a WorkSpace in the REBOOTING state only if your
-WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is
-asynchronous and returns before the WorkSpaces have rebooted.
+Reboots the specified WorkSpaces.
+
+You cannot reboot a WorkSpace unless its state is `AVAILABLE`, `UNHEALTHY`, or `REBOOTING`.
+Reboot a WorkSpace in the `REBOOTING` state only if your WorkSpace has been stuck in the
+`REBOOTING` state for over 20 minutes.
+
+This operation is asynchronous and returns before the WorkSpaces have rebooted.
 
 # Arguments
+
 - `reboot_workspace_requests`: The WorkSpaces to reboot. You can specify up to 25
   WorkSpaces.
-
 """
 function reboot_workspaces end
 
@@ -3145,16 +3319,21 @@ end
     rebuild_workspaces(rebuild_workspace_requests)
     rebuild_workspaces(rebuild_workspace_requests, params::Dict{String,<:Any})
 
-Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is
-AVAILABLE, ERROR, UNHEALTHY, STOPPED, or REBOOTING. Rebuilding a WorkSpace is a potentially
-destructive action that can result in the loss of data. For more information, see Rebuild a
-WorkSpace. This operation is asynchronous and returns before the WorkSpaces have been
-completely rebuilt.
+Rebuilds the specified WorkSpace.
+
+You cannot rebuild a WorkSpace unless its state is `AVAILABLE`, `ERROR`, `UNHEALTHY`,
+`STOPPED`, or `REBOOTING`.
+
+Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of
+data. For more information, see [Rebuild a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/reset-workspace.html).
+
+This operation is asynchronous and returns before the WorkSpaces have been completely
+rebuilt.
 
 # Arguments
+
 - `rebuild_workspace_requests`: The WorkSpace to rebuild. You can specify a single
   WorkSpace.
-
 """
 function rebuild_workspaces end
 
@@ -3195,10 +3374,12 @@ end
 Registers the specified directory. This operation is asynchronous and returns before the
 WorkSpace directory is registered. If this is the first time you are registering a
 directory, you will need to create the workspaces_DefaultRole role before you can register
-a directory. For more information, see  Creating the workspaces_DefaultRole Role.
+a directory. For more information, see [ Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ActiveDirectoryConfig"`: The active directory config of the directory.
 - `"DirectoryId"`: The identifier of the directory. You cannot register a directory if it
   does not have a status of Active. If the directory does not have a status of Active, you
@@ -3210,7 +3391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disabled.
 - `"EnableWorkDocs"`: Indicates whether Amazon WorkDocs is enabled or disabled. If you have
   enabled this parameter and WorkDocs is not available in the Region, you will receive an
-  OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
+  OperationNotSupportedException error. Set `EnableWorkDocs` to disabled, and try again.
 - `"IdcInstanceArn"`: The Amazon Resource Name (ARN) of the identity center instance.
 - `"MicrosoftEntraConfig"`: The details about Microsoft Entra config.
 - `"SubnetIds"`: The identifiers of the subnets for your virtual private cloud (VPC). Make
@@ -3219,10 +3400,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OperationNotSupportedException error.
 - `"Tags"`: The tags associated with the directory.
 - `"Tenancy"`: Indicates whether your WorkSpace directory is dedicated or shared. To use
-  Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon
-  Web Services account must be enabled for BYOL. If your account has not been enabled for
-  BYOL, you will receive an InvalidParameterValuesException error. For more information about
-  BYOL images, see Bring Your Own Windows Desktop Images.
+  Bring Your Own License (BYOL) images, this value must be set to `DEDICATED` and your
+  Amazon Web Services account must be enabled for BYOL. If your account has not been
+  enabled for BYOL, you will receive an InvalidParameterValuesException error. For more
+  information about BYOL images, see [Bring Your Own Windows Desktop Images](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
 - `"UserIdentityType"`: The type of identity management the user is using.
 - `"WorkspaceDirectoryDescription"`: Description of the directory to register.
 - `"WorkspaceDirectoryName"`: The name of the directory to register.
@@ -3254,10 +3435,13 @@ end
 Rejects the account link invitation.
 
 # Arguments
+
 - `link_id`: The identifier of the account link
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: The client token of the account link invitation to reject.
 """
 function reject_account_link_invitation end
@@ -3288,15 +3472,19 @@ end
     restore_workspace(workspace_id)
     restore_workspace(workspace_id, params::Dict{String,<:Any})
 
-Restores the specified WorkSpace to its last known healthy state. You cannot restore a
-WorkSpace unless its state is  AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Restoring a
-WorkSpace is a potentially destructive action that can result in the loss of data. For more
-information, see Restore a WorkSpace. This operation is asynchronous and returns before the
-WorkSpace is completely restored.
+Restores the specified WorkSpace to its last known healthy state.
+
+You cannot restore a WorkSpace unless its state is ` AVAILABLE`, `ERROR`, `UNHEALTHY`, or
+`STOPPED`.
+
+Restoring a WorkSpace is a potentially destructive action that can result in the loss of
+data. For more information, see [Restore a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/restore-workspace.html).
+
+This operation is asynchronous and returns before the WorkSpace is completely restored.
 
 # Arguments
-- `workspace_id`: The identifier of the WorkSpace.
 
+- `workspace_id`: The identifier of the WorkSpace.
 """
 function restore_workspace end
 
@@ -3331,9 +3519,9 @@ end
 Removes one or more rules from the specified IP access control group.
 
 # Arguments
+
 - `group_id`: The identifier of the group.
 - `user_rules`: The rules to remove from the group.
-
 """
 function revoke_ip_rules end
 
@@ -3372,12 +3560,14 @@ end
     start_workspaces(start_workspace_requests)
     start_workspaces(start_workspace_requests, params::Dict{String,<:Any})
 
-Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode
-of AutoStop or Manual and a state of STOPPED.
+Starts the specified WorkSpaces.
+
+You cannot start a WorkSpace unless it has a running mode of `AutoStop` or `Manual` and a
+state of `STOPPED`.
 
 # Arguments
-- `start_workspace_requests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
 
+- `start_workspace_requests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
 """
 function start_workspaces end
 
@@ -3415,12 +3605,13 @@ end
     start_workspaces_pool(pool_id)
     start_workspaces_pool(pool_id, params::Dict{String,<:Any})
 
-Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop
-and a state of STOPPED.
+Starts the specified pool.
+
+You cannot start a pool unless it has a running mode of `AutoStop` and a state of `STOPPED`.
 
 # Arguments
-- `pool_id`: The identifier of the pool.
 
+- `pool_id`: The identifier of the pool.
 """
 function start_workspaces_pool end
 
@@ -3448,12 +3639,14 @@ end
     stop_workspaces(stop_workspace_requests)
     stop_workspaces(stop_workspace_requests, params::Dict{String,<:Any})
 
-Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of
-AutoStop or Manual and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+Stops the specified WorkSpaces.
+
+You cannot stop a WorkSpace unless it has a running mode of `AutoStop` or `Manual` and a
+state of `AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
 
 # Arguments
-- `stop_workspace_requests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
 
+- `stop_workspace_requests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
 """
 function stop_workspaces end
 
@@ -3491,12 +3684,14 @@ end
     stop_workspaces_pool(pool_id)
     stop_workspaces_pool(pool_id, params::Dict{String,<:Any})
 
-Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of
-AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+Stops the specified pool.
+
+You cannot stop a WorkSpace pool unless it has a running mode of `AutoStop` and a state of
+`AVAILABLE`, `IMPAIRED`, `UNHEALTHY`, or `ERROR`.
 
 # Arguments
-- `pool_id`: The identifier of the pool.
 
+- `pool_id`: The identifier of the pool.
 """
 function stop_workspaces_pool end
 
@@ -3524,27 +3719,34 @@ end
     terminate_workspaces(terminate_workspace_requests)
     terminate_workspaces(terminate_workspace_requests, params::Dict{String,<:Any})
 
-Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and
-cannot be undone. The user's data is destroyed. If you need to archive any user data,
-contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a
-WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns
-before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the
-TERMINATED state is returned only briefly before the WorkSpace directory metadata is
-cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated,
-check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't
-returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector
-are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces
-being used with your Simple AD or AD Connector directory for 30 consecutive days, this
-directory will be automatically deregistered for use with Amazon WorkSpaces, and you will
-be charged for this directory as per the Directory Service pricing terms. To delete empty
-directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or
-AD Connector directory, you can always create a new one when you want to start using
-WorkSpaces again.
+Terminates the specified WorkSpaces.</p>
+
+!!! important
+    Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is
+destroyed. If you need to archive any user data, contact Amazon Web Services Support before
+terminating the WorkSpace.You can terminate a WorkSpace that is in any state except
+`SUSPENDED`.
+
+This operation is asynchronous and returns before the WorkSpaces have been completely
+terminated. After a WorkSpace is terminated, the `TERMINATED` state is returned only
+briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely
+returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html).
+If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
+
+!!! note
+    Simple AD and AD Connector are made available to you free of charge to use with
+WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector
+directory for 30 consecutive days, this directory will be automatically deregistered for
+use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/).
+
+ <p>To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html).
+If you delete your Simple AD or AD Connector directory, you can always create a new one
+when you want to start using WorkSpaces again.
 
 # Arguments
+
 - `terminate_workspace_requests`: The WorkSpaces to terminate. You can specify up to 25
   WorkSpaces.
-
 """
 function terminate_workspaces end
 
@@ -3587,8 +3789,8 @@ end
 Terminates the specified pool.
 
 # Arguments
-- `pool_id`: The identifier of the pool.
 
+- `pool_id`: The identifier of the pool.
 """
 function terminate_workspaces_pool end
 
@@ -3621,8 +3823,8 @@ end
 Terminates the pool session.
 
 # Arguments
-- `session_id`: The identifier of the pool session.
 
+- `session_id`: The identifier of the pool session.
 """
 function terminate_workspaces_pool_session end
 
@@ -3660,11 +3862,14 @@ Updates a Amazon Connect client add-in. Use this action to update the name and e
 of a Amazon Connect client add-in.
 
 # Arguments
+
 - `add_in_id`: The identifier of the client add-in to update.
 - `resource_id`: The directory identifier for which the client add-in is configured.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`: The name of the client add-in.
 - `"URL"`: The endpoint URL of the Amazon Connect client add-in.
 """
@@ -3709,20 +3914,23 @@ Shares or unshares a connection alias with one account by specifying whether tha
 has permission to associate the connection alias with a directory. If the association
 permission is granted, the connection alias is shared with that account. If the association
 permission is revoked, the connection alias is unshared with the account. For more
-information, see  Cross-Region Redirection for Amazon WorkSpaces.    Before performing this
-operation, call  DescribeConnectionAliases to make sure that the current state of the
-connection alias is CREATED.   To delete a connection alias that has been shared, the
-shared account must first disassociate the connection alias from any directories it has
-been associated with. Then you must unshare the connection alias from the account it has
-been shared with. You can delete a connection alias only after it is no longer shared with
-any accounts or associated with any directories.
+information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
+
+!!! note
+    - Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html)
+to make sure that the current state of the connection alias is `CREATED`.
+ - To delete a connection alias that has been shared, the shared account must first
+disassociate the connection alias from any directories it has been associated with. Then
+you must unshare the connection alias from the account it has been shared with. You can
+delete a connection alias only after it is no longer shared with any accounts or associated
+with any directories.
 
 # Arguments
+
 - `alias_id`: The identifier of the connection alias that you want to update permissions
   for.
 - `connection_alias_permission`: Indicates whether to share or unshare the connection alias
   with the specified Amazon Web Services account.
-
 """
 function update_connection_alias_permission end
 
@@ -3770,9 +3978,9 @@ Replaces the current rules of the specified IP access control group with the spe
 rules.
 
 # Arguments
+
 - `group_id`: The identifier of the group.
 - `user_rules`: One or more rules.
-
 """
 function update_rules_of_ip_group end
 
@@ -3812,13 +4020,17 @@ end
     update_workspace_bundle(params::Dict{String,<:Any})
 
 Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace
-bundles, see  Update a Custom WorkSpaces Bundle.  Existing WorkSpaces aren't automatically
-updated when you update the bundle that they're based on. To update existing WorkSpaces
-that are based on a bundle that you've updated, you must either rebuild the WorkSpaces or
-delete and recreate them.
+bundles, see [ Update a Custom WorkSpaces Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-custom-bundle.html).
+
+!!! important
+    Existing WorkSpaces aren't automatically updated when you update the bundle that
+they're based on. To update existing WorkSpaces that are based on a bundle that you've
+updated, you must either rebuild the WorkSpaces or delete and recreate them.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"BundleId"`: The identifier of the bundle.
 - `"ImageId"`: The identifier of the image.
 """
@@ -3848,24 +4060,36 @@ end
 Shares or unshares an image with one account in the same Amazon Web Services Region by
 specifying whether that account has permission to copy the image. If the copy image
 permission is granted, the image is shared with that account. If the copy image permission
-is revoked, the image is unshared with the account. After an image has been shared, the
-recipient account can copy the image to other Regions as needed. In the China (Ningxia)
-Region, you can copy images only within the same Region. In Amazon Web Services GovCloud
-(US), to copy images to and from other Regions, contact Amazon Web Services Support. For
-more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.
-To delete an image that has been shared, you must unshare the image before you delete it.
-Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't
+is revoked, the image is unshared with the account.
+
+After an image has been shared, the recipient account can copy the image to other Regions
+as needed.
+
+In the China (Ningxia) Region, you can copy images only within the same Region.
+
+In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact
+Amazon Web Services Support.
+
+For more information about sharing images, see [ Share or Unshare a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html).
+
+!!! note
+    - To delete an image that has been shared, you must unshare the image before you delete
+it.
+ - Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't
 supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across
 accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
 
 # Arguments
+
 - `allow_copy_image`: The permission to copy the image. This permission can be revoked only
   after an image has been shared.
 - `image_id`: The identifier of the image.
 - `shared_account_id`: The identifier of the Amazon Web Services account to share or
-  unshare the image with.  Before sharing the image, confirm that you are sharing to the
-  correct Amazon Web Services account ID.
+  unshare the image with.
 
+  !!! important
+      Before sharing the image, confirm that you are sharing to the correct Amazon Web
+  Services account ID.
 """
 function update_workspace_image_permission end
 
@@ -3919,10 +4143,13 @@ end
 Updates the specified pool.
 
 # Arguments
+
 - `pool_id`: The identifier of the specified pool to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ApplicationSettings"`: The persistent application settings for users in the pool.
 - `"BundleId"`: The identifier of the bundle.
 - `"Capacity"`: The desired capacity for the pool.

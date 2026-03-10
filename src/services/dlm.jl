@@ -9,58 +9,63 @@ using AWS.UUIDs
     create_lifecycle_policy(description, execution_role_arn, state, params::Dict{String,<:Any})
 
 Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data Lifecycle Manager
-supports the following policy types:   Custom EBS snapshot policy   Custom EBS-backed AMI
-policy   Cross-account copy event policy   Default policy for EBS snapshots   Default
-policy for EBS-backed AMIs   For more information, see  Default policies vs custom
-policies.  If you create a default policy, you can specify the request parameters either in
-the request body, or in the PolicyDetails request structure, but not both.
+supports the following policy types: - Custom EBS snapshot policy
+ - Custom EBS-backed AMI policy
+ - Cross-account copy event policy
+ - Default policy for EBS snapshots
+ - Default policy for EBS-backed AMIs
+For more information, see [ Default policies vs custom policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/policy-differences.html).
+
+!!! important
+    If you create a default policy, you can specify the request parameters either in the
+request body, or in the PolicyDetails request structure, but not both.
 
 # Arguments
-- `description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+ are
-  supported.
+
+- `description`: A description of the lifecycle policy. The characters ^[0-9A-Za-z _-]+\$ are supported.
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role used to run the
   operations specified by the lifecycle policy.
 - `state`: The activation state of the lifecycle policy after creation.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CopyTags"`:  [Default policies only] Indicates whether the policy should copy tags from
-  the source resource to the snapshot or AMI. If you do not specify a value, the default is
-  false. Default: false
-- `"CreateInterval"`:  [Default policies only] Specifies how often the policy should run
-  and create snapshots or AMIs. The creation frequency can range from 1 to 7 days. If you do
-  not specify a value, the default is 1. Default: 1
-- `"CrossRegionCopyTargets"`:  [Default policies only] Specifies destination Regions for
-  snapshot or AMI copies. You can specify up to 3 destination Regions. If you do not want to
-  create cross-Region copies, omit this parameter.
-- `"DefaultPolicy"`:  [Default policies only] Specify the type of default policy to create.
-    To create a default policy for EBS snapshots, that creates snapshots of all volumes in
-  the Region that do not have recent backups, specify VOLUME.   To create a default policy
-  for EBS-backed AMIs, that creates EBS-backed AMIs from all instances in the Region that do
-  not have recent backups, specify INSTANCE.
-- `"Exclusions"`:  [Default policies only] Specifies exclusion parameters for volumes or
-  instances for which you do not want to create snapshots or AMIs. The policy will not create
-  snapshots or AMIs for target resources that match any of the specified exclusion parameters.
-- `"ExtendDeletion"`:  [Default policies only] Defines the snapshot or AMI retention
-  behavior for the policy if the source volume or instance is deleted, or if the policy
-  enters the error, disabled, or deleted state. By default (ExtendDeletion=false):   If a
-  source resource is deleted, Amazon Data Lifecycle Manager will continue to delete
+
+- `"CopyTags"`:  **[Default policies only]** Indicates whether the policy should copy tags from the source resource to the snapshot or AMI. If you do not specify a value, the default is `false`.
+
+Default: false
+- `"CreateInterval"`:  **[Default policies only]** Specifies how often the policy should run and create snapshots or AMIs. The creation frequency can range from 1 to 7 days. If you do not specify a value, the default is 1.
+
+Default: 1
+- `"CrossRegionCopyTargets"`:  **[Default policies only]** Specifies destination Regions for snapshot or AMI copies. You can specify up to 3 destination Regions. If you do not want to create cross-Region copies, omit this parameter.
+- `"DefaultPolicy"`:  **[Default policies only]** Specify the type of default policy to create. - To create a default policy for EBS snapshots, that creates snapshots of all volumes in the Region that do not have recent backups, specify `VOLUME`.
+ - To create a default policy for EBS-backed AMIs, that creates EBS-backed AMIs from all instances in the Region that do not have recent backups, specify `INSTANCE`.
+- `"Exclusions"`:  **[Default policies only]** Specifies exclusion parameters for volumes or instances for which you do not want to create snapshots or AMIs. The policy will not create snapshots or AMIs for target resources that match any of the specified exclusion parameters.
+- `"ExtendDeletion"`:  **[Default policies only]** Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state.
+
+By default (**ExtendDeletion=false**):</p>
+  - If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete
   previously created snapshots or AMIs, up to but not including the last one, based on the
   specified retention period. If you want Amazon Data Lifecycle Manager to delete all
-  snapshots or AMIs, including the last one, specify true.   If a policy enters the error,
-  disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting snapshots and
-  AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs,
-  including the last one, if the policy enters one of these states, specify true.   If you
-  enable extended deletion (ExtendDeletion=true), you override both default behaviors
-  simultaneously. If you do not specify a value, the default is false. Default: false
-- `"PolicyDetails"`: The configuration details of the lifecycle policy.  If you create a
-  default policy, you can specify the request parameters either in the request body, or in
-  the PolicyDetails request structure, but not both.
-- `"RetainInterval"`:  [Default policies only] Specifies how long the policy should retain
-  snapshots or AMIs before deleting them. The retention period can range from 2 to 14 days,
-  but it must be greater than the creation frequency to ensure that the policy retains at
-  least 1 snapshot or AMI at any given time. If you do not specify a value, the default is 7.
-  Default: 7
+  snapshots or AMIs, including the last one, specify `true`.
+   - If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle
+  Manager stops deleting snapshots and AMIs. If you want Amazon Data Lifecycle Manager to
+  continue deleting snapshots or AMIs, including the last one, if the policy enters one of
+  these states, specify `true`.
+  If you enable extended deletion (**ExtendDeletion=true**), you override both default
+  behaviors simultaneously.
+
+If you do not specify a value, the default is `false`.
+
+ <p>Default: false
+- `"PolicyDetails"`: The configuration details of the lifecycle policy.
+
+  !!! important
+      If you create a default policy, you can specify the request parameters either in the
+  request body, or in the PolicyDetails request structure, but not both.
+- `"RetainInterval"`:  **[Default policies only]** Specifies how long the policy should retain snapshots or AMIs before deleting them. The retention period can range from 2 to 14 days, but it must be greater than the creation frequency to ensure that the policy retains at least 1 snapshot or AMI at any given time. If you do not specify a value, the default is 7.
+
+Default: 7
 - `"Tags"`: The tags to apply to the lifecycle policy during creation.
 """
 function create_lifecycle_policy end
@@ -112,11 +117,13 @@ end
     delete_lifecycle_policy(policy_id, params::Dict{String,<:Any})
 
 Deletes the specified lifecycle policy and halts the automated operations that the policy
-specified. For more information about deleting a policy, see Delete lifecycle policies.
+specified.
+
+For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
 
 # Arguments
-- `policy_id`: The identifier of the lifecycle policy.
 
+- `policy_id`: The identifier of the lifecycle policy.
 """
 function delete_lifecycle_policy end
 
@@ -149,22 +156,29 @@ end
     get_lifecycle_policies()
     get_lifecycle_policies(params::Dict{String,<:Any})
 
-Gets summary information about all or the specified data lifecycle policies. To get
-complete information about a policy, use GetLifecyclePolicy.
+Gets summary information about all or the specified data lifecycle policies.
+
+To get complete information about a policy, use [GetLifecyclePolicy](https://docs.aws.amazon.com/dlm/latest/APIReference/API_GetLifecyclePolicy.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"defaultPolicyType"`:  [Default policies only] Specifies the type of default policy to
-  get. Specify one of the following:    VOLUME - To get only the default policy for EBS
-  snapshots    INSTANCE - To get only the default policy for EBS-backed AMIs    ALL - To get
-  all default policies
+
+- `"defaultPolicyType"`:  **[Default policies only]** Specifies the type of default policy to get. Specify one of the following: - `VOLUME` - To get only the default policy for EBS snapshots
+ - `INSTANCE` - To get only the default policy for EBS-backed AMIs
+ - `ALL` - To get all default policies
 - `"policyIds"`: The identifiers of the data lifecycle policies.
 - `"resourceTypes"`: The resource type.
 - `"state"`: The activation state.
-- `"tagsToAdd"`: The tags to add to objects created by the policy. Tags are strings in the
-  format key=value. These user-defined tags are added in addition to the Amazon Web
-  Services-added lifecycle tags.
-- `"targetTags"`: The target tag for a policy. Tags are strings in the format key=value.
+- `"tagsToAdd"`: The tags to add to objects created by the policy.
+
+  Tags are strings in the format `key=value`.
+
+  These user-defined tags are added in addition to the Amazon Web Services-added lifecycle
+  tags.
+- `"targetTags"`: The target tag for a policy.
+
+Tags are strings in the format `key=value`.
 """
 function get_lifecycle_policies end
 
@@ -187,8 +201,8 @@ end
 Gets detailed information about the specified lifecycle policy.
 
 # Arguments
-- `policy_id`: The identifier of the lifecycle policy.
 
+- `policy_id`: The identifier of the lifecycle policy.
 """
 function get_lifecycle_policy end
 
@@ -222,8 +236,8 @@ end
 Lists the tags for the specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -259,9 +273,9 @@ end
 Adds the specified tags to the specified resource.
 
 # Arguments
+
 - `tags`: One or more tags.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-
 """
 function tag_resource end
 
@@ -297,9 +311,9 @@ end
 Removes the specified tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The tag keys.
-
 """
 function untag_resource end
 
@@ -334,45 +348,43 @@ end
     update_lifecycle_policy(policy_id)
     update_lifecycle_policy(policy_id, params::Dict{String,<:Any})
 
-Updates the specified lifecycle policy. For more information about updating a policy, see
-Modify lifecycle policies.
+Updates the specified lifecycle policy.
+
+For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
 
 # Arguments
+
 - `policy_id`: The identifier of the lifecycle policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CopyTags"`:  [Default policies only] Indicates whether the policy should copy tags from
-  the source resource to the snapshot or AMI.
-- `"CreateInterval"`:  [Default policies only] Specifies how often the policy should run
-  and create snapshots or AMIs. The creation frequency can range from 1 to 7 days.
-- `"CrossRegionCopyTargets"`:  [Default policies only] Specifies destination Regions for
-  snapshot or AMI copies. You can specify up to 3 destination Regions. If you do not want to
-  create cross-Region copies, omit this parameter.
+
+- `"CopyTags"`:  **[Default policies only]** Indicates whether the policy should copy tags from the source resource to the snapshot or AMI.
+- `"CreateInterval"`:  **[Default policies only]** Specifies how often the policy should run and create snapshots or AMIs. The creation frequency can range from 1 to 7 days.
+- `"CrossRegionCopyTargets"`:  **[Default policies only]** Specifies destination Regions for snapshot or AMI copies. You can specify up to 3 destination Regions. If you do not want to create cross-Region copies, omit this parameter.
 - `"Description"`: A description of the lifecycle policy.
-- `"Exclusions"`:  [Default policies only] Specifies exclusion parameters for volumes or
-  instances for which you do not want to create snapshots or AMIs. The policy will not create
-  snapshots or AMIs for target resources that match any of the specified exclusion parameters.
+- `"Exclusions"`:  **[Default policies only]** Specifies exclusion parameters for volumes or instances for which you do not want to create snapshots or AMIs. The policy will not create snapshots or AMIs for target resources that match any of the specified exclusion parameters.
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role used to run the
   operations specified by the lifecycle policy.
-- `"ExtendDeletion"`:  [Default policies only] Defines the snapshot or AMI retention
-  behavior for the policy if the source volume or instance is deleted, or if the policy
-  enters the error, disabled, or deleted state. By default (ExtendDeletion=false):   If a
-  source resource is deleted, Amazon Data Lifecycle Manager will continue to delete
+- `"ExtendDeletion"`:  **[Default policies only]** Defines the snapshot or AMI retention behavior for the policy if the source volume or instance is deleted, or if the policy enters the error, disabled, or deleted state.
+
+By default (**ExtendDeletion=false**):</p>
+  - If a source resource is deleted, Amazon Data Lifecycle Manager will continue to delete
   previously created snapshots or AMIs, up to but not including the last one, based on the
   specified retention period. If you want Amazon Data Lifecycle Manager to delete all
-  snapshots or AMIs, including the last one, specify true.   If a policy enters the error,
-  disabled, or deleted state, Amazon Data Lifecycle Manager stops deleting snapshots and
-  AMIs. If you want Amazon Data Lifecycle Manager to continue deleting snapshots or AMIs,
-  including the last one, if the policy enters one of these states, specify true.   If you
-  enable extended deletion (ExtendDeletion=true), you override both default behaviors
-  simultaneously. Default: false
+  snapshots or AMIs, including the last one, specify `true`.
+   - If a policy enters the error, disabled, or deleted state, Amazon Data Lifecycle
+  Manager stops deleting snapshots and AMIs. If you want Amazon Data Lifecycle Manager to
+  continue deleting snapshots or AMIs, including the last one, if the policy enters one of
+  these states, specify `true`.
+  If you enable extended deletion (**ExtendDeletion=true**), you override both default
+  behaviors simultaneously.
+
+ <p>Default: false
 - `"PolicyDetails"`: The configuration of the lifecycle policy. You cannot update the
   policy type or the resource type.
-- `"RetainInterval"`:  [Default policies only] Specifies how long the policy should retain
-  snapshots or AMIs before deleting them. The retention period can range from 2 to 14 days,
-  but it must be greater than the creation frequency to ensure that the policy retains at
-  least 1 snapshot or AMI at any given time.
+- `"RetainInterval"`:  **[Default policies only]** Specifies how long the policy should retain snapshots or AMIs before deleting them. The retention period can range from 2 to 14 days, but it must be greater than the creation frequency to ensure that the policy retains at least 1 snapshot or AMI at any given time.
 - `"State"`: The desired activation state of the lifecycle policy after creation.
 """
 function update_lifecycle_policy end

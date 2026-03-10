@@ -11,10 +11,13 @@ using AWS.UUIDs
 Changes the packaging group's properities to configure log subscription
 
 # Arguments
+
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"egressAccessLogs"`:
 """
 function configure_logs end
@@ -47,13 +50,16 @@ end
 Creates a new MediaPackage VOD Asset resource.
 
 # Arguments
+
 - `id`: The unique identifier for the Asset.
 - `packaging_group_id`: The ID of the PackagingGroup for the Asset.
 - `source_arn`: ARN of the source object in S3.
 - `source_role_arn`: The IAM role ARN used to access the source S3 bucket.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"resourceId"`: The resource ID to include in SPEKE key requests.
 - `"tags"`:
 """
@@ -115,11 +121,14 @@ end
 Creates a new MediaPackage VOD PackagingConfiguration resource.
 
 # Arguments
+
 - `id`: The ID of the PackagingConfiguration.
 - `packaging_group_id`: The ID of a PackagingGroup.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"cmafPackage"`:
 - `"dashPackage"`:
 - `"hlsPackage"`:
@@ -168,10 +177,13 @@ end
 Creates a new MediaPackage VOD PackagingGroup resource.
 
 # Arguments
+
 - `id`: The ID of the PackagingGroup.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"authorization"`:
 - `"egressAccessLogs"`:
 - `"tags"`:
@@ -207,8 +219,8 @@ end
 Deletes an existing MediaPackage VOD Asset resource.
 
 # Arguments
-- `id`: The ID of the MediaPackage VOD Asset resource to delete.
 
+- `id`: The ID of the MediaPackage VOD Asset resource to delete.
 """
 function delete_asset end
 
@@ -237,8 +249,8 @@ end
 Deletes a MediaPackage VOD PackagingConfiguration resource.
 
 # Arguments
-- `id`: The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
 
+- `id`: The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
 """
 function delete_packaging_configuration end
 
@@ -272,8 +284,8 @@ end
 Deletes a MediaPackage VOD PackagingGroup resource.
 
 # Arguments
-- `id`: The ID of the MediaPackage VOD PackagingGroup resource to delete.
 
+- `id`: The ID of the MediaPackage VOD PackagingGroup resource to delete.
 """
 function delete_packaging_group end
 
@@ -305,8 +317,8 @@ end
 Returns a description of a MediaPackage VOD Asset resource.
 
 # Arguments
-- `id`: The ID of an MediaPackage VOD Asset resource.
 
+- `id`: The ID of an MediaPackage VOD Asset resource.
 """
 function describe_asset end
 
@@ -335,8 +347,8 @@ end
 Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 
 # Arguments
-- `id`: The ID of a MediaPackage VOD PackagingConfiguration resource.
 
+- `id`: The ID of a MediaPackage VOD PackagingConfiguration resource.
 """
 function describe_packaging_configuration end
 
@@ -370,8 +382,8 @@ end
 Returns a description of a MediaPackage VOD PackagingGroup resource.
 
 # Arguments
-- `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
+- `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 """
 function describe_packaging_group end
 
@@ -403,7 +415,9 @@ end
 Returns a collection of MediaPackage VOD Asset resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 - `"packagingGroupId"`: Returns Assets associated with the specified PackagingGroup.
@@ -431,7 +445,9 @@ end
 Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 - `"packagingGroupId"`: Returns MediaPackage VOD PackagingConfigurations associated with
@@ -467,7 +483,9 @@ end
 Returns a collection of MediaPackage VOD PackagingGroup resources.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: Upper bound on number of records to return.
 - `"nextToken"`: A token used to resume pagination from the end of a previous request.
 """
@@ -498,9 +516,9 @@ end
 Returns a list of the tags assigned to the specified resource.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
   the response to any request to the resource.
-
 """
 function list_tags_for_resource end
 
@@ -536,10 +554,10 @@ end
 Adds tags to the specified resource. You can specify one or more tags to add.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
   the response to any request to the resource.
 - `tags`: A collection of tags associated with a resource
-
 """
 function tag_resource end
 
@@ -577,10 +595,10 @@ end
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from
   the response to any request to the resource.
 - `tag_keys`: A comma-separated list of the tag keys to remove from the resource.
-
 """
 function untag_resource end
 
@@ -615,14 +633,17 @@ end
     update_packaging_group(id)
     update_packaging_group(id, params::Dict{String,<:Any})
 
-Updates a specific packaging group. You can't change the id attribute or any other
-system-generated attributes.
+Updates a specific packaging group. You can't change the id attribute or any other system-
+generated attributes.
 
 # Arguments
+
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"authorization"`:
 """
 function update_packaging_group end

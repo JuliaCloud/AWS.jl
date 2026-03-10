@@ -11,23 +11,26 @@ using AWS.UUIDs
 Creates an AWS re:Post Private private re:Post.
 
 # Arguments
+
 - `name`: The name for the private re:Post. This must be unique in your account.
 - `subdomain`: The subdomain that you use to access your AWS re:Post Private private
   re:Post. All custom subdomains must be approved by AWS before use. In addition to your
-  custom subdomain, all private re:Posts are issued an AWS generated subdomain for immediate
-  use.
+  custom subdomain, all private re:Posts are issued an AWS generated subdomain for
+  immediate use.
 - `tier`: The pricing tier for the private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the private re:Post. This is used only to help you
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert
   unanswered questions into AWS support tickets.
 - `"tags"`: The list of tags associated with the private re:Post.
-- `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you
-  don't provide a key, your data is encrypted by default with a key that AWS owns and manages
-  for you.
+- `"userKMSKey"`: The AWS KMS key ARN that’s used for the AWS KMS encryption. If you don't
+  provide a key, your data is encrypted by default with a key that AWS owns and manages for
+  you.
 """
 function create_space end
 
@@ -72,8 +75,8 @@ end
 Deletes an AWS re:Post Private private re:Post.
 
 # Arguments
-- `space_id`: The unique ID of the private re:Post.
 
+- `space_id`: The unique ID of the private re:Post.
 """
 function delete_space end
 
@@ -107,9 +110,9 @@ end
 Removes the user or group from the list of administrators of the private re:Post.
 
 # Arguments
+
 - `admin_id`: The ID of the admin to remove.
 - `space_id`: The ID of the private re:Post to remove the admin from.
-
 """
 function deregister_admin end
 
@@ -146,8 +149,8 @@ end
 Displays information about the AWS re:Post Private private re:Post.
 
 # Arguments
-- `space_id`: The ID of the private re:Post.
 
+- `space_id`: The ID of the private re:Post.
 """
 function get_space end
 
@@ -179,7 +182,9 @@ Returns a list of AWS re:Post Private private re:Posts in the account with some 
 about each private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of private re:Posts to include in the results.
 - `"nextToken"`: The token for the next set of private re:Posts to return. You receive this
   token from a previous ListSpaces operation.
@@ -208,8 +213,8 @@ Returns the tags that are associated with the AWS re:Post Private resource speci
 resourceArn. The only resource that can be tagged is a private re:Post.
 
 # Arguments
-- `resource_arn`: The ARN of the resource that the tags are associated with.
 
+- `resource_arn`: The ARN of the resource that the tags are associated with.
 """
 function list_tags_for_resource end
 
@@ -245,9 +250,9 @@ end
 Adds a user or group to the list of administrators of the private re:Post.
 
 # Arguments
+
 - `admin_id`: The ID of the administrator.
 - `space_id`: The ID of the private re:Post.
-
 """
 function register_admin end
 
@@ -284,11 +289,11 @@ end
 Sends an invitation email to selected users and groups.
 
 # Arguments
+
 - `accessor_ids`: The array of identifiers for the users and groups.
 - `body`: The body of the invite.
 - `space_id`: The ID of the private re:Post.
 - `title`: The title of the invite.
-
 """
 function send_invites end
 
@@ -340,11 +345,11 @@ key that’s already associated with the resource, the new tag value that you sp
 replaces the previous value for that tag.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource that the tag is associated with.
 - `tags`: The list of tag keys and values that must be associated with the resource. You
   can associate tag keys only, tags (key and values) only, or a combination of tag keys and
   tags.
-
 """
 function tag_resource end
 
@@ -380,9 +385,9 @@ end
 Removes the association of the tag with the AWS re:Post Private resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource.
 - `tag_keys`: The key values of the tag.
-
 """
 function untag_resource end
 
@@ -420,10 +425,13 @@ end
 Modifies an existing AWS re:Post Private private re:Post.
 
 # Arguments
+
 - `space_id`: The unique ID of this private re:Post.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: A description for the private re:Post. This is used only to help you
   identify this private re:Post.
 - `"roleArn"`: The IAM role that grants permissions to the private re:Post to convert

@@ -12,9 +12,9 @@ Gets the properties associated with a medical entities detection job. Use this o
 get the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
-  StartEntitiesDetectionV2Job operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+  `StartEntitiesDetectionV2Job` operation returns this identifier in its response.
 """
 function describe_entities_detection_v2_job end
 
@@ -48,9 +48,9 @@ Gets the properties associated with an InferICD10CM job. Use this operation to g
 status of an inference job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
-  StartICD10CMInferenceJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. `The
+  StartICD10CMInferenceJob` operation returns this identifier in its response.
 """
 function describe_icd10_cminference_job end
 
@@ -84,9 +84,9 @@ Gets the properties associated with a protected health information (PHI) detecti
 this operation to get the status of a detection job.
 
 # Arguments
-- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
-  StartPHIDetectionJob operation returns this identifier in its response.
 
+- `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
+  `StartPHIDetectionJob` operation returns this identifier in its response.
 """
 function describe_phidetection_job end
 
@@ -120,9 +120,9 @@ Gets the properties associated with an InferRxNorm job. Use this operation to ge
 status of an inference job.
 
 # Arguments
+
 - `job_id`: The identifier that Amazon Comprehend Medical generated for the job. The
   StartRxNormInferenceJob operation returns this identifier in its response.
-
 """
 function describe_rx_norm_inference_job end
 
@@ -156,9 +156,9 @@ end
 status of an inference job.
 
 # Arguments
+
 - `job_id`:  The identifier that Amazon Comprehend Medical generated for the job. The
   StartSNOMEDCTInferenceJob operation returns this identifier in its response.
-
 """
 function describe_snomedctinference_job end
 
@@ -188,14 +188,16 @@ end
     detect_entities(text)
     detect_entities(text, params::Dict{String,<:Any})
 
-The DetectEntities operation is deprecated. You should use the DetectEntitiesV2 operation
-instead. Inspects the clinical text for a variety of medical entities and returns specific
+The `DetectEntities` operation is deprecated. You should use the <a>DetectEntitiesV2</a>
+operation instead.
+
+Inspects the clinical text for a variety of medical entities and returns specific
 information about them such as entity category, location, and confidence score on that
 information.
 
 # Arguments
-- `text`:  A UTF-8 text string containing the clinical content being examined for entities.
 
+- `text`:  A UTF-8 text string containing the clinical content being examined for entities.
 """
 function detect_entities end
 
@@ -226,15 +228,19 @@ end
 Inspects the clinical text for a variety of medical entities and returns specific
 information about them such as entity category, location, and confidence score on that
 information. Amazon Comprehend Medical only detects medical entities in English language
-texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new
+texts.
+
+The `DetectEntitiesV2` operation replaces the <a>DetectEntities</a> operation. This new
 action uses a different model for determining the entities in your medical text and changes
-the way that some entities are returned in the output. You should use the DetectEntitiesV2
-operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and
-Direction entities as attributes instead of types.
+the way that some entities are returned in the output. You should use the
+`DetectEntitiesV2` operation in all new applications.
+
+The `DetectEntitiesV2` operation returns the `Acuity` and `Direction` entities as
+attributes instead of types.
 
 # Arguments
-- `text`: A UTF-8 string containing the clinical content being examined for entities.
 
+- `text`: A UTF-8 string containing the clinical content being examined for entities.
 """
 function detect_entities_v2 end
 
@@ -267,9 +273,9 @@ entity category, location, and confidence score for each entity. Amazon Comprehe
 only detects entities in English language texts.
 
 # Arguments
+
 - `text`: A UTF-8 text string containing the clinical content being examined for PHI
   entities.
-
 """
 function detect_phi end
 
@@ -303,8 +309,8 @@ Centers for Disease Control. Amazon Comprehend Medical only detects medical enti
 English language texts.
 
 # Arguments
-- `text`: The input text used for analysis.
 
+- `text`: The input text used for analysis.
 """
 function infer_icd10_cm end
 
@@ -338,8 +344,8 @@ Medicine. Amazon Comprehend Medical only detects medical entities in English lan
 texts.
 
 # Arguments
-- `text`: The input text used for analysis.
 
+- `text`: The input text used for analysis.
 """
 function infer_rx_norm end
 
@@ -371,8 +377,8 @@ end
 the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
 
 # Arguments
-- `text`: The input text to be analyzed using InferSNOMEDCT.
 
+- `text`: The input text to be analyzed using InferSNOMEDCT.
 """
 function infer_snomedct end
 
@@ -403,7 +409,9 @@ end
 Gets a list of medical entity detection jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -440,7 +448,9 @@ end
 Gets a list of InferICD10CM jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -473,7 +483,9 @@ end
 Gets a list of protected health information (PHI) detection jobs you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -506,7 +518,9 @@ end
 Gets a list of InferRxNorm jobs that you have submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`: Filters the jobs that are returned. You can filter jobs based on their names,
   status, or the date and time that they were submitted. You can only set one filter at a
   time.
@@ -539,7 +553,9 @@ end
  Gets a list of InferSNOMEDCT jobs a user has submitted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filter"`:
 - `"MaxResults"`:  The maximum number of results to return in each page. The default is
   100.
@@ -569,12 +585,13 @@ end
     start_entities_detection_v2_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous medical entity detection job for a collection of documents. Use the
-DescribeEntitiesDetectionV2Job operation to track the status of a job.
+`DescribeEntitiesDetectionV2Job` operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input
+  data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: The input configuration that specifies the format and location of
   the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
@@ -583,7 +600,9 @@ DescribeEntitiesDetectionV2Job operation to track the status of a job.
   files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one for you.
 - `"JobName"`: The identifier of the job.
@@ -646,19 +665,22 @@ end
     start_icd10_cminference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM
-ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
+ontology. Use the `DescribeICD10CMInferenceJob` operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input
+  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
 - `"JobName"`: The identifier of the job.
@@ -721,19 +743,22 @@ end
     start_phidetection_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous job to detect protected health information (PHI). Use the
-DescribePHIDetectionJob operation to track the status of a job.
+`DescribePHIDetectionJob` operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input
+  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
 - `"JobName"`: The identifier of the job.
@@ -796,19 +821,22 @@ end
     start_rx_norm_inference_job(data_access_role_arn, input_data_config, language_code, output_data_config, params::Dict{String,<:Any})
 
 Starts an asynchronous job to detect medication entities and link them to the RxNorm
-ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
+ontology. Use the `DescribeRxNormInferenceJob` operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
-  For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input
+  data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language.
 - `output_data_config`: Specifies where to send the output files.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
 - `"JobName"`: The identifier of the job.
@@ -874,15 +902,19 @@ end
 ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
 
 # Arguments
+
 - `data_access_role_arn`:  The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
+  Management (IAM) role that grants Amazon Comprehend Medical read access to your input
+  data.
 - `input_data_config`:
 - `language_code`:  The language of the input documents. All documents must be in the same
   language.
 - `output_data_config`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:  A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend Medical generates one.
 - `"JobName"`:  The user generated name the asynchronous InferSNOMEDCT job.
@@ -947,8 +979,8 @@ end
 Stops a medical entities detection job in progress.
 
 # Arguments
-- `job_id`: The identifier of the medical entities job to stop.
 
+- `job_id`: The identifier of the medical entities job to stop.
 """
 function stop_entities_detection_v2_job end
 
@@ -981,8 +1013,8 @@ end
 Stops an InferICD10CM inference job in progress.
 
 # Arguments
-- `job_id`: The identifier of the job.
 
+- `job_id`: The identifier of the job.
 """
 function stop_icd10_cminference_job end
 
@@ -1015,8 +1047,8 @@ end
 Stops a protected health information (PHI) detection job in progress.
 
 # Arguments
-- `job_id`: The identifier of the PHI detection job to stop.
 
+- `job_id`: The identifier of the PHI detection job to stop.
 """
 function stop_phidetection_job end
 
@@ -1047,8 +1079,8 @@ end
 Stops an InferRxNorm inference job in progress.
 
 # Arguments
-- `job_id`: The identifier of the job.
 
+- `job_id`: The identifier of the job.
 """
 function stop_rx_norm_inference_job end
 
@@ -1081,8 +1113,8 @@ end
  Stops an InferSNOMEDCT inference job in progress.
 
 # Arguments
-- `job_id`:  The job id of the asynchronous InferSNOMEDCT job to be stopped.
 
+- `job_id`:  The job id of the asynchronous InferSNOMEDCT job to be stopped.
 """
 function stop_snomedctinference_job end
 

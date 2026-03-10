@@ -11,17 +11,20 @@ using AWS.UUIDs
 Associates a partner account with your AWS account.
 
 # Arguments
+
 - `sidewalk`: The Sidewalk account credentials.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
 """
@@ -68,9 +71,9 @@ end
 Associate a multicast group with a FUOTA task.
 
 # Arguments
+
 - `id`:
 - `multicast_group_id`:
-
 """
 function associate_multicast_group_with_fuota_task end
 
@@ -112,9 +115,9 @@ end
 Associate a wireless device with a FUOTA task.
 
 # Arguments
+
 - `id`:
 - `wireless_device_id`:
-
 """
 function associate_wireless_device_with_fuota_task end
 
@@ -156,9 +159,9 @@ end
 Associates a wireless device with a multicast group.
 
 # Arguments
+
 - `id`:
 - `wireless_device_id`:
-
 """
 function associate_wireless_device_with_multicast_group end
 
@@ -200,9 +203,9 @@ end
 Associates a wireless device with a thing.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 - `thing_arn`: The ARN of the thing to associate with the wireless device.
-
 """
 function associate_wireless_device_with_thing end
 
@@ -242,9 +245,9 @@ end
 Associates a wireless gateway with a certificate.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 - `iot_certificate_id`: The ID of the certificate to associate with the wireless gateway.
-
 """
 function associate_wireless_gateway_with_certificate end
 
@@ -286,9 +289,9 @@ end
 Associates a wireless gateway with a thing.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 - `thing_arn`: The ARN of the thing to associate with the wireless gateway.
-
 """
 function associate_wireless_gateway_with_thing end
 
@@ -328,8 +331,8 @@ end
 Cancels an existing multicast group session.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function cancel_multicast_group_session end
 
@@ -363,20 +366,23 @@ end
 Creates a new destination that maps a device message to an AWS IoT rule.
 
 # Arguments
+
 - `expression`: The rule name or topic rule to send messages to.
-- `expression_type`: The type of value in Expression.
+- `expression_type`: The type of value in `Expression`.
 - `name`: The name of the new resource.
 - `role_arn`: The ARN of the IAM Role that authorizes the destination.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Tags"`: The tags to attach to the new destination. Tags are metadata that you can use
   to manage a resource.
@@ -441,14 +447,16 @@ end
 Creates a new device profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
 - `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
@@ -490,11 +498,14 @@ end
 Creates a FUOTA task.
 
 # Arguments
+
 - `firmware_update_image`:
 - `firmware_update_role`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"Description"`:
 - `"FragmentIntervalMS"`:
@@ -556,17 +567,20 @@ end
 Creates a multicast group.
 
 # Arguments
+
 - `lo_ra_wan`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the multicast group.
 - `"Name"`:
 - `"Tags"`:
@@ -612,20 +626,23 @@ end
 Creates a new network analyzer configuration.
 
 # Arguments
+
 - `name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"Description"`:
 - `"MulticastGroups"`: Multicast Group resources to add to the network analyzer
-  configruation. Provide the MulticastGroupId of the resource to add in the input array.
+  configruation. Provide the `MulticastGroupId` of the resource to add in the input array.
 - `"Tags"`:
 - `"TraceContent"`:
 - `"WirelessDevices"`: Wireless device resources to add to the network analyzer
-  configuration. Provide the WirelessDeviceId of the resource to add in the input array.
+  configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessGateways"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the WirelessGatewayId of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
 """
 function create_network_analyzer_configuration end
 
@@ -666,14 +683,16 @@ end
 Creates a new service profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"LoRaWAN"`: The service profile information to use to create the service profile.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
@@ -714,18 +733,21 @@ end
 Provisions a wireless device.
 
 # Arguments
+
 - `destination_name`: The name of the destination to assign to the new wireless device.
 - `type`: The wireless device type.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
@@ -782,24 +804,30 @@ end
     create_wireless_gateway(lo_ra_wan)
     create_wireless_gateway(lo_ra_wan, params::Dict{String,<:Any})
 
-Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into
-duplication errors for the following reasons.   If you specify a GatewayEui value that
-already exists.   If you used a ClientRequestToken with the same parameters within the last
-10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters
-for each request within the specified time period.
+Provisions a wireless gateway.
+
+!!! note
+    When provisioning a wireless gateway, you might run into duplication errors for the
+following reasons. - If you specify a `GatewayEui` value that already exists.
+ - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
+To avoid this error, make sure that you use unique identifiers and parameters for each
+request within the specified time period.
 
 # Arguments
+
 - `lo_ra_wan`: The gateway configuration information to use to create the wireless gateway.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Description"`: The description of the new resource.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
@@ -848,9 +876,9 @@ end
 Creates a task for a wireless gateway.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 - `wireless_gateway_task_definition_id`: The ID of the WirelessGatewayTaskDefinition.
-
 """
 function create_wireless_gateway_task end
 
@@ -898,19 +926,22 @@ end
 Creates a gateway task definition.
 
 # Arguments
+
 - `auto_create_tasks`: Whether to automatically create tasks using this task definition for
-  all gateways with the specified current version. If false, the task must me created by
-  calling CreateWirelessGatewayTask.
+  all gateways with the specified current version. If `false`, the task must me created by
+  calling `CreateWirelessGatewayTask`.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`: Each resource must have a unique client request token. The client
-  token is used to implement idempotency. It ensures that the request completes no more than
-  one time. If you retry a request with the same token and the same parameters, the request
-  will complete successfully. However, if you try to create a new resource using the same
-  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
-  SDKs will automatically generate a unique client request. For more information about
-  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
+  token is used to implement idempotency. It ensures that the request completes no more
+  than one time. If you retry a request with the same token and the same parameters, the
+  request will complete successfully. However, if you try to create a new resource using
+  the same token but different parameters, an HTTP 409 conflict occurs. If you omit this
+  value, AWS SDKs will automatically generate a unique client request. For more information
+  about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
@@ -962,8 +993,8 @@ end
 Deletes a destination.
 
 # Arguments
-- `name`: The name of the resource to delete.
 
+- `name`: The name of the resource to delete.
 """
 function delete_destination end
 
@@ -995,8 +1026,8 @@ end
 Deletes a device profile.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_device_profile end
 
@@ -1028,8 +1059,8 @@ end
 Deletes a FUOTA task.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function delete_fuota_task end
 
@@ -1061,8 +1092,8 @@ end
 Deletes a multicast group if it is not in use by a fuota task.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function delete_multicast_group end
 
@@ -1094,8 +1125,8 @@ end
 Deletes a network analyzer configuration.
 
 # Arguments
-- `configuration_name`:
 
+- `configuration_name`:
 """
 function delete_network_analyzer_configuration end
 
@@ -1131,13 +1162,16 @@ end
 Remove queued messages from the downlink queue.
 
 # Arguments
+
 - `id`: The ID of a given wireless device for which downlink messages will be deleted.
-- `message_id`: If message ID is \"*\", it cleares the entire downlink queue for a given
+- `message_id`: If message ID is `"*"`, it cleares the entire downlink queue for a given
   device, specified by the wireless device ID. Otherwise, the downlink message with the
   specified message ID will be deleted.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WirelessDeviceType"`: The wireless device type, which can be either Sidewalk or LoRaWAN.
 """
 function delete_queued_messages end
@@ -1178,8 +1212,8 @@ end
 Deletes a service profile.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_service_profile end
 
@@ -1211,8 +1245,8 @@ end
 Deletes a wireless device.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_wireless_device end
 
@@ -1244,8 +1278,8 @@ end
 Delete an import task.
 
 # Arguments
-- `id`: The unique identifier of the import task to be deleted.
 
+- `id`: The unique identifier of the import task to be deleted.
 """
 function delete_wireless_device_import_task end
 
@@ -1276,15 +1310,18 @@ end
     delete_wireless_gateway(id)
     delete_wireless_gateway(id, params::Dict{String,<:Any})
 
-Deletes a wireless gateway.  When deleting a wireless gateway, you might run into
-duplication errors for the following reasons.   If you specify a GatewayEui value that
-already exists.   If you used a ClientRequestToken with the same parameters within the last
-10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters
-for each request within the specified time period.
+Deletes a wireless gateway.
+
+!!! note
+    When deleting a wireless gateway, you might run into duplication errors for the
+following reasons. - If you specify a `GatewayEui` value that already exists.
+ - If you used a `ClientRequestToken` with the same parameters within the last 10 minutes.
+To avoid this error, make sure that you use unique identifiers and parameters for each
+request within the specified time period.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_wireless_gateway end
 
@@ -1316,8 +1353,8 @@ end
 Deletes a wireless gateway task.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_wireless_gateway_task end
 
@@ -1352,8 +1389,8 @@ Deletes a wireless gateway task definition. Deleting this task definition does n
 tasks that are currently in progress.
 
 # Arguments
-- `id`: The ID of the resource to delete.
 
+- `id`: The ID of the resource to delete.
 """
 function delete_wireless_gateway_task_definition end
 
@@ -1387,12 +1424,15 @@ end
 Deregister a wireless device from AWS IoT Wireless.
 
 # Arguments
+
 - `identifier`: The identifier of the wireless device to deregister from AWS IoT Wireless.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WirelessDeviceType"`: The type of wireless device to deregister from AWS IoT Wireless,
-  which can be LoRaWAN or Sidewalk.
+  which can be `LoRaWAN` or `Sidewalk`.
 """
 function deregister_wireless_device end
 
@@ -1425,13 +1465,13 @@ end
     disassociate_aws_account_from_partner_account(partner_account_id, partner_type)
     disassociate_aws_account_from_partner_account(partner_account_id, partner_type, params::Dict{String,<:Any})
 
-Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType
-are null, disassociates your AWS account from all partner accounts.
+Disassociates your AWS account from a partner account. If `PartnerAccountId` and
+`PartnerType` are `null`, disassociates your AWS account from all partner accounts.
 
 # Arguments
+
 - `partner_account_id`: The partner account ID to disassociate from the AWS account.
 - `partner_type`: The partner type.
-
 """
 function disassociate_aws_account_from_partner_account end
 
@@ -1471,9 +1511,9 @@ end
 Disassociates a multicast group from a fuota task.
 
 # Arguments
+
 - `id`:
 - `multicast_group_id`:
-
 """
 function disassociate_multicast_group_from_fuota_task end
 
@@ -1510,9 +1550,9 @@ end
 Disassociates a wireless device from a FUOTA task.
 
 # Arguments
+
 - `id`:
 - `wireless_device_id`:
-
 """
 function disassociate_wireless_device_from_fuota_task end
 
@@ -1549,9 +1589,9 @@ end
 Disassociates a wireless device from a multicast group.
 
 # Arguments
+
 - `id`:
 - `wireless_device_id`:
-
 """
 function disassociate_wireless_device_from_multicast_group end
 
@@ -1588,8 +1628,8 @@ end
 Disassociates a wireless device from its currently associated thing.
 
 # Arguments
-- `id`: The ID of the resource to update.
 
+- `id`: The ID of the resource to update.
 """
 function disassociate_wireless_device_from_thing end
 
@@ -1623,8 +1663,8 @@ end
 Disassociates a wireless gateway from its currently associated certificate.
 
 # Arguments
-- `id`: The ID of the resource to update.
 
+- `id`: The ID of the resource to update.
 """
 function disassociate_wireless_gateway_from_certificate end
 
@@ -1658,8 +1698,8 @@ end
 Disassociates a wireless gateway from its currently associated thing.
 
 # Arguments
-- `id`: The ID of the resource to update.
 
+- `id`: The ID of the resource to update.
 """
 function disassociate_wireless_gateway_from_thing end
 
@@ -1693,8 +1733,8 @@ end
 Gets information about a destination.
 
 # Arguments
-- `name`: The name of the resource to get.
 
+- `name`: The name of the resource to get.
 """
 function get_destination end
 
@@ -1726,8 +1766,8 @@ end
 Gets information about a device profile.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_device_profile end
 
@@ -1757,7 +1797,6 @@ end
     get_event_configuration_by_resource_types(params::Dict{String,<:Any})
 
 Get the event configuration based on resource types.
-
 """
 function get_event_configuration_by_resource_types end
 
@@ -1791,8 +1830,8 @@ end
 Gets information about a FUOTA task.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function get_fuota_task end
 
@@ -1820,7 +1859,6 @@ end
 
 Returns current default log levels or log levels by resource types. Based on resource
 types, log levels can be for wireless device log options or wireless gateway log options.
-
 """
 function get_log_levels_by_resource_types end
 
@@ -1845,7 +1883,6 @@ end
     get_metric_configuration(params::Dict{String,<:Any})
 
 Get the metric configuration status for this AWS account.
-
 """
 function get_metric_configuration end
 
@@ -1877,7 +1914,9 @@ end
 Get the summary metrics for this AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SummaryMetricQueries"`: The list of queries to retrieve the summary metrics.
 """
 function get_metrics end
@@ -1903,8 +1942,8 @@ end
 Gets information about a multicast group.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function get_multicast_group end
 
@@ -1936,8 +1975,8 @@ end
 Gets information about a multicast group session.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function get_multicast_group_session end
 
@@ -1969,8 +2008,8 @@ end
 Get network analyzer configuration.
 
 # Arguments
-- `configuration_name`:
 
+- `configuration_name`:
 """
 function get_network_analyzer_configuration end
 
@@ -2003,13 +2042,13 @@ end
     get_partner_account(partner_account_id, partner_type)
     get_partner_account(partner_account_id, partner_type, params::Dict{String,<:Any})
 
-Gets information about a partner account. If PartnerAccountId and PartnerType are null,
-returns all partner accounts.
+Gets information about a partner account. If `PartnerAccountId` and `PartnerType` are
+`null`, returns all partner accounts.
 
 # Arguments
+
 - `partner_account_id`: The partner account ID to disassociate from the AWS account.
 - `partner_type`: The partner type.
-
 """
 function get_partner_account end
 
@@ -2046,15 +2085,18 @@ end
     get_position(resource_identifier, resource_type)
     get_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Get the position information for a given resource.  This action is no longer supported.
-Calls to retrieve the position information should use the GetResourcePosition API operation
-instead.
+Get the position information for a given resource.
+
+!!! important
+    This action is no longer supported. Calls to retrieve the position information should
+use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+API operation instead.
 
 # Arguments
+
 - `resource_identifier`: Resource identifier used to retrieve the position information.
 - `resource_type`: Resource type of the resource for which position information is
   retrieved.
-
 """
 function get_position end
 
@@ -2091,15 +2133,18 @@ end
     get_position_configuration(resource_identifier, resource_type)
     get_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Get position configuration for a given resource.  This action is no longer supported. Calls
-to retrieve the position configuration should use the GetResourcePosition API operation
-instead.
+Get position configuration for a given resource.
+
+!!! important
+    This action is no longer supported. Calls to retrieve the position configuration should
+use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+API operation instead.
 
 # Arguments
+
 - `resource_identifier`: Resource identifier used in a position configuration.
 - `resource_type`: Resource type of the resource for which position configuration is
   retrieved.
-
 """
 function get_position_configuration end
 
@@ -2140,7 +2185,9 @@ Get estimated position information as a payload in GeoJSON format. The payload m
 data is resolved using solvers that are provided by third-party vendors.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"CellTowers"`: Retrieves an estimated device position by resolving measurement data from
   cellular radio towers. The position is resolved using HERE's cellular-based solver.
 - `"Gnss"`: Retrieves an estimated device position by resolving the global navigation
@@ -2181,13 +2228,17 @@ end
 Get the event configuration for a particular resource identifier.
 
 # Arguments
+
 - `identifier`: Resource identifier to opt in for event messaging.
 - `identifier_type`: Identifier type of the particular resource identifier for event
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"partnerType"`: Partner type of the resource if the identifier type is PartnerAccountId.
+
+- `"partnerType"`: Partner type of the resource if the identifier type is
+  `PartnerAccountId`.
 """
 function get_resource_event_configuration end
 
@@ -2228,9 +2279,10 @@ Fetches the log-level override, if any, for a given resource-ID and resource-typ
 be used for a wireless device or a wireless gateway.
 
 # Arguments
-- `resource_identifier`:
-- `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
 
+- `resource_identifier`:
+- `resource_type`: The type of the resource, which can be `WirelessDevice` or
+  `WirelessGateway`.
 """
 function get_resource_log_level end
 
@@ -2268,15 +2320,15 @@ end
     get_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Get the position information for a given wireless device or a wireless gateway resource.
-The position information uses the  World Geodetic System (WGS84).
+The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
+
 - `resource_identifier`: The identifier of the resource for which position information is
   retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the
   resource type.
 - `resource_type`: The type of resource for which position information is retrieved, which
   can be a wireless device or a wireless gateway.
-
 """
 function get_resource_position end
 
@@ -2317,10 +2369,12 @@ Gets the account-specific endpoint for Configuration and Update Server (CUPS) pr
 LoRaWAN Network Server (LNS) connections.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"serviceType"`: The service type for which to get endpoint information about. Can be
-  CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network
-  Server endpoint or CLAIM for the global endpoint.
+  `CUPS` for the Configuration and Update Server endpoint, or `LNS` for the LoRaWAN Network
+  Server endpoint or `CLAIM` for the global endpoint.
 """
 function get_service_endpoint end
 
@@ -2349,8 +2403,8 @@ end
 Gets information about a service profile.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_service_profile end
 
@@ -2382,9 +2436,9 @@ end
 Gets information about a wireless device.
 
 # Arguments
-- `identifier`: The identifier of the wireless device to get.
-- `identifier_type`: The type of identifier used in identifier.
 
+- `identifier`: The identifier of the wireless device to get.
+- `identifier_type`: The type of identifier used in `identifier`.
 """
 function get_wireless_device end
 
@@ -2425,8 +2479,8 @@ Get information about an import task and count of device onboarding summary info
 the import task.
 
 # Arguments
-- `id`: The identifier of the import task for which information is requested.
 
+- `id`: The identifier of the import task for which information is requested.
 """
 function get_wireless_device_import_task end
 
@@ -2460,8 +2514,8 @@ end
 Gets operating information about a wireless device.
 
 # Arguments
-- `id`: The ID of the wireless device for which to get the data.
 
+- `id`: The ID of the wireless device for which to get the data.
 """
 function get_wireless_device_statistics end
 
@@ -2495,9 +2549,9 @@ end
 Gets information about a wireless gateway.
 
 # Arguments
-- `identifier`: The identifier of the wireless gateway to get.
-- `identifier_type`: The type of identifier used in identifier.
 
+- `identifier`: The identifier of the wireless gateway to get.
+- `identifier_type`: The type of identifier used in `identifier`.
 """
 function get_wireless_gateway end
 
@@ -2537,8 +2591,8 @@ end
 Gets the ID of the certificate that is currently associated with a wireless gateway.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_wireless_gateway_certificate end
 
@@ -2572,8 +2626,8 @@ end
 Gets the firmware version and other information about a wireless gateway.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_wireless_gateway_firmware_information end
 
@@ -2607,8 +2661,8 @@ end
 Gets operating information about a wireless gateway.
 
 # Arguments
-- `id`: The ID of the wireless gateway for which to get the data.
 
+- `id`: The ID of the wireless gateway for which to get the data.
 """
 function get_wireless_gateway_statistics end
 
@@ -2642,8 +2696,8 @@ end
 Gets information about a wireless gateway task.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_wireless_gateway_task end
 
@@ -2675,8 +2729,8 @@ end
 Gets information about a wireless gateway task definition.
 
 # Arguments
-- `id`: The ID of the resource to get.
 
+- `id`: The ID of the resource to get.
 """
 function get_wireless_gateway_task_definition end
 
@@ -2710,10 +2764,12 @@ end
 Lists the destinations registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_destinations end
 
@@ -2742,12 +2798,14 @@ end
 Lists the device profiles registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"deviceProfileType"`: A filter to list only device profiles that use this type, which
-  can be LoRaWAN or Sidewalk.
+  can be `LoRaWAN` or `Sidewalk`.
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_device_profiles end
 
@@ -2776,13 +2834,16 @@ end
 List the Sidewalk devices in an import task and their onboarding status.
 
 # Arguments
+
 - `id`: The identifier of the import task for which wireless devices are listed.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise `null` to receive the first set of results.
 - `"status"`: The status of the devices in the import task.
 """
 function list_devices_for_wireless_device_import_task end
@@ -2818,13 +2879,16 @@ end
 List event configurations where at least one event topic has been enabled.
 
 # Arguments
+
 - `resource_type`: Resource type to filter event configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_event_configurations end
 
@@ -2863,10 +2927,12 @@ end
 Lists the FUOTA tasks registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_fuota_tasks end
 
@@ -2895,10 +2961,12 @@ end
 Lists the multicast groups registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_multicast_groups end
 
@@ -2927,13 +2995,16 @@ end
 List all multicast groups associated with a fuota task.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_multicast_groups_by_fuota_task end
 
@@ -2967,10 +3038,12 @@ end
 Lists the network analyzer configurations.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_network_analyzer_configurations end
 
@@ -3004,10 +3077,12 @@ end
 Lists the partner accounts associated with your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_partner_accounts end
 
@@ -3033,15 +3108,20 @@ end
     list_position_configurations()
     list_position_configurations(params::Dict{String,<:Any})
 
-List position configurations for a given resource, such as positioning solvers.  This
-action is no longer supported. Calls to retrieve position information should use the
-GetResourcePosition API operation instead.
+List position configurations for a given resource, such as positioning solvers.
+
+!!! important
+    This action is no longer supported. Calls to retrieve position information should use
+the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html)
+API operation instead.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 - `"resourceType"`: Resource type for which position configurations are listed.
 """
 function list_position_configurations end
@@ -3074,14 +3154,17 @@ end
 List queued messages in the downlink queue.
 
 # Arguments
+
 - `id`: The ID of a given wireless device which the downlink message packets are being sent.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WirelessDeviceType"`: The wireless device type, whic can be either Sidewalk or LoRaWAN.
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_queued_messages end
 
@@ -3113,10 +3196,12 @@ end
 Lists the service profiles registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_service_profiles end
 
@@ -3145,8 +3230,8 @@ end
 Lists the tags (metadata) you have assigned to the resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource for which you want to list tags.
 
+- `resource_arn`: The ARN of the resource for which you want to list tags.
 """
 function list_tags_for_resource end
 
@@ -3185,10 +3270,12 @@ end
 List wireless devices that have been added to an import task.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise `null` to receive the first set of results.
 """
 function list_wireless_device_import_tasks end
 
@@ -3222,15 +3309,17 @@ end
 Lists the wireless devices registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"destinationName"`: A filter to list only the wireless devices that use this destination.
 - `"deviceProfileId"`: A filter to list only the wireless devices that use this device
   profile.
 - `"fuotaTaskId"`:
 - `"maxResults"`: The maximum number of results to return in this operation.
 - `"multicastGroupId"`:
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 - `"serviceProfileId"`: A filter to list only the wireless devices that use this service
   profile.
 - `"wirelessDeviceType"`: A filter to list only the wireless devices that use this wireless
@@ -3263,10 +3352,12 @@ end
 List the wireless gateway tasks definitions registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 - `"taskDefinitionType"`: A filter to list only the wireless gateway task definitions that
   use this task definition type.
 """
@@ -3302,10 +3393,12 @@ end
 Lists the wireless gateways registered to your AWS account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of results to return in this operation.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
-  response; otherwise null to receive the first set of results.
+- `"nextToken"`: To retrieve the next set of results, the `nextToken` value from a previous
+  response; otherwise **null** to receive the first set of results.
 """
 function list_wireless_gateways end
 
@@ -3331,17 +3424,23 @@ end
     put_position_configuration(resource_identifier, resource_type)
     put_position_configuration(resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Put position configuration for a given resource.  This action is no longer supported. Calls
-to update the position configuration should use the UpdateResourcePosition API operation
-instead.
+Put position configuration for a given resource.
+
+!!! important
+    This action is no longer supported. Calls to update the position configuration should
+use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+API operation instead.
 
 # Arguments
+
 - `resource_identifier`: Resource identifier used to update the position configuration.
 - `resource_type`: Resource type of the resource for which you want to update the position
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Destination"`: The position data destination that describes the AWS IoT rule that
   processes the device's position data for use by AWS IoT Core for LoRaWAN.
 - `"Solvers"`: The positioning solvers used to update the position configuration of the
@@ -3387,10 +3486,11 @@ specified for a wireless gateway or a wireless device. A limit of 200 log level 
 can be set per account.
 
 # Arguments
+
 - `log_level`:
 - `resource_identifier`:
-- `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
-
+- `resource_type`: The type of the resource, which can be `WirelessDevice` or
+  `WirelessGateway`.
 """
 function put_resource_log_level end
 
@@ -3437,7 +3537,6 @@ end
 
 Removes the log-level overrides for all resources; both wireless devices and wireless
 gateways.
-
 """
 function reset_all_resource_log_levels end
 
@@ -3467,9 +3566,10 @@ Removes the log-level override, if any, for a specific resource-ID and resource-
 can be used for a wireless device or a wireless gateway.
 
 # Arguments
-- `resource_identifier`:
-- `resource_type`: The type of the resource, which can be WirelessDevice or WirelessGateway.
 
+- `resource_identifier`:
+- `resource_type`: The type of the resource, which can be `WirelessDevice` or
+  `WirelessGateway`.
 """
 function reset_resource_log_level end
 
@@ -3509,10 +3609,10 @@ end
 Sends the specified data to a multicast group.
 
 # Arguments
+
 - `id`:
 - `payload_data`:
 - `wireless_metadata`:
-
 """
 function send_data_to_multicast_group end
 
@@ -3561,13 +3661,16 @@ end
 Sends a decrypted application data frame to a device.
 
 # Arguments
+
 - `id`: The ID of the wireless device to receive the data.
 - `payload_data`:
-- `transmit_mode`: The transmit mode to use to send data to the wireless device. Can be: 0
-  for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
+- `transmit_mode`: The transmit mode to use to send data to the wireless device. Can be:
+  `0` for UM (unacknowledge mode) or `1` for AM (acknowledge mode).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"WirelessMetadata"`: Metadata about the message request.
 """
 function send_data_to_wireless_device end
@@ -3615,10 +3718,13 @@ end
 Starts a bulk association of all qualifying wireless devices with a multicast group.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"QueryString"`:
 - `"Tags"`:
 """
@@ -3654,10 +3760,13 @@ end
 Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"QueryString"`:
 - `"Tags"`:
 """
@@ -3693,10 +3802,13 @@ end
 Starts a FUOTA task.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LoRaWAN"`:
 """
 function start_fuota_task end
@@ -3726,9 +3838,9 @@ end
 Starts a multicast group session.
 
 # Arguments
+
 - `id`:
 - `lo_ra_wan`:
-
 """
 function start_multicast_group_session end
 
@@ -3766,13 +3878,16 @@ end
 Start import task for a single wireless device.
 
 # Arguments
+
 - `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
   route messages from the device in the import task that will be onboarded to AWS IoT
   Wireless.
 - `sidewalk`: The Sidewalk-related parameters for importing a single wireless device.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"DeviceName"`: The name of the wireless device for which an import task is being started.
 - `"Tags"`:
@@ -3827,13 +3942,16 @@ end
 Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
 
 # Arguments
+
 - `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
   route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
 - `sidewalk`: The Sidewalk-related parameters for importing wireless devices that need to
   be provisioned in bulk.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientRequestToken"`:
 - `"Tags"`:
 """
@@ -3887,10 +4005,10 @@ end
 Adds a tag to a resource.
 
 # Arguments
+
 - `tags`: Adds to or modifies the tags of the given resource. Tags are metadata that you
   can use to manage a resource.
 - `resource_arn`: The ARN of the resource to add tags to.
-
 """
 function tag_resource end
 
@@ -3929,11 +4047,11 @@ end
     test_wireless_device(id)
     test_wireless_device(id, params::Dict{String,<:Any})
 
-Simulates a provisioned device by sending an uplink data payload of Hello.
+Simulates a provisioned device by sending an uplink data payload of `Hello`.
 
 # Arguments
-- `id`: The ID of the wireless device to test.
 
+- `id`: The ID of the wireless device to test.
 """
 function test_wireless_device end
 
@@ -3965,9 +4083,9 @@ end
 Removes one or more tags from a resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to remove tags from.
 - `tag_keys`: A list of the keys of the tags to remove from the resource.
-
 """
 function untag_resource end
 
@@ -4011,13 +4129,16 @@ end
 Updates properties of a destination.
 
 # Arguments
+
 - `name`: The new name of the resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A new description of the resource.
 - `"Expression"`: The new rule name or topic rule to send messages to.
-- `"ExpressionType"`: The type of value in Expression.
+- `"ExpressionType"`: The type of value in `Expression`.
 - `"RoleArn"`: The ARN of the IAM Role that authorizes the destination.
 """
 function update_destination end
@@ -4050,7 +4171,9 @@ end
 Update the event configuration based on resource types.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConnectionStatus"`: Connection status resource type event configuration object for
   enabling and disabling wireless gateway topic.
 - `"DeviceRegistrationState"`: Device registration state resource type event configuration
@@ -4094,10 +4217,13 @@ end
 Updates properties of a FUOTA task.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"FirmwareUpdateImage"`:
 - `"FirmwareUpdateRole"`:
@@ -4139,7 +4265,9 @@ options or wireless gateways log options and is used to control the log messages
 displayed in CloudWatch.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"DefaultLogLevel"`:
 - `"WirelessDeviceLogOptions"`:
 - `"WirelessGatewayLogOptions"`:
@@ -4173,7 +4301,9 @@ end
 Update the summary metric configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"SummaryMetric"`: The value to be used to set summary metric configuration.
 """
 function update_metric_configuration end
@@ -4206,10 +4336,13 @@ end
 Updates properties of a multicast group session.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"LoRaWAN"`:
 - `"Name"`:
@@ -4244,26 +4377,29 @@ end
 Update network analyzer configuration.
 
 # Arguments
+
 - `configuration_name`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`:
 - `"MulticastGroupsToAdd"`: Multicast group resources to add to the network analyzer
-  configuration. Provide the MulticastGroupId of the resource to add in the input array.
+  configuration. Provide the `MulticastGroupId` of the resource to add in the input array.
 - `"MulticastGroupsToRemove"`: Multicast group resources to remove from the network
-  analyzer configuration. Provide the MulticastGroupId of the resources to remove in the
+  analyzer configuration. Provide the `MulticastGroupId` of the resources to remove in the
   input array.
 - `"TraceContent"`:
 - `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
-  configuration. Provide the WirelessDeviceId of the resource to add in the input array.
+  configuration. Provide the `WirelessDeviceId` of the resource to add in the input array.
 - `"WirelessDevicesToRemove"`: Wireless device resources to remove from the network
-  analyzer configuration. Provide the WirelessDeviceId of the resources to remove in the
+  analyzer configuration. Provide the `WirelessDeviceId` of the resources to remove in the
   input array.
 - `"WirelessGatewaysToAdd"`: Wireless gateway resources to add to the network analyzer
-  configuration. Provide the WirelessGatewayId of the resource to add in the input array.
+  configuration. Provide the `WirelessGatewayId` of the resource to add in the input array.
 - `"WirelessGatewaysToRemove"`: Wireless gateway resources to remove from the network
-  analyzer configuration. Provide the WirelessGatewayId of the resources to remove in the
+  analyzer configuration. Provide the `WirelessGatewayId` of the resources to remove in the
   input array.
 """
 function update_network_analyzer_configuration end
@@ -4300,10 +4436,10 @@ end
 Updates properties of a partner account.
 
 # Arguments
+
 - `partner_account_id`: The ID of the partner account to update.
 - `sidewalk`: The Sidewalk account credentials.
 - `partner_type`: The partner type.
-
 """
 function update_partner_account end
 
@@ -4348,15 +4484,18 @@ end
     update_position(position, resource_identifier, resource_type)
     update_position(position, resource_identifier, resource_type, params::Dict{String,<:Any})
 
-Update the position information of a resource.  This action is no longer supported. Calls
-to update the position information should use the UpdateResourcePosition API operation
-instead.
+Update the position information of a resource.
+
+!!! important
+    This action is no longer supported. Calls to update the position information should use
+the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html)
+API operation instead.
 
 # Arguments
+
 - `position`: The position information of the resource.
 - `resource_identifier`: Resource identifier of the resource for which position is updated.
 - `resource_type`: Resource type of the resource for which position is updated.
-
 """
 function update_position end
 
@@ -4404,18 +4543,22 @@ end
 Update the event configuration for a particular resource identifier.
 
 # Arguments
+
 - `identifier`: Resource identifier to opt in for event messaging.
 - `identifier_type`: Identifier type of the particular resource identifier for event
   configuration.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ConnectionStatus"`: Event configuration for the connection status event.
 - `"DeviceRegistrationState"`: Event configuration for the device registration state event.
 - `"Join"`: Event configuration for the join event.
 - `"MessageDeliveryStatus"`: Event configuration for the message delivery status event.
 - `"Proximity"`: Event configuration for the proximity event.
-- `"partnerType"`: Partner type of the resource if the identifier type is PartnerAccountId
+- `"partnerType"`: Partner type of the resource if the identifier type is
+  `PartnerAccountId`
 """
 function update_resource_event_configuration end
 
@@ -4453,9 +4596,10 @@ end
     update_resource_position(resource_identifier, resource_type, params::Dict{String,<:Any})
 
 Update the position information of a given wireless device or a wireless gateway resource.
-The position coordinates are based on the  World Geodetic System (WGS84).
+The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
 
 # Arguments
+
 - `resource_identifier`: The identifier of the resource for which position information is
   updated. It can be the wireless device ID or the wireless gateway ID, depending on the
   resource type.
@@ -4463,10 +4607,12 @@ The position coordinates are based on the  World Geodetic System (WGS84).
   can be a wireless device or a wireless gateway.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"GeoJsonPayload"`: The position information of the resource, displayed as a JSON
   payload. The payload uses the GeoJSON format, which a format that's used to encode
-  geographic data structures. For more information, see GeoJSON.
+  geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
 """
 function update_resource_position end
 
@@ -4506,10 +4652,13 @@ end
 Updates properties of a wireless device.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A new description of the resource.
 - `"DestinationName"`: The name of the new destination for the device.
 - `"LoRaWAN"`: The updated wireless device's configuration.
@@ -4547,9 +4696,9 @@ end
 Update an import task to add more devices to the task.
 
 # Arguments
+
 - `id`: The identifier of the import task to be updated.
 - `sidewalk`: The Sidewalk-related parameters of the import task to be updated.
-
 """
 function update_wireless_device_import_task end
 
@@ -4589,10 +4738,13 @@ end
 Updates properties of a wireless gateway.
 
 # Arguments
+
 - `id`: The ID of the resource to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A new description of the resource.
 - `"JoinEuiFilters"`:
 - `"MaxEirp"`: The MaxEIRP value.

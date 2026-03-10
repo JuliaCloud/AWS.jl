@@ -8,11 +8,11 @@ using AWS.UUIDs
     create_app(create_application_request)
     create_app(create_application_request, params::Dict{String,<:Any})
 
- Creates an application.
+Creates an application.
 
 # Arguments
-- `create_application_request`:
 
+- `create_application_request`:
 """
 function create_app end
 
@@ -56,10 +56,10 @@ Creates a new campaign for an application or updates the settings of an existing
 for an application.
 
 # Arguments
+
 - `write_campaign_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function create_campaign end
 
@@ -103,11 +103,12 @@ end
 Creates a message template for messages that are sent through the email channel.
 
 # Arguments
+
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
 function create_email_template end
 
@@ -151,10 +152,10 @@ end
 Creates an export job for an application.
 
 # Arguments
+
 - `export_job_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function create_export_job end
 
@@ -196,10 +197,10 @@ end
 Creates an import job for an application.
 
 # Arguments
+
 - `import_job_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function create_import_job end
 
@@ -241,11 +242,12 @@ end
 Creates a new message template for messages using the in-app message channel.
 
 # Arguments
+
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
 function create_in_app_template end
 
@@ -289,10 +291,10 @@ end
 Creates a journey for an application.
 
 # Arguments
+
 - `write_journey_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function create_journey end
 
@@ -336,11 +338,12 @@ end
 Creates a message template for messages that are sent through a push notification channel.
 
 # Arguments
+
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
 function create_push_template end
 
@@ -390,8 +393,8 @@ end
 Creates an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `create_recommender_configuration`:
 
+- `create_recommender_configuration`:
 """
 function create_recommender_configuration end
 
@@ -439,10 +442,10 @@ Creates a new segment for an application or updates the configuration, dimension
 settings for an existing segment that's associated with an application.
 
 # Arguments
+
 - `write_segment_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function create_segment end
 
@@ -486,11 +489,12 @@ end
 Creates a message template for messages that are sent through the SMS channel.
 
 # Arguments
+
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
 function create_sms_template end
 
@@ -532,11 +536,12 @@ end
 Creates a message template for messages that are sent through the voice channel.
 
 # Arguments
+
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
-
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 """
 function create_voice_template end
 
@@ -581,9 +586,9 @@ Disables the ADM channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_adm_channel end
 
@@ -620,9 +625,9 @@ Disables the APNs channel for an application and deletes any existing settings f
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_apns_channel end
 
@@ -659,9 +664,9 @@ Disables the APNs sandbox channel for an application and deletes any existing se
 the channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_apns_sandbox_channel end
 
@@ -698,9 +703,9 @@ Disables the APNs VoIP channel for an application and deletes any existing setti
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_apns_voip_channel end
 
@@ -737,9 +742,9 @@ Disables the APNs VoIP sandbox channel for an application and deletes any existi
 for the channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_apns_voip_sandbox_channel end
 
@@ -775,9 +780,9 @@ end
 Deletes an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_app end
 
@@ -812,9 +817,9 @@ Disables the Baidu channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_baidu_channel end
 
@@ -850,10 +855,10 @@ end
 Deletes a campaign from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `campaign-id`: The unique identifier for the campaign.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `campaign-id`: The unique identifier for the campaign.
 """
 function delete_campaign end
 
@@ -891,9 +896,9 @@ Disables the email channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_email_channel end
 
@@ -929,23 +934,31 @@ end
 Deletes a message template for messages that were sent through the email channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function delete_email_template end
 
@@ -981,11 +994,11 @@ end
 Deletes an endpoint from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain `\$`, `{` or `}`.
 """
 function delete_endpoint end
 
@@ -1022,9 +1035,9 @@ end
 Deletes the event stream for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_event_stream end
 
@@ -1061,9 +1074,9 @@ Disables the GCM channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_gcm_channel end
 
@@ -1099,23 +1112,31 @@ end
 Deletes a message template for messages sent using the in-app message channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function delete_in_app_template end
 
@@ -1151,10 +1172,10 @@ end
 Deletes a journey from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `journey-id`: The unique identifier for the journey.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
 """
 function delete_journey end
 
@@ -1191,23 +1212,31 @@ end
 Deletes a message template for messages that were sent through a push notification channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function delete_push_template end
 
@@ -1243,9 +1272,9 @@ end
 Deletes an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
+- `recommender-id`: The unique identifier for the recommender model configuration. This
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
 function delete_recommender_configuration end
 
@@ -1281,10 +1310,10 @@ end
 Deletes a segment from an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `segment-id`: The unique identifier for the segment.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `segment-id`: The unique identifier for the segment.
 """
 function delete_segment end
 
@@ -1322,9 +1351,9 @@ Disables the SMS channel for an application and deletes any existing settings fo
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_sms_channel end
 
@@ -1360,23 +1389,31 @@ end
 Deletes a message template for messages that were sent through the SMS channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function delete_sms_template end
 
@@ -1412,10 +1449,10 @@ end
 Deletes all the endpoints that are associated with a specific user ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `user-id`: The unique identifier for the user.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `user-id`: The unique identifier for the user.
 """
 function delete_user_endpoints end
 
@@ -1453,9 +1490,9 @@ Disables the voice channel for an application and deletes any existing settings 
 channel.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function delete_voice_channel end
 
@@ -1491,23 +1528,31 @@ end
 Deletes a message template for messages that were sent through the voice channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function delete_voice_template end
 
@@ -1543,9 +1588,9 @@ end
 Retrieves information about the status and settings of the ADM channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_adm_channel end
 
@@ -1579,9 +1624,9 @@ end
 Retrieves information about the status and settings of the APNs channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_apns_channel end
 
@@ -1618,9 +1663,9 @@ Retrieves information about the status and settings of the APNs sandbox channel 
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_apns_sandbox_channel end
 
@@ -1657,9 +1702,9 @@ Retrieves information about the status and settings of the APNs VoIP channel for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_apns_voip_channel end
 
@@ -1696,9 +1741,9 @@ Retrieves information about the status and settings of the APNs VoIP sandbox cha
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_apns_voip_sandbox_channel end
 
@@ -1734,9 +1779,9 @@ end
 Retrieves information about an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_app end
 
@@ -1771,28 +1816,32 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to an
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+  as the **Project ID** on the Amazon Pinpoint console.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
 function get_application_date_range_kpi end
 
@@ -1829,9 +1878,9 @@ end
 Retrieves information about the settings for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_application_settings end
 
@@ -1868,7 +1917,9 @@ Retrieves information about all the applications that are associated with your A
 Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -1897,9 +1948,9 @@ end
 Retrieves information about the status and settings of the Baidu channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_baidu_channel end
 
@@ -1935,10 +1986,10 @@ end
 Retrieves information about the status, configuration, and other settings for a campaign.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `campaign-id`: The unique identifier for the campaign.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `campaign-id`: The unique identifier for the campaign.
 """
 function get_campaign end
 
@@ -1975,12 +2026,15 @@ end
 Retrieves information about all the activities for a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -2021,29 +2075,33 @@ end
 Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
 function get_campaign_date_range_kpi end
 
@@ -2085,11 +2143,11 @@ Retrieves information about the status, configuration, and other settings for a 
 version of a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 - `version`: The unique version number (Version property) for the campaign version.
-
 """
 function get_campaign_version end
 
@@ -2128,12 +2186,15 @@ Retrieves information about the status, configuration, and other settings for al
 of a campaign.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -2175,11 +2236,14 @@ Retrieves information about the status, configuration, and other settings for al
 campaigns that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -2217,9 +2281,9 @@ end
 Retrieves information about the history and status of each channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_channels end
 
@@ -2253,9 +2317,9 @@ end
 Retrieves information about the status and settings of the email channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_email_channel end
 
@@ -2292,23 +2356,31 @@ Retrieves the content and settings of a message template for messages that are s
 the email channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function get_email_template end
 
@@ -2345,11 +2417,11 @@ Retrieves information about the settings and attributes of a specific endpoint f
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain `\$`, `{` or `}`.
 """
 function get_endpoint end
 
@@ -2386,9 +2458,9 @@ end
 Retrieves information about the event stream settings for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_event_stream end
 
@@ -2425,10 +2497,10 @@ Retrieves information about the status and settings of a specific export job for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `job-id`: The unique identifier for the job.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `job-id`: The unique identifier for the job.
 """
 function get_export_job end
 
@@ -2466,11 +2538,14 @@ Retrieves information about the status and settings of all the export jobs for a
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -2508,9 +2583,9 @@ end
 Retrieves information about the status and settings of the GCM channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_gcm_channel end
 
@@ -2545,10 +2620,10 @@ Retrieves information about the status and settings of a specific import job for
 application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `job-id`: The unique identifier for the job.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `job-id`: The unique identifier for the job.
 """
 function get_import_job end
 
@@ -2586,11 +2661,14 @@ Retrieves information about the status and settings of all the import jobs for a
 application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -2628,10 +2706,10 @@ end
 Retrieves the in-app messages targeted for the provided endpoint ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The unique identifier for the endpoint.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `endpoint-id`: The unique identifier for the endpoint.
 """
 function get_in_app_messages end
 
@@ -2665,27 +2743,35 @@ end
     get_in_app_template(template-name)
     get_in_app_template(template-name, params::Dict{String,<:Any})
 
-Retrieves the content and settings of a message template for messages sent through the
-in-app channel.
+Retrieves the content and settings of a message template for messages sent through the in-
+app channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function get_in_app_template end
 
@@ -2721,10 +2807,10 @@ end
 Retrieves information about the status, configuration, and other settings for a journey.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `journey-id`: The unique identifier for the journey.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
 """
 function get_journey end
 
@@ -2762,29 +2848,33 @@ Retrieves (queries) pre-aggregated data for a standard engagement metric that ap
 journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-- `kpi-name`: The name of the metric, also referred to as a key performance indicator
-  (KPI), to retrieve data for. This value describes the associated metric and consists of two
-  or more terms, which are comprised of lowercase alphanumeric characters, separated by a
-  hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
-  values, see the Amazon Pinpoint Developer Guide.
+- `kpi-name`: The name of the metric, also referred to as a *key performance indicator
+  (KPI)*, to retrieve data for. This value describes the associated metric and consists of
+  two or more terms, which are comprised of lowercase alphanumeric characters, separated by
+  a hyphen. Examples are email-open-rate and successful-delivery-rate. For a list of valid
+  values, see the [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/analytics-standard-metrics.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
-  range that filters the query results. This value should be in extended ISO 8601 format and
-  use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
-  July 26, 2019.
+  range that filters the query results. This value should be in extended ISO 8601 format
+  and use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM
+  UTC July 26, 2019.
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
-  date range that filters the query results. This value should be in extended ISO 8601 format
-  and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
-  July 19, 2019. This value should also be fewer than 90 days from the current day.
+  date range that filters the query results. This value should be in extended ISO 8601
+  format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for
+  8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current
+  day.
 """
 function get_journey_date_range_kpi end
 
@@ -2823,15 +2913,19 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 journey activity.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-activity-id`: The unique identifier for the journey activity.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
@@ -2875,14 +2969,18 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
@@ -2922,16 +3020,20 @@ Retrieves (queries) pre-aggregated data for a standard run execution metric that
 a journey activity.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-activity-id`: The unique identifier for the journey activity.
 - `journey-id`: The unique identifier for the journey.
 - `run-id`: The unique identifier for the journey run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
@@ -2977,15 +3079,19 @@ Retrieves (queries) pre-aggregated data for a standard run execution metric that
 a journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 - `run-id`: The unique identifier for the journey run.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
-  response. This parameter is not supported for application, campaign, and journey metrics.
+
+- `"next-token"`: The <code/> string that specifies which page of results to return in a
+  paginated response. This parameter is not supported for application, campaign, and
+  journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
@@ -3025,12 +3131,15 @@ end
 Provides information about the runs of a journey.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3072,23 +3181,31 @@ Retrieves the content and settings of a message template for messages that are s
 a push notification channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function get_push_template end
 
@@ -3124,9 +3241,9 @@ end
 Retrieves information about an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
-- `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
+- `recommender-id`: The unique identifier for the recommender model configuration. This
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
 function get_recommender_configuration end
 
@@ -3163,7 +3280,9 @@ Retrieves information about all the recommender model configurations that are as
 with your Amazon Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3199,10 +3318,10 @@ Retrieves information about the configuration, dimension, and other settings for
 segment that's associated with an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `segment-id`: The unique identifier for the segment.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `segment-id`: The unique identifier for the segment.
 """
 function get_segment end
 
@@ -3239,12 +3358,15 @@ end
 Retrieves information about the status and settings of the export jobs for a segment.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3285,12 +3407,15 @@ end
 Retrieves information about the status and settings of the import jobs for a segment.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3332,11 +3457,11 @@ Retrieves information about the configuration, dimension, and other settings for
 version of a segment that's associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 - `version`: The unique version number (Version property) for the campaign version.
-
 """
 function get_segment_version end
 
@@ -3375,12 +3500,15 @@ Retrieves information about the configuration, dimension, and other settings for
 versions of a specific segment that's associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3422,11 +3550,14 @@ Retrieves information about the configuration, dimension, and other settings for
 segments that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3464,9 +3595,9 @@ end
 Retrieves information about the status and settings of the SMS channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_sms_channel end
 
@@ -3501,23 +3632,31 @@ Retrieves the content and settings of a message template for messages that are s
 the SMS channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function get_sms_template end
 
@@ -3551,10 +3690,10 @@ end
 Retrieves information about all the endpoints that are associated with a specific user ID.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `user-id`: The unique identifier for the user.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
+- `user-id`: The unique identifier for the user.
 """
 function get_user_endpoints end
 
@@ -3591,9 +3730,9 @@ end
 Retrieves information about the status and settings of the voice channel for an application.
 
 # Arguments
-- `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
 
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function get_voice_channel end
 
@@ -3630,23 +3769,31 @@ Retrieves the content and settings of a message template for messages that are s
 the voice channel.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function get_voice_template end
 
@@ -3683,11 +3830,14 @@ Retrieves information about the status, configuration, and other settings for al
 journeys that are associated with an application.
 
 # Arguments
+
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
@@ -3726,8 +3876,8 @@ Retrieves all the tags (keys and values) that are associated with an application
 message template, or segment.
 
 # Arguments
-- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -3763,14 +3913,18 @@ end
 Retrieves information about all the versions of a specific message template.
 
 # Arguments
+
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
@@ -3812,14 +3966,16 @@ Retrieves information about all the message templates that are associated with y
 Pinpoint account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"next-token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"page-size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"prefix"`: The substring to match in the names of the message templates to include in
-  the results. If you specify this value, Amazon Pinpoint returns only those templates whose
-  names begin with the value that you specify.
+  the results. If you specify this value, Amazon Pinpoint returns only those templates
+  whose names begin with the value that you specify.
 - `"template-type"`: The type of message template to include in the results. Valid values
   are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't
   include this parameter in your request.
@@ -3851,8 +4007,8 @@ end
 Retrieves information about a phone number.
 
 # Arguments
-- `number_validate_request`:
 
+- `number_validate_request`:
 """
 function phone_number_validate end
 
@@ -3896,10 +4052,10 @@ Creates a new event stream for an application or updates the settings of an exis
 stream for an application.
 
 # Arguments
+
 - `write_event_stream`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function put_event_stream end
 
@@ -3942,10 +4098,10 @@ Creates a new event to record for endpoints, or creates or updates endpoint data
 existing events are associated with.
 
 # Arguments
+
 - `events_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function put_events end
 
@@ -3987,17 +4143,18 @@ Existing endpoints still have the attributes but Amazon Pinpoint will stop captu
 changed values for these attributes.
 
 # Arguments
+
 - `update_attributes_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-- `attribute-type`:  The type of attribute or attributes to remove. Valid values are:
+  as the **Project ID** on the Amazon Pinpoint console.
+- `attribute-type`: The type of attribute or attributes to remove. Valid values are: -
   endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date
   when an associated user opted in or out of receiving communications from you through a
-  specific type of channel. endpoint-metric-attributes - Custom metrics that your app reports
-  to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items
-  left in a cart. endpoint-user-attributes - Custom attributes that describe users, such as
-  first name, last name, and age.
-
+  specific type of channel.
+   - endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint
+  for endpoints, such as the number of app sessions or the number of items left in a cart.
+   - endpoint-user-attributes - Custom attributes that describe users, such as first name,
+  last name, and age.
 """
 function remove_attributes end
 
@@ -4045,10 +4202,10 @@ end
 Creates and sends a direct message.
 
 # Arguments
+
 - `message_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function send_messages end
 
@@ -4088,9 +4245,9 @@ end
 Send an OTP message
 
 # Arguments
+
 - `send_otpmessage_request_parameters`:
 - `application-id`: The unique ID of your Amazon Pinpoint application.
-
 """
 function send_otpmessage end
 
@@ -4140,10 +4297,10 @@ end
 Creates and sends a message to a list of users.
 
 # Arguments
+
 - `send_users_message_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function send_users_messages end
 
@@ -4190,9 +4347,9 @@ Adds one or more tags (keys and values) to an application, campaign, message tem
 segment.
 
 # Arguments
+
 - `tags_model`:
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
-
 """
 function tag_resource end
 
@@ -4233,11 +4390,11 @@ Removes one or more tags (keys and values) from an application, campaign, messag
 or segment.
 
 # Arguments
+
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: The key of the tag to remove from the resource. To remove multiple tags,
   append the tagKeys parameter and argument for each additional tag to remove, separated by
   an ampersand (&amp;).
-
 """
 function untag_resource end
 
@@ -4276,10 +4433,10 @@ Enables the ADM channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `admchannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_adm_channel end
 
@@ -4322,10 +4479,10 @@ Enables the APNs channel for an application or updates the status and settings o
 channel for an application.
 
 # Arguments
+
 - `apnschannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_apns_channel end
 
@@ -4368,10 +4525,10 @@ Enables the APNs sandbox channel for an application or updates the status and se
 the APNs sandbox channel for an application.
 
 # Arguments
+
 - `apnssandbox_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_apns_sandbox_channel end
 
@@ -4418,10 +4575,10 @@ Enables the APNs VoIP channel for an application or updates the status and setti
 APNs VoIP channel for an application.
 
 # Arguments
+
 - `apnsvoip_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_apns_voip_channel end
 
@@ -4468,10 +4625,10 @@ Enables the APNs VoIP sandbox channel for an application or updates the status a
 of the APNs VoIP sandbox channel for an application.
 
 # Arguments
+
 - `apnsvoip_sandbox_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_apns_voip_sandbox_channel end
 
@@ -4519,10 +4676,10 @@ end
 Updates the settings for an application.
 
 # Arguments
+
 - `write_application_settings_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_application_settings end
 
@@ -4573,10 +4730,10 @@ Enables the Baidu channel for an application or updates the status and settings 
 Baidu channel for an application.
 
 # Arguments
+
 - `baidu_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_baidu_channel end
 
@@ -4620,11 +4777,11 @@ end
 Updates the configuration and other settings for a campaign.
 
 # Arguments
+
 - `write_campaign_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `campaign-id`: The unique identifier for the campaign.
-
 """
 function update_campaign end
 
@@ -4673,10 +4830,10 @@ Enables the email channel for an application or updates the status and settings 
 email channel for an application.
 
 # Arguments
+
 - `email_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_email_channel end
 
@@ -4720,30 +4877,40 @@ end
 Updates an existing message template for messages that are sent through the email channel.
 
 # Arguments
+
 - `email_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function update_email_template end
 
@@ -4790,12 +4957,12 @@ attributes for an endpoint. If an update includes one or more values for a custo
 attribute, Amazon Pinpoint replaces (overwrites) any existing values with the new values.
 
 # Arguments
+
 - `endpoint_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
-  can't contain , { or }.
-
+  can't contain `\$`, `{` or `}`.
 """
 function update_endpoint end
 
@@ -4845,10 +5012,10 @@ for a custom attribute, Amazon Pinpoint replaces (overwrites) any existing value
 new values.
 
 # Arguments
+
 - `endpoint_batch_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_endpoints_batch end
 
@@ -4893,10 +5060,10 @@ Enables the GCM channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `gcmchannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_gcm_channel end
 
@@ -4938,30 +5105,40 @@ end
 Updates an existing message template for messages sent through the in-app message channel.
 
 # Arguments
+
 - `in_app_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function update_in_app_template end
 
@@ -5005,11 +5182,11 @@ end
 Updates the configuration and other settings for a journey.
 
 # Arguments
+
 - `write_journey_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-
 """
 function update_journey end
 
@@ -5057,11 +5234,11 @@ end
 Cancels (stops) an active journey.
 
 # Arguments
+
 - `journey_state_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `journey-id`: The unique identifier for the journey.
-
 """
 function update_journey_state end
 
@@ -5110,30 +5287,40 @@ Updates an existing message template for messages that are sent through a push n
 channel.
 
 # Arguments
+
 - `push_notification_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function update_push_template end
 
@@ -5183,10 +5370,10 @@ end
 Updates an Amazon Pinpoint configuration for a recommender model.
 
 # Arguments
+
 - `update_recommender_configuration`:
 - `recommender-id`: The unique identifier for the recommender model configuration. This
-  identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
-
+  identifier is displayed as the **Recommender ID** on the Amazon Pinpoint console.
 """
 function update_recommender_configuration end
 
@@ -5237,11 +5424,11 @@ Creates a new segment for an application or updates the configuration, dimension
 settings for an existing segment that's associated with an application.
 
 # Arguments
+
 - `write_segment_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
+  as the **Project ID** on the Amazon Pinpoint console.
 - `segment-id`: The unique identifier for the segment.
-
 """
 function update_segment end
 
@@ -5290,10 +5477,10 @@ Enables the SMS channel for an application or updates the status and settings of
 channel for an application.
 
 # Arguments
+
 - `smschannel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_sms_channel end
 
@@ -5335,30 +5522,40 @@ end
 Updates an existing message template for messages that are sent through the SMS channel.
 
 # Arguments
+
 - `smstemplate_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function update_sms_template end
 
@@ -5397,16 +5594,17 @@ end
     update_template_active_version(template_active_version_request, template-name, template-type)
     update_template_active_version(template_active_version_request, template-name, template-type, params::Dict{String,<:Any})
 
-Changes the status of a specific version of a message template to active.
+Changes the status of a specific version of a message template to *active*.
 
 # Arguments
+
 - `template_active_version_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 - `template-type`: The type of channel that the message template is designed for. Valid
   values are: EMAIL, PUSH, SMS, and VOICE.
-
 """
 function update_template_active_version end
 
@@ -5457,10 +5655,10 @@ Enables the voice channel for an application or updates the status and settings 
 voice channel for an application.
 
 # Arguments
+
 - `voice_channel_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
-  as the Project ID on the Amazon Pinpoint console.
-
+  as the **Project ID** on the Amazon Pinpoint console.
 """
 function update_voice_channel end
 
@@ -5504,30 +5702,40 @@ end
 Updates an existing message template for messages that are sent through the voice channel.
 
 # Arguments
+
 - `voice_template_request`:
 - `template-name`: The name of the message template. A template name must start with an
   alphanumeric character and can contain a maximum of 128 characters. The characters can be
-  alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
+  alphanumeric characters, underscores (_), or hyphens (-). Template names are case
+  sensitive.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"create-new-version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
-  save the updates to (overwrite) the latest existing version of the template. If you don't
-  specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
-  latest existing version of the template. If you specify a value of true for this parameter,
-  don't specify a value for the version parameter. Otherwise, an error will occur.
+  save the updates to (overwrite) the latest existing version of the template.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to
+  (overwrites) the latest existing version of the template. If you specify a value of true
+  for this parameter, don't specify a value for the version parameter. Otherwise, an error
+  will occur.
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
-  all the versions of a template, use the Template Versions resource. If specified, this
-  value must match the identifier for an existing template version. If specified for an
-  update operation, this value must match the identifier for the latest existing version of
-  the template. This restriction helps ensure that race conditions don't occur. If you don't
-  specify a value for this parameter, Amazon Pinpoint does the following: For a get
-  operation, retrieves information about the active version of the template. For an update
-  operation, saves the updates to (overwrites) the latest existing version of the template,
-  if the create-new-version parameter isn't used or is set to false. For a delete operation,
-  deletes the template, including all versions of the template.
+  all the versions of a template, use the <link  linkend="templates-template-name-template-
+  type-versions">Template Versions</link> resource.
+
+  If specified, this value must match the identifier for an existing template version. If
+  specified for an update operation, this value must match the identifier for the latest
+  existing version of the template. This restriction helps ensure that race conditions
+  don't occur.
+
+  If you don't specify a value for this parameter, Amazon Pinpoint does the following: -
+  For a get operation, retrieves information about the active version of the template.
+   - For an update operation, saves the updates to (overwrites) the latest existing version
+  of the template, if the create-new-version parameter isn't used or is set to false.
+   - For a delete operation, deletes the template, including all versions of the template.
 """
 function update_voice_template end
 
@@ -5571,9 +5779,9 @@ end
 Verify an OTP
 
 # Arguments
+
 - `verify_otpmessage_request_parameters`:
 - `application-id`: The unique ID of your Amazon Pinpoint application.
-
 """
 function verify_otpmessage end
 

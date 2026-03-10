@@ -13,11 +13,14 @@ desired state configurations for multiple configuration definitions and summarie
 describing the deployments of those definitions.
 
 # Arguments
+
 - `configuration_definitions`: The definition of the Quick Setup configuration that the
   configuration manager deploys.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the configuration manager.
 - `"Name"`: A name for the configuration manager.
 - `"Tags"`: Key-value pairs of metadata to assign to the configuration manager.
@@ -63,8 +66,8 @@ end
 Deletes a configuration manager.
 
 # Arguments
-- `manager_arn`: The ID of the configuration manager.
 
+- `manager_arn`: The ID of the configuration manager.
 """
 function delete_configuration_manager end
 
@@ -100,8 +103,8 @@ end
 Returns a configuration manager.
 
 # Arguments
-- `manager_arn`: The ARN of the configuration manager.
 
+- `manager_arn`: The ARN of the configuration manager.
 """
 function get_configuration_manager end
 
@@ -136,7 +139,6 @@ end
 
 Returns settings configured for Quick Setup in the requesting Amazon Web Services account
 and Amazon Web Services Region.
-
 """
 function get_service_settings end
 
@@ -165,7 +167,9 @@ end
 Returns Quick Setup configuration managers.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Filters"`: Filters the results returned by the request.
 - `"MaxItems"`: Specifies the maximum number of configuration managers that are returned by
   the request.
@@ -199,7 +203,6 @@ end
     list_quick_setup_types(params::Dict{String,<:Any})
 
 Returns the available Quick Setup types.
-
 """
 function list_quick_setup_types end
 
@@ -231,8 +234,8 @@ end
 Returns tags assigned to the resource.
 
 # Arguments
-- `resource_arn`: The ARN of the resource the tag is assigned to.
 
+- `resource_arn`: The ARN of the resource the tag is assigned to.
 """
 function list_tags_for_resource end
 
@@ -268,9 +271,9 @@ end
 Assigns key-value pairs of metadata to Amazon Web Services resources.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to tag.
 - `tags`: Key-value pairs of metadata to assign to the resource.
-
 """
 function tag_resource end
 
@@ -306,9 +309,9 @@ end
 Removes tags from the specified resource.
 
 # Arguments
+
 - `resource_arn`: The ARN of the resource to remove tags from.
 - `tag_keys`: The keys of the tags to remove from the resource.
-
 """
 function untag_resource end
 
@@ -346,12 +349,15 @@ end
 Updates a Quick Setup configuration definition.
 
 # Arguments
+
 - `id`: The ID of the configuration definition you want to update.
 - `manager_arn`: The ARN of the configuration manager associated with the definition to
   update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"LocalDeploymentAdministrationRoleArn"`: The ARN of the IAM role used to administrate
   local configuration deployments.
 - `"LocalDeploymentExecutionRoleName"`: The name of the IAM role used to deploy local
@@ -394,10 +400,13 @@ end
 Updates a Quick Setup configuration manager.
 
 # Arguments
+
 - `manager_arn`: The ARN of the configuration manager.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Description"`: A description of the configuration manager.
 - `"Name"`: A name for the configuration manager.
 """
@@ -435,7 +444,9 @@ end
 Updates settings configured for Quick Setup.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ExplorerEnablingRoleArn"`: The IAM role used to enable Explorer.
 """
 function update_service_settings end

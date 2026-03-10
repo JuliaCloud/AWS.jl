@@ -11,9 +11,9 @@ using AWS.UUIDs
 Deletes the specified report. Any tags associated with the report are also deleted.
 
 # Arguments
+
 - `report_name`: The name of the report that you want to delete. The name must be unique,
   is case sensitive, and can't include spaces.
-
 """
 function delete_report_definition end
 
@@ -50,7 +50,9 @@ end
 Lists the Amazon Web Services Cost and Usage Report available to this account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`:
 - `"NextToken"`:
 """
@@ -80,8 +82,8 @@ end
 Lists the tags associated with the specified report definition.
 
 # Arguments
-- `report_name`: The report name of the report definition that tags are to be returned for.
 
+- `report_name`: The report name of the report definition that tags are to be returned for.
 """
 function list_tags_for_resource end
 
@@ -118,9 +120,9 @@ end
 Allows you to programmatically update your report preferences.
 
 # Arguments
+
 - `report_definition`:
 - `report_name`:
-
 """
 function modify_report_definition end
 
@@ -166,11 +168,14 @@ end
 Creates a new report using the description that you provide.
 
 # Arguments
+
 - `report_definition`: Represents the output of the PutReportDefinition operation. The
   content consists of the detailed metadata and data file information.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`: The tags to be assigned to the report definition resource.
 """
 function put_report_definition end
@@ -210,10 +215,10 @@ end
 Associates a set of tags with a report definition.
 
 # Arguments
+
 - `report_name`: The report name of the report definition that tags are to be associated
   with.
 - `tags`: The tags to be assigned to the report definition resource.
-
 """
 function tag_resource end
 
@@ -251,10 +256,10 @@ end
 Disassociates a set of tags from a report definition.
 
 # Arguments
+
 - `report_name`: The report name of the report definition that tags are to be disassociated
   from.
 - `tag_keys`: The tags to be disassociated from the report definition resource.
-
 """
 function untag_resource end
 

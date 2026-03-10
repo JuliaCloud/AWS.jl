@@ -11,13 +11,16 @@ using AWS.UUIDs
 Creates a campaign for the specified Amazon Connect account. This API is idempotent.
 
 # Arguments
+
 - `connect_instance_id`:
 - `dialer_config`:
 - `name`:
 - `outbound_call_config`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"tags"`:
 """
 function create_campaign end
@@ -78,8 +81,8 @@ end
 Deletes a campaign from the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function delete_campaign end
 
@@ -108,8 +111,8 @@ end
 Deletes a connect instance config from the specified AWS account.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
 function delete_connect_instance_config end
 
@@ -145,8 +148,8 @@ end
 Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
 function delete_instance_onboarding_job end
 
@@ -182,8 +185,8 @@ end
 Describes the specific campaign.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function describe_campaign end
 
@@ -212,8 +215,8 @@ end
 Get state of a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function get_campaign_state end
 
@@ -245,8 +248,8 @@ end
 Get state of campaigns for the specified Amazon Connect account.
 
 # Arguments
-- `campaign_ids`:
 
+- `campaign_ids`:
 """
 function get_campaign_state_batch end
 
@@ -285,8 +288,8 @@ end
 Get the specific Connect instance config.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
 function get_connect_instance_config end
 
@@ -322,8 +325,8 @@ end
 Get the specific instance onboarding job status.
 
 # Arguments
-- `connect_instance_id`:
 
+- `connect_instance_id`:
 """
 function get_instance_onboarding_job_status end
 
@@ -359,7 +362,9 @@ end
 Provides summary information about the campaigns under the specified Amazon Connect account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"filters"`:
 - `"maxResults"`:
 - `"nextToken"`:
@@ -391,8 +396,8 @@ end
 List tags for a resource.
 
 # Arguments
-- `arn`:
 
+- `arn`:
 """
 function list_tags_for_resource end
 
@@ -421,8 +426,8 @@ end
 Pauses a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function pause_campaign end
 
@@ -455,9 +460,9 @@ Creates dials requests for the specified campaign Amazon Connect account. This A
 idempotent.
 
 # Arguments
+
 - `dial_requests`:
 - `id`:
-
 """
 function put_dial_request_batch end
 
@@ -497,8 +502,8 @@ end
 Stops a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function resume_campaign end
 
@@ -530,8 +535,8 @@ end
 Starts a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function start_campaign end
 
@@ -563,9 +568,9 @@ end
 Onboard the specific Amazon Connect instance to Connect Campaigns.
 
 # Arguments
+
 - `connect_instance_id`:
 - `encryption_config`:
-
 """
 function start_instance_onboarding_job end
 
@@ -607,8 +612,8 @@ end
 Stops a campaign for the specified Amazon Connect account.
 
 # Arguments
-- `id`:
 
+- `id`:
 """
 function stop_campaign end
 
@@ -640,9 +645,9 @@ end
 Tag a resource.
 
 # Arguments
+
 - `arn`:
 - `tags`:
-
 """
 function tag_resource end
 
@@ -678,9 +683,9 @@ end
 Untag a resource.
 
 # Arguments
+
 - `arn`:
 - `tag_keys`:
-
 """
 function untag_resource end
 
@@ -716,9 +721,9 @@ end
 Updates the dialer config of a campaign. This API is idempotent.
 
 # Arguments
+
 - `dialer_config`:
 - `id`:
-
 """
 function update_campaign_dialer_config end
 
@@ -758,9 +763,9 @@ end
 Updates the name of a campaign. This API is idempotent.
 
 # Arguments
+
 - `id`:
 - `name`:
-
 """
 function update_campaign_name end
 
@@ -796,10 +801,13 @@ end
 Updates the outbound call config of a campaign. This API is idempotent.
 
 # Arguments
+
 - `id`:
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"answerMachineDetectionConfig"`:
 - `"connectContactFlowId"`:
 - `"connectSourcePhoneNumber"`:

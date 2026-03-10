@@ -9,26 +9,31 @@ using AWS.UUIDs
     create_deployment(deployment_pattern_name, name, specifications, workload_name, params::Dict{String,<:Any})
 
 Creates a deployment for the given workload. Deployments created by this operation are not
-available in the Launch Wizard console to use the Clone deployment action on.
+available in the Launch Wizard console to use the `Clone deployment` action on.
 
 # Arguments
+
 - `deployment_pattern_name`: The name of the deployment pattern supported by a given
-  workload. You can use the  ListWorkloadDeploymentPatterns  operation to discover supported
-  values for this parameter.
+  workload. You can use the [ `ListWorkloadDeploymentPatterns` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
+  operation to discover supported values for this parameter.
 - `name`: The name of the deployment.
 - `specifications`: The settings specified for the deployment. These settings define how to
   deploy and configure your resources created by the deployment. For more information about
-  the specifications required for creating a deployment for a SAP workload, see SAP
-  deployment specifications. To retrieve the specifications required to create a deployment
-  for other workloads, use the  GetWorkloadDeploymentPattern  operation.
-- `workload_name`: The name of the workload. You can use the  ListWorkloads  operation to
-  discover supported values for this parameter.
+  the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html).
+  To retrieve the specifications required to create a deployment for other workloads, use
+  the [ `GetWorkloadDeploymentPattern` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html)
+  operation.
+- `workload_name`: The name of the workload. You can use the [ `ListWorkloads` ](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+  operation to discover supported values for this parameter.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
-  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+  permissions, the error response is `DryRunOperation`. Otherwise, it is
+  `UnauthorizedOperation`.
 - `"tags"`: The tags to add to the deployment.
 """
 function create_deployment end
@@ -89,8 +94,8 @@ end
 Deletes a deployment.
 
 # Arguments
-- `deployment_id`: The ID of the deployment.
 
+- `deployment_id`: The ID of the deployment.
 """
 function delete_deployment end
 
@@ -127,8 +132,8 @@ end
 Returns information about the deployment.
 
 # Arguments
-- `deployment_id`: The ID of the deployment.
 
+- `deployment_id`: The ID of the deployment.
 """
 function get_deployment end
 
@@ -165,8 +170,8 @@ end
 Returns information about a workload.
 
 # Arguments
-- `workload_name`: The name of the workload.
 
+- `workload_name`: The name of the workload.
 """
 function get_workload end
 
@@ -201,14 +206,14 @@ end
     get_workload_deployment_pattern(deployment_pattern_name, workload_name, params::Dict{String,<:Any})
 
 Returns details for a given workload and deployment pattern, including the available
-specifications. You can use the ListWorkloads operation to discover the available workload
-names and the ListWorkloadDeploymentPatterns operation to discover the available deployment
-pattern names of a given workload.
+specifications. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+operation to discover the available workload names and the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
+operation to discover the available deployment pattern names of a given workload.
 
 # Arguments
+
 - `deployment_pattern_name`: The name of the deployment pattern.
 - `workload_name`: The name of the workload.
-
 """
 function get_workload_deployment_pattern end
 
@@ -257,10 +262,13 @@ end
 Lists the events of a deployment.
 
 # Arguments
+
 - `deployment_id`: The ID of the deployment.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -303,11 +311,14 @@ end
 Lists the deployments that have been created.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Filters to scope the results. The following filters are supported:
-  WORKLOAD_NAME - The name used in deployments.    DEPLOYMENT_STATUS - COMPLETED | CREATING |
-  DELETE_IN_PROGRESS | DELETE_INITIATING | DELETE_FAILED | DELETED | FAILED | IN_PROGRESS |
-  VALIDATING
+
+- `"filters"`: Filters to scope the results. The following filters are supported: -
+  `WORKLOAD_NAME` - The name used in deployments.
+   - `DEPLOYMENT_STATUS` - `COMPLETED` | `CREATING` | `DELETE_IN_PROGRESS` |
+  `DELETE_INITIATING` | `DELETE_FAILED` | `DELETED` | `FAILED` | `IN_PROGRESS` |
+  `VALIDATING`
 - `"maxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -340,8 +351,8 @@ end
 Lists the tags associated with a specified resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 """
 function list_tags_for_resource end
 
@@ -374,14 +385,17 @@ end
     list_workload_deployment_patterns(workload_name)
     list_workload_deployment_patterns(workload_name, params::Dict{String,<:Any})
 
-Lists the workload deployment patterns for a given workload name. You can use the
-ListWorkloads operation to discover the available workload names.
+Lists the workload deployment patterns for a given workload name. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html)
+operation to discover the available workload names.
 
 # Arguments
+
 - `workload_name`: The name of the workload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -421,11 +435,13 @@ end
     list_workloads()
     list_workloads(params::Dict{String,<:Any})
 
-Lists the available workload names. You can use the ListWorkloadDeploymentPatterns
+Lists the available workload names. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html)
 operation to discover the available deployment patterns for a given workload.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output.
 - `"nextToken"`: The token returned from a previous paginated request. Pagination continues
@@ -458,9 +474,9 @@ end
 Adds the specified tags to the given resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tags`: One or more tags to attach to the resource.
-
 """
 function tag_resource end
 
@@ -496,9 +512,9 @@ end
 Removes the specified tags from the given resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 - `tag_keys`: Keys identifying the tags to remove.
-
 """
 function untag_resource end
 

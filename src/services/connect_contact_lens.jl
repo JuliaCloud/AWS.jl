@@ -11,11 +11,14 @@ using AWS.UUIDs
 Provides a list of analysis segments for a real-time analysis session.
 
 # Arguments
+
 - `contact_id`: The identifier of the contact.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of results to return per page.
 - `"NextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.

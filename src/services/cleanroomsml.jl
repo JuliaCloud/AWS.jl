@@ -11,32 +11,42 @@ using AWS.UUIDs
 Defines the information necessary to create an audience model. An audience model is a
 machine learning model that Clean Rooms ML trains to measure similarity between users.
 Clean Rooms ML manages training and storing the audience model. The audience model can be
-used in multiple calls to the StartAudienceGenerationJob API.
+used in multiple calls to the <a>StartAudienceGenerationJob</a> API.
 
 # Arguments
+
 - `name`: The name of the audience model resource.
 - `training_dataset_arn`: The Amazon Resource Name (ARN) of the training dataset for this
   audience model.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the audience model.
 - `"kmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt
   and decrypt customer-owned data in the trained ML model and the associated data.
 - `"tags"`: The optional metadata that you apply to the resource to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
-    For each resource, each tag key must be unique, and each tag key can have only one value.
-    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
-  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
-  resources, remember that other services may have restrictions on allowed characters.
-  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
-  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Clean
-  Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
-  with only the key prefix of aws do not count against your tags per resource limit.
+  organize them. Each tag consists of a key and an optional value, both of which you
+  define.
+
+  The following basic restrictions apply to tags: - Maximum number of tags per resource -
+  50.
+   - For each resource, each tag key must be unique, and each tag key can have only one
+  value.
+   - Maximum key length - 128 Unicode characters in UTF-8.
+   - Maximum value length - 256 Unicode characters in UTF-8.
+   - If your tagging schema is used across multiple services and resources, remember that
+  other services may have restrictions on allowed characters. Generally allowed characters
+  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
+  - = . _ : / @.
+   - Tag keys and values are case sensitive.
+   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 - `"trainingDataEndTime"`: The end date and time of the training window.
 - `"trainingDataStartTime"`: The start date and time of the training window.
 """
@@ -84,48 +94,60 @@ end
 Defines the information necessary to create a configured audience model.
 
 # Arguments
+
 - `audience_model_arn`: The Amazon Resource Name (ARN) of the audience model to use for the
   configured audience model.
 - `name`: The name of the configured audience model.
 - `output_config`: Configure the Amazon S3 location and IAM Role for audiences created
   using this configured audience model. Each audience will have a unique location. The IAM
-  Role must have s3:PutObject permission on the destination Amazon S3 location. If the
-  destination is protected with Amazon S3 KMS-SSE, then the Role must also have the required
-  KMS permissions.
+  Role must have `s3:PutObject` permission on the destination Amazon S3 location. If the
+  destination is protected with Amazon S3 KMS-SSE, then the Role must also have the
+  required KMS permissions.
 - `shared_audience_metrics`: Whether audience metrics are shared.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"audienceSizeConfig"`: Configure the list of output sizes of audiences that can be
-  created using this configured audience model. A request to StartAudienceGenerationJob that
-  uses this configured audience model must have an audienceSize selected from this list. You
-  can use the ABSOLUTE AudienceSize to configure out audience sizes using the count of
-  identifiers in the output. You can use the Percentage AudienceSize to configure sizes in
-  the range 1-100 percent.
+  created using this configured audience model. A request to
+  <a>StartAudienceGenerationJob</a> that uses this configured audience model must have an
+  `audienceSize` selected from this list. You can use the `ABSOLUTE` <a>AudienceSize</a> to
+  configure out audience sizes using the count of identifiers in the output. You can use
+  the `Percentage` <a>AudienceSize</a> to configure sizes in the range 1-100 percent.
 - `"childResourceTagOnCreatePolicy"`: Configure how the service tags audience generation
-  jobs created using this configured audience model. If you specify NONE, the tags from the
-  StartAudienceGenerationJob request determine the tags of the audience generation job. If
-  you specify FROM_PARENT_RESOURCE, the audience generation job inherits the tags from the
-  configured audience model, by default. Tags in the StartAudienceGenerationJob will override
-  the default. When the client is in a different account than the configured audience model,
-  the tags from the client are never applied to a resource in the caller's account.
+  jobs created using this configured audience model. If you specify `NONE`, the tags from
+  the <a>StartAudienceGenerationJob</a> request determine the tags of the audience
+  generation job. If you specify `FROM_PARENT_RESOURCE`, the audience generation job
+  inherits the tags from the configured audience model, by default. Tags in the
+  <a>StartAudienceGenerationJob</a> will override the default.
+
+  When the client is in a different account than the configured audience model, the tags
+  from the client are never applied to a resource in the caller's account.
 - `"description"`: The description of the configured audience model.
 - `"minMatchingSeedSize"`: The minimum number of users from the seed audience that must
   match with users in the training data of the audience model. The default value is 500.
 - `"tags"`: The optional metadata that you apply to the resource to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
-    For each resource, each tag key must be unique, and each tag key can have only one value.
-    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
-  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
-  resources, remember that other services may have restrictions on allowed characters.
-  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
-  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Clean
-  Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
-  with only the key prefix of aws do not count against your tags per resource limit.
+  organize them. Each tag consists of a key and an optional value, both of which you
+  define.
+
+  The following basic restrictions apply to tags: - Maximum number of tags per resource -
+  50.
+   - For each resource, each tag key must be unique, and each tag key can have only one
+  value.
+   - Maximum key length - 128 Unicode characters in UTF-8.
+   - Maximum value length - 256 Unicode characters in UTF-8.
+   - If your tagging schema is used across multiple services and resources, remember that
+  other services may have restrictions on allowed characters. Generally allowed characters
+  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
+  - = . _ : / @.
+   - Tag keys and values are case sensitive.
+   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
 function create_configured_audience_model end
 
@@ -183,37 +205,48 @@ end
     create_training_dataset(name, role_arn, training_data, params::Dict{String,<:Any})
 
 Defines the information necessary to create a training dataset. In Clean Rooms ML, the
-TrainingDataset is metadata that points to a Glue table, which is read only during
-AudienceModel creation.
+`TrainingDataset` is metadata that points to a Glue table, which is read only during
+`AudienceModel` creation.
 
 # Arguments
+
 - `name`: The name of the training dataset. This name must be unique in your account and
   region.
 - `role_arn`: The ARN of the IAM role that Clean Rooms ML can assume to read the data
-  referred to in the dataSource field of each dataset. Passing a role across AWS accounts is
-  not allowed. If you pass a role that isn't in your account, you get an
-  AccessDeniedException error.
+  referred to in the `dataSource` field of each dataset.
+
+  Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your
+  account, you get an `AccessDeniedException` error.
 - `training_data`: An array of information that lists the Dataset objects, which specifies
   the dataset type and details on its location and schema. You must provide a role that has
   read access to these tables.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the training dataset.
 - `"tags"`: The optional metadata that you apply to the resource to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
-    For each resource, each tag key must be unique, and each tag key can have only one value.
-    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
-  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
-  resources, remember that other services may have restrictions on allowed characters.
-  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
-  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Clean
-  Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
-  with only the key prefix of aws do not count against your tags per resource limit.
+  organize them. Each tag consists of a key and an optional value, both of which you
+  define.
+
+  The following basic restrictions apply to tags: - Maximum number of tags per resource -
+  50.
+   - For each resource, each tag key must be unique, and each tag key can have only one
+  value.
+   - Maximum key length - 128 Unicode characters in UTF-8.
+   - Maximum value length - 256 Unicode characters in UTF-8.
+   - If your tagging schema is used across multiple services and resources, remember that
+  other services may have restrictions on allowed characters. Generally allowed characters
+  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
+  - = . _ : / @.
+   - Tag keys and values are case sensitive.
+   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
 function create_training_dataset end
 
@@ -262,9 +295,9 @@ end
 Deletes the specified audience generation job, and removes all data associated with the job.
 
 # Arguments
+
 - `audience_generation_job_arn`: The Amazon Resource Name (ARN) of the audience generation
   job that you want to delete.
-
 """
 function delete_audience_generation_job end
 
@@ -301,9 +334,9 @@ Specifies an audience model that you want to delete. You can't delete an audienc
 there are any configured audience models that depend on the audience model.
 
 # Arguments
+
 - `audience_model_arn`: The Amazon Resource Name (ARN) of the audience model that you want
   to delete.
-
 """
 function delete_audience_model end
 
@@ -342,9 +375,9 @@ delete a configured audience model, it will be removed from any collaborations t
 associated to.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that you want to delete.
-
 """
 function delete_configured_audience_model end
 
@@ -380,9 +413,9 @@ end
 Deletes the specified configured audience model policy.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model policy that you want to delete.
-
 """
 function delete_configured_audience_model_policy end
 
@@ -417,13 +450,13 @@ end
 
 Specifies a training dataset that you want to delete. You can't delete a training dataset
 if there are any audience models that depend on the training dataset. In Clean Rooms ML,
-the TrainingDataset is metadata that points to a Glue table, which is read only during
-AudienceModel creation. This action deletes the metadata.
+the `TrainingDataset` is metadata that points to a Glue table, which is read only during
+`AudienceModel` creation. This action deletes the metadata.
 
 # Arguments
+
 - `training_dataset_arn`: The Amazon Resource Name (ARN) of the training dataset that you
   want to delete.
-
 """
 function delete_training_dataset end
 
@@ -459,9 +492,9 @@ end
 Returns information about an audience generation job.
 
 # Arguments
+
 - `audience_generation_job_arn`: The Amazon Resource Name (ARN) of the audience generation
   job that you are interested in.
-
 """
 function get_audience_generation_job end
 
@@ -497,9 +530,9 @@ end
 Returns information about an audience model
 
 # Arguments
+
 - `audience_model_arn`: The Amazon Resource Name (ARN) of the audience model that you are
   interested in.
-
 """
 function get_audience_model end
 
@@ -535,9 +568,9 @@ end
 Returns information about a specified configured audience model.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that you are interested in.
-
 """
 function get_configured_audience_model end
 
@@ -573,9 +606,9 @@ end
 Returns information about a configured audience model policy.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that you are interested in.
-
 """
 function get_configured_audience_model_policy end
 
@@ -611,9 +644,9 @@ end
 Returns information about a training dataset.
 
 # Arguments
+
 - `training_dataset_arn`: The Amazon Resource Name (ARN) of the training dataset that you
   are interested in.
-
 """
 function get_training_dataset end
 
@@ -649,7 +682,9 @@ end
 Returns a list of the audience export jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"audienceGenerationJobArn"`: The Amazon Resource Name (ARN) of the audience generation
   job that you are interested in.
 - `"maxResults"`: The maximum size of the results that is returned per call.
@@ -686,7 +721,9 @@ end
 Returns a list of audience generation jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"collaborationId"`: The identifier of the collaboration that contains the audience
   generation jobs that you are interested in.
 - `"configuredAudienceModelArn"`: The Amazon Resource Name (ARN) of the configured audience
@@ -725,7 +762,9 @@ end
 Returns a list of audience models.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -757,7 +796,9 @@ end
 Returns a list of the configured audience models.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -794,8 +835,8 @@ end
 Returns a list of tags for a provided resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you are interested in.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that you are interested in.
 """
 function list_tags_for_resource end
 
@@ -831,7 +872,9 @@ end
 Returns a list of training datasets.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`: The maximum size of the results that is returned per call.
 - `"nextToken"`: The token value retrieved from a previous call to access the next page of
   results.
@@ -863,12 +906,15 @@ end
 Create or update the resource policy for a configured audience model.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that the resource policy will govern.
 - `configured_audience_model_policy`: The IAM resource policy.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"policyExistenceCondition"`: Use this to prevent unexpected concurrent modification of
   the policy.
 - `"previousPolicyHash"`: A cryptographic hash of the contents of the policy used to
@@ -920,13 +966,16 @@ end
 Export an audience of a specified size after you have generated an audience.
 
 # Arguments
+
 - `audience_generation_job_arn`: The Amazon Resource Name (ARN) of the audience generation
   job that you want to export.
 - `audience_size`:
 - `name`: The name of the audience export job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"description"`: The description of the audience export job.
 """
 function start_audience_export_job end
@@ -983,32 +1032,42 @@ end
 Information necessary to start the audience generation job.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that is used for this audience generation job.
 - `name`: The name of the audience generation job.
 - `seed_audience`: The seed audience that is used to generate the audience.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"collaborationId"`: The identifier of the collaboration that contains the audience
   generation job.
 - `"description"`: The description of the audience generation job.
 - `"includeSeedInOutput"`: Whether the seed audience is included in the audience generation
   output.
 - `"tags"`: The optional metadata that you apply to the resource to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
-    For each resource, each tag key must be unique, and each tag key can have only one value.
-    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
-  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
-  resources, remember that other services may have restrictions on allowed characters.
-  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
-  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Clean
-  Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags
-  with only the key prefix of aws do not count against your tags per resource limit.
+  organize them. Each tag consists of a key and an optional value, both of which you
+  define.
+
+  The following basic restrictions apply to tags: - Maximum number of tags per resource -
+  50.
+   - For each resource, each tag key must be unique, and each tag key can have only one
+  value.
+   - Maximum key length - 128 Unicode characters in UTF-8.
+   - Maximum value length - 256 Unicode characters in UTF-8.
+   - If your tagging schema is used across multiple services and resources, remember that
+  other services may have restrictions on allowed characters. Generally allowed characters
+  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
+  - = . _ : / @.
+   - Tag keys and values are case sensitive.
+   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+  then Clean Rooms ML considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
 function start_audience_generation_job end
 
@@ -1064,23 +1123,30 @@ end
 Adds metadata tags to a specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to assign
   tags.
 - `tags`: The optional metadata that you apply to the resource to help you categorize and
-  organize them. Each tag consists of a key and an optional value, both of which you define.
-  The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
-    For each resource, each tag key must be unique, and each tag key can have only one value.
-    Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256
-  Unicode characters in UTF-8.   If your tagging schema is used across multiple services and
-  resources, remember that other services may have restrictions on allowed characters.
-  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
-  the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
-  not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Clean
-  Rooms considers it to be a user tag and will count against the limit of 50 tags. Tags with
-  only the key prefix of aws do not count against your tags per resource limit.
+  organize them. Each tag consists of a key and an optional value, both of which you
+  define.
 
+  The following basic restrictions apply to tags: - Maximum number of tags per resource -
+  50.
+   - For each resource, each tag key must be unique, and each tag key can have only one
+  value.
+   - Maximum key length - 128 Unicode characters in UTF-8.
+   - Maximum value length - 256 Unicode characters in UTF-8.
+   - If your tagging schema is used across multiple services and resources, remember that
+  other services may have restrictions on allowed characters. Generally allowed characters
+  are: letters, numbers, and spaces representable in UTF-8, and the following characters: +
+  - = . _ : / @.
+   - Tag keys and values are case sensitive.
+   - Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for
+  keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix.
+  Values can have this prefix. If a tag value has aws as its prefix but the key does not,
+  then Clean Rooms considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
 function tag_resource end
 
@@ -1116,10 +1182,10 @@ end
 Removes metadata tags from a specified resource.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to remove
   tags from.
 - `tag_keys`: The key values of tags that you want to remove.
-
 """
 function untag_resource end
 
@@ -1159,11 +1225,14 @@ impact audience generation jobs take effect when a new job starts, but do not im
 currently running jobs.
 
 # Arguments
+
 - `configured_audience_model_arn`: The Amazon Resource Name (ARN) of the configured
   audience model that you want to update.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"audienceModelArn"`: The Amazon Resource Name (ARN) of the new audience model that you
   want to use.
 - `"audienceSizeConfig"`: The new audience size configuration.

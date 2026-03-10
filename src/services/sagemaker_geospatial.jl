@@ -11,8 +11,8 @@ using AWS.UUIDs
 Use this operation to delete an Earth Observation job.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being deleted.
 
+- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being deleted.
 """
 function delete_earth_observation_job end
 
@@ -46,8 +46,8 @@ end
 Use this operation to delete a Vector Enrichment job.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job being deleted.
 
+- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job being deleted.
 """
 function delete_vector_enrichment_job end
 
@@ -82,13 +82,16 @@ Use this operation to export results of an Earth Observation job and optionally 
 images used as input to the EOJ to an Amazon S3 location.
 
 # Arguments
+
 - `arn`: The input Amazon Resource Name (ARN) of the Earth Observation job being exported.
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that you specified
   for the job.
 - `output_config`: An object containing information about the output file.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"ExportSourceImages"`: The source images provided to the Earth Observation job being
   exported.
@@ -146,13 +149,16 @@ end
 Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM rolewith permission to
   upload to the location in OutputConfig.
 - `output_config`: Output location information for exporting Vector Enrichment Job results.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 """
 function export_vector_enrichment_job end
@@ -208,8 +214,8 @@ end
 Get the details for a previously initiated Earth Observation job.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job.
 
+- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job.
 """
 function get_earth_observation_job end
 
@@ -241,8 +247,8 @@ end
 Use this operation to get details of a specific raster data collection.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the raster data collection.
 
+- `arn`: The Amazon Resource Name (ARN) of the raster data collection.
 """
 function get_raster_data_collection end
 
@@ -274,6 +280,7 @@ end
 Gets a web mercator tile for the given Earth Observation job.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the tile operation.
 - `image_assets`: The particular assets or bands to tile.
 - `target`: Determines what part of the Earth Observation job to tile. 'INPUT' or 'OUTPUT'
@@ -283,7 +290,9 @@ Gets a web mercator tile for the given Earth Observation job.
 - `z`: The z coordinate of the tile input.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that you specify.
 - `"ImageMask"`: Determines whether or not to return a valid data mask.
 - `"OutputDataType"`: The output data type of the tile operation.
@@ -340,8 +349,8 @@ end
 Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 
+- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 """
 function get_vector_enrichment_job end
 
@@ -374,13 +383,15 @@ Use this operation to get a list of the Earth Observation jobs associated with t
 Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The total number of items to return.
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results.
 - `"SortOrder"`: An optional value that specifies whether you want the results sorted in
-  Ascending or Descending order.
+  `Ascending` or `Descending` order.
 - `"StatusEquals"`: A filter that retrieves only jobs with a specific status.
 """
 function list_earth_observation_jobs end
@@ -413,7 +424,9 @@ end
 Use this operation to get raster data collections.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The total number of items to return.
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
@@ -448,8 +461,8 @@ end
 Lists the tags attached to the resource.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag.
 
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag.
 """
 function list_tags_for_resource end
 
@@ -485,13 +498,15 @@ end
 Retrieves a list of vector enrichment jobs.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"MaxResults"`: The maximum number of items to return.
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results.
 - `"SortOrder"`: An optional value that specifies whether you want the results sorted in
-  Ascending or Descending order.
+  `Ascending` or `Descending` order.
 - `"StatusEquals"`: A filter that retrieves only jobs with a specific status.
 """
 function list_vector_enrichment_jobs end
@@ -525,13 +540,17 @@ Allows you run image query on a specific raster data collection to get a list of
 satellite imagery matching the selected filters.
 
 # Arguments
+
 - `arn`: The Amazon Resource Name (ARN) of the raster data collection.
-- `raster_data_collection_query`: RasterDataCollectionQuery consisting of
-  AreaOfInterest(AOI), PropertyFilters and TimeRangeFilterInput used in
-  SearchRasterDataCollection.
+- `raster_data_collection_query`: RasterDataCollectionQuery consisting of [AreaOfInterest(AOI)](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_AreaOfInterest.html),
+  [PropertyFilters](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_PropertyFilter.html)
+  and [TimeRangeFilterInput](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_TimeRangeFilterInput.html)
+  used in [SearchRasterDataCollection](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_geospatial_SearchRasterDataCollection.html).
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"NextToken"`: If the previous response was truncated, you receive this token. Use it in
   your next request to receive the next set of results.
 """
@@ -581,6 +600,7 @@ end
 Use this operation to create an Earth observation job.
 
 # Arguments
+
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that you specified
   for the job.
 - `input_config`: Input configuration information for the Earth Observation job.
@@ -588,7 +608,9 @@ Use this operation to create an Earth observation job.
 - `name`: The name of the Earth Observation job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
@@ -654,6 +676,7 @@ Creates a Vector Enrichment job for the supplied job type. Currently, there are 
 supported job types: reverse geocoding and map matching.
 
 # Arguments
+
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that you specified
   for the job.
 - `input_config`: Input configuration information for the Vector Enrichment job.
@@ -661,7 +684,9 @@ supported job types: reverse geocoding and map matching.
 - `name`: The name of the Vector Enrichment job.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
@@ -726,8 +751,8 @@ end
 Use this operation to stop an existing earth observation job.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being stopped.
 
+- `arn`: The Amazon Resource Name (ARN) of the Earth Observation job being stopped.
 """
 function stop_earth_observation_job end
 
@@ -760,8 +785,8 @@ end
 Stops the Vector Enrichment job for a given job ARN.
 
 # Arguments
-- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 
+- `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
 """
 function stop_vector_enrichment_job end
 
@@ -794,9 +819,9 @@ end
 The resource you want to tag.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to tag.
 - `tags`: Each tag consists of a key and a value.
-
 """
 function tag_resource end
 
@@ -832,9 +857,9 @@ end
 The resource you want to untag.
 
 # Arguments
+
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource you want to untag.
 - `tag_keys`: Keys of the tags you want to remove.
-
 """
 function untag_resource end
 

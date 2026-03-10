@@ -8,16 +8,17 @@ using AWS.UUIDs
     assume_role_for_pod_identity(cluster_name, token)
     assume_role_for_pod_identity(cluster_name, token, params::Dict{String,<:Any})
 
-The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by the EKS
-Pod Identity Agent. We recommend that applications use the Amazon Web Services SDKs to
-connect to Amazon Web Services services; if credentials from an EKS Pod Identity
-association are available in the pod, the latest versions of the SDKs use them
-automatically.
+The Amazon EKS Auth API and the `AssumeRoleForPodIdentity` action are only used by the EKS
+Pod Identity Agent.
+
+We recommend that applications use the Amazon Web Services SDKs to connect to Amazon Web
+Services services; if credentials from an EKS Pod Identity association are available in the
+pod, the latest versions of the SDKs use them automatically.
 
 # Arguments
+
 - `cluster_name`: The name of the cluster for the request.
 - `token`: The token of the Kubernetes service account for the pod.
-
 """
 function assume_role_for_pod_identity end
 

@@ -10,17 +10,18 @@ using AWS.UUIDs
 
  Associates a Route 53 Profiles profile with a VPC. A VPC can have only one Profile
 associated with it, but a Profile can be associated with 1000 of VPCs (and you can request
-a higher quota). For more information, see
-https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-ent
-ities.
+a higher quota). For more information, see [https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities).
 
 # Arguments
+
 - `name`:  A name for the association.
 - `profile_id`:  ID of the Profile.
 - `resource_id`:  The ID of the VPC.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`:  A list of the tag keys and values that you want to identify the Profile
   association.
 """
@@ -71,16 +72,20 @@ end
  Associates a DNS reource configuration to a Route 53 Profile.
 
 # Arguments
+
 - `name`:  Name for the resource association.
 - `profile_id`:  ID of the Profile.
 - `resource_arn`:  Amazon resource number, ARN, of the DNS resource.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"ResourceProperties"`:  If you are adding a DNS Firewall rule group, include also a
   priority. The priority indicates the processing order for the rule groups, starting with
-  the priority assinged the lowest value.  The allowed values for priority are between 100
-  and 9900.
+  the priority assinged the lowest value.
+
+The allowed values for priority are between 100 and 9900.
 """
 function associate_resource_to_profile end
 
@@ -129,14 +134,17 @@ end
  Creates an empty Route 53 Profile.
 
 # Arguments
-- `client_token`:  ClientToken is an idempotency token that ensures a call to CreateProfile
-  completes only once. You choose the value to pass. For example, an issue might prevent you
-  from getting a response from CreateProfile. In this case, safely retry your call to
-  CreateProfile by using the same CreateProfile parameter value.
+
+- `client_token`:  `ClientToken` is an idempotency token that ensures a call to
+  `CreateProfile` completes only once. You choose the value to pass. For example, an issue
+  might prevent you from getting a response from `CreateProfile`. In this case, safely
+  retry your call to `CreateProfile` by using the same `CreateProfile` parameter value.
 - `name`:  A name for the Profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Tags"`:  A list of the tag keys and values that you want to associate with the Route 53
   Profile.
 """
@@ -183,8 +191,8 @@ end
 disassociate it from all VPCs.
 
 # Arguments
-- `profile_id`:  The ID of the Profile that you want to delete.
 
+- `profile_id`:  The ID of the Profile that you want to delete.
 """
 function delete_profile end
 
@@ -218,9 +226,9 @@ end
  Dissociates a specified Route 53 Profile from the specified VPC.
 
 # Arguments
+
 - `profile_id`:  ID of the Profile.
 - `resource_id`:  The ID of the VPC.
-
 """
 function disassociate_profile end
 
@@ -257,9 +265,9 @@ end
  Dissoaciated a specified resource, from the Route 53 Profile.
 
 # Arguments
+
 - `profile_id`:  The ID of the Profile.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-
 """
 function disassociate_resource_from_profile end
 
@@ -297,8 +305,8 @@ end
 Profile is shared, and the current status of the Profile.
 
 # Arguments
-- `profile_id`:  ID of the Profile.
 
+- `profile_id`:  ID of the Profile.
 """
 function get_profile end
 
@@ -333,9 +341,9 @@ end
 association, but a Profile can be associated with up to 5000 VPCs.
 
 # Arguments
+
 - `profile_association_id`:  The identifier of the association you want to get information
   about.
-
 """
 function get_profile_association end
 
@@ -371,9 +379,9 @@ end
  Returns information about a specified Route 53 Profile resource association.
 
 # Arguments
-- `profile_resource_association_id`:  The ID of the profile resource association that you
-  want to get information about.
 
+- `profile_resource_association_id`:  <p>The ID of the profile resource association that
+  you want to get information about. </p>
 """
 function get_profile_resource_association end
 
@@ -409,16 +417,20 @@ end
  Lists all the VPCs that the specified Route 53 Profile is associated with.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of objects that you want to return for this request.
-  If more objects are available, in the response, a NextToken value, which you can use in a
-  subsequent call to get the next batch of objects, is provided.  If you don't specify a
-  value for MaxResults, up to 100 objects are returned.
-- `"nextToken"`:  For the first call to this list request, omit this value.  When you
-  request a list of objects, at most the number of objects specified by MaxResults is
-  returned. If more objects are available for retrieval, a NextToken value is returned in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+  If more objects are available, in the response, a `NextToken` value, which you can use in
+  a subsequent call to get the next batch of objects, is provided.
+
+ If you don't specify a value for `MaxResults`, up to 100 objects are returned.
+- `"nextToken"`:  For the first call to this list request, omit this value.
+
+  When you request a list of objects, at most the number of objects specified by
+  `MaxResults` is returned. If more objects are available for retrieval, a `NextToken`
+  value is returned in the response. To retrieve the next batch of objects, use the token
+  that was returned for the prior request in your next request.
 - `"profileId"`:  ID of the Profile.
 - `"resourceId"`:  ID of the VPC.
 """
@@ -452,19 +464,24 @@ end
  Lists all the resource associations for the specified Route 53 Profile.
 
 # Arguments
+
 - `profile_id`:  The ID of the Profile.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of objects that you want to return for this request.
-  If more objects are available, in the response, a NextToken value, which you can use in a
-  subsequent call to get the next batch of objects, is provided.  If you don't specify a
-  value for MaxResults, up to 100 objects are returned.
-- `"nextToken"`:  For the first call to this list request, omit this value.  When you
-  request a list of objects, at most the number of objects specified by MaxResults is
-  returned. If more objects are available for retrieval, a NextToken value is returned in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+  If more objects are available, in the response, a `NextToken` value, which you can use in
+  a subsequent call to get the next batch of objects, is provided.
+
+ If you don't specify a value for `MaxResults`, up to 100 objects are returned.
+- `"nextToken"`:  For the first call to this list request, omit this value.
+
+  When you request a list of objects, at most the number of objects specified by
+  `MaxResults` is returned. If more objects are available for retrieval, a `NextToken`
+  value is returned in the response. To retrieve the next batch of objects, use the token
+  that was returned for the prior request in your next request.
 - `"resourceType"`:  ID of a resource if you want information on only one type.
 """
 function list_profile_resource_associations end
@@ -501,16 +518,20 @@ end
  Lists all the Route 53 Profiles associated with your Amazon Web Services account.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"maxResults"`:  The maximum number of objects that you want to return for this request.
-  If more objects are available, in the response, a NextToken value, which you can use in a
-  subsequent call to get the next batch of objects, is provided.  If you don't specify a
-  value for MaxResults, up to 100 objects are returned.
-- `"nextToken"`:  For the first call to this list request, omit this value.  When you
-  request a list of objects, at most the number of objects specified by MaxResults is
-  returned. If more objects are available for retrieval, a NextToken value is returned in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+  If more objects are available, in the response, a `NextToken` value, which you can use in
+  a subsequent call to get the next batch of objects, is provided.
+
+ If you don't specify a value for `MaxResults`, up to 100 objects are returned.
+- `"nextToken"`:  For the first call to this list request, omit this value.
+
+  When you request a list of objects, at most the number of objects specified by
+  `MaxResults` is returned. If more objects are available for retrieval, a `NextToken`
+  value is returned in the response. To retrieve the next batch of objects, use the token
+  that was returned for the prior request in your next request.
 """
 function list_profiles end
 
@@ -535,9 +556,9 @@ end
  Lists the tags that you associated with the specified resource.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) for the resource that you want to list
   the tags for.
-
 """
 function list_tags_for_resource end
 
@@ -573,10 +594,10 @@ end
  Adds one or more tags to a specified resource.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) for the resource that you want to add
   tags to.
 - `tags`:  The tags that you want to add to the specified resource.
-
 """
 function tag_resource end
 
@@ -612,10 +633,10 @@ end
  Removes one or more tags from a specified resource.
 
 # Arguments
+
 - `resource_arn`:  The Amazon Resource Name (ARN) for the resource that you want to remove
   tags from.
 - `tag_keys`:  The tags that you want to remove to the specified resource.
-
 """
 function untag_resource end
 
@@ -653,15 +674,19 @@ end
  Updates the specified Route 53 Profile resourse association.
 
 # Arguments
+
 - `profile_resource_association_id`:  ID of the resource association.
 
 # Optional Parameters
+
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+
 - `"Name"`:  Name of the resource association.
 - `"ResourceProperties"`:  If you are adding a DNS Firewall rule group, include also a
   priority. The priority indicates the processing order for the rule groups, starting with
-  the priority assinged the lowest value.  The allowed values for priority are between 100
-  and 9900.
+  the priority assinged the lowest value.
+
+The allowed values for priority are between 100 and 9900.
 """
 function update_profile_resource_association end
 
