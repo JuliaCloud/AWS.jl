@@ -119,7 +119,7 @@ end
 """
 Convert a function name from CamelCase to snake_case
 """
-function _format_name(function_name::String)
+function _format_name(function_name::AbstractString)
     # Replace a string of uppercase characters with themselves prefaced by an underscore
     # [A-Z](?![A-Z]) => Match a single uppercase character that is not followed by another uppercase character
     # |(A-Z]{1,})    => Match 1-Infinite amounts of uppercase characters
@@ -175,13 +175,124 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Escape any patterns which would be interpreted as markdown links
 """
 function _clean_documentation(documentation::String)
-    documentation = replace(documentation, r"\<.*?\>" => "")
-    documentation = replace(documentation, '$' => "")
-    documentation = replace(documentation, '\\' => "")
-    documentation = replace(documentation, '"' => "\\\"")
-    documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
+
+    # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
+
+    documentation = replace(
+        documentation, r"<a href=\"([^\"]*)\">(.*?)</a>"s => s"[\2](\1)"
+    )
+    documentation = replace(
+        documentation, r"<replaceable>{(.*?)}</replaceable>" => s"\\$(\1)"
+    )
+    documentation = replace(
+        documentation, r"<replaceable></replaceable>{(.*?)}" => s"\\$(\1)"
+    ) # Correctable mistake
+
+    # TODO: Need to do more advance handling here as parameter names here won't match
+    # modified parameters (see `accessanalyzer.check_no_new_access`)
+    documentation = replace(documentation, r"<code>(.*?)</code>" => s"`\1`")
+
+    # See: `accessanalyzer.create_archive_rule`
+    documentation = replace(documentation, r"<b>(.*?)</b>" => s"**\1**")
+
+    # See: `account.list_regions`
+    documentation = replace(documentation, r"<i>(.*?)</i>"s => s"*\1*")
+
+    # See: `accessanalyzer.get_analyzed_resource`
+    # TODO: Need to improve line wrapping here.
+    documentation = replace(
+        documentation, r"<note>\s*(.*?)\s*</note>"s => s"!!! note\n    \1"
+    )
+
+    # <important> A private CA can be deleted if it is
+    # in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To
+    # delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request
+    # results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or
+    # `DISABLED` state, you can set the length of its restoration period to 7-30 days. The
+    # default is 30. During this time, the status is set to `DELETED` and the CA can be restored.
+    # A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period
+    # and cannot be restored. </important>
+    documentation = replace(
+        documentation,
+        r"<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
+    )
+
+    documentation = _replace(
+        documentation,
+        r"<a>(.*?)</a> action" => (m -> "[`$(_format_name(m[1]))`](@ref) action"),
+    )
+
+    # _replace("<ul> <li> foo </li> <li> bar </li> </ul>", r"<ul>\s*(.*?)\s*</ul>" => (m -> replace(m[1], r"<li>\s*(.*?)\s*</li>" => s"- \1\n")))
+    # documentation = "<ul> <li>
+    #  `(63 octets).(63 octets).(63 octets).(61 octets)` is legal because the total length is 253
+    # octets (63+1+63+1+63+1+61) and no label exceeds 63 octets. </li> <li>  `(64 octets).(63
+    # octets).(63 octets).(61 octets)` is not legal because the total length exceeds 253 octets
+    # (64+1+63+1+63+1+61) and the first label exceeds 63 octets. </li> <li>  `(63 octets).(63
+    # octets).(63 octets).(62 octets)` is not legal because the total length of the DNS name
+    # (63+1+63+1+63+1+62) exceeds 253 octets. </li> </ul>"
+    documentation = _replace(
+        documentation,
+        r"<ul>\s*(.*?)\s*</ul>"s => function (m)
+            return replace(m[1], r"<li>\s*(.*?)\s*</li>"s => s"- \1\n")
+        end,
+    )
+
+    # <ol> <li> In Amazon Web Services Private CA, call the
+    # [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_C
+    # reateCertificateAuthority.html) action to create the private CA that you plan to back with
+    # the imported certificate. </li> <li> Call the
+    # [GetCertificateAuthorityCsr](https://docs.aws.amazon.com/privateca/latest/APIReference/API_G
+    # etCertificateAuthorityCsr.html) action to generate a certificate signing request (CSR).
+    # </li> <li> Sign the CSR using a root or intermediate CA hosted by either an on-premises PKI
+    # hierarchy or by a commercial CA. </li> <li> Create a certificate chain and copy the signed
+    # certificate and the certificate chain to your working directory. </li> </ol>
+
+    # Markdown does support using `1.` repeatedly for ordered lists but we'll populte the
+    # actual value to make the code easier to read.
+    documentation = _replace(
+        documentation,
+        r"<ol>\s*(.*?)\s*</ol>"s => function (m)
+            i = 0
+            return _replace(
+                m[1], r"<li>\s*(.*?)\s*</li>"s => (m -> (i += 1; "$i. $(m[1])\n"))
+            )
+        end,
+    )
+
+    # <p class="title"> **About Permissions** </p>
+    # Making an assumption about header depth
+    documentation = replace(
+        documentation, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
+    )
+
+    # See: `apigatewayv2.create_authorizer`
+    documentation = replace(documentation, r"<p>(.*?)</p>\s*(?=<p>)"s => s"\1\n\n")
+    documentation = replace(documentation, r"<p>(.*?)</p>\s*(?!<p>)"s => s"\1")
+
+    # documentation = replace(documentation, '$' => "")
+    # documentation = replace(documentation, '\\' => "")
+    # documentation = replace(documentation, '"' => "\\\"")
+    # documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
 
     return documentation
+end
+
+# Custom `replace` function which allows arbitrary code to be executed in the replacment
+function _replace(str::AbstractString, (pat, sub)::Pair{Regex,<:Function})
+    i = firstindex(str)
+    m = match(pat, str, i)
+    while !isnothing(m)
+        replacement = sub(m)
+
+        before = SubString(str, firstindex(str), prevind(str, m.offset))
+        after = SubString(str, m.offset + ncodeunits(m.match))
+        str = string(before, replacement, after)
+
+        i = ncodeunits(before) + ncodeunits(replacement)
+        m = match(pat, str, i)
+    end
+
+    return str
 end
 
 """
