@@ -270,6 +270,12 @@ function _clean_documentation(documentation::String)
 
     # TODO: Need to do more advance handling here as parameter names here won't match
     # modified parameters (see `accessanalyzer.check_no_new_access`)
+    documentation = _replace(
+        documentation,
+        r"<code>(.*?)</code> (request parameter)" => function (m)
+            return "`$(_format_name(m[1]))` $(m[2])"
+        end,
+    )
     documentation = replace(documentation, r"<code>(.*?)</code>" => s"`\1`")
 
     # See: `accessanalyzer.create_archive_rule`
