@@ -74,12 +74,46 @@ Return a string with line breaks added such that lines are wrapped at or before 
 function _wraplines(str, limit=92; delim="\n")
     lines = String[]
 
-    while !isempty(str)
-        line, str = _splitline(str, limit)
-        push!(lines, rstrip(line))  # strip trailing whitespace
+    # When the deliminter contains non-newline characters then we have to adjust the line
+    # limit.
+    state = :prefix
+    delim_prefix_len = 0
+    delim_suffix_len = 0
+    for c in delim
+        if c == '\n'
+            delim_suffix_len = 0
+            state = :suffix
+        elseif state == :prefix
+             delim_prefix_len += 1
+        elseif state == :suffix
+            delim_suffix_len += 1
+        end
     end
 
-    return join(lines, delim)
+    while !isempty(str)
+        line_limit = if isempty(lines)
+            limit - delim_prefix_len
+        else
+            # Overly restrictive for last line
+            limit - delim_prefix_len - delim_suffix_len
+        end
+
+
+        line, str = try
+            _splitline(str, line_limit)
+        catch e
+            @warn "Unable to split line on string:\n$(repr(str))"
+            rethrow()
+        end
+        push!(lines, rstrip(line))
+    end
+
+    result = join(lines, delim)
+
+    # Remove trailing whitespace from each line (including the delimiter)
+    result = join(rstrip.(split(result, '\n')), '\n')
+
+    return result
 end
 
 """
@@ -89,20 +123,63 @@ Prefers splitting the string on whitespace rather than mid-word, when possible.
 """
 function _splitline(str, limit)
     limit >= 1 || throw(DomainError(limit, "Lines cannot be split before the first char."))
-    ncodeunits(str) <= limit && return (str, "")
-    limit = _validindex(str, limit)
-    first_line = str[1:limit]
-    # split on whitespace if possible, else just split when we hit the limit.
-    split_point = something(findlast(==(' '), first_line), limit)
-    stop = _validindex(first_line, split_point)
 
-    while ispunct(first_line[stop])  # avoid splitting escaped characters.
-        stop = prevind(first_line, stop)
+    ncodeunits(str) <= limit && return (str, "")
+
+    min_index = firstindex(str)
+    max_index = lastindex(str)
+    i = min_index
+    col = 1
+    stop = nothing
+
+    link_state = Symbol[]
+
+    function peek(state)
+        isempty(link_state) && return nothing
+        state[end]
     end
 
-    restart = nextind(first_line, stop)
+    @inbounds while i <= max_index
+        c, ii = iterate(str, i)::Tuple{Char,Int}
+        at_limit = col >= limit
 
-    return (str[1:stop], str[restart:end])
+        if c == '['
+            push!(link_state, :text)
+        elseif c == ']' && peek(link_state) === :text
+            old_state = pop!(link_state)
+            push!(link_state, :post_text)
+        elseif c == '(' && peek(link_state) === :post_text
+            old_state = pop!(link_state)
+            push!(link_state, :ref)
+        elseif c == ')' && peek(link_state) === :ref
+            pop!(link_state)
+        end
+
+        in_link = peek(link_state) !== nothing
+        if in_link
+            stop = nothing
+        elseif c == '\n'
+            stop = i
+            break
+        elseif isspace(c) || c == '-'
+            stop = i
+        end
+
+        at_limit && !isnothing(stop) && break
+
+        i = ii
+        col += 1
+    end
+
+    if !isnothing(stop)
+        line = SubString(str, min_index, stop)
+        i = nextind(str, stop)
+        rest = i <= max_index ? SubString(str, i, max_index) : ""
+    else
+        line, rest = (str, "")
+    end
+
+    return line, rest
 end
 
 """
@@ -178,6 +255,10 @@ function _clean_documentation(documentation::String)
 
     # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
 
+    # See: `apigatewayv2.create_authorizer`
+    documentation = replace(documentation, r"\ *<p>(.*?)</p>(?=\s*<p>)"s => s"\1\n\n")
+    documentation = replace(documentation, r"\ *<p>(.*?)</p>(?!\s*<p>)"s => s"\1")
+
     documentation = replace(
         documentation, r"<a href=\"([^\"]*)\">(.*?)</a>"s => s"[\2](\1)"
     )
@@ -201,7 +282,7 @@ function _clean_documentation(documentation::String)
     # See: `accessanalyzer.get_analyzed_resource`
     # TODO: Need to improve line wrapping here.
     documentation = replace(
-        documentation, r"<note>\s*(.*?)\s*</note>"s => s"!!! note\n    \1"
+        documentation, r"\s*<note>\s*(.*?)\s*</note>"s => s"\n\n!!! note\n    \1"
     )
 
     # <important> A private CA can be deleted if it is
@@ -214,7 +295,7 @@ function _clean_documentation(documentation::String)
     # and cannot be restored. </important>
     documentation = replace(
         documentation,
-        r"<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
+        r"\s*<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
     )
 
     documentation = _replace(
@@ -264,10 +345,6 @@ function _clean_documentation(documentation::String)
     documentation = replace(
         documentation, r"\s*<p class=\"title\"> \*\*(.*?)\*\* </p>\s*" => s"\n\n## \1\n\n"
     )
-
-    # See: `apigatewayv2.create_authorizer`
-    documentation = replace(documentation, r"<p>(.*?)</p>\s*(?=<p>)"s => s"\1\n\n")
-    documentation = replace(documentation, r"<p>(.*?)</p>\s*(?!<p>)"s => s"\1")
 
     # documentation = replace(documentation, '$' => "")
     # documentation = replace(documentation, '\\' => "")
