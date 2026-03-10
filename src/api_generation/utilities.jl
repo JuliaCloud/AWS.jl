@@ -132,6 +132,7 @@ function _splitline(str, limit)
     stop = nothing
 
     link_state = Symbol[]
+    is_stop_newline = false
 
     function peek(state)
         isempty(link_state) && return nothing
@@ -149,16 +150,20 @@ function _splitline(str, limit)
             push!(link_state, :post_text)
         elseif c == '(' && peek(link_state) === :post_text
             old_state = pop!(link_state)
-            push!(link_state, :ref)
-        elseif c == ')' && peek(link_state) === :ref
+            push!(link_state, :href)
+        elseif c == ')' && peek(link_state) === :href
             pop!(link_state)
         end
 
+        # TODO: It would be preferrable only avoid disallow wrapping when inside an href.
+        # Unfortunately, changing that here would cause our state machine to not detect
+        # the link on the next line.
         in_link = peek(link_state) !== nothing
         if in_link
             stop = nothing
         elseif c == '\n'
             stop = i
+            is_stop_newline = true
             break
         elseif isspace(c) || c == '-'
             stop = i
@@ -174,6 +179,20 @@ function _splitline(str, limit)
         line = SubString(str, min_index, stop)
         i = nextind(str, stop)
         rest = i <= max_index ? SubString(str, i, max_index) : ""
+
+        # Keep the original indentation
+        indent = 0
+        for c in str
+            if c == ' '
+                indent += 1
+            else
+                break
+            end
+        end
+
+        # if indent > 0 && i <= max_index && rest[1] != ' '
+        #     rest = " "^indent * rest
+        # end
     else
         line, rest = (str, "")
     end
@@ -250,7 +269,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Escape any double-quotes
 - Escape any patterns which would be interpreted as markdown links
 """
-function _clean_documentation(documentation::String)
+function _clean_documentation(documentation::AbstractString)
 
     # documentation = replace(documentation, r"\n(?!\n)\s+"s => "")
 
@@ -284,25 +303,6 @@ function _clean_documentation(documentation::String)
     # See: `account.list_regions`
     documentation = replace(documentation, r"<i>(.*?)</i>"s => s"*\1*")
 
-    # See: `accessanalyzer.get_analyzed_resource`
-    # TODO: Need to improve line wrapping here.
-    documentation = replace(
-        documentation, r"\s*<note>\s*(.*?)\s*</note>"s => s"\n\n!!! note\n    \1"
-    )
-
-    # <important> A private CA can be deleted if it is
-    # in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To
-    # delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request
-    # results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or
-    # `DISABLED` state, you can set the length of its restoration period to 7-30 days. The
-    # default is 30. During this time, the status is set to `DELETED` and the CA can be restored.
-    # A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period
-    # and cannot be restored. </important>
-    documentation = replace(
-        documentation,
-        r"\s*<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
-    )
-
     documentation = _replace(
         documentation,
         r"<a>(.*?)</a> action" => (m -> "[`$(_format_name(m[1]))`](@ref) action"),
@@ -319,7 +319,7 @@ function _clean_documentation(documentation::String)
     documentation = _replace(
         documentation,
         r"<ul>\s*(.*?)\s*</ul>"s => function (m)
-            return replace(m[1], r"<li>\s*(.*?)\s*</li>"s => s"- \1\n")
+            return "\n\n" * replace(m[1], r"\s*<li>\s*(.*?)\s*</li>"s => s"- \1\n") * "\n"
         end,
     )
 
@@ -359,6 +359,40 @@ function _clean_documentation(documentation::String)
 
     # documentation = replace(documentation, '"' => "\\\"")
     # documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
+
+    # See: `accessanalyzer.get_analyzed_resource`
+    # TODO: Need to improve line wrapping here.
+    documentation = _replace(
+        documentation,
+        r"\s*<note>\s*(.*?)\s*</note>"s => function (m)
+            # note = _wraplines(_clean_documentation(m[1]); delim="\n    ")
+            # if contains(note, "Private")
+            #     @info "$note"
+            # end
+            note = replace(m[1], "\n" => "\n    ")
+
+            note = "\n\n!!! note\n    $note\n"
+
+            if contains(note, "When you request a private PKI certificate")
+                @info note
+            end
+
+            return note
+        end,
+    )
+
+    # <important> A private CA can be deleted if it is
+    # in the `PENDING_CERTIFICATE`, `CREATING`, `EXPIRED`, `DISABLED`, or `FAILED` state. To
+    # delete a CA in the `ACTIVE` state, you must first disable it, or else the delete request
+    # results in an exception. If you are deleting a private CA in the `PENDING_CERTIFICATE` or
+    # `DISABLED` state, you can set the length of its restoration period to 7-30 days. The
+    # default is 30. During this time, the status is set to `DELETED` and the CA can be restored.
+    # A private CA deleted in the `CREATING` or `FAILED` state has no assigned restoration period
+    # and cannot be restored. </important>
+    documentation = replace(
+        documentation,
+        r"\s*<important>\s*(.*?)\s*</important>"s => s"\n\n!!! important\n    \1",
+    )
 
     return documentation
 end
