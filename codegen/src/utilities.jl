@@ -16,6 +16,7 @@ end
 # Avoid printing contents to the REPL as they can be quite large
 function Base.show(io::IO, sf::ServiceFile)
     println(io, "ServiceFile($(repr(sf.file_name)), \"...\")")
+    return nothing
 end
 
 """
@@ -46,7 +47,7 @@ function _get_service_model_trees(; auth::GitHub.Authorization)
 end
 
 function _parse_smithy_model(model::AbstractString)
-    _parse_smithy_model(JSON.parse(model))
+    return _parse_smithy_model(JSON.parse(model))
 end
 
 
@@ -135,7 +136,9 @@ function _parse_smithy_model(model::AbstractDict)
         end
 
         if haskey(v, "input")
-            operation["input"] = Dict{String,Any}("shape" => _shape_name(v["input"]["target"]))
+            operation["input"] = Dict{String,Any}(
+                "shape" => _shape_name(v["input"]["target"])
+            )
         end
 
         if haskey(operation_traits, "smithy.api#documentation")
@@ -190,7 +193,11 @@ function _preferred_protocol(traits::AbstractDict)
     else
         aws_protocol_traits = filter(startswith("aws.protocols#"), collect(keys(traits)))
         if !isempty(aws_protocol_traits)
-            throw(ProtocolNotDefined("Service only uses unsupported AWS protocol(s): $(join(aws_protocol_traits, ", "))"))
+            throw(
+                ProtocolNotDefined(
+                    "Service only uses unsupported AWS protocol(s): $(join(aws_protocol_traits, ", "))",
+                ),
+            )
         else
             throw(ProtocolNotDefined("Service does not define any AWS protocols"))
         end

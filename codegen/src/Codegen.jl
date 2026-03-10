@@ -25,7 +25,9 @@ Retrieve the AWS service definitions from [`aws-sdk-js-v3`](https://github.com/a
 When running interactively avoid calling this multiple times as doing so can cause you to
 become [rate limited by the GitHub API](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
 """
-function retrieve_service_files(; auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"]))
+function retrieve_service_files(;
+    auth::GitHub.Authorization=GitHub.authenticate(ENV["GITHUB_TOKEN"])
+)
 
     duration = @elapsed begin
         # Retrieve service definitions in parallel as otherwise this can be quite slow. Async

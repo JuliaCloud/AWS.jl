@@ -40,17 +40,19 @@ end
 end
 
 @testset "_preferred_protocol" begin
-    @test _preferred_protocol(Dict("aws.protocols#awsQuery" => Dict())) == ("query", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#awsQuery" => Dict())) ==
+        ("query", nothing)
     @test _preferred_protocol(Dict("aws.protocols#ec2Query" => Dict())) == ("ec2", nothing)
-    @test _preferred_protocol(Dict("aws.protocols#restXml" => Dict())) == ("rest-xml", nothing)
-    @test _preferred_protocol(Dict("aws.protocols#restJson1" => Dict())) == ("rest-json", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#restXml" => Dict())) ==
+        ("rest-xml", nothing)
+    @test _preferred_protocol(Dict("aws.protocols#restJson1" => Dict())) ==
+        ("rest-json", nothing)
     @test _preferred_protocol(Dict("aws.protocols#awsJson1_1" => Dict())) == ("json", "1.1")
     @test _preferred_protocol(Dict("aws.protocols#awsJson1_0" => Dict())) == ("json", "1.0")
 
     @testset "\"query\" takes priority over \"json\" 1.0" begin
         traits = Dict(
-            "aws.protocols#awsQuery" => Dict(),
-            "aws.protocols#awsJson1_0" => Dict(),
+            "aws.protocols#awsQuery" => Dict(), "aws.protocols#awsJson1_0" => Dict()
         )
         @test _preferred_protocol(traits) == ("query", nothing)
     end
@@ -91,7 +93,8 @@ end
                 "input" => Dict("target" => "com.example#GetThingRequest"),
                 "output" => Dict("target" => "smithy.api#Unit"),
                 "traits" => Dict(
-                    "smithy.api#http" => Dict("method" => "GET", "uri" => "/things/{id}"),
+                    "smithy.api#http" =>
+                        Dict("method" => "GET", "uri" => "/things/{id}"),
                     "smithy.api#documentation" => "Gets a thing.",
                 ),
             ),
@@ -157,10 +160,8 @@ end
                 "type" => "service",
                 "version" => "2020-05-01",
                 "traits" => Dict(
-                    "aws.api#service" => Dict(
-                        "sdkId" => "MyJSON",
-                        "endpointPrefix" => "myjson",
-                    ),
+                    "aws.api#service" =>
+                        Dict("sdkId" => "MyJSON", "endpointPrefix" => "myjson"),
                     "aws.auth#sigv4" => Dict("name" => "myjson"),
                     "aws.protocols#awsJson1_1" => Dict(),
                 ),

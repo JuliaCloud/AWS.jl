@@ -31,15 +31,26 @@ using HTTP: HTTP
 using Mocking: @patch
 
 _github_tree_patch = @patch function GitHub.tree(repo, tree_obj; kwargs...)
-    if tree_obj == "main"
-        return GitHub.Tree("main-sha", HTTP.URI(), [Dict("path" => "codegen", "sha" => "codegen-sha", "type" => "tree")], false)
+    return if tree_obj == "main"
+        tree = [Dict("path" => "codegen", "sha" => "codegen-sha", "type" => "tree")]
+        GitHub.Tree("main-sha", HTTP.URI(), tree, false)
     elseif tree_obj == "codegen-sha"
-        return GitHub.Tree("codegen-sha", HTTP.URI(), [Dict("path" => "sdk-codegen", "sha" => "sdk-codegen-sha", "type" => "tree")], false)
+        tree = [Dict("path" => "sdk-codegen", "sha" => "sdk-codegen-sha", "type" => "tree")]
+        GitHub.Tree("codegen-sha", HTTP.URI(), tree, false)
     elseif tree_obj == "sdk-codegen-sha"
-        return GitHub.Tree("sdk-codegen-sha", HTTP.URI(), [Dict("path" => "aws-models", "sha" => "aws-models-sha", "type" => "tree")], false)
+        tree = [Dict("path" => "aws-models", "sha" => "aws-models-sha", "type" => "tree")]
+        GitHub.Tree("sdk-codegen-sha", HTTP.URI(), tree, false)
     elseif tree_obj == "aws-models-sha"
         url = "https://api.github.com/repos/aws/aws-sdk-js-v3/git/blobs/0"
-        return GitHub.Tree("aws-models-sha", HTTP.URI(), [Dict("path" => "test.json", "sha" => "test-sha", "type" => "blob", "url" => url)], false)
+        tree = [
+            Dict(
+                "path" => "test.json",
+                "sha" => "test-sha",
+                "type" => "blob",
+                "url" => url,
+            ),
+        ]
+        GitHub.Tree("aws-models-sha", HTTP.URI(), tree, false)
     else
         error("Unhandled tree object: \"$tree_obj\"")
     end
